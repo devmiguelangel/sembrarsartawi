@@ -16,7 +16,8 @@ class CreateAdProductsTable extends Migration
             $table->increments('id');
             $table->enum('type', array_keys(\Config::get('base.product_types')));
             $table->string('name', 140);
-            $table->string('slug', 5)->unique();
+            $table->string('code', 5)->unique();
+            $table->string('slug', 140)->unique();
             $table->timestamps();
         });
     }

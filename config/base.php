@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'user_types' => [
+        'ADT' => 'Administrador',
+        'UST' => 'Usuario',
+        'OPT' => 'Operador',
+    ],
+
     'city_types' => [
         1 => 'CI',
         2 => 'Regional',

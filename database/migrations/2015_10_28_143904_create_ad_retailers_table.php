@@ -19,6 +19,7 @@ class CreateAdRetailersTable extends Migration
             $table->string('domain', 30);
             $table->mediumText('about_us');
             $table->string('slug', 140)->unique();
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
     }
