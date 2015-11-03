@@ -140,10 +140,16 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Sibas\Providers\AppServiceProvider::class,
+        Sibas\Providers\AuthServiceProvider::class,
+        Sibas\Providers\EventServiceProvider::class,
+        Sibas\Providers\RouteServiceProvider::class,
+
+        /*
+         * Vendor Service Providers
+         */
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Styde\Html\HtmlServiceProvider::class,
 
     ],
 
@@ -193,6 +199,11 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+
+        /*
+         * Vendor Aliases
+         */
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 

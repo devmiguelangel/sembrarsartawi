@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace Sibas\Events;
 
 abstract class Event
 {
