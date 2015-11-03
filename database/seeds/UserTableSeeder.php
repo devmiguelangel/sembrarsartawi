@@ -14,7 +14,7 @@ class UserTableSeeder extends Seeder
     {
         DB::table('ad_users')->insert([
             'id'        => date('U'),
-            'user_name' => 'admin',
+            'username' => 'admin',
             'password'  => Hash::make('admin123'),
             'full_name' => 'Administrador',
             'email'     => 'admin@coboser.com',
