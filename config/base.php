@@ -79,7 +79,7 @@ return [
     ],
 
     'term_types' => [
-        'Y' => 'Año',
+        'Y' => utf8_encode('Año'),
         'M' => 'Mes',
         'W' => 'Semana',
         'D' => 'Dia',

@@ -14,10 +14,10 @@ class ActivityTableSeeder extends Seeder
     {
         $category = 'AGRICULTURA Y GANADERIA';
         $activities = [
-            0 => 'A-CULTIVO DE CEREALES',
-            1 => 'A-CULTIVO DE OLEAGINOSAS',
-            2 => 'A-CULTIVO DE PLANTAS PARA LA OBTENCION DE FIBRAS',
-            3 => 'A-CULTIVO DE FLORES Y PLANTAS ORNAMENTALES',
+            0 => 'A-CULTIVO De CEREALES',
+            1 => 'A-CULTIVO De OLEAGINOSAS',
+            2 => 'A-CULTIVO De PLANTAS PARA LA OBTENCION De FIBRAS',
+            3 => 'A-CULTIVO De FLORES Y PLANTAS ORNAMENTALES',
         ];
 
         foreach ($activities as $activity) {

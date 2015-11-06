@@ -24,4 +24,16 @@ Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
+Route::group(['middleware' => 'auth'], function () {
 
+    // Crear una solicitud
+    Route::get('de/create', [
+        'as'    => 'de.create',
+        'uses'  => 'De\HeaderController@create'
+    ]);
+
+    Route::post('de/create', [
+        'as'    => 'de.store',
+        'uses'  => 'De\HeaderController@store'
+    ]);
+});
