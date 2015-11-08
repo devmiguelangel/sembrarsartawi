@@ -25,9 +25,9 @@ class HeaderCreateFormRequest extends Request
     {
         return [
             'coverage' => 'required',
-            'amount_requested' => 'required',
+            'amount_requested' => 'required|numeric',
             'currency' => 'required',
-            'term' => 'required',
+            'term' => 'required|integer',
             'type_term' => 'required',
         ];
     }

@@ -3,11 +3,9 @@
 namespace Sibas\Http\Controllers\De;
 
 use Illuminate\Http\Request;
-use Sibas\Http\Controllers\CoverageController;
-use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\De\HeaderCreateFormRequest;
-use Sibas\Repositories\CoverageRepository;
+use Sibas\Repositories\De\CoverageRepository;
 
 class HeaderController extends Controller
 {

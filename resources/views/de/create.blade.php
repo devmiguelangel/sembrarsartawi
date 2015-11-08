@@ -12,12 +12,14 @@
         {!! Form::open(['route' => 'de.store', 'method' => 'post']) !!}
 
         {!! Form::label('coverage', 'Tipo de Cobertura', []) !!}
-        {!! Form::select('coverage', $coverages) !!}
+        {!! SelectField::input('coverage', $coverages, ['class' => 'form-control'], 2) !!}
         <br>
+
         {!! Form::label('amount_requested', 'Monto Solicitado', []) !!}
         {!! Form::text('amount_requested', null, []) !!}
         {!! Form::select('currency', $currencies) !!}
         <br>
+
         {!! Form::label('term', 'Plazo del Credito', []) !!}
         {!! Form::text('term', null, []) !!}
         {!! Form::select('type_term', $term_types) !!}

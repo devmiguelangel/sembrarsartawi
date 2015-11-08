@@ -151,6 +151,11 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Styde\Html\HtmlServiceProvider::class,
 
+        /*
+         * Custom
+         */
+        \Sibas\Providers\Components\SelectFieldServiceProvider::class,
+
     ],
 
     /*
@@ -204,6 +209,11 @@ return [
          * Vendor Aliases
          */
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+
+        /*
+         * Custom
+         */
+        'SelectField' => Sibas\Facades\SelectField::class,
 
     ],
 
