@@ -5,7 +5,10 @@ namespace Sibas\Components;
 
 class SelectFieldBuilder extends BaseFieldBuilder
 {
-    private $html = [];
+    /**
+     * @var array
+     */
+    private $html;
 
     protected function getType()
     {
@@ -14,6 +17,8 @@ class SelectFieldBuilder extends BaseFieldBuilder
 
     public function input($name, array $list = [], array $options = [], $selected = null)
     {
+        $this->html = [];
+
         $options['type'] = $this->getType();
         $options['id']   = $this->getIdAttribute($name, $options);
         $options['name'] = $this->getNameAttribute($name, $options);

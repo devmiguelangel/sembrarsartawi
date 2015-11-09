@@ -3,12 +3,23 @@
 namespace Sibas\Http\Controllers\De;
 
 use Illuminate\Http\Request;
+use Sibas\Http\Controllers\BaseController;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\De\HeaderCreateFormRequest;
 use Sibas\Repositories\De\CoverageRepository;
+use Sibas\Repositories\De\DataRepository;
 
 class HeaderController extends Controller
 {
+    protected $data;
+    protected $coverage;
+
+    public function __construct()
+    {
+        $this->data     = new BaseController(new DataRepository());
+        $this->coverage = new CoverageController(new CoverageRepository);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,11 +37,9 @@ class HeaderController extends Controller
      */
     public function create()
     {
-        $coverage   = new CoverageController(new CoverageRepository);
-        $currencies = \Config::get('base.currencies');
-        $term_types = \Config::get('base.term_types');
-
-        $coverages = $coverage->index();
+        $coverages  = $this->coverage->index();
+        $currencies = $this->data->currency();
+        $term_types = $this->data->termType();
 
         return view('de.create', compact('coverages', 'currencies', 'term_types'));
     }
@@ -38,11 +47,12 @@ class HeaderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(HeaderCreateFormRequest $request)
     {
+        dd($request->user());
         dd($request->all());
     }
 

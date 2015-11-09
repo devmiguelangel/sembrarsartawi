@@ -2,17 +2,23 @@
 
 namespace Sibas\Repositories\De;
 
+use Illuminate\Database\Eloquent\Collection;
+use Sibas\Entities\De\Coverage;
+use Sibas\Repositories\BaseRepository;
 
-use Illuminate\Support\Facades\DB;
-
-class CoverageRepository
+class CoverageRepository extends BaseRepository
 {
 
+    /**
+     * @return Collection
+     */
     public function getCoverage()
     {
-        $coverages = DB::table('ad_coverages')
-            ->select('id', 'name', 'slug as data_coverage')
-            ->get();
+        $selectOption = $this->getSelectOption();
+
+        $coverages = Coverage::select('id', 'name', 'slug as data_coverage')->get();
+
+        $coverages = $selectOption->merge($coverages->toArray());
 
         return $coverages;
     }

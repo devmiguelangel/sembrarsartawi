@@ -24,11 +24,12 @@ class HeaderCreateFormRequest extends Request
     public function rules()
     {
         return [
-            'coverage' => 'required',
+            'coverage' => 'required|exists:ad_coverages,id',
             'amount_requested' => 'required|numeric',
-            'currency' => 'required',
+//            'currency' => 'required|in:' . join(',', array_keys(\Config::get('base.currencies'))),
+            'currency' => 'required|in:' . join(',', array_keys(\Config::get('base.currencies'))),
             'term' => 'required|integer',
-            'type_term' => 'required',
+            'type_term' => 'required|in:' . join(',', array_keys(\Config::get('base.term_types'))),
         ];
     }
 }
