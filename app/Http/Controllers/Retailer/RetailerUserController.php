@@ -1,25 +1,36 @@
 <?php
 
-namespace Sibas\Http\Controllers\De;
+namespace Sibas\Http\Controllers\Retailer;
 
 use Illuminate\Http\Request;
-use Sibas\Http\Controllers\BaseController;
+use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
-use Sibas\Http\Controllers\Retailer\RetailerUserController;
-use Sibas\Http\Requests\De\HeaderCreateFormRequest;
-use Sibas\Repositories\De\CoverageRepository;
-use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\Retailer\RetailerUserRepository;
 
-class HeaderController extends Controller
+class RetailerUserController extends Controller
 {
-    protected $data;
-    protected $coverage;
+    /**
+     * @var RetailerUserRepository
+     */
+    private $repository;
+    /**
+     * @var \Sibas\Entities\User
+     */
+    private $user;
 
-    public function __construct()
+    /**
+     * @param \Sibas\Entities\User $user
+     * @param RetailerUserRepository $repository
+     */
+    public function __construct($user, RetailerUserRepository $repository)
     {
-        $this->data     = new BaseController(new DataRepository);
-        $this->coverage = new CoverageController(new CoverageRepository);
+        $this->user       = $user;
+        $this->repository = $repository;
+    }
+
+    public function detailForUser()
+    {
+        return $this->repository->getDetailForUser($this->user);
     }
 
     /**
@@ -39,27 +50,18 @@ class HeaderController extends Controller
      */
     public function create()
     {
-        $coverages  = $this->coverage->index();
-        $currencies = $this->data->currency();
-        $term_types = $this->data->termType();
-
-        return view('de.create', compact('coverages', 'currencies', 'term_types'));
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(HeaderCreateFormRequest $request)
+    public function store(Request $request)
     {
-        $user = $request->user();
-
-        $retailerUser = new RetailerUserController($user, new RetailerUserRepository);
-
-        dd($retailerUser->detailForUser());
-        dd($request->all());
+        //
     }
 
     /**
