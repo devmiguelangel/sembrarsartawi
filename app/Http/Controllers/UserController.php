@@ -19,11 +19,6 @@ class UserController extends Controller
         $this->repository = $repository;
     }
 
-    public function retailerByUser($user_id)
-    {
-        return $this->repository->getRetailerByUser($user_id);
-    }
-
     /**
      * Display a listing of the resource.
      *

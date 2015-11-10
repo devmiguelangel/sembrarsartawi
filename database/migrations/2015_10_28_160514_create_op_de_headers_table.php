@@ -22,7 +22,7 @@ class CreateOpDeHeadersTable extends Migration
             $table->string('policy_number', 140);
             $table->string('operation_number', 140);
             $table->integer('ad_coverage_id')->unsigned();
-            $table->integer('ad_credit_product_id')->unsigned();
+            $table->integer('ad_credit_product_id')->unsigned()->nullable();
             $table->double('amount_requested', 20, 2);
             $table->enum('currency', array_keys(\Config::get('base.currencies')));
             $table->integer('term')->unsigned();

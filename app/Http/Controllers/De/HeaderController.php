@@ -9,17 +9,23 @@ use Sibas\Http\Controllers\UserController;
 use Sibas\Http\Requests\De\HeaderCreateFormRequest;
 use Sibas\Repositories\De\CoverageRepository;
 use Sibas\Repositories\De\DataRepository;
-use Sibas\Repositories\UserRepository;
+use Sibas\Repositories\De\HeaderRepository;
+
 
 class HeaderController extends Controller
 {
     protected $data;
     protected $coverage;
+    /**
+     * @var HeaderRepository
+     */
+    private $repository;
 
-    public function __construct()
+    public function __construct(HeaderRepository $repository)
     {
-        $this->data     = new BaseController(new DataRepository);
-        $this->coverage = new CoverageController(new CoverageRepository);
+        $this->data       = new BaseController(new DataRepository);
+        $this->coverage   = new CoverageController(new CoverageRepository);
+        $this->repository = $repository;
     }
 
     /**
@@ -49,18 +55,18 @@ class HeaderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request|HeaderCreateFormRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(HeaderCreateFormRequest $request)
     {
-        $user = $request->user();
+        if ($this->repository->saveQuote($request)) {
+            return redirect()
+                ->route('de.client.create', ['id' => base64_encode($this->repository->id)])
+                ->with('header_id', $this->repository->id);
+        }
 
-        $userController = new UserController(new UserRepository);
-
-        $retailer_id = $userController->retailerByUser($user->id)->id;
-
-        dd($request->all());
+        return redirect()->back()->withInput()->withErrors($this->repository->errors);
     }
 
     /**
