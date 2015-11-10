@@ -1,20 +1,25 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Sibas\Entities\User;
 
-class UserTableSeeder extends Seeder
+class UserTableSeeder extends BaseSeeder
 {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * @return \Illuminate\Support\Facades\DB
      */
-    public function run()
+    protected function getModel()
     {
-        DB::table('ad_users')->insert([
-            'id'        => date('U'),
-            'username' => 'admin',
+        return new User();
+    }
+
+    protected function getData()
+    {
+        $data = [];
+
+        $data[] = [
+            'id'        => 1446238228,
+            'username'  => 'admin',
             'password'  => Hash::make('admin123'),
             'full_name' => 'Administrador',
             'email'     => 'admin@coboser.com',
@@ -28,6 +33,8 @@ class UserTableSeeder extends Seeder
             'ad_agency_id'      => null,
             'ad_user_type_id'   => 1,
             'active'            => true
-        ]);
+        ];
+
+        return $data;
     }
 }

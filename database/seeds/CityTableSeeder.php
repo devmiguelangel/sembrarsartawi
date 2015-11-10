@@ -1,17 +1,19 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Sibas\Entities\City;
 
-class CityTableSeeder extends Seeder
+class CityTableSeeder extends BaseSeeder
 {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * @return \Illuminate\Support\Facades\DB
      */
-    public function run()
+    protected function getModel()
+    {
+        return new City();
+    }
+
+    protected function getData()
     {
         $cities = [
             [
@@ -71,14 +73,17 @@ class CityTableSeeder extends Seeder
             ],
         ];
 
+        $data = [];
 
-        foreach ($cities as $data) {
-            DB::table('ad_cities')->insert([
-                'name'          => $data['city'],
-                'abbreviation'  => $data['abbreviation'],
-                'type'          => $data['type'],
-                'slug'          => Str::slug($data['city'])
-            ]);
+        foreach ($cities as $city) {
+            $data[] = [
+                'name'          => $city['city'],
+                'abbreviation'  => $city['abbreviation'],
+                'type'          => $city['type'],
+                'slug'          => Str::slug($city['city'])
+            ];
         }
+
+        return $data;
     }
 }

@@ -1,20 +1,27 @@
 <?php
 
-use Illuminate\Database\Seeder;
+use Sibas\Entities\RetailerUser;
 
-class RetailerUserTableSeeder extends Seeder
+class RetailerUserTableSeeder extends BaseSeeder
 {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * @return \Illuminate\Support\Facades\DB
      */
-    public function run()
+    protected function getModel()
     {
-        DB::table('ad_retailer_users')->insert([
+        return new RetailerUser();
+    }
+
+    protected function getData()
+    {
+        $data = [];
+
+        $data[] = [
             'ad_retailer_id' => 1,
-            'ad_user_id'     => 1446238228,
+            'ad_user_id'     => $this->getModelData('User')->first()->id,
             'active'         => true
-        ]);
+        ];
+
+        return $data;
     }
 }

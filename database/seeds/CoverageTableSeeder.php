@@ -1,16 +1,18 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Sibas\Entities\De\Coverage;
 
-class CoverageTableSeeder extends Seeder
+class CoverageTableSeeder extends BaseSeeder
 {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * @return \Illuminate\Support\Facades\DB
      */
-    public function run()
+    protected function getModel()
+    {
+        return new Coverage();
+    }
+
+    protected function getData()
     {
         $coverages = [
             [
@@ -27,12 +29,15 @@ class CoverageTableSeeder extends Seeder
             ],
         ];
 
+        $data = [];
+
         foreach ($coverages as $coverage) {
-            DB::table('ad_coverages')->insert([
+            $data[] = [
                 'name' => $coverage['name'],
                 'slug' => $coverage['slug']
-            ]);
+            ];
         }
 
+        return $data;
     }
 }

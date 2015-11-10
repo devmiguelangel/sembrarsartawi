@@ -1,32 +1,37 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Sibas\Entities\Agency;
 
-class AgencyTableSeeder extends Seeder
+class AgencyTableSeeder extends BaseSeeder
 {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * @return \Illuminate\Support\Facades\DB
      */
-    public function run()
+    protected function getModel()
+    {
+        return new Agency();
+    }
+
+    protected function getData()
     {
         $agencies = [
-            'OFICINA CENTRAL(LPZ)',
             'AG.TUMUSLA(LPZ)',
+            'OFICINA CENTRAL(LPZ)',
             'AG.HIPERMAXI LOS PINOS(LPZ)',
             'AG. VILLA FATIMA (LPZ)',
         ];
 
+        $data = [];
+
         foreach ($agencies as $agency) {
-            DB::table('ad_agencies')->insert([
+            $data[] = [
                 'name' => $agency,
                 'code' => mt_rand(10, 99),
                 'slug' => Str::slug($agency)
-            ]);
+            ];
         }
 
+        return $data;
     }
 }

@@ -1,18 +1,18 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Sibas\Entities\Activity;
 
-class ActivityTableSeeder extends Seeder
+class ActivityTableSeeder extends BaseSeeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    protected function getModel()
+    {
+        return new Activity();
+    }
+
+    protected function getData()
     {
         $category = 'AGRICULTURA Y GANADERIA';
+
         $activities = [
             0 => 'A-CULTIVO De CEREALES',
             1 => 'A-CULTIVO De OLEAGINOSAS',
@@ -20,12 +20,16 @@ class ActivityTableSeeder extends Seeder
             3 => 'A-CULTIVO De FLORES Y PLANTAS ORNAMENTALES',
         ];
 
+        $data = [];
+
         foreach ($activities as $activity) {
-            DB::table('ad_activities')->insert([
+            $data[] = [
                 'category'   => $category,
                 'occupation' => $activity,
                 'code'       => mt_rand(1000, 9999)
-            ]);
+            ];
         }
+
+        return $data;
     }
 }
