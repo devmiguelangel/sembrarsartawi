@@ -14,7 +14,6 @@ class CreateOpDeHeadersTable extends Migration
     {
         Schema::create('op_de_headers', function (Blueprint $table) {
             $table->integer('id')->unsigned();
-            $table->integer('ad_retailer_product_id')->unsigned();
             $table->integer('ad_user_id')->unsigned();
             $table->enum('type', array_keys(\Config::get('base.header_types')));
             $table->bigInteger('issue_number')->unsigned();
@@ -41,7 +40,6 @@ class CreateOpDeHeadersTable extends Migration
             $table->timestamps();
 
             $table->primary('id');
-            $table->foreign('ad_retailer_product_id')->references('id')->on('ad_retailer_products');
             $table->foreign('ad_user_id')->references('id')->on('ad_users');
             $table->foreign('ad_coverage_id')->references('id')->on('ad_coverages');
             $table->foreign('ad_credit_product_id')->references('id')->on('ad_credit_products');

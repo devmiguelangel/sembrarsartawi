@@ -1,25 +1,27 @@
 <?php
 
-namespace Sibas\Http\Controllers\De;
+namespace Sibas\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Sibas\Http\Controllers\BaseController;
+use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
-use Sibas\Http\Controllers\UserController;
-use Sibas\Http\Requests\De\HeaderCreateFormRequest;
-use Sibas\Repositories\De\CoverageRepository;
-use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\UserRepository;
 
-class HeaderController extends Controller
+class UserController extends Controller
 {
-    protected $data;
-    protected $coverage;
+    /**
+     * @var UserRepository
+     */
+    private $repository;
 
-    public function __construct()
+    public function __construct(UserRepository $repository)
     {
-        $this->data     = new BaseController(new DataRepository);
-        $this->coverage = new CoverageController(new CoverageRepository);
+        $this->repository = $repository;
+    }
+
+    public function retailerByUser($user_id)
+    {
+        return $this->repository->getRetailerByUser($user_id);
     }
 
     /**
@@ -39,28 +41,18 @@ class HeaderController extends Controller
      */
     public function create()
     {
-        $coverages  = $this->coverage->index();
-        $currencies = $this->data->currency();
-        $term_types = $this->data->termType();
-
-        return view('de.create', compact('coverages', 'currencies', 'term_types'));
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(HeaderCreateFormRequest $request)
+    public function store(Request $request)
     {
-        $user = $request->user();
-
-        $userController = new UserController(new UserRepository);
-
-        $retailer_id = $userController->retailerByUser($user->id)->id;
-
-        dd($request->all());
+        //
     }
 
     /**

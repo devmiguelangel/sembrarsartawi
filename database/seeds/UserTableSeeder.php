@@ -18,7 +18,7 @@ class UserTableSeeder extends BaseSeeder
         $data = [];
 
         $data[] = [
-            'id'        => 1446238228,
+            'id'        => date('U'),
             'username'  => 'admin',
             'password'  => Hash::make('admin123'),
             'full_name' => 'Administrador',

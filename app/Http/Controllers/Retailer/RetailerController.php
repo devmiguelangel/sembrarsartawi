@@ -3,36 +3,16 @@
 namespace Sibas\Http\Controllers\Retailer;
 
 use Illuminate\Http\Request;
+use Sibas\Entities\Retailer;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
-use Sibas\Repositories\Retailer\RetailerUserRepository;
 
-class RetailerUserController extends Controller
+class RetailerController extends Controller
 {
-    /**
-     * @var RetailerUserRepository
-     */
-    private $repository;
-    /**
-     * @var \Sibas\Entities\User
-     */
-    private $user;
-
-    /**
-     * @param \Sibas\Entities\User $user
-     * @param RetailerUserRepository $repository
-     */
-    public function __construct($user, RetailerUserRepository $repository)
+    public function getDetailByUser($user_id)
     {
-        $this->user       = $user;
-        $this->repository = $repository;
-    }
 
-    public function detailForUser()
-    {
-        return $this->repository->getDetailForUser($this->user);
     }
-
     /**
      * Display a listing of the resource.
      *

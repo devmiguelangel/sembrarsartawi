@@ -17,7 +17,7 @@ class RetailerUserTableSeeder extends BaseSeeder
         $data = [];
 
         $data[] = [
-            'ad_retailer_id' => 1,
+            'ad_retailer_id' => $this->getModelData('Retailer')->first()->id,
             'ad_user_id'     => $this->getModelData('User')->first()->id,
             'active'         => true
         ];

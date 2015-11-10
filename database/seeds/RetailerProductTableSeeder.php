@@ -1,17 +1,36 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Sibas\Entities\RetailerProduct;
 
-class RetailerProductTableSeeder extends Seeder
+class RetailerProductTableSeeder extends BaseSeeder
 {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * @return \Illuminate\Support\Facades\DB
      */
-    public function run()
+    protected function getModel()
     {
+        return new RetailerProduct();
+    }
 
+    protected function getData()
+    {
+        $data = [];
+
+        $data[] = [
+            'id' => date('U'),
+            'ad_retailer_id'        => $this->getModelData('Retailer')->first()->id,
+            'ad_company_product_id' => $this->getModelData('CompanyProduct')->first()->id,
+            'type'      => 'MP',
+            'billing'   => false,
+            'provisional_certificate' => false,
+            'modality'    => false,
+            'facultative' => false,
+            'ws'          => false,
+            'landing'     => '',
+            'questions'   => '',
+            'active'      => true
+        ];
+
+        return $data;
     }
 }

@@ -38,4 +38,9 @@ class User extends Model implements AuthenticatableContract,
     protected $hidden = ['password', 'remember_token'];
 
     public $incrementing = false;
+
+    public function retailer()
+    {
+        return $this->belongsToMany('Sibas\Entities\Retailer', 'ad_retailer_users', 'ad_user_id', 'ad_retailer_id');
+    }
 }
