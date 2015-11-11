@@ -15,9 +15,9 @@ Route::get('/', ['middleware' => 'auth', function () {
     return redirect()->route('home');
 }]);
 
-Route::get('home', ['as' => 'home', function () {
-        return view('home');
-    }
+Route::get('home', [
+    'as'   => 'home',
+    'uses' => 'HomeController@index'
 ]);
 
 Route::get('auth/login', [

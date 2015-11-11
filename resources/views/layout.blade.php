@@ -4,28 +4,75 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Sibas v2.0</title>
-
-    <!-- Bootstrap -->
+    <title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    {!! Html::style('assets/css/icons/icomoon/styles.css') !!}
+    {!! Html::style('assets/css/icons/fontawesome/styles.min.css') !!}
     {!! Html::style('assets/css/bootstrap.min.css') !!}
-    {!! Html::style('assets/css/bootstrap-theme.min.css') !!}
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    {!! Html::style('assets/css/core.min.css') !!}
+    {!! Html::style('assets/css/components.min.css') !!}
+    {!! Html::style('assets/css/colors.min.css') !!}
+    {!! Html::style('css/style.css') !!}
+    {!! Html::style('css/style_inbox.css') !!}
+            <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    {!! Html::script('assets/js/plugins/loaders/pace.min.js') !!}
+    {!! Html::script('assets/js/core/libraries/jquery.min.js') !!}
+    {!! Html::script('assets/js/core/libraries/bootstrap.min.js') !!}
+    {!! Html::script('assets/js/plugins/loaders/blockui.min.js') !!}
+    {!! Html::script('assets/js/plugins/ui/nicescroll.min.js') !!}
+    {!! Html::script('assets/js/plugins/ui/drilldown.js') !!}
+            <!-- /core JS files -->
+    <!-- Theme JS files -->
+    {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/styling/switchery.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/styling/switch.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/inputs/touchspin.min.js') !!}
+    {!! Html::script('assets/js/core/app.js') !!}
+    {!! Html::script('assets/js/pages/form_input_groups.js') !!}
+    {!! Html::script('assets/js/core/libraries/jquery_ui/interactions.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/selects/select2.min.js') !!}
+    {!! Html::script('assets/js/pages/form_select2.js') !!}
+    {!! Html::script('assets/js/plugins/forms/selects/bootstrap_select.min.js') !!}
+    {!! Html::script('assets/js/pages/form_bootstrap_select.js') !!}
+    {!! Html::script('js/functions.js') !!}
+            <!-- /theme JS files -->
 </head>
-<body>
+<body class="layout-boxed">
+<!-- Main navbar -->
+@yield('header')
+<!-- /main navbar -->
+<div class="page-header">
+    <div class="page-header-content">
+        <div class="cabecera">
+        </div>
+    </div>
+</div>
+<!-- Second navbar -->
+@yield('menu-main')
+<!-- /second navbar -->
+<!-- Page header -->
+@yield('menu-header')
+<!-- /page header -->
+<!-- Page container -->
+<div class="page-container @yield('class-container')">
+    <!-- Page content -->
+    <div class="page-content">
+        <!-- Main content -->
+        <div class="content-wrapper">
+            <!-- Grid -->
+            @yield('content-wrapper')
 
-    @yield('content')
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-{!! Html::script('assets/js/bootstrap.min.js') !!}
-
+        </div>
+        <!-- /grid -->
+    </div>
+    <!-- /main content -->
+    <!-- Footer -->
+    <div class="footer text-muted">
+        &copy; 2016. <a href="#">Powered by Abrenet</a> © 2016 | <a href="#">Política de privacidad</a>
+    </div>
+    <!-- /footer -->
+</div>
 </body>
 </html>
