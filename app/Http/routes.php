@@ -38,10 +38,16 @@ Route::group(['middleware' => 'auth'], function () {
         'uses'  => 'De\HeaderController@store'
     ]);
 
-    // Crear Usuario
+    // Crear Cliente
     Route::get('de/{id}/client', [
         'as'    => 'de.client.create',
         'uses'  => 'ClientController@create'
+    ]);
+
+    // Guardar Cliente
+    Route::post('de/client', [
+        'as'    => 'de.client.store',
+        'uses'  => 'ClientController@store'
     ]);
 
 });
