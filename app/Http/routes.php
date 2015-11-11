@@ -20,8 +20,15 @@ Route::get('home', ['as' => 'home', function () {
     }
 ]);
 
-Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::get('auth/login', [
+    'as'   => 'auth.login.get',
+    'uses' => 'Auth\AuthController@getLogin'
+]);
+Route::post('auth/login', [
+    'as'   => 'auth.login.post',
+    'uses' => 'Auth\AuthController@postLogin'
+]);
+
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 Route::group(['middleware' => 'auth'], function () {

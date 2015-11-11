@@ -1,0 +1,56 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 30-10-2015, 03:38:56 PM
+    Author     : emanuel
+*/
+
+/* header */
+
+.navbar-header {
+    height: 60px;
+}
+.navbar-inverse2 {
+    background-color: #fff;
+}
+.cabecera {
+    margin-top: 10px; 
+    margin-bottom: 10px
+}
+.form-wizard-title2 {
+    //border-bottom: 1px solid #ddd;
+    margin: 0 0 20px;
+    padding-bottom: 20px;
+}
+/* fin header */
+
+/* footer */
+.demo-color2 {
+    height: 125px;
+    margin: 3px 3px 0;
+    position: relative;
+}
+/* fin footer */
+
+/* general */
+.divhr{
+    border-bottom: 1px solid #ddd;
+}
+.text-justyfi{
+    text-align: justify;
+}
+.chek_inbox{
+    height: 20px;
+    margin: 0;
+    width: 20px;
+}
+/* fin general */
+
+
+
+
+
+
