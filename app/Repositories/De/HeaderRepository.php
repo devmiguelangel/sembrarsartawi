@@ -5,8 +5,9 @@ namespace Sibas\Repositories\De;
 use Illuminate\Database\QueryException;
 use Sibas\Entities\De\Header;
 use Sibas\Http\Requests\De\HeaderCreateFormRequest;
+use Sibas\Repositories\BaseRepository;
 
-class HeaderRepository
+class HeaderRepository extends BaseRepository
 {
     public $id;
 
@@ -39,7 +40,7 @@ class HeaderRepository
 
             if (! $this->checkNumber('quote_number', $quote_number)) {
                 if ($header->save()) {
-                    $this->id = $header->id;
+                    $this->id = $this->cryptData($header->id);
 
                     return true;
                 }

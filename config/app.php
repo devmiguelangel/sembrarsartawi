@@ -150,6 +150,7 @@ return [
          */
         Barryvdh\Debugbar\ServiceProvider::class,
         Styde\Html\HtmlServiceProvider::class,
+        Vinkla\Hashids\HashidsServiceProvider::class,
 
         /*
          * Custom
@@ -209,6 +210,7 @@ return [
          * Vendor Aliases
          */
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Hashids'  => Vinkla\Hashids\Facades\Hashids::class,
 
         /*
          * Custom

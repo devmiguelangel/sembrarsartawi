@@ -40,9 +40,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Crear Usuario
     Route::get('de/{id}/client', [
-        'as'    => 'de.client.create', function() {
-            return '';
-        }
+        'as'    => 'de.client.create',
+        'uses'  => 'ClientController@create'
     ]);
 
 });
