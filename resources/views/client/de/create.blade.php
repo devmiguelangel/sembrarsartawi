@@ -132,19 +132,8 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label label_required">Ext. Documento de identidad: </label>
                                 <div class="col-lg-9">
-                                    <select name="select" class="select-search" required="required">
-                                        <option value="">Seleccione</option>
-                                        <option value="lapaz">LA PAZ</option>
-                                        <option value="oruro">ORURO</option>
-                                        <option value="cochabamba">COCHABAMBA</option>
-                                        <option value="potosi">POTOSI</option>
-                                        <option value="sucre">CHUQUISACA</option>
-                                        <option value="pando">PANDO</option>
-                                        <option value="beni">BENI</option>
-                                        <option value="santacruz">SANTA CRUZ</option>
-                                        <option value="tarija">TARIJA</option>
-                                        <option value="pe">PERSONA EXTRANJERA</option>
-                                    </select>
+                                    {!! SelectField::input('extension', $data['cities']['CI']->toArray(), ['class' => 'select-search', 'required' => 'required'], old('extension')) !!}
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('extension') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -185,18 +174,8 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label label_required">Lugar de residencia: </label>
                                 <div class="col-lg-9">
-                                    <select name="lugar_res" class="select-search" required="required">
-                                        <option selected="" value="">SELECCIONE</option>
-                                        <option value="lapaz">LA PAZ</option>
-                                        <option value="oruro">ORURO</option>
-                                        <option value="cochabamba">COCHABAMBA</option>
-                                        <option value="potosi">POTOSI</option>
-                                        <option value="sucre">CHUQUISACA</option>
-                                        <option value="pando">PANDO</option>
-                                        <option value="beni">BENI</option>
-                                        <option value="santacruz">SANTA CRUZ</option>
-                                        <option value="tarija">TARIJA</option>
-                                    </select>
+                                    {!! SelectField::input('place_residence', $data['cities']['DE']->toArray(), ['class' => 'select-search', 'required' => 'required'], old('place_residence')) !!}
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('place_residence') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">

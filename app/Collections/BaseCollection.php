@@ -2,7 +2,6 @@
 
 namespace Sibas\Collections;
 
-
 use Illuminate\Database\Eloquent\Collection;
 
 class BaseCollection extends Collection

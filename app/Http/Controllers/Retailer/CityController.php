@@ -1,32 +1,36 @@
 <?php
 
-namespace Sibas\Http\Controllers;
+namespace Sibas\Http\Controllers\Retailer;
 
 use Illuminate\Http\Request;
-use Sibas\Http\Controllers\Retailer\CityController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
-use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\Retailer\CityRepository;
 
-class ClientController extends Controller
+class CityController extends Controller
 {
-    private $data;
+    /**
+     * @var CityRepository
+     */
+    private $repository;
 
-    public function __construct()
+    public function __construct(CityRepository $repository)
     {
-        $this->data = new BaseController(new DataRepository);
-        $this->cities = new CityController(new CityRepository);
+        $this->repository = $repository;
     }
 
+    public function cityByType()
+    {
+        return $this->repository->getCitiesByType();
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($header_id)
+    public function index()
     {
-        return view('client.de.list', ['header_id' => $header_id]);
+        //
     }
 
     /**
@@ -34,16 +38,9 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($header_id)
+    public function create()
     {
-        $data = [
-            'civil_status'  => $this->data->getCivilStatus(),
-            'document_type' => $this->data->getDocumentType(),
-            'gender'        => $this->data->getGender(),
-            'cities'        => $this->cities->cityByType(),
-        ];
-
-        return view('client.de.create', compact('header_id', 'data'));
+        //
     }
 
     /**

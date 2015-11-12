@@ -19,57 +19,79 @@ class CityTableSeeder extends BaseSeeder
             [
                 'city' => 'La Paz',
                 'abbreviation' => 'LP',
-                'type' => 5
+                'type_ci' => true,
+                'type_re' => false,
+                'type_de' => true
             ],
             [
                 'city' => 'Oruro',
                 'abbreviation' => 'OR',
-                'type' => 5
+                'type_ci' => true,
+                'type_re' => false,
+                'type_de' => true
             ],
             [
                 'city' => 'Potosi',
                 'abbreviation' => 'PO',
-                'type' => 5
+                'type_ci' => true,
+                'type_re' => false,
+                'type_de' => true
             ],
             [
                 'city' => 'Cochabamba',
                 'abbreviation' => 'CB',
-                'type' => 5
+                'type_ci' => true,
+                'type_re' => false,
+                'type_de' => true
             ],
             [
                 'city' => 'Chuquisaca',
                 'abbreviation' => 'CH',
-                'type' => 5
+                'type_ci' => true,
+                'type_re' => false,
+                'type_de' => true
             ],
             [
                 'city' => 'Tarija',
                 'abbreviation' => 'TJ',
-                'type' => 5
+                'type_ci' => true,
+                'type_re' => false,
+                'type_de' => true
             ],
             [
                 'city' => 'Santa Cruz',
                 'abbreviation' => 'SC',
-                'type' => 5
+                'type_ci' => true,
+                'type_re' => false,
+                'type_de' => true
             ],
             [
                 'city' => 'Beni',
                 'abbreviation' => 'BE',
-                'type' => 5
+                'type_ci' => true,
+                'type_re' => false,
+                'type_de' => true
             ],
             [
                 'city' => 'Pando',
                 'abbreviation' => 'PA',
-                'type' => 5
+                'type_ci' => true,
+                'type_re' => false,
+                'type_de' => true
             ],
             [
                 'city' => 'El Alto',
                 'abbreviation' => '',
-                'type' => 3
+                'type_ci' => false,
+                'type_re' => false,
+                'type_de' => true
             ],
             [
                 'city' => 'Persona Extranjera',
                 'abbreviation' => 'PE',
-                'type' => 1
+                'type_ci' => true,
+                'type_re' => false,
+                'type_de' => false
             ],
         ];
 
@@ -79,7 +101,9 @@ class CityTableSeeder extends BaseSeeder
             $data[] = [
                 'name'          => $city['city'],
                 'abbreviation'  => $city['abbreviation'],
-                'type'          => $city['type'],
+                'type_ci'       => $city['type_ci'],
+                'type_re'       => $city['type_re'],
+                'type_de'       => $city['type_de'],
                 'slug'          => Str::slug($city['city'])
             ];
         }

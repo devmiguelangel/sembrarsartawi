@@ -7,15 +7,6 @@ return [
         'OPT' => 'Operador',
     ],
 
-    'city_types' => [
-        1 => 'CI',
-        2 => 'Regional',
-        3 => 'Departamento',
-        4 => 'CI/Regional',
-        5 => 'CI/Departamento',
-        6 => 'Regional/Departamento',
-    ],
-
     'client_types' => [
         'N' => 'Natural',
         'L' => 'Jurídico',
