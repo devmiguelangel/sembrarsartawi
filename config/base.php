@@ -18,14 +18,14 @@ return [
 
     'client_types' => [
         'N' => 'Natural',
-        'L' => 'Jur�dico',
+        'L' => 'Jurídico',
     ],
 
     'client_document_types' => [
         'CI' => 'Carnet de Identidad',
         'PE' => 'Persona Extranjera',
         'PA' => 'Pasaporte',
-        'RUN' => 'Registro Unico Nacional',
+        'RUN' => 'Registro Único Nacional',
     ],
 
     'client_civil_status' => [
@@ -33,7 +33,7 @@ return [
         'C' => 'Casado(a)',
         'D' => 'Divorciado(a)',
         'V' => 'Viudo(a)',
-        'F' => 'Uni�n Libre',
+        'F' => 'Unión Libre',
     ],
 
     'client_genders' => [
@@ -57,7 +57,7 @@ return [
     ],
 
     'retailer_image_types' => [
-        'A' => 'Art�culo',
+        'A' => 'Artículo',
         'S' => 'Slider',
     ],
 
@@ -69,20 +69,20 @@ return [
     'product_parameters' => [
         'GE' => 'General',
         'FC' => 'Free Cover',
-        'AE' => 'Afiliaci�n Autom�tica',
+        'AE' => 'Afiliación Automática',
         'FA' => 'Facultativo',
     ],
 
     'header_types' => [
-        'Q' => 'Cotizaci�n',
-        'I' => 'Emisi�n',
+        'Q' => 'Cotización',
+        'I' => 'Emisión',
     ],
 
     'term_types' => [
-        'Y' => utf8_encode('A�o'),
+        'Y' => 'Año',
         'M' => 'Mes',
         'W' => 'Semana',
-        'D' => 'Dia',
+        'D' => 'Día',
     ],
 
     'headlines' => [

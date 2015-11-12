@@ -5,9 +5,15 @@ namespace Sibas\Http\Controllers;
 use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Repositories\De\DataRepository;
 
 class ClientController extends Controller
 {
+    public function __construct()
+    {
+        $this->data = new BaseController(new DataRepository);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +21,7 @@ class ClientController extends Controller
      */
     public function index($header_id)
     {
-        return view('client.de.list');
+        return view('client.de.list', ['header_id' => $header_id]);
     }
 
     /**
@@ -23,9 +29,15 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($header_id)
     {
-        return view('client.de.create');
+        $data = [
+            'civil_status'  => $this->data->getCivilStatus(),
+            'document_type' => $this->data->getDocumentType(),
+            'gender'       => $this->data->getGender(),
+        ];
+
+        return view('client.de.create', ['header_id' => $header_id, 'data' => $data]);
     }
 
     /**

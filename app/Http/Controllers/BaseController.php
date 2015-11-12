@@ -28,4 +28,22 @@ class BaseController extends Controller
     {
         return $this->repository->getTermType();
     }
+
+    /*
+     * Client Data
+     */
+    public function getCivilStatus()
+    {
+        return $this->repository->getCivilStatus();
+    }
+
+    public function getDocumentType()
+    {
+        return $this->repository->getDocumentType();
+    }
+
+    public function getGender()
+    {
+        return $this->repository->getGender();
+    }
 }

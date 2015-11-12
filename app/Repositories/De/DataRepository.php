@@ -21,4 +21,28 @@ class DataRepository extends BaseRepository
 
         return $this->getData($termType);
     }
+
+    /*
+     * Client Data
+     */
+    public function getCivilStatus()
+    {
+        $civil_status = \Config::get('base.client_civil_status');
+
+        return $this->getData($civil_status);
+    }
+
+    public function getDocumentType()
+    {
+        $document_types = \Config::get('base.client_document_types');
+
+        return $this->getData($document_types);
+    }
+
+    public function getGender()
+    {
+        $genders = \Config::get('base.client_genders');
+
+        return $this->getData($genders);
+    }
 }

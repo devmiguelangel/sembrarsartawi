@@ -25,6 +25,8 @@
     {!! Html::script('assets/js/plugins/ui/drilldown.js') !!}
             <!-- /core JS files -->
     <!-- Theme JS files -->
+    {!! Html::script('assets/js/plugins/forms/validation/validate.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/selects/bootstrap_multiselect.js') !!}
     {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
     {!! Html::script('assets/js/plugins/forms/styling/switchery.min.js') !!}
     {!! Html::script('assets/js/plugins/forms/styling/switch.min.js') !!}
@@ -36,8 +38,20 @@
     {!! Html::script('assets/js/pages/form_select2.js') !!}
     {!! Html::script('assets/js/plugins/forms/selects/bootstrap_select.min.js') !!}
     {!! Html::script('assets/js/pages/form_bootstrap_select.js') !!}
+    {!! Html::script('assets/js/pages/form_validation.js') !!}
     {!! Html::script('js/functions.js') !!}
             <!-- /theme JS files -->
+
+    <!--picker date-->
+    {!! Html::script('assets/js/plugins/ui/moment/moment.min.js') !!}
+    {!! Html::script('assets/js/plugins/pickers/daterangepicker.js') !!}
+    <!--<script type="text/javascript" src="assets/js/pages/picker_date.js"></script>-->
+            <!--fin picker date-->
+
+    <!--datatable-->
+    {!! Html::script('assets/js/plugins/tables/datatables/datatables.min.js') !!}
+    {!! Html::script('assets/js/pages/datatables_basic.js') !!}
+    <!--fin datatable-->
 </head>
 <body class="layout-boxed">
 <!-- Main navbar -->

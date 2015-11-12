@@ -39,8 +39,8 @@ return [
 
         'main' => [
             'salt' => 'sabis-tenerba-1304',
-            'length' => '20',
-            'alphabet' => 'abcdefghijklmnopqrstuvwxyz0123456789-_.',
+            'length' => '25',
+            'alphabet' => 'abcdefghijklmnopqrstuvwxyz0123456789',
         ],
 
         'alternative' => [
