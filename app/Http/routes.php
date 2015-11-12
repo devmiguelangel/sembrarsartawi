@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', ['middleware' => 'auth', function () {
+Route::get('/', ['middleware' => 'auth', function() {
     return redirect()->route('home');
 }]);
 
@@ -20,41 +20,64 @@ Route::get('home', [
     'uses' => 'HomeController@index'
 ]);
 
-Route::get('auth/login', [
-    'as'   => 'auth.login.get',
-    'uses' => 'Auth\AuthController@getLogin'
-]);
-Route::post('auth/login', [
-    'as'   => 'auth.login.post',
-    'uses' => 'Auth\AuthController@postLogin'
-]);
 
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
-
-Route::group(['middleware' => 'auth'], function () {
-
-    // Crear una solicitud
-    Route::get('de/create', [
-        'as'    => 'de.create',
-        'uses'  => 'De\HeaderController@create'
+/*
+ * Route Authentication
+ */
+Route::group(['prefix' => 'auth'], function() {
+    Route::get('login', [
+        'as'   => 'auth.login.get',
+        'uses' => 'Auth\AuthController@getLogin'
     ]);
 
-    // Guardar solicitud
-    Route::post('de/create', [
-        'as'    => 'de.store',
-        'uses'  => 'De\HeaderController@store'
+    Route::post('login', [
+        'as'   => 'auth.login.post',
+        'uses' => 'Auth\AuthController@postLogin'
     ]);
 
-    // Crear Cliente
-    Route::get('de/{id}/client', [
-        'as'    => 'de.client.create',
-        'uses'  => 'ClientController@create'
+    Route::get('logout', [
+        'as'   => 'auth.logout',
+        'uses' => 'Auth\AuthController@getLogout'
     ]);
+});
 
-    // Guardar Cliente
-    Route::post('de/client', [
-        'as'    => 'de.client.store',
-        'uses'  => 'ClientController@store'
-    ]);
+
+Route::group(['middleware' => 'auth'], function() {
+
+    /*
+     * Route Header DE
+     */
+    Route::group(['prefix' => 'de'], function() {
+        Route::get('create', [
+            'as'    => 'de.create',
+            'uses'  => 'De\HeaderController@create'
+        ]);
+
+        Route::post('create', [
+            'as'    => 'de.store',
+            'uses'  => 'De\HeaderController@store'
+        ]);
+    });
+
+    /*
+     * Route Client DE
+     */
+    Route::group(['prefix' => 'de/{header_id}'], function() {
+        Route::get('list', [
+            'as'    => 'de.client.list',
+            'uses'  => 'ClientController@index'
+        ]);
+
+        Route::get('client/create', [
+            'as'    => 'de.client.create',
+            'uses'  => 'ClientController@create'
+        ]);
+
+        Route::post('client', [
+            'as'    => 'de.client.store',
+            'uses'  => 'ClientController@store'
+        ]);
+    });
+
 
 });

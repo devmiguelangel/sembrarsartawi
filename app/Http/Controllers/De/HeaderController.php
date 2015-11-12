@@ -62,7 +62,7 @@ class HeaderController extends Controller
     {
         if ($this->repository->saveQuote($request)) {
             return redirect()
-                ->route('de.client.create', ['id' => $this->repository->id])
+                ->route('de.client.list', ['id' => $this->repository->id])
                 ->with('header_id', $this->repository->id);
         }
 

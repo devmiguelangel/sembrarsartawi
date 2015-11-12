@@ -13,9 +13,9 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($header_id)
     {
-        //
+        return view('client.de.list');
     }
 
     /**
