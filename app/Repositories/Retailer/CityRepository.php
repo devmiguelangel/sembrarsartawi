@@ -12,7 +12,8 @@ class CityRepository extends BaseRepository
 
     private function getCities()
     {
-        return City::select('id', 'id as city_id', 'name', 'abbreviation', 'slug', 'type_ci', 'type_re', 'type_de')->get();
+        return City::select('id', 'id as city_id', 'name', 'abbreviation', 'slug', 'type_ci', 'type_re', 'type_de')
+            ->get();
     }
 
     public function getCitiesByType()
@@ -41,6 +42,7 @@ class CityRepository extends BaseRepository
         });
 
         foreach ($cities as &$city) {
+            dd($city);
             $city = $selectOption->merge($city->toArray());
         }
 

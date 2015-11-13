@@ -7,6 +7,7 @@ use Sibas\Http\Controllers\BaseController;
 use Sibas\Http\Controllers\Retailer\CityController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Http\Requests\Client\ClientCreateFormRequest;
 use Sibas\Repositories\Client\ActivityRepository;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\Retailer\CityRepository;
@@ -56,9 +57,9 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClientCreateFormRequest $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
