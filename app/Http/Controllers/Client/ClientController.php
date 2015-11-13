@@ -1,11 +1,13 @@
 <?php
 
-namespace Sibas\Http\Controllers;
+namespace Sibas\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
+use Sibas\Http\Controllers\BaseController;
 use Sibas\Http\Controllers\Retailer\CityController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Repositories\Client\ActivityRepository;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\Retailer\CityRepository;
 
@@ -15,8 +17,9 @@ class ClientController extends Controller
 
     public function __construct()
     {
-        $this->data = new BaseController(new DataRepository);
-        $this->cities = new CityController(new CityRepository);
+        $this->data       = new BaseController(new DataRepository);
+        $this->cities     = new CityController(new CityRepository);
+        $this->activities = new ActivityController(new ActivityRepository);
     }
 
     /**
@@ -41,6 +44,7 @@ class ClientController extends Controller
             'document_type' => $this->data->getDocumentType(),
             'gender'        => $this->data->getGender(),
             'cities'        => $this->cities->cityByType(),
+            'activities'    => $this->activities->activities(),
         ];
 
         return view('client.de.create', compact('header_id', 'data'));

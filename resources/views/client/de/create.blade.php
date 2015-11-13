@@ -32,16 +32,16 @@
             <div class="panel panel-flat border-top-primary">
                 <div class="panel-heading divhr">
                     <h6 class="form-wizard-title2 text-semibold">
-                                        <span class="col-md-11">
-                                            <span class="form-wizard-count">2</span>
-                                            Datos del Titular 1 o Titular 2
-                                            <small class="display-block">Datos del Titular 1 o Titular 2</small>
-                                        </span>
-                                        <span class="col-md-1">
-                                            <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right" data-popup="tooltip" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
-                                                <i class="icon-question7"></i> Producto
-                                            </button>
-                                        </span>
+                        <span class="col-md-11">
+                            <span class="form-wizard-count">2</span>
+                            Datos del Titular 1 o Titular 2
+                            <small class="display-block">Datos del Titular 1 o Titular 2</small>
+                        </span>
+                        <span class="col-md-1">
+                            <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right" data-popup="tooltip" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
+                                <i class="icon-question7"></i> Producto
+                            </button>
+                        </span>
                     </h6>
                 </div>
                 <br />
@@ -207,24 +207,8 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label label_required">Ocupación (CAEDEC): </label>
                                 <div class="col-lg-9">
-                                    <select name="ocupacion" required="required" class="select-search">
-                                        <option value="">Seleccione</option>
-                                        <option value="9">Extraccion de piedras arenas minerales para abono y productos quimicos</option>
-                                        <option value="10">Produccion y procesamiento de carne bovina o de ave o de frutas u hortalizas o legumbres o aceites y</option>
-                                        <option value="11">Productos de tabaco</option>
-                                        <option value="12">Preparacion fabricacion y acabado de fibras textiles hilo y tejido excepto prendas de vestir</option>
-                                        <option value="13">Fabricacion de prendas de vestir ropa de trabajo uniformes ropa deportiva y prendas de vestir en cue</option>
-                                        <option value="14">Curtido de cueros para fabricacion de articulos de marroquineria talabarteria calzados de cuero de t</option>
-                                        <option value="15">Fabricacion aserradero y cepillado de madera</option>
-                                        <option value="16">Fabricacion de papel y carton</option>
-                                        <option value="17">Edicion de libros periodicos grabaciones</option>
-                                        <option value="18">Fabricacion de productos de la refinacion del petroleo</option>
-                                        <option value="19">Fabricacion de productos en caucho y plastico</option>
-                                        <option value="20">Fabricacion de productos en vidirio ceramica arcilla yeso</option>
-                                        <option value="21">Industrias basicas y produccion de hierro y acero e industria basica de metales comunes no ferrosos </option>
-                                        <option value="22">Fabricacion de productos metalicos de uso estructural articulos de ferreteria envases y cuchilleria</option>
-                                        <option value="23">Farbicacion de bombas hornos maquinaria agropecuaria forestal domestica metalurgica y para la explot</option>
-                                    </select>
+                                    {!! SelectField::input('ad_activity_id', $data['activities']->toArray(), ['class' => 'select-search', 'required' => 'required'], old('ad_activity_id')) !!}
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('ad_activity_id') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">

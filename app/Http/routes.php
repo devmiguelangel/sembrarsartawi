@@ -65,17 +65,17 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix' => 'de/{header_id}'], function() {
         Route::get('list', [
             'as'    => 'de.client.list',
-            'uses'  => 'ClientController@index'
+            'uses'  => 'Client\ClientController@index'
         ]);
 
         Route::get('client/create', [
             'as'    => 'de.client.create',
-            'uses'  => 'ClientController@create'
+            'uses'  => 'Client\ClientController@create'
         ]);
 
         Route::post('client', [
             'as'    => 'de.client.store',
-            'uses'  => 'ClientController@store'
+            'uses'  => 'Client\ClientController@store'
         ]);
     });
 
