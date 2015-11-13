@@ -9,18 +9,24 @@ use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Client\ClientCreateFormRequest;
 use Sibas\Repositories\Client\ActivityRepository;
+use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\Retailer\CityRepository;
 
 class ClientController extends Controller
 {
     private $data;
+    /**
+     * @var ClientRepository
+     */
+    private $repository;
 
-    public function __construct()
+    public function __construct(ClientRepository $repository)
     {
         $this->data       = new BaseController(new DataRepository);
         $this->cities     = new CityController(new CityRepository);
         $this->activities = new ActivityController(new ActivityRepository);
+        $this->repository = $repository;
     }
 
     /**
@@ -59,6 +65,7 @@ class ClientController extends Controller
      */
     public function store(ClientCreateFormRequest $request)
     {
+        $this->repository->saveClientQuote($request);
         dd($request->all());
     }
 

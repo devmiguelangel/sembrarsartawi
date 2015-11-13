@@ -46,7 +46,7 @@ class CreateOpClientsTable extends Migration
             $table->string('email', 140);
             $table->integer('weight')->unsigned();
             $table->integer('height')->unsigned();
-            $table->enum('hand', array_keys(\Config::get('base.client_hands')));
+            $table->enum('hand', array_keys(\Config::get('base.client_hands')))->nullable();
             $table->double('debit_balance', 20, 2);
             $table->timestamps();
 
