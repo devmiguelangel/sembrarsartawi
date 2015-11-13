@@ -25,32 +25,33 @@ class ClientCreateFormRequest extends Request
     {
         $civil_status   = join(',', array_keys(\Config::get('base.client_civil_status')));
         $document_types = join(',', array_keys(\Config::get('base.client_document_types')));
+        $genders        = join(',', array_keys(\Config::get('base.client_genders')));
 
         return [
-            'first_name'        => 'required|regex:([A-Za-z]+)',
-            'last_name'         => 'required|regex:([A-Za-z]+)',
-            'mother_last_name'  => 'required|regex:([A-Za-z]+)',
-            'married_name'      => 'regex:([A-Za-z]+)',
+            'first_name'        => 'required|alpha_space',
+            'last_name'         => 'required|alpha_space',
+            'mother_last_name'  => 'required|alpha_space',
+            'married_name'      => 'alpha_space',
             'civil_status'      => 'required|in:' . $civil_status,
             'document_type'     => 'required|in:' . $document_types,
-            'dni'               => 'required|regex:([A-Za-z0-9]+)',
-            'complement'        => 'regex:([A-Za-z]+)',
+            'dni'               => 'required|alpha_dash',
+            'complement'        => 'alpha',
             'extension'         => 'required|exists:ad_cities,abbreviation',
-            'country'           => 'required',
-            'birthdate'         => 'required',
-            'birth_place'       => 'birth_place',
-            'place_residence'   => 'required',
-            'locality'          => 'required',
-            'home_address'      => 'required',
-            'ad_activity_id'    => 'required',
-            'occupation_description' => 'required',
-            'phone_number_home'      => 'required',
-            'phone_number_mobile'    => '',
-            'phone_number_office'    => '',
-            'email'  => '',
-            'weight' => 'required',
-            'height' => 'required',
-            'gender' => 'required'
+            'country'           => 'required|alpha_space',
+            'birthdate'         => 'required|date',
+            'birth_place'       => 'required|alpha_dash_space',
+            'place_residence'   => 'required|exists:ad_cities,slug',
+            'locality'          => 'required|alpha_dash_space',
+            'home_address'      => 'required|alpha_dash_space',
+            'ad_activity_id'    => 'required|exists:ad_activities,id',
+            'occupation_description' => 'required|alpha_dash_space',
+            'phone_number_home'      => 'required|numeric|digits_between:7,8',
+            'phone_number_mobile'    => 'numeric|digits_between:7,8',
+            'phone_number_office'    => 'numeric|digits_between:7,8',
+            'email'             => 'email',
+            'weight'            => 'required|numeric|min:1|digits_between:1,3',
+            'height'            => 'required|numeric|min:1|digits_between:1,3',
+            'gender'            => 'required|in:' . $genders
         ];
     }
 }

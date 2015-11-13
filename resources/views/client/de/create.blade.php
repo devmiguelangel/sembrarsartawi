@@ -55,7 +55,8 @@
                                 <div class="col-lg-9">
                                     {!! Form::text('first_name', old('first_name'), [
                                         'class' => 'form-control ui-wizard-content',
-                                        'placeholder' => 'Nombres'])
+                                        'placeholder' => 'Nombres',
+                                        'autocomplete' => 'off'])
                                     !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('first_name') }}</label>
                                 </div>
@@ -65,7 +66,8 @@
                                 <div class="col-lg-9">
                                     {!! Form::text('last_name', old('last_name'), [
                                         'class' => 'form-control ui-wizard-content',
-                                        'placeholder' => 'Ap. Paterno'])
+                                        'placeholder' => 'Ap. Paterno',
+                                        'autocomplete' => 'off'])
                                     !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('last_name') }}</label>
                                 </div>
@@ -75,7 +77,8 @@
                                 <div class="col-lg-9">
                                     {!! Form::text('mother_last_name', old('mother_last_name'), [
                                         'class' => 'form-control',
-                                        'placeholder' => 'Ap. Materno'])
+                                        'placeholder' => 'Ap. Materno',
+                                        'autocomplete' => 'off'])
                                     !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('mother_last_name') }}</label>
                                 </div>
@@ -85,7 +88,8 @@
                                 <div class="col-lg-9">
                                     {!! Form::text('married_name', old('married_name'), [
                                         'class' => 'form-control',
-                                        'placeholder' => 'Ap. de casada'])
+                                        'placeholder' => 'Ap. de casada',
+                                        'autocomplete' => 'off'])
                                     !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('married_name') }}</label>
                                 </div>
@@ -109,7 +113,8 @@
                                 <div class="col-lg-9">
                                     {!! Form::text('dni', old('dni'), [
                                         'class' => 'form-control ui-wizard-content',
-                                        'placeholder' => 'Documento de identidad'])
+                                        'placeholder' => 'Documento de identidad',
+                                        'autocomplete' => 'off'])
                                     !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('dni') }}</label>
                                 </div>
@@ -119,7 +124,8 @@
                                 <div class="col-lg-9">
                                     {!! Form::text('complement', old('complement'), [
                                         'class' => 'form-control ui-wizard-content',
-                                        'placeholder' => 'Complemento'])
+                                        'placeholder' => 'Complemento',
+                                        'autocomplete' => 'off'])
                                     !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('complement') }}</label>
                                 </div>
@@ -136,7 +142,8 @@
                                 <div class="col-lg-9">
                                     {!! Form::text('country', old('country'), [
                                         'class' => 'form-control ui-wizard-content',
-                                        'placeholder' => 'País'])
+                                        'placeholder' => 'País',
+                                        'autocomplete' => 'off'])
                                     !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('country') }}</label>
                                 </div>
@@ -147,7 +154,8 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-calendar22"></i></span>
                                         {!! Form::text('birthdate', old('birthdate'), [
-                                            'class' => 'form-control daterange-single'])
+                                            'class' => 'form-control daterange-single',
+                                            'autocomplete' => 'off'])
                                         !!}
                                     </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('birthdate') }}</label>
@@ -158,7 +166,8 @@
                                 <div class="col-lg-9">
                                     {!! Form::text('birth_place', old('birth_place'), [
                                         'class' => 'form-control ui-wizard-content',
-                                        'placeholder' => 'Lugar de nacimiento'])
+                                        'placeholder' => 'Lugar de nacimiento',
+                                        'autocomplete' => 'off'])
                                     !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('birth_place') }}</label>
                                 </div>
@@ -175,7 +184,8 @@
                                 <div class="col-lg-9">
                                     {!! Form::text('locality', old('locality'), [
                                         'class' => 'form-control ui-wizard-content',
-                                        'placeholder' => 'Localidad'])
+                                        'placeholder' => 'Localidad',
+                                        'autocomplete' => 'off'])
                                     !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('locality') }}</label>
                                 </div>
@@ -189,7 +199,8 @@
                                     {!! Form::textarea('home_address', old('home_address'), [
                                         'size' => '4x4',
                                         'class' => 'form-control',
-                                        'placeholder' => 'Dirección'])
+                                        'placeholder' => 'Dirección',
+                                        'autocomplete' => 'off'])
                                     !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('home_address') }}</label>
                                 </div>
@@ -219,7 +230,8 @@
                                         <span class="input-group-addon"><i class="icon-phone"></i></span>
                                         {!! Form::text('phone_number_home', old('phone_number_home'), [
                                             'class' => 'form-control ui-wizard-content',
-                                            'placeholder' => 'Telefono 1'])
+                                            'placeholder' => 'Telefono 1',
+                                            'autocomplete' => 'off'])
                                         !!}
                                     </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('phone_number_home') }}</label>
@@ -232,7 +244,8 @@
                                         <span class="input-group-addon"><i class="icon-phone"></i></span>
                                         {!! Form::text('phone_number_mobile', old('phone_number_mobile'), [
                                             'class' => 'form-control ui-wizard-content',
-                                            'placeholder' => 'Telefono 2'])
+                                            'placeholder' => 'Telefono 2',
+                                            'autocomplete' => 'off'])
                                         !!}
                                     </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('phone_number_mobile') }}</label>
@@ -245,7 +258,8 @@
                                         <span class="input-group-addon"><i class="icon-phone"></i></span>
                                         {!! Form::text('phone_number_office', old('phone_number_office'), [
                                             'class' => 'form-control ui-wizard-content',
-                                            'placeholder' => 'Telef. Oficina'])
+                                            'placeholder' => 'Telef. Oficina',
+                                            'autocomplete' => 'off'])
                                         !!}
                                     </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('phone_number_office') }}</label>
@@ -258,7 +272,8 @@
                                         <span class="input-group-addon"><i class="icon-mail5"></i></span>
                                         {!! Form::email('email', old('email'), [
                                             'class' => 'form-control ui-wizard-content required',
-                                            'placeholder' => 'mail@email.com'])
+                                            'placeholder' => 'mail@email.com',
+                                            'autocomplete' => 'off'])
                                         !!}
                                     </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('email') }}</label>
@@ -271,7 +286,8 @@
                                         <span class="input-group-addon">(Kg)</span>
                                         {!! Form::text('weight', old('weight'), [
                                             'class' => 'form-control ui-wizard-content',
-                                            'placeholder' => 'Peso'])
+                                            'placeholder' => 'Peso',
+                                            'autocomplete' => 'off'])
                                         !!}
                                     </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('weight') }}</label>
@@ -284,7 +300,8 @@
                                         <span class="input-group-addon">(cm)</span>
                                         {!! Form::text('height', old('height'), [
                                             'class' => 'form-control ui-wizard-content',
-                                            'placeholder' => 'Estatura'])
+                                            'placeholder' => 'Estatura',
+                                            'autocomplete' => 'off'])
                                         !!}
                                     </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('height') }}</label>

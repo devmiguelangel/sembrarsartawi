@@ -12,8 +12,7 @@ class CityRepository extends BaseRepository
 
     private function getCities()
     {
-        return City::select('id', 'id as city_id', 'name', 'abbreviation', 'slug', 'type_ci', 'type_re', 'type_de')
-            ->get();
+        return City::select('id', 'id as city_id', 'name', 'abbreviation', 'slug', 'type_ci', 'type_re', 'type_de');
     }
 
     public function getCitiesByType()
@@ -23,26 +22,32 @@ class CityRepository extends BaseRepository
 
         $cities = [];
 
-        $cities['CI'] = $this->cities->filter(function($item) {
+        $cities['CI'] = $this->cities->get()->filter(function($item) {
             $item = $this->getDataOptions($item, 'CI');
 
-            return $item->type_ci == 1;
+            if ($item->type_ci == 1) {
+                return $item;
+            }
         });
 
-        $cities['RE'] = $this->cities->filter(function($item) {
+        $cities['RE'] = $this->cities->get()->filter(function($item) {
             $item = $this->getDataOptions($item, 'RE');
 
-            return $item->type_re == 1;
+            if ($item->type_re == 1) {
+                return $item;
+            }
         });
 
-        $cities['DE'] = $this->cities->filter(function($item) {
+        $cities['DE'] = $this->cities->get()->filter(function($item) {
             $item = $this->getDataOptions($item, 'DE');
 
-            return $item->type_de == 1;
+            if ($item->type_de == 1) {
+                return $item;
+            }
         });
 
+
         foreach ($cities as &$city) {
-            dd($city);
             $city = $selectOption->merge($city->toArray());
         }
 
@@ -63,7 +68,7 @@ class CityRepository extends BaseRepository
                 $item->id = $item->abbreviation;
                 break;
             case 'DE':
-                $item->id = $item->name;
+                $item->id = $item->slug;
                 break;
         }
 

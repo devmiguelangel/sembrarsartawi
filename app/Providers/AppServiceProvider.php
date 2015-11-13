@@ -3,6 +3,7 @@
 namespace Sibas\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,21 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // validate alphabetical chars & spaces only
+        Validator::extend('alpha_space', function($attribute, $value, $parameters, $validator) {
+            //return preg_match('/^([a-zA-Z ])+$/i', $value);
+            return preg_match('/^[\pL\pM ]+$/u', $value);
+        });
+
+        // validate alphabetical chars, numbers & spaces only
+        Validator::extend('alpha_num_space', function($attribute, $value, $parameters, $validator) {
+            return preg_match('/^([a-zA-Z0-9 ])+$/i', $value);
+        });
+
+        // validate alphabetical chars, dashes & spaces only
+        Validator::extend('alpha_dash_space', function($attribute, $value, $parameters, $validator) {
+            return preg_match('/^[\pL\pM\pN _-]+$/u', $value);
+        });
     }
 
     /**

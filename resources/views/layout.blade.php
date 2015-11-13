@@ -45,7 +45,7 @@
     <!--picker date-->
     {!! Html::script('assets/js/plugins/ui/moment/moment.min.js') !!}
     {!! Html::script('assets/js/plugins/pickers/daterangepicker.js') !!}
-    <!--<script type="text/javascript" src="assets/js/pages/picker_date.js"></script>-->
+    {!! Html::script('assets/js/pages/picker_date.js') !!}
             <!--fin picker date-->
 
     <!--datatable-->

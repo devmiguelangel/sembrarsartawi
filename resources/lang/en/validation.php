@@ -106,4 +106,11 @@ return [
 
     'attributes' => [],
 
+    /*
+     * Custom Form Validation
+     */
+    'alpha_space'           => 'The :attribute may only contain letters.',
+    'alpha_num_space'       => 'The :attribute may only contain letters and numbers.',
+    'alpha_dash_space'      => 'The :attribute may only contain letters, numbers and dashes.',
+
 ];
