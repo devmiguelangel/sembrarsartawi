@@ -29,6 +29,11 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('alpha_dash_space', function($attribute, $value, $parameters, $validator) {
             return preg_match('/^[\pL\pM\pN _-]+$/u', $value);
         });
+
+        // validate full alphabetical chars, dashes & spaces only
+        Validator::extend('ands_full', function($attribute, $value, $parameters, $validator) {
+            return preg_match('/^[\pL\pM\pN #._-]+$/u', $value);
+        });
     }
 
     /**

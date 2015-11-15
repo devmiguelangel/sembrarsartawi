@@ -50,12 +50,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix' => 'de'], function() {
         Route::get('create', [
             'as'    => 'de.create',
-            'uses'  => 'De\HeaderController@create'
+            'uses'  => 'De\HeaderDeController@create'
         ]);
 
         Route::post('create', [
             'as'    => 'de.store',
-            'uses'  => 'De\HeaderController@store'
+            'uses'  => 'De\HeaderDeController@store'
         ]);
     });
 
@@ -77,6 +77,21 @@ Route::group(['middleware' => 'auth'], function() {
             'as'    => 'de.client.store',
             'uses'  => 'Client\ClientController@store'
         ]);
+    });
+
+    /*
+     * Route Question
+     */
+    Route::group(['prefix' => 'de/{header_id}/client/{client_id}'], function() {
+        Route::get('question/create', [
+            'as'    => 'de.question.create',
+            'uses'  => 'Client\QuestionController@create'
+        ]);
+
+        /*Route::post('question', [
+            'as'    => 'de.client.store',
+            'uses'  => 'Client\ClientController@store'
+        ]);*/
     });
 
 

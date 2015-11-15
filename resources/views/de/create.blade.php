@@ -63,7 +63,10 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Monto solicitado: <span class="text-danger">*</span></label>
                                 <div class="col-lg-4">
-                                    {!! Form::text('amount_requested', 0, ['class' => 'touchspin-set-value']) !!}
+                                    {!! Form::text('amount_requested', 0, [
+                                        'class' => 'touchspin-set-value',
+                                        'autocomplete' => 'off'])
+                                    !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('amount_requested') }}</label>
                                 </div>
                                 <div class="col-lg-4">
@@ -84,7 +87,10 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Plazo crédito: <span class="text-danger">*</span></label>
                                 <div class="col-lg-4">
-                                    {!! Form::text('term', 0, ['class' => 'touchspin-set-value']) !!}
+                                    {!! Form::text('term', 0, [
+                                        'class' => 'touchspin-set-value',
+                                        'autocomplete' => 'off'])
+                                    !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('term') }}</label>
                                 </div>
                                 <div class="col-lg-5">

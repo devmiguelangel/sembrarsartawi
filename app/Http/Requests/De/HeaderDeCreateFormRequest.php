@@ -4,7 +4,7 @@ namespace Sibas\Http\Requests\De;
 
 use Sibas\Http\Requests\Request;
 
-class HeaderCreateFormRequest extends Request
+class HeaderDeCreateFormRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -4,17 +4,17 @@ namespace Sibas\Repositories\De;
 
 use Illuminate\Database\QueryException;
 use Sibas\Entities\De\Header;
-use Sibas\Http\Requests\De\HeaderCreateFormRequest;
+use Sibas\Http\Requests\De\HeaderDeCreateFormRequest;
 use Sibas\Repositories\BaseRepository;
 
-class HeaderRepository extends BaseRepository
+class HeaderDeRepository extends BaseRepository
 {
     public $id;
 
     public $errors;
 
     /**
-     * @param HeaderCreateFormRequest $request
+     * @param HeaderDeCreateFormRequest $request
      * @return bool
      */
     public function saveQuote($request)
@@ -73,5 +73,22 @@ class HeaderRepository extends BaseRepository
         $n = Header::where($field, $number)->exists();
 
         return $n;
+    }
+
+    /**
+     * @param string $id
+     * @return bool
+     */
+    public function getHeaderTypeById($id)
+    {
+        $header = Header::select('id', 'type', 'ad_coverage_id')
+            ->where('id', $this->decryptData($id))
+            ->first();
+
+        if (! is_null($header)) {
+            return $header;
+        }
+
+        return false;
     }
 }

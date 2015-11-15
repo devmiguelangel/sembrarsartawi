@@ -4,6 +4,8 @@ namespace Sibas\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
 use Sibas\Http\Controllers\BaseController;
+use Sibas\Http\Controllers\De\DetailDeController;
+use Sibas\Http\Controllers\De\HeaderDeController;
 use Sibas\Http\Controllers\Retailer\CityController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
@@ -11,6 +13,8 @@ use Sibas\Http\Requests\Client\ClientCreateFormRequest;
 use Sibas\Repositories\Client\ActivityRepository;
 use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\De\DataRepository;
+use Sibas\Repositories\De\DetailDeRepository;
+use Sibas\Repositories\De\HeaderDeRepository;
 use Sibas\Repositories\Retailer\CityRepository;
 
 class ClientController extends Controller
@@ -21,8 +25,18 @@ class ClientController extends Controller
      */
     private $repository;
 
+    private $header;
+
+    private $detail;
+
+    private $cities;
+
+    private $activities;
+
     public function __construct(ClientRepository $repository)
     {
+        $this->header     = new HeaderDeController(new HeaderDeRepository);
+        $this->detail     = new DetailDeController(new DetailDeRepository);
         $this->data       = new BaseController(new DataRepository);
         $this->cities     = new CityController(new CityRepository);
         $this->activities = new ActivityController(new ActivityRepository);
@@ -60,13 +74,27 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ClientCreateFormRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(ClientCreateFormRequest $request)
     {
-        $this->repository->saveClientQuote($request);
-        dd($request->all());
+        $header = $this->header->headerTypeById($request->get('header_id'));
+        $request['header'] = $header;
+
+        if ($this->repository->saveClient($request)) {
+            $request['client'] = $this->repository->getClient();
+
+            if ($this->detail->store($request)) {
+                return redirect()
+                    ->route('de.question.create', [
+                        'header_id' => $header->id,
+                        'client_id' => $this->repository->getId()
+                    ]);
+            }
+        }
+
+        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**

@@ -10,4 +10,9 @@ class Header extends Model
 
     public $incrementing = false;
 
+    public function coverage()
+    {
+        return $this->hasOne('Sibas\Entities\De\Coverage', 'id', 'ad_coverage_id');
+    }
+
 }

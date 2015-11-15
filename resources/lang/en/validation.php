@@ -112,5 +112,6 @@ return [
     'alpha_space'           => 'The :attribute may only contain letters.',
     'alpha_num_space'       => 'The :attribute may only contain letters and numbers.',
     'alpha_dash_space'      => 'The :attribute may only contain letters, numbers and dashes.',
+    'ands_full'             => 'The :attribute may only contain letters, numbers and dashes.',
 
 ];
