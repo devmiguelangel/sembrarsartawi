@@ -3,20 +3,32 @@
 namespace Sibas\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
+use Sibas\Http\Controllers\De\HeaderDeController;
 use Sibas\Http\Controllers\Retailer\RetailerProductController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Http\Requests\Client\QuestionFormRequest;
 use Sibas\Repositories\Client\ClientRepository;
+use Sibas\Repositories\Client\QuestionRepository;
+use Sibas\Repositories\De\HeaderDeRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class QuestionController extends Controller
 {
     private $retailerProduct;
+    /**
+     * @var QuestionRepository
+     */
+    private $repository;
 
-    public function __construct()
+    private $client;
+
+    public function __construct(QuestionRepository $repository)
     {
-        $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
+        $this->repository      = $repository;
+        $this->header          = new HeaderDeController(new HeaderDeRepository);
         $this->client          = new ClientController(new ClientRepository);
+        $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
     }
 
     /**
@@ -56,12 +68,23 @@ class QuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param QuestionFormRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeDe(QuestionFormRequest $request)
     {
-        dd($request->all());
+        $header = $this->header->headerById($request->get('header_id'));
+        $request['header'] = $header;
+
+        if ($this->repository->saveQuestionDe($request)) {
+            return redirect()
+                ->route('de.client.list', [
+                    'rp_id' => decrypt($request->get('rp_id')),
+                    'header_id' => encode($header->id)
+                ]);
+        }
+
+        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**

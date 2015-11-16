@@ -75,6 +75,18 @@ class HeaderDeRepository extends BaseRepository
         return $n;
     }
 
+    public function getHeaderById($header_id)
+    {
+        $header = Header::where('id', decode($header_id))
+            ->first();
+
+        if (! is_null($header)) {
+            return $header;
+        }
+
+        return false;
+    }
+
     /**
      * @param string $id
      * @return bool

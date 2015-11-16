@@ -32,7 +32,7 @@ class RetailerProductRepository
                 ];
             }
         }
-
+        
         return $questions;
     }
 }

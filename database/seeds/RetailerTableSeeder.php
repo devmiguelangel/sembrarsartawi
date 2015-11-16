@@ -21,7 +21,7 @@ class RetailerTableSeeder extends BaseSeeder
 
         $data[] = [
             'name'      => $name,
-            'image'     => 'image.jpg',
+            'image'     => 'alianza.jpg',
             'domain'    => 'sembrarsartawi',
             'about_us'  => '',
             'slug'      => Str::slug($name),

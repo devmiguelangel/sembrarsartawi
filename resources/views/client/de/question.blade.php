@@ -79,12 +79,13 @@
                                                         </label>
                                                     </div>
                                                     <div class="col-xs-12 col-md-2">
+                                                        {!! Form::hidden('qs[' . $question['id'] . '][question]', $question['question']) !!}
                                                         <label class="radio-inline radio-right">
-                                                            {!! Form::radio('q-' . $question['id'], '1', $question['check_yes'], ['class' => 'styled']) !!}
+                                                            {!! Form::radio('qs[' . $question['id'] . '][value]', '1', $question['check_yes'], ['class' => 'styled']) !!}
                                                             Si
                                                         </label>
                                                         <label class="radio-inline radio-right">
-                                                            {!! Form::radio('q-' . $question['id'], '0', $question['check_no'], ['class' => 'styled']) !!}
+                                                            {!! Form::radio('qs[' . $question['id'] . '][value]', '0', $question['check_no'], ['class' => 'styled']) !!}
                                                             No
                                                         </label>
                                                     </div>
@@ -94,13 +95,13 @@
                                     </div>
                                     <hr>
                                     <div class="form-group">
-                                        {!! Form::textarea('desc_occupation', old('desc_occupation'), [
+                                        {!! Form::textarea('qs_observation', old('desc_occupation'), [
                                             'size' => '4x4',
                                             'class' => 'form-control',
                                             'placeholder' => 'Observación',
                                             'autocomplete' => 'off'])
                                         !!}
-                                        {!! Form::hidden('questions_number', count($data['questions'])) !!}
+                                        {!! Form::hidden('qs_number', count($data['questions'])) !!}
                                     </div>
                                     <div class="text-right">
                                         {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}

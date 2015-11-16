@@ -17,7 +17,7 @@ class RetailerProductTableSeeder extends BaseSeeder
         $data = [];
 
         $data[] = [
-            'id' => date('U'),
+            'id' => 1447616258,
             'ad_retailer_id'        => $this->getModelData('Retailer')->first()->id,
             'ad_company_product_id' => $this->getModelData('CompanyProduct')->first()->id,
             'type'      => 'MP',

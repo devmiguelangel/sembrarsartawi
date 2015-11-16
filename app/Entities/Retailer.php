@@ -12,4 +12,9 @@ class Retailer extends Model
     {
         return $this->belongsToMany('Sibas\Entities\User', 'ad_retailer_users', 'ad_user_id', 'ad_retailer_id');
     }
+
+    public function retailerProducts()
+    {
+        return $this->hasMany('Sibas\Entities\RetailerProduct', 'ad_retailer_id', 'id');
+    }
 }

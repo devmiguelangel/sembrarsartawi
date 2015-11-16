@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             'ad_retailer_users',
             'ad_questions',
             'ad_retailer_product_questions',
+            'ad_rates',
 
             'op_de_headers',
             'op_de_details',
@@ -53,6 +54,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RetailerProductTableSeeder::class);
         $this->call(QuestionTableSeeder::class);
         $this->call(RetailerProductQuestionTableSeeder::class);
+        $this->call(RateTableSeeder::class);
 
         Model::reguard();
     }

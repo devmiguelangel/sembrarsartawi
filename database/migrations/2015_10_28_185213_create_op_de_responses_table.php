@@ -16,7 +16,7 @@ class CreateOpDeResponsesTable extends Migration
             $table->integer('id')->unsigned();
             $table->integer('op_de_detail_id')->unsigned();
             $table->mediumText('response');
-            $table->mediumText('observation');
+            $table->longText('observation');
             $table->timestamps();
 
             $table->primary('id');

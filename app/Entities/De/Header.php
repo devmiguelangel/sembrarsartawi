@@ -15,4 +15,9 @@ class Header extends Model
         return $this->hasOne('Sibas\Entities\De\Coverage', 'id', 'ad_coverage_id');
     }
 
+    public function details()
+    {
+        return $this->hasMany('Sibas\Entities\De\Detail', 'op_de_header_id', 'id');
+    }
+
 }

@@ -57,6 +57,11 @@ Route::group(['middleware' => 'auth'], function() {
             'as'    => 'de.store',
             'uses'  => 'De\HeaderDeController@store'
         ]);
+
+        Route::get('{header_id}/result', [
+            'as'    => 'de.result',
+            'uses'  => 'De\HeaderDeController@result'
+        ]);
     });
 
     /*
@@ -90,7 +95,7 @@ Route::group(['middleware' => 'auth'], function() {
 
         Route::post('question/create', [
             'as'    => 'de.question.store',
-            'uses'  => 'Client\QuestionController@store'
+            'uses'  => 'Client\QuestionController@storeDe'
         ]);
     });
 

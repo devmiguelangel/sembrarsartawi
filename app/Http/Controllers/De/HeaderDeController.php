@@ -72,6 +72,13 @@ class HeaderDeController extends Controller
         return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
     }
 
+    public function result($rp_id, $header_id)
+    {
+        $retailer = request()->user()->retailer->first();
+
+        return view('de.result', compact('rp_id', 'retailer'));
+    }
+
     /**
      * Display the specified resource.
      *
@@ -115,6 +122,11 @@ class HeaderDeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function headerById($header_id)
+    {
+        return $this->repository->getHeaderById($header_id);
     }
 
     public function headerTypeById($id)

@@ -15,4 +15,8 @@ class RetailerProduct extends Model
         return $this->hasMany('Sibas\Entities\RetailerProductQuestion', 'ad_retailer_product_id', 'id');
     }
 
+    public function rates()
+    {
+        return $this->hasMany('Sibas\Entities\Rate', 'ad_retailer_product_id', 'id');
+    }
 }
