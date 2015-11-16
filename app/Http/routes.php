@@ -70,7 +70,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix' => 'de/{rp_id}/{header_id}'], function() {
         Route::get('list', [
             'as'    => 'de.client.list',
-            'uses'  => 'Client\ClientController@index'
+            'uses'  => 'Client\ClientController@lists'
         ]);
 
         Route::get('client/create', [
@@ -81,6 +81,11 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('client/create', [
             'as'    => 'de.client.store',
             'uses'  => 'Client\ClientController@store'
+        ]);
+
+        Route::post('client/search', [
+            'as'    => 'de.client.search',
+            'uses'  => 'Client\ClientController@search'
         ]);
     });
 

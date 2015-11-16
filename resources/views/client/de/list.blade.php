@@ -47,21 +47,26 @@
                 <br />
                 <div class="col-xs-12">
                     <div class="col-md-8 col-md-offset-2">
-                        <form class="form-horizontal" action="#">
+                        {!! Form::open(['route' => ['de.client.search', 'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                            {!! Form::hidden('header_id', $header_id) !!}
+                            {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
                             <div class="form-group has-success">
-                                <label class="control-label col-lg-4 text-semibold">Ingrese Documento de identidad:</label>
+                                <label class="control-label col-lg-4 text-semibold" style="text-align: right;">Busqueda de datos:</label>
                                 <div class="col-lg-5">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-search4"></i></span>
-                                        <input type="text" class="form-control" placeholder="Ingrese Documento de identidad">
+                                        {!! Form::text('dni', old('dni'), [
+                                            'class' => 'form-control',
+                                            'placeholder' => 'Ingrese Documento de identidad',
+                                            'autocomplete' => 'off']) !!}
                                     </div>
-                                    <span class="help-block">Busqueda de datos del Titular 1 o Titular2</span>
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('client-search') }}</label>
                                 </div>
                                 <div class="col-xs-12 col-md-3">
-                                    <button type="submit" class="btn btn-success">Buscar <i class="icon-search4"></i></button>
+                                    {!! Form::button('Buscar <i class="icon-search4"></i>', ['type' => 'submit', 'class' => 'btn btn-success']) !!}
                                 </div>
                             </div>
-                        </form>
+                        {!! Form::close() !!}
                     </div>
                 </div>
                 <div class="col-xs-12">
@@ -71,67 +76,46 @@
                     </div>
                 </div>
                 <table class="table datatable-basic">
-                    <thead>
-                    <tr>
-                        <th>Titular</th>
-                        <th>C.I.</th>
-                        <th>Ap. Paterno</th>
-                        <th>Ap. Materno</th>
-                        <th>Fecha Nacimiento</th>
-                        <th>Departamento</th>
-                        <th>% Credito</th>
-                        <th>Status</th>
-                        <th class="text-center">Accion</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>T1</td>
-                        <td><a href="#">6828185 lp</a></td>
-                        <td>Mamani</td>
-                        <td>Manrriquez</td>
-                        <td>22 Jun 1982</td>
-                        <td>La paz</td>
-                        <td>100 %</td>
-                        <td><span class="label label-success">Active</span></td>
-                        <td class="text-center">
-                            <ul class="icons-list">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="#"><i class="icon-plus2"></i> Registrar Benficiario</a></li>
-                                        <li><a href="#"><i class="icon-plus2"></i> Registrar Saldo deudor</a></li>
+                    @if($header->details->count() > 0)
+                        <thead>
+                        <tr>
+                            <th>Titular</th>
+                            <th>C.I.</th>
+                            <th>Nombres y Apellidos</th>
+                            <th>Fecha Nacimiento</th>
+                            <th>Departamento</th>
+                            <th>% Credito</th>
+                            <th>Status</th>
+                            <th class="text-center">Accion</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($header->details as $detail)
+                            <tr>
+                                <td>T1</td>
+                                <td><a href="#">{{ $detail->client->first()->dni }} {{ $detail->client->first()->extension }}</a></td>
+                                <td>{{ $detail->client->first()->full_name }}</td>
+                                <td>{{ dateToFormat($detail->client->first()->birthdate) }}</td>
+                                <td>{{ $detail->client->first()->birth_place }}</td>
+                                <td>{{ $detail->percentage_credit }} %</td>
+                                <td><span class="label label-success">Active</span></td>
+                                <td class="text-center">
+                                    <ul class="icons-list">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li><a href="#"><i class="icon-plus2"></i> Registrar Benficiario</a></li>
+                                                <li><a href="#"><i class="icon-plus2"></i> Registrar Saldo deudor</a></li>
+                                            </ul>
+                                        </li>
                                     </ul>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>T2</td>
-                        <td><a href="#">45645612 cb</a></td>
-                        <td>Mendoza</td>
-                        <td>Mamni</td>
-                        <td>3 Oct 1981</td>
-                        <td>Cochabamba</td>
-                        <td>80 %</td>
-                        <td><span class="label label-default">Inactive</span></td>
-                        <td class="text-center">
-                            <ul class="icons-list">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="#"><i class="icon-plus2"></i> Registrar Benficiario</a></li>
-                                        <li><a href="#"><i class="icon-plus2"></i> Registrar Saldo deudor</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    </tbody>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    @endif
                 </table>
             </div>
             <!-- /horizotal form -->

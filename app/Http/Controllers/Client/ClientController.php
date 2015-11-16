@@ -60,9 +60,9 @@ class ClientController extends Controller
      * @param String $header_id
      * @return \Illuminate\Http\Response
      */
-    public function index($rp_id, $header_id)
+    public function index()
     {
-        return view('client.de.list', compact('rp_id', 'header_id'));
+        //
     }
 
     /**
@@ -74,13 +74,7 @@ class ClientController extends Controller
      */
     public function create($rp_id, $header_id)
     {
-        $data = [
-            'civil_status'  => $this->data->getCivilStatus(),
-            'document_type' => $this->data->getDocumentType(),
-            'gender'        => $this->data->getGender(),
-            'cities'        => $this->cities->cityByType(),
-            'activities'    => $this->activities->activities(),
-        ];
+        $data = $this->getData();
 
         return view('client.de.create', compact('rp_id', 'header_id', 'data'));
     }
@@ -102,7 +96,7 @@ class ClientController extends Controller
             if ($this->detail->store($request)) {
                 return redirect()
                     ->route('de.question.create', [
-                        'rp_id' => decrypt($request->get('rp_id')),
+                        'rp_id'     => decrypt($request->get('rp_id')),
                         'header_id' => encode($header->id),
                         'client_id' => encode($this->repository->getId())
                     ]);
@@ -155,5 +149,40 @@ class ClientController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function lists($rp_id, $header_id)
+    {
+        $header = $this->header->headerById($header_id);
+
+        return view('client.de.list', compact('rp_id', 'header_id', 'header'));
+    }
+
+    public function search(Request $request)
+    {
+        if ($this->repository->getClientSearch($request->get('dni'))) {
+            $client = $this->getClient();
+
+            $rp_id     = decrypt($request->get('rp_id'));
+            $header_id = $request->get('header_id');
+            $data      = $this->getData();
+
+            return redirect()->route('de.client.create', compact('rp_id', 'header_id'))
+                ->withInput()->withErrors($this->repository->getErrors());
+            // return view('client.de.create', compact('rp_id', 'header_id', 'data', 'client'));
+        }
+
+        return redirect()->back()->withInput()->withErrors(['client-search' => 'El Cliente no existe']);
+    }
+
+    private function getData()
+    {
+        return [
+            'civil_status'  => $this->data->getCivilStatus(),
+            'document_type' => $this->data->getDocumentType(),
+            'gender'        => $this->data->getGender(),
+            'cities'        => $this->cities->cityByType(),
+            'activities'    => $this->activities->activities(),
+        ];
     }
 }

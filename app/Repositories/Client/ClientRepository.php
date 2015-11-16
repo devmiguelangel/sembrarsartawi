@@ -165,4 +165,15 @@ class ClientRepository extends BaseRepository
 
         return false;
     }
+
+    public function getClientSearch($dni, $extension = null)
+    {
+        $this->client = Client::where('dni', '=', $dni)->first();
+
+        if (! is_null($this->client)) {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -27,3 +27,10 @@ function decode($value)
 
     return $value[0];
 }
+
+function dateToFormat($birthdate) {
+    $carbon = new \Carbon\Carbon();
+    $date = $carbon->createFromTimestamp(strtotime($birthdate));
+
+    return $date->format('d/m/Y');
+}
