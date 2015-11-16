@@ -10,4 +10,9 @@ class RetailerProduct extends Model
 
     public $incrementing = false;
 
+    public function productQuestions()
+    {
+        return $this->hasMany('Sibas\Entities\RetailerProductQuestion', 'ad_retailer_product_id', 'id');
+    }
+
 }

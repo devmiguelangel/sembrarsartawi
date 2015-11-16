@@ -47,7 +47,7 @@ Route::group(['middleware' => 'auth'], function() {
     /*
      * Route Header DE
      */
-    Route::group(['prefix' => 'de'], function() {
+    Route::group(['prefix' => 'de/{rp_id}'], function() {
         Route::get('create', [
             'as'    => 'de.create',
             'uses'  => 'De\HeaderDeController@create'
@@ -62,7 +62,7 @@ Route::group(['middleware' => 'auth'], function() {
     /*
      * Route Client DE
      */
-    Route::group(['prefix' => 'de/{header_id}'], function() {
+    Route::group(['prefix' => 'de/{rp_id}/{header_id}'], function() {
         Route::get('list', [
             'as'    => 'de.client.list',
             'uses'  => 'Client\ClientController@index'
@@ -73,7 +73,7 @@ Route::group(['middleware' => 'auth'], function() {
             'uses'  => 'Client\ClientController@create'
         ]);
 
-        Route::post('client', [
+        Route::post('client/create', [
             'as'    => 'de.client.store',
             'uses'  => 'Client\ClientController@store'
         ]);
@@ -82,16 +82,16 @@ Route::group(['middleware' => 'auth'], function() {
     /*
      * Route Question
      */
-    Route::group(['prefix' => 'de/{header_id}/client/{client_id}'], function() {
+    Route::group(['prefix' => 'de/{rp_id}/{header_id}/client/{client_id}'], function() {
         Route::get('question/create', [
             'as'    => 'de.question.create',
             'uses'  => 'Client\QuestionController@create'
         ]);
 
-        /*Route::post('question', [
-            'as'    => 'de.client.store',
-            'uses'  => 'Client\ClientController@store'
-        ]);*/
+        Route::post('question/create', [
+            'as'    => 'de.question.store',
+            'uses'  => 'Client\QuestionController@store'
+        ]);
     });
 
 

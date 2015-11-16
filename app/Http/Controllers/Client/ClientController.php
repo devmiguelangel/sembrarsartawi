@@ -43,22 +43,36 @@ class ClientController extends Controller
         $this->repository = $repository;
     }
 
+    public function getClient()
+    {
+        return $this->repository->getClient();
+    }
+
+    public function clientById($client_id)
+    {
+        return $this->repository->getClientById($client_id);
+    }
+
     /**
      * Display a listing of the resource.
      *
+     * @param String $rp_id
+     * @param String $header_id
      * @return \Illuminate\Http\Response
      */
-    public function index($header_id)
+    public function index($rp_id, $header_id)
     {
-        return view('client.de.list', ['header_id' => $header_id]);
+        return view('client.de.list', compact('rp_id', 'header_id'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param String $rp_id
+     * @param String $header_id
      * @return \Illuminate\Http\Response
      */
-    public function create($header_id)
+    public function create($rp_id, $header_id)
     {
         $data = [
             'civil_status'  => $this->data->getCivilStatus(),
@@ -68,7 +82,7 @@ class ClientController extends Controller
             'activities'    => $this->activities->activities(),
         ];
 
-        return view('client.de.create', compact('header_id', 'data'));
+        return view('client.de.create', compact('rp_id', 'header_id', 'data'));
     }
 
     /**
@@ -88,8 +102,9 @@ class ClientController extends Controller
             if ($this->detail->store($request)) {
                 return redirect()
                     ->route('de.question.create', [
-                        'header_id' => $header->id,
-                        'client_id' => $this->repository->getId()
+                        'rp_id' => decrypt($request->get('rp_id')),
+                        'header_id' => encode($header->id),
+                        'client_id' => encode($this->repository->getId())
                     ]);
             }
         }

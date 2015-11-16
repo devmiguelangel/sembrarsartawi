@@ -156,7 +156,7 @@ return [
          * Custom
          */
         \Sibas\Providers\Components\SelectFieldServiceProvider::class,
-
+        \Sibas\Providers\HelperServiceProvider::class,
     ],
 
     /*

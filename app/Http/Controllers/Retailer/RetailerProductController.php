@@ -1,24 +1,28 @@
 <?php
 
-namespace Sibas\Http\Controllers\Client;
+namespace Sibas\Http\Controllers\Retailer;
 
 use Illuminate\Http\Request;
-use Sibas\Http\Controllers\Retailer\RetailerProductController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
-use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
-class QuestionController extends Controller
+class RetailerProductController extends Controller
 {
-    private $retailerProduct;
+    /**
+     * @var RetailerProductRepository
+     */
+    private $repository;
 
-    public function __construct()
+    public function __construct(RetailerProductRepository $repository)
     {
-        $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
-        $this->client          = new ClientController(new ClientRepository);
+        $this->repository = $repository;
     }
 
+    public function questionByProduct($rp_id)
+    {
+        return $this->repository->getQuestionByProduct($rp_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -32,25 +36,11 @@ class QuestionController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param String $rp_id
-     * @param String $header_id
-     * @param String $client_id
      * @return \Illuminate\Http\Response
      */
-    public function create($rp_id, $header_id, $client_id)
+    public function create()
     {
-        $client = null;
-
-        if ($this->client->clientById(decode($client_id))) {
-            $client = $this->client->getClient();
-        }
-
-        $data = [
-            'client'    => $client,
-            'questions' => $this->retailerProduct->questionByProduct($rp_id)
-        ];
-
-        return view('client.de.question', compact('rp_id', 'header_id', 'client_id', 'data'));
+        //
     }
 
     /**
@@ -61,7 +51,7 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        //
     }
 
     /**

@@ -4,7 +4,6 @@ namespace Sibas\Repositories;
 
 
 use Carbon\Carbon;
-use Illuminate\Contracts\Encryption\DecryptException;
 use Sibas\Collections\BaseCollection;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -43,17 +42,5 @@ abstract class BaseRepository
         }
 
         return $this->selectOption->merge($d);
-    }
-
-    protected function cryptData($value)
-    {
-        return Hashids::encode($value);
-    }
-
-    protected function decryptData($value)
-    {
-        $value = Hashids::decode($value);
-
-        return $value[0];
     }
 }

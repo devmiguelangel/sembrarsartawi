@@ -46,8 +46,9 @@
                 </div>
                 <br />
 
-                {!! Form::open(['route' => ['de.client.store', $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                {!! Form::open([route('de.client.store', ['rp_id' => $rp_id, 'header_id' => $header_id]), 'method' => 'post', 'class' => 'form-horizontal']) !!}
                     {!! Form::hidden('header_id', $header_id) !!}
+                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
                     <div class="panel-body ">
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">
@@ -317,7 +318,7 @@
 
                         </div>
                         <div class="text-right">
-                            <button type="submit" class="btn btn-primary">Cotiza tu mejor seguro <i class="icon-arrow-right14 position-right"></i></button>
+                            {!! Form::button('Cotiza tu mejor seguro <i class="icon-arrow-right14 position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                         </div>
                     </div>
                 {!! Form::close() !!}

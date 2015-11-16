@@ -40,15 +40,16 @@ class HeaderDeController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param String $rp_id
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($rp_id)
     {
         $coverages  = $this->coverage->index();
         $currencies = $this->data->currency();
         $term_types = $this->data->termType();
 
-        return view('de.create', compact('coverages', 'currencies', 'term_types'));
+        return view('de.create', compact('rp_id', 'coverages', 'currencies', 'term_types'));
     }
 
     /**
@@ -61,11 +62,14 @@ class HeaderDeController extends Controller
     {
         if ($this->repository->saveQuote($request)) {
             return redirect()
-                ->route('de.client.list', ['id' => $this->repository->id])
-                ->with('header_id', $this->repository->id);
+                ->route('de.client.list', [
+                    'rp_id'     => decrypt($request->get('rp_id')),
+                    'header_id' => encode($this->repository->getId()),
+                ])
+                ->with('header_id', encode($this->repository->getId()));
         }
 
-        return redirect()->back()->withInput()->withErrors($this->repository->errors);
+        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**

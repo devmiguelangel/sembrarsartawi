@@ -10,6 +10,11 @@ class Client extends Model
 
     public $incrementing = false;
 
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name . ' ' . $this->mother_last_name;
+    }
+
     public function setFirstNameAttribute($value)
     {
         $this->attributes['first_name'] = mb_strtoupper($value);

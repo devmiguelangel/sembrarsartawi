@@ -28,6 +28,13 @@ class DatabaseSeeder extends Seeder
             'ad_retailers',
             'ad_retailer_products',
             'ad_retailer_users',
+            'ad_questions',
+            'ad_retailer_product_questions',
+
+            'op_de_headers',
+            'op_de_details',
+            'op_de_responses',
+            'op_clients',
         ];
 
         $this->truncateTables($tables);
@@ -43,6 +50,9 @@ class DatabaseSeeder extends Seeder
         $this->call(CompanyProductTableSeeder::class);
         $this->call(RetailerTableSeeder::class);
         $this->call(RetailerUserTableSeeder::class);
+        $this->call(RetailerProductTableSeeder::class);
+        $this->call(QuestionTableSeeder::class);
+        $this->call(RetailerProductQuestionTableSeeder::class);
 
         Model::reguard();
     }

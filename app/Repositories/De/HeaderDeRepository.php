@@ -9,9 +9,9 @@ use Sibas\Repositories\BaseRepository;
 
 class HeaderDeRepository extends BaseRepository
 {
-    public $id;
+    private $id;
 
-    public $errors;
+    private $errors;
 
     /**
      * @param HeaderDeCreateFormRequest $request
@@ -21,13 +21,15 @@ class HeaderDeRepository extends BaseRepository
     {
         $user = $request->user();
         $data = $request->all();
-        //dd($data);
+
         $quote_number = $this->getNumber('quote_number');
 
         try {
+            $this->id = date('U');
+
             $header = new Header();
 
-            $header->id               = date('U');
+            $header->id               = $this->id;
             $header->ad_user_id       = $user->id;
             $header->type             = 'Q';
             $header->quote_number     = $quote_number;
@@ -40,8 +42,6 @@ class HeaderDeRepository extends BaseRepository
 
             if (! $this->checkNumber('quote_number', $quote_number)) {
                 if ($header->save()) {
-                    $this->id = $this->cryptData($header->id);
-
                     return true;
                 }
             }
@@ -82,7 +82,7 @@ class HeaderDeRepository extends BaseRepository
     public function getHeaderTypeById($id)
     {
         $header = Header::select('id', 'type', 'ad_coverage_id')
-            ->where('id', $this->decryptData($id))
+            ->where('id', decode($id))
             ->first();
 
         if (! is_null($header)) {
@@ -90,5 +90,21 @@ class HeaderDeRepository extends BaseRepository
         }
 
         return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getErrors()
+    {
+        return $this->errors;
     }
 }

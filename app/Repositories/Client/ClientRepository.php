@@ -152,4 +152,17 @@ class ClientRepository extends BaseRepository
 
         return false;
     }
+
+    public function getClientById($client_id)
+    {
+        $this->client = Client::where('id', '=', $client_id)->get();
+
+        if ($this->client->count() === 1) {
+            $this->client = $this->client->first();
+
+            return true;
+        }
+
+        return false;
+    }
 }

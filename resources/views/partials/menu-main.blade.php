@@ -24,7 +24,7 @@
                         <li class="dropdown-submenu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-list-unordered"></i> Desgravamen</a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ route('de.create') }}">Cotizar</a></li>
+                                <li><a href="{{ route('de.create', ['rp_id' => encode(1447616258)]) }}">Cotizar</a></li>
                                 <li class="dropdown-header highlight"><a href="#">Emitir</a></li>
                                 <li><a href="#">Facultativo</a></li>
                             </ul>
