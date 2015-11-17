@@ -137,12 +137,16 @@ class ClientRepository extends BaseRepository
         $this->client->height         = $this->data['height'];
     }
 
-    public function getClientByDni($dni, $extension)
+    public function getClientByDni($dni, $extension = null)
     {
-        $this->client = Client::select('id', 'dni', 'extension')
-            ->where('dni', '=', $dni)
-            ->where('extension', '=', $extension)
-            ->get();
+        $query = Client::select('id', 'dni', 'extension')
+            ->where('dni', '=', $dni);
+
+        if (! is_null($extension)) {
+            $query->where('extension', '=', $extension);
+        }
+
+        $this->client = $query->get();
 
         if ($this->client->count() === 1) {
             $this->client = $this->client->first();
@@ -166,14 +170,4 @@ class ClientRepository extends BaseRepository
         return false;
     }
 
-    public function getClientSearch($dni, $extension = null)
-    {
-        $this->client = Client::where('dni', '=', $dni)->first();
-
-        if (! is_null($this->client)) {
-            return true;
-        }
-
-        return false;
-    }
 }

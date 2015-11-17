@@ -73,7 +73,7 @@ Route::group(['middleware' => 'auth'], function() {
             'uses'  => 'Client\ClientController@lists'
         ]);
 
-        Route::get('client/create', [
+        Route::get('client/create/{client_id?}', [
             'as'    => 'de.client.create',
             'uses'  => 'Client\ClientController@create'
         ]);

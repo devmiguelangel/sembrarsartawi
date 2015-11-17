@@ -3,6 +3,7 @@
 namespace Sibas\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
+use Sibas\Entities\Client;
 use Sibas\Http\Controllers\BaseController;
 use Sibas\Http\Controllers\De\DetailDeController;
 use Sibas\Http\Controllers\De\HeaderDeController;
@@ -54,10 +55,58 @@ class ClientController extends Controller
     }
 
     /**
+     * Return Data for register Client
+     * @return array
+     */
+    private function getData()
+    {
+        return [
+            'civil_status'  => $this->data->getCivilStatus(),
+            'document_type' => $this->data->getDocumentType(),
+            'gender'        => $this->data->getGender(),
+            'cities'        => $this->cities->cityByType(),
+            'activities'    => $this->activities->activities(),
+        ];
+    }
+
+    /**
+     * Return list to Header
+     *
+     * @param $rp_id
+     * @param $header_id
+     * @return \Illuminate\View\View
+     */
+    public function lists($rp_id, $header_id)
+    {
+        $header = $this->header->headerById($header_id);
+
+        return view('client.de.list', compact('rp_id', 'header_id', 'header'));
+    }
+
+    /**
+     * Return Client by search
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function search(Request $request)
+    {
+        if ($this->repository->getClientByDni($request->get('dni'))) {
+            $rp_id     = decrypt($request->get('rp_id'));
+            $header_id = $request->get('header_id');
+
+            $client = $this->getClient();
+            $client_id = encode($client->id);
+
+            return redirect()->route('de.client.create', compact('rp_id', 'header_id', 'client_id'));
+        }
+
+        return redirect()->back()->withInput()->withErrors(['client-search' => 'El Cliente no existe']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
-     * @param String $rp_id
-     * @param String $header_id
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -70,13 +119,21 @@ class ClientController extends Controller
      *
      * @param String $rp_id
      * @param String $header_id
+     * @param Client $client_id
      * @return \Illuminate\Http\Response
      */
-    public function create($rp_id, $header_id)
+    public function create($rp_id, $header_id, $client_id = null)
     {
-        $data = $this->getData();
+        $data   = $this->getData();
+        $client = new Client();
 
-        return view('client.de.create', compact('rp_id', 'header_id', 'data'));
+        if (! is_null($client_id)) {
+            if ($this->repository->getClientById(decode($client_id))) {
+                $client = $this->repository->getClient();
+            }
+        }
+
+        return view('client.de.create', compact('rp_id', 'header_id', 'data', 'client'));
     }
 
     /**
@@ -151,38 +208,4 @@ class ClientController extends Controller
         //
     }
 
-    public function lists($rp_id, $header_id)
-    {
-        $header = $this->header->headerById($header_id);
-
-        return view('client.de.list', compact('rp_id', 'header_id', 'header'));
-    }
-
-    public function search(Request $request)
-    {
-        if ($this->repository->getClientSearch($request->get('dni'))) {
-            $client = $this->getClient();
-
-            $rp_id     = decrypt($request->get('rp_id'));
-            $header_id = $request->get('header_id');
-            $data      = $this->getData();
-
-            return redirect()->route('de.client.create', compact('rp_id', 'header_id'))
-                ->withInput()->withErrors($this->repository->getErrors());
-            // return view('client.de.create', compact('rp_id', 'header_id', 'data', 'client'));
-        }
-
-        return redirect()->back()->withInput()->withErrors(['client-search' => 'El Cliente no existe']);
-    }
-
-    private function getData()
-    {
-        return [
-            'civil_status'  => $this->data->getCivilStatus(),
-            'document_type' => $this->data->getDocumentType(),
-            'gender'        => $this->data->getGender(),
-            'cities'        => $this->cities->cityByType(),
-            'activities'    => $this->activities->activities(),
-        ];
-    }
 }

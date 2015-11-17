@@ -55,7 +55,8 @@ $(function() {
 
     // Single picker
     $('.daterange-single').daterangepicker({ 
-        singleDatePicker: true
+        singleDatePicker: true,
+        format: 'DD/MM/YYYY'
     });
 
 
