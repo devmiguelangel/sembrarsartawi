@@ -76,7 +76,11 @@ class HeaderDeController extends Controller
     {
         $retailer = request()->user()->retailer->first();
 
-        return view('de.result', compact('rp_id', 'retailer'));
+        /*foreach ($retailer->retailerProducts as $retailerProduct) {
+            dd($retailerProduct->companyProduct->product);
+        }*/
+
+        return view('de.result', compact('rp_id', 'header_id', 'retailer'));
     }
 
     /**
@@ -93,12 +97,13 @@ class HeaderDeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  String $rp_id
+     * @param  String $header_id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($rp_id, $header_id)
     {
-        //
+        return view('de.i-edit', compact('rp_id', 'header_id'));
     }
 
     /**

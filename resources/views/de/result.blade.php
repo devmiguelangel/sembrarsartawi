@@ -51,20 +51,21 @@
                     <div class="col-xs-12 col-md-12">
                         @foreach($retailer->retailerProducts as $retailerProduct)
                             @if($retailerProduct->first()->id === decode($rp_id))
-                                <?php $rates = $retailerProduct->rates ?>
-                                @if($rates->count() === 1)
-                                    <div class="col-md-4 ">
-                                        <div class="panel panel-body border-top-primary text-center">
-                                            <div class="form-group">
-                                                {!! Html::image('images/' . $retailer->image) !!}
+                                @if($retailerProduct->companyProduct->product->code === 'de' && $retailerProduct->type === 'MP')
+                                    @if($retailerProduct->rates->count() === 1)
+                                        <div class="col-md-4 ">
+                                            <div class="panel panel-body border-top-primary text-center">
+                                                <div class="form-group">
+                                                    {!! Html::image('images/' . $retailerProduct->companyProduct->company->image) !!}
+                                                </div>
+                                                <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
+                                                <p class="text-muted content-group-sm">{{ $retailerProduct->rates->first()->rate_final }}%</p>
+                                                <button type="button" class="btn btn-success"><i class="icon-file-check position-left"></i> Ver Cotización</button>
+                                                <hr>
+                                                <a href="{{ route('de.edit', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-primary"><i class="icon-arrow-right14 position-left"></i> Emitir</a>
                                             </div>
-                                            <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
-                                            <p class="text-muted content-group-sm">{{ $rates->first()->rate_final }}%</p>
-                                            <button type="button" class="btn btn-success"><i class="icon-file-check position-left"></i> Ver Cotización</button>
-                                            <hr>
-                                            <button type="button" class="btn btn-primary"><i class="icon-arrow-right14 position-left"></i> Emitir</button>
                                         </div>
-                                    </div>
+                                    @endif
                                 @endif
                             @endif
                         @endforeach
