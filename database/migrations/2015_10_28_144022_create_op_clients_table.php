@@ -36,6 +36,7 @@ class CreateOpClientsTable extends Migration
             $table->text('locality');
             $table->mediumText('home_address');
             $table->string('home_number', 10);
+            $table->enum('avenue_street', array_keys(\Config::get('base.avenue_street')));
             $table->mediumText('business_address');
             $table->string('country', 60);
             $table->integer('ad_activity_id')->unsigned();

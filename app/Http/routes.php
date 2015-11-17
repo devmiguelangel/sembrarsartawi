@@ -102,6 +102,11 @@ Route::group(['middleware' => 'auth'], function() {
             'as'    => 'de.client.update',
             'uses'  => 'Client\ClientController@update'
         ]);
+
+        Route::get('edit/client/edit/{client_id}', [
+            'as'    => 'de.client.i.edit',
+            'uses'  => 'Client\ClientController@edit'
+        ]);
     });
 
     /*

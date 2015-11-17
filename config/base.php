@@ -93,4 +93,9 @@ return [
         'PE' => 'Pendiente',
     ],
 
+    'avenue_street' => [
+        'A' => 'Avenida',
+        'S' => 'Calle',
+    ]
+
 ];

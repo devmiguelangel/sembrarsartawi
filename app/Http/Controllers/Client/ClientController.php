@@ -66,6 +66,8 @@ class ClientController extends Controller
             'gender'        => $this->data->getGender(),
             'cities'        => $this->cities->cityByType(),
             'activities'    => $this->activities->activities(),
+            'hands'         => $this->data->getHand(),
+            'avenue_street' => $this->data->getAvenueStreet(),
         ];
     }
 
@@ -191,7 +193,34 @@ class ClientController extends Controller
             $client = $this->repository->getClient();
         }
 
+        if (request()->has('ref')) {
+            return $this->editIssue($rp_id, $header_id, $client, $data);
+        }
+
         return view('client.de.edit', compact('rp_id', 'header_id', 'data', 'client'));
+    }
+
+    private function editIssue($rp_id, $header_id, $client, $data)
+    {
+        $ref = request()->get('ref');
+
+        $header = $this->header->headerById($header_id);
+        $detail = null;
+
+        foreach ($header->details as $details) {
+            if ($details->client->id === $client->id) {
+                $detail = $details;
+                break;
+            }
+        }
+
+        if (strtoupper($ref) === 'ISC') {
+            return view('client.de.i-create', compact('rp_id', 'header_id', 'data', 'client', 'detail', 'ref'));
+        } elseif (strtoupper($ref) === 'ISU') {
+            // return view('client.de.edit', compact('rp_id', 'header_id', 'data', 'client'));
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -206,7 +235,7 @@ class ClientController extends Controller
         if ($this->repository->putClient($request, $client_id)) {
             return redirect()
                 ->route('de.client.list', [
-                    'rp_id'     => decrypt($request->get('rp_id')),
+                    'rp_id'     => decrypt($rp_id),
                     'header_id' => $header_id
                 ]);
         }

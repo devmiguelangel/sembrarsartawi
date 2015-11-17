@@ -45,4 +45,18 @@ class DataRepository extends BaseRepository
 
         return $this->getData($genders);
     }
+
+    public function getHand()
+    {
+        $hands = \Config::get('base.client_hands');
+
+        return $this->getData($hands);
+    }
+
+    public function getAvenueStreet()
+    {
+        $avenue_street = \Config::get('base.avenue_street');
+
+        return $this->getData($avenue_street);
+    }
 }

@@ -46,4 +46,16 @@ class BaseController extends Controller
     {
         return $this->repository->getGender();
     }
+
+    public function getHand()
+    {
+        return $this->repository->getHand();
+    }
+
+    public function getAvenueStreet()
+    {
+        return $this->repository->getAvenueStreet();
+    }
+
+
 }

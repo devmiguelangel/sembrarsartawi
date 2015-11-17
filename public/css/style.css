@@ -47,6 +47,10 @@ and open the template in the editor.
     margin: 0;
     width: 20px;
 }
+.label_required:after {
+   content: "*";
+   color: red;
+}
 /* fin general */
 
 

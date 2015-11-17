@@ -103,7 +103,15 @@ class HeaderDeController extends Controller
      */
     public function edit($rp_id, $header_id)
     {
-        return view('de.i-edit', compact('rp_id', 'header_id'));
+        $data = [
+            'coverages'  => $this->coverage->index(),
+            'currencies' => $this->data->currency(),
+            'term_types' => $this->data->termType()
+        ];
+
+        $header = $this->repository->getHeaderById($header_id);
+
+        return view('de.i-edit', compact('rp_id', 'header_id', 'header', 'data'));
     }
 
     /**
