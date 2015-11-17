@@ -4,7 +4,7 @@ namespace Sibas\Http\Requests\Client;
 
 use Sibas\Http\Requests\Request;
 
-class ClientCreateFormRequest extends Request
+class ClientQuoteFormRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.

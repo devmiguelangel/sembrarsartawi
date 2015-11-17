@@ -87,6 +87,16 @@ Route::group(['middleware' => 'auth'], function() {
             'as'    => 'de.client.search',
             'uses'  => 'Client\ClientController@search'
         ]);
+
+        Route::get('client/edit/{client_id}', [
+            'as'    => 'de.client.edit',
+            'uses'  => 'Client\ClientController@edit'
+        ]);
+
+        Route::put('client/edit/{client_id}', [
+            'as'    => 'de.client.update',
+            'uses'  => 'Client\ClientController@update'
+        ]);
     });
 
     /*
@@ -103,6 +113,5 @@ Route::group(['middleware' => 'auth'], function() {
             'uses'  => 'Client\QuestionController@storeDe'
         ]);
     });
-
 
 });

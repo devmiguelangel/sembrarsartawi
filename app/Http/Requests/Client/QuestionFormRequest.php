@@ -29,7 +29,7 @@ class QuestionFormRequest extends Request
         ];
 
         foreach ($this->request->get('qs') as $key => $items) {
-            $rules['qs.' . $key . '.value'] = 'required|in:1,0';
+            $rules['qs.' . $key . '.response'] = 'required|in:1,0';
         }
 
         return $rules;

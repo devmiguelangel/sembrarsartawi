@@ -64,7 +64,7 @@
                             </div>
                             <hr />
                             <div class="panel-body">
-                                {!! Form::open([route('de.question.store', ['rp_id' => $rp_id, 'header_id' => $header_id]), 'method' => 'post', 'class' => '']) !!}
+                                {!! Form::open(['route' => ['de.question.store', 'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => '']) !!}
                                     {!! Form::hidden('header_id', $header_id) !!}
                                     {!! Form::hidden('client_id', $client_id) !!}
                                     {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
@@ -79,13 +79,14 @@
                                                         </label>
                                                     </div>
                                                     <div class="col-xs-12 col-md-2">
-                                                        {!! Form::hidden('qs[' . $question['id'] . '][question]', $question['question']) !!}
+                                                        {!! Form::hidden('qs[' . $question['order'] . '][id]', $question['id']) !!}
+                                                        {!! Form::hidden('qs[' . $question['order'] . '][question]', $question['question']) !!}
                                                         <label class="radio-inline radio-right">
-                                                            {!! Form::radio('qs[' . $question['id'] . '][value]', '1', $question['check_yes'], ['class' => 'styled']) !!}
+                                                            {!! Form::radio('qs[' . $question['order'] . '][response]', '1', $question['check_yes'], ['class' => 'styled']) !!}
                                                             Si
                                                         </label>
                                                         <label class="radio-inline radio-right">
-                                                            {!! Form::radio('qs[' . $question['id'] . '][value]', '0', $question['check_no'], ['class' => 'styled']) !!}
+                                                            {!! Form::radio('qs[' . $question['order'] . '][response]', '0', $question['check_no'], ['class' => 'styled']) !!}
                                                             No
                                                         </label>
                                                     </div>

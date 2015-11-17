@@ -93,10 +93,10 @@
                         @foreach($header->details as $detail)
                             <tr>
                                 <td>T1</td>
-                                <td><a href="#">{{ $detail->client->first()->dni }} {{ $detail->client->first()->extension }}</a></td>
-                                <td>{{ $detail->client->first()->full_name }}</td>
-                                <td>{{ dateToFormat($detail->client->first()->birthdate) }}</td>
-                                <td>{{ $detail->client->first()->birth_place }}</td>
+                                <td><a href="#">{{ $detail->client->dni }} {{ $detail->client->extension }}</a></td>
+                                <td>{{ $detail->client->full_name }}</td>
+                                <td>{{ dateToFormat($detail->client->birthdate) }}</td>
+                                <td>{{ $detail->client->birth_place }}</td>
                                 <td>{{ $detail->percentage_credit }} %</td>
                                 <td><span class="label label-success">Active</span></td>
                                 <td class="text-center">
@@ -106,8 +106,8 @@
                                                 <i class="icon-menu9"></i>
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-right">
-                                                <li><a href="#"><i class="icon-plus2"></i> Registrar Benficiario</a></li>
-                                                <li><a href="#"><i class="icon-plus2"></i> Registrar Saldo deudor</a></li>
+                                                <li><a href="{{ route('de.client.edit', ['rp_id' => $rp_id, 'header_id' => $header_id, 'client_id' => encode($detail->client->id)]) }}"><i class="icon-plus2"></i> Editar</a></li>
+                                                <li><a href="#"><i class="icon-plus2"></i> Cuestionario de Salud</a></li>
                                             </ul>
                                         </li>
                                     </ul>

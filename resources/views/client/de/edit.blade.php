@@ -34,8 +34,8 @@
                     <h6 class="form-wizard-title2 text-semibold">
                         <span class="col-md-11">
                             <span class="form-wizard-count">2</span>
-                            Datos del Titular
-                            <small class="display-block">Datos del Titular</small>
+                            {{ $client->full_name }}
+                            <small class="display-block"></small>
                         </span>
                         <span class="col-md-1">
                             <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right" data-popup="tooltip" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
@@ -46,11 +46,11 @@
                 </div>
                 <br />
 
-                {!! Form::open(['route' => ['de.client.store',  'rp_id' => (isset($rp_id) ? $rp_id : route()->get('rp_id')), 'header_id' => (isset($header_id) ? $header_id : route()->get('header_id'))], 'method' => 'post', 'class' => 'form-horizontal']) !!}
-                    {!! Form::hidden('header_id', $header_id) !!}
-                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
+                {!! Form::open(['route' => ['de.client.update',  'rp_id' => $rp_id, 'header_id' => $header_id, 'client_id' => encode($client->id)], 'method' => 'put', 'class' => 'form-horizontal']) !!}
+                {!! Form::hidden('header_id', $header_id) !!}
+                {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
 
-                    @include('client.de.partials.inputs-quote')
+                @include('client.de.partials.inputs-quote')
 
                 {!! Form::close() !!}
             </div>

@@ -91,10 +91,29 @@ class ClientRepository extends BaseRepository
         }
     }
 
+    /**
+     * @param Request $request
+     * @param String $client_id
+     * @return bool
+     */
+    public function putClient($request, $client_id)
+    {
+        $this->data = $request->all();
+        $client_id  = decode($client_id);
+
+        try {
+            return $this->updateClient($client_id);
+        } catch (QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+
+        return false;
+    }
+
     private function updateClient($id = null)
     {
-        if (is_null($id)) {
-
+        if (! is_null($id)) {
+            $this->getClientById($id);
         }
 
         $this->setData();

@@ -10,7 +10,7 @@ use Sibas\Http\Controllers\De\HeaderDeController;
 use Sibas\Http\Controllers\Retailer\CityController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
-use Sibas\Http\Requests\Client\ClientCreateFormRequest;
+use Sibas\Http\Requests\Client\ClientQuoteFormRequest;
 use Sibas\Repositories\Client\ActivityRepository;
 use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\De\DataRepository;
@@ -139,10 +139,10 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  ClientCreateFormRequest $request
+     * @param  ClientQuoteFormRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ClientCreateFormRequest $request)
+    public function store(ClientQuoteFormRequest $request)
     {
         $header = $this->header->headerTypeById($request->get('header_id'));
         $request['header'] = $header;
@@ -166,35 +166,52 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param $rp_id
+     * @param $header_id
+     * @param $client_id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($rp_id, $header_id, $client_id)
     {
-        //
+        $data   = $this->getData();
+        $client = new Client();
+
+        if ($this->repository->getClientById(decode($client_id))) {
+            $client = $this->repository->getClient();
+        }
+
+        return view('client.de.edit', compact('rp_id', 'header_id', 'data', 'client'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  ClientQuoteFormRequest $request
+     * @param  int  $client_id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClientQuoteFormRequest $request, $rp_id, $header_id, $client_id)
     {
-        //
+        if ($this->repository->putClient($request, $client_id)) {
+            return redirect()
+                ->route('de.client.list', [
+                    'rp_id'     => decrypt($request->get('rp_id')),
+                    'header_id' => $header_id
+                ]);
+        }
+
+        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**
