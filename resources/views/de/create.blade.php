@@ -94,11 +94,15 @@
                                     !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('term') }}</label>
                                 </div>
-                                <div class="col-lg-5">
-                                    {!! SelectField::input('type_term', $term_types->toArray(), ['class' => 'select-fixed'], old('type_term')) !!}
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-sort-time-asc"></i></span>
+                                        {!! SelectField::input('type_term', $term_types->toArray(), ['class' => 'bootstrap-select'], old('type_term')) !!}
+                                    </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('type_term') }}</label>
                                 </div>
-
+                                <div class="col-lg-1">
+                                </div>
                             </div>
                             <div class="text-right">
                                 {!! Form::button('Cotiza tu mejor seguro <i class="icon-arrow-right14 position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}

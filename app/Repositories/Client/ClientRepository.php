@@ -18,7 +18,7 @@ class ClientRepository extends BaseRepository
 
     private $id;
 
-    private $errors;
+    private $errors = [];
 
     private $data;
 
@@ -123,6 +123,31 @@ class ClientRepository extends BaseRepository
 
             return true;
         }
+    }
+
+    /** Set complementary data on Issue
+     * @param Request $request
+     * @param string $client_id
+     * @return bool
+     */
+    public function issueStoreClient($request, $client_id)
+    {
+        $this->data = $request->all();
+
+        if ($this->getClientById($client_id)) {
+            $this->client->hand             = $this->data['hand'];
+            $this->client->avenue_street    = $this->data['avenue_street'];
+            $this->client->home_number      = $this->data['home_number'];
+            $this->client->business_address = $this->data['business_address'];
+
+            if ($this->client->save()) {
+                $this->id = $this->client->id;
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function setData()

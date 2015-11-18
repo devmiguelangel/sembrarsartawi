@@ -64,7 +64,7 @@
                             </div>
                             <hr />
                             <div class="panel-body">
-                                {!! Form::open(['route' => ['de.question.store', 'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => '']) !!}
+                                {!! Form::open(['route' => ['de.question.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'client_id' => $client_id], 'method' => 'post', 'class' => '']) !!}
                                     {!! Form::hidden('header_id', $header_id) !!}
                                     {!! Form::hidden('client_id', $client_id) !!}
                                     {!! Form::hidden('rp_id', encrypt($rp_id)) !!}

@@ -80,7 +80,7 @@
                                                     'rp_id'     => $rp_id,
                                                     'header_id' => $header_id,
                                                     'client_id' => encode($detail->client->id),
-                                                    'ref'       => 'isc']) }}">
+                                                    'ref'       => 'ise']) }}">
                                                     <i class="icon-pencil3"></i> Editar datos del cliente
                                                 </a>
                                             </li>

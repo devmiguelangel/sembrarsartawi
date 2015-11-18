@@ -1,7 +1,7 @@
 <div class="panel-body ">
     <div class="col-xs-12 col-md-6">
         <div class="form-group">
-            <label class="control-label col-lg-3">Nombres: </label>
+            <label class="control-label col-lg-3 label_required">Nombres: </label>
             <div class="col-lg-9">
                 {!! Form::text('first_name', old('first_name', $client->first_name), [
                     'class' => 'form-control ui-wizard-content',
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-lg-3  label_required">Ap. Paterno: </label>
+            <label class="control-label col-lg-3 label_required">Ap. Paterno: </label>
             <div class="col-lg-9">
                 {!! Form::text('last_name', old('last_name', $client->last_name), [
                     'class' => 'form-control ui-wizard-content',

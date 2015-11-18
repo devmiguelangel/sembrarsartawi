@@ -11,6 +11,7 @@ use Sibas\Http\Controllers\Retailer\CityController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Client\ClientQuoteFormRequest;
+use Sibas\Http\Requests\Client\ClientStoreFormRequest;
 use Sibas\Repositories\Client\ActivityRepository;
 use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\De\DataRepository;
@@ -193,31 +194,37 @@ class ClientController extends Controller
             $client = $this->repository->getClient();
         }
 
-        if (request()->has('ref')) {
-            return $this->editIssue($rp_id, $header_id, $client, $data);
-        }
-
         return view('client.de.edit', compact('rp_id', 'header_id', 'data', 'client'));
     }
 
-    private function editIssue($rp_id, $header_id, $client, $data)
+    public function issueEdit($rp_id, $header_id, $client_id, $ref)
     {
-        $ref = request()->get('ref');
+        $ref = strtoupper($ref);
 
-        $header = $this->header->headerById($header_id);
-        $detail = null;
+        if ($ref === 'ISE' || $ref === 'ISU') {
+            $data   = $this->getData();
+            $client = new Client();
 
-        foreach ($header->details as $details) {
-            if ($details->client->id === $client->id) {
-                $detail = $details;
-                break;
+            if ($this->repository->getClientById(decode($client_id))) {
+                $client = $this->repository->getClient();
             }
-        }
 
-        if (strtoupper($ref) === 'ISC') {
-            return view('client.de.i-create', compact('rp_id', 'header_id', 'data', 'client', 'detail', 'ref'));
-        } elseif (strtoupper($ref) === 'ISU') {
-            // return view('client.de.edit', compact('rp_id', 'header_id', 'data', 'client'));
+            $header = $this->header->headerById($header_id);
+            $detail = null;
+
+            foreach ($header->details as $details) {
+                if ($details->client->id === $client->id) {
+                    $detail = $details;
+                    break;
+                }
+            }
+
+            if ($ref === 'ISE') {
+                return view('client.de.i-create', compact('rp_id', 'header_id', 'data', 'client', 'detail', 'ref'));
+            } elseif (strtoupper($ref) === 'ISU') {
+                // return view('client.de.edit', compact('rp_id', 'header_id', 'data', 'client'));
+            }
+
         }
 
         return redirect()->back();
@@ -233,11 +240,27 @@ class ClientController extends Controller
     public function update(ClientQuoteFormRequest $request, $rp_id, $header_id, $client_id)
     {
         if ($this->repository->putClient($request, $client_id)) {
-            return redirect()
-                ->route('de.client.list', [
-                    'rp_id'     => decrypt($rp_id),
+            return redirect()->route('de.client.list', [
+                'rp_id'     => decrypt($request->get('rp_id')),
+                'header_id' => $header_id
+            ]);
+        }
+
+        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+    }
+
+    public function issueStore(ClientStoreFormRequest $request, $rp_id, $header_id, $client_id)
+    {
+        $ref       = decrypt($request->get('ref'));
+        $client_id = decode($client_id);
+
+        if (strtoupper($ref) === 'ISE') {
+            if ($this->repository->issueStoreClient($request, $client_id)) {
+                return redirect()->route('de.edit', [
+                    'rp_id'     => decrypt($request->get('rp_id')),
                     'header_id' => $header_id
                 ]);
+            }
         }
 
         return redirect()->back()->withInput()->withErrors($this->repository->getErrors());

@@ -21,7 +21,7 @@ class CompanyTableSeeder extends BaseSeeder
 
         $data[] = [
             'name'    => $name,
-            'image'   => 'image.jpg',
+            'image'   => 'alianza.jpg',
             'slug'    => Str::slug($name),
             'active'  => true
         ];

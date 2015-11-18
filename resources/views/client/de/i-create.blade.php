@@ -348,7 +348,11 @@
                     </div>
                 </div>
                 <div class="clearfix">&nbsp;</div>
-                <form class="form-horizontal form-validate-jquery" action="#">
+                {!! Form::open(['route' => ['de.client.i.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'client_id' => encode($client->id)], 'method' => 'put', 'class' => 'form-horizontal form-validate-jquery']) !!}
+                    {!! Form::hidden('header_id', $header_id) !!}
+                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
+                    {!! Form::hidden('ref', encrypt($ref)) !!}
+
                     <div class="panel-body ">
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">
@@ -361,6 +365,7 @@
                                             old('hand', $client->hand))
                                         !!}
                                     </div>
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('hand') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -373,6 +378,7 @@
                                             old('avenue_street', $client->avenue_street))
                                         !!}
                                     </div>
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('avenue_street') }}</label>
                                 </div>
                             </div>
                         </div>
@@ -388,6 +394,7 @@
                                             'placeholder' => 'Número de domicilio'])
                                         !!}
                                     </div>
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('home_number') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -399,14 +406,15 @@
                                         'placeholder' => 'Dirección laboral',
                                         'autocomplete' => 'off'])
                                     !!}
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('business_address') }}</label>
                                 </div>
                             </div>
                         </div>
                         <div class="text-right">
-                            <button type="submit" class="btn btn-primary">Guardar <i class="icon-floppy-disk position-right"></i></button>
+                            {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                         </div>
                     </div>
-                </form>
+                {!! Form::close() !!}
             </div>
             <!-- /horizotal form -->
         </div>

@@ -89,7 +89,8 @@ $(function() {
 
     // Set value
     $(".touchspin-set-value").TouchSpin({
-        initval: 40
+        initval: 40,
+        max: 1000000000
     });
 
 

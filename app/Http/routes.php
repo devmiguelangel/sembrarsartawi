@@ -103,9 +103,14 @@ Route::group(['middleware' => 'auth'], function() {
             'uses'  => 'Client\ClientController@update'
         ]);
 
-        Route::get('edit/client/edit/{client_id}', [
+        Route::get('edit/client/edit/{client_id}/{ref}', [
             'as'    => 'de.client.i.edit',
-            'uses'  => 'Client\ClientController@edit'
+            'uses'  => 'Client\ClientController@issueEdit'
+        ]);
+
+        Route::put('edit/client/edit/{client_id}', [
+            'as'    => 'de.client.i.store',
+            'uses'  => 'Client\ClientController@issueStore'
         ]);
     });
 
