@@ -72,6 +72,16 @@ Route::group(['middleware' => 'auth'], function() {
             'as'    => 'de.update',
             'uses'  => 'De\HeaderDeController@update'
         ]);
+
+        Route::get('{header_id}/issue', [
+            'as'    => 'de.issue',
+            'uses'  => 'De\HeaderDeController@issue'
+        ]);
+
+        Route::get('{header_id}/issuance', [
+            'as'    => 'de.issuance',
+            'uses'  => 'De\HeaderDeController@issuance'
+        ]);
     });
 
     /*

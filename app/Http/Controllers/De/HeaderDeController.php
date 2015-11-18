@@ -132,6 +132,25 @@ class HeaderDeController extends Controller
         return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
     }
 
+    public function issue($rp_id, $header_id)
+    {
+        if ($this->repository->issueHeader($header_id)) {
+            return redirect()->route('de.issuance', [
+                'rp_id'     => $rp_id,
+                'header_id' => $header_id,
+            ]);
+        }
+
+        return redirect()->back()->with('issuance', 'La Poliza no puede ser emitida');
+    }
+
+    public function issuance($rp_id, $header_id)
+    {
+        $header = $this->repository->getHeaderById($header_id);
+
+        return view('de.issuance', compact('rp_id', 'header_id', 'header'));
+    }
+
     /**
      * Remove the specified resource from storage.
      *

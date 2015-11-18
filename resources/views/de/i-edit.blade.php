@@ -198,7 +198,7 @@
                             @if($header->type === 'Q')
                                 {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                             @elseif($header->type === 'I')
-                                <a href="#" class="btn btn-primary">
+                                <a href="{{ route('de.issue', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-primary">
                                     Emitir <i class="icon-floppy-disk position-right"></i>
                                 </a>
                             @endif

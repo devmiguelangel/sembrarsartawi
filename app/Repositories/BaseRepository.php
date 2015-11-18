@@ -5,7 +5,6 @@ namespace Sibas\Repositories;
 
 use Carbon\Carbon;
 use Sibas\Collections\BaseCollection;
-use Vinkla\Hashids\Facades\Hashids;
 
 abstract class BaseRepository
 {
