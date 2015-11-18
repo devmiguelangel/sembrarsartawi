@@ -2,12 +2,15 @@
 
 namespace Sibas\Repositories\De;
 
-
+use Illuminate\Support\Collection;
 use Sibas\Repositories\BaseRepository;
 
 class DataRepository extends BaseRepository
 {
-
+    /** Returns list of Currencies
+     *
+     * @return Collection
+     */
     public function getCurrency()
     {
         $currencies = \Config::get('base.currencies');
@@ -15,6 +18,10 @@ class DataRepository extends BaseRepository
         return $this->getData($currencies);
     }
 
+    /** Returns list of Term Types
+     *
+     * @return Collection
+     */
     public function getTermType()
     {
         $termType = \Config::get('base.term_types');
@@ -22,8 +29,9 @@ class DataRepository extends BaseRepository
         return $this->getData($termType);
     }
 
-    /*
-     * Client Data
+    /** Returns list of Civil Status
+     *
+     * @return Collection
      */
     public function getCivilStatus()
     {
@@ -32,6 +40,10 @@ class DataRepository extends BaseRepository
         return $this->getData($civil_status);
     }
 
+    /** Returns list of Document Types
+     *
+     * @return Collection
+     */
     public function getDocumentType()
     {
         $document_types = \Config::get('base.client_document_types');
@@ -39,6 +51,10 @@ class DataRepository extends BaseRepository
         return $this->getData($document_types);
     }
 
+    /** Returns list of Genders
+     *
+     * @return Collection
+     */
     public function getGender()
     {
         $genders = \Config::get('base.client_genders');
@@ -46,6 +62,10 @@ class DataRepository extends BaseRepository
         return $this->getData($genders);
     }
 
+    /** Returns list of Hands
+     *
+     * @return Collection
+     */
     public function getHand()
     {
         $hands = \Config::get('base.client_hands');
@@ -53,6 +73,10 @@ class DataRepository extends BaseRepository
         return $this->getData($hands);
     }
 
+    /** Returns list of Avenue Street
+     *
+     * @return Collection
+     */
     public function getAvenueStreet()
     {
         $avenue_street = \Config::get('base.avenue_street');

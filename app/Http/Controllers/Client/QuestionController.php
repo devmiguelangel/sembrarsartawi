@@ -3,14 +3,14 @@
 namespace Sibas\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
-use Sibas\Http\Controllers\De\HeaderDeController;
+use Sibas\Http\Controllers\De\HeaderController;
 use Sibas\Http\Controllers\Retailer\RetailerProductController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Client\QuestionFormRequest;
 use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\Client\QuestionRepository;
-use Sibas\Repositories\De\HeaderDeRepository;
+use Sibas\Repositories\De\HeaderRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class QuestionController extends Controller
@@ -26,7 +26,7 @@ class QuestionController extends Controller
     public function __construct(QuestionRepository $repository)
     {
         $this->repository      = $repository;
-        $this->header          = new HeaderDeController(new HeaderDeRepository);
+        $this->header          = new HeaderController(new HeaderRepository);
         $this->client          = new ClientController(new ClientRepository);
         $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
     }

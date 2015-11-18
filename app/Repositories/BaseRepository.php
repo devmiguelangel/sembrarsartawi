@@ -4,10 +4,16 @@ namespace Sibas\Repositories;
 
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Sibas\Collections\BaseCollection;
 
 abstract class BaseRepository
 {
+    /**
+     * @var Model
+     */
+    protected $model;
     /**
      * @var BaseCollection
      */
@@ -17,6 +23,10 @@ abstract class BaseRepository
 
     protected $carbon;
 
+    protected $errors;
+
+    protected $data;
+
     public function __construct()
     {
         $this->collection   = new BaseCollection();
@@ -24,11 +34,31 @@ abstract class BaseRepository
         $this->carbon       = new Carbon();
     }
 
+    /**
+     * @return Model
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
     protected function getSelectOption()
     {
         return $this->selectOption;
     }
 
+    /** Returns a data forms select
+     * @param array $data
+     * @return Collection
+     */
     protected function getData($data)
     {
         $d = [];

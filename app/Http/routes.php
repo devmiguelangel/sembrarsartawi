@@ -11,20 +11,10 @@
 |
 */
 
-Route::get('/', ['middleware' => 'auth', function() {
-    return redirect()->route('home');
-}]);
-
-Route::get('home', [
-    'as'   => 'home',
-    'uses' => 'HomeController@index'
-]);
-
-
-/*
- * Route Authentication
- */
 Route::group(['prefix' => 'auth'], function() {
+    /*
+     * Route Authentication
+     */
     Route::get('login', [
         'as'   => 'auth.login.get',
         'uses' => 'Auth\AuthController@getLogin'
@@ -41,46 +31,62 @@ Route::group(['prefix' => 'auth'], function() {
     ]);
 });
 
-
 Route::group(['middleware' => 'auth'], function() {
+    /*
+     * Route Home
+     */
+    Route::get('/', function() {
+        return redirect()->route('home');
+    });
+
+    Route::get('home', [
+        'as'   => 'home',
+        'uses' => 'HomeController@index'
+    ]);
 
     /*
-     * Route Header DE
+     * Route Issuance DE
      */
     Route::group(['prefix' => 'de/{rp_id}'], function() {
+        /*
+         * Create new Header
+         */
         Route::get('create', [
             'as'    => 'de.create',
-            'uses'  => 'De\HeaderDeController@create'
+            'uses'  => 'De\HeaderController@create'
         ]);
 
         Route::post('create', [
             'as'    => 'de.store',
-            'uses'  => 'De\HeaderDeController@store'
+            'uses'  => 'De\HeaderController@store'
         ]);
 
+        /*
+         *
+         */
         Route::get('{header_id}/result', [
             'as'    => 'de.result',
-            'uses'  => 'De\HeaderDeController@result'
+            'uses'  => 'De\HeaderController@result'
         ]);
 
         Route::get('{header_id}/edit', [
             'as'    => 'de.edit',
-            'uses'  => 'De\HeaderDeController@edit'
+            'uses'  => 'De\HeaderController@edit'
         ]);
 
         Route::put('{header_id}/edit', [
             'as'    => 'de.update',
-            'uses'  => 'De\HeaderDeController@update'
+            'uses'  => 'De\HeaderController@update'
         ]);
 
         Route::get('{header_id}/issue', [
             'as'    => 'de.issue',
-            'uses'  => 'De\HeaderDeController@issue'
+            'uses'  => 'De\HeaderController@issue'
         ]);
 
         Route::get('{header_id}/issuance', [
             'as'    => 'de.issuance',
-            'uses'  => 'De\HeaderDeController@issuance'
+            'uses'  => 'De\HeaderController@issuance'
         ]);
     });
 
@@ -88,12 +94,18 @@ Route::group(['middleware' => 'auth'], function() {
      * Route Client DE
      */
     Route::group(['prefix' => 'de/{rp_id}/{header_id}'], function() {
+        /*
+         * Client list
+         */
         Route::get('list', [
             'as'    => 'de.client.list',
             'uses'  => 'Client\ClientController@lists'
         ]);
 
-        Route::get('client/create/{client_id?}', [
+        /*
+         * Create new Client
+         */
+        Route::get('client/create/', [
             'as'    => 'de.client.create',
             'uses'  => 'Client\ClientController@create'
         ]);
@@ -103,6 +115,9 @@ Route::group(['middleware' => 'auth'], function() {
             'uses'  => 'Client\ClientController@store'
         ]);
 
+        /*
+         *
+         */
         Route::post('client/search', [
             'as'    => 'de.client.search',
             'uses'  => 'Client\ClientController@search'
@@ -156,5 +171,4 @@ Route::group(['middleware' => 'auth'], function() {
             'uses'  => 'Client\QuestionController@storeDe'
         ]);
     });
-
 });

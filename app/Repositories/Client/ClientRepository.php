@@ -11,46 +11,18 @@ use Sibas\Repositories\BaseRepository;
 
 class ClientRepository extends BaseRepository
 {
-    /**
-     * @var Client
-     */
-    private $client;
-
-    private $id;
-
-    private $errors = [];
-
-    private $data;
-
-    private $header;
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getErrors()
-    {
-        return $this->errors;
-    }
-
-    public function getClient()
-    {
-        return $this->client;
-    }
-
-    /**
+    /** Store a newly created Client in DB.
      * @param Request $request
      * @return bool
      */
-    public function saveClient($request)
+    public function createClient($request)
     {
         $this->data = $request->all();
 
-        $this->header = $this->data['header'];
+        $header = $this->data['header'];
 
         try {
-            if ($this->header->type === 'Q') {
+            if ($header->type === 'Q') {
                 if ($this->getClientByDni($this->data['dni'], $this->data['extension'])) {
                     return $this->updateClient();
                 }
@@ -183,6 +155,11 @@ class ClientRepository extends BaseRepository
         $this->client->height         = $this->data['height'];
     }
 
+    /** Find Client by dni and extension
+     * @param $dni
+     * @param null $extension
+     * @return bool
+     */
     public function getClientByDni($dni, $extension = null)
     {
         $query = Client::select('id', 'dni', 'extension')
@@ -192,10 +169,10 @@ class ClientRepository extends BaseRepository
             $query->where('extension', '=', $extension);
         }
 
-        $this->client = $query->get();
+        $this->model = $query->get();
 
-        if ($this->client->count() === 1) {
-            $this->client = $this->client->first();
+        if ($this->model->count() === 1) {
+            $this->model = $this->model->first();
 
             return true;
         }

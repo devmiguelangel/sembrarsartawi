@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\De;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
@@ -20,6 +21,15 @@ class CoverageController extends Controller
         $this->repository = $repository;
     }
 
+    /** Returns list of Coverages
+     *
+     * @return Collection
+     */
+    public function coverage()
+    {
+        return $this->repository->getCoverage();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +37,7 @@ class CoverageController extends Controller
      */
     public function index()
     {
-        return $this->repository->getCoverage();
+        //
     }
 
     /**

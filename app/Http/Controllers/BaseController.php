@@ -2,7 +2,7 @@
 
 namespace Sibas\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Repositories\De\DataRepository;
@@ -19,39 +19,64 @@ class BaseController extends Controller
         $this->repository = $repository;
     }
 
+    /** Returns list of Currencies
+     *
+     * @return Collection
+     */
     public function currency()
     {
         return $this->repository->getCurrency();
     }
 
+    /** Returns list of Term Types
+     *
+     * @return Collection
+     */
     public function termType()
     {
         return $this->repository->getTermType();
     }
 
-    /*
-     * Client Data
+    /** Returns list of Civil Status
+     *
+     * @return Collection
      */
     public function getCivilStatus()
     {
         return $this->repository->getCivilStatus();
     }
 
+    /** Returns list of Document Types
+     *
+     * @return Collection
+     */
     public function getDocumentType()
     {
         return $this->repository->getDocumentType();
     }
 
+    /** Returns list of Genders
+     *
+     * @return Collection
+     */
     public function getGender()
     {
         return $this->repository->getGender();
     }
 
+    /** Returns list of Hands
+     *
+     * @return Collection
+     */
     public function getHand()
     {
         return $this->repository->getHand();
     }
 
+    /** Returns list of Avenue Street
+     *
+     * @return Collection
+     */
     public function getAvenueStreet()
     {
         return $this->repository->getAvenueStreet();

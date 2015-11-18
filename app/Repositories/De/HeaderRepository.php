@@ -6,22 +6,16 @@ use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Header;
-use Sibas\Http\Requests\De\HeaderDeCreateFormRequest;
 use Sibas\Repositories\BaseRepository;
 
-class HeaderDeRepository extends BaseRepository
+class HeaderRepository extends BaseRepository
 {
-    private $id;
-
-    private $errors;
-
-    private $data;
-
-    /**
-     * @param HeaderDeCreateFormRequest $request
+    /** Store a newly created Header in DB.
+     *
+     * @param Request $request
      * @return bool
      */
-    public function saveQuote($request)
+    public function createHeader($request)
     {
         $user       = $request->user();
         $this->data = $request->all();
@@ -29,23 +23,21 @@ class HeaderDeRepository extends BaseRepository
         $quote_number = $this->getNumber('quote_number');
 
         try {
-            $this->id = date('U');
+            $this->model = new Header();
 
-            $header = new Header();
-
-            $header->id               = $this->id;
-            $header->ad_user_id       = $user->id;
-            $header->type             = 'Q';
-            $header->quote_number     = $quote_number;
-            $header->ad_coverage_id   = $this->data['coverage'];
-            $header->amount_requested = $this->data['amount_requested'];
-            $header->currency         = $this->data['currency'];
-            $header->term             = $this->data['term'];
-            $header->type_term        = $this->data['type_term'];
-            $header->issued = false;
+            $this->model->id               = date('U');
+            $this->model->ad_user_id       = $user->id;
+            $this->model->type             = 'Q';
+            $this->model->quote_number     = $quote_number;
+            $this->model->ad_coverage_id   = $this->data['coverage'];
+            $this->model->amount_requested = $this->data['amount_requested'];
+            $this->model->currency         = $this->data['currency'];
+            $this->model->term             = $this->data['term'];
+            $this->model->type_term        = $this->data['type_term'];
+            $this->model->issued           = false;
 
             if (! $this->checkNumber('quote_number', $quote_number)) {
-                if ($header->save()) {
+                if ($this->model->save()) {
                     return true;
                 }
             }
@@ -106,8 +98,8 @@ class HeaderDeRepository extends BaseRepository
         return false;
     }
 
-    /**
-     * @param String $field
+    /** Get next number (Quote - Issue)
+     * @param string $field
      * @return int
      */
     private function getNumber($field)
@@ -117,9 +109,10 @@ class HeaderDeRepository extends BaseRepository
         return is_null($max) ? 1 : $max + 1;
     }
 
-    /**
-     * @param String $field
-     * @param Int $number
+    /** Verifies registration number (Quote - Issue)
+     *
+     * @param string $field
+     * @param int $number
      * @return bool
      */
     private function checkNumber($field, $number)
@@ -129,48 +122,19 @@ class HeaderDeRepository extends BaseRepository
         return $n;
     }
 
-    public function getHeaderById($header_id)
-    {
-        $header = Header::where('id', decode($header_id))
-            ->first();
-
-        if (! is_null($header)) {
-            return $header;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param string $id
+    /** Find Header by Id
+     * @param $header_id
      * @return bool
      */
-    public function getHeaderTypeById($id)
+    public function getHeaderById($header_id)
     {
-        $header = Header::select('id', 'type', 'ad_coverage_id')
-            ->where('id', decode($id))
-            ->first();
+        $this->model = Header::where('id', '=', $header_id)->first();
 
-        if (! is_null($header)) {
-            return $header;
+        if (! is_null($this->model)) {
+            return true;
         }
 
         return false;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getErrors()
-    {
-        return $this->errors;
-    }
 }

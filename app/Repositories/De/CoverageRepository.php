@@ -9,7 +9,8 @@ use Sibas\Repositories\BaseRepository;
 class CoverageRepository extends BaseRepository
 {
 
-    /**
+    /** Returns list of Coverages
+     *
      * @return Collection
      */
     public function getCoverage()

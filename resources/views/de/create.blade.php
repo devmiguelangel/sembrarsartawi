@@ -52,7 +52,7 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-3">Tipo de cobertura: <span class="text-danger">*</span></label>
                                 <div class="col-lg-8">
-                                    {!! SelectField::input('coverage', $coverages->toArray(), ['class' => 'select-search'], old('coverage')) !!}
+                                    {!! SelectField::input('coverage', $data['coverages']->toArray(), ['class' => 'select-search'], old('coverage')) !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('coverage') }}</label>
                                 </div>
                                 <div class="col-lg-1">
@@ -75,7 +75,7 @@
                                         <div class="input-group-addon">
                                             <i class="icon-coins"></i>
                                         </div>
-                                        {!! SelectField::input('currency', $currencies->toArray(), ['class' => 'bootstrap-select'], old('currency')) !!}
+                                        {!! SelectField::input('currency', $data['currencies']->toArray(), ['class' => 'bootstrap-select'], old('currency')) !!}
                                     </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('currency') }}</label>
                                 </div>
@@ -97,7 +97,7 @@
                                 <div class="col-lg-4">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-sort-time-asc"></i></span>
-                                        {!! SelectField::input('type_term', $term_types->toArray(), ['class' => 'bootstrap-select'], old('type_term')) !!}
+                                        {!! SelectField::input('type_term', $data['term_types']->toArray(), ['class' => 'bootstrap-select'], old('type_term')) !!}
                                     </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('type_term') }}</label>
                                 </div>

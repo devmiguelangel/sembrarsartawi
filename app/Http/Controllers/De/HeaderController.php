@@ -2,36 +2,39 @@
 
 namespace Sibas\Http\Controllers\De;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Sibas\Http\Controllers\BaseController;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\De\HeaderDeCreateFormRequest;
 use Sibas\Http\Requests\De\HeaderDeEditFormRequest;
 use Sibas\Repositories\De\CoverageRepository;
 use Sibas\Repositories\De\DataRepository;
-use Sibas\Repositories\De\HeaderDeRepository;
+use Sibas\Repositories\De\HeaderRepository;
 
 
-class HeaderDeController extends Controller
+class HeaderController extends Controller
 {
-    protected $data;
+    protected $base;
+
     protected $coverage;
     /**
-     * @var HeaderDeRepository
+     * @var HeaderRepository
      */
     private $repository;
 
-    public function __construct(HeaderDeRepository $repository)
+    public function __construct(HeaderRepository $repository)
     {
-        $this->data       = new BaseController(new DataRepository);
-        $this->coverage   = new CoverageController(new CoverageRepository);
         $this->repository = $repository;
+        $this->base       = new BaseController(new DataRepository);
+        $this->coverage   = new CoverageController(new CoverageRepository);
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -42,31 +45,34 @@ class HeaderDeController extends Controller
      * Show the form for creating a new resource.
      *
      * @param String $rp_id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create($rp_id)
     {
-        $coverages  = $this->coverage->index();
-        $currencies = $this->data->currency();
-        $term_types = $this->data->termType();
+        $data = [
+            'coverages'  => $this->coverage->coverage(),
+            'currencies' => $this->base->currency(),
+            'term_types' => $this->base->termType(),
+        ];
 
-        return view('de.create', compact('rp_id', 'coverages', 'currencies', 'term_types'));
+        return view('de.create', compact('rp_id', 'data'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request|HeaderDeCreateFormRequest $request
-     * @return \Illuminate\Http\Response
+     * @param HeaderDeCreateFormRequest $request
+     * @return Response
      */
     public function store(HeaderDeCreateFormRequest $request)
     {
-        if ($this->repository->saveQuote($request)) {
+        if ($this->repository->createHeader($request)) {
+            $header = $this->repository->getModel();
+
             return redirect()->route('de.client.list', [
                     'rp_id'     => decrypt($request->get('rp_id')),
-                    'header_id' => encode($this->repository->getId()),
-                ])
-                ->with('header_id', encode($this->repository->getId()));
+                    'header_id' => encode($header->id),
+                ]);
         }
 
         return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
@@ -87,7 +93,7 @@ class HeaderDeController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -99,14 +105,14 @@ class HeaderDeController extends Controller
      *
      * @param  String $rp_id
      * @param  String $header_id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($rp_id, $header_id)
     {
         $data = [
             'coverages'  => $this->coverage->index(),
-            'currencies' => $this->data->currency(),
-            'term_types' => $this->data->termType()
+            'currencies' => $this->base->currency(),
+            'term_types' => $this->base->termType()
         ];
 
         $header = $this->repository->getHeaderById($header_id);
@@ -118,7 +124,7 @@ class HeaderDeController extends Controller
      * Update the specified resource in storage.
      *
      * @param HeaderDeEditFormRequest $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(HeaderDeEditFormRequest $request)
     {
@@ -146,7 +152,7 @@ class HeaderDeController extends Controller
 
     public function issuance($rp_id, $header_id)
     {
-        $header = $this->repository->getHeaderById($header_id);
+        $header = $this->repository->getHeaderById(decode($header_id));
 
         return view('de.issuance', compact('rp_id', 'header_id', 'header'));
     }
@@ -155,7 +161,7 @@ class HeaderDeController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
@@ -167,8 +173,10 @@ class HeaderDeController extends Controller
         return $this->repository->getHeaderById($header_id);
     }
 
-    public function headerTypeById($id)
-    {
-        return $this->repository->getHeaderTypeById($id);
+    /**
+     * @return Model
+     */
+    public function getHeader(){
+        return $this->repository->getModel();
     }
 }
