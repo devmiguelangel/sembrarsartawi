@@ -3,7 +3,7 @@
         <div class="navbar-collapse collapse" id="navbar-mobile">
             <ul class="nav navbar-nav">
                 <li><a href="#">
-                        {!! Html::image('images/sudamericana.jpg', '', ['width' => '160']) !!}
+                        {!! Html::image('images/assets/abrenet-logo.png', '', ['width' => '160']) !!}
                     </a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
