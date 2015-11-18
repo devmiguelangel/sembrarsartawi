@@ -128,7 +128,7 @@
                         </div>
                     </div>
                     <div class="text-right">
-                        <button type="submit" class="btn btn-primary">Guardar <i class="icon-floppy-disk position-right"></i></button>
+                        {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                     </div>
 
                 {!! Form::close() !!}

@@ -104,7 +104,10 @@
                 <div class="col-xs-12 col-md-12">
                     <h4>Datos del Crédito Solicitado</h4>
                 </div>
-                <form class="form-horizontal form-validate-jquery" action="#">
+
+                {!! Form::open(['route' => ['de.update',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'put', 'class' => 'form-horizontal']) !!}
+                    {!! Form::hidden('header_id', $header_id) !!}
+                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
                     <div class="panel-body ">
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">
@@ -114,6 +117,7 @@
                                         'class' => 'select-search'],
                                         old('coverage', $header->coverage->id))
                                     !!}
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('coverage') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -128,6 +132,7 @@
                                             'readonly' => 'readonly'])
                                         !!}
                                     </div>
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('amount_requested') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -137,6 +142,7 @@
                                         'class' => 'bootstrap-select'],
                                         old('currency', $header->currency))
                                     !!}
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('currency') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -148,6 +154,7 @@
                                         'placeholder' => 'Plazo del Credito',
                                         'readonly' => 'readonly'])
                                     !!}
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('term') }}</label>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="input-group">
@@ -156,6 +163,7 @@
                                             'class' => 'select-search'], old('type_term', $header->type_term))
                                         !!}
                                     </div>
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('type_term') }}</label>
                                 </div>
                             </div>
                         </div>
@@ -168,6 +176,7 @@
                                         'autocomplete' => 'off',
                                         'placeholder' => 'Número de Operación'])
                                     !!}
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('operation_number') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -181,14 +190,22 @@
                                             'placeholder' => 'Nombre de Póliza'])
                                         !!}
                                     </div>
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('policy_number') }}</label>
                                 </div>
                             </div>
                         </div>
                         <div class="text-right">
-                            <button type="submit" class="btn btn-primary">Guardar <i class="icon-floppy-disk position-right"></i></button>
+                            @if($header->type === 'Q')
+                                {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+                            @elseif($header->type === 'I')
+                                <a href="#" class="btn btn-primary">
+                                    Emitir <i class="icon-floppy-disk position-right"></i>
+                                </a>
+                            @endif
+
                         </div>
                     </div>
-                </form>
+                {!! Form::close() !!}
             </div>
             <!-- /horizotal form -->
         </div>

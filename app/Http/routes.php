@@ -67,6 +67,11 @@ Route::group(['middleware' => 'auth'], function() {
             'as'    => 'de.edit',
             'uses'  => 'De\HeaderDeController@edit'
         ]);
+
+        Route::put('{header_id}/edit', [
+            'as'    => 'de.update',
+            'uses'  => 'De\HeaderDeController@update'
+        ]);
     });
 
     /*

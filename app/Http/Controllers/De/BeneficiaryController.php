@@ -63,8 +63,9 @@ class BeneficiaryController extends Controller
     {
         $rp_id     = decrypt($request->get('rp_id'));
         $header_id = $request->get('header_id');
+        $detail_id = decode($request->get('detail_id'));
 
-        if ($this->repository->storeBeneficiary($request)) {
+        if ($this->repository->storeBeneficiary($request, $detail_id)) {
             return redirect()->route('de.edit', compact('rp_id', 'header_id', 'client_id'));
         }
 

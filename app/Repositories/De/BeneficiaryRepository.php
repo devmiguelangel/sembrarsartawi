@@ -16,9 +16,10 @@ class BeneficiaryRepository
 
     /**
      * @param Request $request
+     * @param int $detail_id
      * @return bool
      */
-    public function storeBeneficiary($request)
+    public function storeBeneficiary($request, $detail_id)
     {
         $this->data = $request->all();
 
@@ -26,7 +27,7 @@ class BeneficiaryRepository
             $this->beneficiary = new Beneficiary();
 
             $this->beneficiary->id               = date('U');
-            $this->beneficiary->op_de_detail_id  = decode($this->data['detail_id']);
+            $this->beneficiary->op_de_detail_id  = $detail_id;
             $this->beneficiary->coverage         = 'VI';
             $this->beneficiary->first_name       = $this->data['first_name'];
             $this->beneficiary->last_name        = $this->data['last_name'];

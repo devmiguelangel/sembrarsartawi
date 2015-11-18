@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Sibas\Http\Controllers\BaseController;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\De\HeaderDeCreateFormRequest;
+use Sibas\Http\Requests\De\HeaderDeEditFormRequest;
 use Sibas\Repositories\De\CoverageRepository;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\HeaderDeRepository;
@@ -61,8 +62,7 @@ class HeaderDeController extends Controller
     public function store(HeaderDeCreateFormRequest $request)
     {
         if ($this->repository->saveQuote($request)) {
-            return redirect()
-                ->route('de.client.list', [
+            return redirect()->route('de.client.list', [
                     'rp_id'     => decrypt($request->get('rp_id')),
                     'header_id' => encode($this->repository->getId()),
                 ])
@@ -117,13 +117,19 @@ class HeaderDeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param HeaderDeEditFormRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(HeaderDeEditFormRequest $request)
     {
-        //
+        if ($this->repository->updateHeader($request)) {
+            return redirect()->route('de.edit', [
+                    'rp_id'     => decrypt($request->get('rp_id')),
+                    'header_id' => $request->get('header_id'),
+                ]);
+        }
+
+        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**
