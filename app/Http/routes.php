@@ -112,6 +112,19 @@ Route::group(['middleware' => 'auth'], function() {
             'as'    => 'de.client.i.store',
             'uses'  => 'Client\ClientController@issueStore'
         ]);
+
+        /*
+         * Route Beneficiary DE
+         */
+        Route::get('beneficiary/create/{detail_id}', [
+            'as'    => 'de.beneficiary.create',
+            'uses'  => 'De\BeneficiaryController@create'
+        ]);
+
+        Route::post('beneficiary/create/{detail_id}', [
+            'as'    => 'de.beneficiary.store',
+            'uses'  => 'De\BeneficiaryController@store'
+        ]);
     });
 
     /*

@@ -85,7 +85,10 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#" data-toggle="modal" data-target="#modal_beneficiario">
+                                                <a href="{{ route('de.beneficiary.create', [
+                                                    'rp_id'     => $rp_id,
+                                                    'header_id' => $header_id,
+                                                    'detail_id' => encode($detail->id)]) }}">
                                                     <i class="icon-plus2"></i> Registrar Benficiario
                                                 </a>
                                             </li>
@@ -158,12 +161,12 @@
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">
-                                <label class="control-label col-lg-3">Nombre Operación: </label>
+                                <label class="control-label col-lg-3">Número de Operación: </label>
                                 <div class="col-lg-9">
                                     {!! Form::text('operation_number', old('operation_number', $header->operation_number), [
                                         'class' => 'form-control ui-wizard-content',
                                         'autocomplete' => 'off',
-                                        'placeholder' => 'Nombre Operación'])
+                                        'placeholder' => 'Número de Operación'])
                                     !!}
                                 </div>
                             </div>

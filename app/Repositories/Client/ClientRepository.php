@@ -89,6 +89,8 @@ class ClientRepository extends BaseRepository
         if ($this->client->save()) {
             return true;
         }
+
+        return false;
     }
 
     /**
