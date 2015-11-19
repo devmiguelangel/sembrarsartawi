@@ -62,7 +62,14 @@
                                                 <p class="text-muted content-group-sm">{{ $retailerProduct->rates->first()->rate_final }}%</p>
                                                 <button type="button" class="btn btn-success"><i class="icon-file-check position-left"></i> Ver Cotización</button>
                                                 <hr>
-                                                <a href="{{ route('de.edit', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-primary"><i class="icon-arrow-right14 position-left"></i> Emitir</a>
+                                                {!! Form::open(['route' => ['de.store.result',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                                                {!! Form::hidden('header_id', $header_id) !!}
+                                                {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
+                                                {!! Form::hidden('rate_id', encrypt($retailerProduct->rates->first()->id)) !!}
+
+                                                {!! Form::button('<i class="icon-arrow-right14 position-left"></i> Emitir', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+
+                                                {!! Form::close() !!}
                                             </div>
                                         </div>
                                     @endif

@@ -13,7 +13,7 @@
 
 Route::group(['prefix' => 'auth'], function() {
     /*
-     * Route Authentication
+     * Authentication
      */
     Route::get('login', [
         'as'   => 'auth.login.get',
@@ -33,7 +33,7 @@ Route::group(['prefix' => 'auth'], function() {
 
 Route::group(['middleware' => 'auth'], function() {
     /*
-     * Route Home
+     * Home
      */
     Route::get('/', function() {
         return redirect()->route('home');
@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth'], function() {
      */
     Route::group(['prefix' => 'de/{rp_id}'], function() {
         /*
-         * Create new Header
+         * Header create
          */
         Route::get('create', [
             'as'    => 'de.create',
@@ -62,13 +62,21 @@ Route::group(['middleware' => 'auth'], function() {
         ]);
 
         /*
-         *
+         * Header result on Quote
          */
         Route::get('{header_id}/result', [
             'as'    => 'de.result',
             'uses'  => 'De\HeaderController@result'
         ]);
 
+        Route::post('{header_id}/result', [
+            'as'    => 'de.store.result',
+            'uses'  => 'De\HeaderController@storeResult'
+        ]);
+
+        /*
+         * Header edit
+         */
         Route::get('{header_id}/edit', [
             'as'    => 'de.edit',
             'uses'  => 'De\HeaderController@edit'
@@ -79,6 +87,9 @@ Route::group(['middleware' => 'auth'], function() {
             'uses'  => 'De\HeaderController@update'
         ]);
 
+        /*
+         *
+         */
         Route::get('{header_id}/issue', [
             'as'    => 'de.issue',
             'uses'  => 'De\HeaderController@issue'
@@ -103,44 +114,50 @@ Route::group(['middleware' => 'auth'], function() {
         ]);
 
         /*
-         * Create new Client
+         * Client create
          */
-        Route::get('client/create/', [
-            'as'    => 'de.client.create',
-            'uses'  => 'Client\ClientController@create'
+        Route::get('client/create/{client_id?}', [
+            'as'    => 'de.detail.create',
+            'uses'  => 'De\DetailController@create'
         ]);
 
         Route::post('client/create', [
-            'as'    => 'de.client.store',
-            'uses'  => 'Client\ClientController@store'
+            'as'    => 'de.detail.store',
+            'uses'  => 'De\DetailController@store'
         ]);
 
         /*
-         *
+         *  Search Client
          */
         Route::post('client/search', [
             'as'    => 'de.client.search',
             'uses'  => 'Client\ClientController@search'
         ]);
 
-        Route::get('client/edit/{client_id}', [
-            'as'    => 'de.client.edit',
-            'uses'  => 'Client\ClientController@edit'
+        /*
+         * Client edit
+         */
+        Route::get('client/edit/{detail_id}', [
+            'as'    => 'de.detail.edit',
+            'uses'  => 'De\DetailController@edit'
         ]);
 
-        Route::put('client/edit/{client_id}', [
-            'as'    => 'de.client.update',
-            'uses'  => 'Client\ClientController@update'
+        Route::put('client/edit/{detail_id}', [
+            'as'    => 'de.detail.update',
+            'uses'  => 'De\DetailController@update'
         ]);
 
-        Route::get('edit/client/edit/{client_id}/{ref}', [
-            'as'    => 'de.client.i.edit',
-            'uses'  => 'Client\ClientController@issueEdit'
+        /*
+         * Client edit complementary data
+         */
+        Route::get('edit/detail/edit/{detail_id}/{ref}', [
+            'as'    => 'de.detail.edit2',
+            'uses'  => 'De\DetailController@edit'
         ]);
 
         Route::put('edit/client/edit/{client_id}', [
-            'as'    => 'de.client.i.store',
-            'uses'  => 'Client\ClientController@issueStore'
+            'as'    => 'de.detail.update2',
+            'uses'  => 'Client\ClientController@update'
         ]);
 
         /*
@@ -160,7 +177,7 @@ Route::group(['middleware' => 'auth'], function() {
     /*
      * Route Question
      */
-    Route::group(['prefix' => 'de/{rp_id}/{header_id}/client/{client_id}'], function() {
+    Route::group(['prefix' => 'de/{rp_id}/{header_id}/client/{detail_id}'], function() {
         Route::get('question/create', [
             'as'    => 'de.question.create',
             'uses'  => 'Client\QuestionController@create'

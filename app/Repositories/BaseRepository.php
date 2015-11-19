@@ -5,6 +5,7 @@ namespace Sibas\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 use Sibas\Collections\BaseCollection;
 
@@ -20,7 +21,9 @@ abstract class BaseRepository
     private $collection;
 
     private $selectOption;
-
+    /**
+     * @var Carbon
+     */
     protected $carbon;
 
     protected $errors;
@@ -48,6 +51,23 @@ abstract class BaseRepository
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    /** Save Model
+     *
+     * @return bool
+     */
+    public function saveModel()
+    {
+        try {
+            if ($this->model->save()) {
+                return true;
+            }
+        } catch(QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+
+        return false;
     }
 
     protected function getSelectOption()

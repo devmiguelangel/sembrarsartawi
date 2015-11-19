@@ -2,8 +2,6 @@
 
 namespace Sibas\Repositories\Client;
 
-use Carbon\Carbon;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\Client;
 use Sibas\Entities\User;
@@ -11,7 +9,9 @@ use Sibas\Repositories\BaseRepository;
 
 class ClientRepository extends BaseRepository
 {
-    /** Store a newly created Client in DB.
+    /**
+     * Create a newly created Client.
+     *
      * @param Request $request
      * @return bool
      */
@@ -19,84 +19,68 @@ class ClientRepository extends BaseRepository
     {
         $this->data = $request->all();
 
-        $header = $this->data['header'];
-
-        try {
-            if ($header->type === 'Q') {
-                if ($this->getClientByDni($this->data['dni'], $this->data['extension'])) {
-                    return $this->updateClient();
-                }
-
-                return $this->storeClient($request);
-            } elseif ($this->data['header']->type === 'I') {
-
-            }
-        } catch(QueryException $e) {
-            $this->errors = $e->getMessage();
+        if ($this->getClientByDni($this->data['dni'], $this->data['extension'])) {
+            return $this->updateClient();
         }
+
+        return $this->storeClient($request);
     }
 
     /**
+     * Client store.
+     *
      * @param Request $request
      * @return bool
      */
     private function storeClient($request)
     {
         /** @var User $user */
-        $user = $request->user()->with('retailer')->first();
-
+        $user     = $request->user()->with('retailer')->first();
         $retailer = $user->retailer->first();
 
-        $this->client = new Client();
+        $this->model = new Client();
 
-        $this->id = date('U');
-
-        $this->client->id             = $this->id;
-        $this->client->ad_retailer_id = $retailer->id;
-        $this->client->dni            = $this->data['dni'];
-        $this->client->extension      = $this->data['extension'];
+        $this->model->id             = date('U');
+        $this->model->ad_retailer_id = $retailer->id;
+        $this->model->dni            = $this->data['dni'];
+        $this->model->extension      = $this->data['extension'];
 
         $this->setData();
 
-        if ($this->client->save()) {
-            return true;
-        }
-
-        return false;
+        return $this->saveModel();
     }
 
     /**
+     * Client edit
+     *
      * @param Request $request
-     * @param String $client_id
+     * @param $client
      * @return bool
      */
-    public function putClient($request, $client_id)
+    public function editClient($request, $client)
     {
         $this->data = $request->all();
-        $client_id  = decode($client_id);
 
-        try {
-            return $this->updateClient($client_id);
-        } catch (QueryException $e) {
-            $this->errors = $e->getMessage();
-        }
-
-        return false;
+        return $this->updateClient($client);
     }
 
-    private function updateClient($id = null)
+    /** Update Client
+     *
+     * @param null $client
+     * @return bool
+     */
+    private function updateClient($client = null)
     {
-        if (! is_null($id)) {
-            $this->getClientById($id);
+        if (! is_null($client)) {
+            if (! ($client instanceof Client)) {
+                return false;
+            }
+            $this->model = $client;
         }
 
         $this->setData();
 
-        if ($this->client->save()) {
-            $this->id = $this->client->id;
-
-            return true;
-        }
+        return $this->saveModel();
     }
 
     /** Set complementary data on Issue
@@ -124,38 +108,41 @@ class ClientRepository extends BaseRepository
         return false;
     }
 
+    /** Set data to Client
+     *
+     */
     private function setData()
     {
-        $this->carbon = new Carbon();
         $date = $this->carbon->createFromTimestamp(strtotime($this->data['birthdate']));
 
-        $this->client->type           = 'N';
-        $this->client->first_name     = $this->data['first_name'];
-        $this->client->last_name      = $this->data['last_name'];
-        $this->client->mother_last_name = $this->data['mother_last_name'];
-        $this->client->married_name   = $this->data['married_name'];
-        $this->client->birthdate      = $date->format('Y-m-d');
-        $this->client->age            = $date->age;
-        $this->client->birth_place    = $this->data['birth_place'];
-        $this->client->complement     = $this->data['complement'];
-        $this->client->document_type  = $this->data['document_type'];
-        $this->client->civil_status   = $this->data['civil_status'];
-        $this->client->gender         = $this->data['gender'];
-        $this->client->place_residence = $this->data['place_residence'];
-        $this->client->locality       = $this->data['locality'];
-        $this->client->home_address   = $this->data['home_address'];
-        $this->client->country        = $this->data['country'];
-        $this->client->ad_activity_id = $this->data['ad_activity_id'];
-        $this->client->occupation_description = $this->data['occupation_description'];
-        $this->client->phone_number_home      = $this->data['phone_number_home'];
-        $this->client->phone_number_office    = $this->data['phone_number_office'];
-        $this->client->phone_number_mobile    = $this->data['phone_number_mobile'];
-        $this->client->email          = $this->data['email'];
-        $this->client->weight         = $this->data['weight'];
-        $this->client->height         = $this->data['height'];
+        $this->model->type           = 'N';
+        $this->model->first_name     = $this->data['first_name'];
+        $this->model->last_name      = $this->data['last_name'];
+        $this->model->mother_last_name      = $this->data['mother_last_name'];
+        $this->model->married_name   = $this->data['married_name'];
+        $this->model->birthdate      = $date->format('Y-m-d');
+        $this->model->age            = $date->age;
+        $this->model->birth_place    = $this->data['birth_place'];
+        $this->model->complement     = $this->data['complement'];
+        $this->model->document_type  = $this->data['document_type'];
+        $this->model->civil_status   = $this->data['civil_status'];
+        $this->model->gender         = $this->data['gender'];
+        $this->model->place_residence = $this->data['place_residence'];
+        $this->model->locality       = $this->data['locality'];
+        $this->model->home_address   = $this->data['home_address'];
+        $this->model->country        = $this->data['country'];
+        $this->model->ad_activity_id = $this->data['ad_activity_id'];
+        $this->model->occupation_description = $this->data['occupation_description'];
+        $this->model->phone_number_home      = $this->data['phone_number_home'];
+        $this->model->phone_number_office    = $this->data['phone_number_office'];
+        $this->model->phone_number_mobile    = $this->data['phone_number_mobile'];
+        $this->model->email          = $this->data['email'];
+        $this->model->weight         = $this->data['weight'];
+        $this->model->height         = $this->data['height'];
     }
 
     /** Find Client by dni and extension
+     *
      * @param $dni
      * @param null $extension
      * @return bool
@@ -180,12 +167,17 @@ class ClientRepository extends BaseRepository
         return false;
     }
 
+    /** Find Client by Id
+     *
+     * @param $client_id
+     * @return bool
+     */
     public function getClientById($client_id)
     {
-        $this->client = Client::where('id', '=', $client_id)->get();
+        $this->model = Client::where('id', '=', $client_id)->get();
 
-        if ($this->client->count() === 1) {
-            $this->client = $this->client->first();
+        if ($this->model->count() === 1) {
+            $this->model = $this->model->first();
 
             return true;
         }

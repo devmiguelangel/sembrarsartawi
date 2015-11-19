@@ -52,7 +52,7 @@
                             <div class="panel-heading">
                                 <h5 class="panel-title">
                                     <strong>Titular: </strong>
-                                    {{ $data['client']->full_name }}
+                                    {{ $data['detail']->client->full_name }}
                                 </h5>
                                 <div class="heading-elements">
                                     <ul class="icons-list">
@@ -64,9 +64,9 @@
                             </div>
                             <hr />
                             <div class="panel-body">
-                                {!! Form::open(['route' => ['de.question.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'client_id' => $client_id], 'method' => 'post', 'class' => '']) !!}
+                                {!! Form::open(['route' => ['de.question.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => $detail_id], 'method' => 'post', 'class' => '']) !!}
                                     {!! Form::hidden('header_id', $header_id) !!}
-                                    {!! Form::hidden('client_id', $client_id) !!}
+                                    {!! Form::hidden('detail_id', $detail_id) !!}
                                     {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
                                     <div class="row">
                                         <div class="col-md-12">

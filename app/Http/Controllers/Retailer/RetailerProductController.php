@@ -19,9 +19,15 @@ class RetailerProductController extends Controller
         $this->repository = $repository;
     }
 
+    /**
+     * Find Questions for Product Retailer
+     *
+     * @param $rp_id
+     * @return array
+     */
     public function questionByProduct($rp_id)
     {
-        return $this->repository->getQuestionByProduct($rp_id);
+        return $this->repository->getQuestionByProduct(decode($rp_id));
     }
     /**
      * Display a listing of the resource.

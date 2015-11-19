@@ -3,13 +3,18 @@
 namespace Sibas\Repositories\Retailer;
 
 use Sibas\Entities\RetailerProduct;
+use Sibas\Repositories\BaseRepository;
 
-class RetailerProductRepository
+class RetailerProductRepository extends BaseRepository
 {
+    /**
+     * Find Questions for Product Retailer
+     *
+     * @param $rp_id
+     * @return array
+     */
     public function getQuestionByProduct($rp_id)
     {
-        $rp_id = decode($rp_id);
-
         $retailers = RetailerProduct::with(['productQuestions' => function($q){
             $q->where('active', true);
             $q->orderBy('order', 'asc');

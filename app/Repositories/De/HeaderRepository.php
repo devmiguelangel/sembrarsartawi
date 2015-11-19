@@ -2,8 +2,6 @@
 
 namespace Sibas\Repositories\De;
 
-use Carbon\Carbon;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Header;
 use Sibas\Repositories\BaseRepository;
@@ -22,27 +20,21 @@ class HeaderRepository extends BaseRepository
 
         $quote_number = $this->getNumber('quote_number');
 
-        try {
-            $this->model = new Header();
+        $this->model = new Header();
 
-            $this->model->id               = date('U');
-            $this->model->ad_user_id       = $user->id;
-            $this->model->type             = 'Q';
-            $this->model->quote_number     = $quote_number;
-            $this->model->ad_coverage_id   = $this->data['coverage'];
-            $this->model->amount_requested = $this->data['amount_requested'];
-            $this->model->currency         = $this->data['currency'];
-            $this->model->term             = $this->data['term'];
-            $this->model->type_term        = $this->data['type_term'];
-            $this->model->issued           = false;
+        $this->model->id               = date('U');
+        $this->model->ad_user_id       = $user->id;
+        $this->model->type             = 'Q';
+        $this->model->quote_number     = $quote_number;
+        $this->model->ad_coverage_id   = $this->data['coverage'];
+        $this->model->amount_requested = $this->data['amount_requested'];
+        $this->model->currency         = $this->data['currency'];
+        $this->model->term             = $this->data['term'];
+        $this->model->type_term        = $this->data['type_term'];
+        $this->model->issued           = false;
 
-            if (! $this->checkNumber('quote_number', $quote_number)) {
-                if ($this->model->save()) {
-                    return true;
-                }
-            }
-        } catch(QueryException $e) {
-            $this->errors = $e->getMessage();
+        if (! $this->checkNumber('quote_number', $quote_number)) {
+            return $this->saveModel();
         }
 
         return false;
@@ -78,14 +70,33 @@ class HeaderRepository extends BaseRepository
         return false;
     }
 
+    /**
+     * Save data for Result Quote
+     *
+     * @param Request $request
+     * @return bool
+     */
+    public function storeResult($request)
+    {
+        $this->data = $request->all();
+
+        if ($this->getHeaderById(decode($this->data['header_id']))) {
+            $this->model->total_rate    = $this->data['rate']->rate_final;
+            $this->model->total_premium = ($this->model->amount_requested * $this->data['rate']->rate_final) / 100;
+
+            return $this->saveModel();
+        }
+
+        return false;
+    }
+
     public function issueHeader($header_id)
     {
         try {
             $header = $this->getHeaderById($header_id);
-            $carbon = new Carbon;
 
             $header->issued     = true;
-            $header->date_issue = $carbon->format('Y-m-d H:i:s');
+            $header->date_issue = $this->carbon->format('Y-m-d H:i:s');
             $header->approved   = true;
 
             if ($header->save()) {
@@ -128,9 +139,11 @@ class HeaderRepository extends BaseRepository
      */
     public function getHeaderById($header_id)
     {
-        $this->model = Header::where('id', '=', $header_id)->first();
+        $this->model = Header::where('id', '=', $header_id)->get();
 
-        if (! is_null($this->model)) {
+        if ($this->model->count() === 1) {
+            $this->model = $this->model->first();
+
             return true;
         }
 

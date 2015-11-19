@@ -2,25 +2,25 @@
 
 namespace Sibas\Repositories\De;
 
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Sibas\Entities\Client;
 use Sibas\Entities\De\Detail;
+use Sibas\Entities\De\Header;
+use Sibas\Repositories\BaseRepository;
 
-class DetailDeRepository
+class DetailDeRepository extends BaseRepository
 {
-    private $id;
-
-    private $data;
-
+    /**
+     * @var Header
+     */
     private $header;
-
-    private $detail;
-
+    /**
+     * @var Client
+     */
     private $client;
 
-    private $errors;
-
-    /**
+    /** Create a newly created Detail.
+     *
      * @param Request $request
      * @return bool
      */
@@ -30,32 +30,39 @@ class DetailDeRepository
         $this->header = $this->data['header'];
         $this->client = $this->data['client'];
 
-        try {
-            $this->id = date('U');
+        $this->model= new Detail();
 
-            $this->detail = new Detail();
+        $this->model->id                = date('U');
+        $this->model->op_de_header_id   = $this->header->id;
+        $this->model->op_client_id      = $this->client->id;
+        $this->model->percentage_credit = $this->getPercentage();
+        $this->model->rate              = 0;
+        $this->model->balance           = 0;
+        $this->model->cumulus           = 0;
+        $this->model->amount            = 0;
+        $this->model->approved          = false;
+        $this->model->headline          = $this->getHeadlineType();
 
-            $this->detail->id               = $this->id;
-            $this->detail->op_de_header_id  = $this->header->id;
-            $this->detail->op_client_id     = $this->client->id;
-            $this->detail->percentage_credit = $this->getPercentage();
-            $this->detail->rate             = 0;
-            $this->detail->balance          = 0;
-            $this->detail->cumulus          = 0;
-            $this->detail->amount           = 0;
-            $this->detail->approved         = false;
-            $this->detail->headline         = $this->getHeadlineType();
+        return $this->saveModel();
+    }
 
-            if ($this->detail->save()) {
-                return true;
-            }
-        } catch(QueryException $e) {
-            $this->errors = $e->getMessage();
+    public function getDetailById($detail_id)
+    {
+        $this->model = Detail::where('id', $detail_id)->get();
+
+        if ($this->model->count() === 1) {
+            $this->model = $this->model->first();
+
+            return true;
         }
 
         return false;
     }
 
+    /** Returns Headline Type for Client
+     *
+     * @return string
+     */
     public function getHeadlineType()
     {
         if ($this->header->coverage->slug === 'MC') {
@@ -69,6 +76,10 @@ class DetailDeRepository
         return 'D';
     }
 
+    /** Returns Percentage Credit for Client
+     *
+     * @return int
+     */
     private function getPercentage()
     {
         $percentage = 0;

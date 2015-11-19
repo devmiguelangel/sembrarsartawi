@@ -46,8 +46,9 @@
                 </div>
                 <br />
 
-                {!! Form::open(['route' => ['de.client.update',  'rp_id' => $rp_id, 'header_id' => $header_id, 'client_id' => encode($client->id)], 'method' => 'put', 'class' => 'form-horizontal']) !!}
+                {!! Form::open(['route' => ['de.detail.update',  'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => $detail_id], 'method' => 'put', 'class' => 'form-horizontal']) !!}
                 {!! Form::hidden('header_id', $header_id) !!}
+                {!! Form::hidden('detail_id', $detail_id) !!}
                 {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
 
                 @include('client.de.partials.inputs-quote')

@@ -3,31 +3,34 @@
 namespace Sibas\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
-use Sibas\Http\Controllers\De\HeaderController;
+use Sibas\Http\Controllers\De\DetailController;
 use Sibas\Http\Controllers\Retailer\RetailerProductController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Client\QuestionFormRequest;
-use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\Client\QuestionRepository;
-use Sibas\Repositories\De\HeaderRepository;
+use Sibas\Repositories\De\DetailDeRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class QuestionController extends Controller
 {
-    private $retailerProduct;
     /**
      * @var QuestionRepository
      */
     private $repository;
-
-    private $client;
+    /**
+     * @var RetailerProductController
+     */
+    private $retailerProduct;
+    /**
+     * @var DetailController
+     */
+    private $detail;
 
     public function __construct(QuestionRepository $repository)
     {
         $this->repository      = $repository;
-        $this->header          = new HeaderController(new HeaderRepository);
-        $this->client          = new ClientController(new ClientRepository);
+        $this->detail          = new DetailController(new DetailDeRepository);
         $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
     }
 
@@ -46,23 +49,23 @@ class QuestionController extends Controller
      *
      * @param String $rp_id
      * @param String $header_id
-     * @param String $client_id
+     * @param String $detail_id
      * @return \Illuminate\Http\Response
      */
-    public function create($rp_id, $header_id, $client_id)
+    public function create($rp_id, $header_id, $detail_id)
     {
-        $client = null;
+        if ($this->detail->detailById(decode($detail_id))) {
+            $detail = $this->detail->getDetail();
 
-        if ($this->client->clientById(decode($client_id))) {
-            $client = $this->client->getClient();
+            $data = [
+                'detail'    => $detail,
+                'questions' => $this->retailerProduct->questionByProduct($rp_id)
+            ];
+
+            return view('client.de.question', compact('rp_id', 'header_id', 'detail_id', 'data'));
         }
 
-        $data = [
-            'client'    => $client,
-            'questions' => $this->retailerProduct->questionByProduct($rp_id)
-        ];
-
-        return view('client.de.question', compact('rp_id', 'header_id', 'client_id', 'data'));
+        return redirect()->back()->with(['err_client' => 'El cliente no existe']);
     }
 
     /**
@@ -73,15 +76,17 @@ class QuestionController extends Controller
      */
     public function storeDe(QuestionFormRequest $request)
     {
-        $header = $this->header->headerById($request->get('header_id'));
-        $request['header'] = $header;
+        if ($this->detail->detailById(decode($request->get('detail_id')))) {
+            $detail            = $this->detail->getDetail();
+            $request['detail'] = $detail;
 
-        if ($this->repository->saveQuestionDe($request)) {
-            return redirect()
-                ->route('de.client.list', [
-                    'rp_id' => decrypt($request->get('rp_id')),
-                    'header_id' => encode($header->id)
-                ]);
+            if ($this->repository->storeQuestionDe($request)) {
+                return redirect()
+                    ->route('de.client.list', [
+                        'rp_id'     => decrypt($request->get('rp_id')),
+                        'header_id' => $request->get('header_id'),
+                    ]);
+            }
         }
 
         return redirect()->back()->withInput()->withErrors($this->repository->getErrors());

@@ -59,9 +59,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($header->details as $detail)
+                    @foreach($header->details as $key => $detail)
                         <tr>
-                            <td>T1</td>
+                            <td>{{ $key + 1 }}</td>
                             <td><a href="#">{{ $detail->client->dni }} {{ $detail->client->extension }}</a></td>
                             <td>{{ $detail->client->full_name }}</td>
                             <td>{{ dateToFormat($detail->client->birthdate) }}</td>
@@ -76,10 +76,10 @@
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <li>
-                                                <a href="{{ route('de.client.i.edit', [
+                                                <a href="{{ route('de.detail.edit', [
                                                     'rp_id'     => $rp_id,
                                                     'header_id' => $header_id,
-                                                    'client_id' => encode($detail->client->id),
+                                                    'detail_id' => encode($detail->id),
                                                     'ref'       => 'ise']) }}">
                                                     <i class="icon-pencil3"></i> Editar datos del cliente
                                                 </a>

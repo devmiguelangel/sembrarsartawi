@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-xs-12">
                     <div class="text-right">
-                        <a class="btn btn-primary" href="{{ route('de.client.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Agregar cliente <i class="icon-plus2 position-right"></i></a>
+                        <a class="btn btn-primary" href="{{ route('de.detail.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Agregar cliente <i class="icon-plus2 position-right"></i></a>
                         <a class="btn btn-primary" href="{{ route('de.result', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Continuar <i class="icon-arrow-right14 position-right"></i></a>
                     </div>
                 </div>
@@ -90,9 +90,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($header->details as $detail)
+                        @foreach($header->details as $key => $detail)
                             <tr>
-                                <td>T1</td>
+                                <td>{{ $key + 1 }}</td>
                                 <td><a href="#">{{ $detail->client->dni }} {{ $detail->client->extension }}</a></td>
                                 <td>{{ $detail->client->full_name }}</td>
                                 <td>{{ dateToFormat($detail->client->birthdate) }}</td>
@@ -106,7 +106,7 @@
                                                 <i class="icon-menu9"></i>
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-right">
-                                                <li><a href="{{ route('de.client.edit', ['rp_id' => $rp_id, 'header_id' => $header_id, 'client_id' => encode($detail->client->id)]) }}"><i class="icon-plus2"></i> Editar</a></li>
+                                                <li><a href="{{ route('de.detail.edit', ['rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => encode($detail->id)]) }}"><i class="icon-plus2"></i> Editar</a></li>
                                                 <li><a href="#"><i class="icon-plus2"></i> Cuestionario de Salud</a></li>
                                             </ul>
                                         </li>

@@ -64,7 +64,7 @@
                                     <strong>Nombres: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->first_name }}
+                                    {{ $detail->client->first_name }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -73,7 +73,7 @@
                                     <strong>Ap. Paterno: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->last_name }}
+                                    {{ $detail->client->last_name }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -82,7 +82,7 @@
                                     <strong>Ap. Materno: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->mother_last_name }}
+                                    {{ $detail->client->mother_last_name }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -91,7 +91,7 @@
                                     <strong>Ap. de casada: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->married_name }}
+                                    {{ $detail->client->married_name }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     @foreach($data['civil_status'] as $civil_status)
-                                        @if($civil_status['id'] === $client->civil_status)
+                                        @if($civil_status['id'] === $detail->client->civil_status)
                                             {{ $civil_status['name'] }}
                                         @endif
                                     @endforeach
@@ -114,7 +114,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     @foreach($data['document_type'] as $document_type)
-                                        @if($document_type['id'] === $client->document_type)
+                                        @if($document_type['id'] === $detail->client->document_type)
                                             {{ $document_type['name'] }}
                                         @endif
                                     @endforeach
@@ -126,7 +126,7 @@
                                     <strong>Documento de identidad: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->dni }}
+                                    {{ $detail->client->dni }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -135,7 +135,7 @@
                                     <strong>Complemento: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->complement }}
+                                    {{ $detail->client->complement }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -144,7 +144,7 @@
                                     <strong>Ext. Documento de identidad: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->extension }}
+                                    {{ $detail->client->extension }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -153,7 +153,7 @@
                                     <strong>País: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->country }}
+                                    {{ $detail->client->country }}
                                 </div>
                             </div>
                         </div>
@@ -163,7 +163,7 @@
                                     <strong>Fecha de nacimiento: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ dateToFormat($client->birthdate) }}
+                                    {{ dateToFormat($detail->client->birthdate) }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -172,7 +172,7 @@
                                     <strong>Lugar de nacimiento: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->birth_place }}
+                                    {{ $detail->client->birth_place }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -181,7 +181,7 @@
                                     <strong>Lugar de residencia: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ ucwords(str_replace('-', ' ', $client->place_residence)) }}
+                                    {{ ucwords(str_replace('-', ' ', $detail->client->place_residence)) }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -190,7 +190,7 @@
                                     <strong>Localidad: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->locality }}
+                                    {{ $detail->client->locality }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -199,7 +199,7 @@
                                     <strong>Dirección: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->home_address }}
+                                    {{ $detail->client->home_address }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -209,7 +209,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     @foreach($data['activities'] as $activity)
-                                        @if($activity['id'] === $client->ad_activity_id)
+                                        @if($activity['id'] === $detail->client->ad_activity_id)
                                             {{ $activity['name'] }}
                                         @endif
                                     @endforeach
@@ -221,7 +221,7 @@
                                     <strong>Descripción ocupación: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->occupation_description }}
+                                    {{ $detail->client->occupation_description }}
                                 </div>
                             </div>
                         </div>
@@ -231,7 +231,7 @@
                                     <strong>Telefono 1: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->phone_number_home }}
+                                    {{ $detail->client->phone_number_home }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -240,7 +240,7 @@
                                     <strong>Telefono 2: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->phone_number_mobile }}
+                                    {{ $detail->client->phone_number_mobile }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -249,7 +249,7 @@
                                     <strong>Telef. Oficina: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->phone_number_office }}
+                                    {{ $detail->client->phone_number_office }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -258,7 +258,7 @@
                                     <strong>Correo electónico: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->email }}
+                                    {{ $detail->client->email }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -267,7 +267,7 @@
                                     <strong>Peso: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->weight }} kg.
+                                    {{ $detail->client->weight }} kg.
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -276,7 +276,7 @@
                                     <strong>Estatura: </strong>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{ $client->height }} (cm).
+                                    {{ $detail->client->height }} (cm).
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -286,7 +286,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     @foreach($data['gender'] as $gender)
-                                        @if($gender['id'] === $client->gender)
+                                        @if($gender['id'] === $detail->client->gender)
                                             {{ $gender['name'] }}
                                         @endif
                                     @endforeach
@@ -348,7 +348,7 @@
                     </div>
                 </div>
                 <div class="clearfix">&nbsp;</div>
-                {!! Form::open(['route' => ['de.client.i.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'client_id' => encode($client->id)], 'method' => 'put', 'class' => 'form-horizontal form-validate-jquery']) !!}
+                {!! Form::open(['route' => ['de.detail.update', 'rp_id' => $rp_id, 'header_id' => $header_id, 'client_id' => encode($detail->client->id)], 'method' => 'put', 'class' => 'form-horizontal form-validate-jquery']) !!}
                     {!! Form::hidden('header_id', $header_id) !!}
                     {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
                     {!! Form::hidden('ref', encrypt($ref)) !!}
@@ -362,7 +362,7 @@
                                         <span class="input-group-addon"><i class="icon-user"></i></span>
                                         {!! SelectField::input('hand', $data['hands']->toArray(), [
                                             'class' => 'select-search'],
-                                            old('hand', $client->hand))
+                                            old('hand', $detail->client->hand))
                                         !!}
                                     </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('hand') }}</label>
@@ -375,7 +375,7 @@
                                         <span class="input-group-addon"><i class="icon-user"></i></span>
                                         {!! SelectField::input('avenue_street', $data['avenue_street']->toArray(), [
                                             'class' => 'select-search'],
-                                            old('avenue_street', $client->avenue_street))
+                                            old('avenue_street', $detail->client->avenue_street))
                                         !!}
                                     </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('avenue_street') }}</label>
@@ -388,7 +388,7 @@
                                 <div class="col-lg-9">
                                     <div class="input-group">
                                         <span class="input-group-addon">Nro.</span>
-                                        {!! Form::text('home_number', old('home_number', $client->home_number), [
+                                        {!! Form::text('home_number', old('home_number', $detail->client->home_number), [
                                             'class' => 'form-control ui-wizard-content',
                                             'autocomplete' => 'off',
                                             'placeholder' => 'Número de domicilio'])
@@ -400,7 +400,7 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-3 label_required">Dirección laboral: </label>
                                 <div class="col-lg-9">
-                                    {!! Form::textarea('business_address', old('business_address', $client->business_address), [
+                                    {!! Form::textarea('business_address', old('business_address', $detail->client->business_address), [
                                         'size' => '4x4',
                                         'class' => 'form-control',
                                         'placeholder' => 'Dirección laboral',

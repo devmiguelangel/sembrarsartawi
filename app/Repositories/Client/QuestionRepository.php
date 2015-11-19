@@ -2,50 +2,32 @@
 
 namespace Sibas\Repositories\Client;
 
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Response;
+use Sibas\Repositories\BaseRepository;
 
-class QuestionRepository
+class QuestionRepository extends BaseRepository
 {
-    private $data;
-
-    private $errors;
-
     /**
+     * Store Question response for Detail
+     *
      * @param Request $request
      * @return bool
      */
-    public function saveQuestionDe($request)
+    public function storeQuestionDe($request)
     {
         $this->data = $request->all();
+        $detail     = $this->data['detail'];
 
-        $header = $this->data['header'];
+        if ((int) $this->data['qs_number'] === count($this->data['qs'])) {
+            $this->model = new Response();
 
-        $detail_id = null;
+            $this->model->id              = date('U');
+            $this->model->op_de_detail_id = $detail->id;
+            $this->model->response        = json_encode($this->data['qs']);
+            $this->model->observation     = $this->data['qs_observation'];
 
-        foreach ($header->details as $detail) {
-            if ($detail->client->id === decode($this->data['client_id'])) {
-                $detail_id = $detail->id;
-                break;
-            }
-        }
-
-        try {
-            if ((int) $this->data['qs_number'] === count($this->data['qs'])) {
-                $question = new Response();
-
-                $question->id              = date('U');
-                $question->op_de_detail_id = $detail_id;
-                $question->response        = json_encode($this->data['qs']);
-                $question->observation     = $this->data['qs_observation'];
-
-                if ($question->save()) {
-                    return true;
-                }
-            }
-        } catch (QueryException $e) {
-            $this->errors = $e->getMessage();
+            return $this->saveModel();
         }
 
         return false;
