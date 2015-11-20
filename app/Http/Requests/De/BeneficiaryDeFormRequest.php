@@ -26,7 +26,7 @@ class BeneficiaryDeFormRequest extends Request
         return [
             'first_name'       => 'required|alpha_space',
             'last_name'        => 'required|alpha_space',
-            'mother_last_name' => 'required|alpha_space',
+            'mother_last_name' => 'alpha_space',
             'dni'              => 'required|alpha_dash',
             'extension'        => 'required|exists:ad_cities,abbreviation',
             'age'              => 'numeric',

@@ -88,24 +88,17 @@ class ClientRepository extends BaseRepository
      * @param string $client_id
      * @return bool
      */
-    public function issueStoreClient($request, $client_id)
+    public function updateIssueClient($request)
     {
-        $this->data = $request->all();
+        $this->data  = $request->all();
+        $this->model = $this->data['detail']->client;
 
-        if ($this->getClientById($client_id)) {
-            $this->client->hand             = $this->data['hand'];
-            $this->client->avenue_street    = $this->data['avenue_street'];
-            $this->client->home_number      = $this->data['home_number'];
-            $this->client->business_address = $this->data['business_address'];
+        $this->model->hand             = $this->data['hand'];
+        $this->model->avenue_street    = $this->data['avenue_street'];
+        $this->model->home_number      = $this->data['home_number'];
+        $this->model->business_address = $this->data['business_address'];
 
-            if ($this->client->save()) {
-                $this->id = $this->client->id;
-
-                return true;
-            }
-        }
-
-        return false;
+        return $this->saveModel();
     }
 
     /** Set data to Client

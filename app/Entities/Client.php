@@ -70,5 +70,10 @@ class Client extends Model
         $this->attributes['email'] = strtolower($value);
     }
 
+    public function setBusinessAddressAttribute($value)
+    {
+        $this->attributes['business_address'] = strtoupper($value);
+    }
+
 
 }

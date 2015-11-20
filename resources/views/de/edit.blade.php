@@ -28,6 +28,12 @@
 @section('content-wrapper')
     <div class="row">
         <div class="col-md-12">
+            @if(session()->has('header_update'))
+                <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
+                    <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                    <span class="text-semibold">Well done!</span> You successfully read <a href="#" class="alert-link">this important</a> alert message.
+                </div>
+            @endif
             <!-- Horizontal form -->
             <div class="panel panel-flat border-top-primary">
                 <div class="panel-heading divhr">
@@ -76,7 +82,7 @@
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <li>
-                                                <a href="{{ route('de.detail.edit', [
+                                                <a href="{{ route('de.detail.i.edit', [
                                                     'rp_id'     => $rp_id,
                                                     'header_id' => $header_id,
                                                     'detail_id' => encode($detail->id),

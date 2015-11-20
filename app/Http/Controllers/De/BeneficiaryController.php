@@ -9,6 +9,7 @@ use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\De\BeneficiaryDeFormRequest;
 use Sibas\Repositories\De\BeneficiaryRepository;
+use Sibas\Repositories\De\DetailDeRepository;
 use Sibas\Repositories\Retailer\CityRepository;
 
 class BeneficiaryController extends Controller
@@ -16,11 +17,16 @@ class BeneficiaryController extends Controller
     /**
      * @var BeneficiaryRepository
      */
-    private $repository;
+    protected $repository;
+    /**
+     * @var DetailController
+     */
+    private $detail;
 
     public function __construct(BeneficiaryRepository $repository)
     {
         $this->repository = $repository;
+        $this->detail     = new DetailController(new DetailDeRepository);
         $this->cities     = new CityController(new CityRepository);
     }
 
@@ -48,9 +54,14 @@ class BeneficiaryController extends Controller
             'cities' => $this->cities->cityByType(),
         ];
 
-        $beneficiary = new Beneficiary();
+        if ($this->detail->detailById(decode($detail_id))) {
+            $detail      = $this->detail->getDetail();
+            $beneficiary = new Beneficiary();
 
-        return view('beneficiary.create', compact('rp_id', 'header_id', 'detail_id', 'beneficiary', 'data'));
+            return view('beneficiary.create', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -66,7 +77,7 @@ class BeneficiaryController extends Controller
         $detail_id = decode($request->get('detail_id'));
 
         if ($this->repository->storeBeneficiary($request, $detail_id)) {
-            return redirect()->route('de.edit', compact('rp_id', 'header_id', 'client_id'));
+            return redirect()->route('de.edit', compact('rp_id', 'header_id'));
         }
 
         return redirect()->back()->withInput()->withErrors($this->repository->getErrors());

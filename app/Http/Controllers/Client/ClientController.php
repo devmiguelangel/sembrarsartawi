@@ -7,17 +7,13 @@ use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Sibas\Entities\Client;
 use Sibas\Http\Controllers\BaseController;
-use Sibas\Http\Controllers\De\DetailController;
 use Sibas\Http\Controllers\De\HeaderController;
 use Sibas\Http\Controllers\Retailer\CityController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
-use Sibas\Http\Requests\Client\ClientCreateFormRequest;
-use Sibas\Http\Requests\Client\ClientStoreFormRequest;
 use Sibas\Repositories\Client\ActivityRepository;
 use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\De\DataRepository;
-use Sibas\Repositories\De\DetailDeRepository;
 use Sibas\Repositories\De\HeaderRepository;
 use Sibas\Repositories\Retailer\CityRepository;
 
@@ -31,10 +27,6 @@ class ClientController extends Controller
      * @var HeaderController
      */
     private $header;
-    /**
-     * @var DetailController
-     */
-    private $detail;
     /**
      * @var CityController
      */
@@ -176,7 +168,7 @@ class ClientController extends Controller
             return redirect()->route('de.detail.create', compact('rp_id', 'header_id', 'client_id'));
         }
 
-        return redirect()->back()->withInput()->withErrors($this->repository->getErrors())->with(['client_search' => 'El Cliente no existe']);
+        return redirect()->back()->with(['client_search' => 'El Cliente no existe'])->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**
@@ -199,7 +191,9 @@ class ClientController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Request $request
-     * @param  int  $client_id
+     * @param $rp_id
+     * @param $header_id
+     * @param  Client $client
      * @return Response
      */
     public function update($request, $rp_id, $header_id, $client)
@@ -214,21 +208,9 @@ class ClientController extends Controller
         return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
     }
 
-    public function issueStore(ClientStoreFormRequest $request, $rp_id, $header_id, $client_id)
+    public function updateIssue(Request $request)
     {
-        $ref       = decrypt($request->get('ref'));
-        $client_id = decode($client_id);
-
-        if (strtoupper($ref) === 'ISE') {
-            if ($this->repository->issueStoreClient($request, $client_id)) {
-                return redirect()->route('de.edit', [
-                    'rp_id'     => decrypt($request->get('rp_id')),
-                    'header_id' => $header_id
-                ]);
-            }
-        }
-
-        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+        return $this->repository->updateIssueClient($request);
     }
 
     /**

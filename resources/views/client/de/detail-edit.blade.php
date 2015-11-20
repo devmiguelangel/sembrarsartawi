@@ -348,9 +348,10 @@
                     </div>
                 </div>
                 <div class="clearfix">&nbsp;</div>
-                {!! Form::open(['route' => ['de.detail.update', 'rp_id' => $rp_id, 'header_id' => $header_id, 'client_id' => encode($detail->client->id)], 'method' => 'put', 'class' => 'form-horizontal form-validate-jquery']) !!}
-                    {!! Form::hidden('header_id', $header_id) !!}
+                {!! Form::open(['route' => ['de.detail.i.update', 'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => encode($detail->id), 'ref' => $ref], 'method' => 'put', 'class' => 'form-horizontal form-validate-jquery']) !!}
                     {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
+                    {!! Form::hidden('header_id', $header_id) !!}
+                    {!! Form::hidden('detail_id', encode($detail->id)) !!}
                     {!! Form::hidden('ref', encrypt($ref)) !!}
 
                     <div class="panel-body ">

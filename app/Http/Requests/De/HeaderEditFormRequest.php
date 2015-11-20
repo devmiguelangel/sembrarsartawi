@@ -4,7 +4,7 @@ namespace Sibas\Http\Requests\De;
 
 use Sibas\Http\Requests\Request;
 
-class HeaderDeCreateFormRequest extends Request
+class HeaderEditFormRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,6 +32,8 @@ class HeaderDeCreateFormRequest extends Request
             'currency'         => 'required|in:' . $currencies,
             'term'             => 'required|integer|min:1',
             'type_term'        => 'required|in:' . $term_types,
+            'operation_number' => 'numeric',
+            'policy_number'    => 'required|alpha_dash',
         ];
     }
 }

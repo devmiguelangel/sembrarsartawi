@@ -7,8 +7,8 @@ use Illuminate\Http\Response;
 use Sibas\Entities\Rate;
 use Sibas\Http\Controllers\BaseController;
 use Sibas\Http\Controllers\Controller;
-use Sibas\Http\Requests\De\HeaderDeCreateFormRequest;
-use Sibas\Http\Requests\De\HeaderDeEditFormRequest;
+use Sibas\Http\Requests\De\HeaderCreateFormRequest;
+use Sibas\Http\Requests\De\HeaderEditFormRequest;
 use Sibas\Http\Requests\De\HeaderResultFormRequest;
 use Sibas\Repositories\De\CoverageRepository;
 use Sibas\Repositories\De\DataRepository;
@@ -28,7 +28,7 @@ class HeaderController extends Controller
     /**
      * @var HeaderRepository
      */
-    private $repository;
+    protected $repository;
     /**
      * @var Rate
      */
@@ -76,10 +76,10 @@ class HeaderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param HeaderDeCreateFormRequest $request
+     * @param HeaderCreateFormRequest $request
      * @return Response
      */
-    public function store(HeaderDeCreateFormRequest $request)
+    public function store(HeaderCreateFormRequest $request)
     {
         if ($this->repository->createHeader($request)) {
             $header = $this->repository->getModel();
@@ -120,25 +120,22 @@ class HeaderController extends Controller
             return view('de.edit', compact('rp_id', 'header_id', 'header', 'data'));
         }
 
-        return redirect()->route('de.edit', [
-            'rp_id'     => decrypt($rp_id),
-            'header_id' => $header_id,
-        ]);
+        return redirect()->route('de.edit', ['rp_id'     => decrypt($rp_id), 'header_id' => $header_id]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param HeaderDeEditFormRequest $request
+     * @param HeaderEditFormRequest $request
      * @return Response
      */
-    public function update(HeaderDeEditFormRequest $request)
+    public function update(HeaderEditFormRequest $request)
     {
         if ($this->repository->updateHeader($request)) {
             return redirect()->route('de.edit', [
                 'rp_id'     => decrypt($request->get('rp_id')),
                 'header_id' => $request->get('header_id'),
-            ]);
+            ])->with(['header_update' => 'La póliza fue registrada con éxito.']);
         }
 
         return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
@@ -193,9 +190,14 @@ class HeaderController extends Controller
 
     public function issuance($rp_id, $header_id)
     {
-        $header = $this->repository->getHeaderById(decode($header_id));
+        if ($this->repository->getHeaderById(decode($header_id))) {
+            $header = $this->repository->getModel();
 
-        return view('de.issuance', compact('rp_id', 'header_id', 'header'));
+            return view('de.issuance', compact('rp_id', 'header_id', 'header'));
+
+        }
+
+        return redirect()->back();
     }
 
     /**

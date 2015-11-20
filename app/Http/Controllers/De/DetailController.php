@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Sibas\Http\Controllers\Client\ClientController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Http\Requests\Client\ClientComplementFormRequest;
 use Sibas\Http\Requests\Client\ClientCreateFormRequest;
 use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\De\DetailDeRepository;
@@ -17,7 +18,7 @@ class DetailController extends Controller
     /**
      * @var DetailDeRepository
      */
-    private $repository;
+    protected $repository;
     /**
      * @var ClientController
      */
@@ -57,7 +58,8 @@ class DetailController extends Controller
         return $this->client->create($rp_id, $header_id, $client_id);
     }
 
-    /** Store a newly created resource in storage.
+    /**
+     * Store a newly created resource in storage.
      *
      * @param  ClientCreateFormRequest $request
      * @return Response
@@ -116,7 +118,40 @@ class DetailController extends Controller
         }
 
         return redirect()->back()->with(['client_edit' => 'El Cliente no existe']);
-        /*$ref = strtoupper($ref);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  ClientCreateFormRequest $request
+     * @param $rp_id
+     * @param $header_id
+     * @param $detail_id
+     * @return Response
+     */
+    public function update(ClientCreateFormRequest $request, $rp_id, $header_id, $detail_id)
+    {
+        if ($this->repository->getDetailById(decode($request->get('detail_id')))) {
+            $detail = $this->repository->getModel();
+
+            return $this->client->update($request, $rp_id, $header_id, $detail->client);
+        }
+
+        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+    }
+
+    /**
+     * Show the form for add complementary data.
+     *
+     * @param $rp_id
+     * @param $header_id
+     * @param $detail_id
+     * @param null $ref
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function editIssue($rp_id, $header_id, $detail_id, $ref = null)
+    {
+        $ref = strtoupper($ref);
 
         if ($this->repository->getDetailById(decode($detail_id))) {
             $detail = $this->repository->getModel();
@@ -127,7 +162,7 @@ class DetailController extends Controller
 
                 if (! is_null($client)) {
                     if ($ref === 'ISE') {
-                        return view('client.de.detail-edit', compact('rp_id', 'header_id', 'data', 'detail', 'ref'));
+                        return view('client.de.detail-edit', compact('rp_id', 'header_id', 'ref', 'data', 'detail'));
                     } elseif (strtoupper($ref) === 'ISU') {
                         // return view('client.de.edit', compact('rp_id', 'header_id', 'data', 'client'));
                     }
@@ -135,23 +170,25 @@ class DetailController extends Controller
             }
         }
 
-
-        return redirect()->back();*/
+        return redirect()->back();
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  ClientCreateFormRequest $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(ClientCreateFormRequest $request, $rp_id, $header_id, $detail_id)
+    public function updateIssue(ClientComplementFormRequest $request)
     {
-        if ($this->repository->getDetailById(decode($request->get('detail_id')))) {
-            $detail = $this->repository->getModel();
+        $ref = strtoupper(decrypt($request->get('ref')));
 
-            return $this->client->update($request, $rp_id, $header_id, $detail->client);
+        if ($this->repository->getDetailById(decode($request->get('detail_id')))) {
+            $detail            = $this->repository->getModel();
+            $request['detail'] = $detail;
+
+            if ($ref === 'ISE' || $ref === 'ISU') {
+                if (! is_null($detail->client) && $this->client->updateIssue($request)) {
+                    return redirect()->route('de.edit', [
+                        'rp_id'     => decrypt($request->get('rp_id')),
+                        'header_id' => $request->get('header_id')
+                    ]);
+                }
+            };
         }
 
         return redirect()->back()->withInput()->withErrors($this->repository->getErrors());

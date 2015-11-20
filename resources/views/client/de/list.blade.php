@@ -60,7 +60,7 @@
                                             'placeholder' => 'Ingrese Documento de identidad',
                                             'autocomplete' => 'off']) !!}
                                     </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('client-search') }}</label>
+                                    <label id="location-error" class="validation-error-label" for="location">{{ session('client_search') }}</label>
                                 </div>
                                 <div class="col-xs-12 col-md-3">
                                     {!! Form::button('Buscar <i class="icon-search4"></i>', ['type' => 'submit', 'class' => 'btn btn-success']) !!}

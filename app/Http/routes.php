@@ -88,7 +88,7 @@ Route::group(['middleware' => 'auth'], function() {
         ]);
 
         /*
-         *
+         * Header Issuance
          */
         Route::get('{header_id}/issue', [
             'as'    => 'de.issue',
@@ -151,13 +151,13 @@ Route::group(['middleware' => 'auth'], function() {
          * Client edit complementary data
          */
         Route::get('edit/detail/edit/{detail_id}/{ref}', [
-            'as'    => 'de.detail.edit2',
-            'uses'  => 'De\DetailController@edit'
+            'as'    => 'de.detail.i.edit',
+            'uses'  => 'De\DetailController@editIssue'
         ]);
 
-        Route::put('edit/client/edit/{client_id}', [
-            'as'    => 'de.detail.update2',
-            'uses'  => 'Client\ClientController@update'
+        Route::put('edit/detail/edit/{detail_id}/{ref}', [
+            'as'    => 'de.detail.i.update',
+            'uses'  => 'De\DetailController@updateIssue'
         ]);
 
         /*

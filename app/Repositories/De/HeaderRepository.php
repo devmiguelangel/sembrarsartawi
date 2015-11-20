@@ -48,23 +48,20 @@ class HeaderRepository extends BaseRepository
     {
         $this->data = $request->all();
 
-        try {
-            $header       = $this->getHeaderById($this->data['header_id']);
+        if ($this->getHeaderById(decode($this->data['header_id']))) {
+            $this->model = $this->getModel();
+
             $issue_number = $this->getNumber('issue_number');
 
-            $header->type             = 'I';
-            $header->issue_number     = $issue_number;
-            $header->prefix           = 'DE';
-            $header->policy_number    = $this->data['policy_number'];
-            $header->operation_number = $this->data['operation_number'];
+            $this->model->type             = 'I';
+            $this->model->issue_number     = $issue_number;
+            $this->model->prefix           = 'DE';
+            $this->model->policy_number    = $this->data['policy_number'];
+            $this->model->operation_number = $this->data['operation_number'];
 
             if (! $this->checkNumber('issue_number', $issue_number)) {
-                if ($header->save()) {
-                    return true;
-                }
+                return $this->saveModel();
             }
-        } catch(QueryException $e) {
-            $this->errors = $e->getMessage();
         }
 
         return false;
@@ -92,18 +89,15 @@ class HeaderRepository extends BaseRepository
 
     public function issueHeader($header_id)
     {
-        try {
-            $header = $this->getHeaderById($header_id);
+        if ($this->getHeaderById(decode($header_id))) {
+            $this->model = $this->getModel();
 
-            $header->issued     = true;
-            $header->date_issue = $this->carbon->format('Y-m-d H:i:s');
-            $header->approved   = true;
+            $this->model->issued     = true;
+            $this->model->date_issue = $this->carbon->format('Y-m-d H:i:s');
+            $this->model->approved   = true;
 
-            if ($header->save()) {
-                return true;
-            }
-        } catch(QueryException $e) {
-            $this->errors = $e->getMessage();
+            return $this->saveModel();
+
         }
 
         return false;
