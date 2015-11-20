@@ -32,21 +32,27 @@
             <div class="panel panel-flat border-top-primary">
                 <div class="panel-heading divhr">
                     <h6 class="form-wizard-title2 text-semibold">
-                                        <span class="col-md-11">
-                                            <span class="form-wizard-count">2</span>
-                                            Datos del Titular 1 o Titular 2
-                                            <small class="display-block">Datos del Titular 1 o Titular 2</small>
-                                        </span>
-                                        <span class="col-md-1">
-                                            <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right" data-popup="tooltip" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
-                                                <i class="icon-question7"></i> Producto
-                                            </button>
-                                        </span>
+                        <span class="col-md-11">
+                            <span class="form-wizard-count">2</span>
+                            Datos del Titular
+                            <small class="display-block">Datos del Titular</small>
+                        </span>
+                        <span class="col-md-1">
+                            <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right" data-popup="tooltip" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
+                                <i class="icon-question7"></i> Producto
+                            </button>
+                        </span>
                     </h6>
                 </div>
                 <br />
                 <div class="col-xs-12">
                     <div class="col-md-8 col-md-offset-2">
+                        @if(session('err_client'))
+                            <div class="alert alert-info alert-styled-left alert-bordered">
+                                <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                                <span class="text-semibold">{{ session('err_client') }}</span>
+                            </div>
+                        @endif
                         {!! Form::open(['route' => ['de.client.search', 'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                             {!! Form::hidden('header_id', $header_id) !!}
                             {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
@@ -60,7 +66,6 @@
                                             'placeholder' => 'Ingrese Documento de identidad',
                                             'autocomplete' => 'off']) !!}
                                     </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ session('client_search') }}</label>
                                 </div>
                                 <div class="col-xs-12 col-md-3">
                                     {!! Form::button('Buscar <i class="icon-search4"></i>', ['type' => 'submit', 'class' => 'btn btn-success']) !!}
@@ -74,6 +79,7 @@
                         <a class="btn btn-primary" href="{{ route('de.detail.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Agregar cliente <i class="icon-plus2 position-right"></i></a>
                         <a class="btn btn-primary" href="{{ route('de.result', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Continuar <i class="icon-arrow-right14 position-right"></i></a>
                     </div>
+                    <br>
                 </div>
                 <table class="table datatable-basic">
                     @if($header->details->count() > 0)

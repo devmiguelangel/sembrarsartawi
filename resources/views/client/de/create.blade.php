@@ -44,7 +44,12 @@
                         </span>
                     </h6>
                 </div>
-                <br />
+                @if(session('err_detail'))
+                    <div class="alert alert-warning alert-styled-left">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('err_detail') }}</span>
+                    </div>
+                @endif
 
                 {!! Form::open(['route' => ['de.detail.store',  'rp_id' => (isset($rp_id) ? $rp_id : route()->get('rp_id')), 'header_id' => (isset($header_id) ? $header_id : route()->get('header_id'))], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                     {!! Form::hidden('header_id', $header_id) !!}

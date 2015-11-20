@@ -35,7 +35,7 @@
                         <span class="col-md-11">
                             <span class="form-wizard-count">3</span>
                             Seguro de Desgravamen
-                            <small class="display-block">Cuestionario</small>
+                            <small class="display-block">Cuestionario de Salud</small>
                         </span>
                         <span class="col-md-1">
                             <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right" data-popup="tooltip" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
@@ -63,7 +63,14 @@
                                 </div>
                             </div>
                             <hr />
+
                             <div class="panel-body">
+                                @if(session('err_question'))
+                                    <div class="alert alert-warning alert-styled-left">
+                                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                                        <span class="text-semibold">{{ session('err_question') }}</span>
+                                    </div>
+                                @endif
                                 {!! Form::open(['route' => ['de.question.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => $detail_id], 'method' => 'post', 'class' => '']) !!}
                                     {!! Form::hidden('header_id', $header_id) !!}
                                     {!! Form::hidden('detail_id', $detail_id) !!}

@@ -2,7 +2,6 @@
 
 namespace Sibas\Repositories;
 
-
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;

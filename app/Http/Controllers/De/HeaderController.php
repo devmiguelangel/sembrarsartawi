@@ -41,6 +41,11 @@ class HeaderController extends Controller
         $this->coverage   = new CoverageController(new CoverageRepository);
     }
 
+    /**
+     * Returns data for create Header
+     *
+     * @return array
+     */
     private function getData()
     {
         return [
@@ -90,7 +95,8 @@ class HeaderController extends Controller
             ]);
         }
 
-        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()->with(['err_header' => 'La cotización no pudo ser registrada'])
+            ->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**
@@ -120,7 +126,7 @@ class HeaderController extends Controller
             return view('de.edit', compact('rp_id', 'header_id', 'header', 'data'));
         }
 
-        return redirect()->route('de.edit', ['rp_id'     => decrypt($rp_id), 'header_id' => $header_id]);
+        return redirect()->route('de.edit', ['rp_id' => decrypt($rp_id), 'header_id' => $header_id]);
     }
 
     /**
@@ -173,7 +179,7 @@ class HeaderController extends Controller
             ]);
         }
 
-        return redirect()->back()->with(['err_result' => 'La tasa no fue registrada']);
+        return redirect()->back()->with(['err_header' => 'La tasa no fue registrada']);
     }
 
     public function issue($rp_id, $header_id)

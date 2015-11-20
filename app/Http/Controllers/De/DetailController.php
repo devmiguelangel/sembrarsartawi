@@ -86,7 +86,8 @@ class DetailController extends Controller
             }
         }
 
-        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()->with(['err_detail' => 'El cliente no pudo ser registrado.'])
+            ->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**

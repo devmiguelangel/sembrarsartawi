@@ -44,7 +44,13 @@
                         </span>
                     </h6>
                 </div>
-                <br />
+                @if(session('err_header'))
+                    <div class="alert alert-warning alert-styled-left">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('err_header') }}</span>
+                    </div>
+                @endif
+                <br>
                 <div class="panel-body ">
                     <div class="col-xs-8">
                         {!! Form::open(['route' => ['de.store', 'rp_id' => $rp_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}

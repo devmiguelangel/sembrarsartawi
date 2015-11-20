@@ -168,7 +168,8 @@ class ClientController extends Controller
             return redirect()->route('de.detail.create', compact('rp_id', 'header_id', 'client_id'));
         }
 
-        return redirect()->back()->with(['client_search' => 'El Cliente no existe'])->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()->with(['err_client' => 'El Cliente no existe'])
+            ->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**
