@@ -96,6 +96,22 @@ return [
     'avenue_street' => [
         'A' => 'Avenida',
         'S' => 'Calle',
-    ]
+    ],
+
+    'payment_methods' => [
+        'CO' => 'Al Contado',
+        'DA' => 'Débito Automático',
+    ],
+
+    'account_types' => [
+        'CA' => 'Cuenta Corriente',
+        'SA' => 'Caja de Ahorro',
+    ],
+
+    'account_number_types' => [
+        'DC' => 'Tarjeta de Débito',
+        'CC' => 'Tarjeta de Crédito',
+        'AC' => 'Cuenta',
+    ],
 
 ];
