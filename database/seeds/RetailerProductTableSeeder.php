@@ -16,20 +16,27 @@ class RetailerProductTableSeeder extends BaseSeeder
     {
         $data = [];
 
-        $data[] = [
-            'id' => 1447616258,
-            'ad_retailer_id'        => $this->getModelData('Retailer')->first()->id,
-            'ad_company_product_id' => $this->getModelData('CompanyProduct')->first()->id,
-            'type'      => 'MP',
-            'billing'   => false,
-            'provisional_certificate' => false,
-            'modality'    => false,
-            'facultative' => false,
-            'ws'          => false,
-            'landing'     => '',
-            'questions'   => '',
-            'active'      => true
-        ];
+        $retailer_id     = $this->getModelData('Retailer')->first()->id;
+        $companyProducts = $this->getModelData('CompanyProduct');
+
+        $id   = date('U');
+
+        foreach ($companyProducts as $key => $companyProduct) {
+            $data[] = [
+                'id' => $id + $key,
+                'ad_retailer_id'        => $retailer_id,
+                'ad_company_product_id' => $companyProduct->id,
+                'type'        => ($key > 0 ? 'SP' : 'MP'),
+                'billing'     => false,
+                'provisional_certificate' => false,
+                'modality'    => false,
+                'facultative' => false,
+                'ws'          => false,
+                'landing'     => '',
+                'questions'   => '',
+                'active'      => true
+            ];
+        }
 
         return $data;
     }

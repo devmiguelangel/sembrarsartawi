@@ -16,11 +16,15 @@ class CompanyProductTableSeeder extends BaseSeeder
     {
         $data = [];
 
-        $data[] = [
-            'ad_company_id' => $this->getModelData('Company')->first()->id,
-            'ad_product_id' => $this->getModelData('Product')->first()->id,
-            'active'        => true
-        ];
+        $products = $this->getModelData('Product');
+
+        foreach ($products as $product) {
+            $data[] = [
+                'ad_company_id' => $this->getModelData('Company')->first()->id,
+                'ad_product_id' => $product->id,
+                'active'        => true
+            ];
+        }
 
         return $data;
     }

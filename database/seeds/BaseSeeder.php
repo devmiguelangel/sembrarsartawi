@@ -31,6 +31,11 @@ abstract class BaseSeeder extends Seeder
         }
     }
 
+    /**
+     * @param $model
+     * @return Collection
+     * @throws Exception
+     */
     protected function getModelData($model)
     {
         if (! isset(static::$entities[$model])) {

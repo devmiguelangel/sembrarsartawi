@@ -26,6 +26,12 @@ class QuestionTableSeeder extends BaseSeeder
                 . 'ha estado incapacitado para asistir al trabajo o realizar las actividades normales de la vida diaria?',
             '¿Se encuentra usted actualmente en buen estado de salud?',
             '¿Sufre usted de alguna invalidez significativa?',
+            'Cancer',
+            'Diabetes',
+            'Insuficiencia Renal',
+            'SIDA',
+            'Enfermedades del Corazon',
+            'Enfermedades Cerebro Vasculares',
         ];
 
         foreach ($questions as $question) {

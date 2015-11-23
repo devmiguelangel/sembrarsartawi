@@ -17,13 +17,24 @@ class ProductTableSeeder extends BaseSeeder
     {
         $data = [];
 
-        $name = 'Desgravamen';
-        $data[] = [
-            'type' => 'PH',
-            'name' => $name,
-            'code' => 'de',
-            'slug' => Str::slug($name)
+        $products = [
+            [
+                'type' => 'PH',
+                'name' => 'Desgravamen',
+                'code' => 'de',
+                'slug' => Str::slug('Desgravamen')
+            ],
+            [
+                'type' => 'PH',
+                'name' => 'Vida',
+                'code' => 'vi',
+                'slug' => Str::slug('Vida')
+            ]
         ];
+
+        foreach ($products as $product) {
+            $data[] = $product;
+        }
 
         return $data;
     }

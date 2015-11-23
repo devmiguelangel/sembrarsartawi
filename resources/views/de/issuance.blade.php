@@ -63,7 +63,7 @@
                                 <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-7" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Formulario UIF</button></p>
                             </div>
                         </div>
-                        <p class="text-muted content-group-sm">Certificados </p>
+                        <a href="#">Vida</a>
                     </div>
                 </div>
 
