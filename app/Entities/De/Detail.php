@@ -19,4 +19,14 @@ class Detail extends Model
     {
         return $this->hasOne('Sibas\Entities\De\Response', 'op_de_detail_id', 'id');
     }
+
+    public function beneficiary()
+    {
+        return $this->hasOne('Sibas\Entities\De\Beneficiary', 'op_de_detail_id', 'id');
+    }
+
+    public function getCompletedAttribute()
+    {
+        return (! is_null($this->beneficiary) ? true : false);
+    }
 }

@@ -20,4 +20,19 @@ class Header extends Model
         return $this->hasMany('Sibas\Entities\De\Detail', 'op_de_header_id', 'id');
     }
 
+    public function getCompletedAttribute()
+    {
+        $completed = true;
+
+        foreach ($this->details as $detail) {
+            if (!$detail->completed) {
+                $completed = false;
+
+                break;
+            }
+        }
+
+        return $completed;
+    }
+
 }

@@ -28,10 +28,10 @@
 @section('content-wrapper')
     <div class="row">
         <div class="col-md-12">
-            @if(session()->has('header_update'))
+            @if(session('header_update'))
                 <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
                     <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                    <span class="text-semibold">Well done!</span> You successfully read <a href="#" class="alert-link">this important</a> alert message.
+                    <span class="text-semibold">{{ session('header_update') }}</span>
                 </div>
             @endif
             <!-- Horizontal form -->
@@ -73,7 +73,13 @@
                             <td>{{ dateToFormat($detail->client->birthdate) }}</td>
                             <td>{{ $detail->client->birth_place }}</td>
                             <td>{{ $detail->percentage_credit }} %</td>
-                            <td><span class="label label-success">Completado</span></td>
+                            <td>
+                                @if($detail->completed)
+                                    <span class="label label-success">Completado</span>
+                                @else
+                                    <span class="label label-default">Pendiente</span>
+                                @endif
+                            </td>
                             <td class="text-center">
                                 <ul class="icons-list">
                                     <li class="dropdown">
@@ -202,7 +208,9 @@
                         </div>
                         <div class="text-right">
                             @if($header->type === 'Q')
-                                {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+                                @if($header->completed)
+                                    {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+                                @endif
                             @elseif($header->type === 'I')
                                 <a href="{{ route('de.issue', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-primary">
                                     Emitir <i class="icon-floppy-disk position-right"></i>

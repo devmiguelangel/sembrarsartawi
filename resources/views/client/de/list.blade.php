@@ -77,10 +77,13 @@
                 <div class="col-xs-12">
                     <div class="text-right">
                         <a class="btn btn-primary" href="{{ route('de.detail.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Agregar cliente <i class="icon-plus2 position-right"></i></a>
-                        <a class="btn btn-primary" href="{{ route('de.result', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Continuar <i class="icon-arrow-right14 position-right"></i></a>
+                        @if($header->details->count() > 0)
+                            <a class="btn btn-primary" href="{{ route('de.result', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Continuar <i class="icon-arrow-right14 position-right"></i></a>
+                        @endif
                     </div>
                     <br>
                 </div>
+
                 <table class="table datatable-basic">
                     @if($header->details->count() > 0)
                         <thead>

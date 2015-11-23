@@ -49,8 +49,8 @@
                 <div class="panel-body ">
                     <div class="col-md-6 col-md-offset-3">
                         <div class="panel panel-body border-top-primary text-center">
-                            <h6 class="no-margin text-semibold">Póliza DE-41089</h6>
-                            <p class="text-muted content-group-sm">Cotizacion/Emisión </p>
+                            <h6 class="no-margin text-semibold">Póliza {{ $header->prefix }} - {{ $header->policy_number }}</h6>
+                            <p class="text-muted content-group-sm">Certificados </p>
                             <div class="col-md-12 col-md-offset-2">
                                 <p><button type="button" class="btn btn-primary btn-labeled btn-xlg col-lg-7" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Imprimir Todo</button></p>
                                 <div class="col-md-12">&nbsp;</div>
@@ -63,6 +63,7 @@
                                 <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-7" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Formulario UIF</button></p>
                             </div>
                         </div>
+                        <p class="text-muted content-group-sm">Certificados </p>
                     </div>
                 </div>
 

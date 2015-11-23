@@ -141,7 +141,7 @@ class HeaderController extends Controller
             return redirect()->route('de.edit', [
                 'rp_id'     => decrypt($request->get('rp_id')),
                 'header_id' => $request->get('header_id'),
-            ])->with(['header_update' => 'La póliza fue registrada con éxito.']);
+            ])->with(['header_update' => 'La póliza fue actualizada con éxito.']);
         }
 
         return redirect()->back()->withInput()->withErrors($this->repository->getErrors());

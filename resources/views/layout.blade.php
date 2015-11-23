@@ -43,8 +43,12 @@
             <!-- /theme JS files -->
 
     <!--picker date-->
+    {!! Html::script('assets/js/core/libraries/jquery_ui/datepicker.min.js') !!}
     {!! Html::script('assets/js/plugins/ui/moment/moment.min.js') !!}
     {!! Html::script('assets/js/plugins/pickers/daterangepicker.js') !!}
+    {!! Html::script('assets/js/plugins/pickers/pickadate/picker.js') !!}
+    {!! Html::script('assets/js/plugins/pickers/pickadate/picker.date.js') !!}
+    {!! Html::script('assets/js/plugins/pickers/pickadate/legacy.js') !!}
     {!! Html::script('assets/js/pages/picker_date.js') !!}
             <!--fin picker date-->
 

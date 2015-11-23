@@ -243,6 +243,12 @@ $(function() {
         selectMonths: true
     });
 
+    // Dropdown selectors forato de fecha
+    $('.pickadate-cobodate').pickadate({
+        selectYears: true,
+        selectMonths: true,
+        format:"dd/mm/yyyy"
+    });
 
     // Year selector
     $('.pickadate-year').pickadate({

@@ -54,4 +54,14 @@ class ClientCreateFormRequest extends Request
             'gender'            => 'required|in:' . $genders
         ];
     }
+
+    public function getValidatorInstance()
+    {
+        $input = $this->request->all();
+        $input['birthdate'] = date('Y-m-d', strtotime(str_replace('/', '-', $input['birthdate'])));
+
+        $this->request->replace($input);
+
+        return parent::getValidatorInstance();
+    }
 }
