@@ -22,7 +22,7 @@ class RetailerProductQuestionTableSeeder extends BaseSeeder
         foreach ($questions as $key => $question) {
             $response = $question->id == 5 ? true : false;
 
-            if ($key > 5) {
+            if ($key <= 5) {
                 $rp_id = $retailerProduct->first()->id;
             } else {
                 $rp_id = $retailerProduct->last()->id;

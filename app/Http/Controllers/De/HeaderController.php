@@ -7,12 +7,14 @@ use Illuminate\Http\Response;
 use Sibas\Entities\Rate;
 use Sibas\Http\Controllers\BaseController;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Http\Controllers\Retailer\RetailerProductController;
 use Sibas\Http\Requests\De\HeaderCreateFormRequest;
 use Sibas\Http\Requests\De\HeaderEditFormRequest;
 use Sibas\Http\Requests\De\HeaderResultFormRequest;
 use Sibas\Repositories\De\CoverageRepository;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\HeaderRepository;
+use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 
 class HeaderController extends Controller
@@ -33,12 +35,17 @@ class HeaderController extends Controller
      * @var Rate
      */
     private $rate;
+    /**
+     * @var RetailerProductController
+     */
+    private $retailerProduct;
 
     public function __construct(HeaderRepository $repository)
     {
-        $this->repository = $repository;
-        $this->base       = new BaseController(new DataRepository);
-        $this->coverage   = new CoverageController(new CoverageRepository);
+        $this->repository      = $repository;
+        $this->base            = new BaseController(new DataRepository);
+        $this->coverage        = new CoverageController(new CoverageRepository);
+        $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
     }
 
     /**
@@ -199,8 +206,23 @@ class HeaderController extends Controller
         if ($this->repository->getHeaderById(decode($header_id))) {
             $header = $this->repository->getModel();
 
-            return view('de.issuance', compact('rp_id', 'header_id', 'header'));
+            $subProducts = $this->retailerProduct->subProductByIdProduct($rp_id);
 
+            return view('de.issuance', compact('rp_id', 'header_id', 'header', 'subProducts'));
+
+        }
+
+        return redirect()->back();
+    }
+
+    public function spViLists($rp_id, $header_id)
+    {
+        if ($this->repository->getHeaderById(decode($header_id))) {
+            $header = $this->repository->getModel();
+
+            
+
+            return view('vi.sp.list', compact('rp_id', 'header_id'));
         }
 
         return redirect()->back();

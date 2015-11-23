@@ -40,4 +40,18 @@ class RetailerProductRepository extends BaseRepository
         
         return $questions;
     }
+
+    public function getSubProductByIdProduct($rp_id)
+    {
+        $retailerProduct = RetailerProduct::where('id', $rp_id)->first();
+
+        if (! is_null($retailerProduct)) {
+            $subProducts = $retailerProduct->subProducts;
+            if ($subProducts->count() > 0) {
+                return $subProducts;
+            }
+        }
+
+        return null;
+    }
 }

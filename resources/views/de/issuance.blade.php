@@ -63,7 +63,11 @@
                                 <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-7" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Formulario UIF</button></p>
                             </div>
                         </div>
-                        <a href="#">Vida</a>
+                        @if(! is_null($subProducts))
+                            @foreach($subProducts as $subProduct)
+                                <a href="{{ route('de.sp.vi.list', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">{{ $subProduct->productCompany->companyProduct->product->name }}</a>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
 

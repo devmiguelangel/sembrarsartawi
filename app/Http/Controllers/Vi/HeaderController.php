@@ -1,40 +1,13 @@
 <?php
 
-namespace Sibas\Http\Controllers\Retailer;
+namespace Sibas\Http\Controllers\Vi;
 
 use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
-use Sibas\Repositories\Retailer\RetailerProductRepository;
 
-class RetailerProductController extends Controller
+class HeaderController extends Controller
 {
-    /**
-     * @var RetailerProductRepository
-     */
-    private $repository;
-
-    public function __construct(RetailerProductRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    /**
-     * Find Questions for Product Retailer
-     *
-     * @param $rp_id
-     * @return array
-     */
-    public function questionByProduct($rp_id)
-    {
-        return $this->repository->getQuestionByProduct(decode($rp_id));
-    }
-
-    public function subProductByIdProduct($rp_id)
-    {
-        return $this->repository->getSubProductByIdProduct(decode($rp_id));
-    }
-
     /**
      * Display a listing of the resource.
      *
