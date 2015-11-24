@@ -393,8 +393,7 @@
                     </div>
                 </div>
                 <div class="clearfix">&nbsp;</div>
-                
-                <form class="form-horizontal form-validate-jquery" action="#">
+                {!! Form::open(['route' => ['de.vi.sp.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                     <div class="panel-body ">
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">
@@ -533,7 +532,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                {!! Form::close() !!}
             </div>
             <!-- /horizotal form -->
         </div>

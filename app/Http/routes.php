@@ -196,6 +196,14 @@ Route::group(['middleware' => 'auth'], function() {
             'as'    => 'de.vi.sp.create',
             'uses'  => 'Vi\HeaderController@createSubProduct'
         ]);
+
+        /*
+         * Sub Product Create
+         */
+        Route::post('vi/{sp_id}/create', [
+            'as'    => 'de.vi.sp.store',
+            'uses'  => 'Vi\HeaderController@storeSubProduct'
+        ]);
     });
 
     /*

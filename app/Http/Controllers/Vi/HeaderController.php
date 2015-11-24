@@ -128,7 +128,7 @@ class HeaderController extends Controller
                         $detail = $this->detailDe->getDetail();
                         $data   = $this->detailDe->getData();
 
-                        return view('vi.sp.create', compact('rp_id', 'sp_id', 'data', 'header', 'detail'));
+                        return view('vi.sp.create', compact('rp_id', 'header_id', 'sp_id', 'data', 'header', 'detail'));
                     }
                 }
             }
