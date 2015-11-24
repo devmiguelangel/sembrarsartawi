@@ -47,28 +47,46 @@
                 <br />
 
                 <div class="panel-body ">
-                    <div class="col-md-6 col-md-offset-3">
+                    <div class="col-md-4 col-md-offset-2">
+                        <div class="modal-header bg-primary">
+                            <h6 class="modal-title">Póliza {{ $header->prefix }} - {{ $header->policy_number }}</h6>
+                        </div>
                         <div class="panel panel-body border-top-primary text-center">
-                            <h6 class="no-margin text-semibold">Póliza {{ $header->prefix }} - {{ $header->policy_number }}</h6>
-                            <p class="text-muted content-group-sm">Certificados </p>
-                            <div class="col-md-12 col-md-offset-2">
-                                <p><button type="button" class="btn btn-primary btn-labeled btn-xlg col-lg-7" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Imprimir Todo</button></p>
+                            <p class="text-muted content-group-sm">Certificados</p>
+                            <div class="col-md-12">
+                                <p><button type="button" class="btn btn-primary btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Imprimir Todo</button></p>
                                 <div class="col-md-12">&nbsp;</div>
-                                <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-7" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Slip de Cotización</button></p>
+                                <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Slip de Cotización</button></p>
                                 <div class="col-md-6">&nbsp;</div>
-                                <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-7" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Certificado de Desgravamen</button></p>
+                                <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Certificado de Desgravamen</button></p>
                                 <div class="col-md-6">&nbsp;</div>
-                                <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-7" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Carta Debito </button></p>
+                                <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Carta Debito </button></p>
                                 <div class="col-md-6">&nbsp;</div>
-                                <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-7" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Formulario UIF</button></p>
+                                <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Formulario UIF</button></p>
                             </div>
                         </div>
-                        @if(! is_null($subProducts))
-                            @foreach($subProducts as $subProduct)
-                                <a href="{{ route('de.vi.sp.list', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">{{ $subProduct->productCompany->companyProduct->product->name }}</a>
-                            @endforeach
-                        @endif
                     </div>
+                    @if(! is_null($subProducts))
+                        <div class="col-md-4">
+                            <div class="modal-header bg-success">
+                                <h6 class="modal-title">Sub-Productos</h6>
+                            </div>
+                            <div class="panel panel-body border-top-primary text-center">
+                                <p class="text-muted content-group-sm">Selecciona nuestros productos </p>
+                                <div class="col-md-12">
+                                    @foreach($subProducts as $subProduct)
+                                        <p>
+                                            <a href="{{ route('de.vi.sp.list', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                                               class="btn btn-default col-lg-12 btn-xlg">
+                                                <i class="icon-hyperlink"></i> {{ $subProduct->productCompany->companyProduct->product->name }}
+                                            </a>
+                                        </p>
+                                        <div class="col-md-6">&nbsp;</div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
             </div>
