@@ -9,7 +9,7 @@ use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Client\QuestionFormRequest;
 use Sibas\Repositories\Client\QuestionRepository;
-use Sibas\Repositories\De\DetailDeRepository;
+use Sibas\Repositories\De\DetailRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class QuestionController extends Controller
@@ -30,7 +30,7 @@ class QuestionController extends Controller
     public function __construct(QuestionRepository $repository)
     {
         $this->repository      = $repository;
-        $this->detail          = new DetailController(new DetailDeRepository);
+        $this->detail          = new DetailController(new DetailRepository);
         $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
     }
 

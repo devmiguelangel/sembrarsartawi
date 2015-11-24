@@ -54,7 +54,7 @@ class HeaderController extends Controller
      *
      * @return array
      */
-    private function getData()
+    public function getData()
     {
         return [
             'coverages'  => $this->coverage->coverage(),
@@ -216,12 +216,12 @@ class HeaderController extends Controller
         return redirect()->back();
     }
 
-    public function viSPList($rp_id, $header_id)
+    public function viSPList($rp_id, $header_id, $sp_id)
     {
         if ($this->repository->getHeaderById(decode($header_id))) {
             $header = $this->repository->getModel();
 
-            return view('vi.sp.list', compact('rp_id', 'header_id', 'header'));
+            return view('vi.sp.list', compact('rp_id', 'header_id', 'header', 'sp_id'));
         }
 
         return redirect()->back();
@@ -229,7 +229,22 @@ class HeaderController extends Controller
 
     public function viSPListStore(Request $request)
     {
-        dd($request->all());
+        if ($request->has('clients')) {
+            $rp_id     = $request->get('rp_id');
+            $header_id = $request->get('header_id');
+            $sp_id     = $request->get('sp_id');
+            $clients   = $request->get('clients');
+
+            $this->repository->setClientCacheSP($header_id, $clients);
+
+            return redirect()->route('de.vi.sp.create', [
+                'rp_id'     => decrypt($rp_id),
+                'header_id' => $header_id,
+                'sp_id'     => $sp_id,
+            ]);
+        }
+
+        return redirect()->back();
     }
 
     /**

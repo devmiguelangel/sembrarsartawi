@@ -176,7 +176,7 @@ Route::group(['middleware' => 'auth'], function() {
         /* ***********************************************
          * Vida Sub Product list
          */
-        Route::get('vi', [
+        Route::get('vi/{sp_id}', [
             'as'    => 'de.vi.sp.list',
             'uses'  => 'De\HeaderController@viSPList'
         ]);
@@ -184,9 +184,17 @@ Route::group(['middleware' => 'auth'], function() {
         /*
          * Vida Sub Product save list
          */
-        Route::post('vi', [
+        Route::post('vi/{sp_id}', [
             'as'    => 'de.vi.sp.list.store',
             'uses'  => 'De\HeaderController@viSPListStore'
+        ]);
+
+        /*
+         * Sub Product Create
+         */
+        Route::get('vi/{sp_id}/create', [
+            'as'    => 'de.vi.sp.create',
+            'uses'  => 'Vi\HeaderController@createSubProduct'
         ]);
     });
 

@@ -9,7 +9,7 @@ use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\De\BeneficiaryDeFormRequest;
 use Sibas\Repositories\De\BeneficiaryRepository;
-use Sibas\Repositories\De\DetailDeRepository;
+use Sibas\Repositories\De\DetailRepository;
 use Sibas\Repositories\Retailer\CityRepository;
 
 class BeneficiaryController extends Controller
@@ -26,7 +26,7 @@ class BeneficiaryController extends Controller
     public function __construct(BeneficiaryRepository $repository)
     {
         $this->repository = $repository;
-        $this->detail     = new DetailController(new DetailDeRepository);
+        $this->detail     = new DetailController(new DetailRepository);
         $this->cities     = new CityController(new CityRepository);
     }
 

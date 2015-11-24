@@ -2,7 +2,9 @@
 
 namespace Sibas\Repositories\Vi;
 
-class HeaderRepository
+use Sibas\Repositories\BaseRepository;
+
+class HeaderRepository extends BaseRepository
 {
 
 }

@@ -8,7 +8,7 @@ use Sibas\Entities\De\Detail;
 use Sibas\Entities\De\Header;
 use Sibas\Repositories\BaseRepository;
 
-class DetailDeRepository extends BaseRepository
+class DetailRepository extends BaseRepository
 {
     /**
      * @var Header

@@ -10,13 +10,13 @@ use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Client\ClientComplementFormRequest;
 use Sibas\Http\Requests\Client\ClientCreateFormRequest;
 use Sibas\Repositories\Client\ClientRepository;
-use Sibas\Repositories\De\DetailDeRepository;
+use Sibas\Repositories\De\DetailRepository;
 use Sibas\Repositories\De\HeaderRepository;
 
 class DetailController extends Controller
 {
     /**
-     * @var DetailDeRepository
+     * @var DetailRepository
      */
     protected $repository;
     /**
@@ -28,13 +28,17 @@ class DetailController extends Controller
      */
     private $header;
 
-    public function __construct(DetailDeRepository $repository)
+    public function __construct(DetailRepository $repository)
     {
         $this->repository = $repository;
         $this->client     = new ClientController(new ClientRepository);
         $this->header     = new HeaderController(new HeaderRepository);
     }
 
+    public function getData()
+    {
+        return $this->client->getData();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -158,7 +162,7 @@ class DetailController extends Controller
             $detail = $this->repository->getModel();
 
             if ($ref === 'ISE' || $ref === 'ISU') {
-                $data   = $this->client->getData();
+                $data   = $this->getData();
                 $client = $detail->client;
 
                 if (! is_null($client)) {

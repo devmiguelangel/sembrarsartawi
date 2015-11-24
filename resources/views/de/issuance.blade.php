@@ -76,8 +76,12 @@
                                 <div class="col-md-12">
                                     @foreach($subProducts as $subProduct)
                                         <p>
-                                            <a href="{{ route('de.vi.sp.list', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
-                                               class="btn btn-default col-lg-12 btn-xlg">
+                                            <a href="{{ route('de.vi.sp.list', [
+                                                'rp_id'     => $rp_id,
+                                                'header_id' => $header_id,
+                                                'sp_id'     => encode($subProduct->productCompany->id)
+                                            ]) }}"
+                                                class="btn btn-default col-lg-12 btn-xlg">
                                                 <i class="icon-hyperlink"></i> {{ $subProduct->productCompany->companyProduct->product->name }}
                                             </a>
                                         </p>

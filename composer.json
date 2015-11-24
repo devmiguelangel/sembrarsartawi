@@ -9,7 +9,8 @@
         "laravel/framework": "5.1.*",
         "styde/html": "^1.0",
         "vinkla/hashids": "^2.1",
-        "nesbot/carbon": "^1.21"
+        "nesbot/carbon": "^1.21",
+        "predis/predis": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

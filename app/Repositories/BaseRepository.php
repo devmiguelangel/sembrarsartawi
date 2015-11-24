@@ -5,7 +5,9 @@ namespace Sibas\Repositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Sibas\Collections\BaseCollection;
 
 abstract class BaseRepository
@@ -90,5 +92,18 @@ abstract class BaseRepository
         }
 
         return $this->selectOption->merge($d);
+    }
+
+    /**
+     * @param $header_id
+     * @param $clients
+     * @return bool
+     */
+    public function setClientCacheSP($header_id, $clients)
+    {
+        $clients    = json_encode($clients);
+        $key        = 'clients_' . $header_id;
+
+        Cache::put($key, $clients, 60);
     }
 }
