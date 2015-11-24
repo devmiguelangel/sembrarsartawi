@@ -173,12 +173,20 @@ Route::group(['middleware' => 'auth'], function() {
             'uses'  => 'De\BeneficiaryController@store'
         ]);
 
-        /*
-         * Vida Sub Product
+        /* ***********************************************
+         * Vida Sub Product list
          */
         Route::get('vi', [
-            'as'    => 'de.sp.vi.list',
-            'uses'  => 'De\HeaderController@spViLists'
+            'as'    => 'de.vi.sp.list',
+            'uses'  => 'De\HeaderController@viSPList'
+        ]);
+
+        /*
+         * Vida Sub Product save list
+         */
+        Route::post('vi', [
+            'as'    => 'de.vi.sp.list.store',
+            'uses'  => 'De\HeaderController@viSPListStore'
         ]);
     });
 

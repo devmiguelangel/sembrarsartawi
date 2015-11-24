@@ -357,7 +357,7 @@
                     <div class="panel-body ">
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Mano utilizada para escribir y/o firmar: </label>
+                                <label class="col-lg-3 control-label label_required">Mano utilizada para escribir y/o firmar: </label>
                                 <div class="col-lg-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-user"></i></span>
@@ -370,7 +370,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-3 control-label ">Avenida o Calle: </label>
+                                <label class="col-lg-3 control-label label_required">Avenida o Calle: </label>
                                 <div class="col-lg-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-user"></i></span>
@@ -412,6 +412,8 @@
                             </div>
                         </div>
                         <div class="text-right">
+                            <a href="{{ route('de.edit', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+
                             {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                         </div>
                     </div>

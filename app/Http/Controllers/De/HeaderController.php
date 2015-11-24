@@ -3,6 +3,7 @@
 namespace Sibas\Http\Controllers\De;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Sibas\Entities\Rate;
 use Sibas\Http\Controllers\BaseController;
@@ -215,17 +216,20 @@ class HeaderController extends Controller
         return redirect()->back();
     }
 
-    public function spViLists($rp_id, $header_id)
+    public function viSPList($rp_id, $header_id)
     {
         if ($this->repository->getHeaderById(decode($header_id))) {
             $header = $this->repository->getModel();
 
-            
-
-            return view('vi.sp.list', compact('rp_id', 'header_id'));
+            return view('vi.sp.list', compact('rp_id', 'header_id', 'header'));
         }
 
         return redirect()->back();
+    }
+
+    public function viSPListStore(Request $request)
+    {
+        dd($request->all());
     }
 
     /**

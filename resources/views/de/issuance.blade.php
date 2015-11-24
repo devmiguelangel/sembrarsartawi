@@ -65,7 +65,7 @@
                         </div>
                         @if(! is_null($subProducts))
                             @foreach($subProducts as $subProduct)
-                                <a href="{{ route('de.sp.vi.list', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">{{ $subProduct->productCompany->companyProduct->product->name }}</a>
+                                <a href="{{ route('de.vi.sp.list', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">{{ $subProduct->productCompany->companyProduct->product->name }}</a>
                             @endforeach
                         @endif
                     </div>

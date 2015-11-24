@@ -107,7 +107,7 @@
                                 <td>{{ dateToFormat($detail->client->birthdate) }}</td>
                                 <td>{{ $detail->client->birth_place }}</td>
                                 <td>{{ $detail->percentage_credit }} %</td>
-                                <td><span class="label label-success">Active</span></td>
+                                <td><span class="label label-success">Completado</span></td>
                                 <td class="text-center">
                                     <ul class="icons-list">
                                         <li class="dropdown">
