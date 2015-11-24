@@ -19,16 +19,22 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Productos Personas <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Productos <span class="caret"></span></a>
                     <ul class="dropdown-menu width-200">
-                        <li class="dropdown-submenu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-list-unordered"></i> Desgravamen</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ route('de.create', ['rp_id' => encode(1448311469)]) }}">Cotizar</a></li>
-                                <li class="dropdown-header highlight"><a href="#">Emitir</a></li>
-                                <li><a href="#">Facultativo</a></li>
-                            </ul>
-                        </li>
+                        @foreach(auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
+                            @if($retailerProduct->type === 'MP')
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="icon-list-unordered"></i> {{ $retailerProduct->companyProduct->product->name }}
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ route('de.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a></li>
+                                        <li class="dropdown-header highlight"><a href="#">Emitir</a></li>
+                                        <li><a href="#">Facultativo</a></li>
+                                    </ul>
+                                </li>
+                            @endif
+                        @endforeach
                     </ul>
                 </li>
                 <li class="dropdown">
