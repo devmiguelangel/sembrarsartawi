@@ -6,6 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Sibas\Http\Controllers\BaseController;
+use Sibas\Http\Controllers\Client\AccountController;
 use Sibas\Http\Controllers\Client\ClientController;
 use Sibas\Http\Controllers\De\DetailController as DetailDeController;
 use Sibas\Http\Controllers\De\HeaderController as HeaderDeController;
@@ -13,11 +14,13 @@ use Sibas\Http\Controllers\Retailer\RetailerProductController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Vi\HeaderSpCreateFormRequest;
+use Sibas\Repositories\Client\AccountRepository;
 use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\DetailRepository as DetailDeRepository;
 use Sibas\Repositories\De\HeaderRepository as HeaderDeRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
+use Sibas\Repositories\Vi\DetailRepository;
 use Sibas\Repositories\Vi\HeaderRepository;
 
 class HeaderController extends Controller
@@ -46,6 +49,14 @@ class HeaderController extends Controller
      * @var BaseController
      */
     private $base;
+    /**
+     * @var DetailController
+     */
+    private $detail;
+    /**
+     * @var AccountController
+     */
+    private $account;
 
     public function __construct(HeaderRepository $repository)
     {
@@ -55,6 +66,9 @@ class HeaderController extends Controller
         $this->detailDe        = new DetailDeController(new DetailDeRepository);
         $this->client          = new ClientController(new ClientRepository);
         $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
+
+        $this->detail          = new DetailController(new DetailRepository);
+        $this->account         = new AccountController(new AccountRepository);
     }
 
     public function getData()
@@ -185,16 +199,20 @@ class HeaderController extends Controller
     {
         if ($this->headerDe->headerById(decode($request->get('header_id')))
                 && $this->detailDe->detailById(decode($request->get('detail_id')))) {
-            $header = $this->headerDe->getHeader();
-            $detail = $this->detailDe->getDetail();
+            $headerDe = $this->headerDe->getHeader();
+            $detailDe = $this->detailDe->getDetail();
 
-            $request['header']   = $header;
-            $request['detail']   = $detail;
+            $request['header']   = $headerDe;
+            $request['detail']   = $detailDe;
             $request['policies'] = $this->retailerProduct->policies($request->get('sp_id'));
             $request['plans']    = $this->retailerProduct->plans($request->get('sp_id'));
 
-            if ($this->repository->storeSubProduct($request)) {
+            if ($this->repository->storeHeaderSubProduct($request)) {
+                $header = $this->repository->getModel();
 
+                if ($this->detail->storeDetailSubProduct($request, $header->id) && $this->account->store($request)) {
+
+                }
             }
         }
 

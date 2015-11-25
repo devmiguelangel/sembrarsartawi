@@ -1,20 +1,20 @@
 <?php
 
-namespace Sibas\Http\Controllers\Client;
+namespace Sibas\Http\Controllers\Vi;
 
 use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
-use Sibas\Repositories\Client\AccountRepository;
+use Sibas\Repositories\Vi\DetailRepository;
 
-class AccountController extends Controller
+class DetailController extends Controller
 {
     /**
-     * @var AccountRepository
+     * @var DetailRepository
      */
     private $repository;
 
-    public function __construct(AccountRepository $repository)
+    public function __construct(DetailRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -47,7 +47,7 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->repository->storeAccount($request);
+        //
     }
 
     /**
@@ -93,5 +93,10 @@ class AccountController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function storeDetailSubProduct(Request $request, $header_id)
+    {
+        return $this->repository->storeDetailSubProduct($request, $header_id);
     }
 }
