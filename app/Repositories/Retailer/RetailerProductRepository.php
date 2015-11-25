@@ -15,14 +15,14 @@ class RetailerProductRepository extends BaseRepository
      */
     public function getQuestionByProduct($rp_id)
     {
-        $retailers = RetailerProduct::with(['productQuestions' => function($q){
+        $this->model = RetailerProduct::with(['productQuestions' => function($q){
             $q->where('active', true);
             $q->orderBy('order', 'asc');
         }])->where('id', $rp_id)->get();
 
         $questions = [];
 
-        foreach ($retailers as $retailer) {
+        foreach ($this->model as $retailer) {
             foreach ($retailer->productQuestions as $productQuestion) {
                 $check_yes = $productQuestion->response ? true : false;
                 $check_no  = !$productQuestion->response ? true : false;
@@ -43,10 +43,10 @@ class RetailerProductRepository extends BaseRepository
 
     public function getSubProductByIdProduct($rp_id)
     {
-        $retailerProduct = RetailerProduct::where('id', $rp_id)->first();
+        $this->model = RetailerProduct::where('id', $rp_id)->first();
 
-        if (! is_null($retailerProduct)) {
-            $subProducts = $retailerProduct->subProducts;
+        if (! is_null($this->model)) {
+            $subProducts = $this->model->subProducts;
             if ($subProducts->count() > 0) {
                 return $subProducts;
             }

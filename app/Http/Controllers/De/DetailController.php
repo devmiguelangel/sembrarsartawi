@@ -158,7 +158,7 @@ class DetailController extends Controller
             $detail = $this->repository->getModel();
 
             if ($ref === 'ISE' || $ref === 'ISU') {
-                $data   = $this->getData();
+                $data   = $this->client->getData();
                 $client = $detail->client;
 
                 if (! is_null($client)) {

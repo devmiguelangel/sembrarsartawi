@@ -14,8 +14,7 @@ class ActivityRepository extends BaseRepository
 
         $activities = Activity::select('id', 'category', 'occupation')
             ->orderBy('id', 'asc')
-            ->get()
-            ;
+            ->get();
 
         $activities = $selectOption->merge($activities->toArray());
 

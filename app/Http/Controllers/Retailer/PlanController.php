@@ -6,44 +6,22 @@ use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Repositories\Retailer\PlanRepository;
-use Sibas\Repositories\Retailer\RetailerProductRepository;
 
-class RetailerProductController extends Controller
+class PlanController extends Controller
 {
     /**
-     * @var RetailerProductRepository
+     * @var PlanRepository
      */
     private $repository;
-    /**
-     * @var PlanController
-     */
-    private $plan;
 
-    public function __construct(RetailerProductRepository $repository)
+    public function __construct(PlanRepository $repository)
     {
         $this->repository = $repository;
-        $this->plan       = new PlanController(new PlanRepository);
     }
 
-    /**
-     * Find Questions for Product Retailer
-     *
-     * @param $rp_id
-     * @return array
-     */
-    public function questionByProduct($rp_id)
+    public function planByProduct($rp_id = null)
     {
-        return $this->repository->getQuestionByProduct(decode($rp_id));
-    }
-
-    public function subProductByIdProduct($rp_id)
-    {
-        return $this->repository->getSubProductByIdProduct(decode($rp_id));
-    }
-
-    public function plans($rp_id)
-    {
-        return $this->plan->planByProduct(decode($rp_id));
+        return $this->repository->getPlanByProduct($rp_id);
     }
 
     /**

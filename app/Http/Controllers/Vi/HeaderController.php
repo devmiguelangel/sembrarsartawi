@@ -165,8 +165,8 @@ class HeaderController extends Controller
                         $detail = $this->detailDe->getDetail();
                         $data   = $this->getData();
                         $data   = array_merge($data, $this->client->getData());
-
                         $data['questions'] = $this->retailerProduct->questionByProduct($sp_id);
+                        $data['plans']     = $this->retailerProduct->plans($sp_id);
 
                         return view('vi.sp.create', compact('rp_id', 'header_id', 'sp_id', 'data', 'header', 'detail'));
                     }

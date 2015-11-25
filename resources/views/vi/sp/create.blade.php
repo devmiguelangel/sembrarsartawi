@@ -463,13 +463,10 @@
                                 <div class="col-lg-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
-                                        <select required="required" name="plan" class="select-search">
-                                            <option value="">Seleccione</option>
-                                            <option value="1">Plan A</option>
-                                            <option value="2">Plan B</option>
-                                            <option value="2">Plan C</option>
-                                            <option value="2">Plan D</option>
-                                        </select>
+                                        {!! SelectField::input('ad_plan_id', $data['plans']->toArray(), [
+                                            'class' => 'select-search'],
+                                            old('ad_plan_id'))
+                                        !!}
                                     </div>
                                 </div>
                             </div>
