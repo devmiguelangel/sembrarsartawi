@@ -15,7 +15,10 @@ class CreateAdPoliciesTable extends Migration
         Schema::create('ad_policies', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ad_retailer_product_id')->unsigned();
+            $table->integer('ad_city_id')->unsigned()->nullable();
+            $table->integer('ad_agency_id')->unsigned()->nullable();
             $table->string('number', 140);
+            $table->string('end_policy', 140);
             $table->date('date_begin')->nullable();
             $table->date('date_end')->nullable();
             $table->enum('currency', array_keys(\Config::get('base.currencies')))->nullable();
@@ -25,6 +28,8 @@ class CreateAdPoliciesTable extends Migration
             $table->timestamps();
 
             $table->foreign('ad_retailer_product_id')->references('id')->on('ad_retailer_products');
+            $table->foreign('ad_city_id')->references('id')->on('ad_cities');
+            $table->foreign('ad_agency_id')->references('id')->on('ad_agencies');
         });
     }
 

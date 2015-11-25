@@ -12,6 +12,7 @@ use Sibas\Http\Controllers\De\HeaderController as HeaderDeController;
 use Sibas\Http\Controllers\Retailer\RetailerProductController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Http\Requests\Vi\HeaderSpCreateFormRequest;
 use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\DetailRepository as DetailDeRepository;
@@ -180,8 +181,21 @@ class HeaderController extends Controller
         ]);
     }
 
-    public function storeSubProduct(Request $request)
+    public function storeSubProduct(HeaderSpCreateFormRequest $request)
     {
-        dd($request->all());
+        if ($this->headerDe->headerById(decode($request->get('header_id')))
+                && $this->detailDe->detailById(decode($request->get('detail_id')))) {
+            $header = $this->headerDe->getHeader();
+            $detail = $this->detailDe->getDetail();
+
+            $request['header'] = $header;
+            $request['detail'] = $detail;
+
+            if ($this->repository->storeSubProduct($request)) {
+
+            }
+        }
+
+        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
     }
 }

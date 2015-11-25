@@ -25,7 +25,7 @@ function decode($value)
 {
     $value = Hashids::decode($value);
 
-    return $value[0];
+    return (count($value) === 1 ? $value[0] : 0);
 }
 
 function dateToFormat($birthdate) {

@@ -319,7 +319,14 @@
                     </div>
                 </div>
                 {!! Form::open(['route' => ['de.vi.sp.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id], 'method' => 'post', 'class' => '']) !!}
+                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
+                    {!! Form::hidden('header_id', $header_id) !!}
+                    {!! Form::hidden('detail_id', encode($detail->id)) !!}
+                    {!! Form::hidden('sp_id', $sp_id) !!}
                 <div class="col-md-10 col-md-offset-1">
+                    @foreach($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
                     <div class="modal-header bg-primary">
                         <div class="panel-heading">
                             <h6 class="modal-title">Cuestionario de Salud</h6>
@@ -378,7 +385,7 @@
                 <div class="clearfix">&nbsp;</div>
                     <div class="panel-body form-horizontal">
                         <div class="col-xs-12 col-md-6">
-                            <div class="form-group">
+                            {{--<div class="form-group">
                                 <label class="col-lg-3 control-label label_required">Mano utilizada para escribir y/o firmar: </label>
                                 <div class="col-lg-9">
                                     <div class="input-group">
@@ -403,7 +410,7 @@
                                     </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('avenue_street') }}</label>
                                 </div>
-                            </div>
+                            </div>--}}
                             <div class="form-group">
                                 <label class="col-lg-3 control-label label_required">Forma de Pago: </label>
                                 <div class="col-lg-9">
@@ -463,17 +470,18 @@
                                 <div class="col-lg-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
-                                        {!! SelectField::input('ad_plan_id', $data['plans']->toArray(), [
+                                        {!! SelectField::input('plan', $data['plans']->toArray(), [
                                             'class' => 'select-search'],
-                                            old('ad_plan_id'))
+                                            old('plan'))
                                         !!}
                                     </div>
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('plan') }}</label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">
-                                <label class="control-label label_required col-lg-3">Número de domicilio: </label>
+                                <label class="control-label col-lg-3">Número de domicilio: </label>
                                 <div class="col-lg-9">
                                     <div class="input-group">
                                         <span class="input-group-addon">Nro.</span>
@@ -487,7 +495,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-lg-3 label_required">Dirección laboral: </label>
+                                <label class="control-label col-lg-3">Dirección laboral: </label>
                                 <div class="col-lg-9">
                                     {!! Form::textarea('business_address', old('business_address', $detail->client->business_address), [
                                         'size' => '4x4',

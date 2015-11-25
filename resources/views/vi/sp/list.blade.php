@@ -54,9 +54,9 @@
                     </div>
                 </div>
                 {!! Form::open(['route' => ['de.vi.sp.list.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id], 'method' => 'post', 'class' => '']) !!}
-                {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
-                {!! Form::hidden('header_id', $header_id) !!}
-                {!! Form::hidden('sp_id', $sp_id) !!}
+                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
+                    {!! Form::hidden('header_id', $header_id) !!}
+                    {!! Form::hidden('sp_id', $sp_id) !!}
                     <table class="table datatable-basic">
                         <thead>
                         <tr>
