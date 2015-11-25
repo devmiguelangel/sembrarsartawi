@@ -188,8 +188,10 @@ class HeaderController extends Controller
             $header = $this->headerDe->getHeader();
             $detail = $this->detailDe->getDetail();
 
-            $request['header'] = $header;
-            $request['detail'] = $detail;
+            $request['header']   = $header;
+            $request['detail']   = $detail;
+            $request['policies'] = $this->retailerProduct->policies($request->get('sp_id'));
+            $request['plans']    = $this->retailerProduct->plans($request->get('sp_id'));
 
             if ($this->repository->storeSubProduct($request)) {
 

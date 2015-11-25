@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Repositories\Retailer\PlanRepository;
+use Sibas\Repositories\Retailer\PolicyRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class RetailerProductController extends Controller
@@ -18,11 +19,16 @@ class RetailerProductController extends Controller
      * @var PlanController
      */
     private $plan;
+    /**
+     * @var PolicyController
+     */
+    private $policy;
 
     public function __construct(RetailerProductRepository $repository)
     {
         $this->repository = $repository;
         $this->plan       = new PlanController(new PlanRepository);
+        $this->policy     = new PolicyController(new PolicyRepository);
     }
 
     /**
@@ -44,6 +50,11 @@ class RetailerProductController extends Controller
     public function plans($rp_id)
     {
         return $this->plan->planByProduct(decode($rp_id));
+    }
+
+    public function policies($rp_id)
+    {
+        return $this->policy->policyByProduct(decode($rp_id));
     }
 
     /**

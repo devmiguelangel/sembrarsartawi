@@ -5,9 +5,20 @@ namespace Sibas\Http\Controllers\Retailer;
 use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Repositories\Retailer\PolicyRepository;
 
 class PolicyController extends Controller
 {
+    /**
+     * @var PolicyRepository
+     */
+    private $repository;
+
+    public function __construct(PolicyRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -82,5 +93,10 @@ class PolicyController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function policyByProduct($rp_id)
+    {
+        return $this->repository->getPolicyByProduct($rp_id);
     }
 }

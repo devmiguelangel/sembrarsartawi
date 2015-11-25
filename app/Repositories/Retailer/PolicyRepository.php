@@ -9,8 +9,8 @@ class PolicyRepository extends BaseRepository
 {
     public function getPolicyByProduct($rp_id)
     {
-        $this->model = Policy::where('ad_retailer_product_id', $rp_id)->get();
+        $policies = Policy::where('ad_retailer_product_id', $rp_id)->get();
 
-        return $this->model;
+        return $policies;
     }
 }
