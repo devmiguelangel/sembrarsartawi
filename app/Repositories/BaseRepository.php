@@ -101,9 +101,28 @@ abstract class BaseRepository
      */
     public function setClientCacheSP($header_id, $clients)
     {
-        $clients    = json_encode($clients);
-        $key        = 'clients_' . $header_id;
+        $clients = json_encode($clients);
+        $key     = 'clients_' . $header_id;
 
         Cache::put($key, $clients, 60);
+    }
+
+    public function destroyClientCacheSP($header_id, $detail_id)
+    {
+        $key = 'clients_' . $header_id;
+
+        if (Cache::has($key)) {
+            $clients = Cache::pull($key);
+
+            if (! is_null($clients)) {
+                $clients = json_decode($clients, true);
+                $client  = array_shift($clients);
+
+                if ($client === $detail_id) {
+                    $this->setClientCacheSP($header_id, $clients);
+                }
+            }
+
+        }
     }
 }

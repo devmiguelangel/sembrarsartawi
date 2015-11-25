@@ -211,7 +211,13 @@ class HeaderController extends Controller
                 $header = $this->repository->getModel();
 
                 if ($this->detail->storeDetailSubProduct($request, $header->id) && $this->account->store($request)) {
+                    $this->repository->destroyClientCacheSP($request->get('header_id'), $request->get('detail_id'));
 
+                    return redirect()->route('de.vi.sp.create', [
+                        'rp_id'     => decrypt($request->get('rp_id')),
+                        'header_id' => $request->get('header_id'),
+                        'sp_id'     => $request->get('sp_id'),
+                    ]);
                 }
             }
         }
