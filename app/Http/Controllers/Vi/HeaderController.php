@@ -5,12 +5,18 @@ namespace Sibas\Http\Controllers\Vi;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Sibas\Http\Controllers\BaseController;
+use Sibas\Http\Controllers\Client\ClientController;
 use Sibas\Http\Controllers\De\DetailController as DetailDeController;
 use Sibas\Http\Controllers\De\HeaderController as HeaderDeController;
+use Sibas\Http\Controllers\Retailer\RetailerProductController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Repositories\Client\ClientRepository;
+use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\DetailRepository as DetailDeRepository;
 use Sibas\Repositories\De\HeaderRepository as HeaderDeRepository;
+use Sibas\Repositories\Retailer\RetailerProductRepository;
 use Sibas\Repositories\Vi\HeaderRepository;
 
 class HeaderController extends Controller
@@ -19,12 +25,43 @@ class HeaderController extends Controller
      * @var HeaderRepository
      */
     private $repository;
+    /**
+     * @var HeaderDeController
+     */
+    private $headerDe;
+    /**
+     * @var DetailDeController
+     */
+    private $detailDe;
+    /**
+     * @var ClientController
+     */
+    private $client;
+    /**
+     * @var RetailerProductController
+     */
+    private $retailerProduct;
+    /**
+     * @var BaseController
+     */
+    private $base;
 
     public function __construct(HeaderRepository $repository)
     {
-        $this->repository = $repository;
-        $this->headerDe   = new HeaderDeController(new HeaderDeRepository);
-        $this->detailDe   = new DetailDeController(new DetailDeRepository);
+        $this->repository      = $repository;
+        $this->base            = new BaseController(new DataRepository);
+        $this->headerDe        = new HeaderDeController(new HeaderDeRepository);
+        $this->detailDe        = new DetailDeController(new DetailDeRepository);
+        $this->client          = new ClientController(new ClientRepository);
+        $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
+    }
+
+    public function getData()
+    {
+        return [
+            'payment_methods' => $this->base->getPaymentMethod(),
+            'periods'         => $this->base->getPeriod(),
+        ];
     }
 
     /**
@@ -126,7 +163,10 @@ class HeaderController extends Controller
                     if ($this->headerDe->headerById(decode($header_id)) && $this->detailDe->detailById(decode($detail_id))) {
                         $header = $this->headerDe->getHeader();
                         $detail = $this->detailDe->getDetail();
-                        $data   = $this->detailDe->getData();
+                        $data   = $this->getData();
+                        $data   = array_merge($data, $this->client->getData());
+
+                        $data['questions'] = $this->retailerProduct->questionByProduct($sp_id);
 
                         return view('vi.sp.create', compact('rp_id', 'header_id', 'sp_id', 'data', 'header', 'detail'));
                     }

@@ -82,5 +82,23 @@ class BaseController extends Controller
         return $this->repository->getAvenueStreet();
     }
 
+    /** Returns list of Payment Methods
+     *
+     * @return Collection
+     */
+    public function getPaymentMethod()
+    {
+        return $this->repository->getPaymentMethod();
+    }
+
+    /** Returns list of Periods
+     *
+     * @return Collection
+     */
+    public function getPeriod()
+    {
+        return $this->repository->getPeriod();
+    }
+
 
 }

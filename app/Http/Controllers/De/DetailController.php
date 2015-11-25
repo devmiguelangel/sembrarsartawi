@@ -35,10 +35,6 @@ class DetailController extends Controller
         $this->header     = new HeaderController(new HeaderRepository);
     }
 
-    public function getData()
-    {
-        return $this->client->getData();
-    }
     /**
      * Display a listing of the resource.
      *

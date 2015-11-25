@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder
             'op_vi_details',
             'op_accounts',
             'op_vi_beneficiaries',
+            'ad_plans',
         ];
 
         $this->truncateTables($tables);
@@ -65,6 +66,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RetailerProductQuestionTableSeeder::class);
         $this->call(RateTableSeeder::class);
         $this->call(RetailerSubProductTableSeeder::class);
+        $this->call(PlanTableSeeder::class);
 
         Model::reguard();
     }

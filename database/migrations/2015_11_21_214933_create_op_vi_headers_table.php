@@ -24,7 +24,7 @@ class CreateOpViHeadersTable extends Migration
             $table->integer('ad_plan_id')->unsigned();
             $table->double('premium', 20, 2);
             $table->enum('payment_method', array_keys(\Config::get('base.payment_methods')));
-            $table->integer('period')->unsigned();
+            $table->enum('period', array_keys(\Config::get('base.periods')));
             $table->boolean('issued')->default(false);
             $table->timestamp('date_issue')->nullable();
             $table->boolean('canceled')->default(false);

@@ -83,4 +83,26 @@ class DataRepository extends BaseRepository
 
         return $this->getData($avenue_street);
     }
+
+    /** Returns list of Payment Methods
+     *
+     * @return Collection
+     */
+    public function getPaymentMethod()
+    {
+        $payment_methods = \Config::get('base.payment_methods');
+
+        return $this->getData($payment_methods);
+    }
+
+    /** Returns list of Periods
+     *
+     * @return Collection
+     */
+    public function getPeriod()
+    {
+        $periods = \Config::get('base.periods');
+
+        return $this->getData($periods);
+    }
 }

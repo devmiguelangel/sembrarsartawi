@@ -70,10 +70,10 @@ return [
     ],
 
     'term_types' => [
-        'Y' => 'Año',
-        'M' => 'Mes',
-        'W' => 'Semana',
-        'D' => 'Día',
+        'Y' => 'Años',
+        'M' => 'Meses',
+        'W' => 'Semanas',
+        'D' => 'Días',
     ],
 
     'headlines' => [
@@ -112,6 +112,11 @@ return [
         'DC' => 'Tarjeta de Débito',
         'CC' => 'Tarjeta de Crédito',
         'AC' => 'Cuenta',
+    ],
+
+    'periods' => [
+        'Y' => 'Anual',
+        'M' => 'Mensual'
     ],
 
 ];

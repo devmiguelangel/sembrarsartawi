@@ -17,15 +17,15 @@ class RetailerProductQuestionTableSeeder extends BaseSeeder
         $data = [];
 
         $questions       = $this->getModelData('Question')->all();
-        $retailerProduct = $this->getModelData('RetailerProduct');
+        $retailerProducts = $this->getModelData('RetailerProduct');
 
         foreach ($questions as $key => $question) {
             $response = $question->id == 5 ? true : false;
 
             if ($key <= 5) {
-                $rp_id = $retailerProduct->first()->id;
+                $rp_id = $retailerProducts->first()->id;
             } else {
-                $rp_id = $retailerProduct->last()->id;
+                $rp_id = $retailerProducts->last()->id;
             }
 
             $data[] = [
