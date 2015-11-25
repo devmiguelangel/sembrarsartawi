@@ -478,6 +478,40 @@
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('plan') }}</label>
                                 </div>
                             </div>
+                            <div class="modal-header bg-primary">
+                                <div class="panel-heading">
+                                    <h6 class="modal-title">Datos del Tomador</h6>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Nombre: </label>
+                                <div class="col-lg-9">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
+                                        {!! Form::text('taker_name', old('taker_name', $detail->client->full_name), [
+                                            'class' => 'form-control ui-wizard-content',
+                                            'autocomplete' => 'off',
+                                            'placeholder' => 'Nombre del Tomador'])
+                                        !!}
+                                    </div>
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('taker_name') }}</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">CI/NIT: </label>
+                                <div class="col-lg-9">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
+                                        {!! Form::text('taker_dni', old('taker_dni', $detail->client->dni), [
+                                            'class' => 'form-control ui-wizard-content',
+                                            'autocomplete' => 'off',
+                                            'placeholder' => 'CI/NIT del Tomador'])
+                                        !!}
+                                    </div>
+                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('taker_dni') }}</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">

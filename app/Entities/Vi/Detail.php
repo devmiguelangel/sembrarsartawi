@@ -4,9 +4,9 @@ namespace Sibas\Entities\Vi;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Header extends Model
+class Detail extends Model
 {
-    protected $table = 'op_vi_headers';
+    protected $table = 'op_vi_details';
 
     public $incrementing = false;
 }

@@ -3,6 +3,7 @@
 namespace Sibas\Repositories\Vi;
 
 use Illuminate\Http\Request;
+use Sibas\Entities\Vi\Detail;
 use Sibas\Entities\Vi\Header;
 use Sibas\Repositories\BaseRepository;
 
@@ -12,7 +13,7 @@ class HeaderRepository extends BaseRepository
     {
         $user       = $request->user();
         $this->data = $request->all();
-
+        $detailDe   = $this->data['detail'];
         $policies   = $this->data['policies'];
         $plans      = $this->data['plans'];
 
@@ -46,7 +47,17 @@ class HeaderRepository extends BaseRepository
             $header->amount_pledged     = 0;
             $header->file               = '';
 
-            
+            $detail = new Detail();
+
+            $detail->id              = date('U');
+            $detail->op_vi_header_id = $header->id;
+            $detail->op_client_id    = $detailDe->client->id;
+            $detail->currency        = 'BS';
+            $detail->client_code     = $detailDe->client->code;
+            $detail->taker_name      = $this->data['taker_name'];
+            $detail->taker_dni       = $this->data['taker_dni'];
+
+            dd($detail);
 
         }
 

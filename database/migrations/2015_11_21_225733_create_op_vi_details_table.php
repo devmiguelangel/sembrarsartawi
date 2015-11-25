@@ -17,7 +17,7 @@ class CreateOpViDetailsTable extends Migration
             $table->integer('op_vi_header_id')->unsigned();
             $table->integer('op_client_id')->unsigned();
             $table->enum('currency', array_keys(\Config::get('base.currencies')));
-            $table->enum('account_type', array_keys(\Config::get('base.account_types')));
+            $table->enum('account_type', array_keys(\Config::get('base.account_types')))->nullable();
             $table->string('voucher', 60);
             $table->string('reference', 140);
             $table->string('client_code', 30);

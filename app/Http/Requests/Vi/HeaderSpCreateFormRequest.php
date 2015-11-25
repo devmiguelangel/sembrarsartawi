@@ -36,6 +36,8 @@ class HeaderSpCreateFormRequest extends Request
             'plan'             => 'required|exists:ad_plans,id',
             'home_number'      => 'numeric',
             'business_address' => 'ands_full',
+            'taker_name'       => 'required|alpha_space',
+            'taker_dni'        => 'required|alpha_dash',
         ];
     }
 
