@@ -219,5 +219,15 @@ Route::group(['middleware' => 'auth'], function() {
             'as'    => 'de.question.store',
             'uses'  => 'Client\QuestionController@storeDe'
         ]);
+
+        Route::get('question/edit', [
+            'as'    => 'de.question.edit',
+            'uses'  => 'Client\QuestionController@edit'
+        ]);
+
+        Route::put('question/edit', [
+            'as'    => 'de.question.update',
+            'uses'  => 'Client\QuestionController@updateDe'
+        ]);
     });
 });

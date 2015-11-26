@@ -3,6 +3,7 @@
 namespace Sibas\Repositories\Client;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Sibas\Entities\De\Response;
 use Sibas\Repositories\BaseRepository;
 
@@ -31,6 +32,51 @@ class QuestionRepository extends BaseRepository
         }
 
         return false;
+    }
+
+    /**
+     * Update Question response for Detail
+     *
+     * @param Request $request
+     * @return bool
+     */
+    public function updateQuestionDe($request)
+    {
+        $this->data = $request->all();
+        $detail     = $request['detail'];
+
+        if ((int) $this->data['qs_number'] === count($this->data['qs'])) {
+            $this->model = $detail->response;
+
+            $this->model->response    = json_encode($this->data['qs']);
+            $this->model->observation = $this->data['qs_observation'];
+
+            return $this->saveModel();
+        }
+
+        return false;
+    }
+
+    /**
+     * Get Response For Edit
+     *
+     * @param Collection $response
+     * @return mixed
+     */
+    public function getQuestionsByResponse($response)
+    {
+        $questions = json_decode($response, true);
+
+        foreach ($questions as $key => &$question) {
+            $check_yes = ((boolean) $question['response'] ? true : false);
+            $check_no  = !((boolean) $question['response'] ? true : false);
+
+            $question['check_yes'] = $check_yes;
+            $question['check_no']  = $check_no;
+            $question['order']     = $key;
+        }
+
+        return $questions;
     }
 
     /**

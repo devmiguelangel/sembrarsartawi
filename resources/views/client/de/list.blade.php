@@ -148,8 +148,18 @@
                                                 <i class="icon-menu9"></i>
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-right">
-                                                <li><a href="{{ route('de.detail.edit', ['rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => encode($detail->id)]) }}"><i class="icon-plus2"></i> Editar</a></li>
-                                                <li><a href="#"><i class="icon-plus2"></i> Cuestionario de Salud</a></li>
+                                                <li><a href="{{ route('de.detail.edit', [
+                                                    'rp_id'     => $rp_id,
+                                                    'header_id' => $header_id,
+                                                    'detail_id' => encode($detail->id)
+                                                    ]) }}">
+                                                        <i class="icon-plus2"></i> Editar datos</a></li>
+                                                <li><a href="{{ route('de.question.edit', [
+                                                    'rp_id'     => $rp_id,
+                                                    'header_id' => $header_id,
+                                                    'detail_id' => encode($detail->id)
+                                                    ]) }}">
+                                                        <i class="icon-plus2"></i>Editar Cuestionario de Salud</a></li>
                                             </ul>
                                         </li>
                                     </ul>

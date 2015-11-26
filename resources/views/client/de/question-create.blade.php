@@ -75,42 +75,9 @@
                                     {!! Form::hidden('header_id', $header_id) !!}
                                     {!! Form::hidden('detail_id', $detail_id) !!}
                                     {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            @foreach($data['questions'] as $question)
-                                                <div class="form-group">
-                                                    <div class="col-xs-12 col-md-10">
-                                                        <label class="radio-inline text-semibold">
-                                                            <strong>{{ $question['order'] }}</strong>.
-                                                            {{ $question['question'] }}
-                                                        </label>
-                                                    </div>
-                                                    <div class="col-xs-12 col-md-2">
-                                                        {!! Form::hidden('qs[' . $question['order'] . '][id]', $question['id']) !!}
-                                                        {!! Form::hidden('qs[' . $question['order'] . '][question]', $question['question']) !!}
-                                                        <label class="radio-inline radio-right">
-                                                            {!! Form::radio('qs[' . $question['order'] . '][response]', '1', $question['check_yes'], ['class' => 'styled']) !!}
-                                                            Si
-                                                        </label>
-                                                        <label class="radio-inline radio-right">
-                                                            {!! Form::radio('qs[' . $question['order'] . '][response]', '0', $question['check_no'], ['class' => 'styled']) !!}
-                                                            No
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        {!! Form::textarea('qs_observation', old('desc_occupation'), [
-                                            'size' => '4x4',
-                                            'class' => 'form-control',
-                                            'placeholder' => 'Observación',
-                                            'autocomplete' => 'off'])
-                                        !!}
-                                        {!! Form::hidden('qs_number', count($data['questions'])) !!}
-                                    </div>
+
+                                    @include('client.de.partials.questions')
+
                                     <div class="text-right">
                                         {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                                     </div>
