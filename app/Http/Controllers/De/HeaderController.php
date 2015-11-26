@@ -131,6 +131,12 @@ class HeaderController extends Controller
             $data   = $this->getData();
             $header = $this->getHeader();
 
+            $cumulus = $header->details->sum(function($detail) {
+                return $detail->cumulus;
+            });
+
+            $header->cumulus = $cumulus;
+
             return view('de.edit', compact('rp_id', 'header_id', 'header', 'data'));
         }
 

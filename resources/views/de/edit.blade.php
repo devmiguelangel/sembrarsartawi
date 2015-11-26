@@ -107,7 +107,7 @@
                             <td>{{ $detail->client->birth_place }}</td>
                             <td>{{ $detail->percentage_credit }} %</td>
                             <td>
-                                @if($detail->completed)
+                                @if($detail->completed && $detail->cumulus > 0)
                                     <span class="label label-success">Completado</span>
                                 @else
                                     <span class="label label-default">Pendiente</span>
@@ -147,10 +147,10 @@
                                                 @endif
                                             </li>
                                             <li>
-                                                @if($header->type === 'Q')
-                                                    <a href="#"><i class="icon-plus2"></i> Registrar Saldo deudor</a>
-                                                @elseif($header->type === 'I')
+                                                @if($detail->cumulus > 0)
                                                     <a href="#"><i class="icon-plus2"></i> Editar Saldo deudor</a>
+                                                @else
+                                                    <a href="#"><i class="icon-plus2"></i> Registrar Saldo deudor</a>
                                                 @endif
                                             </li>
                                         </ul>
@@ -258,7 +258,7 @@
                         </div>
                         <div class="text-right">
                             @if($header->type === 'Q')
-                                @if($header->completed)
+                                @if($header->completed && $header->cumulus > 0)
                                     {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                                 @endif
                             @elseif($header->type === 'I')
