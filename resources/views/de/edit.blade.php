@@ -130,14 +130,29 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="{{ route('de.beneficiary.create', [
-                                                    'rp_id'     => $rp_id,
-                                                    'header_id' => $header_id,
-                                                    'detail_id' => encode($detail->id)]) }}">
-                                                    <i class="icon-plus2"></i> Registrar Benficiario
-                                                </a>
+                                                @if(is_null($detail->beneficiary))
+                                                    <a href="{{ route('de.beneficiary.create', [
+                                                        'rp_id'     => $rp_id,
+                                                        'header_id' => $header_id,
+                                                        'detail_id' => encode($detail->id)]) }}">
+                                                        <i class="icon-plus2"></i> Registrar Benficiarios
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('de.beneficiary.edit', [
+                                                        'rp_id'     => $rp_id,
+                                                        'header_id' => $header_id,
+                                                        'detail_id' => encode($detail->id)]) }}">
+                                                        <i class="icon-plus2"></i> Editar Benficiarios
+                                                    </a>
+                                                @endif
                                             </li>
-                                            <li><a href="#" data-toggle="modal" data-target="#modal_saldo_deudor"><i class="icon-plus2"></i> Registrar Saldo deudor</a></li>
+                                            <li>
+                                                @if($header->type === 'Q')
+                                                    <a href="#"><i class="icon-plus2"></i> Registrar Saldo deudor</a>
+                                                @elseif($header->type === 'I')
+                                                    <a href="#"><i class="icon-plus2"></i> Editar Saldo deudor</a>
+                                                @endif
+                                            </li>
                                         </ul>
                                     </li>
                                 </ul>

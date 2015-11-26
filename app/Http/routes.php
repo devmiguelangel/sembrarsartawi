@@ -173,6 +173,16 @@ Route::group(['middleware' => 'auth'], function() {
             'uses'  => 'De\BeneficiaryController@store'
         ]);
 
+        Route::get('beneficiary/edit/{detail_id}', [
+            'as'    => 'de.beneficiary.edit',
+            'uses'  => 'De\BeneficiaryController@edit'
+        ]);
+
+        Route::put('beneficiary/edit/{detail_id}', [
+            'as'    => 'de.beneficiary.update',
+            'uses'  => 'De\BeneficiaryController@update'
+        ]);
+
         /* ***********************************************
          * Vida Sub Product list
          */

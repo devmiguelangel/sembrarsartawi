@@ -97,24 +97,44 @@ class BeneficiaryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param $rp_id
+     * @param $header_id
+     * @param $detail_id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($rp_id, $header_id, $detail_id)
     {
-        //
+        $data = [
+            'cities' => $this->cities->cityByType(),
+        ];
+
+        if ($this->detail->detailById(decode($detail_id))) {
+            $detail      = $this->detail->getDetail();
+            $beneficiary = $detail->beneficiary;
+
+            return view('beneficiary.edit', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
+        }
+
+        return redirect()->back();
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  BeneficiaryDeFormRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BeneficiaryDeFormRequest $request)
     {
-        //
+        $rp_id          = decrypt($request->get('rp_id'));
+        $header_id      = $request->get('header_id');
+        $beneficiary_id = decode($request->get('beneficiary_id'));
+
+        if ($this->repository->updateBeneficiary($request, $beneficiary_id)) {
+            return redirect()->route('de.edit', compact('rp_id', 'header_id'));
+        }
+
+        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**
