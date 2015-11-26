@@ -35,7 +35,7 @@
                         <span class="col-md-11">
                             <span class="form-wizard-count">8</span>
                             Lista de clientes
-                            <small class="display-block">Datos del Titular 1 o Titular 2</small>
+                            <small class="display-block">Lista de clientes</small>
                         </span>
                         <span class="col-md-1">
                             <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right" data-popup="tooltip" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
@@ -60,7 +60,7 @@
                     <table class="table datatable-basic">
                         <thead>
                         <tr>
-                            <th>Select</th>
+                            <th>Seleccionar</th>
                             <th>Titular</th>
                             <th>C.I.</th>
                             <th>Nombres y Apellidos</th>

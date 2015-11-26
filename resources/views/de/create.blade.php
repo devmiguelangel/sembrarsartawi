@@ -44,6 +44,41 @@
                         </span>
                     </h6>
                 </div>
+
+                <div class="steps-basic2 wizard">
+                    <div class="steps">
+                        <ul>
+                            <li class="current">
+                                <a href="#">
+                                    <span class="current-info audible">current step: </span>
+                                    <span class="number">1</span> Datos del Prestamo
+                                </a>
+                            </li>
+                            <li class="disabled last" >
+                                <a href="#">
+                                    <span class="number">2</span> Datos del Titular
+                                </a>
+                            </li>
+                            <li class="disabled last" >
+                                <a href="#">
+                                    <span class="number">3</span> Resultado Cotización
+                                </a>
+                            </li>
+                            <li class="disabled last" >
+                                <a href="#">
+                                    <span class="number">4</span> Emisión de la Póliza de Desgravamen
+                                </a>
+                            </li>
+                            <li class="disabled last" >
+                                <a href="#">
+                                    <span class="number">5</span> Impresión de la Póliza
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <br>
+
                 @if(session('err_header'))
                     <div class="alert alert-warning alert-styled-left">
                         <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
@@ -56,7 +91,7 @@
                         {!! Form::open(['route' => ['de.store', 'rp_id' => $rp_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                             {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
                             <div class="form-group">
-                                <label class="control-label col-lg-3">Tipo de cobertura: <span class="text-danger">*</span></label>
+                                <label class="control-label col-lg-3 label_required">Tipo de cobertura: </label>
                                 <div class="col-lg-8">
                                     {!! SelectField::input('coverage', $data['coverages']->toArray(), ['class' => 'select-search'], old('coverage')) !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('coverage') }}</label>
@@ -68,7 +103,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Monto solicitado: <span class="text-danger">*</span></label>
+                                <label class="col-lg-3 control-label label_required">Monto solicitado: </label>
                                 <div class="col-lg-4">
                                     {!! Form::text('amount_requested', 0, [
                                         'class' => 'touchspin-set-value',
@@ -92,7 +127,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Plazo crédito: <span class="text-danger">*</span></label>
+                                <label class="col-lg-3 control-label label_required">Plazo crédito: </label>
                                 <div class="col-lg-4">
                                     {!! Form::text('term', 0, [
                                         'class' => 'touchspin-set-value',

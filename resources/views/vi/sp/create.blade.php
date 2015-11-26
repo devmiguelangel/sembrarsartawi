@@ -17,7 +17,7 @@
                 <ul class="breadcrumb breadcrumb-caret position-right">
                     <li><a href="">Inicio</a></li>
                     <li><a href="">Desgravamen</a></li>
-                    <li class="active">Cotizar</li>
+                    <li class="active">Sub Producto</li>
                 </ul>
             </div>
 
@@ -34,8 +34,8 @@
                     <h6 class="form-wizard-title2 text-semibold">
                         <span class="col-md-11">
                             <span class="form-wizard-count">8</span>
-                            Emisión de Póliza de Desgravamen
-                            <small class="display-block">Emisión de Póliza</small>
+                            Emisión de la Póliza de Vida
+                            <small class="display-block">Emisión de la Póliza</small>
                         </span>
                         <span class="col-md-1">
                             <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right" data-popup="tooltip" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">

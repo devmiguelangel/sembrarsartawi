@@ -44,7 +44,40 @@
                         </span>
                     </h6>
                 </div>
-                <br>
+
+                <div class="steps-basic2 wizard">
+                    <div class="steps">
+                        <ul>
+                            <li class="first done">
+                                <a href="#">
+                                    <span class="number">1</span> Datos del Prestamo
+                                </a>
+                            </li>
+                            <li class="first done">
+                                <a href="#">
+                                    <span class="number">2</span>Datos del Titular
+                                </a>
+                            </li>
+                            <li class="current">
+                                <a href="#">
+                                    <span class="current-info audible">current step: </span>
+                                    <span class="number">3</span> Resultado Cotización
+                                </a>
+                            </li>
+                            <li class="disabled last" >
+                                <a href="#">
+                                    <span class="number">4</span> Emisión de la Póliza de Desgravamen
+                                </a>
+                            </li>
+                            <li class="disabled last" >
+                                <a href="#">
+                                    <span class="number">5</span> Impresión de la Póliza
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <br />
                 @if(session('err_header'))
                     <div class="alert alert-warning alert-styled-left">
                         <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>

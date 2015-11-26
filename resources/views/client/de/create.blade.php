@@ -44,6 +44,7 @@
                         </span>
                     </h6>
                 </div>
+
                 @if(session('err_detail'))
                     <div class="alert alert-warning alert-styled-left">
                         <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>

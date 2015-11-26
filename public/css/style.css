@@ -51,6 +51,9 @@ and open the template in the editor.
    content: "*";
    color: red;
 }
+.form-control:focus, .select2-input:focus {
+    box-shadow: 0 0 7px #2196f3;
+}
 /* fin general */
 
 

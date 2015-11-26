@@ -50,7 +50,40 @@
                         </span>
                     </h6>
                 </div>
+                <div class="steps-basic2 wizard">
+                    <div class="steps">
+                        <ul>
+                            <li class="first done">
+                                <a href="#">
+                                    <span class="number">1</span> Datos del Prestamo
+                                </a>
+                            </li>
+                            <li class="first done">
+                                <a href="#">
+                                    <span class="number">2</span>Datos del Titular
+                                </a>
+                            </li>
+                            <li class="first done">
+                                <a href="#">
+                                    <span class="number">2</span>Resultado Cotización
+                                </a>
+                            </li>
+                            <li class="current">
+                                <a href="#">
+                                    <span class="current-info audible">current step: </span>
+                                    <span class="number">4</span> Emisión de la Póliza de Desgravamen
+                                </a>
+                            </li>
+                            <li class="disabled last" >
+                                <a href="#">
+                                    <span class="number">5</span> Impresión de la Póliza
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
                 <br />
+
                 <table class="table datatable-basic">
                     <thead>
                     <tr>
@@ -113,8 +146,10 @@
                     @endforeach
                     </tbody>
                 </table>
-                <div class="col-xs-12 col-md-12">
-                    <h4>Datos del Crédito Solicitado</h4>
+                <div class="modal-header bg-primary">
+                    <div class="panel-heading">
+                        <h6 class="modal-title">Datos del Crédito Solicitado</h6>
+                    </div>
                 </div>
 
                 {!! Form::open(['route' => ['de.update',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'put', 'class' => 'form-horizontal']) !!}
