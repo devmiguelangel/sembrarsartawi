@@ -85,13 +85,20 @@ class ClientRepository extends BaseRepository
 
     /** Set complementary data on Issue
      * @param Request $request
-     * @param string $client_id
      * @return bool
      */
     public function updateIssueClient($request)
     {
         $this->data  = $request->all();
         $this->model = $this->data['detail']->client;
+
+        $this->data['document_type'] = $this->model->document_type;
+        $this->data['complement']    = $this->model->complement;
+        $this->data['gender']        = $this->model->gender;
+        $this->data['weight']        = $this->model->weight;
+        $this->data['height']        = $this->model->height;
+
+        $this->setData();
 
         $this->model->hand             = $this->data['hand'];
         $this->model->avenue_street    = $this->data['avenue_street'];
@@ -116,8 +123,8 @@ class ClientRepository extends BaseRepository
         $this->model->birthdate      = $date->format('Y-m-d');
         $this->model->age            = $date->age;
         $this->model->birth_place    = $this->data['birth_place'];
-        $this->model->complement     = $this->data['complement'];
         $this->model->document_type  = $this->data['document_type'];
+        $this->model->complement     = $this->data['complement'];
         $this->model->civil_status   = $this->data['civil_status'];
         $this->model->gender         = $this->data['gender'];
         $this->model->place_residence = $this->data['place_residence'];

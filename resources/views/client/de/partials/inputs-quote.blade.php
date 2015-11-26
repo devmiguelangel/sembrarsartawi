@@ -52,46 +52,49 @@
             <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('civil_status') }}</label>
         </div>
     </div>
-    <div class="form-group">
-        <label class="col-lg-3 control-label label_required">Tipo de documento:</label>
-        <div class="col-lg-9">
-            {!! SelectField::input('document_type', $data['document_type']->toArray(), [
-                'class' => 'select-search'],
-                old('document_type', $client->document_type)) !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('document_type') }}</label>
+
+    @if(! isset($ref))
+        <div class="form-group">
+            <label class="col-lg-3 control-label label_required">Tipo de documento:</label>
+            <div class="col-lg-9">
+                {!! SelectField::input('document_type', $data['document_type']->toArray(), [
+                    'class' => 'select-search'],
+                    old('document_type', $client->document_type)) !!}
+                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('document_type') }}</label>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-lg-3 label_required">Documento de identidad: </label>
-        <div class="col-lg-9">
-            {!! Form::text('dni', old('dni', $client->dni), [
-                'class' => 'form-control ui-wizard-content',
-                'placeholder' => 'Documento de identidad',
-                'autocomplete' => 'off'])
-            !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('dni') }}</label>
+        <div class="form-group">
+            <label class="control-label col-lg-3 label_required">Documento de identidad: </label>
+            <div class="col-lg-9">
+                {!! Form::text('dni', old('dni', $client->dni), [
+                    'class' => 'form-control ui-wizard-content',
+                    'placeholder' => 'Documento de identidad',
+                    'autocomplete' => 'off'])
+                !!}
+                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('dni') }}</label>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-lg-3">Complemento: </label>
-        <div class="col-lg-9">
-            {!! Form::text('complement', old('complement', $client->complement), [
-                'class' => 'form-control ui-wizard-content',
-                'placeholder' => 'Complemento',
-                'autocomplete' => 'off'])
-            !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('complement') }}</label>
+        <div class="form-group">
+            <label class="control-label col-lg-3">Complemento: </label>
+            <div class="col-lg-9">
+                {!! Form::text('complement', old('complement', $client->complement), [
+                    'class' => 'form-control ui-wizard-content',
+                    'placeholder' => 'Complemento',
+                    'autocomplete' => 'off'])
+                !!}
+                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('complement') }}</label>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="col-lg-3 control-label label_required">Ext. Documento de identidad: </label>
-        <div class="col-lg-9">
-            {!! SelectField::input('extension', $data['cities']['CI']->toArray(), [
-                'class' => 'select-search'],
-                old('extension', $client->extension)) !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('extension') }}</label>
+        <div class="form-group">
+            <label class="col-lg-3 control-label label_required">Ext. Documento de identidad: </label>
+            <div class="col-lg-9">
+                {!! SelectField::input('extension', $data['cities']['CI']->toArray(), [
+                    'class' => 'select-search'],
+                    old('extension', $client->extension)) !!}
+                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('extension') }}</label>
+            </div>
         </div>
-    </div>
+    @endif
     <div class="form-group">
         <label class="control-label col-lg-3 label_required">País: </label>
         <div class="col-lg-9">
@@ -148,9 +151,38 @@
             <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('locality') }}</label>
         </div>
     </div>
+    @if(isset($ref))
+        <div class="form-group">
+            <label class="col-lg-3 control-label label_required">Mano utilizada para escribir y/o firmar: </label>
+            <div class="col-lg-9">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="icon-user"></i></span>
+                    {!! SelectField::input('hand', $data['hands']->toArray(), [
+                        'class' => 'select-search'],
+                        old('hand', $detail->client->hand))
+                    !!}
+                </div>
+                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('hand') }}</label>
+            </div>
+        </div>
+    @endif
 </div>
 <div class="col-xs-12 col-md-6">
-
+    @if(isset($ref))
+        <div class="form-group">
+            <label class="col-lg-3 control-label label_required">Avenida o Calle: </label>
+            <div class="col-lg-9">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="icon-user"></i></span>
+                    {!! SelectField::input('avenue_street', $data['avenue_street']->toArray(), [
+                        'class' => 'select-search'],
+                        old('avenue_street', $detail->client->avenue_street))
+                    !!}
+                </div>
+                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('avenue_street') }}</label>
+            </div>
+        </div>
+    @endif
     <div class="form-group">
         <label class="control-label col-lg-3 label_required">Dirección: </label>
         <div class="col-lg-9">
@@ -163,6 +195,35 @@
             <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('home_address') }}</label>
         </div>
     </div>
+    @if(isset($ref))
+        <div class="form-group">
+            <label class="control-label label_required col-lg-3">Número de domicilio: </label>
+            <div class="col-lg-9">
+                <div class="input-group">
+                    <span class="input-group-addon">Nro.</span>
+                    {!! Form::text('home_number', old('home_number', $detail->client->home_number), [
+                        'class' => 'form-control ui-wizard-content',
+                        'autocomplete' => 'off',
+                        'placeholder' => 'Número de domicilio'])
+                    !!}
+                </div>
+                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('home_number') }}</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-3 label_required">Dirección laboral: </label>
+            <div class="col-lg-9">
+                {!! Form::textarea('business_address', old('business_address', $detail->client->business_address), [
+                    'size' => '4x4',
+                    'class' => 'form-control',
+                    'placeholder' => 'Dirección laboral',
+                    'autocomplete' => 'off'])
+                !!}
+                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('business_address') }}</label>
+            </div>
+        </div>
+    @endif
     <div class="form-group">
         <label class="col-lg-3 control-label label_required">Ocupación (CAEDEC): </label>
         <div class="col-lg-9">
@@ -231,7 +292,7 @@
             <div class="input-group">
                 <span class="input-group-addon"><i class="icon-mail5"></i></span>
                 {!! Form::email('email', old('email', $client->email), [
-                    'class' => 'form-control ui-wizard-content required',
+                    'class' => 'form-control ui-wizard-content',
                     'placeholder' => 'mail@email.com',
                     'autocomplete' => 'off'])
                 !!}
@@ -239,42 +300,44 @@
             <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('email') }}</label>
         </div>
     </div>
-    <div class="form-group">
-        <label class="control-label col-lg-3 label_required">Peso: </label>
-        <div class="col-lg-9">
-            <div class="input-group">
-                <span class="input-group-addon">(Kg)</span>
-                {!! Form::text('weight', old('weight', $client->weight), [
-                    'class' => 'form-control ui-wizard-content',
-                    'placeholder' => 'Peso',
-                    'autocomplete' => 'off'])
-                !!}
+    @if(! isset($ref))
+        <div class="form-group">
+            <label class="control-label col-lg-3 label_required">Peso: </label>
+            <div class="col-lg-9">
+                <div class="input-group">
+                    <span class="input-group-addon">(Kg)</span>
+                    {!! Form::text('weight', old('weight', $client->weight), [
+                        'class' => 'form-control ui-wizard-content',
+                        'placeholder' => 'Peso',
+                        'autocomplete' => 'off'])
+                    !!}
+                </div>
+                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('weight') }}</label>
             </div>
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('weight') }}</label>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-lg-3 label_required">Estatura: </label>
-        <div class="col-lg-9">
-            <div class="input-group">
-                <span class="input-group-addon">(cm)</span>
-                {!! Form::text('height', old('height', $client->height), [
-                    'class' => 'form-control ui-wizard-content',
-                    'placeholder' => 'Estatura',
-                    'autocomplete' => 'off'])
-                !!}
+        <div class="form-group">
+            <label class="control-label col-lg-3 label_required">Estatura: </label>
+            <div class="col-lg-9">
+                <div class="input-group">
+                    <span class="input-group-addon">(cm)</span>
+                    {!! Form::text('height', old('height', $client->height), [
+                        'class' => 'form-control ui-wizard-content',
+                        'placeholder' => 'Estatura',
+                        'autocomplete' => 'off'])
+                    !!}
+                </div>
+                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('height') }}</label>
             </div>
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('height') }}</label>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="col-lg-3 control-label label_required">Género: </label>
-        <div class="col-lg-9">
-            {!! SelectField::input('gender', $data['gender']->toArray(), [
-                'class' => 'select-search'],
-                old('gender', $client->gender)) !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('gender') }}</label>
+        <div class="form-group">
+            <label class="col-lg-3 control-label label_required">Género: </label>
+            <div class="col-lg-9">
+                {!! SelectField::input('gender', $data['gender']->toArray(), [
+                    'class' => 'select-search'],
+                    old('gender', $client->gender)) !!}
+                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('gender') }}</label>
+            </div>
         </div>
-    </div>
+    @endif
 
 </div>
