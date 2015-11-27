@@ -147,19 +147,16 @@
                                                 @endif
                                             </li>
                                             <li>
-                                                @if($detail->cumulus > 0)
-                                                    <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
-                                                        'header_id' => $header_id,
-                                                        'detail_id' => encode($detail->id)]) }}">
-                                                        <i class="icon-plus2"></i> Editar Saldo deudor
-                                                    </a>
-                                                @else
-                                                    <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
-                                                        'header_id' => $header_id,
-                                                        'detail_id' => encode($detail->id)]) }}">
-                                                        <i class="icon-plus2"></i> Registrar Saldo deudor
-                                                    </a>
-                                                @endif
+                                                <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
+                                                    'header_id' => $header_id,
+                                                    'detail_id' => encode($detail->id)]) }}">
+                                                    <i class="icon-plus2"></i>
+                                                    @if($detail->cumulus > 0)
+                                                        Editar Saldo deudor
+                                                    @else
+                                                        Registrar Saldo deudor
+                                                    @endif
+                                                </a>
                                             </li>
                                         </ul>
                                     </li>
