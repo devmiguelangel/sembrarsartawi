@@ -148,9 +148,17 @@
                                             </li>
                                             <li>
                                                 @if($detail->cumulus > 0)
-                                                    <a href="#"><i class="icon-plus2"></i> Editar Saldo deudor</a>
+                                                    <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
+                                                        'header_id' => $header_id,
+                                                        'detail_id' => encode($detail->id)]) }}">
+                                                        <i class="icon-plus2"></i> Editar Saldo deudor
+                                                    </a>
                                                 @else
-                                                    <a href="#"><i class="icon-plus2"></i> Registrar Saldo deudor</a>
+                                                    <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
+                                                        'header_id' => $header_id,
+                                                        'detail_id' => encode($detail->id)]) }}">
+                                                        <i class="icon-plus2"></i> Registrar Saldo deudor
+                                                    </a>
                                                 @endif
                                             </li>
                                         </ul>

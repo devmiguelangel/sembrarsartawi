@@ -9,6 +9,7 @@ use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Client\ClientComplementFormRequest;
 use Sibas\Http\Requests\Client\ClientCreateFormRequest;
+use Sibas\Http\Requests\De\BalanceFormRequest;
 use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\De\DetailRepository;
 use Sibas\Repositories\De\HeaderRepository;
@@ -190,6 +191,36 @@ class DetailController extends Controller
                     ]);
                 }
             };
+        }
+
+        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+    }
+
+    public function editBalance($rp_id, $header_id, $detail_id)
+    {
+        if ($this->header->headerById(decode($header_id)) && $this->repository->getDetailById(decode($detail_id))) {
+            $header = $this->header->getHeader();
+            $detail = $this->repository->getModel();
+
+            return view('client.de.balance', compact('rp_id', 'header', 'detail'));
+        }
+
+        return redirect()->back();
+    }
+
+    public function updateBalance(BalanceFormRequest $request)
+    {
+        $rp_id     = decrypt($request->get('rp_id'));
+        $header_id = $request->get('header_id');
+        $detail_id = decode($request->get('detail_id'));
+
+        if ($this->header->headerById(decode($header_id))) {
+            $header            = $this->header->getHeader();
+            $request['header'] = $header;
+
+            if ($this->repository->updateBalance($request, $detail_id)) {
+                return redirect()->route('de.edit', compact('rp_id', 'header_id'));
+            }
         }
 
         return redirect()->back()->withInput()->withErrors($this->repository->getErrors());

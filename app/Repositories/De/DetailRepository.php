@@ -46,6 +46,25 @@ class DetailRepository extends BaseRepository
         return $this->saveModel();
     }
 
+    public function updateBalance(Request $request, $detail_id)
+    {
+        $this->data  = $request->all();
+        $header      = $this->data['header'];
+
+        if ($this->getDetailById($detail_id)) {
+            if ($this->data['amount_requested'] == $header->amount_requested) {
+                $cumulus = $this->data['amount_requested'] + $this->data['balance'];
+
+                $this->model->balance = $this->data['balance'];
+                $this->model->cumulus = $cumulus;
+
+                return $this->saveModel();
+            }
+        }
+
+        return false;
+    }
+
     public function getDetailById($detail_id)
     {
         $this->model = Detail::where('id', $detail_id)->get();

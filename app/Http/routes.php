@@ -183,6 +183,19 @@ Route::group(['middleware' => 'auth'], function() {
             'uses'  => 'De\BeneficiaryController@update'
         ]);
 
+        /*
+         * Detail Balance DE
+         */
+        Route::get('balance/edit/{detail_id}', [
+            'as'    => 'de.detail.balance.edit',
+            'uses'  => 'De\DetailController@editBalance'
+        ]);
+
+        Route::put('balance/edit/{detail_id}', [
+            'as'    => 'de.detail.balance.update',
+            'uses'  => 'De\DetailController@updateBalance'
+        ]);
+
         /* ***********************************************
          * Vida Sub Product list
          */
