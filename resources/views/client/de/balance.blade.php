@@ -33,7 +33,7 @@
                 <div class="panel-heading divhr">
                     <h6 class="form-wizard-title2 text-semibold">
                         <span class="col-md-11">
-                            <span class="form-wizard-count">5</span>
+                            <span class="form-wizard-count">4</span>
                             Datos del Saldo deudor
                             <small class="display-block">Titular {{ $detail->client->full_name }}</small>
                         </span>
@@ -44,12 +44,51 @@
                         </span>
                     </h6>
                 </div>
-                <br />
+
+                <div class="steps-basic2 wizard">
+                    <div class="steps">
+                        <ul>
+                            <li class="first done">
+                                <a href="#">
+                                    <span class="number">1</span> Datos del Prestamo
+                                </a>
+                            </li>
+                            <li class="first done">
+                                <a href="#">
+                                    <span class="number">2</span>Datos del Titular
+                                </a>
+                            </li>
+                            <li class="first done">
+                                <a href="#">
+                                    <span class="number">2</span>Resultado Cotización
+                                </a>
+                            </li>
+                            <li class="current">
+                                <a href="#">
+                                    <span class="current-info audible">current step: </span>
+                                    <span class="number">4</span> Emisión de la Póliza de Desgravamen
+                                </a>
+                            </li>
+                            <li class="disabled last" >
+                                <a href="#">
+                                    <span class="number">5</span> Impresión de la Póliza
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                @if(session('error_detail'))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('error_detail') }}</span>.
+                    </div>
+                @endif
 
                 <div class="alert alert-info alert-styled-left alert-arrow-left alert-component">
                     <!--<button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>-->
                     <h6 class="alert-heading text-semibold">Importante</h6>
-                    Comprobar y validar saldos de sibas.net para deuda directa titular en créditos paralelos y refinanciados.
+                    Comprobar y validar saldos para deuda directa titular en créditos paralelos y refinanciados.
                 </div>
 
                 {!! Form::open(['route' => ['de.detail.balance.update', 'rp_id' => $rp_id, 'header_id' => encode($header->id), 'detail_id' => encode($detail->id)], 'method' => 'put', 'class' => 'form-horizontal']) !!}

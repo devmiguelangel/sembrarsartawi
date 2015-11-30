@@ -77,16 +77,60 @@
                         </ul>
                     </div>
                 </div>
-                <br />
-                <div class="col-xs-12">
-                    <div class="col-md-8 col-md-offset-2">
-                        @if(session('err_client'))
-                            <div class="alert alert-info alert-styled-left alert-bordered">
-                                <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                                <span class="text-semibold">{{ session('err_client') }}</span>
-                            </div>
-                        @endif
-                        {!! Form::open(['route' => ['de.client.search', 'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+
+                @if(session('success_header'))
+                    <div class="alert bg-success alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('success_header') }}</span>.
+                    </div>
+                @endif
+
+                @if(session('error_client'))
+                    <div class="alert bg-info alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('error_client') }}</span>.
+                    </div>
+                @endif
+
+                @if(is_null($header))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">La Cotización no existe</span>.
+                    </div>
+                @endif
+
+                @if(session('success_question'))
+                    <div class="alert bg-success alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('success_question') }}</span>.
+                    </div>
+                @endif
+
+                @if(session('error_client_edit'))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('error_client_edit') }}</span>.
+                    </div>
+                @endif
+
+                @if(session('success_client'))
+                    <div class="alert bg-success alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('success_client') }}</span>.
+                    </div>
+                @endif
+
+                @if(session('error_question'))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('error_question') }}</span>.
+                    </div>
+                @endif
+
+                @if(! is_null($header))
+                    <div class="col-xs-12">
+                        <div class="col-md-8 col-md-offset-2">
+                            {!! Form::open(['route' => ['de.client.search', 'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                             {!! Form::hidden('header_id', $header_id) !!}
                             {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
                             <div class="form-group has-success">
@@ -104,71 +148,72 @@
                                     {!! Form::button('Buscar <i class="icon-search4"></i>', ['type' => 'submit', 'class' => 'btn btn-success']) !!}
                                 </div>
                             </div>
-                        {!! Form::close() !!}
+                            {!! Form::close() !!}
+                        </div>
                     </div>
-                </div>
-                <div class="col-xs-12">
-                    <div class="text-right">
-                        <a class="btn btn-primary" href="{{ route('de.detail.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Agregar cliente <i class="icon-plus2 position-right"></i></a>
-                        @if($header->details->count() > 0)
-                            <a class="btn btn-primary" href="{{ route('de.result', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Continuar <i class="icon-arrow-right14 position-right"></i></a>
-                        @endif
+                    <div class="col-xs-12">
+                        <div class="text-right">
+                            <a class="btn btn-primary" href="{{ route('de.detail.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Agregar cliente <i class="icon-plus2 position-right"></i></a>
+                            @if($header->details->count() > 0)
+                                <a class="btn btn-primary" href="{{ route('de.result', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Continuar <i class="icon-arrow-right14 position-right"></i></a>
+                            @endif
+                        </div>
+                        <br>
                     </div>
-                    <br>
-                </div>
 
-                <table class="table datatable-basic">
-                    @if($header->details->count() > 0)
-                        <thead>
-                        <tr>
-                            <th>Titular</th>
-                            <th>C.I.</th>
-                            <th>Nombres y Apellidos</th>
-                            <th>Fecha Nacimiento</th>
-                            <th>Departamento</th>
-                            <th>% Credito</th>
-                            <th>Status</th>
-                            <th class="text-center">Accion</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($header->details as $key => $detail)
+                    <table class="table datatable-basic">
+                        @if($header->details->count() > 0)
+                            <thead>
                             <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td><a href="#">{{ $detail->client->dni }} {{ $detail->client->extension }}</a></td>
-                                <td>{{ $detail->client->full_name }}</td>
-                                <td>{{ dateToFormat($detail->client->birthdate) }}</td>
-                                <td>{{ $detail->client->birth_place }}</td>
-                                <td>{{ $detail->percentage_credit }} %</td>
-                                <td><span class="label label-success">Completado</span></td>
-                                <td class="text-center">
-                                    <ul class="icons-list">
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                <i class="icon-menu9"></i>
-                                            </a>
-                                            <ul class="dropdown-menu dropdown-menu-right">
-                                                <li><a href="{{ route('de.detail.edit', [
-                                                    'rp_id'     => $rp_id,
-                                                    'header_id' => $header_id,
-                                                    'detail_id' => encode($detail->id)
-                                                    ]) }}">
-                                                        <i class="icon-plus2"></i> Editar datos</a></li>
-                                                <li><a href="{{ route('de.question.edit', [
-                                                    'rp_id'     => $rp_id,
-                                                    'header_id' => $header_id,
-                                                    'detail_id' => encode($detail->id)
-                                                    ]) }}">
-                                                        <i class="icon-plus2"></i>Editar Cuestionario de Salud</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </td>
+                                <th>Titular</th>
+                                <th>C.I.</th>
+                                <th>Nombres y Apellidos</th>
+                                <th>Fecha Nacimiento</th>
+                                <th>Departamento</th>
+                                <th>% Credito</th>
+                                <th>Status</th>
+                                <th class="text-center">Accion</th>
                             </tr>
-                        @endforeach
-                        </tbody>
-                    @endif
-                </table>
+                            </thead>
+                            <tbody>
+                            @foreach($header->details as $key => $detail)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td><a href="#">{{ $detail->client->dni }} {{ $detail->client->extension }}</a></td>
+                                    <td>{{ $detail->client->full_name }}</td>
+                                    <td>{{ dateToFormat($detail->client->birthdate) }}</td>
+                                    <td>{{ $detail->client->birth_place }}</td>
+                                    <td>{{ $detail->percentage_credit }} %</td>
+                                    <td><span class="label label-success">Completado</span></td>
+                                    <td class="text-center">
+                                        <ul class="icons-list">
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                    <li><a href="{{ route('de.detail.edit', [
+                                                    'rp_id'     => $rp_id,
+                                                    'header_id' => $header_id,
+                                                    'detail_id' => encode($detail->id)
+                                                    ]) }}">
+                                                            <i class="icon-plus2"></i> Editar datos</a></li>
+                                                    <li><a href="{{ route('de.question.edit', [
+                                                    'rp_id'     => $rp_id,
+                                                    'header_id' => $header_id,
+                                                    'detail_id' => encode($detail->id)
+                                                    ]) }}">
+                                                            <i class="icon-plus2"></i>Editar Cuestionario de Salud</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        @endif
+                    </table>
+                @endif
             </div>
             <!-- /horizotal form -->
         </div>

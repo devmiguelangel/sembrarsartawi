@@ -33,7 +33,7 @@
                 <div class="panel-heading divhr">
                     <h6 class="form-wizard-title2 text-semibold">
                         <span class="col-md-11">
-                            <span class="form-wizard-count">6</span>
+                            <span class="form-wizard-count">5</span>
                             Impresión de la Póliza
                             <small class="display-block">Impresión de la Póliza de Desgravamen</small>
                         </span>

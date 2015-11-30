@@ -79,13 +79,13 @@ class ClientController extends Controller
      */
     public function lists($rp_id, $header_id)
     {
+        $header = null;
+
         if ($this->header->headerById(decode($header_id))) {
             $header = $this->header->getHeader();
-
-            return view('client.de.list', compact('rp_id', 'header_id', 'header'));
         }
 
-        return redirect()->back()->with(['list' => 'La cotizacion no existe']);
+        return view('client.de.list', compact('rp_id', 'header_id', 'header'));
     }
 
     /** Find Client by Id
@@ -168,7 +168,8 @@ class ClientController extends Controller
             return redirect()->route('de.detail.create', compact('rp_id', 'header_id', 'client_id'));
         }
 
-        return redirect()->back()->with(['err_client' => 'El Cliente no existe'])
+        return redirect()->back()
+            ->with(['error_client' => 'El Cliente no existe'])
             ->withInput()->withErrors($this->repository->getErrors());
     }
 
@@ -203,10 +204,12 @@ class ClientController extends Controller
             return redirect()->route('de.client.list', [
                 'rp_id'     => decrypt($request->get('rp_id')),
                 'header_id' => $header_id
-            ]);
+            ])->with(['success_client' => 'La información del Cliente fue actualizó correctamente']);
         }
 
-        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()
+            ->with(['error_client_edit' => 'La información del Cliente no pudo ser actualizada'])
+            ->withInput()->withErrors($this->repository->getErrors());
     }
 
     public function updateIssue(Request $request)

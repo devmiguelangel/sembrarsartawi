@@ -61,7 +61,8 @@ class BeneficiaryController extends Controller
             return view('beneficiary.create', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
         }
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with(['error_beneficiary' => 'No se puede registrar el Beneficiario']);
     }
 
     /**
@@ -77,10 +78,13 @@ class BeneficiaryController extends Controller
         $detail_id = decode($request->get('detail_id'));
 
         if ($this->repository->storeBeneficiary($request, $detail_id)) {
-            return redirect()->route('de.edit', compact('rp_id', 'header_id'));
+            return redirect()->route('de.edit', compact('rp_id', 'header_id'))
+                ->with(['success_beneficiary' => 'El Beneficiario fue registrado con éxito']);
         }
 
-        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()
+            ->with(['error_beneficiary' => 'El Beneficiario no puede ser registrado'])
+            ->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**
@@ -115,7 +119,8 @@ class BeneficiaryController extends Controller
             return view('beneficiary.edit', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
         }
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with(['error_beneficiary' => 'No se puede editar el Beneficiario']);
     }
 
     /**
@@ -131,10 +136,13 @@ class BeneficiaryController extends Controller
         $beneficiary_id = decode($request->get('beneficiary_id'));
 
         if ($this->repository->updateBeneficiary($request, $beneficiary_id)) {
-            return redirect()->route('de.edit', compact('rp_id', 'header_id'));
+            return redirect()->route('de.edit', compact('rp_id', 'header_id'))
+                ->with(['success_beneficiary' => 'El Beneficiario fue actualizado correctamente']);
         }
 
-        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()
+            ->with(['error_beneficiary' => 'El Beneficiario no puede ser actualizado'])
+            ->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**

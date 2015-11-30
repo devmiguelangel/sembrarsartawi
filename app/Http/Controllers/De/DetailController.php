@@ -82,12 +82,13 @@ class DetailController extends Controller
                             'rp_id'     => decrypt($request->get('rp_id')),
                             'header_id' => encode($header->id),
                             'detail_id' => encode($detail->id),
-                        ]);
+                        ])->with(['success_client' => 'La información del Cliente fue registrada']);
                 }
             }
         }
 
-        return redirect()->back()->with(['err_detail' => 'El cliente no pudo ser registrado.'])
+        return redirect()->back()
+            ->with(['error_detail' => 'El Cliente no pudo ser registrado'])
             ->withInput()->withErrors($this->repository->getErrors());
     }
 
@@ -114,12 +115,13 @@ class DetailController extends Controller
     {
         if ($this->repository->getDetailById(decode($detail_id))) {
             $detail = $this->repository->getModel();
+
             if (! is_null($detail->client)) {
                 return $this->client->edit($rp_id, $header_id, $detail_id, $detail->client);
             }
         }
 
-        return redirect()->back()->with(['client_edit' => 'El Cliente no existe']);
+        return redirect()->back()->with(['error_client_edit' => 'El Cliente no existe']);
     }
 
     /**
@@ -139,7 +141,9 @@ class DetailController extends Controller
             return $this->client->update($request, $rp_id, $header_id, $detail->client);
         }
 
-        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()
+            ->with(['error_client_edit' => 'La información del Cliente no puede ser actualizada'])
+            ->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**
@@ -172,7 +176,8 @@ class DetailController extends Controller
             }
         }
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with(['error_client' => 'La información del Cliente no puede ser editada']);
     }
 
     public function updateIssue(ClientComplementFormRequest $request)
@@ -188,12 +193,14 @@ class DetailController extends Controller
                     return redirect()->route('de.edit', [
                         'rp_id'     => decrypt($request->get('rp_id')),
                         'header_id' => $request->get('header_id')
-                    ]);
+                    ])->with(['success_client' => 'La información del Cliente se actualizó correctamente']);
                 }
             };
         }
 
-        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()
+            ->with(['error_client' => 'La información del Cliente no pudo ser actualizada'])
+            ->withInput()->withErrors($this->repository->getErrors());
     }
 
     public function editBalance($rp_id, $header_id, $detail_id)
@@ -205,7 +212,8 @@ class DetailController extends Controller
             return view('client.de.balance', compact('rp_id', 'header', 'detail'));
         }
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with(['error_detail' => 'El Saldo Deudor no puede ser editado']);
     }
 
     public function updateBalance(BalanceFormRequest $request)
@@ -219,11 +227,14 @@ class DetailController extends Controller
             $request['header'] = $header;
 
             if ($this->repository->updateBalance($request, $detail_id)) {
-                return redirect()->route('de.edit', compact('rp_id', 'header_id'));
+                return redirect()->route('de.edit', compact('rp_id', 'header_id'))
+                    ->with(['success_detail' => 'El Saldo Deudor fue actualizado correctamente']);
             }
         }
 
-        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()
+            ->with(['error_detail' => 'El Saldo Deudor no puede ser actualizado'])
+            ->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**

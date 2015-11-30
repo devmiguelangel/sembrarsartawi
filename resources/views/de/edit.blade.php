@@ -28,18 +28,12 @@
 @section('content-wrapper')
     <div class="row">
         <div class="col-md-12">
-            @if(session('header_update'))
-                <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
-                    <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                    <span class="text-semibold">{{ session('header_update') }}</span>
-                </div>
-            @endif
             <!-- Horizontal form -->
             <div class="panel panel-flat border-top-primary">
                 <div class="panel-heading divhr">
                     <h6 class="form-wizard-title2 text-semibold">
                         <span class="col-md-11">
-                            <span class="form-wizard-count">5</span>
+                            <span class="form-wizard-count">4</span>
                             Emisión de Póliza de Desgravamen
                             <small class="display-block">Emisión de Póliza</small>
                         </span>
@@ -50,6 +44,7 @@
                         </span>
                     </h6>
                 </div>
+
                 <div class="steps-basic2 wizard">
                     <div class="steps">
                         <ul>
@@ -82,97 +77,161 @@
                         </ul>
                     </div>
                 </div>
-                <br />
 
-                <table class="table datatable-basic">
-                    <thead>
-                    <tr>
-                        <th>Titular</th>
-                        <th>C.I.</th>
-                        <th>Nombres y Apellidos</th>
-                        <th>Fecha Nacimiento</th>
-                        <th>Departamento</th>
-                        <th>% Credito</th>
-                        <th>Status</th>
-                        <th class="text-center">Accion</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($header->details as $key => $detail)
+                @if(session('success_header'))
+                    <div class="alert bg-success alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('success_header') }}</span>.
+                    </div>
+                @endif
+
+                @if(session('error_header'))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('error_header') }}</span>.
+                    </div>
+                @endif
+
+                @if(is_null($header))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">La Cotización no existe</span>.
+                    </div>
+                @endif
+
+                @if(session('error_client'))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('error_client') }}</span>.
+                    </div>
+                @endif
+
+                @if(session('success_client'))
+                    <div class="alert bg-success alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('success_client') }}</span>.
+                    </div>
+                @endif
+
+                @if(session('error_beneficiary'))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('error_beneficiary') }}</span>.
+                    </div>
+                @endif
+
+                @if(session('success_beneficiary'))
+                    <div class="alert bg-success alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('success_beneficiary') }}</span>.
+                    </div>
+                @endif
+
+                @if(session('error_detail'))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('error_detail') }}</span>.
+                    </div>
+                @endif
+
+                @if(session('success_detail'))
+                    <div class="alert bg-success alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('success_detail') }}</span>.
+                    </div>
+                @endif
+
+                @if(! is_null($header))
+                    <table class="table datatable-basic">
+                        <thead>
                         <tr>
-                            <td>{{ $key + 1 }}</td>
-                            <td><a href="#">{{ $detail->client->dni }} {{ $detail->client->extension }}</a></td>
-                            <td>{{ $detail->client->full_name }}</td>
-                            <td>{{ dateToFormat($detail->client->birthdate) }}</td>
-                            <td>{{ $detail->client->birth_place }}</td>
-                            <td>{{ $detail->percentage_credit }} %</td>
-                            <td>
-                                @if($detail->completed && $detail->cumulus > 0)
-                                    <span class="label label-success">Completado</span>
-                                @else
-                                    <span class="label label-default">Pendiente</span>
-                                @endif
-                            </td>
-                            <td class="text-center">
-                                <ul class="icons-list">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            <i class="icon-menu9"></i>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li>
-                                                <a href="{{ route('de.detail.i.edit', [
+                            <th>Titular</th>
+                            <th>C.I.</th>
+                            <th>Nombres y Apellidos</th>
+                            <th>Fecha Nacimiento</th>
+                            <th>Departamento</th>
+                            <th>% Credito</th>
+                            <th>Status</th>
+                            <th class="text-center">Accion</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($header->details as $key => $detail)
+                            <tr>
+                                <td>{{ $key + 1 }}</td>
+                                <td><a href="#">{{ $detail->client->dni }} {{ $detail->client->extension }}</a></td>
+                                <td>{{ $detail->client->full_name }}</td>
+                                <td>{{ dateToFormat($detail->client->birthdate) }}</td>
+                                <td>{{ $detail->client->birth_place }}</td>
+                                <td>{{ $detail->percentage_credit }} %</td>
+                                <td>
+                                    @if($detail->completed && $detail->cumulus > 0)
+                                        <span class="label label-success">Completado</span>
+                                    @else
+                                        <span class="label label-danger">Pendiente</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <ul class="icons-list">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                    <a href="{{ route('de.detail.i.edit', [
                                                     'rp_id'     => $rp_id,
                                                     'header_id' => $header_id,
                                                     'detail_id' => encode($detail->id),
                                                     'ref'       => 'ise']) }}">
-                                                    <i class="icon-pencil3"></i> Editar datos del cliente
-                                                </a>
-                                            </li>
-                                            <li>
-                                                @if(is_null($detail->beneficiary))
-                                                    <a href="{{ route('de.beneficiary.create', [
+                                                        <i class="icon-pencil3"></i> Editar datos del cliente
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    @if(is_null($detail->beneficiary))
+                                                        <a href="{{ route('de.beneficiary.create', [
                                                         'rp_id'     => $rp_id,
                                                         'header_id' => $header_id,
                                                         'detail_id' => encode($detail->id)]) }}">
-                                                        <i class="icon-plus2"></i> Registrar Benficiarios
-                                                    </a>
-                                                @else
-                                                    <a href="{{ route('de.beneficiary.edit', [
+                                                            <i class="icon-plus2"></i> Registrar Beneficiarios
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('de.beneficiary.edit', [
                                                         'rp_id'     => $rp_id,
                                                         'header_id' => $header_id,
                                                         'detail_id' => encode($detail->id)]) }}">
-                                                        <i class="icon-plus2"></i> Editar Benficiarios
-                                                    </a>
-                                                @endif
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
+                                                            <i class="icon-plus2"></i> Editar Beneficiarios
+                                                        </a>
+                                                    @endif
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
                                                     'header_id' => $header_id,
                                                     'detail_id' => encode($detail->id)]) }}">
-                                                    <i class="icon-plus2"></i>
-                                                    @if($detail->cumulus > 0)
-                                                        Editar Saldo deudor
-                                                    @else
-                                                        Registrar Saldo deudor
-                                                    @endif
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-                <div class="modal-header bg-primary">
-                    <div class="panel-heading">
-                        <h6 class="modal-title">Datos del Crédito Solicitado</h6>
-                    </div>
-                </div>
+                                                        <i class="icon-plus2"></i>
+                                                        @if($detail->cumulus > 0)
+                                                            Editar Saldo deudor
+                                                        @else
+                                                            Registrar Saldo deudor
+                                                        @endif
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
 
-                {!! Form::open(['route' => ['de.update',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'put', 'class' => 'form-horizontal']) !!}
+                    <div class="modal-header bg-primary">
+                        <div class="panel-heading">
+                            <h6 class="modal-title">Datos del Crédito Solicitado</h6>
+                        </div>
+                    </div>
+
+                    {!! Form::open(['route' => ['de.update',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'put', 'class' => 'form-horizontal']) !!}
                     {!! Form::hidden('header_id', $header_id) !!}
                     {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
                     <div class="panel-body ">
@@ -274,7 +333,9 @@
 
                         </div>
                     </div>
-                {!! Form::close() !!}
+                    {!! Form::close() !!}
+                @endif
+
             </div>
             <!-- /horizotal form -->
         </div>

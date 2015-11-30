@@ -54,6 +54,8 @@ class QuestionController extends Controller
      */
     public function create($rp_id, $header_id, $detail_id)
     {
+        $data = null;
+
         if ($this->detail->detailById(decode($detail_id))) {
             $detail = $this->detail->getDetail();
 
@@ -63,10 +65,9 @@ class QuestionController extends Controller
                 'observation' => ''
             ];
 
-            return view('client.de.question-create', compact('rp_id', 'header_id', 'detail_id', 'data'));
         }
 
-        return redirect()->back()->with(['err_client' => 'El cliente no existe']);
+        return view('client.de.question-create', compact('rp_id', 'header_id', 'detail_id', 'data'));
     }
 
     /**
@@ -85,11 +86,12 @@ class QuestionController extends Controller
                 return redirect()->route('de.client.list', [
                         'rp_id'     => decrypt($request->get('rp_id')),
                         'header_id' => $request->get('header_id'),
-                    ]);
+                    ])->with(['success_question' => 'La información y el '
+                        . 'cuestionario de salud del Cliente fueron registrados']);
             }
         }
 
-        return redirect()->back()->with(['err_question' => 'El Cuestionario de Salud no pudo ser registrado'])
+        return redirect()->back()->with(['error_question' => 'El Cuestionario de Salud no pudo ser registrado'])
             ->withInput()->withErrors($this->repository->getErrors());
     }
 
@@ -126,7 +128,8 @@ class QuestionController extends Controller
             return view('client.de.question-edit', compact('rp_id', 'header_id', 'detail_id', 'data'));
         }
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with(['error_question' => 'El Cuestionario de Salud no puede ser editado']);
     }
 
     /**
@@ -157,12 +160,12 @@ class QuestionController extends Controller
                 return redirect()->route('de.client.list', [
                     'rp_id'     => decrypt($request->get('rp_id')),
                     'header_id' => $request->get('header_id'),
-                ]);
+                ])->with(['success_question' => 'El Cuestionario de Salud se actualizó correctamente']);
             }
         }
 
         return redirect()->back()
-            ->with(['err_question' => 'El Cuestionario de Salud no pudo ser actualizado'])
+            ->with(['error_question' => 'El Cuestionario de Salud no pudo ser actualizado'])
             ->withInput()->withErrors($this->repository->getErrors());
     }
 

@@ -100,10 +100,11 @@ class HeaderController extends Controller
             return redirect()->route('de.client.list', [
                 'rp_id'     => decrypt($request->get('rp_id')),
                 'header_id' => encode($header->id),
-            ]);
+            ])->with(['success_header' => 'La cotización fue registrada con éxito.']);
         }
 
-        return redirect()->back()->with(['err_header' => 'La cotización no pudo ser registrada'])
+        return redirect()->back()
+            ->with(['error_header' => 'La cotización no pudo ser registrada'])
             ->withInput()->withErrors($this->repository->getErrors());
     }
 
@@ -127,6 +128,9 @@ class HeaderController extends Controller
      */
     public function edit($rp_id, $header_id)
     {
+        $header = null;
+        $data   = null;
+
         if ($this->repository->getHeaderById(decode($header_id))) {
             $data   = $this->getData();
             $header = $this->getHeader();
@@ -137,10 +141,9 @@ class HeaderController extends Controller
 
             $header->cumulus = $cumulus;
 
-            return view('de.edit', compact('rp_id', 'header_id', 'header', 'data'));
         }
 
-        return redirect()->route('de.edit', ['rp_id' => decrypt($rp_id), 'header_id' => $header_id]);
+        return view('de.edit', compact('rp_id', 'header_id', 'header', 'data'));
     }
 
     /**
@@ -155,10 +158,12 @@ class HeaderController extends Controller
             return redirect()->route('de.edit', [
                 'rp_id'     => decrypt($request->get('rp_id')),
                 'header_id' => $request->get('header_id'),
-            ])->with(['header_update' => 'La póliza fue actualizada con éxito.']);
+            ])->with(['success_header' => 'La Póliza fue actualizada con éxito.']);
         }
 
-        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()
+            ->with(['error_header' => 'La Póliza no pudo ser registrada.'])
+            ->withInput()->withErrors($this->repository->getErrors());
     }
 
     /**
@@ -190,10 +195,10 @@ class HeaderController extends Controller
             return redirect()->route('de.edit', [
                 'rp_id'     => decrypt($request->get('rp_id')),
                 'header_id' => $request->get('header_id'),
-            ]);
+            ])->with(['success_header' => 'La tasa fue registrada correctamente']);
         }
 
-        return redirect()->back()->with(['err_header' => 'La tasa no fue registrada']);
+        return redirect()->back()->with(['error_header' => 'La tasa no pudo ser registrada']);
     }
 
     public function issue($rp_id, $header_id)

@@ -33,7 +33,7 @@
                 <div class="panel-heading divhr">
                     <h6 class="form-wizard-title2 text-semibold">
                         <span class="col-md-11">
-                            <span class="form-wizard-count">3</span>
+                            <span class="form-wizard-count">2</span>
                             Seguro de Desgravamen
                             <small class="display-block">Cuestionario de Salud</small>
                         </span>
@@ -44,34 +44,82 @@
                         </span>
                     </h6>
                 </div>
-                <br />
 
-                <div class="panel-body ">
-                    <div class="col-xs-12 col-md-12">
-                        <div class="panel panel-flat">
-                            <div class="panel-heading">
-                                <h5 class="panel-title">
-                                    <strong>Titular: </strong>
-                                    {{ $data['detail']->client->full_name }}
-                                </h5>
-                                <div class="heading-elements">
-                                    <ul class="icons-list">
-                                        <li><a data-action="collapse"></a></li>
-                                        <li><a data-action="reload"></a></li>
-                                        <li><a data-action="close"></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <hr />
+                <div class="steps-basic2 wizard">
+                    <div class="steps">
+                        <ul>
+                            <li class="first done">
+                                <a href="#">
+                                    <span class="number">1</span> Datos del Prestamo
+                                </a>
+                            </li>
+                            <li class="current">
+                                <a href="#">
+                                    <span class="current-info audible">current step: </span>
+                                    <span class="number">2</span> Datos del Titular
+                                </a>
+                            </li>
+                            <li class="disabled last" >
+                                <a href="#">
+                                    <span class="number">3</span> Resultado Cotización
+                                </a>
+                            </li>
+                            <li class="disabled last" >
+                                <a href="#">
+                                    <span class="number">4</span> Emisión de la Póliza de Desgravamen
+                                </a>
+                            </li>
+                            <li class="disabled last" >
+                                <a href="#">
+                                    <span class="number">5</span> Impresión de la Póliza
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-                            <div class="panel-body">
-                                @if(session('err_question'))
-                                    <div class="alert alert-warning alert-styled-left">
-                                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                                        <span class="text-semibold">{{ session('err_question') }}</span>
+                @if(session('success_client'))
+                    <div class="alert bg-success alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('success_client') }}</span>.
+                    </div>
+                @endif
+
+                @if(is_null($data))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">El Cliente no existe</span>.
+                    </div>
+                @endif
+
+                @if(session('error_question'))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('error_question') }}</span>.
+                    </div>
+                @endif
+
+                @if(! is_null($data))
+                    <div class="panel-body ">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="panel panel-flat">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <strong>Titular: </strong>
+                                        {{ $data['detail']->client->full_name }}
+                                    </h5>
+                                    <div class="heading-elements">
+                                        <ul class="icons-list">
+                                            <li><a data-action="collapse"></a></li>
+                                            <li><a data-action="reload"></a></li>
+                                            <li><a data-action="close"></a></li>
+                                        </ul>
                                     </div>
-                                @endif
-                                {!! Form::open(['route' => ['de.question.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => $detail_id], 'method' => 'post', 'class' => '']) !!}
+                                </div>
+                                <hr />
+
+                                <div class="panel-body">
+                                    {!! Form::open(['route' => ['de.question.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => $detail_id], 'method' => 'post', 'class' => '']) !!}
                                     {!! Form::hidden('header_id', $header_id) !!}
                                     {!! Form::hidden('detail_id', $detail_id) !!}
                                     {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
@@ -81,11 +129,12 @@
                                     <div class="text-right">
                                         {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                                     </div>
-                                {!! Form::close() !!}
+                                    {!! Form::close() !!}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
 
                 <!-- /horizotal form -->
             </div>

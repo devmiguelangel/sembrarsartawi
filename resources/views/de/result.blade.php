@@ -33,7 +33,7 @@
                 <div class="panel-heading divhr">
                     <h6 class="form-wizard-title2 text-semibold">
                         <span class="col-md-11">
-                            <span class="form-wizard-count">4</span>
+                            <span class="form-wizard-count">3</span>
                             Seguro de Desgravamen
                             <small class="display-block">Tenemos las siguientes ofertas para ti</small>
                         </span>
@@ -77,11 +77,11 @@
                         </ul>
                     </div>
                 </div>
-                <br />
-                @if(session('err_header'))
-                    <div class="alert alert-warning alert-styled-left">
+
+                @if(session('error_header'))
+                    <div class="alert bg-danger alert-styled-right">
                         <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                        <span class="text-semibold">{{ session('err_header') }}</span>
+                        <span class="text-semibold">{{ session('error_header') }}</span>.
                     </div>
                 @endif
 
@@ -101,11 +101,11 @@
                                                 <button type="button" class="btn btn-success"><i class="icon-file-check position-left"></i> Ver Cotización</button>
                                                 <hr>
                                                 {!! Form::open(['route' => ['de.store.result',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
-                                                {!! Form::hidden('header_id', $header_id) !!}
-                                                {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
-                                                {!! Form::hidden('rate_id', encrypt($retailerProduct->rates->first()->id)) !!}
+                                                    {!! Form::hidden('header_id', $header_id) !!}
+                                                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
+                                                    {!! Form::hidden('rate_id', encrypt($retailerProduct->rates->first()->id)) !!}
 
-                                                {!! Form::button('<i class="icon-arrow-right14 position-left"></i> Emitir', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+                                                    {!! Form::button('<i class="icon-arrow-right14 position-left"></i> Emitir', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
 
                                                 {!! Form::close() !!}
                                             </div>
