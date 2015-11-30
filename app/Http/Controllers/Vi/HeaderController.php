@@ -192,11 +192,14 @@ class HeaderController extends Controller
         return redirect()->route('de.issuance', [
             'rp_id'     => $rp_id,
             'header_id' => $header_id,
-        ]);
+        ])->with(['error_header' => 'La Poliza de Vida no puede ser creada']);
     }
 
     public function storeSubProduct(HeaderSpCreateFormRequest $request)
     {
+        $key            = 'clients_' . $request->get('header_id');
+        $success_header = ['success_header' => 'El Sub-Producto fue asociado correctamente'];
+
         if ($this->headerDe->headerById(decode($request->get('header_id')))
                 && $this->detailDe->detailById(decode($request->get('detail_id')))) {
             $headerDe = $this->headerDe->getHeader();
@@ -211,17 +214,24 @@ class HeaderController extends Controller
                 $header = $this->repository->getModel();
 
                 if ($this->detail->storeDetailSubProduct($request, $header->id) && $this->account->store($request)) {
-                    $this->repository->destroyClientCacheSP($request->get('header_id'), $request->get('detail_id'));
-
-                    return redirect()->route('de.vi.sp.create', [
-                        'rp_id'     => decrypt($request->get('rp_id')),
-                        'header_id' => $request->get('header_id'),
-                        'sp_id'     => $request->get('sp_id'),
-                    ]);
+                    if ($this->repository->destroyClientCacheSP($request->get('header_id'), $request->get('detail_id'))) {
+                        return redirect()->route('de.vi.sp.create', [
+                            'rp_id'     => decrypt($request->get('rp_id')),
+                            'header_id' => $request->get('header_id'),
+                            'sp_id'     => $request->get('sp_id'),
+                        ])->with($success_header);
+                    } else {
+                        return redirect()->route('de.issuance', [
+                            'rp_id'     => decrypt($request->get('rp_id')),
+                            'header_id' => $request->get('header_id'),
+                        ])->with($success_header);
+                    }
                 }
             }
         }
 
-        return redirect()->back()->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()
+            ->with(['error_header' => 'El Sub-Producto no puede ser asociado al Titular'])
+            ->withInput()->withErrors($this->repository->getErrors());
     }
 }

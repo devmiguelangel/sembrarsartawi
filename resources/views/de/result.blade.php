@@ -98,7 +98,7 @@
                                                 </div>
                                                 <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
                                                 <p class="text-muted content-group-sm">{{ $retailerProduct->rates->first()->rate_final }}%</p>
-                                                <button type="button" class="btn btn-success"><i class="icon-file-check position-left"></i> Ver Cotización</button>
+                                                <button type="button" class="btn btn-success"><i class="icon-file-check position-left"></i> Ver Slip de Cotización</button>
                                                 <hr>
                                                 {!! Form::open(['route' => ['de.store.result',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                                                     {!! Form::hidden('header_id', $header_id) !!}

@@ -44,6 +44,7 @@
                         </span>
                     </h6>
                 </div>
+
                 <div class="steps-basic2 wizard">
                     <div class="steps">
                         <ul>
@@ -76,7 +77,20 @@
                         </ul>
                     </div>
                 </div>
-                <br />
+
+                @if(session('error_header'))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('error_header') }}</span>.
+                    </div>
+                @endif
+
+                @if(session('success_header'))
+                    <div class="alert bg-success alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('success_header') }}</span>.
+                    </div>
+                @endif
 
                 <div class="panel-body ">
                     <div class="col-md-4 col-md-offset-2">
@@ -86,15 +100,20 @@
                         <div class="panel panel-body border-top-primary text-center">
                             <p class="text-muted content-group-sm">Certificados</p>
                             <div class="col-md-12">
-                                <p><button type="button" class="btn btn-primary btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Imprimir Todo</button></p>
+                                <p>
+                                    <button type="button" class="btn btn-primary btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip">
+                                        <b><i class="icon-printer4"></i></b> Imprimir Todo</button>
+                                </p>
                                 <div class="col-md-12">&nbsp;</div>
-                                <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Slip de Cotización</button></p>
+                                <p>
+                                    <button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip">
+                                        <b><i class="icon-printer4"></i></b> Ver Slip de Cotización</button>
+                                </p>
                                 <div class="col-md-6">&nbsp;</div>
-                                <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Certificado de Desgravamen</button></p>
-                                <div class="col-md-6">&nbsp;</div>
-                                <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Carta Debito </button></p>
-                                <div class="col-md-6">&nbsp;</div>
-                                <p><button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip"><b><i class="icon-printer4"></i></b> Ver Formulario UIF</button></p>
+                                <p>
+                                    <button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip">
+                                        <b><i class="icon-printer4"></i></b> Ver Certificado de Desgravamen</button>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -116,6 +135,11 @@
                                                 class="btn btn-default col-lg-12 btn-xlg">
                                                 <i class="icon-hyperlink"></i> {{ $subProduct->productCompany->companyProduct->product->name }}
                                             </a>
+                                        </p>
+                                        <div class="col-md-6">&nbsp;</div>
+                                        <p>
+                                            <button type="button" class="btn btn-success btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip">
+                                                <b><i class="icon-printer4"></i></b> Ver Certificado de {{ $subProduct->productCompany->companyProduct->product->name }}</button>
                                         </p>
                                         <div class="col-md-6">&nbsp;</div>
                                     @endforeach

@@ -121,8 +121,14 @@ abstract class BaseRepository
                 if ($client === $detail_id) {
                     $this->setClientCacheSP($header_id, $clients);
                 }
+
+                if (count($clients) > 0) {
+                    return true;
+                }
             }
 
         }
+
+        return false;
     }
 }

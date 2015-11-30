@@ -207,10 +207,11 @@ class HeaderController extends Controller
             return redirect()->route('de.issuance', [
                 'rp_id'     => $rp_id,
                 'header_id' => $header_id,
-            ]);
+            ])->with(['success_header' => 'La Poliza fue emitida con exito']);
         }
 
-        return redirect()->back()->with('issuance', 'La Poliza no puede ser emitida');
+        return redirect()->back()
+            ->with('error_header', 'La Poliza no puede ser emitida');
     }
 
     public function issuance($rp_id, $header_id)
@@ -235,7 +236,8 @@ class HeaderController extends Controller
             return view('vi.sp.list', compact('rp_id', 'header_id', 'header', 'sp_id'));
         }
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with(['error_header' => 'El numero de Poliza no existe']);
     }
 
     public function viSPListStore(Request $request)
@@ -255,7 +257,8 @@ class HeaderController extends Controller
             ]);
         }
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with(['error_cache' => 'El Sub-Producto no puede ser procesado']);
     }
 
     /**
