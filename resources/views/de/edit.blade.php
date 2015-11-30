@@ -151,7 +151,8 @@
                             <th>Fecha Nacimiento</th>
                             <th>Departamento</th>
                             <th>% Credito</th>
-                            <th>Status</th>
+                            <th>Beneficiarios</th>
+                            <th>Saldo Deudor</th>
                             <th class="text-center">Accion</th>
                         </tr>
                         </thead>
@@ -165,7 +166,14 @@
                                 <td>{{ $detail->client->birth_place }}</td>
                                 <td>{{ $detail->percentage_credit }} %</td>
                                 <td>
-                                    @if($detail->completed && $detail->cumulus > 0)
+                                    @if($detail->completed)
+                                        <span class="label label-success">Completado</span>
+                                    @else
+                                        <span class="label label-danger">Pendiente</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($detail->cumulus > 0)
                                         <span class="label label-success">Completado</span>
                                     @else
                                         <span class="label label-danger">Pendiente</span>
