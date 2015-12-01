@@ -131,4 +131,17 @@ abstract class BaseRepository
 
         return false;
     }
+
+    public function getEvaluationResponse($response)
+    {
+        $questions = json_decode($response->response, true);
+
+        foreach ($questions as $question) {
+            if ($question['expected'] != $question['response']) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

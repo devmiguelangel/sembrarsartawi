@@ -10,6 +10,10 @@ class RetailerProduct extends Model
 
     public $incrementing = false;
 
+    protected $casts = [
+        'facultative' => 'boolean',
+    ];
+
     public function productQuestions()
     {
         return $this->hasMany('Sibas\Entities\RetailerProductQuestion', 'ad_retailer_product_id', 'id');
@@ -33,5 +37,10 @@ class RetailerProduct extends Model
     public function plans()
     {
         return $this->hasMany('Sibas\Entities\Plan', 'ad_retailer_product_id', 'id');
+    }
+
+    public function parameters()
+    {
+        return $this->hasMany('Sibas\Entities\ProductParameter', 'ad_retailer_product_id', 'id');
     }
 }

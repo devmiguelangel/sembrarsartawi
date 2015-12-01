@@ -30,7 +30,7 @@ class RetailerProductTableSeeder extends BaseSeeder
                 'billing'     => false,
                 'provisional_certificate' => false,
                 'modality'    => false,
-                'facultative' => false,
+                'facultative' => ($key > 0 ? false : true),
                 'ws'          => false,
                 'landing'     => '',
                 'questions'   => '',

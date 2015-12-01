@@ -126,17 +126,4 @@ class DetailRepository extends BaseRepository
     {
         return $this->errors;
     }
-
-    public function getEvaluationResponse(Response $response)
-    {
-        $questions = json_decode($response, true);
-
-        foreach ($questions as $question) {
-            if ($question['expected'] != $question['response']) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }
