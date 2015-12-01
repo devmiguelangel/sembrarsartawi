@@ -21,6 +21,11 @@ class QuestionRepository extends BaseRepository
         $detail     = $this->data['detail'];
 
         if ((int) $this->data['qs_number'] === count($this->data['qs'])) {
+            foreach ($this->data['qs'] as &$qs) {
+                $qs['expected'] = (boolean) $qs['expected'];
+                $qs['response'] = (boolean) $qs['response'];
+            }
+
             $this->model = new Response();
 
             $this->model->id              = date('U');
@@ -68,12 +73,13 @@ class QuestionRepository extends BaseRepository
         $questions = json_decode($response, true);
 
         foreach ($questions as $key => &$question) {
-            $check_yes = ((boolean) $question['response'] ? true : false);
-            $check_no  = !((boolean) $question['response'] ? true : false);
+            $check_yes = ($question['response'] ? true : false);
+            $check_no  = !($question['response'] ? true : false);
 
             $question['check_yes'] = $check_yes;
             $question['check_no']  = $check_no;
             $question['order']     = $key;
+            $question['expected']  = (int) $question['expected'];
         }
 
         return $questions;

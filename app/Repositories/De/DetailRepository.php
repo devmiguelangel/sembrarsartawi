@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Sibas\Entities\Client;
 use Sibas\Entities\De\Detail;
 use Sibas\Entities\De\Header;
+use Sibas\Entities\De\Response;
 use Sibas\Repositories\BaseRepository;
 
 class DetailRepository extends BaseRepository
@@ -124,5 +125,18 @@ class DetailRepository extends BaseRepository
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    public function getEvaluationResponse(Response $response)
+    {
+        $questions = json_decode($response, true);
+
+        foreach ($questions as $question) {
+            if ($question['expected'] != $question['response']) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

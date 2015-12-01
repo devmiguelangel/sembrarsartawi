@@ -134,7 +134,7 @@ class HeaderController extends Controller
         $data   = null;
 
         if ($this->repository->getHeaderById(decode($header_id))) {
-            $data   = $this->getData();
+            $data   = $this->getData($rp_id);
             $header = $this->getHeader();
 
             $cumulus = $header->details->sum(function($detail) {

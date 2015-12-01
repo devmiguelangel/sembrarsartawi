@@ -32,6 +32,7 @@ class RetailerProductRepository extends BaseRepository
                     'order'     => $productQuestion->order,
                     'question'  => $productQuestion->question->question,
                     'response'  => $productQuestion->response,
+                    'expected'  => (int) $productQuestion->response,
                     'check_yes' => $check_yes,
                     'check_no'  => $check_no
                 ];

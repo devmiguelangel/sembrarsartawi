@@ -2,7 +2,7 @@
 
 namespace Sibas\Http\Controllers\De;
 
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Response;
 use Sibas\Http\Controllers\Client\ClientController;
 use Sibas\Http\Requests;
@@ -226,7 +226,11 @@ class DetailController extends Controller
             $header            = $this->header->getHeader();
             $request['header'] = $header;
 
-            if ($this->repository->updateBalance($request, $detail_id)) {
+            if ($this->repository->updateBalance($request, $detail_id) && $this->repository->getDetailById($detail_id)) {
+                $detail = $this->repository->getModel();
+
+                $this->setEvaluationDetail($header, $detail);
+
                 return redirect()->route('de.edit', compact('rp_id', 'header_id'))
                     ->with(['success_detail' => 'El Saldo Deudor fue actualizado correctamente']);
             }
@@ -261,5 +265,16 @@ class DetailController extends Controller
     public function getDetail()
     {
         return $this->repository->getModel();
+    }
+
+    /**
+     * @param Model $header
+     * @param Model $detail
+     * @return bool
+     */
+    public function setEvaluationDetail($header, $detail)
+    {
+
+        return true;
     }
 }
