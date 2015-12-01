@@ -9,12 +9,13 @@ use Sibas\Entities\Rate;
 use Sibas\Http\Controllers\BaseController;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Controllers\Retailer\RetailerProductController;
+use Sibas\Http\Controllers\Retailer\RetailerProductCoverageController;
 use Sibas\Http\Requests\De\HeaderCreateFormRequest;
 use Sibas\Http\Requests\De\HeaderEditFormRequest;
 use Sibas\Http\Requests\De\HeaderResultFormRequest;
-use Sibas\Repositories\De\CoverageRepository;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\HeaderRepository;
+use Sibas\Repositories\Retailer\RetailerProductCoverageRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 
@@ -25,7 +26,7 @@ class HeaderController extends Controller
      */
     protected $base;
     /**
-     * @var CoverageController
+     * @var RetailerProductCoverageController
      */
     protected $coverage;
     /**
@@ -45,19 +46,20 @@ class HeaderController extends Controller
     {
         $this->repository      = $repository;
         $this->base            = new BaseController(new DataRepository);
-        $this->coverage        = new CoverageController(new CoverageRepository);
+        $this->coverage        = new RetailerProductCoverageController(new RetailerProductCoverageRepository);
         $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
     }
 
     /**
      * Returns data for create Header
      *
+     * @param $rp_id
      * @return array
      */
-    public function getData()
+    public function getData($rp_id)
     {
         return [
-            'coverages'  => $this->coverage->coverage(),
+            'coverages'  => $this->coverage->productCoverage($rp_id),
             'currencies' => $this->base->currency(),
             'term_types' => $this->base->termType(),
         ];
@@ -81,7 +83,7 @@ class HeaderController extends Controller
      */
     public function create($rp_id)
     {
-        $data = $this->getData();
+        $data = $this->getData($rp_id);
 
         return view('de.create', compact('rp_id', 'data'));
     }
