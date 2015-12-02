@@ -3,11 +3,9 @@
 namespace Sibas\Http\Controllers\De;
 
 use Illuminate\Http\Request;
-use Sibas\Http\Controllers\Retailer\RetailerProductController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Repositories\De\FacultativeRepository;
-use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class FacultativeController extends Controller
 {
@@ -18,8 +16,7 @@ class FacultativeController extends Controller
 
     public function __construct(FacultativeRepository $repository)
     {
-        $this->repository      = $repository;
-        $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
+        $this->repository = $repository;
     }
 
     /**
@@ -50,15 +47,7 @@ class FacultativeController extends Controller
      */
     public function store(Request $request)
     {
-        $rp_id = decrypt($request->get('rp_id'));
-
-        if ($this->retailerProduct->retailerProductById($rp_id)) {
-            $retailerProduct            = $this->retailerProduct->getRetailerProduct();
-            $request['retailerProduct'] = $retailerProduct;
-
-            return $this->repository->storeFacultative($request);
-        }
-
+        return $this->repository->storeFacultative($request);
     }
 
     /**

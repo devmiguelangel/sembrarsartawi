@@ -17,4 +17,9 @@ class Retailer extends Model
     {
         return $this->hasMany('Sibas\Entities\RetailerProduct', 'ad_retailer_id', 'id');
     }
+
+    public function exchangeRate()
+    {
+        return $this->hasOne('Sibas\Entities\ExchangeRate', 'ad_retailer_id', 'id');
+    }
 }

@@ -132,6 +132,17 @@ abstract class BaseRepository
         return false;
     }
 
+    public function getAmountInBs($currency, $amount, $bs_value)
+    {
+        switch ($currency) {
+            case 'USD':
+                $amount = $amount * $bs_value;
+                break;
+        }
+
+        return $amount;
+    }
+
     public function getEvaluationResponse($response)
     {
         $questions = json_decode($response->response, true);
