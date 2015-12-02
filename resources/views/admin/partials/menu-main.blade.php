@@ -3,8 +3,13 @@
         <ul class="navigation navigation-main navigation-accordion">
 
             <!-- Main -->
-            <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
-            <li class="active"><a href="index.html"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+            <li class="navigation-header"><span>Inicio</span> <i class="icon-menu" title="Main pages"></i></li>
+            @if($nav=='begin')
+              @var $data='active'
+            @else
+              @var $data=''
+            @endif
+            <li class="{{$data}}"><a href="index.html"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
             <li class="navigation-header"><span>Entidades y Compañias</span> <i class="icon-menu" title="Forms"></i></li>
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Compañías de Seguros</span></a>
@@ -36,13 +41,14 @@
             <li class="navigation-header">
                 <span>Usuarios</span> <i class="icon-menu" title="Forms"></i>
             </li>
-            <li>
-                <a href="#"><i class="icon-stack2"></i> <span>Usuarios</span></a>
-                <ul>
-                    <li>
-                        <a href="usuarios_list.html">Listar Registros</a>
-                    </li>
-                </ul>
+            @if($nav=='user')
+                @var $data='active'
+            @else
+                @var $data=''
+            @endif
+            <li class="{{$data}}">
+                <a href="{{ route('admin.user.list', ['nav'=>'user']) }}"><i class="icon-stack2"></i> <span>Usuarios</span></a>
+
             </li>
             <li class="navigation-header">
                 <span>Cambio Monetario</span> <i class="icon-menu" title="Forms"></i>

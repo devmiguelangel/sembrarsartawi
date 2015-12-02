@@ -11,7 +11,7 @@
     {!! Html::style('assets/css/icons/icomoon/styles.css') !!}
     {!! Html::style('assets/css/bootstrap.min.css') !!}
     {!! Html::style('assets/css/core.min.css') !!}
-    {!! Html::style('assets/css/components.min.css') !!}
+    {!! Html::style('assets/css/components.admin.min.css') !!}
     {!! Html::style('assets/css/colors.min.css') !!}
     <!-- /global stylesheets -->
 
@@ -22,18 +22,29 @@
     {!! Html::script('assets/js/plugins/loaders/blockui.min.js') !!}
     <!-- /core JS files -->
 
-    <!-- Theme JS files -->
-    {!! Html::script('assets/js/plugins/visualization/d3/d3.min.js') !!}
-    {!! Html::script('assets/js/plugins/visualization/d3/d3_tooltip.js') !!}
-    {!! Html::script('assets/js/plugins/forms/styling/switchery.min.js') !!}
-    {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
-    {!! Html::script('assets/js/plugins/forms/selects/bootstrap_multiselect.js') !!}
-    {!! Html::script('assets/js/plugins/ui/moment/moment.min.js') !!}
-    {!! Html::script('assets/js/plugins/pickers/daterangepicker.js') !!}
+    @if($nav=='user')
+        <!-- Theme JS files -->
+        {!! Html::script('assets/js/plugins/tables/datatables/datatables.min.js') !!}
+        {!! Html::script('assets/js/plugins/forms/selects/select2.min.js') !!}
 
-    {!! Html::script('assets/js/core/app.js') !!}
-    {!! Html::script('assets/js/pages/dashboard.js') !!}
-    <!-- /theme JS files -->
+        {!! Html::script('assets/js/core/app.js') !!}
+        {!! Html::script('assets/js/pages/datatables_basic.js') !!}
+        <!-- /theme JS files -->
+    @elseif($nav=='begin')
+        <!-- Theme JS files -->
+        {!! Html::script('assets/js/plugins/visualization/d3/d3.min.js') !!}
+        {!! Html::script('assets/js/plugins/visualization/d3/d3_tooltip.js') !!}
+        {!! Html::script('assets/js/plugins/forms/styling/switchery.min.js') !!}
+        {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
+        {!! Html::script('assets/js/plugins/forms/selects/bootstrap_multiselect.js') !!}
+        {!! Html::script('assets/js/plugins/ui/moment/moment.min.js') !!}
+        {!! Html::script('assets/js/plugins/pickers/daterangepicker.js') !!}
+
+        {!! Html::script('assets/js/core/app.js') !!}
+        {!! Html::script('assets/js/pages/dashboard.js') !!}
+        <!-- /theme JS files -->
+    @endif
+
 
 </head>
 
@@ -105,7 +116,7 @@
 
             <!-- Page header -->
             <div class="page-header">
-            @yield('header')
+                @yield('header')
             </div>
             <!-- /page header -->
 

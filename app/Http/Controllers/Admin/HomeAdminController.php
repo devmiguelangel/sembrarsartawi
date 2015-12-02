@@ -6,16 +6,16 @@ use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 
-class HomeController extends Controller
+class HomeAdminController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($nav='begin')
     {
-        return view('admin.home');
+        return view('admin.home', compact('nav'));
     }
 
     /**

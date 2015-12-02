@@ -1,6 +1,11 @@
 <?php
 
-Route::get('admin', [
+Route::get('admin/{nav?}', [
     'as'    => 'admin.home',
-    'uses'  => 'Admin\HomeController@index'
+    'uses'  => 'Admin\HomeAdminController@index'
+]);
+
+Route::get('admin/user/list/{nav}',[
+    'as'   => 'admin.user.list',
+    'uses' => 'Admin\UserAdminController@index'
 ]);

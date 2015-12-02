@@ -1,6 +1,13 @@
 <div class="page-header-content">
     <div class="page-title">
-        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - Dashboard</h4>
+        <h4>
+            <i class="icon-arrow-left52 position-left"></i>
+            @if($nav=='begin')
+                <span class="text-semibold">Home</span> - Dashboard
+            @elseif($nav=='user')
+                <span class="text-semibold">Lista</span> - Usuarios
+            @endif
+        </h4>
     </div>
     <!--
     <div class="heading-elements">
@@ -15,8 +22,13 @@
 
 <div class="breadcrumb-line">
     <ul class="breadcrumb">
-        <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
-        <li class="active">Dashboard</li>
+        @if($nav=='begin')
+            <li><a href="#"><i class="icon-home2 position-left"></i> Inicio</a></li>
+            <li class="active">Dashboard</li>
+        @elseif($nav=='user')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i> Inicio</a></li>
+            <li class="active">Usuarios</li>
+        @endif
     </ul>
     <!--
     <ul class="breadcrumb-elements">
