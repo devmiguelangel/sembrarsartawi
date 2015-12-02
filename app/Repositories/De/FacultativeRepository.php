@@ -33,13 +33,15 @@ class FacultativeRepository extends BaseRepository
             }
 
             if ($this->evaluation($detail)) {
-                $this->saveModel();
+                return $this->saveModel();
             }
         }
+
+        return false;
     }
 
     private function evaluation($detail) {
-        if (! is_null($this->parameter)) {
+        if ($this->parameter instanceof ProductParameter) {
             switch ($this->parameter->slug) {
                 case 'FC':
 
@@ -64,19 +66,19 @@ class FacultativeRepository extends BaseRepository
         $reason   = '';
 
         if ($imc) {
-            $reason .= str_replace([':name'], [$detail->client->full_name], $this->reasonImc) . '\n';
+            $reason .= str_replace([':name'], [$detail->client->full_name], $this->reasonImc) . '<br>';
         }
 
         if ($response) {
-            $reason .= str_replace([':name'], [$detail->client->full_name], $this->reasonResponse) . '\n';
+            $reason .= str_replace([':name'], [$detail->client->full_name], $this->reasonResponse) . '<br>';
         }
 
         if ($this->parameter->slug == 'FA') {
             $reason .= str_replace([':name', ':cumulus', ':amount_max'], [
                     $detail->client->full_name,
                     number_format($detail->cumulus, 2),
-                    number_format($this->parameter->amount_max, 2)
-                ], $this->reasonCumulus) . '\n';
+                    number_format(($this->parameter->amount_min - 1), 2)
+                ], $this->reasonCumulus) . '<br>';
         }
 
         $this->model->op_de_detail_id = $detail->id;
@@ -88,7 +90,6 @@ class FacultativeRepository extends BaseRepository
 
     private function getParameter($retailerProduct, $amount, $cumulus)
     {
-        //dd($cumulus);
         foreach ($retailerProduct->parameters as $parameter) {
             if (($amount >= $parameter->amount_min && $amount <= $parameter->amount_max)
                     || ($cumulus >= $parameter->amount_min && $cumulus <= $parameter->amount_max)) {

@@ -78,6 +78,15 @@ class DetailRepository extends BaseRepository
         return false;
     }
 
+    public function setApprovedDetail($detail, $approved = true)
+    {
+        $this->model = $detail;
+
+        $this->model->approved = $approved;
+
+        $this->saveModel();
+    }
+
     public function getDetailById($detail_id)
     {
         $this->model = Detail::where('id', $detail_id)->get();

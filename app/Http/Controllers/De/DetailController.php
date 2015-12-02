@@ -244,7 +244,12 @@ class DetailController extends Controller
                 $request['detail']          = $detail;
                 $request['retailerProduct'] = $retailerProduct;
 
-                $this->facultative->store($request);
+                $approved = true;
+                if ($this->facultative->store($request)) {
+                    $approved = false;
+                }
+
+                $this->repository->setApprovedDetail($detail, $approved);
 
                 return redirect()->route('de.edit', compact('rp_id', 'header_id'))
                     ->with(['success_detail' => 'El Saldo Deudor fue actualizado correctamente']);

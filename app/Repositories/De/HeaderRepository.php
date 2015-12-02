@@ -3,6 +3,7 @@
 namespace Sibas\Repositories\De;
 
 use Illuminate\Http\Request;
+use Sibas\Entities\De\Facultative;
 use Sibas\Entities\De\Header;
 use Sibas\Repositories\BaseRepository;
 
@@ -51,6 +52,16 @@ class HeaderRepository extends BaseRepository
         if ($this->getHeaderById(decode($this->data['header_id']))) {
             $this->model = $this->getModel();
 
+            $facultative = false;
+
+            foreach ($this->model->details as $detail) {
+                if ($detail->facultative instanceof Facultative) {
+                    $facultative = true;
+
+                    break;
+                }
+            }
+
             $issue_number = $this->getNumber('issue_number');
 
             $this->model->type             = 'I';
@@ -58,6 +69,7 @@ class HeaderRepository extends BaseRepository
             $this->model->prefix           = 'DE';
             $this->model->policy_number    = $this->data['policy_number'];
             $this->model->operation_number = $this->data['operation_number'];
+            $this->model->facultative      = $facultative;
 
             if (! $this->checkNumber('issue_number', $issue_number)) {
                 return $this->saveModel();

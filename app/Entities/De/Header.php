@@ -10,6 +10,10 @@ class Header extends Model
 
     public $incrementing = false;
 
+    protected $casts = [
+        'facultative' => 'boolean',
+    ];
+
     public function coverage()
     {
         return $this->hasOne('Sibas\Entities\De\Coverage', 'id', 'ad_coverage_id');
