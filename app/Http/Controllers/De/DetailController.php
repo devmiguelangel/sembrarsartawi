@@ -4,6 +4,7 @@ namespace Sibas\Http\Controllers\De;
 
 use Illuminate\Http\Response;
 use Sibas\Http\Controllers\Client\ClientController;
+use Sibas\Http\Controllers\Retailer\RetailerProductController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Client\ClientComplementFormRequest;
@@ -13,6 +14,7 @@ use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\De\DetailRepository;
 use Sibas\Repositories\De\FacultativeRepository;
 use Sibas\Repositories\De\HeaderRepository;
+use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class DetailController extends Controller
 {
@@ -31,10 +33,11 @@ class DetailController extends Controller
 
     public function __construct(DetailRepository $repository)
     {
-        $this->repository  = $repository;
-        $this->client      = new ClientController(new ClientRepository);
-        $this->header      = new HeaderController(new HeaderRepository);
-        $this->facultative = new FacultativeController(new FacultativeRepository);
+        $this->repository      = $repository;
+        $this->client          = new ClientController(new ClientRepository);
+        $this->header          = new HeaderController(new HeaderRepository);
+        $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
+        $this->facultative     = new FacultativeController(new FacultativeRepository);
     }
 
     /**
@@ -68,13 +71,18 @@ class DetailController extends Controller
      */
     public function store(ClientCreateFormRequest $request)
     {
+        $rp_id = decrypt($request->get('rp_id'));
+
         if ($this->header->headerById(decode($request->get('header_id')))) {
             $header            = $this->header->getHeader();
             $request['header'] = $header;
 
-            if ($this->client->store($request)) {
+            if ($this->client->store($request) && $this->retailerProduct->retailerProductById($rp_id)) {
                 $client            = $this->client->getClient();
-                $request['client'] = $client;
+                $retailerProduct   = $this->retailerProduct->getRetailerProduct();
+
+                $request['client']          = $client;
+                $request['retailerProduct'] = $retailerProduct;
 
                 if ($this->repository->createDetail($request)) {
                     $detail = $this->repository->getModel();
@@ -227,9 +235,14 @@ class DetailController extends Controller
             $header            = $this->header->getHeader();
             $request['header'] = $header;
 
-            if ($this->repository->updateBalance($request, $detail_id) && $this->repository->getDetailById($detail_id)) {
+            if ($this->repository->updateBalance($request, $detail_id)
+                    && $this->repository->getDetailById($detail_id)
+                    && $this->retailerProduct->retailerProductById($rp_id)) {
                 $detail            = $this->repository->getModel();
-                $request['detail'] = $detail;
+                $retailerProduct   = $this->retailerProduct->getRetailerProduct();
+
+                $request['detail']          = $detail;
+                $request['retailerProduct'] = $retailerProduct;
 
                 $this->facultative->store($request);
 
