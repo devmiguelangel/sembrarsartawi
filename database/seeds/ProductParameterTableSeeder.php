@@ -70,7 +70,7 @@ class ProductParameterTableSeeder extends BaseSeeder
                 'slug'       => 'FA',
                 'age_min'    => 18,
                 'age_max'    => 71,
-                'amount_min' => 350000,
+                'amount_min' => 350001,
                 'amount_max' => 1000000000,
                 'expiration' => 0,
                 'detail'     => 0,

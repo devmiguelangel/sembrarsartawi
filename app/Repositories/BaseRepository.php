@@ -30,12 +30,29 @@ abstract class BaseRepository
     protected $errors;
 
     protected $data;
+    /**
+     * @var string
+     */
+    protected $reasonImc;
+    /**
+     * @var string
+     */
+    protected $reasonResponse;
+    /**
+     * @var string
+     */
+    protected $reasonCumulus;
 
     public function __construct()
     {
         $this->collection   = new BaseCollection();
         $this->selectOption = $this->collection->selectOption();
         $this->carbon       = new Carbon();
+
+        $this->reasonImc      = 'El Titular :name no cumple con el IMC';
+        $this->reasonResponse = 'El Titular :name no cumple con el Cuestionario de Salud';
+        $this->reasonCumulus  = 'El monto total acumulado del Titular :name es :cumulus Bs. y supera el monto maximo '
+                                . 'permitido. Monto maximo permitido :amount_max Bs. ';
     }
 
     /**

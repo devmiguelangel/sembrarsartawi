@@ -4,10 +4,15 @@ namespace Sibas\Repositories\De;
 
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Facultative;
+use Sibas\Entities\ProductParameter;
 use Sibas\Repositories\BaseRepository;
 
 class FacultativeRepository extends BaseRepository
 {
+    /**
+     * @var ProductParameter
+     */
+    private $parameter = null;
     /**
      * @param Request $request
      * @return bool
@@ -20,60 +25,89 @@ class FacultativeRepository extends BaseRepository
         $retailer        = $retailerProduct->retailer;
 
         if ($retailerProduct->facultative) {
-            $parameter = $this->getParameter($retailerProduct, $detail->amount, $detail->cumulus);
+            $this->getParameter($retailerProduct, $detail->amount, $detail->cumulus);
+            $this->model     = new Facultative();
 
-            if (! is_null($parameter)) {
-                $this->model = new Facultative();
+            if ($this->getFacultativeByDetail($detail->id)) {
+                $this->model = $this->getModel();
+            }
 
-                dd($this->model);
+            if ($this->evaluation($detail)) {
+                $this->saveModel();
+            }
+        }
+    }
+
+    private function evaluation($detail) {
+        if (! is_null($this->parameter)) {
+            switch ($this->parameter->slug) {
+                case 'FC':
+
+                    break;
+                case 'AE':
+                    return $this->setAeEvaluation($detail);
+                    break;
+                case 'FA':
+                    return $this->setAeEvaluation($detail);
+                    break;
             }
         }
 
         return false;
     }
 
-    private function evaluation($parameter, $detail) {
-        switch ($parameter->slug) {
-            case 'FC':
-                return true;
-                break;
-            case 'AE':
-                
-                break;
-            case 'FA':
-                break;
-        }
-    }
-
-    private function setFCEvaluation()
-    {
-
-    }
-
-    private function setAEEvaluation($detail)
+    private function setAeEvaluation($detail)
     {
         $response = $this->getEvaluationResponse($detail->response);
         $imc      = $detail->client->imc;
 
-        $reason_imc      = ($response ? 'El Titular no cumple con el IMC' : '');
-        $reason_response = ($imc ? 'El Titular no cumple con el cuestionario de salud' : '');
-        $reason_cumulus  = '';
+        $reason   = '';
+
+        if ($imc) {
+            $reason .= str_replace([':name'], [$detail->client->full_name], $this->reasonImc) . '\n';
+        }
+
+        if ($response) {
+            $reason .= str_replace([':name'], [$detail->client->full_name], $this->reasonResponse) . '\n';
+        }
+
+        if ($this->parameter->slug == 'FA') {
+            $reason .= str_replace([':name', ':cumulus', ':amount_max'], [
+                    $detail->client->full_name,
+                    number_format($detail->cumulus, 2),
+                    number_format($this->parameter->amount_max, 2)
+                ], $this->reasonCumulus) . '\n';
+        }
 
         $this->model->op_de_detail_id = $detail->id;
-        $this->model->reason          = $reason_imc . '<br>' . $reason_response;
+        $this->model->state           = 'PE';
+        $this->model->reason          = $reason;
+
+        return true;
     }
 
     private function getParameter($retailerProduct, $amount, $cumulus)
     {
+        //dd($cumulus);
         foreach ($retailerProduct->parameters as $parameter) {
             if (($amount >= $parameter->amount_min && $amount <= $parameter->amount_max)
                     || ($cumulus >= $parameter->amount_min && $cumulus <= $parameter->amount_max)) {
-                return $parameter;
+                $this->parameter = $parameter;
             }
         }
-
-        return null;
     }
 
+    public function getFacultativeByDetail($detail_id)
+    {
+        $this->model = Facultative::where('op_de_detail_id', $detail_id)->get();
+
+        if ($this->model->count() === 1) {
+            $this->model = $this->model->first();
+
+            return true;
+        }
+
+        return false;
+    }
 
 }

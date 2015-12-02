@@ -47,7 +47,7 @@ class FacultativeController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->repository->storeFacultative($request);
+        $this->repository->storeFacultative($request);
     }
 
     /**
