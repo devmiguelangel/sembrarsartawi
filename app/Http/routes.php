@@ -254,3 +254,11 @@ Route::group(['middleware' => 'auth'], function() {
         ]);
     });
 });
+
+/*
+ * ADMINISTRADOR
+ */
+Route::get('admin', [
+    'as'    => 'admin.home',
+    'uses'  => 'Admin\HomeController@index'
+]);
