@@ -19,7 +19,7 @@
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li>
-                        <a href="usuario_nuevo.html" class="btn btn-link btn-float has-text">
+                        <a href="{{route('admin.user.new', ['nav'=>$nav, 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-calendar5 text-primary"></i>
                             <span>Nuevo usuario</span>
                         </a>
@@ -104,8 +104,16 @@
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="usuario_edit.html"><i class="icon-file-pdf"></i> Editar</a></li>
-                                <li><a href="usuario_change_password.html"><i class="icon-file-excel"></i> Cambiar contraseña</a></li>
+                                <li>
+                                    <a href="{{ route('admin.user.edit', ['nav'=>'user', 'action'=>'edit']) }}">
+                                        <i class="icon-file-pdf"></i> Editar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.user.change-password', ['nav'=>'user', 'action'=>'changepass']) }}">
+                                        <i class="icon-file-excel"></i> Cambiar contraseña
+                                    </a>
+                                </li>
                                 <li><a href="usuario_reset_password.html"><i class="icon-file-word"></i> Resetear contraseña</a></li>
                                 <li><a href="#"><i class="icon-file-empty"></i>Dar baja</a></li>
                             </ul>

@@ -5,7 +5,15 @@
             @if($nav=='begin')
                 <span class="text-semibold">Home</span> - Dashboard
             @elseif($nav=='user')
-                <span class="text-semibold">Lista</span> - Usuarios
+                @if($action=='list')
+                    <span class="text-semibold">Lista</span> - Usuarios
+                @elseif($action=='new')
+                    <span class="text-semibold">Formulario</span> - Nuevo usuario
+                @elseif($action=='edit')
+                    <span class="text-semibold">Formulario</span> - Editar usuario
+                @elseif($action=='changepass')
+                    <span class="text-semibold">Formulario</span> - Cambiar contraseña
+                @endif
             @endif
         </h4>
     </div>
@@ -26,8 +34,38 @@
             <li><a href="#"><i class="icon-home2 position-left"></i> Inicio</a></li>
             <li class="active">Dashboard</li>
         @elseif($nav=='user')
-            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i> Inicio</a></li>
-            <li class="active">Usuarios</li>
+            @if($action=='list')
+                <li>
+                    <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
+                        <i class="icon-home2 position-left"></i> Inicio
+                    </a>
+                </li>
+                <li class="active">Usuarios</li>
+            @elseif($action=='new')
+                <li>
+                    <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
+                        <i class="icon-home2 position-left"></i>Inicio
+                    </a>
+                </li>
+                <li><a href="{{ route('admin.user.list', ['nav'=>'user', 'action'=>'list']) }}">Listar usuarios</a></li>
+                <li class="active">Usuario nuevo</li>
+            @elseif($action=='edit')
+                <li>
+                    <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
+                        <i class="icon-home2 position-left"></i> Inicio
+                    </a>
+                </li>
+                <li><a href="{{ route('admin.user.list', ['nav'=>'user', 'action'=>'list']) }}">Listar usuarios</a></li>
+                <li class="active">Editar usuario</li>
+            @elseif($action=='changepass')
+                <li>
+                    <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
+                        <i class="icon-home2 position-left"></i>Inicio
+                    </a>
+                </li>
+                <li><a href="{{ route('admin.user.list', ['nav'=>'user', 'action'=>'list']) }}">Listar usuarios</a></li>
+                <li class="active">Cambiar contraseña</li>
+            @endif
         @endif
     </ul>
     <!--

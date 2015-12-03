@@ -13,9 +13,18 @@ class UserAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($nav)
+    public function index($nav, $action)
     {
-        return view('admin.user.list', compact('nav'));
+        if($action=='list'){
+            return view('admin.user.list', compact('nav', 'action'));
+        }elseif($action=='new'){
+            return view('admin.user.new', compact('nav','action'));
+        }elseif($action=='edit'){
+            return view('admin.user.edit', compact('nav', 'action'));
+        }elseif($action=='changepass'){
+            return view('admin.user.change-password', compact('nav', 'action'));
+        }
+
     }
 
     /**

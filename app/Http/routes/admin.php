@@ -5,7 +5,22 @@ Route::get('admin/{nav?}', [
     'uses'  => 'Admin\HomeAdminController@index'
 ]);
 
-Route::get('admin/user/list/{nav}',[
+Route::get('admin/user/list/{nav}/{action}',[
     'as'   => 'admin.user.list',
+    'uses' => 'Admin\UserAdminController@index'
+]);
+
+Route::get('admin/user/new/{nav}/{action}', [
+    'as' => 'admin.user.new',
+    'uses' => 'Admin\UserAdminController@index'
+]);
+
+Route::get('admin/user/edit/{nav}/{action}', [
+    'as' => 'admin.user.edit',
+    'uses' => 'Admin\UserAdminController@index'
+]);
+
+Route::get('admin/user/change-password/{nav}/{action}', [
+    'as' => 'admin.user.change-password',
     'uses' => 'Admin\UserAdminController@index'
 ]);

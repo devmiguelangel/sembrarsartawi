@@ -9,7 +9,11 @@
             @else
               @var $data=''
             @endif
-            <li class="{{$data}}"><a href="index.html"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+            <li class="{{$data}}">
+                <a href="{{route('admin.home', ['nav'=>'begin'])}}">
+                    <i class="icon-home4"></i><span>Dashboard</span>
+                </a>
+            </li>
             <li class="navigation-header"><span>Entidades y Compañias</span> <i class="icon-menu" title="Forms"></i></li>
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Compañías de Seguros</span></a>
@@ -47,8 +51,9 @@
                 @var $data=''
             @endif
             <li class="{{$data}}">
-                <a href="{{ route('admin.user.list', ['nav'=>'user']) }}"><i class="icon-stack2"></i> <span>Usuarios</span></a>
-
+                <a href="{{ route('admin.user.list', ['nav'=>'user', 'action'=>'list']) }}">
+                    <i class="icon-stack2"></i> <span>Usuarios</span>
+                </a>
             </li>
             <li class="navigation-header">
                 <span>Cambio Monetario</span> <i class="icon-menu" title="Forms"></i>

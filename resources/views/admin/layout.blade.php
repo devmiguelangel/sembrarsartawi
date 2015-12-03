@@ -23,13 +23,22 @@
     <!-- /core JS files -->
 
     @if($nav=='user')
-        <!-- Theme JS files -->
-        {!! Html::script('assets/js/plugins/tables/datatables/datatables.min.js') !!}
-        {!! Html::script('assets/js/plugins/forms/selects/select2.min.js') !!}
+        @if($action=='list')
+            <!-- Theme JS files -->
+            {!! Html::script('assets/js/plugins/tables/datatables/datatables.min.js') !!}
+            {!! Html::script('assets/js/plugins/forms/selects/select2.min.js') !!}
 
-        {!! Html::script('assets/js/core/app.js') !!}
-        {!! Html::script('assets/js/pages/datatables_basic.js') !!}
-        <!-- /theme JS files -->
+            {!! Html::script('assets/js/core/app.js') !!}
+            {!! Html::script('assets/js/pages/datatables_basic.js') !!}
+            <!-- /theme JS files -->
+        @elseif($action=='new'|| $action=='edit' || $action=='changepass')
+            <!-- Theme JS files -->
+            {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
+
+            {!! Html::script('assets/js/core/app.js') !!}
+            {!! Html::script('assets/js/pages/form_inputs.js') !!}
+            <!-- /theme JS files -->
+        @endif
     @elseif($nav=='begin')
         <!-- Theme JS files -->
         {!! Html::script('assets/js/plugins/visualization/d3/d3.min.js') !!}
@@ -131,7 +140,8 @@
 
                 <!-- Footer -->
                 <div class="footer text-muted">
-                    &copy; 2015. <a href="#">Limitless Web App Kit</a> by <a href="http://themeforest.net/user/Kopyov" target="_blank">Eugene Kopyov</a>
+                    &copy; 2015. <a href="#">Limitless Web App Kit</a> by
+                    <a href="http://themeforest.net/user/Kopyov" target="_blank">Eugene Kopyov</a>
                 </div>
                 <!-- /footer -->
 
