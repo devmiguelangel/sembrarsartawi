@@ -33,7 +33,7 @@
                 <div class="panel-heading divhr">
                     <h6 class="form-wizard-title2 text-semibold">
                         <span class="col-md-11">
-                            <span class="form-wizard-count">8</span>
+                            <span class="form-wizard-count">6</span>
                             Lista de clientes
                             <small class="display-block">Lista de clientes</small>
                         </span>
@@ -44,7 +44,14 @@
                         </span>
                     </h6>
                 </div>
-                <br />
+
+                @if(session('error_cache'))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('error_cache') }}</span>.
+                    </div>
+                @endif
+
                 <div class="col-md-4">
                     <div class="checkbox">
                         <label>

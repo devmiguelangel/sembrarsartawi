@@ -142,6 +142,19 @@
                 @endif
 
                 @if(! is_null($header))
+                    @if($header->facultative)
+                        <div class="alert bg-warning alert-styled-right">
+                            <span class="text-semibold">
+                                Nota: Se deshabilitó el boton "Emitir" por las siguientes razones: <br>
+                            </span>
+                            @foreach($header->details as $detail)
+                                @if($detail->facultative instanceof \Sibas\Entities\De\Facultative)
+                                    {!! $detail->facultative->reason !!}
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
+
                     <table class="table datatable-basic">
                         <thead>
                         <tr>
@@ -151,7 +164,8 @@
                             <th>Fecha Nacimiento</th>
                             <th>Departamento</th>
                             <th>% Credito</th>
-                            <th>Status</th>
+                            <th>Beneficiarios</th>
+                            <th>Saldo Deudor</th>
                             <th class="text-center">Accion</th>
                         </tr>
                         </thead>
@@ -165,7 +179,14 @@
                                 <td>{{ $detail->client->birth_place }}</td>
                                 <td>{{ $detail->percentage_credit }} %</td>
                                 <td>
-                                    @if($detail->completed && $detail->cumulus > 0)
+                                    @if($detail->completed)
+                                        <span class="label label-success">Completado</span>
+                                    @else
+                                        <span class="label label-danger">Pendiente</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($detail->cumulus > 0)
                                         <span class="label label-success">Completado</span>
                                     @else
                                         <span class="label label-danger">Pendiente</span>
@@ -326,9 +347,15 @@
                                     {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                                 @endif
                             @elseif($header->type === 'I')
-                                <a href="{{ route('de.issue', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-primary">
-                                    Emitir <i class="icon-floppy-disk position-right"></i>
-                                </a>
+                                @if(! $header->facultative)
+                                    <a href="{{ route('de.issue', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-primary">
+                                        Emitir <i class="icon-floppy-disk position-right"></i>
+                                    </a>
+                                @else
+                                    <a href="#" class="btn btn-warning">
+                                        Solicitar aprobación de la Compañia <i class="icon-warning position-right"></i>
+                                    </a>
+                                @endif
                             @endif
 
                         </div>

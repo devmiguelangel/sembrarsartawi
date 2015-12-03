@@ -33,9 +33,9 @@
                 <div class="panel-heading divhr">
                     <h6 class="form-wizard-title2 text-semibold">
                         <span class="col-md-11">
-                            <span class="form-wizard-count">8</span>
+                            <span class="form-wizard-count">7</span>
                             Emisión de la Póliza de Vida
-                            <small class="display-block">Emisión de la Póliza</small>
+                            <small class="display-block">Sub-Producto</small>
                         </span>
                         <span class="col-md-1">
                             <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right" data-popup="tooltip" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
@@ -44,7 +44,21 @@
                         </span>
                     </h6>
                 </div>
-                <br />
+
+                @if(session('error_header'))
+                    <div class="alert bg-danger alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('error_header') }}</span>.
+                    </div>
+                @endif
+
+                @if(session('success_header'))
+                    <div class="alert bg-success alert-styled-right">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <span class="text-semibold">{{ session('success_header') }}</span>.
+                    </div>
+                @endif
+
                 <div class="col-md-10 col-md-offset-1">
                     <div class="modal-header bg-primary">
                         <div class="panel-heading">
@@ -106,7 +120,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     @foreach($data['civil_status'] as $civil_status)
-                                        @if($civil_status['id'] === $detail->client->civil_status)
+                                        @if($civil_status['id'] == $detail->client->civil_status)
                                             {{ $civil_status['name'] }}
                                         @endif
                                     @endforeach
@@ -119,7 +133,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     @foreach($data['document_type'] as $document_type)
-                                        @if($document_type['id'] === $detail->client->document_type)
+                                        @if($document_type['id'] == $detail->client->document_type)
                                             {{ $document_type['name'] }}
                                         @endif
                                     @endforeach
@@ -214,7 +228,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     @foreach($data['activities'] as $activity)
-                                        @if($activity['id'] === $detail->client->ad_activity_id)
+                                        @if($activity['id'] == $detail->client->ad_activity_id)
                                             {{ $activity['name'] }}
                                         @endif
                                     @endforeach
@@ -291,7 +305,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     @foreach($data['gender'] as $gender)
-                                        @if($gender['id'] === $detail->client->gender)
+                                        @if($gender['id'] == $detail->client->gender)
                                             {{ $gender['name'] }}
                                         @endif
                                     @endforeach
@@ -324,9 +338,6 @@
                     {!! Form::hidden('detail_id', encode($detail->id)) !!}
                     {!! Form::hidden('sp_id', $sp_id) !!}
                 <div class="col-md-10 col-md-offset-1">
-                    @foreach($errors->all() as $error)
-                        <div>{{ $error }}</div>
-                    @endforeach
                     <div class="modal-header bg-primary">
                         <div class="panel-heading">
                             <h6 class="modal-title">Cuestionario de Salud</h6>

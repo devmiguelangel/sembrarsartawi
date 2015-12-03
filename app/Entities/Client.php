@@ -15,6 +15,27 @@ class Client extends Model
         return $this->first_name . ' ' . $this->last_name . ' ' . $this->mother_last_name;
     }
 
+    public function getImcAttribute()
+    {
+        $imc = false;
+
+        $result = ceil($this->weight / (($this->height / 100) * ($this->height / 100)));
+
+        if ($result < 18) {
+            $imc = true;
+        } elseif (($result >= 18) and ($result <= 24)) {
+            $imc = false;
+        } elseif (($result >= 25) and ($result <= 29)) {
+            $imc = false;
+        } elseif (($result >= 30) and ($result <= 39)) {
+            $imc = true;
+        } elseif ($result >= 40){
+            $imc = true;
+        }
+
+        return $imc;
+    }
+
     public function setFirstNameAttribute($value)
     {
         $this->attributes['first_name'] = mb_strtoupper($value);

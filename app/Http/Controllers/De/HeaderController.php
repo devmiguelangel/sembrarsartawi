@@ -9,12 +9,14 @@ use Sibas\Entities\Rate;
 use Sibas\Http\Controllers\BaseController;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Controllers\Retailer\RetailerProductController;
+use Sibas\Http\Controllers\Retailer\RetailerProductCoverageController;
 use Sibas\Http\Requests\De\HeaderCreateFormRequest;
 use Sibas\Http\Requests\De\HeaderEditFormRequest;
 use Sibas\Http\Requests\De\HeaderResultFormRequest;
 use Sibas\Repositories\De\CoverageRepository;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\HeaderRepository;
+use Sibas\Repositories\Retailer\RetailerProductCoverageRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 
@@ -25,7 +27,7 @@ class HeaderController extends Controller
      */
     protected $base;
     /**
-     * @var CoverageController
+     * @var RetailerProductCoverageController
      */
     protected $coverage;
     /**
@@ -45,19 +47,20 @@ class HeaderController extends Controller
     {
         $this->repository      = $repository;
         $this->base            = new BaseController(new DataRepository);
-        $this->coverage        = new CoverageController(new CoverageRepository);
+        $this->coverage        = new RetailerProductCoverageController(new RetailerProductCoverageRepository);
         $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
     }
 
     /**
      * Returns data for create Header
      *
+     * @param $rp_id
      * @return array
      */
-    public function getData()
+    public function getData($rp_id)
     {
         return [
-            'coverages'  => $this->coverage->coverage(),
+            'coverages'  => $this->coverage->productCoverage($rp_id),
             'currencies' => $this->base->currency(),
             'term_types' => $this->base->termType(),
         ];
@@ -81,7 +84,7 @@ class HeaderController extends Controller
      */
     public function create($rp_id)
     {
-        $data = $this->getData();
+        $data = $this->getData($rp_id);
 
         return view('de.create', compact('rp_id', 'data'));
     }
@@ -132,7 +135,7 @@ class HeaderController extends Controller
         $data   = null;
 
         if ($this->repository->getHeaderById(decode($header_id))) {
-            $data   = $this->getData();
+            $data   = $this->getData($rp_id);
             $header = $this->getHeader();
 
             $cumulus = $header->details->sum(function($detail) {
@@ -207,10 +210,11 @@ class HeaderController extends Controller
             return redirect()->route('de.issuance', [
                 'rp_id'     => $rp_id,
                 'header_id' => $header_id,
-            ]);
+            ])->with(['success_header' => 'La Poliza fue emitida con exito']);
         }
 
-        return redirect()->back()->with('issuance', 'La Poliza no puede ser emitida');
+        return redirect()->back()
+            ->with('error_header', 'La Poliza no puede ser emitida');
     }
 
     public function issuance($rp_id, $header_id)
@@ -235,7 +239,8 @@ class HeaderController extends Controller
             return view('vi.sp.list', compact('rp_id', 'header_id', 'header', 'sp_id'));
         }
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with(['error_header' => 'El numero de Poliza no existe']);
     }
 
     public function viSPListStore(Request $request)
@@ -255,7 +260,8 @@ class HeaderController extends Controller
             ]);
         }
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with(['error_cache' => 'El Sub-Producto no puede ser procesado']);
     }
 
     /**

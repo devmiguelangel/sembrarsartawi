@@ -34,6 +34,9 @@ class DatabaseSeeder extends Seeder
             'ad_rates',
             'ad_plans',
             'ad_policies',
+            'ad_product_parameters',
+            'ad_retailer_product_coverages',
+            'ad_exchange_rates',
 
             'op_de_headers',
             'op_de_details',
@@ -68,6 +71,9 @@ class DatabaseSeeder extends Seeder
         $this->call(RetailerSubProductTableSeeder::class);
         $this->call(PlanTableSeeder::class);
         $this->call(PolicyTableSeeder::class);
+        $this->call(ProductParameterTableSeeder::class);
+        $this->call(RetailerProductCoverageTableSeeder::class);
+        $this->call(ExchangeRateTableSeeder::class);
 
         Model::reguard();
     }

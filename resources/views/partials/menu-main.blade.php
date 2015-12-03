@@ -22,7 +22,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Productos <span class="caret"></span></a>
                     <ul class="dropdown-menu width-200">
                         @foreach(auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
-                            @if($retailerProduct->type === 'MP')
+                            @if($retailerProduct->type == 'MP')
                                 <li class="dropdown-submenu">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="icon-list-unordered"></i> {{ $retailerProduct->companyProduct->product->name }}

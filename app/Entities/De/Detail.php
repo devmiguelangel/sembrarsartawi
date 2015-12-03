@@ -25,8 +25,14 @@ class Detail extends Model
         return $this->hasOne('Sibas\Entities\De\Beneficiary', 'op_de_detail_id', 'id');
     }
 
+    public function facultative()
+    {
+        return $this->hasOne('Sibas\Entities\De\Facultative', 'op_de_detail_id', 'id');
+    }
+
     public function getCompletedAttribute()
     {
         return (! is_null($this->beneficiary) ? true : false);
     }
+
 }

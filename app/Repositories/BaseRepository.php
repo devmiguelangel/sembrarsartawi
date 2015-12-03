@@ -30,12 +30,29 @@ abstract class BaseRepository
     protected $errors;
 
     protected $data;
+    /**
+     * @var string
+     */
+    protected $reasonImc;
+    /**
+     * @var string
+     */
+    protected $reasonResponse;
+    /**
+     * @var string
+     */
+    protected $reasonCumulus;
 
     public function __construct()
     {
         $this->collection   = new BaseCollection();
         $this->selectOption = $this->collection->selectOption();
         $this->carbon       = new Carbon();
+
+        $this->reasonImc      = 'El Titular :name no cumple con el IMC';
+        $this->reasonResponse = 'El Titular :name no cumple con el Cuestionario de Salud';
+        $this->reasonCumulus  = 'El monto total acumulado del Titular :name es :cumulus Bs. y supera el monto maximo '
+                                . 'permitido. Monto maximo permitido :amount_max Bs. ';
     }
 
     /**
@@ -121,8 +138,38 @@ abstract class BaseRepository
                 if ($client === $detail_id) {
                     $this->setClientCacheSP($header_id, $clients);
                 }
+
+                if (count($clients) > 0) {
+                    return true;
+                }
             }
 
         }
+
+        return false;
+    }
+
+    public function getAmountInBs($currency, $amount, $bs_value)
+    {
+        switch ($currency) {
+            case 'USD':
+                $amount = $amount * $bs_value;
+                break;
+        }
+
+        return $amount;
+    }
+
+    public function getEvaluationResponse($response)
+    {
+        $questions = json_decode($response->response, true);
+
+        foreach ($questions as $question) {
+            if ($question['expected'] != $question['response']) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -11,6 +11,7 @@
                 <div class="col-xs-12 col-md-2">
                     {!! Form::hidden('qs[' . $question['order'] . '][id]', $question['id']) !!}
                     {!! Form::hidden('qs[' . $question['order'] . '][question]', $question['question']) !!}
+                    {!! Form::hidden('qs[' . $question['order'] . '][expected]', $question['expected']) !!}
                     <label class="radio-inline radio-right">
                         {!! Form::radio('qs[' . $question['order'] . '][response]', '1', $question['check_yes'], ['class' => 'styled']) !!}
                         Si

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Sibas\Entities\Client;
 use Sibas\Entities\De\Detail;
 use Sibas\Entities\De\Header;
+use Sibas\Entities\De\Response;
+use Sibas\Entities\RetailerProduct;
 use Sibas\Repositories\BaseRepository;
 
 class DetailRepository extends BaseRepository
@@ -18,6 +20,10 @@ class DetailRepository extends BaseRepository
      * @var Client
      */
     private $client;
+    /**
+     * @var RetailerProduct
+     */
+    private $retailerProduct;
 
     /** Create a newly created Detail.
      *
@@ -26,11 +32,18 @@ class DetailRepository extends BaseRepository
      */
     public function createDetail($request)
     {
-        $this->data   = $request->all();
-        $this->header = $this->data['header'];
-        $this->client = $this->data['client'];
+        $this->data            = $request->all();
+        $this->header          = $this->data['header'];
+        $this->client          = $this->data['client'];
+        $this->retailerProduct = $this->data['retailerProduct'];
+
+        $retailer = $this->retailerProduct->retailer;
 
         $this->model= new Detail();
+
+        $amount = $this->getAmountInBs($this->header->currency,
+                                        $this->header->amount_requested,
+                                        $retailer->exchangeRate->bs_value);
 
         $this->model->id                = date('U');
         $this->model->op_de_header_id   = $this->header->id;
@@ -39,7 +52,7 @@ class DetailRepository extends BaseRepository
         $this->model->rate              = 0;
         $this->model->balance           = 0;
         $this->model->cumulus           = 0;
-        $this->model->amount            = 0;
+        $this->model->amount            = $amount;
         $this->model->approved          = false;
         $this->model->headline          = $this->getHeadlineType();
 
@@ -53,7 +66,7 @@ class DetailRepository extends BaseRepository
 
         if ($this->getDetailById($detail_id)) {
             if ($this->data['amount_requested'] == $header->amount_requested) {
-                $cumulus = $this->data['amount_requested'] + $this->data['balance'];
+                $cumulus = $this->model->amount + $this->data['balance'];
 
                 $this->model->balance = $this->data['balance'];
                 $this->model->cumulus = $cumulus;
@@ -63,6 +76,15 @@ class DetailRepository extends BaseRepository
         }
 
         return false;
+    }
+
+    public function setApprovedDetail($detail, $approved = true)
+    {
+        $this->model = $detail;
+
+        $this->model->approved = $approved;
+
+        $this->saveModel();
     }
 
     public function getDetailById($detail_id)

@@ -50,7 +50,7 @@
     {!! Html::script('assets/js/plugins/pickers/pickadate/picker.date.js') !!}
     {!! Html::script('assets/js/plugins/pickers/pickadate/legacy.js') !!}
     {!! Html::script('assets/js/pages/picker_date.js') !!}
-            <!--fin picker date-->
+    <!--fin picker date-->
 
     <!--datatable-->
     {!! Html::script('assets/js/plugins/tables/datatables/datatables.min.js') !!}

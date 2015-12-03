@@ -23,4 +23,5 @@ class CoverageRepository extends BaseRepository
 
         return $coverages;
     }
+
 }

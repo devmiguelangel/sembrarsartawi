@@ -56,6 +56,12 @@ and open the template in the editor.
 }
 /* fin general */
 
+/* modal tamaño */
+@media screen and (min-width: 768px) {
+    #modal_general .modal-dialog  {width:810px;}
+}
+/* fin general */
+
 
 
 
