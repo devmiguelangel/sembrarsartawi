@@ -13,7 +13,6 @@ use Sibas\Http\Controllers\Retailer\RetailerProductCoverageController;
 use Sibas\Http\Requests\De\HeaderCreateFormRequest;
 use Sibas\Http\Requests\De\HeaderEditFormRequest;
 use Sibas\Http\Requests\De\HeaderResultFormRequest;
-use Sibas\Repositories\De\CoverageRepository;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\HeaderRepository;
 use Sibas\Repositories\Retailer\RetailerProductCoverageRepository;

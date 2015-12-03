@@ -2,7 +2,6 @@
 
 namespace Sibas\Http\Controllers\De;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Sibas\Http\Controllers\Client\ClientController;
 use Sibas\Http\Controllers\Retailer\RetailerProductController;
