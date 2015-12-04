@@ -13,7 +13,11 @@
                     <span class="text-semibold">Formulario</span> - Editar usuario
                 @elseif($action=='changepass')
                     <span class="text-semibold">Formulario</span> - Cambiar contraseña
+                @elseif($action=='resetpass')
+                    <span class="text-semibold">Formulario</span> - Resetear contraseña
                 @endif
+            @elseif($nav=='company')
+                <span class="text-semibold">Lista</span> - Compañías Aseguradoras
             @endif
         </h4>
     </div>
@@ -65,6 +69,10 @@
                 </li>
                 <li><a href="{{ route('admin.user.list', ['nav'=>'user', 'action'=>'list']) }}">Listar usuarios</a></li>
                 <li class="active">Cambiar contraseña</li>
+            @elseif($action=='resetpass')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li><a href="{{ route('admin.user.list', ['nav'=>'user', 'action'=>'list']) }}">Listar usuarios</a></li>
+                <li class="active">Resetear contraseña</li>
             @endif
         @endif
     </ul>

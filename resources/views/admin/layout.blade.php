@@ -31,7 +31,7 @@
             {!! Html::script('assets/js/core/app.js') !!}
             {!! Html::script('assets/js/pages/datatables_basic.js') !!}
             <!-- /theme JS files -->
-        @elseif($action=='new'|| $action=='edit' || $action=='changepass')
+        @elseif($action=='new'|| $action=='edit' || $action=='changepass' || $action=='resetpass')
             <!-- Theme JS files -->
             {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
 

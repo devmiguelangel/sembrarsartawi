@@ -114,7 +114,11 @@
                                         <i class="icon-file-excel"></i> Cambiar contraseña
                                     </a>
                                 </li>
-                                <li><a href="usuario_reset_password.html"><i class="icon-file-word"></i> Resetear contraseña</a></li>
+                                <li>
+                                    <a href="{{ route('admin.user.reset-password', ['nav'=>'user', 'action'=>'resetpass']) }}">
+                                        <i class="icon-file-word"></i> Resetear contraseña
+                                    </a>
+                                </li>
                                 <li><a href="#"><i class="icon-file-empty"></i>Dar baja</a></li>
                             </ul>
                         </li>

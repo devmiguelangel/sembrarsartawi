@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 
-class UserAdminController extends Controller
+class CompanyAdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,18 +15,8 @@ class UserAdminController extends Controller
      */
     public function index($nav, $action)
     {
-        if($action=='list'){
-            return view('admin.user.list', compact('nav', 'action'));
-        }elseif($action=='new'){
-            return view('admin.user.new', compact('nav','action'));
-        }elseif($action=='edit'){
-            return view('admin.user.edit', compact('nav', 'action'));
-        }elseif($action=='changepass'){
-            return view('admin.user.change-password', compact('nav', 'action'));
-        }elseif($action=='resetpass'){
-            return view('admin.user.reset-password', compact('nav', 'action'));
-        }
-
+        return view('admin.company.list', compact('nav', 'action'));
+        //
     }
 
     /**

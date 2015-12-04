@@ -24,3 +24,10 @@ Route::get('admin/user/change-password/{nav}/{action}', [
     'as' => 'admin.user.change-password',
     'uses' => 'Admin\UserAdminController@index'
 ]);
+
+Route::get('admin/user/reset-password/{nav}/{action}', [
+    'as' => 'admin.user.reset-password',
+    'uses' => 'Admin\UserAdminController@index'
+]);
+
+require "admin.company.php";

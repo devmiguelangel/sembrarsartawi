@@ -17,11 +17,23 @@
             <li class="navigation-header"><span>Entidades y Compañias</span> <i class="icon-menu" title="Forms"></i></li>
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Compañías de Seguros</span></a>
+                @if($nav=='company')
+                    @if($action=='list_company')
+                        @var $data_lc='active'
+                        @var $data_lp=''
+                    @elseif($action=='list_policy')
+                        @var $data_lp='active'
+                        @var $data_lc=''
+                    @endif
+                @else
+                    @var $data_lp=''
+                    @var $data_lc=''
+                @endif
                 <ul>
-                    <li>
-                        <a href="companias_list.html">Listar Compañías</a>
+                    <li class="{{$data_lc}}">
+                        <a href="{{ route('admin.company.list', ['nav'=>'company', 'action'=>'list_company']) }}">Listar Compañías</a>
                     </li>
-                    <li>
+                    <li class="{{$data_lp}}">
                         <a href="policy_list.html">Administración de Pólizas</a>
                     </li>
                 </ul>
