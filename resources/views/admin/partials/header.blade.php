@@ -74,6 +74,9 @@
                 <li><a href="{{ route('admin.user.list', ['nav'=>'user', 'action'=>'list']) }}">Listar usuarios</a></li>
                 <li class="active">Resetear contraseña</li>
             @endif
+        @elseif($nav=='company')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            <li class="active">Compañías</li>
         @endif
     </ul>
     <!--

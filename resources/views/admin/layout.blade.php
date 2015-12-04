@@ -39,7 +39,7 @@
             {!! Html::script('assets/js/pages/form_inputs.js') !!}
             <!-- /theme JS files -->
         @endif
-    @elseif($nav=='begin')
+    @elseif($nav=='begin' || $nav=='company')
         <!-- Theme JS files -->
         {!! Html::script('assets/js/plugins/visualization/d3/d3.min.js') !!}
         {!! Html::script('assets/js/plugins/visualization/d3/d3_tooltip.js') !!}
