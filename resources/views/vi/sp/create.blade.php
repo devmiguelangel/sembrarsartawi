@@ -120,7 +120,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     @foreach($data['civil_status'] as $civil_status)
-                                        @if($civil_status['id'] === $detail->client->civil_status)
+                                        @if($civil_status['id'] == $detail->client->civil_status)
                                             {{ $civil_status['name'] }}
                                         @endif
                                     @endforeach
@@ -133,7 +133,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     @foreach($data['document_type'] as $document_type)
-                                        @if($document_type['id'] === $detail->client->document_type)
+                                        @if($document_type['id'] == $detail->client->document_type)
                                             {{ $document_type['name'] }}
                                         @endif
                                     @endforeach
@@ -228,7 +228,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     @foreach($data['activities'] as $activity)
-                                        @if($activity['id'] === $detail->client->ad_activity_id)
+                                        @if($activity['id'] == $detail->client->ad_activity_id)
                                             {{ $activity['name'] }}
                                         @endif
                                     @endforeach
@@ -305,7 +305,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     @foreach($data['gender'] as $gender)
-                                        @if($gender['id'] === $detail->client->gender)
+                                        @if($gender['id'] == $detail->client->gender)
                                             {{ $gender['name'] }}
                                         @endif
                                     @endforeach

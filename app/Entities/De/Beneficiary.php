@@ -34,4 +34,12 @@ class Beneficiary extends Model
     {
         $this->attributes['relationship'] = mb_strtoupper($value);
     }
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name . ' ' . $this->mother_last_name;
+    }
+    public function getFullDniAttribute()
+    {
+        return $this->dni . ' ' . $this->extension;
+    }
 }

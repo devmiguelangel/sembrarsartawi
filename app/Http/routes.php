@@ -40,6 +40,8 @@ Route::group(['middleware' => 'auth'], function() {
     require 'routes/de.client.php';
 
     require 'routes/de.question.php';
+    
+    require 'routes/certificate.php';
 
     /*
      * Administrator

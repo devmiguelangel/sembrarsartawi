@@ -88,9 +88,9 @@
                 <div class="panel-body ">
                     <div class="col-xs-12 col-md-12">
                         @foreach($retailer->retailerProducts as $retailerProduct)
-                            @if($retailerProduct->first()->id === decode($rp_id))
-                                @if($retailerProduct->companyProduct->product->code === 'de' && $retailerProduct->type === 'MP')
-                                    @if($retailerProduct->rates->count() === 1)
+                            @if($retailerProduct->first()->id == decode($rp_id))
+                                @if($retailerProduct->companyProduct->product->code == 'de' && $retailerProduct->type == 'MP')
+                                    @if($retailerProduct->rates->count() == 1)
                                         <div class="col-md-4 ">
                                             <div class="panel panel-body border-top-primary text-center">
                                                 <div class="form-group">
@@ -98,7 +98,9 @@
                                                 </div>
                                                 <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
                                                 <p class="text-muted content-group-sm">{{ $retailerProduct->rates->first()->rate_final }}%</p>
-                                                <button type="button" class="btn btn-success"><i class="icon-file-check position-left"></i> Ver Slip de Cotización</button>
+                                                <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion')" data-toggle="modal" data-target="#modal_general" class="btn btn-success">
+                                                    <i class="icon-file-check position-left"></i>  Ver Cotización
+                                                </a>
                                                 <hr>
                                                 {!! Form::open(['route' => ['de.store.result',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                                                     {!! Form::hidden('header_id', $header_id) !!}
@@ -121,4 +123,9 @@
             </div>
         </div>
     </div>
+
+<!-- modal -->
+@include('partials.modal')
+<!-- /modal -->
+
 @endsection

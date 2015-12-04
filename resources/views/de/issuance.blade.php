@@ -22,6 +22,7 @@
             </div>
 
         </div>
+
     </div>
 @endsection
 
@@ -100,19 +101,23 @@
                         <div class="panel panel-body border-top-primary text-center">
                             <p class="text-muted content-group-sm">Certificados</p>
                             <div class="col-md-12">
-                                <p>
+                                <!--<p>
                                     <button type="button" class="btn btn-primary btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip">
                                         <b><i class="icon-printer4"></i></b> Imprimir Todo</button>
                                 </p>
-                                <div class="col-md-12">&nbsp;</div>
+                                <div class="col-md-12">&nbsp;</div>-->
                                 <p>
-                                    <button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip">
-                                        <b><i class="icon-printer4"></i></b> Ver Slip de Cotización</button>
+                                    <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion')" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
+                                        <b><i class="icon-printer4"></i></b> 
+                                        Ver Slip de Cotización
+                                    </a>
                                 </p>
                                 <div class="col-md-6">&nbsp;</div>
                                 <p>
-                                    <button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip">
-                                        <b><i class="icon-printer4"></i></b> Ver Certificado de Desgravamen</button>
+                                    <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'emision')" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
+                                        <b><i class="icon-printer4"></i></b> 
+                                        Ver Certificado de Desgravamen
+                                    </a>
                                 </p>
                             </div>
                         </div>
@@ -138,8 +143,8 @@
                                         </p>
                                         <div class="col-md-6">&nbsp;</div>
                                         <p>
-                                            <button type="button" class="btn btn-success btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_slip">
-                                                <b><i class="icon-printer4"></i></b> Ver Certificado de {{ $subProduct->productCompany->companyProduct->product->name }}</button>
+                                            <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'sub_vida_emision')" class="btn btn-success btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
+                                                <b><i class="icon-printer4"></i></b> Ver Certificado de {{ $subProduct->productCompany->companyProduct->product->name }}</a>
                                         </p>
                                         <div class="col-md-6">&nbsp;</div>
                                     @endforeach
@@ -153,4 +158,9 @@
             <!-- /horizotal form -->
         </div>
     </div>
+
+<!-- modal -->
+@include('partials.modal')
+<!-- /modal -->
+
 @endsection
