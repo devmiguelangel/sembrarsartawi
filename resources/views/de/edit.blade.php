@@ -180,16 +180,34 @@
                                 <td>{{ $detail->percentage_credit }} %</td>
                                 <td>
                                     @if($detail->completed)
-                                        <span class="label label-success">Completado</span>
+                                        <a href="{{ route('de.beneficiary.edit', [
+                                                        'rp_id'     => $rp_id,
+                                                        'header_id' => $header_id,
+                                                        'detail_id' => encode($detail->id)]) }}" title="Completado">
+                                            <span class="label label-success">Completado</span>
+                                        </a>
                                     @else
+                                    <a href="{{ route('de.beneficiary.create', [
+                                                        'rp_id'     => $rp_id,
+                                                        'header_id' => $header_id,
+                                                        'detail_id' => encode($detail->id)]) }}" title="Pendiente">
                                         <span class="label label-danger">Pendiente</span>
+                                    </a>
                                     @endif
                                 </td>
                                 <td>
                                     @if($detail->cumulus > 0)
-                                        <span class="label label-success">Completado</span>
+                                        <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
+                                                        'header_id' => $header_id,
+                                                        'detail_id' => encode($detail->id)]) }}" title="Completado">
+                                            <span class="label label-success">Completado</span>
+                                        </a>
                                     @else
-                                        <span class="label label-danger">Pendiente</span>
+                                        <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
+                                                        'header_id' => $header_id,
+                                                        'detail_id' => encode($detail->id)]) }}" title="Pendiente">
+                                            <span class="label label-danger">Pendiente</span>
+                                        </a>
                                     @endif
                                 </td>
                                 <td class="text-center">
@@ -246,7 +264,7 @@
                         </tbody>
                     </table>
 
-                    <div class="modal-header bg-primary">
+                    <div class="modal-header bg-primary title">
                         <div class="panel-heading">
                             <h6 class="modal-title">Datos del Crédito Solicitado</h6>
                         </div>

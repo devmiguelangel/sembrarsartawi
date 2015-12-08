@@ -1,3 +1,4 @@
+@include('partials.tools_modal')
 <div class="container" style="width: 770px;">
     <div class="main">
 
@@ -29,7 +30,7 @@
                     <tr>
                         <td style="width: 20%; text-align: left;">Lugar y fecha de Nacimiento: </td>
                         <td style="width: 80%; border-bottom: 1px solid #080808; text-align: left;">
-                            {{ $titular->client->place_residence }} {{ $titular->client->birthdate }}
+                            {{ $titular->client->place_residence }} {{ date('d-m-Y', strtotime($titular->client->birthdate)) }}
                         </td>
                     </tr>
                 </table>
@@ -153,11 +154,15 @@
                 <tr>
                     <td style="width: 17%; text-align: left;">Monto Actual Solicitado: </td>
                     <td style="width: 33%; border-bottom: 1px solid #080808; text-align: left;">
-                        55,600 Bs.
+                        {{ $cli->amount_requested }} {{ $cli->currency }}.
                     </td>
                     <td style="width: 18%; text-align: left;">Monto Actual Acumulado: </td>
                     <td style="width: 32%; border-bottom: 1px solid #080808; text-align: left;">
-                        8,104.95 USD.
+                        @var $totalCumulus = 0
+                        @foreach($cli->details as $detail )
+                            @var $totalCumulus = $totalCumulus + $detail->cumulus
+                        @endforeach
+                        {{ $totalCumulus }} USD.
                     </td>
                 </tr>
             </table>
@@ -165,7 +170,7 @@
                 <tr>
                     <td style="width: 18%; text-align: left;">Plazo del presente crédito: </td>
                     <td style="width: 82%; border-bottom: 1px solid #080808; text-align: left;">
-                        4 años
+                        {{ $cli->term }} {{ $cli->type_term == 'D'? 'Días':$cli->type_term == 'M'? 'Meses':$cli->type_term == 'Y'? 'Años':'' }}
                     </td>
                 </tr>
             </table>
@@ -184,16 +189,16 @@
                         @var $sum++
                     @endforeach
                 </tr>
-
+                @var $sum=1 
                 @foreach($question as $key2 => $value)
                     <tr>
-                        <td valign="top" style="width: 5%; text-align: center;">{{ $key2 }}. </td>
-                        <td style="width: 71%;"></td>
+                        <td valign="top" style="width: 5%; text-align: center;">{{ $sum }}. </td>
+                        <td style="width: 71%;">{{ $key2 }}</td>
                         @foreach($value as $result)
                             <td style="width: 12%;">
                                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
                                     <tr>
-                                        <td style="width: 80%;" align="right">
+                                        <td style="width: 80%;" align="right"> 
                                             {{ $result == 1 ? 'SI':'NO'}}
                                         </td>
                                         <td style="width: 20%; padding-left: 3px;">
@@ -204,6 +209,7 @@
                             </td>
                         @endforeach
                     </tr>
+                    @var $sum++
                 @endforeach
             </table>
             <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
@@ -240,7 +246,7 @@
                 <tr>
                     <td style="width: 5%;">Fecha:</td>
                     <td style="width: 29%;" class="border-bottom">
-                        05 / Agosto / 2015
+                        {{ date('d',strtotime($cli->date_issue))}} / {{ date('M',strtotime($cli->date_issue))}} / {{ date('Y',strtotime($cli->date_issue))}}
                     </td>
                     @foreach($cli->details as $titular)
                         <td style="width: 5%;">Firma:</td>
@@ -263,7 +269,7 @@
                 <tr>
                     <td style="width: 20%; text-align: left;">Monto aprobado por el banco</td>
                     <td style="width: 25%;" class="border-bottom">
-                        35,100.00 Bs.
+                        {{ $cli->amount_requested }} {{ $cli->currency }}.
                     </td>
                     <td style="width: 20%;"></td>
                     <td style="width: 35%;" class="border-bottom">
@@ -315,7 +321,7 @@
                             CI: {{ $titular->client->dni }} {{ $titular->client->extension }}
                         </td>
                         <td style="width: 50%; text-align: left;">
-                            Fecha de Nacimiento: {{ $titular->client->birthdate }}
+                            Fecha de Nacimiento: {{ date('d-m-Y', strtotime($titular->client->birthdate)) }}
                         </td>
                     </tr>
                     <tr>
@@ -380,15 +386,15 @@
                         </h3>
                     </td>
                     <td style="width: 8%; text-align: center;" class="border-bottom">
-                        05
+                        {{ date('d',strtotime($cli->date_issue))}}
                     </td>
                     <td style="width: 1%;">/</td>
                     <td style="width: 10%; text-align: center;" class="border-bottom">
-                        Agosto
+                        {{ date('M',strtotime($cli->date_issue))}}
                     </td>
                     <td style="width: 1%;">/</td>
                     <td style="width: 8%; text-align: center;" class="border-bottom">
-                        2015
+                        {{ date('Y',strtotime($cli->date_issue))}}
                     </td>
                     <td style="width: 44%;"></td>
                 </tr>
@@ -469,7 +475,7 @@
             </p>
             <p style="text-align: left;">
                 Ha sido admitido como integrante a la póliza Nº {{ $cli->policy_number }}  con efecto desde,
-                {{ date('F d, Y', strtotime($cli->created_at)) }}  y como prestatario de la FUNDACIÓN SARTAWI tiene derecho a
+                {{ date('d-m-Y', strtotime($cli->created_at)) }}  y como prestatario de la FUNDACIÓN SARTAWI tiene derecho a
                 las prestaciones del Contrato según sus reglas y condiciones.
             </p><br>
             <p style="font-weight: bold;">COBERTURAS</p>
@@ -498,7 +504,7 @@
                         Tasa para el titular del crédito:
                     </td>
                     <td style="width: 25%; text-align: left;">
-                        <span style="font-weight: bold;">Tasa 0.82 %</span> (POR MIL) mensual
+                        <span style="font-weight: bold;">Tasa {{ $adRates->rate_final }} %</span> (POR MIL) mensual
                     </td>
                     <td style="width: 50%;"></td>
                 </tr>
@@ -516,7 +522,7 @@
                         Tasa  codeudor del crédito:
                     </td>
                     <td style="width: 25%; text-align: left;">
-                        <span style="font-weight: bold;">Tasa 0,82 %</span> (POR MIL) mensual
+                        <span style="font-weight: bold;">Tasa {{ $adRates->rate_final }} %</span> (POR MIL) mensual
                     </td>
                     <td style="width: 50%;"></td>
                 </tr>

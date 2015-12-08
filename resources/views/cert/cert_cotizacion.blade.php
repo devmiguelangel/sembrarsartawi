@@ -1,3 +1,4 @@
+@include('partials.tools_modal')
 <div style="width: 770px; font-weight: normal; font-size: 12px; font-family: Arial, Helvetica, sans-serif;
      color: #000000; ">
     <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
@@ -13,9 +14,9 @@
                 </td>
             </tr>
             <tr>
-                <td style="width:34%;" align="left">SLIP DE COTIZACIÓN<br/>DE-12</td>
+                <td style="width:34%;" align="left">SLIP DE COTIZACIÓN<br/>{{ $cli->quote_number }}</td>
                 <td style="width:32%;"></td>
-                <td style="width:34%;" align="right">Cotización válida hasta el: 31-11-2015</td>
+                <td style="width:34%;" align="right">Cotización válida hasta el: {{ date('d-m-Y',strtotime('+2 days', strtotime($cli->created_at))) }}</td>
             </tr>
             <tr>
                 <td colspan="3" style="width:100%;" align="center">
@@ -36,172 +37,172 @@
             <tr><td colspan="2" style="width:100%;">&nbsp;</td></tr>
             <tr style="background:#E5E5E5;">
                 <td style="width:50%; text-align:right; height: 20px;"><b>Tipo Cobertura:</b></td>
-                <td style="width:50%; text-align: left;">{{ $cli->details->first()->client->full_name }}</td>
+                <td style="width:50%; text-align: left;"> tipo cobertura </td>
             </tr>
             <tr style="background:#D5D5D5;">
                 <td style="width:50%; text-align:right; height: 20px;">
-                    <b>Monto Actual Solicitado:</b>
+                    <b>Monto Actual Solicitado: </b>
                 </td>
-                <td style="width:50%; text-align: left;">4343</td>
+                <td style="width:50%; text-align: left;"> {{ $cli->amount_requested }}</td>
             </tr>
             <tr style="background:#E5E5E5;">
                 <td style="width:50%; text-align:right; height: 20px;">
                     <b>Plazo del Presente Crédito:</b>
                 </td>
                 <td style="width:50%; text-align: left;">
-                    plazo credito
+                    {{ $cli->term }}  {{ $cli->type_term == 'D'? 'Días':$cli->type_term == 'M'? 'Meses':$cli->type_term == 'Y'? 'Años':'' }}  
                 </td>
             </tr>
             <tr style="background:#D5D5D5;">
-                <td style="width:50%; text-align:right; height: 20px;"><b>Producto:</b></td>
-                <td style="width:50%; text-align: left;">producto</td>
+                <td style="width:50%; text-align:right; height: 20px;"><b>Producto: </b></td>
+                <td style="width:50%; text-align: left;">{{ $cli->coverage->name }}</td>
             </tr>
         </table>
     </div><br>
-    
+
     @var $sum=1
     @foreach($cli->details as $titular)
-        <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
-            <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
-                font-weight: bold; font-size: 80%;">Titular {{ $sum }}</h2>
-            <table cellpadding="0" cellspacing="0" border="0"
-                   style="width: 100%; height: auto; font-size: 80%; font-family: Arial;">
-                <tr style="font-weight:bold; background:#0075AA; color:#FFF;">
-                    <td style="width:25%; text-align:center; font-weight:bold;">Apellido Paterno</td>
-                    <td style="width:25%; text-align:center; font-weight:bold;">Apellido Materno</td>
-                    <td style="width:25%; text-align:center; font-weight:bold;">Nombres</td>
-                    <td style="width:25%; text-align:center; font-weight:bold;">Apellido de Casada</td>
-                </tr>
-                <tr>
-                    <td style="width:25%; text-align:center;">{{ $titular->client->last_name }}</td>
-                    <td style="width:25%; text-align:center;">{{ $titular->client->mother_last_name }}</td>
-                    <td style="width:25%; text-align:center;">{{ $titular->client->first_name }}</td>
-                    <td style="width:25%; text-align:center;"></td>
-                </tr>
-                <tr style="font-weight:bold; background:#0075AA; color:#FFF;">
-                    <td style="width:25%; text-align:center; font-weight:bold;">Lugar de Nacimiento</td>
-                    <td style="width:25%; text-align:center; font-weight:bold;">Pais</td>
-                    <td style="width:25%; text-align:center; font-weight:bold;">Fecha de Nacimiento</td>
-                    <td style="width:25%; text-align:center; font-weight:bold;">Lugar de Residencia</td>
-                </tr>
-                <tr>
-                    <td style="width:25%; text-align:center;">{{ $titular->client->place_residence }}</td>
-                    <td style="width:25%; text-align:center;">{{ $titular->client->country }}</td>
-                    <td style="width:25%; text-align:center;">{{ $titular->client->birthdate }}</td>
-                    <td style="width:25%; text-align:center;"></td>
-                </tr>
-                <tr style="font-weight:bold; background:#0075AA; color:#FFF;">
-                    <td style="width:25%; text-align:center; font-weight:bold;">
-                        Documento de Identidad o Pasaporte
-                    </td>
-                    <td style="width:25%; text-align:center; font-weight:bold;">Edad</td>
-                    <td style="width:25%; text-align:center; font-weight:bold;">Peso (kg)</td>
-                    <td style="width:25%; text-align:center; font-weight:bold;">Estatura (cm)</td>
-                </tr>
-                <tr>
-                    <td style="width:25%; text-align:center;">{{ $titular->client->dni }}</td>
-                    <td style="width:25%; text-align:center;">{{ $titular->client->age }}</td>
-                    <td style="width:25%; text-align:center;">{{ $titular->client->weight }}</td>
-                    <td style="width:25%; text-align:center;">{{ $titular->client->height }}</td>
-                </tr>
-                <tr style="font-weight:bold; background:#0075AA; color:#FFF;">
-                    <td colspan="2" style="width:50%; text-align:center; font-weight:bold;">
-                        Dirección del Domicilio
-                    </td>
-                    <td style="width:25%; text-align:center; font-weight:bold;">Tel. Domicilio</td>
-                    <td style="width:25%; text-align:center; font-weight:bold;">Tel. Oficina</td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="width:50%; text-align:center;">{{ $titular->client->home_address }}</td>
-                    <td style="width:25%; text-align:center;">{{ $titular->client->phone_number_home }}</td>
-                    <td style="width:25%; text-align:center;">{{ $titular->client->phone_number_office }}</td>
-                </tr>
-                <tr style="font-weight:bold; background:#0075AA; color:#FFF;">
-                    <td colspan="2" style="width:50%; text-align:center; font-weight:bold;">Ocupación</td>
-                    <td colspan="2" style="width:50%; text-align:center; font-weight:bold;">Descripción</td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="width:50%; text-align:center;">sin valor</td>
-                    <td colspan="2" style="width:50%; text-align:center;">{{ $titular->client->occupation_description }}</td>
-                </tr>
-            </table>
-            <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
-                font-weight: bold; font-size: 80%;">Cuestionario</h2>
-            <table cellpadding="0" cellspacing="0" border="0"
-                   style="width: 100%; height: auto; font-size: 80%; font-family: Arial;">
-                @foreach(json_decode($titular->response->response) as $question)
-                    <tr>
-                        <td style="width: 5%; text-align: left;">{{ $question->id }}</td>
-                        <td style="width: 90%; text-align: left;">
-                            {{ $question->question }}
-                        </td>
-                        <td style="width: 5%; text-align: right;">
-                            {{ $question->response == 0 ?'NO': 'SI'}}
-                        </td>
-                    </tr>
-                @endforeach
-            </table><br>
-            <table cellpadding="0" cellspacing="0" border="0"
-                   style="width: 100%; height: auto; font-size: 80%; font-family: Arial;">
-                <tr>
-                    <td style="width: 100%; border: 1px solid #3B6E22; background: #6AA74F; color:#ffffff;
-                        height: 20px;">
-                        Cumple con las preguntas del cuestionario
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 100%;">
-                        <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
-                            font-weight: bold; font-size: 100%;">Indice de Masa Corporal</h2>
-                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 100%;">
-                            <tr>
-                                <td style="width: 30%;">
-                                    Saludable
-                                </td>
-                                <td style="width: 30%;">
-                                    <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;
-                                           font-size: 100%;">
-                                        <tr>
-                                            <td style="width: 100%; color:#ffffff; background:#0075AA;
-                                                height: 20px;" colspan="2">
-                                                Datos
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 70%; height: 20px;">
-                                                Estatura
-                                            </td>
-                                            <td style="width: 30%;">
-                                                {{ $titular->client->weight }} cm
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 70%; height: 20px;">
-                                                Peso
-                                            </td>
-                                            <td style="width: 30%;">
-                                                {{ $titular->client->height }} kg
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td style="width: 40%;"></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 100%; border: 1px solid #3B6E22; background: #6AA74F; color:#ffffff;
-                        height: 20px;">
-                        Cumple con la estatura y peso adecuado.
-                    </td>
-                </tr>
-            </table>
-        </div><br>
-        @var $sum++
+    <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
+        <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
+            font-weight: bold; font-size: 80%;">Titular {{ $sum }}</h2>
+        <table cellpadding="0" cellspacing="0" border="0"
+               style="width: 100%; height: auto; font-size: 80%; font-family: Arial;">
+            <tr style="font-weight:bold; background:#0075AA; color:#FFF;">
+                <td style="width:25%; text-align:center; font-weight:bold;">Apellido Paterno</td>
+                <td style="width:25%; text-align:center; font-weight:bold;">Apellido Materno</td>
+                <td style="width:25%; text-align:center; font-weight:bold;">Nombres</td>
+                <td style="width:25%; text-align:center; font-weight:bold;">Apellido de Casada</td>
+            </tr>
+            <tr>
+                <td style="width:25%; text-align:center;">{{ $titular->client->last_name }}</td>
+                <td style="width:25%; text-align:center;">{{ $titular->client->mother_last_name }}</td>
+                <td style="width:25%; text-align:center;">{{ $titular->client->first_name }}</td>
+                <td style="width:25%; text-align:center;"></td>
+            </tr>
+            <tr style="font-weight:bold; background:#0075AA; color:#FFF;">
+                <td style="width:25%; text-align:center; font-weight:bold;">Lugar de Nacimiento</td>
+                <td style="width:25%; text-align:center; font-weight:bold;">Pais</td>
+                <td style="width:25%; text-align:center; font-weight:bold;">Fecha de Nacimiento</td>
+                <td style="width:25%; text-align:center; font-weight:bold;">Lugar de Residencia</td>
+            </tr>
+            <tr>
+                <td style="width:25%; text-align:center;">{{ $titular->client->place_residence }}</td>
+                <td style="width:25%; text-align:center;">{{ $titular->client->country }}</td>
+                <td style="width:25%; text-align:center;">{{ date('d-m-Y', strtotime($titular->client->birthdate)) }}</td>
+                <td style="width:25%; text-align:center;"></td>
+            </tr>
+            <tr style="font-weight:bold; background:#0075AA; color:#FFF;">
+                <td style="width:25%; text-align:center; font-weight:bold;">
+                    Documento de Identidad o Pasaporte
+                </td>
+                <td style="width:25%; text-align:center; font-weight:bold;">Edad</td>
+                <td style="width:25%; text-align:center; font-weight:bold;">Peso (kg)</td>
+                <td style="width:25%; text-align:center; font-weight:bold;">Estatura (cm)</td>
+            </tr>
+            <tr>
+                <td style="width:25%; text-align:center;">{{ $titular->client->dni }}</td>
+                <td style="width:25%; text-align:center;">{{ $titular->client->age }}</td>
+                <td style="width:25%; text-align:center;">{{ $titular->client->weight }}</td>
+                <td style="width:25%; text-align:center;">{{ $titular->client->height }}</td>
+            </tr>
+            <tr style="font-weight:bold; background:#0075AA; color:#FFF;">
+                <td colspan="2" style="width:50%; text-align:center; font-weight:bold;">
+                    Dirección del Domicilio
+                </td>
+                <td style="width:25%; text-align:center; font-weight:bold;">Tel. Domicilio</td>
+                <td style="width:25%; text-align:center; font-weight:bold;">Tel. Oficina</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="width:50%; text-align:center;">{{ $titular->client->home_address }}</td>
+                <td style="width:25%; text-align:center;">{{ $titular->client->phone_number_home }}</td>
+                <td style="width:25%; text-align:center;">{{ $titular->client->phone_number_office }}</td>
+            </tr>
+            <tr style="font-weight:bold; background:#0075AA; color:#FFF;">
+                <td colspan="2" style="width:50%; text-align:center; font-weight:bold;">Ocupación</td>
+                <td colspan="2" style="width:50%; text-align:center; font-weight:bold;">Descripción</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="width:50%; text-align:center;">sin valor</td>
+                <td colspan="2" style="width:50%; text-align:center;">{{ $titular->client->occupation_description }}</td>
+            </tr>
+        </table>
+        <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
+            font-weight: bold; font-size: 80%;">Cuestionario</h2>
+        <table cellpadding="0" cellspacing="0" border="0"
+               style="width: 100%; height: auto; font-size: 80%; font-family: Arial;">
+            @foreach(json_decode($titular->response->response) as $question)
+            <tr>
+                <td style="width: 5%; text-align: left;">{{ $question->id }}</td>
+                <td style="width: 90%; text-align: left;">
+                    {{ $question->question }}
+                </td>
+                <td style="width: 5%; text-align: right;">
+                    {{ $question->response == 0 ?'NO': 'SI'}}
+                </td>
+            </tr>
+            @endforeach
+        </table><br>
+        <table cellpadding="0" cellspacing="0" border="0"
+               style="width: 100%; height: auto; font-size: 80%; font-family: Arial;">
+            <tr>
+                <td style="width: 100%; border: 1px solid #3B6E22; background: #6AA74F; color:#ffffff;
+                    height: 20px;">
+                    Cumple con las preguntas del cuestionario
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100%;">
+                    <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
+                        font-weight: bold; font-size: 100%;">Indice de Masa Corporal</h2>
+                    <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 100%;">
+                        <tr>
+                            <td style="width: 30%;">
+                                Saludable
+                            </td>
+                            <td style="width: 30%;">
+                                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;
+                                       font-size: 100%;">
+                                    <tr>
+                                        <td style="width: 100%; color:#ffffff; background:#0075AA;
+                                            height: 20px;" colspan="2">
+                                            Datos
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 70%; height: 20px;">
+                                            Estatura
+                                        </td>
+                                        <td style="width: 30%;">
+                                            {{ $titular->client->weight }} cm
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 70%; height: 20px;">
+                                            Peso
+                                        </td>
+                                        <td style="width: 30%;">
+                                            {{ $titular->client->height }} kg
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="width: 40%;"></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100%; border: 1px solid #3B6E22; background: #6AA74F; color:#ffffff;
+                    height: 20px;">
+                    Cumple con la estatura y peso adecuado.
+                </td>
+            </tr>
+        </table>
+    </div><br>
+    @var $sum++
     @endforeach
-    
-    
+
+
     <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify; font-size: 80%;">
         Declaro haber contestado con total veracidad, m&aacute;xima buena fe a todas las preguntas del
         presente cuestionario y no haber omitido u ocultado hechos y/o circunstancias que hubieran
@@ -291,15 +292,15 @@
                 <td style="width: 30%; height: 20px;">VALOR ASEGURADO</td>
                 <td style="width: 10%; height: 20px;">TASA FINAL</td>
             </tr>
-            
+
             @foreach($cli->details as $titular)
-                <tr>
-                    <td style="width: 30%;">{{ $titular->client->full_name }}</td>
-                    <td style="width: 30%;">8000 Bs.</td>
-                    <td style="width: 10%;">{{ $cli->total_rate }}%</td>
-                </tr>
+            <tr>
+                <td style="width: 30%;">{{ $titular->client->full_name }}</td>
+                <td style="width: 30%;">8000 Bs.</td>
+                <td style="width: 10%;">{{ $cli->total_rate }}%</td>
+            </tr>
             @endforeach
-            
+
         </table><br>
         <b>PRIMA:</b> De acuerdo a declaraciones mensuales del contratante, por mes vencido<br/>
         <b>FORMA DE PAGO:</b> Contado a trav&eacute;s de FUNDACION SARTAWI<br/>
@@ -395,18 +396,18 @@
                style="width: 60%; height: auto; font-size: 80%; font-family: Arial;">
             <tr>
                 @foreach($cli->details as $titular)
-                    <td style="width:30%;" align="center">{{ $titular->client->full_name }}</td>
+                <td style="width:30%;" align="center">{{ $titular->client->full_name }}</td>
                 @endforeach
-                
-                <td style="width:30%;" align="center">{{ $cli->created_at }}</td>
+
+                <td style="width:30%;" align="center">{{ date('d-m-Y', strtotime($cli->created_at)) }}</td>
             </tr>
             <tr>
                 @var $sum=1
                 @foreach($cli->details as $titular)
-                    <td style="width:30%;" align="center"><b>Titular {{ $sum }}</b></td>
-                    @var $sum++
+                <td style="width:30%;" align="center"><b>Titular {{ $sum }}</b></td>
+                @var $sum++
                 @endforeach
-                
+
                 <td style="width:30%;" align="center"><b>Fecha Actual</b></td>
             </tr>
         </table>

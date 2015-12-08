@@ -69,7 +69,7 @@
                                     <span class="number">4</span> Emisión de la Póliza de Desgravamen
                                 </a>
                             </li>
-                            <li class="disabled last" >
+                            <li class="disabled last">
                                 <a href="#">
                                     <span class="number">5</span> Impresión de la Póliza
                                 </a>

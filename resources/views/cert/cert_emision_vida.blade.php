@@ -1,3 +1,4 @@
+@include('partials.tools_modal')
 <div class="container" style="width: 770px;">
     <div class="main">
         <div class="header">
@@ -44,7 +45,7 @@
                     </td>
                     <td style="width: 14%; text-align: left;">Fecha de Nacimiento:</td>
                     <td style="width: 37%; border-bottom: 1px solid #080808; text-align: left;">
-                        {{ $viDetail->client->birthdate }}
+                        {{ date('d-m-Y', strtotime($viDetail->client->birthdate)) }}
                     </td>
                 </tr>
             </table>
@@ -80,7 +81,7 @@
                     </td>
                     <td style="width: 12%; text-align: left;">Correo Electronico</td>
                     <td style="width: 38%; border-bottom: 1px solid #080808; text-align: left;">
-                        karinapirai@hotmail.com
+                        {{ $viDetail->client->email }}
                     </td>
                 </tr>
             </table>
@@ -112,7 +113,7 @@
                 <tr>
                     <td style="width: 12%; text-align: left;">Lugar de Trabajo</td>
                     <td style="width: 88%; border-bottom: 1px solid #080808; text-align: left;">
-                        AV. CANAL COTOCA
+                        {{ $viDetail->client->business_address }}
                     </td>
                 </tr>
             </table>
@@ -192,23 +193,23 @@
                     <td style="width: 10%;"></td>
                     <td style="width: 10%; background: #000; color: #fff; text-align: center;
                         height: 10px; padding-top: 2px; border: 1px solid #000;" >
-                        Beneficiario 1
+                        
                     </td>
                     <td style="width: 35%; border: 1px solid #000; text-align: center;
                         padding-top: 2px;" >
-                        JORGE DANIEL CHOQUEHUANCA YERBALES
+                        
                     </td>
                     <td style="width: 10%; border: 1px solid #000; text-align: center;
                         padding-top: 2px;" >
-                        HIJO
+                        
                     </td>
                     <td style="width: 15%; border: 1px solid #000; text-align: center;
                         padding-top: 2px;" >
-                        13431238-SC
+                        
                     </td>
                     <td style="width: 10%; border: 1px solid #000; text-align: center;
                         padding-top: 2px;" >
-                        50.00
+                        
                     </td>
                     <td style="width: 10%;"></td>
                 </tr>
@@ -376,7 +377,7 @@
                         Fecha:
                     </td>
                     <td style="width: 35%; height: 5px; border-bottom: 1px solid #080808;" >&nbsp;
-
+                       {{ date('d-m-Y', strtotime($viHeader->date_issue)) }} 
                     </td>
                     <td style="width: 5%;" >
                         Firma:
@@ -491,7 +492,7 @@
                                     Fecha de Nacimiento:
                                 </td>
                                 <td style="width: 73%; border-bottom: 1px solid #080808; text-align: left;">
-                                    {{ $viDetail->client->birthdate }}
+                                    {{ date('d-m-Y', strtotime($viDetail->client->birthdate)) }}
                                 </td>
                             </tr>
                         </table>
@@ -710,7 +711,7 @@
                                     Prima Neta
                                 </td>
                                 <td style="width: 28%; border: 1px solid #000; padding: 2px;">
-                                    {{ $viHeader->premium }}
+                                    {{ $viHeader->plan->annual_premium }}
                                 </td>
                                 <td style="width: 45%;"></td>
                             </tr>
@@ -740,7 +741,7 @@
                                     Prima Comercial
                                 </td>
                                 <td style="width: 28%; border: 1px solid #000; padding: 2px;">
-                                    {{ $viHeader->premium }}
+                                    252.00
                                 </td>
                                 <td style="width: 45%;"></td>
                             </tr>
@@ -773,19 +774,19 @@
                             <tr>
                                 <td style="width: 15%; text-align: center; background: #000;
                                     color: #FFF; border: 1px solid #000; height: 10px;">
-                                    Beneficiario 1
+                                 
                                 </td>
                                 <td style="width: 35%; text-align: center; border: 1px solid #000;">
-                                    JORGE DANIEL CHOQUEHUANCA YERBALES
+                                    
                                 </td>
                                 <td style="width: 15%; text-align: center; border: 1px solid #000;">
-                                    HIJO
+                                   
                                 </td>
                                 <td style="width: 20%; text-align: center; border: 1px solid #000;">
-                                    13431238-SC
+                                    
                                 </td>
                                 <td style="width: 15%; text-align: center; border: 1px solid #000;">
-                                    50.00
+                                    
                                 </td>
                             </tr>
                             <tr>
@@ -794,16 +795,16 @@
                                     Beneficiario 2
                                 </td>
                                 <td style="width: 35%; text-align: center; border: 1px solid #000;">
-                                    JULIANA CHOQUEHUANCA YERBALES
+                                   
                                 </td>
                                 <td style="width: 15%; text-align: center; border: 1px solid #000;">
-                                    HIJA
+                                   
                                 </td>
                                 <td style="width: 20%; text-align: center; border: 1px solid #000;">
-                                    13431248-SC
+                                   
                                 </td>
                                 <td style="width: 15%; text-align: center; border: 1px solid #000;">
-                                    50.00
+                                 
                                 </td>
                             </tr>
                             <tr>

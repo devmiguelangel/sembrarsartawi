@@ -92,5 +92,8 @@
     </div>
     <!-- /footer -->
 </div>
+<!-- modal information product -->
+@include('partials.information_product')
+<!-- /modal -->
 </body>
 </html>

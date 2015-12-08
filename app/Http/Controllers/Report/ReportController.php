@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 
-class slipModalController extends Controller {
+class ReportController extends Controller {
 
     /**
      * funcion retorna ajax
@@ -28,15 +28,12 @@ class slipModalController extends Controller {
                 $i = 1;
                 foreach ($cli->details as $key => $value) {
                     foreach (json_decode($value->response->response) as $key2 => $value2) {
-                        $question[$value2->question][$i] = $value2->response;
+                        $question[$value2->id][$i] = $value2->response;
                     }
                     $i ++;
                 }
-                
-                $adRates = DB::table('ad_rates')->get();
-                $adRates = $adRates[0];
-                
-                $var = array('template_cert' => view('cert.cert_emision', compact('cli', 'question', 'adRates'))->render());
+
+                $var = array('template_cert' => view('cert.cert_emision', compact('cli', 'question'))->render());
                 break;
             case 'sub_vida_emision':
                 

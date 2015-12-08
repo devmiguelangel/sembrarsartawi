@@ -30,7 +30,7 @@ function cargaModal(id_header, tokken, url, post, type) {
             $("#respuesta").html('<div> Ha surgido un error. </div>');
         },
         success: function(respuesta) {
-            console.log(respuesta.template_cert);
+            //console.log(respuesta.template_cert);
             if (respuesta) {
                 $("#respuesta").html(respuesta.template_cert);
             } else {
@@ -52,6 +52,11 @@ function printSelec(idDiv) {
     ventimp.document.close();
     ventimp.print();
     ventimp.close();
+    /* validacion ultimo paso, tickeado despues de imprimir*/
+    /**if($('#last_level').class()=='current'){
+       $('#last_level').removeClass('current'); 
+       $('#last_level').addClass('first done');
+    }/**/
 }
 
 	

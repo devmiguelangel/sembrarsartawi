@@ -60,7 +60,7 @@
                 @endif
 
                 <div class="col-md-10 col-md-offset-1">
-                    <div class="modal-header bg-primary">
+                    <div class="modal-header bg-primary title">
                         <div class="panel-heading">
                             <h6 class="modal-title">Información del TITULAR</h6>
                         </div>
@@ -70,9 +70,9 @@
                             <!--<h5 class="panel-title">Infomración del TITULAR</h5>-->
                             <div class="heading-elements">
                                 <ul class="icons-list">
-                                    <li><a data-action="collapse"></a></li>
+                                    <!--<li><a data-action="collapse"></a></li>
                                     <li><a data-action="reload"></a></li>
-                                    <li><a data-action="close"></a></li>
+                                    <li><a data-action="close"></a></li>-->
                                 </ul>
                             </div>
                         </div>
@@ -338,7 +338,7 @@
                     {!! Form::hidden('detail_id', encode($detail->id)) !!}
                     {!! Form::hidden('sp_id', $sp_id) !!}
                 <div class="col-md-10 col-md-offset-1">
-                    <div class="modal-header bg-primary">
+                    <div class="modal-header bg-primary title">
                         <div class="panel-heading">
                             <h6 class="modal-title">Cuestionario de Salud</h6>
                         </div>
@@ -360,9 +360,9 @@
                         <div class="panel-heading">
                             <div class="heading-elements">
                                 <ul class="icons-list">
-                                    <li><a data-action="collapse"></a></li>
+                                    <!--<li><a data-action="collapse"></a></li>
                                     <li><a data-action="reload"></a></li>
-                                    <li><a data-action="close"></a></li>
+                                    <li><a data-action="close"></a></li>-->
                                 </ul>
                             </div>
                         </div>
@@ -489,7 +489,7 @@
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('plan') }}</label>
                                 </div>
                             </div>
-                            <div class="modal-header bg-primary">
+                            <div class="modal-header bg-primary title">
                                 <div class="panel-heading">
                                     <h6 class="modal-title">Datos del Tomador</h6>
                                 </div>
