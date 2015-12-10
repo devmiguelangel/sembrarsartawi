@@ -52,7 +52,7 @@
                                 <li><a href="#">Certificados personas</a></li>
                             </ul>
                         </li>
-                        <li><a href="#">Reportes</a></li>
+                        <li><a href="{{ route('report.report_general') }}">General</a></li>
                         <li><a href="#">Estadisticas</a></li>
                     </ul>
                 </li>

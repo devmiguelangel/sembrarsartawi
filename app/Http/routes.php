@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth'], function() {
     require 'routes/de.question.php';
     
     require 'routes/certificate.php';
+    
+    require 'routes/report.php';
 
     /*
      * Administrator
