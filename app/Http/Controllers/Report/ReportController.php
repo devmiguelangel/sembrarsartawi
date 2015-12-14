@@ -6,7 +6,7 @@ use DB;
 use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
-
+use Maatwebsite\Excel\Facades\Excel;
 class ReportController extends Controller {
 
     /**
@@ -28,7 +28,21 @@ class ReportController extends Controller {
         $query = DB::table('op_de_headers')
                 ->join('ad_users', 'op_de_headers.ad_user_id', '=', 'ad_users.id')
                 ->join('ad_coverages', 'op_de_headers.ad_coverage_id', '=', 'ad_coverages.id')
-                ->select('op_de_headers.*', 'ad_users.username', 'ad_users.full_name', 'ad_coverages.name')
+                //edw-->->select('op_de_headers.*', 'ad_users.username', 'ad_users.full_name', 'ad_coverages.name')
+                ->select(
+                        'op_de_headers.id', 
+                        'op_de_headers.policy_number', 
+                        'ad_coverages.name', 
+                        'op_de_headers.operation_number', 
+                        'op_de_headers.amount_requested', 
+                        'op_de_headers.currency', 
+                        'op_de_headers.term', 
+                        'op_de_headers.type_term', 
+                        'op_de_headers.total_rate', 
+                        'op_de_headers.total_premium', 
+                        'op_de_headers.date_issue', 
+                        'ad_users.username', 
+                        'ad_users.full_name')
                 ->where('op_de_headers.issued',1)
                 ->where('op_de_headers.type','I');
         $details = array();
@@ -92,9 +106,52 @@ class ReportController extends Controller {
             }
             $result = $var;
         }
+        
+        if($request->get('xls_download'))
+            $this->exportXls ($result, 'general');
+        
         return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion','valueForm'));
     }
     
+    public function exportXls($object, $fileName) {
+        $fileName = $fileName.'_'.date('d-m-Y');
+        $data = json_decode(json_encode($object), true);
+
+        Excel::create($fileName, function($excel) use($data) {
+
+            $excel->sheet('Sheetname', function($sheet) use($data) {
+                
+                $sheet->fromArray($data);
+                // Font family
+                $sheet->setFontFamily('Comic Sans MS');
+
+                // Font size
+                $sheet->setFontSize(11);
+
+                // Font bold
+                $sheet->setFontBold(false);
+                $sheet->cells('A1:M1', function($cells) {
+                    $cells->setBackground('#337ab7');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setFontFamily('Arial');
+                    $cells->setFontSize(10);
+                    $cells->setAlignment('center');
+
+                });
+                $sheet->cells('A2:M100', function($cells) {
+                    
+                    $cells->setFontFamily('Arial');
+                    $cells->setFontSize(10);
+                    $cells->setAlignment('center');
+
+                });
+                
+            });
+            
+            
+        })->export('xls');
+    }
+
     /**
      * funcion retorna ids de polizas emitidas en formato array
      * @param type $object
@@ -131,4 +188,4 @@ class ReportController extends Controller {
         return $arr;
     }
 
-}
+    }

@@ -46,7 +46,7 @@
             </div>
             <div class="panel-body ">
                 <div class="col-xs-12 col-md-12">
-                    <form class="form-horizontal form-validate-jquery" action="">
+                    <form class="form-horizontal form-validate-jquery" action="" id="form_search_general">
                     {!! Form::open(['route' => ['report.report_general_result'], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                         <div class="panel-body ">
                             <div class="col-xs-12 col-md-3">
@@ -139,10 +139,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <input type="hidden" id="xls_download" name="xls_download" value="0">
                             <div class="col-xs-12 col-md-3">
                                 <div class="text-right">
                                     <a href="{{ route('report.report_general') }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
-                                    <button type="submit" class="btn btn-primary">Buscar <i class="icon-search4 position-right"></i></button>
+                                    <button type="submit" class="btn btn-primary" id="buscar" onclick="$('#xls_download').val(0);">Buscar <i class="icon-search4 position-right"></i></button>
+                                    <a onclick="$('#xls_download').val(1); $('#form_search_general').submit();"><i class="icon-file-excel fa-2x"></i></a>
                                 </div>
                             </div>
                             
