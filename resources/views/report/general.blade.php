@@ -150,66 +150,69 @@
                         <hr />
                     {!! Form::close() !!}
                 </div>
-                <hr />
-                <div class="col-xs-12 col-md-12">
+                <div class="col-xs-12 col-md-12">  
                     @if (count($result)>0)
-                        <table class="table datatable-basic">
-                            <thead>
-                                <tr>
-                                    <th>Nro. Póliza</th>
-                                    <th>Producto</th>
-                                    <th>Nro. de Operación</th>
-                                    <th>Importe Solicitado</th>
-                                    <th>Moneda</th>
-                                    <th>Tiempo</th>
-                                    <th>Tasa total</th>
-                                    <th>Prima total</th>
-                                    <th>Fecha de emisión</th>
-                                    <th>Usuario</th>
-                                    <th>Rol</th>
-                                    <th class="text-center">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($result as $entities)
-                                <tr>
-                                    <td>{{ $entities->policy_number }}</td>
-                                    <td>{{ $entities->name }}</td>
-                                    <td>{{ $entities->operation_number }}</td>
-                                    <td>{{ $entities->amount_requested }}</td>
-                                    <td>{{ $entities->currency }}</td>
-                                    <td>{{ $entities->term }} {{ $entities->type_term == 'M'?'Meses':$entities->type_term == 'Y'?'Años':$entities->type_term == 'W'?'Semanas':$entities->type_term == 'D'?'DIas':'' }}</td>
-                                    <td>{{ $entities->total_rate }}</td>
-                                    <td>{{ $entities->total_premium }}</td>
-                                    <td>{{ $entities->date_issue != ''?date('d-m-Y', strtotime($entities->date_issue)):'' }}</td>
-                                    <td>{{ $entities->username }}</td>
-                                    <td>{{ $entities->full_name }}</td>
-                                    <td class="text-center">
-                                        <ul class="icons-list">
-                                                <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                        <i class="icon-menu9"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu dropdown-menu-right">
-                                                        <li>
-                                                            <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion')" data-toggle="modal" data-target="#modal_general">
-                                                                <i class="icon-plus2"></i> Ver Slip de Cotización
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip', 'POST', 'emision')" data-toggle="modal" data-target="#modal_general">
-                                                                <i class="icon-plus2"></i> Ver Certificado de Desgravamen
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                    </td>
-                                </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
+                        <div class="panel panel-flat">                        
+                            <table class="table datatable-fixed-left table-striped" width="100%">
+                                <thead>
+                                    <tr style="background-color: #337ab7" class="text-white">
+                                        <th>Nro. Póliza</th>
+                                        <th>Producto</th>
+                                        <th>Nro. de Operación</th>
+                                        <th>Importe Solicitado</th>
+                                        <th>Moneda</th>
+                                        <th>Tiempo</th>
+                                        <th>Tasa total</th>
+                                        <th>Prima total</th>
+                                        <th>Fecha de emisión</th>
+                                        <th>Usuario</th>
+                                        <th>Rol</th>
+                                        <th>Accion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @var $sum = 1
+                                    @foreach($result as $entities)
+                                    
+                                    <tr>
+                                        <td>{{ $entities->policy_number }}</td>
+                                        <td>{{ $entities->name }}</td>
+                                        <td>{{ $entities->operation_number }}</td>
+                                        <td>{{ $entities->amount_requested }}</td>
+                                        <td>{{ $entities->currency }}</td>
+                                        <td>{{ $entities->term }} {{ $entities->type_term == 'M'?'Meses':$entities->type_term == 'Y'?'Años':$entities->type_term == 'W'?'Semanas':$entities->type_term == 'D'?'DIas':'' }}</td>
+                                        <td>{{ $entities->total_rate }}</td>
+                                        <td>{{ $entities->total_premium }}</td>
+                                        <td>{{ $entities->date_issue != ''?date('d-m-Y', strtotime($entities->date_issue)):'' }}</td>
+                                        <td>{{ $entities->username }}</td>
+                                        <td>{{ $entities->full_name }}</td>
+                                        <td class="text-center">
+                                            <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="icon-menu9"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <li>
+                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion')" data-toggle="modal" data-target="#modal_general">
+                                                                    <i class="icon-plus2"></i> Ver Slip de Cotización
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip', 'POST', 'emision')" data-toggle="modal" data-target="#modal_general">
+                                                                    <i class="icon-plus2"></i> Ver Certificado de Desgravamen
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                        </td>
+                                    </tr>
+                                    @var $sum++
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     @else
                         <h1>No existen resultados.</h1>
                     @endif
@@ -222,6 +225,8 @@
         <!-- /horizotal form -->
     </div>
 </div>
+
+ 
 
 <!-- modal -->
 @include('partials.modal')

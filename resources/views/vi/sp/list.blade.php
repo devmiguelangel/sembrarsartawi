@@ -46,10 +46,9 @@
                 </div>
 
                 @if(session('error_cache'))
-                    <div class="alert bg-danger alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                        <span class="text-semibold">{{ session('error_cache') }}</span>.
-                    </div>
+                    <script>
+                        $(function(){messageAction('error',"{{ session('error_cache') }}");});
+                    </script>
                 @endif
 
                 <div class="col-md-4">

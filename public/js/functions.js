@@ -59,4 +59,32 @@ function printSelec(idDiv) {
     }/**/
 }
 
+/**
+ * funcion retorna mensaje de exito al registro
+ * @param {type} text
+ * @returns {undefined}
+ */
+function messageAction(key, text) {
+    
+    if (key == 'succes') {
+        $.jGrowl(text, {
+            header: 'Regístro',
+            life: 10000,
+            theme: 'alert-styled-left alert-arrow-left border-lg alpha-teal text-teal-900'
+        });
+    } else if (key == 'info') {
+        $.jGrowl(text, {
+            header: 'Información',
+            life: 10000,
+            theme: 'alert-bordered alert-styled-left alert-info'
+        });
+    } else if (key == 'error') {
+        $.jGrowl(text, {
+            header: 'Error',
+            life: 10000,
+            theme: 'alert-bordered alert-styled-left alert-danger'
+        });
+    }
+}
+
 	

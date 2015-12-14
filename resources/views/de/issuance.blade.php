@@ -80,17 +80,15 @@
                 </div>
 
                 @if(session('error_header'))
-                    <div class="alert bg-danger alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                        <span class="text-semibold">{{ session('error_header') }}</span>.
-                    </div>
+                    <script>
+                        $(function(){messageAction('error',"{{ session('error_header') }}");});
+                    </script>
                 @endif
 
                 @if(session('success_header'))
-                    <div class="alert bg-success alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                        <span class="text-semibold">{{ session('success_header') }}</span>.
-                    </div>
+                    <script>
+                        $(function(){messageAction('succes',"{{ session('success_header') }}");});
+                    </script>
                 @endif
 
                 <div class="panel-body ">

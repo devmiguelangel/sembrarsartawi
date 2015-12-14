@@ -29,7 +29,8 @@ class ReportController extends Controller {
                 ->join('ad_users', 'op_de_headers.ad_user_id', '=', 'ad_users.id')
                 ->join('ad_coverages', 'op_de_headers.ad_coverage_id', '=', 'ad_coverages.id')
                 ->select('op_de_headers.*', 'ad_users.username', 'ad_users.full_name', 'ad_coverages.name')
-                ->where('op_de_headers.issued',1);
+                ->where('op_de_headers.issued',1)
+                ->where('op_de_headers.type','I');
         $details = array();
         $result = array();
         $flagClient = 0;
@@ -80,7 +81,6 @@ class ReportController extends Controller {
         }else {
             $result = $query->get();
         }
-        //edw-->var_dump($details);
         
         # validacion filtra poliza enbase al cliente
         if(count($details)>0 || $flagClient==1 ){
@@ -110,6 +110,11 @@ class ReportController extends Controller {
         return $val;
     }
     
+    /**
+     * funcion retorna value para el formulario filtro 
+     * @param type $request
+     * @return type
+     */
     public function addValueForm($request) {
         $request->get('numero_poliza');
         $arr = array(

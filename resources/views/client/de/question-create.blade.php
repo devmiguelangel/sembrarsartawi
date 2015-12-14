@@ -79,10 +79,9 @@
                 </div>
 
                 @if(session('success_client'))
-                    <div class="alert bg-success alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                        <span class="text-semibold">{{ session('success_client') }}</span>.
-                    </div>
+                    <script>
+                        $(function(){messageAction('succes',"{{ session('success_client') }}");});
+                    </script>
                 @endif
 
                 @if(is_null($data))

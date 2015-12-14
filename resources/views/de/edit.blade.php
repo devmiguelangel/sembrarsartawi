@@ -79,17 +79,15 @@
                 </div>
 
                 @if(session('success_header'))
-                    <div class="alert bg-success alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                        <span class="text-semibold">{{ session('success_header') }}</span>.
-                    </div>
+                    <script>
+                        $(function(){messageAction('succes',"{{ session('success_header') }}");});
+                    </script>
                 @endif
 
                 @if(session('error_header'))
-                    <div class="alert bg-danger alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                        <span class="text-semibold">{{ session('error_header') }}</span>.
-                    </div>
+                    <script>
+                        $(function(){messageAction('error',"{{ session('error_header') }}");});
+                    </script>
                 @endif
 
                 @if(is_null($header))
@@ -100,45 +98,39 @@
                 @endif
 
                 @if(session('error_client'))
-                    <div class="alert bg-danger alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                        <span class="text-semibold">{{ session('error_client') }}</span>.
-                    </div>
+                    <script>
+                        $(function(){messageAction('error',"{{ session('error_client') }}");});
+                    </script>
                 @endif
 
                 @if(session('success_client'))
-                    <div class="alert bg-success alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                        <span class="text-semibold">{{ session('success_client') }}</span>.
-                    </div>
+                    <script>
+                        $(function(){messageAction('succes',"{{ session('success_client') }}");});
+                    </script>
                 @endif
 
                 @if(session('error_beneficiary'))
-                    <div class="alert bg-danger alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                        <span class="text-semibold">{{ session('error_beneficiary') }}</span>.
-                    </div>
+                    <script>
+                        $(function(){messageAction('error',"{{ session('error_beneficiary') }}");});
+                    </script>
                 @endif
 
                 @if(session('success_beneficiary'))
-                    <div class="alert bg-success alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                        <span class="text-semibold">{{ session('success_beneficiary') }}</span>.
-                    </div>
+                    <script>
+                        $(function(){messageAction('succes',"{{ session('success_beneficiary') }}");});
+                    </script>
                 @endif
 
                 @if(session('error_detail'))
-                    <div class="alert bg-danger alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                        <span class="text-semibold">{{ session('error_detail') }}</span>.
-                    </div>
+                    <script>
+                        $(function(){messageAction('error',"{{ session('error_detail') }}");});
+                    </script>
                 @endif
 
-                @if(session('success_detail'))
-                    <div class="alert bg-success alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-                        <span class="text-semibold">{{ session('success_detail') }}</span>.
-                    </div>
+                @if(session('success_detail'))                    
+                    <script>
+                        $(function(){messageAction('succes',"{{ session('success_detail') }}");});
+                    </script>
                 @endif
 
                 @if(! is_null($header))

@@ -88,6 +88,12 @@ and open the template in the editor.
     outline: 0 none;
     text-decoration: none;
 }
+
+/* color del datable*/
+.table-striped > tbody > tr:nth-of-type(2n+1) {
+    background-color: #eef9f8;
+}
+/* fin color del datable*/
 /* fin general */
 
 
