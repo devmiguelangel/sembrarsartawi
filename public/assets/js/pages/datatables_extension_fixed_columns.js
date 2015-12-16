@@ -121,7 +121,7 @@ $(function() {
             }
         ],
         scrollX: true,
-        scrollY: '350px',
+        //scrollY: '350px',
         scrollCollapse: true,
         fixedColumns: {
             leftColumns: 1,

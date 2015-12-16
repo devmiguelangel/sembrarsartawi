@@ -14,6 +14,14 @@ Route::group(['prefix' => '/'], function() {
         'as' => 'report.report_general_result',
         'uses' => 'Report\ReportController@general'
     ]);
+    Route::get('report/cotizacion', [
+        'as' => 'report.report_cotizacion',
+        'uses' => 'Report\ReportController@cotizacion'
+    ]);
+    Route::post('report/cotizacion', [
+        'as' => 'report.report_cotizacion_result',
+        'uses' => 'Report\ReportController@cotizacion'
+    ]);
 });
 /*/
 

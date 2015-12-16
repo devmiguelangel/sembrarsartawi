@@ -116,9 +116,15 @@
                             </ul>
                         </li>
                         <li class="{{Request::is('report/general') ? 'active':''}}">
-                            <a href="{{ route('report.report_general') }}">General</a>
+                            <a href="{{ route('report.report_general') }}">
+                                General
+                            </a>
                         </li>
-                        <li><a href="#">Estadisticas</a></li>
+                        <li  class="{{Request::is('report/cotizacion') ? 'active':''}}">
+                            <a href="{{ route('report.report_cotizacion') }}">
+                                Cotizaciones
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="dropdown">

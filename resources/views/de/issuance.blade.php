@@ -69,7 +69,7 @@
                                     <span class="number">2</span>Emisión de la Póliza de Desgravamen
                                 </a>
                             </li>
-                            <li class="current">
+                            <li class="current" id="finish">
                                 <a href="#">
                                     <span class="current-info audible">current step: </span>
                                     <span class="number">5</span> Impresión de la Póliza
