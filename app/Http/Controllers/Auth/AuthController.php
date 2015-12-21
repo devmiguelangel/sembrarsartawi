@@ -56,4 +56,14 @@ class AuthController extends Controller
 
         return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
     }
+
+    public function redirectPath()
+    {
+        // dd(Auth::user()->type->code);
+        if (Auth::user()->type->code === 'ADT') {
+            return 'admin';
+        }
+
+        return 'home';
+    }
 }

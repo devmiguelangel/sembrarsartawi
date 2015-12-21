@@ -4,7 +4,6 @@
 /*
  * Route Client DE
  */
-/**/
 Route::group(['prefix' => '/'], function() {
     Route::get('report/general', [
         'as' => 'report.report_general',
@@ -23,5 +22,3 @@ Route::group(['prefix' => '/'], function() {
         'uses' => 'Report\ReportController@cotizacion'
     ]);
 });
-/*/
-

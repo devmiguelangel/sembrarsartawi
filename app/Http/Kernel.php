@@ -27,8 +27,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \Sibas\Http\Middleware\Authenticate::class,
+        'auth'       => \Sibas\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest' => \Sibas\Http\Middleware\RedirectIfAuthenticated::class,
+        'guest'      => \Sibas\Http\Middleware\RedirectIfAuthenticated::class,
+
+        'is_admin'   => \Sibas\Http\Middleware\IsAdmin::class,
+        'is_user'    => \Sibas\Http\Middleware\IsUser::class,
     ];
 }

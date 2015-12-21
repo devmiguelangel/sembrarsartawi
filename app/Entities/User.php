@@ -41,6 +41,11 @@ class User extends Model implements AuthenticatableContract,
 
     public function retailer()
     {
-        return $this->belongsToMany('Sibas\Entities\Retailer', 'ad_retailer_users', 'ad_user_id', 'ad_retailer_id');
+        return $this->belongsToMany(Retailer::class, 'ad_retailer_users', 'ad_user_id', 'ad_retailer_id');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(UserType::class, 'ad_user_type_id', 'id');
     }
 }

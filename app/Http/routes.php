@@ -20,34 +20,37 @@ Route::group(['prefix' => 'auth'], function() {
 });
 
 Route::group(['middleware' => 'auth'], function() {
-    /*
-     * Home
-     */
-    Route::get('/', function() {
-        return redirect()->route('home');
+    Route::group(['middleware' => 'is_user'], function() {
+        /*
+         * Home
+         */
+        Route::get('/', function() {
+            return redirect()->route('home');
+        });
+
+        Route::get('home', [
+            'as'   => 'home',
+            'uses' => 'HomeController@index'
+        ]);
+
+        /*
+         * Header DE
+         */
+        require 'routes/de.issuance.php';
+
+        require 'routes/de.client.php';
+
+        require 'routes/de.question.php';
+
+        require 'routes/certificate.php';
+
+        require 'routes/report.php';
     });
-
-    Route::get('home', [
-        'as'   => 'home',
-        'uses' => 'HomeController@index'
-    ]);
-
-    /*
-     * Header DE
-     */
-    require 'routes/de.issuance.php';
-
-    require 'routes/de.client.php';
-
-    require 'routes/de.question.php';
-    
-    require 'routes/certificate.php';
-    
-    require 'routes/report.php';
 
     /*
      * Administrator
      */
-
-    require 'routes/admin.php';
+    Route::group(['middleware' => 'is_admin'], function() {
+        require 'routes/admin.php';
+    });
 });
