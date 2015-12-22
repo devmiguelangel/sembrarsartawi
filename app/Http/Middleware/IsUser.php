@@ -26,8 +26,8 @@ class IsUser
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->user()->type->code === 'ADT') {
-            return redirect()->route('auth.logout');
+        if ($this->auth->user()->type->code !== 'ADT') {
+            return redirect('home');
         }
 
         return $next($request);

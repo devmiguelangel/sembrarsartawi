@@ -20,7 +20,7 @@ Route::group(['prefix' => 'auth'], function() {
 });
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::group(['middleware' => 'is_user'], function() {
+    Route::group(['middleware' => 'is_admin'], function() {
         /*
          * Home
          */
@@ -50,7 +50,7 @@ Route::group(['middleware' => 'auth'], function() {
     /*
      * Administrator
      */
-    Route::group(['middleware' => 'is_admin'], function() {
+    Route::group(['middleware' => 'is_user'], function() {
         require 'routes/admin.php';
     });
 });
