@@ -14,12 +14,17 @@ class RetailerUserTableSeeder extends BaseSeeder
 
     protected function getData()
     {
-        $data = [];
-
-        $data[] = [
-            'ad_retailer_id' => $this->getModelData('Retailer')->first()->id,
-            'ad_user_id'     => $this->getModelData('User')->first()->id,
-            'active'         => true
+        $data = [
+            [
+                'ad_retailer_id' => $this->getModelData('Retailer')->first()->id,
+                'ad_user_id'     => $this->getModelData('User')->first()->id,
+                'active'         => true
+            ],
+            [
+                'ad_retailer_id' => $this->getModelData('Retailer')->first()->id,
+                'ad_user_id'     => $this->getModelData('User')->last()->id,
+                'active'         => true
+            ]
         ];
 
         return $data;

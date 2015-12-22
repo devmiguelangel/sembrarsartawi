@@ -36,7 +36,7 @@ class UserTableSeeder extends BaseSeeder
             [
                 'id'        => date('U') + 1,
                 'username'  => 'emontano',
-                'password'  => Hash::make('emontano123'),
+                'password'  => Hash::make('emontano23'),
                 'full_name' => 'Ernesto Montano',
                 'email'     => 'emontano@sudseguros.com',
                 'position'  => '',
