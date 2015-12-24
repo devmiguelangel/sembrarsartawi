@@ -3,11 +3,12 @@
 namespace Sibas\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Sibas\Entities\Company;
+use Sibas\Entities\ExchangeRate;
+use Sibas\Entities\Retailer;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 
-class CompanyAdminController extends Controller
+class ExchangeAdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,15 +17,18 @@ class CompanyAdminController extends Controller
      */
     public function index($nav, $action)
     {
-        if($action=='list_company'){
-            $company_new = Company::get();
-
-            return view('admin.company.list', compact('nav', 'action', 'company_new'));
-        }elseif($action=='new_company'){
-            return view('admin.company.new', compact('nav', 'action'));
+        if($action=='list'){
+            $exchange = ExchangeRate::join('ad_retailers', 'ad_exchange_rates.ad_retailer_id', '=', 'ad_retailers.id')
+                ->select('ad_retailers.name as entidad', 'ad_exchange_rates.usd_value', 'ad_exchange_rates.bs_value', 'ad_exchange_rates.created_at as creation_date', 'ad_exchange_rates.id')
+                ->where('ad_retailers.active', '=', 1)->get();
+            //dd($exchange);
+            return view('admin.exchange.list', compact('nav', 'action', 'exchange'));
+        }elseif($action=='new'){
+            $retailer = Retailer::where('active', 1)->first();
+            //dd($retailer);
+            return view('admin.exchange.new', compact('nav', 'action', 'retailer'));
         }
 
-        //
     }
 
     /**
@@ -45,7 +49,13 @@ class CompanyAdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $exchange_new = new ExchangeRate();
+        $exchange_new->ad_retailer_id=$request->input('id_retailer');
+        $exchange_new->usd_value=$request->input('valor_usd');
+        $exchange_new->bs_value=$request->input('valor_bs');
+        if($exchange_new->save()){
+            return redirect()->route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list']);
+        }
     }
 
     /**

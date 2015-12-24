@@ -18,7 +18,7 @@
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Compañías de Seguros</span></a>
                 @if($nav=='company')
-                    @if($action=='list_company' || $action=='new_company')
+                    @if($action=='list_company')
                         @var $data_lc='active'
                         @var $data_lp=''
                     @elseif($action=='list_policy')
@@ -70,15 +70,13 @@
             <li class="navigation-header">
                 <span>Cambio Monetario</span> <i class="icon-menu" title="Forms"></i>
             </li>
-            @if($nav=='exchange')
-                @var $data='active'
-            @else
-                @var $data=''
-            @endif
-            <li class="{{$data}}">
-                <a href="{{ route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list']) }}">
-                    <i class="icon-stack2"></i> <span>Tipo de Cambio</span>
-                </a>
+            <li>
+                <a href="#"><i class="icon-stack2"></i> <span>Tipo de Cambio</span></a>
+                <ul>
+                    <li>
+                        <a href="#">Listar Registros</a>
+                    </li>
+                </ul>
             </li>
             <li class="navigation-header">
                 <span>Productos</span> <i class="icon-menu" title="Forms"></i>

@@ -3,11 +3,10 @@
 namespace Sibas\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Sibas\Entities\Company;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 
-class CompanyAdminController extends Controller
+class UserAdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,15 +15,18 @@ class CompanyAdminController extends Controller
      */
     public function index($nav, $action)
     {
-        if($action=='list_company'){
-            $company_new = Company::get();
-
-            return view('admin.company.list', compact('nav', 'action', 'company_new'));
-        }elseif($action=='new_company'){
-            return view('admin.company.new', compact('nav', 'action'));
+        if($action=='list'){
+            return view('admin.user.list', compact('nav', 'action'));
+        }elseif($action=='new'){
+            return view('admin.user.new', compact('nav','action'));
+        }elseif($action=='edit'){
+            return view('admin.user.edit', compact('nav', 'action'));
+        }elseif($action=='changepass'){
+            return view('admin.user.change-password', compact('nav', 'action'));
+        }elseif($action=='resetpass'){
+            return view('admin.user.reset-password', compact('nav', 'action'));
         }
 
-        //
     }
 
     /**

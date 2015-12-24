@@ -3,7 +3,6 @@
 namespace Sibas\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Sibas\Entities\Company;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 
@@ -16,14 +15,7 @@ class CompanyAdminController extends Controller
      */
     public function index($nav, $action)
     {
-        if($action=='list_company'){
-            $company_new = Company::get();
-
-            return view('admin.company.list', compact('nav', 'action', 'company_new'));
-        }elseif($action=='new_company'){
-            return view('admin.company.new', compact('nav', 'action'));
-        }
-
+        return view('admin.company.list', compact('nav', 'action'));
         //
     }
 

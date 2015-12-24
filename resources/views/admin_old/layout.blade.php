@@ -15,39 +15,23 @@
     {!! Html::style('assets/css/colors.min.css') !!}
     <!-- /global stylesheets -->
 
-    <!-- Core JSKKK files -->
+    <!-- Core JS files -->
     {!! Html::script('assets/js/plugins/loaders/pace.min.js') !!}
     {!! Html::script('assets/js/core/libraries/jquery.min.js') !!}
     {!! Html::script('assets/js/core/libraries/bootstrap.min.js') !!}
     {!! Html::script('assets/js/plugins/loaders/blockui.min.js') !!}
-    {!! Html::script('assets/js/plugins/notifications/bootbox.min.js')!!}
     <!-- /core JS files -->
 
-    @if($nav=='user' || $nav=='exchange' || $nav=='company')
-        @if($action=='list' || $action=='list_company')
-            @if($nav!='exchange' && $nav!='company')
-                <!-- Theme JS files CON PAGINADOR-->
-                {!! Html::script('assets/js/plugins/tables/datatables/datatables.min.js') !!}
-                {!! Html::script('assets/js/plugins/forms/selects/select2.min.js') !!}
+    @if($nav=='user')
+        @if($action=='list')
+            <!-- Theme JS files -->
+            {!! Html::script('assets/js/plugins/tables/datatables/datatables.min.js') !!}
+            {!! Html::script('assets/js/plugins/forms/selects/select2.min.js') !!}
 
-                {!! Html::script('assets/js/core/app.js') !!}
-                {!! Html::script('assets/js/pages/datatables_basic.js') !!}
-                <!-- /theme JS files -->
-            @else
-                <!-- Theme JS files SIN PAGINADOR-->
-                {!! Html::script('assets/js/plugins/visualization/d3/d3.min.js') !!}
-                {!! Html::script('assets/js/plugins/visualization/d3/d3_tooltip.js') !!}
-                {!! Html::script('assets/js/plugins/forms/styling/switchery.min.js') !!}
-                {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
-                {!! Html::script('assets/js/plugins/forms/selects/bootstrap_multiselect.js') !!}
-                {!! Html::script('assets/js/plugins/ui/moment/moment.min.js') !!}
-                {!! Html::script('assets/js/plugins/pickers/daterangepicker.js') !!}
-
-                {!! Html::script('assets/js/core/app.js') !!}
-                {!! Html::script('assets/js/pages/dashboard.js') !!}
-                <!-- /theme JS files -->
-            @endif
-        @elseif($action=='new'|| $action=='edit' || $action=='changepass' || $action=='resetpass' || $action=='new_company')
+            {!! Html::script('assets/js/core/app.js') !!}
+            {!! Html::script('assets/js/pages/datatables_basic.js') !!}
+            <!-- /theme JS files -->
+        @elseif($action=='new'|| $action=='edit' || $action=='changepass' || $action=='resetpass')
             <!-- Theme JS files -->
             {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
 
@@ -55,7 +39,7 @@
             {!! Html::script('assets/js/pages/form_inputs.js') !!}
             <!-- /theme JS files -->
         @endif
-    @elseif($nav=='begin')
+    @elseif($nav=='begin' || $nav=='company')
         <!-- Theme JS files -->
         {!! Html::script('assets/js/plugins/visualization/d3/d3.min.js') !!}
         {!! Html::script('assets/js/plugins/visualization/d3/d3_tooltip.js') !!}

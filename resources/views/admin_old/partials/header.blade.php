@@ -17,13 +17,7 @@
                     <span class="text-semibold">Formulario</span> - Resetear contraseña
                 @endif
             @elseif($nav=='company')
-                @if($action=='list_company')
-                    <span class="text-semibold">Lista</span> - Compañías Aseguradoras
-                @elseif($action=='new_company')
-                    <span class="text-semibold">Formulario</span> - Nueva Compañía
-                @endif
-            @elseif($nav=='exchange')
-                <span class="text-semibold">lista</span> - Tipo de cambio moneda
+                <span class="text-semibold">Lista</span> - Compañías Aseguradoras
             @endif
         </h4>
     </div>
@@ -81,31 +75,8 @@
                 <li class="active">Resetear contraseña</li>
             @endif
         @elseif($nav=='company')
-            @if($action=='list_company')
-                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
-                <li class="active">Compañías</li>
-            @elseif($action=='new_company')
-                <li>
-                    <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
-                        <i class="icon-home2 position-left"></i>Inicio
-                    </a>
-                </li>
-                <li><a href="{{ route('admin.company.list', ['nav'=>'exchange', 'action'=>'list_company']) }}">Listar registros</a></li>
-                <li class="active">Nuevo registro</li>
-            @endif
-        @elseif($nav=='exchange')
-            @if($action=='list')
-                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
-                <li class="active">Tipo de cambio</li>
-            @elseif($action=='new')
-                <li>
-                    <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
-                        <i class="icon-home2 position-left"></i>Inicio
-                    </a>
-                </li>
-                <li><a href="{{ route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list']) }}">Listar registros</a></li>
-                <li class="active">Tipo de cambio</li>
-            @endif
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            <li class="active">Compañías</li>
         @endif
     </ul>
     <!--

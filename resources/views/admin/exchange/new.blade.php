@@ -13,9 +13,10 @@
 @endsection
 
 @section('content')
+    <!-- Form horizontal -->
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Formulario resetear contraseña</h5>
+            <h5 class="panel-title">Formulario nuevo registro</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="reload"></a></li>
@@ -25,38 +26,38 @@
 
         <div class="panel-body">
 
-            {!! Form::open(array('route' => 'reset_pass', 'name' => 'userResetForm', 'id' => 'userResetForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
+            {!! Form::open(array('route' => 'create_exchange', 'name' => 'exchangeForm', 'id' => 'exchangeForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
                 <fieldset class="content-group">
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Usuario</label>
-                        <div class="col-lg-10" style="font-weight: bold;">
-                            {{$user_find->full_name}}
+                        <label class="control-label col-lg-2">Entidad Financiera</label>
+                        <div class="col-lg-10">
+                            {{$retailer->name}}
+                            <input type="hidden" class="form-control" name="id_retailer" id="id_retailer" value="{{$retailer->id}}">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Contraseña nueva</label>
+                        <label class="control-label col-lg-2">Valor USD</label>
                         <div class="col-lg-10">
-                            <input type="password" class="form-control required" id="contrasenia" name="contrasenia">
+                            <input type="text" class="form-control required" name="valor_usd" id="valor_usd" value="1" readonly>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Confirmar contraseña</label>
+                        <label class="control-label col-lg-2">Valor Bs</label>
                         <div class="col-lg-10">
-                            <input type="password" class="form-control required" id="confirmar" name="confirmar">
+                            <input type="text" class="form-control required real" id="valor_bs" name="valor_bs">
                         </div>
                     </div>
 
                 </fieldset>
 
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary" id="guardar" name="guardar">
+                    <button type="submit" class="btn btn-primary">
                         Guardar <i class="icon-arrow-right14 position-right"></i>
                     </button>
-                    <input type="hidden" id="id_user" name="id_user" value="{{$user_find->id}}">
-                    <a href="{{ route('admin.user.list', ['nav'=>'user', 'action'=>'list']) }}" class="btn btn-primary">
+                    <a href="{{route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list'])}}" class="btn btn-primary">
                         Cancelar <i class="icon-arrow-right14 position-right"></i>
                     </a>
                 </div>
@@ -65,47 +66,30 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
-            //CONFIRMAMOS LA CONTRASEÑA
-            $('#confirmar').keyup(function(e){
-                var password_repite = $('#confirmar').prop('value');
-                var password_nuevo = $('#contrasenia').prop('value');
-
-                if(password_nuevo==password_repite){
-                    if($("#confirmar + .msg-form").length) {
-                        $("#confirmar + .msg-form").remove();
-                    }
-                    $('#guardar').prop('disabled', false);
-                    if(!$("#confirmar + .msg-form").length) {
-                        $("#confirmar:last").after('<span class="msg-form">Contraseñas iguales</span>');
-                    }
-                }else{
-                    if($("#confirmar + .msg-form").length) {
-                        $("#confirmar + .msg-form").remove();
-                    }
-                    $('#guardar').prop('disabled', true);
-                    if(!$("#confirmar + .msg-form").length) {
-                        $("#confirmar:last").after('<span class="msg-form">Las contraseñas tienen que ser iguales</span>');
-                    }
-                }
-            });
 
             //VERIFICAMOS EL FORMULARIO
-            $('#userResetForm').submit(function(e){
+            $('#exchangeForm').submit(function(e){
                 var sw = true;
                 var err = 'Esta informacion es obligatoria';
                 $(this).find('.required, .not-required').each(function(index, element) {
                     //alert(element.type+'='+element.value);
+
                     if($(this).hasClass('required') === true){
                         if(validateElement(element,err) === false){
                             sw = false;
+                        }else if(validateElementType(element,err) === false){
+                            sw = false;
                         }
                     }
+
                 });
+
                 if(sw==true){
 
                 }else{
                     e.preventDefault();
                 }
+
             });
 
             //VALIDAMOS ELEMENTO
@@ -146,6 +130,33 @@
                     $("#"+_id+" + .msg-form").remove();
                 }
             }
+            //VALIDAR TIPO DE ELEMENTO
+            function validateElementType(element,err){
+                var _value = $(element).prop('value');
+                var regex = null;
+                if($(element).hasClass('number') === true){
+                    regex = /^([0-9])*$/;
+                    err = 'Ingrese solo numeros';
+                }else if($(element).hasClass('real') === true){
+                    regex = /^([0-9])*[.]?[0-9]*$/;
+                    err = 'Ingrese solo numeros.';
+                }
+
+                if(regex !== null){
+                    if(!(regex.test(_value)) && _value.length !== 0){
+                        addClassE(element,err);
+                        $(element).prop('value', '');
+                        return false;
+                    }else{
+                        removeClassE(element,err);
+                        return true;
+                    }
+                }else{
+                    return true;
+                }
+            }
+
         });
     </script>
+    <!-- /form horizontal -->
 @endsection

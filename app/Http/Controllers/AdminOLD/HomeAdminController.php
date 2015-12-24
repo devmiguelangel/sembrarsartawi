@@ -3,28 +3,19 @@
 namespace Sibas\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Sibas\Entities\Company;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 
-class CompanyAdminController extends Controller
+class HomeAdminController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($nav, $action)
+    public function index($nav='begin')
     {
-        if($action=='list_company'){
-            $company_new = Company::get();
-
-            return view('admin.company.list', compact('nav', 'action', 'company_new'));
-        }elseif($action=='new_company'){
-            return view('admin.company.new', compact('nav', 'action'));
-        }
-
-        //
+        return view('admin.home', compact('nav'));
     }
 
     /**
