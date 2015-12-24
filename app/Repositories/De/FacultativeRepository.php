@@ -26,7 +26,6 @@ class FacultativeRepository extends BaseRepository
 
         if ($retailerProduct->facultative) {
             $this->getParameter($retailerProduct, $detail->amount, $detail->cumulus);
-            $this->model     = new Facultative();
 
             if ($this->getFacultativeByDetail($detail->id)) {
                 $this->model = $this->getModel();
@@ -106,6 +105,9 @@ class FacultativeRepository extends BaseRepository
             $this->model = $this->model->first();
 
             return true;
+        } else {
+            $this->model     = new Facultative();
+            $this->model->id = date('U');
         }
 
         return false;

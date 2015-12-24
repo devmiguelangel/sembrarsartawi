@@ -55,4 +55,13 @@ Route::group(['prefix' => 'de/{rp_id}'], function() {
         'as'    => 'de.issuance',
         'uses'  => 'De\HeaderController@issuance'
     ]);
+
+    /*
+     * Header Facultative
+     */
+    Route::get('{header_id}/request-approval', [
+        'as'    => 'de.fa.request',
+        'uses'  => 'De\FacultativeController@request'
+    ]);
+
 });

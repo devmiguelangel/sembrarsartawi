@@ -12,6 +12,7 @@ class Header extends Model
 
     protected $casts = [
         'facultative' => 'boolean',
+        'approved'    => 'boolean',
     ];
 
     public function coverage()

@@ -362,7 +362,7 @@
                                         Emitir <i class="icon-floppy-disk position-right"></i>
                                     </a>
                                 @else
-                                    <a href="#" class="btn btn-warning">
+                                    <a href="{{ route('de.fa.request', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-warning">
                                         Solicitar aprobación de la Compañia <i class="icon-warning position-right"></i>
                                     </a>
                                 @endif
