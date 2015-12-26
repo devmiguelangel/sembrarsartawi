@@ -86,14 +86,12 @@
                 @endif
 
                 {!! Form::open(['route' => ['de.detail.store', 'rp_id' => (isset($rp_id) ? $rp_id : route()->get('rp_id')), 'header_id' => (isset($header_id) ? $header_id : route()->get('header_id'))], 'method' => 'post', 'class' => 'form-horizontal']) !!}
-                    {!! Form::hidden('header_id', $header_id) !!}
-                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
-
                     <div class="panel-body ">
                         @include('client.de.partials.inputs-quote')
 
                         <div class="text-right">
-                            <a href="{{ route('de.client.list', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+                            <a href="{{ route('de.client.list', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                               class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
 
                             {!! Form::button('Registrar Cliente <i class="icon-arrow-right14 position-right"></i>', [
                                 'type' => 'submit',

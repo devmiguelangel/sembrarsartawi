@@ -88,7 +88,6 @@
                 <div class="panel-body ">
                     <div class="col-xs-8">
                         {!! Form::open(['route' => ['de.store', 'rp_id' => $rp_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
-                            {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
                             <div class="form-group">
                                 <label class="control-label col-lg-3 label_required">Tipo de cobertura: </label>
                                 <div class="col-lg-8">

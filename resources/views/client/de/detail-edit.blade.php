@@ -211,10 +211,6 @@
                 </div>
 
                 {!! Form::open(['route' => ['de.detail.i.update', 'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => encode($detail->id), 'ref' => $ref], 'method' => 'put', 'class' => 'form-horizontal']) !!}
-                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
-                    {!! Form::hidden('header_id', $header_id) !!}
-                    {!! Form::hidden('detail_id', encode($detail->id)) !!}
-                    {!! Form::hidden('ref', encrypt($ref)) !!}
                     <div class="panel-body ">
                         @var $client = $detail->client
 

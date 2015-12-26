@@ -86,10 +86,6 @@
                 @endif
 
                 {!! Form::open(['route' => ['de.beneficiary.store',  'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => encode($detail->id)], 'method' => 'post', 'class' => 'form-horizontal']) !!}
-                    {!! Form::hidden('header_id', $header_id) !!}
-                    {!! Form::hidden('detail_id', encode($detail->id)) !!}
-                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
-
                     @include('beneficiary.partials.inputs')
 
                     <div class="text-right">

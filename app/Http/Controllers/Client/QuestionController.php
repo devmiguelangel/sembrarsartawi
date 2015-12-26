@@ -17,21 +17,23 @@ class QuestionController extends Controller
     /**
      * @var QuestionRepository
      */
-    private $repository;
+    protected $repository;
     /**
-     * @var RetailerProductController
+     * @var DetailRepository
      */
-    private $retailerProduct;
+    protected $detailRepository;
     /**
-     * @var DetailController
+     * @var RetailerProductRepository
      */
-    private $detail;
+    protected $retailerProductRepository;
 
-    public function __construct(QuestionRepository $repository)
+    public function __construct(QuestionRepository $repository,
+                                DetailRepository $detailRepository,
+                                RetailerProductRepository $retailerProductRepository)
     {
-        $this->repository      = $repository;
-        $this->detail          = new DetailController(new DetailRepository);
-        $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
+        $this->repository       = $repository;
+        $this->detailRepository = $detailRepository;
+        $this->retailerProductRepository = $retailerProductRepository;
     }
 
     /**
@@ -56,12 +58,12 @@ class QuestionController extends Controller
     {
         $data = null;
 
-        if ($this->detail->detailById(decode($detail_id))) {
-            $detail = $this->detail->getDetail();
+        if ($this->detailRepository->getDetailById(decode($detail_id))) {
+            $detail = $this->detailRepository->getModel();
 
             $data = [
                 'detail'      => $detail,
-                'questions'   => $this->retailerProduct->questionByProduct($rp_id),
+                'questions'   => $this->retailerProductRepository->getQuestionByProduct(decode($rp_id)),
                 'observation' => ''
             ];
 
@@ -76,16 +78,16 @@ class QuestionController extends Controller
      * @param QuestionFormRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function storeDe(QuestionFormRequest $request)
+    public function storeDe(QuestionFormRequest $request, $rp_id, $header_id, $detail_id)
     {
-        if ($this->detail->detailById(decode($request->get('detail_id')))) {
-            $detail            = $this->detail->getDetail();
+        if ($this->detailRepository->getDetailById(decode($detail_id))) {
+            $detail            = $this->detailRepository->getModel();
             $request['detail'] = $detail;
 
             if ($this->repository->storeQuestionDe($request)) {
                 return redirect()->route('de.client.list', [
-                        'rp_id'     => decrypt($request->get('rp_id')),
-                        'header_id' => $request->get('header_id'),
+                        'rp_id'     => $rp_id,
+                        'header_id' => $header_id,
                     ])->with(['success_question' => 'La información y el '
                         . 'cuestionario de salud del Cliente fueron registrados']);
             }
@@ -116,8 +118,8 @@ class QuestionController extends Controller
      */
     public function edit($rp_id, $header_id, $detail_id)
     {
-        if ($this->detail->detailById(decode($detail_id))) {
-            $detail = $this->detail->getDetail();
+        if ($this->detailRepository->getDetailById(decode($detail_id))) {
+            $detail = $this->detailRepository->getModel();
 
             $data = [
                 'detail'      => $detail,
@@ -150,16 +152,16 @@ class QuestionController extends Controller
      * @param  QuestionFormRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function updateDe(QuestionFormRequest $request)
+    public function updateDe(QuestionFormRequest $request, $rp_id, $header_id, $detail_id)
     {
-        if ($this->detail->detailById(decode($request->get('detail_id')))) {
-            $detail            = $this->detail->getDetail();
+        if ($this->detailRepository->getDetailById(decode($detail_id))) {
+            $detail            = $this->detailRepository->getModel();
             $request['detail'] = $detail;
 
             if ($this->repository->updateQuestionDe($request)) {
                 return redirect()->route('de.client.list', [
-                    'rp_id'     => decrypt($request->get('rp_id')),
-                    'header_id' => $request->get('header_id'),
+                    'rp_id'     => $rp_id,
+                    'header_id' => $header_id,
                 ])->with(['success_question' => 'El Cuestionario de Salud se actualizó correctamente']);
             }
         }

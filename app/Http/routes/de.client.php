@@ -5,14 +5,6 @@
 */
 Route::group(['prefix' => 'de/{rp_id}/{header_id}'], function() {
     /*
-     * Client list
-     */
-    Route::get('list', [
-        'as'    => 'de.client.list',
-        'uses'  => 'Client\ClientController@lists'
-    ]);
-
-    /*
      * Client create
      */
     Route::get('client/create/{client_id?}', [

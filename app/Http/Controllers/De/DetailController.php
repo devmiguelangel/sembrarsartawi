@@ -3,17 +3,19 @@
 namespace Sibas\Http\Controllers\De;
 
 use Illuminate\Http\Response;
-use Sibas\Http\Controllers\Client\ClientController;
-use Sibas\Http\Controllers\Retailer\RetailerProductController;
+use Sibas\Entities\Client;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Client\ClientComplementFormRequest;
 use Sibas\Http\Requests\Client\ClientCreateFormRequest;
 use Sibas\Http\Requests\De\BalanceFormRequest;
+use Sibas\Repositories\Client\ActivityRepository;
 use Sibas\Repositories\Client\ClientRepository;
+use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\DetailRepository;
 use Sibas\Repositories\De\FacultativeRepository;
 use Sibas\Repositories\De\HeaderRepository;
+use Sibas\Repositories\Retailer\CityRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class DetailController extends Controller
@@ -23,21 +25,55 @@ class DetailController extends Controller
      */
     protected $repository;
     /**
-     * @var ClientController
+     * @var HeaderRepository
      */
-    private $client;
+    protected $headerRepository;
     /**
-     * @var HeaderController
+     * @var ClientRepository
      */
-    private $header;
+    protected $clientRepository;
+    /**
+     * @var RetailerProductRepository
+     */
+    protected $retailerProductRepository;
+    /**
+     * @var FacultativeRepository
+     */
+    protected $facultativeRepository;
+    /**
+     * @var DataRepository
+     */
+    protected $dataRepository;
+    /**
+     * @var CityRepository
+     */
+    protected $cityRepository;
+    /**
+     * @var ActivityRepository
+     */
+    protected $activityRepository;
 
-    public function __construct(DetailRepository $repository)
+    protected $reference;
+
+    public function __construct(DetailRepository $repository,
+                                HeaderRepository $headerRepository,
+                                ClientRepository $clientRepository,
+                                DataRepository $dataRepository,
+                                CityRepository $cityRepository,
+                                ActivityRepository $activityRepository,
+                                RetailerProductRepository $retailerProductRepository,
+                                FacultativeRepository $facultativeRepository)
     {
-        $this->repository      = $repository;
-        $this->client          = new ClientController(new ClientRepository);
-        $this->header          = new HeaderController(new HeaderRepository);
-        $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
-        $this->facultative     = new FacultativeController(new FacultativeRepository);
+        $this->repository                = $repository;
+        $this->headerRepository          = $headerRepository;
+        $this->clientRepository          = $clientRepository;
+        $this->dataRepository            = $dataRepository;
+        $this->cityRepository            = $cityRepository;
+        $this->activityRepository        = $activityRepository;
+        $this->retailerProductRepository = $retailerProductRepository;
+        $this->facultativeRepository     = $facultativeRepository;
+
+        $this->reference = ['ISE', 'ISU'];
     }
 
     /**
@@ -51,7 +87,24 @@ class DetailController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Returns Data for Client register
+     * @return array
+     */
+    public function getData()
+    {
+        return [
+            'civil_status'  => $this->dataRepository->getCivilStatus(),
+            'document_type' => $this->dataRepository->getDocumentType(),
+            'gender'        => $this->dataRepository->getGender(),
+            'cities'        => $this->cityRepository->getCitiesByType(),
+            'activities'    => $this->activityRepository->getActivities(),
+            'hands'         => $this->dataRepository->getHand(),
+            'avenue_street' => $this->dataRepository->getAvenueStreet(),
+        ];
+    }
+
+    /**
+     * Show the form for creating a new Client.
      *
      * @param string $rp_id
      * @param string $header_id
@@ -60,26 +113,34 @@ class DetailController extends Controller
      */
     public function create($rp_id, $header_id, $client_id = null)
     {
-        return $this->client->create($rp_id, $header_id, $client_id);
+        $data   = $this->getData();
+        $client = new Client();
+
+        if (! is_null($client_id) && $this->clientRepository->getClientById(decode($client_id))) {
+            $client = $this->clientRepository->getModel();
+        }
+
+        return view('client.de.create', compact('rp_id', 'header_id', 'data', 'client'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  ClientCreateFormRequest $request
+     * @param $rp_id
+     * @param $header_id
      * @return Response
      */
-    public function store(ClientCreateFormRequest $request)
+    public function store(ClientCreateFormRequest $request, $rp_id, $header_id)
     {
-        $rp_id = decrypt($request->get('rp_id'));
-
-        if ($this->header->headerById(decode($request->get('header_id')))) {
-            $header            = $this->header->getHeader();
+        if ($this->headerRepository->getHeaderById(decode($header_id))) {
+            $header            = $this->headerRepository->getModel();
             $request['header'] = $header;
 
-            if ($this->client->store($request) && $this->retailerProduct->retailerProductById($rp_id)) {
-                $client            = $this->client->getClient();
-                $retailerProduct   = $this->retailerProduct->getRetailerProduct();
+            if ($this->clientRepository->createClient($request)
+                    && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+                $client            = $this->clientRepository->getModel();
+                $retailerProduct   = $this->retailerProductRepository->getModel();
 
                 $request['client']          = $client;
                 $request['retailerProduct'] = $retailerProduct;
@@ -88,8 +149,8 @@ class DetailController extends Controller
                     $detail = $this->repository->getModel();
 
                     return redirect()->route('de.question.create', [
-                            'rp_id'     => decrypt($request->get('rp_id')),
-                            'header_id' => encode($header->id),
+                            'rp_id'     => $rp_id,
+                            'header_id' => $header_id,
                             'detail_id' => encode($detail->id),
                         ])->with(['success_client' => 'La información del Cliente fue registrada']);
                 }
@@ -125,8 +186,11 @@ class DetailController extends Controller
         if ($this->repository->getDetailById(decode($detail_id))) {
             $detail = $this->repository->getModel();
 
-            if (! is_null($detail->client)) {
-                return $this->client->edit($rp_id, $header_id, $detail_id, $detail->client);
+            if ($detail->client instanceof Client) {
+                $client = $detail->client;
+                $data   = $this->getData();
+
+                return view('client.de.edit', compact('rp_id', 'header_id', 'detail_id', 'data', 'client'));
             }
         }
 
@@ -144,10 +208,15 @@ class DetailController extends Controller
      */
     public function update(ClientCreateFormRequest $request, $rp_id, $header_id, $detail_id)
     {
-        if ($this->repository->getDetailById(decode($request->get('detail_id')))) {
+        if ($this->repository->getDetailById(decode($detail_id))) {
             $detail = $this->repository->getModel();
 
-            return $this->client->update($request, $rp_id, $header_id, $detail->client);
+            if ($this->clientRepository->editClient($request, $detail->client)) {
+                return redirect()->route('de.client.list', [
+                    'rp_id'     => $rp_id,
+                    'header_id' => $header_id
+                ])->with(['success_client' => 'La información del Cliente se actualizó correctamente']);
+            }
         }
 
         return redirect()->back()
@@ -171,11 +240,11 @@ class DetailController extends Controller
         if ($this->repository->getDetailById(decode($detail_id))) {
             $detail = $this->repository->getModel();
 
-            if ($ref === 'ISE' || $ref === 'ISU') {
-                $data   = $this->client->getData();
+            if (in_array($ref, $this->reference)) {
+                $data   = $this->getData();
                 $client = $detail->client;
 
-                if (! is_null($client)) {
+                if ($client instanceof Client) {
                     if ($ref === 'ISE') {
                         return view('client.de.detail-edit', compact('rp_id', 'header_id', 'ref', 'data', 'detail'));
                     } elseif (strtoupper($ref) === 'ISU') {
@@ -189,19 +258,19 @@ class DetailController extends Controller
             ->with(['error_client' => 'La información del Cliente no puede ser editada']);
     }
 
-    public function updateIssue(ClientComplementFormRequest $request)
+    public function updateIssue(ClientComplementFormRequest $request, $rp_id, $header_id, $detail_id, $ref)
     {
-        $ref = strtoupper(decrypt($request->get('ref')));
+        $ref = strtoupper($ref);
 
-        if ($this->repository->getDetailById(decode($request->get('detail_id')))) {
+        if ($this->repository->getDetailById(decode($detail_id))) {
             $detail            = $this->repository->getModel();
             $request['detail'] = $detail;
 
-            if ($ref === 'ISE' || $ref === 'ISU') {
-                if (! is_null($detail->client) && $this->client->updateIssue($request)) {
+            if (in_array($ref, $this->reference)) {
+                if (($detail->client instanceof Client) && $this->clientRepository->updateIssueClient($request)) {
                     return redirect()->route('de.edit', [
-                        'rp_id'     => decrypt($request->get('rp_id')),
-                        'header_id' => $request->get('header_id')
+                        'rp_id'     => $rp_id,
+                        'header_id' => $header_id
                     ])->with(['success_client' => 'La información del Cliente se actualizó correctamente']);
                 }
             };
@@ -214,8 +283,9 @@ class DetailController extends Controller
 
     public function editBalance($rp_id, $header_id, $detail_id)
     {
-        if ($this->header->headerById(decode($header_id)) && $this->repository->getDetailById(decode($detail_id))) {
-            $header = $this->header->getHeader();
+        if ($this->headerRepository->getHeaderById(decode($header_id))
+                && $this->repository->getDetailById(decode($detail_id))) {
+            $header = $this->headerRepository->getModel();
             $detail = $this->repository->getModel();
 
             return view('client.de.balance', compact('rp_id', 'header', 'detail'));
@@ -225,27 +295,23 @@ class DetailController extends Controller
             ->with(['error_detail' => 'El Saldo Deudor no puede ser editado']);
     }
 
-    public function updateBalance(BalanceFormRequest $request)
+    public function updateBalance(BalanceFormRequest $request, $rp_id, $header_id, $detail_id)
     {
-        $rp_id     = decrypt($request->get('rp_id'));
-        $header_id = $request->get('header_id');
-        $detail_id = decode($request->get('detail_id'));
-
-        if ($this->header->headerById(decode($header_id))) {
-            $header            = $this->header->getHeader();
+        if ($this->headerRepository->getHeaderById(decode($header_id))) {
+            $header            = $this->headerRepository->getModel();
             $request['header'] = $header;
 
-            if ($this->repository->updateBalance($request, $detail_id)
-                    && $this->repository->getDetailById($detail_id)
-                    && $this->retailerProduct->retailerProductById($rp_id)) {
+            if ($this->repository->updateBalance($request, decode($detail_id))
+                    && $this->repository->getDetailById(decode($detail_id))
+                    && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
                 $detail            = $this->repository->getModel();
-                $retailerProduct   = $this->retailerProduct->getRetailerProduct();
+                $retailerProduct   = $this->retailerProductRepository->getModel();
 
                 $request['detail']          = $detail;
                 $request['retailerProduct'] = $retailerProduct;
 
                 $approved = true;
-                if ($this->facultative->store($request)) {
+                if ($this->facultativeRepository->storeFacultative($request)) {
                     $approved = false;
                 }
 

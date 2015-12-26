@@ -103,8 +103,6 @@
                                                 </a>
                                                 <hr>
                                                 {!! Form::open(['route' => ['de.store.result',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
-                                                    {!! Form::hidden('header_id', $header_id) !!}
-                                                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
                                                     {!! Form::hidden('rate_id', encrypt($retailerProduct->rates->first()->id)) !!}
 
                                                     {!! Form::button('<i class="icon-arrow-right14 position-left"></i> Emitir', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}

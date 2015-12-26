@@ -111,10 +111,6 @@
                                     </div>
                                 @endif
                                 {!! Form::open(['route' => ['de.question.update', 'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => $detail_id], 'method' => 'put', 'class' => '']) !!}
-                                    {!! Form::hidden('header_id', $header_id) !!}
-                                    {!! Form::hidden('detail_id', $detail_id) !!}
-                                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
-
                                     @include('client.de.partials.questions')
 
                                     <div class="text-right">

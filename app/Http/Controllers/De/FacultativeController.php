@@ -46,17 +46,6 @@ class FacultativeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        return $this->repository->storeFacultative($request);
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id

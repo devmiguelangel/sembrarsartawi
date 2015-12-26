@@ -85,11 +85,11 @@ class HeaderRepository extends BaseRepository
      * @param Request $request
      * @return bool
      */
-    public function storeResult($request)
+    public function storeResult($request, $header_id)
     {
         $this->data = $request->all();
 
-        if ($this->getHeaderById(decode($this->data['header_id']))) {
+        if ($this->getHeaderById($header_id)) {
             $this->model->total_rate    = $this->data['rate']->rate_final;
             $this->model->total_premium = ($this->model->amount_requested * $this->data['rate']->rate_final) / 100;
 
