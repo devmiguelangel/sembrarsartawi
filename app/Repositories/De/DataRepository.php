@@ -13,7 +13,7 @@ class DataRepository extends BaseRepository
      */
     public function getCurrency()
     {
-        $currencies = \Config::get('base.currencies');
+        $currencies = config('base.currencies');
 
         return $this->getData($currencies);
     }
@@ -24,7 +24,7 @@ class DataRepository extends BaseRepository
      */
     public function getTermType()
     {
-        $termType = \Config::get('base.term_types');
+        $termType = config('base.term_types');
 
         return $this->getData($termType);
     }
@@ -35,7 +35,7 @@ class DataRepository extends BaseRepository
      */
     public function getCivilStatus()
     {
-        $civil_status = \Config::get('base.client_civil_status');
+        $civil_status = config('base.client_civil_status');
 
         return $this->getData($civil_status);
     }
@@ -46,7 +46,7 @@ class DataRepository extends BaseRepository
      */
     public function getDocumentType()
     {
-        $document_types = \Config::get('base.client_document_types');
+        $document_types = config('base.client_document_types');
 
         return $this->getData($document_types);
     }
@@ -57,7 +57,7 @@ class DataRepository extends BaseRepository
      */
     public function getGender()
     {
-        $genders = \Config::get('base.client_genders');
+        $genders = config('base.client_genders');
 
         return $this->getData($genders);
     }
@@ -68,7 +68,7 @@ class DataRepository extends BaseRepository
      */
     public function getHand()
     {
-        $hands = \Config::get('base.client_hands');
+        $hands = config('base.client_hands');
 
         return $this->getData($hands);
     }
@@ -79,7 +79,7 @@ class DataRepository extends BaseRepository
      */
     public function getAvenueStreet()
     {
-        $avenue_street = \Config::get('base.avenue_street');
+        $avenue_street = config('base.avenue_street');
 
         return $this->getData($avenue_street);
     }
@@ -90,7 +90,7 @@ class DataRepository extends BaseRepository
      */
     public function getPaymentMethod()
     {
-        $payment_methods = \Config::get('base.payment_methods');
+        $payment_methods = config('base.payment_methods');
 
         return $this->getData($payment_methods);
     }
@@ -101,7 +101,7 @@ class DataRepository extends BaseRepository
      */
     public function getPeriod()
     {
-        $periods = \Config::get('base.periods');
+        $periods = config('base.periods');
 
         return $this->getData($periods);
     }

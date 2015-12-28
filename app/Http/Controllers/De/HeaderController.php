@@ -2,52 +2,43 @@
 
 namespace Sibas\Http\Controllers\De;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Sibas\Entities\Rate;
-use Sibas\Http\Controllers\BaseController;
 use Sibas\Http\Controllers\Controller;
-use Sibas\Http\Controllers\Retailer\RetailerProductController;
-use Sibas\Http\Controllers\Retailer\RetailerProductCoverageController;
 use Sibas\Http\Requests\De\HeaderCreateFormRequest;
 use Sibas\Http\Requests\De\HeaderEditFormRequest;
 use Sibas\Http\Requests\De\HeaderResultFormRequest;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\HeaderRepository;
-use Sibas\Repositories\Retailer\RetailerProductCoverageRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
-
 
 class HeaderController extends Controller
 {
-    /**
-     * @var BaseController
-     */
-    protected $base;
-    /**
-     * @var RetailerProductCoverageController
-     */
-    protected $coverage;
     /**
      * @var HeaderRepository
      */
     protected $repository;
     /**
+     * @var DataRepository
+     */
+    protected $dataRepository;
+    /**
+     * @var RetailerProductRepository
+     */
+    protected $retailerProductRepository;
+    /**
      * @var Rate
      */
-    private $rate;
-    /**
-     * @var RetailerProductController
-     */
-    private $retailerProduct;
+    protected $rate;
 
-    public function __construct(HeaderRepository $repository)
+    public function __construct(HeaderRepository $repository,
+                                DataRepository $dataRepository,
+                                RetailerProductRepository $retailerProductRepository)
     {
-        $this->repository      = $repository;
-        $this->base            = new BaseController(new DataRepository);
-        $this->coverage        = new RetailerProductCoverageController(new RetailerProductCoverageRepository);
-        $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
+        $this->repository                = $repository;
+        $this->dataRepository            = $dataRepository;
+        $this->retailerProductRepository = $retailerProductRepository;
     }
 
     /**
@@ -56,23 +47,31 @@ class HeaderController extends Controller
      * @param $rp_id
      * @return array
      */
-    public function getData($rp_id)
+    protected function getData($rp_id)
     {
         return [
-            'coverages'  => $this->coverage->productCoverage($rp_id),
-            'currencies' => $this->base->currency(),
-            'term_types' => $this->base->termType(),
+            'coverages'  => $this->retailerProductRepository->getCoverageByProduct($rp_id),
+            'currencies' => $this->dataRepository->getCurrency(),
+            'term_types' => $this->dataRepository->getTermType(),
         ];
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the Clients.
      *
+     * @param $rp_id
+     * @param $header_id
      * @return Response
      */
-    public function index()
+    public function lists($rp_id, $header_id)
     {
-        //
+        $header = null;
+
+        if ($this->repository->getHeaderById(decode($header_id))) {
+            $header = $this->repository->getModel();
+        }
+
+        return view('de.list', compact('rp_id', 'header_id', 'header'));
     }
 
     /**
@@ -83,7 +82,7 @@ class HeaderController extends Controller
      */
     public function create($rp_id)
     {
-        $data = $this->getData($rp_id);
+        $data = $this->getData(decode($rp_id));
 
         return view('de.create', compact('rp_id', 'data'));
     }
@@ -92,15 +91,16 @@ class HeaderController extends Controller
      * Store a newly created resource in storage.
      *
      * @param HeaderCreateFormRequest $request
+     * @param $rp_id
      * @return Response
      */
-    public function store(HeaderCreateFormRequest $request)
+    public function store(HeaderCreateFormRequest $request, $rp_id)
     {
         if ($this->repository->createHeader($request)) {
             $header = $this->repository->getModel();
 
             return redirect()->route('de.client.list', [
-                'rp_id'     => decrypt($request->get('rp_id')),
+                'rp_id'     => $rp_id,
                 'header_id' => encode($header->id),
             ])->with(['success_header' => 'La cotización fue registrada con éxito.']);
         }
@@ -134,7 +134,7 @@ class HeaderController extends Controller
         $data   = null;
 
         if ($this->repository->getHeaderById(decode($header_id))) {
-            $data   = $this->getData($rp_id);
+            $data   = $this->getData(decode($rp_id));
             $header = $this->getHeader();
 
             $cumulus = $header->details->sum(function($detail) {
@@ -188,15 +188,15 @@ class HeaderController extends Controller
      * @param HeaderResultFormRequest $request
      * @return $this
      */
-    public function storeResult(HeaderResultFormRequest $request)
+    public function storeResult(HeaderResultFormRequest $request, $rp_id, $header_id)
     {
-        $this->rate = Rate::where('id', $request->get('rate_id'))->first();
+        $this->rate      = Rate::where('id', $request->get('rate_id'))->first();
         $request['rate'] = $this->rate;
 
-        if ($this->repository->storeResult($request)) {
+        if ($this->repository->storeResult($request, decode($header_id))) {
             return redirect()->route('de.edit', [
-                'rp_id'     => decrypt($request->get('rp_id')),
-                'header_id' => $request->get('header_id'),
+                'rp_id'     => $rp_id,
+                'header_id' => $header_id,
             ])->with(['success_header' => 'La tasa fue registrada correctamente']);
         }
 
@@ -272,22 +272,5 @@ class HeaderController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    /** Find Header by Id
-     *
-     * @param $header_id
-     * @return bool
-     */
-    public function headerById($header_id)
-    {
-        return $this->repository->getHeaderById($header_id);
-    }
-
-    /**
-     * @return Model
-     */
-    public function getHeader(){
-        return $this->repository->getModel();
     }
 }

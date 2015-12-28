@@ -22,13 +22,13 @@ class CityRepository extends BaseRepository
 
         $cities = [];
 
-        $cities['CI'] = $this->cities->get()->filter(function($item) {
+        $cities['CI'] = $this->cities->get()->filter(function($item) use ($cities) {
             $item = $this->getDataOptions($item, 'CI');
 
             if ($item->type_ci == 1) {
                 return $item;
             }
-        });
+        })->toArray();
 
         $cities['RE'] = $this->cities->get()->filter(function($item) {
             $item = $this->getDataOptions($item, 'RE');
@@ -36,7 +36,7 @@ class CityRepository extends BaseRepository
             if ($item->type_re == 1) {
                 return $item;
             }
-        });
+        })->toArray();
 
         $cities['DE'] = $this->cities->get()->filter(function($item) {
             $item = $this->getDataOptions($item, 'DE');
@@ -44,11 +44,10 @@ class CityRepository extends BaseRepository
             if ($item->type_de == 1) {
                 return $item;
             }
-        });
-
+        })->toArray();
 
         foreach ($cities as &$city) {
-            $city = $selectOption->merge($city->toArray());
+            $city = $selectOption->merge($city);
         }
 
         return $cities;

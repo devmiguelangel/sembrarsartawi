@@ -3,6 +3,7 @@
 namespace Sibas\Entities\De;
 
 use Illuminate\Database\Eloquent\Model;
+use Sibas\Entities\Client;
 
 class Detail extends Model
 {
@@ -12,22 +13,22 @@ class Detail extends Model
 
     public function client()
     {
-        return $this->belongsTo('Sibas\Entities\Client', 'op_client_id', 'id');
+        return $this->belongsTo(Client::class, 'op_client_id', 'id');
     }
 
     public function response()
     {
-        return $this->hasOne('Sibas\Entities\De\Response', 'op_de_detail_id', 'id');
+        return $this->hasOne(Response::class, 'op_de_detail_id', 'id');
     }
 
     public function beneficiary()
     {
-        return $this->hasOne('Sibas\Entities\De\Beneficiary', 'op_de_detail_id', 'id');
+        return $this->hasOne(Beneficiary::class, 'op_de_detail_id', 'id');
     }
 
     public function facultative()
     {
-        return $this->hasOne('Sibas\Entities\De\Facultative', 'op_de_detail_id', 'id');
+        return $this->hasOne(Facultative::class, 'op_de_detail_id', 'id');
     }
 
     public function getCompletedAttribute()

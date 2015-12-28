@@ -4,7 +4,6 @@ namespace Sibas\Repositories\Client;
 
 use Illuminate\Http\Request;
 use Sibas\Entities\Client;
-use Sibas\Entities\User;
 use Sibas\Repositories\BaseRepository;
 
 class ClientRepository extends BaseRepository
@@ -20,7 +19,7 @@ class ClientRepository extends BaseRepository
         $this->data = $request->all();
 
         if ($this->getClientByDni($this->data['dni'], $this->data['extension'])) {
-            return $this->updateClient();
+            return $this->updateClient($this->model);
         }
 
         return $this->storeClient($request);
@@ -34,9 +33,7 @@ class ClientRepository extends BaseRepository
      */
     private function storeClient($request)
     {
-        /** @var User $user */
-        $user     = $request->user()->with('retailer')->first();
-        $retailer = $user->retailer->first();
+        $retailer = $request->user()->retailer->first();
 
         $this->model = new Client();
 
@@ -71,16 +68,15 @@ class ClientRepository extends BaseRepository
      */
     private function updateClient($client = null)
     {
-        if (! is_null($client)) {
-            if (! ($client instanceof Client)) {
-                return false;
-            }
+        if ($client instanceof Client) {
             $this->model = $client;
+
+            $this->setData();
+
+            return $this->saveModel();
         }
 
-        $this->setData();
-
-        return $this->saveModel();
+        return false;
     }
 
     /** Set complementary data on Issue
@@ -111,7 +107,7 @@ class ClientRepository extends BaseRepository
     /** Set data to Client
      *
      */
-    private function setData()
+    private function    setData()
     {
         $date = $this->carbon->createFromTimestamp(strtotime($this->data['birthdate']));
 

@@ -6,17 +6,23 @@ use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Repositories\De\FacultativeRepository;
+use Sibas\Repositories\De\HeaderRepository;
 
 class FacultativeController extends Controller
 {
     /**
      * @var FacultativeRepository
      */
-    private $repository;
+    protected $repository;
+    /**
+     * @var HeaderRepository
+     */
+    protected $headerRepository;
 
-    public function __construct(FacultativeRepository $repository)
+    public function __construct(FacultativeRepository $repository, HeaderRepository $headerRepository)
     {
-        $this->repository = $repository;
+        $this->repository       = $repository;
+        $this->headerRepository = $headerRepository;
     }
 
     /**
@@ -37,17 +43,6 @@ class FacultativeController extends Controller
     public function create()
     {
 
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        return $this->repository->storeFacultative($request);
     }
 
     /**
@@ -93,5 +88,17 @@ class FacultativeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function request($rp_id, $header_id)
+    {
+        if ($this->headerRepository->getHeaderById(decode($header_id))) {
+            $header = $this->headerRepository->getModel();
+
+            return view('');
+        }
+
+        return redirect()->back();
+
     }
 }

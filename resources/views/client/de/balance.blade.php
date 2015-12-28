@@ -92,10 +92,6 @@
                 </div>
 
                 {!! Form::open(['route' => ['de.detail.balance.update', 'rp_id' => $rp_id, 'header_id' => encode($header->id), 'detail_id' => encode($detail->id)], 'method' => 'put', 'class' => 'form-horizontal']) !!}
-                    {!! Form::hidden('header_id', encode($header->id)) !!}
-                    {!! Form::hidden('detail_id', encode($detail->id)) !!}
-                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
-
                     <div class="form-group">
                         <label class="control-label col-lg-3  label_required">Monto Actual Solicitado: </label>
                         <div class="col-lg-9">

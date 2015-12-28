@@ -24,8 +24,6 @@ class BalanceFormRequest extends Request
     public function rules()
     {
         return [
-            'header_id'        => 'required',
-            'detail_id'        => 'required',
             'amount_requested' => 'required|numeric|min:1',
             'balance'          => 'required|numeric',
         ];

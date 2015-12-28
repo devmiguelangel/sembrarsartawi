@@ -3,28 +3,11 @@
 namespace Sibas\Repositories\De;
 
 use Illuminate\Http\Request;
-use Sibas\Entities\Client;
 use Sibas\Entities\De\Detail;
-use Sibas\Entities\De\Header;
-use Sibas\Entities\De\Response;
-use Sibas\Entities\RetailerProduct;
 use Sibas\Repositories\BaseRepository;
 
 class DetailRepository extends BaseRepository
 {
-    /**
-     * @var Header
-     */
-    private $header;
-    /**
-     * @var Client
-     */
-    private $client;
-    /**
-     * @var RetailerProduct
-     */
-    private $retailerProduct;
-
     /** Create a newly created Detail.
      *
      * @param Request $request
@@ -32,29 +15,27 @@ class DetailRepository extends BaseRepository
      */
     public function createDetail($request)
     {
-        $this->data            = $request->all();
-        $this->header          = $this->data['header'];
-        $this->client          = $this->data['client'];
-        $this->retailerProduct = $this->data['retailerProduct'];
-
-        $retailer = $this->retailerProduct->retailer;
+        $this->data = $request->all();
+        $header     = $this->data['header'];
+        $client     = $this->data['client'];
+        $retailer   = $request->user()->retailer->first();
 
         $this->model= new Detail();
 
-        $amount = $this->getAmountInBs($this->header->currency,
-                                        $this->header->amount_requested,
+        $amount = $this->getAmountInBs($header->currency,
+                                        $header->amount_requested,
                                         $retailer->exchangeRate->bs_value);
 
         $this->model->id                = date('U');
-        $this->model->op_de_header_id   = $this->header->id;
-        $this->model->op_client_id      = $this->client->id;
-        $this->model->percentage_credit = $this->getPercentage();
+        $this->model->op_de_header_id   = $header->id;
+        $this->model->op_client_id      = $client->id;
+        $this->model->percentage_credit = $this->getPercentage($header);
         $this->model->rate              = 0;
         $this->model->balance           = 0;
         $this->model->cumulus           = 0;
         $this->model->amount            = $amount;
         $this->model->approved          = false;
-        $this->model->headline          = $this->getHeadlineType();
+        $this->model->headline          = $this->getHeadlineType($header);
 
         return $this->saveModel();
     }
@@ -102,12 +83,13 @@ class DetailRepository extends BaseRepository
 
     /** Returns Headline Type for Client
      *
+     * @param $header
      * @return string
      */
-    public function getHeadlineType()
+    public function getHeadlineType($header)
     {
-        if ($this->header->coverage->slug === 'MC') {
-            $details = Detail::where('op_de_header_id', $this->header->id)->count();
+        if ($header->coverage->slug === 'MC') {
+            $details = Detail::where('op_de_header_id', $header->id)->count();
 
             if ($details === 1) {
                 return 'C';
@@ -119,13 +101,14 @@ class DetailRepository extends BaseRepository
 
     /** Returns Percentage Credit for Client
      *
+     * @param $header
      * @return int
      */
-    private function getPercentage()
+    private function getPercentage($header)
     {
         $percentage = 0;
 
-        switch ($this->header->coverage->slug) {
+        switch ($header->coverage->slug) {
             case 'IC':
                 $percentage = 100;
                 break;

@@ -126,8 +126,6 @@
                     <div class="col-xs-12">
                         <div class="col-md-8 col-md-offset-2">
                             {!! Form::open(['route' => ['de.client.search', 'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
-                            {!! Form::hidden('header_id', $header_id) !!}
-                            {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
                             <div class="form-group has-success">
                                 <label class="control-label col-lg-4 text-semibold" style="text-align: right;">Busqueda de datos:</label>
                                 <div class="col-lg-5">

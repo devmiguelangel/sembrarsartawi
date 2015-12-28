@@ -19,7 +19,7 @@ class HeaderRepository extends BaseRepository
         $user       = $request->user();
         $this->data = $request->all();
 
-        $quote_number = $this->getNumber('quote_number');
+        $quote_number = $this->getNumber('Q');
 
         $this->model = new Header();
 
@@ -34,7 +34,7 @@ class HeaderRepository extends BaseRepository
         $this->model->type_term        = $this->data['type_term'];
         $this->model->issued           = false;
 
-        if (! $this->checkNumber('quote_number', $quote_number)) {
+        if (! $this->checkNumber('Q', $quote_number)) {
             return $this->saveModel();
         }
 
@@ -62,7 +62,7 @@ class HeaderRepository extends BaseRepository
                 }
             }
 
-            $issue_number = $this->getNumber('issue_number');
+            $issue_number = $this->getNumber('I');
 
             $this->model->type             = 'I';
             $this->model->issue_number     = $issue_number;
@@ -71,7 +71,7 @@ class HeaderRepository extends BaseRepository
             $this->model->operation_number = $this->data['operation_number'];
             $this->model->facultative      = $facultative;
 
-            if (! $this->checkNumber('issue_number', $issue_number)) {
+            if (! $this->checkNumber('I', $issue_number)) {
                 return $this->saveModel();
             }
         }
@@ -85,11 +85,11 @@ class HeaderRepository extends BaseRepository
      * @param Request $request
      * @return bool
      */
-    public function storeResult($request)
+    public function storeResult($request, $header_id)
     {
         $this->data = $request->all();
 
-        if ($this->getHeaderById(decode($this->data['header_id']))) {
+        if ($this->getHeaderById($header_id)) {
             $this->model->total_rate    = $this->data['rate']->rate_final;
             $this->model->total_premium = ($this->model->amount_requested * $this->data['rate']->rate_final) / 100;
 
@@ -121,7 +121,7 @@ class HeaderRepository extends BaseRepository
      */
     private function getNumber($field)
     {
-        $max = Header::max($field);
+        $max = Header::max($this->fieldName[$field]);
 
         return is_null($max) ? 1 : $max + 1;
     }
@@ -134,7 +134,7 @@ class HeaderRepository extends BaseRepository
      */
     private function checkNumber($field, $number)
     {
-        $n = Header::where($field, $number)->exists();
+        $n = Header::where($this->fieldName[$field], $number)->exists();
 
         return $n;
     }

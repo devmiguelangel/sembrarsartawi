@@ -132,14 +132,4 @@ class RetailerProductController extends Controller
     {
         //
     }
-
-    public function retailerProductById($rp_id)
-    {
-        return $this->repository->getRetailerProductById(decode($rp_id));
-    }
-
-    public function getRetailerProduct()
-    {
-        return $this->repository->getModel();
-    }
 }

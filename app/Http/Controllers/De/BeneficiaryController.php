@@ -2,9 +2,7 @@
 
 namespace Sibas\Http\Controllers\De;
 
-use Illuminate\Http\Request;
 use Sibas\Entities\De\Beneficiary;
-use Sibas\Http\Controllers\Retailer\CityController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\De\BeneficiaryDeFormRequest;
@@ -19,15 +17,21 @@ class BeneficiaryController extends Controller
      */
     protected $repository;
     /**
-     * @var DetailController
+     * @var DetailRepository
      */
-    private $detail;
+    private $detailRepository;
+    /**
+     * @var CityRepository
+     */
+    private $cityRepository;
 
-    public function __construct(BeneficiaryRepository $repository)
+    public function __construct(BeneficiaryRepository $repository,
+                                DetailRepository $detailRepository,
+                                CityRepository $cityRepository)
     {
-        $this->repository = $repository;
-        $this->detail     = new DetailController(new DetailRepository);
-        $this->cities     = new CityController(new CityRepository);
+        $this->repository       = $repository;
+        $this->detailRepository = $detailRepository;
+        $this->cityRepository   = $cityRepository;
     }
 
     /**
@@ -51,11 +55,11 @@ class BeneficiaryController extends Controller
     public function create($rp_id, $header_id, $detail_id)
     {
         $data = [
-            'cities' => $this->cities->cityByType(),
+            'cities' => $this->cityRepository->getCitiesByType(),
         ];
 
-        if ($this->detail->detailById(decode($detail_id))) {
-            $detail      = $this->detail->getDetail();
+        if ($this->detailRepository->getDetailById(decode($detail_id))) {
+            $detail      = $this->detailRepository->getModel();
             $beneficiary = new Beneficiary();
 
             return view('beneficiary.create', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
@@ -71,13 +75,9 @@ class BeneficiaryController extends Controller
      * @param  BeneficiaryDeFormRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BeneficiaryDeFormRequest $request)
+    public function store(BeneficiaryDeFormRequest $request, $rp_id, $header_id, $detail_id)
     {
-        $rp_id     = decrypt($request->get('rp_id'));
-        $header_id = $request->get('header_id');
-        $detail_id = decode($request->get('detail_id'));
-
-        if ($this->repository->storeBeneficiary($request, $detail_id)) {
+        if ($this->repository->storeBeneficiary($request, decode($detail_id))) {
             return redirect()->route('de.edit', compact('rp_id', 'header_id'))
                 ->with(['success_beneficiary' => 'El Beneficiario fue registrado con éxito']);
         }
@@ -109,11 +109,11 @@ class BeneficiaryController extends Controller
     public function edit($rp_id, $header_id, $detail_id)
     {
         $data = [
-            'cities' => $this->cities->cityByType(),
+            'cities' => $this->cityRepository->getCitiesByType(),
         ];
 
-        if ($this->detail->detailById(decode($detail_id))) {
-            $detail      = $this->detail->getDetail();
+        if ($this->detailRepository->getDetailById(decode($detail_id))) {
+            $detail      = $this->detailRepository->getModel();
             $beneficiary = $detail->beneficiary;
 
             return view('beneficiary.edit', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
@@ -129,10 +129,8 @@ class BeneficiaryController extends Controller
      * @param  BeneficiaryDeFormRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function update(BeneficiaryDeFormRequest $request)
+    public function update(BeneficiaryDeFormRequest $request, $rp_id, $header_id, $detail_id)
     {
-        $rp_id          = decrypt($request->get('rp_id'));
-        $header_id      = $request->get('header_id');
         $beneficiary_id = decode($request->get('beneficiary_id'));
 
         if ($this->repository->updateBeneficiary($request, $beneficiary_id)) {
