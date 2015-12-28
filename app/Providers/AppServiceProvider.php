@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
 
         // validate full alphabetical chars, dashes & spaces only
         Validator::extend('ands_full', function($attribute, $value, $parameters, $validator) {
-            return preg_match('/^[\pL\pM\pN #._-]+$/u', $value);
+            return preg_match('/^[\pL\pM\pN #,._-]+$/u', $value);
         });
 
         // Extend blade to define a variable

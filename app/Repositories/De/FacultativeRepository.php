@@ -2,6 +2,7 @@
 
 namespace Sibas\Repositories\De;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Facultative;
 use Sibas\Entities\ProductParameter;
@@ -14,25 +15,49 @@ class FacultativeRepository extends BaseRepository
      */
     private $parameter = null;
     /**
+     * @var array
+     */
+    protected $props = [
+        'reason' => '',
+        'state'  => '',
+    ];
+
+    /**
      * @param Request $request
      * @return bool
      */
-    public function storeFacultative(Request $request)
+    public function storeFacultative(Request $request, $rp_id)
     {
         $header          = $request['header'];
         $detail          = $request['detail'];
-        $retailerProduct = $request['retailerProduct'];
-        $retailer        = $retailerProduct->retailer;
+        $retailer        = $request['retailer'];
+        $retailerProduct = $retailer->retailerProducts()->where('id', $rp_id)->first();
 
         if ($retailerProduct->facultative) {
             $this->getParameter($retailerProduct, $detail->amount, $detail->cumulus);
 
-            if ($this->getFacultativeByDetail($detail->id)) {
-                $this->model = $this->getModel();
-            }
+            $evaluation = $this->evaluation($detail);
 
-            if ($this->evaluation($detail)) {
-                return $this->saveModel();
+            try {
+                if ($detail->facultative instanceof Facultative) {
+                    if ($evaluation) {
+                        $detail->facultative()->update($this->props);
+
+                        return true;
+                    } else {
+                        $detail->facultative()->delete();
+                    }
+                } else if ($evaluation) {
+                    $detail->facultative()->create([
+                        'id'     => date('U'),
+                        'reason' => $this->props['reason'],
+                        'state'  => $this->props['state'],
+                    ]);
+
+                    return true;
+                }
+            } catch (QueryException $e) {
+                $this->errors = $e->getMessage();
             }
         }
 
@@ -59,17 +84,21 @@ class FacultativeRepository extends BaseRepository
 
     private function setAeEvaluation($detail)
     {
-        $response = $this->getEvaluationResponse($detail->response);
-        $imc      = $detail->client->imc;
-
-        $reason   = '';
+        $facultative = false;
+        $response    = $this->getEvaluationResponse($detail->response);
+        $imc         = $detail->client->imc;
+        $reason      = '';
 
         if ($imc) {
             $reason .= str_replace([':name'], [$detail->client->full_name], $this->reasonImc) . '<br>';
+
+            $facultative = true;
         }
 
         if ($response) {
             $reason .= str_replace([':name'], [$detail->client->full_name], $this->reasonResponse) . '<br>';
+
+            $facultative = true;
         }
 
         if ($this->parameter->slug == 'FA') {
@@ -78,13 +107,16 @@ class FacultativeRepository extends BaseRepository
                     number_format($detail->cumulus, 2),
                     number_format(($this->parameter->amount_min - 1), 2)
                 ], $this->reasonCumulus) . '<br>';
+
+            $facultative = true;
         }
 
-        $this->model->op_de_detail_id = $detail->id;
-        $this->model->state           = 'PE';
-        $this->model->reason          = $reason;
+        if ($facultative) {
+            $this->props['reason'] = $reason;
+            $this->props['state']  = 'PE';
+        }
 
-        return true;
+        return $facultative;
     }
 
     private function getParameter($retailerProduct, $amount, $cumulus)
@@ -95,22 +127,6 @@ class FacultativeRepository extends BaseRepository
                 $this->parameter = $parameter;
             }
         }
-    }
-
-    public function getFacultativeByDetail($detail_id)
-    {
-        $this->model = Facultative::where('op_de_detail_id', $detail_id)->get();
-
-        if ($this->model->count() === 1) {
-            $this->model = $this->model->first();
-
-            return true;
-        } else {
-            $this->model     = new Facultative();
-            $this->model->id = date('U');
-        }
-
-        return false;
     }
 
 }

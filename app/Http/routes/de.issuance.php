@@ -68,8 +68,13 @@ Route::group(['prefix' => 'de/{rp_id}'], function() {
      * Header Facultative
      */
     Route::get('{header_id}/request-approval', [
-        'as'    => 'de.fa.request',
-        'uses'  => 'De\FacultativeController@request'
+        'as'    => 'de.fa.request.create',
+        'uses'  => 'De\HeaderController@requestCreate'
+    ]);
+
+    Route::put('{header_id}/request-approval', [
+        'as'    => 'de.fa.request.store',
+        'uses'  => 'De\HeaderController@requestStore'
     ]);
 
 });

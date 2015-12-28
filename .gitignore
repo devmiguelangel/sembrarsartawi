@@ -4,4 +4,6 @@
 Homestead.yaml
 Homestead.json
 .env
-/nbproject/private/
+/nbproject
+*.sublime-workspace
+*.sublime-project

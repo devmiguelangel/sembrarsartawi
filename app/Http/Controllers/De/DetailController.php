@@ -16,6 +16,7 @@ use Sibas\Repositories\De\DetailRepository;
 use Sibas\Repositories\De\FacultativeRepository;
 use Sibas\Repositories\De\HeaderRepository;
 use Sibas\Repositories\Retailer\CityRepository;
+use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class DetailController extends Controller
 {
@@ -285,28 +286,27 @@ class DetailController extends Controller
     public function updateBalance(BalanceFormRequest $request, $rp_id, $header_id, $detail_id)
     {
         if ($this->headerRepository->getHeaderById(decode($header_id))) {
-            $header            = $this->headerRepository->getModel();
-            $request['header'] = $header;
+            $request['header'] = $this->headerRepository->getModel();
 
-            if ($this->repository->updateBalance($request, decode($detail_id))
-                    && $this->repository->getDetailById(decode($detail_id))
-                    && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
-                $detail            = $this->repository->getModel();
-                $retailerProduct   = $this->retailerProductRepository->getModel();
+            if ($this->repository->getDetailById(decode($detail_id))) {
+                $detail = $this->repository->getModel();
 
-                $request['detail']          = $detail;
-                $request['retailerProduct'] = $retailerProduct;
+                if ($this->repository->updateBalance($request)) {
+                    $request['detail']          = $detail;
+                    $request['retailer'] = $request->user()->retailer->first();
 
-                $approved = true;
-                if ($this->facultativeRepository->storeFacultative($request)) {
-                    $approved = false;
+                    $approved = true;
+                    if ($this->facultativeRepository->storeFacultative($request, decode($rp_id))) {
+                        $approved = false;
+                    }
+
+                    $this->repository->setApprovedDetail($approved);
+
+                    return redirect()->route('de.edit', compact('rp_id', 'header_id'))
+                        ->with(['success_detail' => 'El Saldo Deudor fue actualizado correctamente']);
                 }
-
-                $this->repository->setApprovedDetail($detail, $approved);
-
-                return redirect()->route('de.edit', compact('rp_id', 'header_id'))
-                    ->with(['success_detail' => 'El Saldo Deudor fue actualizado correctamente']);
             }
+
         }
 
         return redirect()->back()

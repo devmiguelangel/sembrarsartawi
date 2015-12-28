@@ -90,15 +90,4 @@ class FacultativeController extends Controller
         //
     }
 
-    public function request($rp_id, $header_id)
-    {
-        if ($this->headerRepository->getHeaderById(decode($header_id))) {
-            $header = $this->headerRepository->getModel();
-
-            return view('');
-        }
-
-        return redirect()->back();
-
-    }
 }

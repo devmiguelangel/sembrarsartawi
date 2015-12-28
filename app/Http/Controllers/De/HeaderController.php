@@ -4,8 +4,10 @@ namespace Sibas\Http\Controllers\De;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Sibas\Entities\De\Facultative;
 use Sibas\Entities\Rate;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Http\Requests\De\FacultativeRequestFormRequest;
 use Sibas\Http\Requests\De\HeaderCreateFormRequest;
 use Sibas\Http\Requests\De\HeaderEditFormRequest;
 use Sibas\Http\Requests\De\HeaderResultFormRequest;
@@ -134,8 +136,8 @@ class HeaderController extends Controller
         $data   = null;
 
         if ($this->repository->getHeaderById(decode($header_id))) {
+            $header = $this->repository->getModel();
             $data   = $this->getData(decode($rp_id));
-            $header = $this->getHeader();
 
             $cumulus = $header->details->sum(function($detail) {
                 return $detail->cumulus;
@@ -154,12 +156,12 @@ class HeaderController extends Controller
      * @param HeaderEditFormRequest $request
      * @return Response
      */
-    public function update(HeaderEditFormRequest $request)
+    public function update(HeaderEditFormRequest $request, $rp_id, $header_id)
     {
-        if ($this->repository->updateHeader($request)) {
+        if ($this->repository->updateHeader($request, decode($header_id))) {
             return redirect()->route('de.edit', [
-                'rp_id'     => decrypt($request->get('rp_id')),
-                'header_id' => $request->get('header_id'),
+                'rp_id'     => $rp_id,
+                'header_id' => $header_id,
             ])->with(['success_header' => 'La Póliza fue actualizada con éxito.']);
         }
 
@@ -221,7 +223,7 @@ class HeaderController extends Controller
         if ($this->repository->getHeaderById(decode($header_id))) {
             $header = $this->repository->getModel();
 
-            $subProducts = $this->retailerProduct->subProductByIdProduct($rp_id);
+            $subProducts = $this->retailerProductRepository->getSubProductByIdProduct($rp_id);
 
             return view('de.issuance', compact('rp_id', 'header_id', 'header', 'subProducts'));
 
@@ -272,5 +274,50 @@ class HeaderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * @param $rp_id
+     * @param $header_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function requestCreate($rp_id, $header_id)
+    {
+        if ($this->repository->getHeaderById(decode($header_id))) {
+            $header = $this->repository->getModel();
+
+            $observation = '';
+
+            foreach ($header->details as $detail) {
+                if (! $detail->approved && ($detail->facultative instanceof Facultative)) {
+                    $observation .= $detail->facultative->reason;
+                }
+            }
+
+            if (! empty($observation)) {
+                $header->facultative_observation = $observation;
+                return view('de.facultative.request', compact('rp_id', 'header'));
+            }
+        }
+
+        return redirect()->back()
+            ->with(['error_header' => 'La solicitud no puede ser enviada']);
+    }
+
+    /**
+     * @param FacultativeRequestFormRequest $request
+     * @param $rp_id
+     * @param $header_id
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function requestStore(FacultativeRequestFormRequest $request, $rp_id, $header_id)
+    {
+        if ($this->repository->storeFacultative($request, decode($header_id))) {
+            return redirect()->route('de.edit', compact('rp_id', 'header_id'))
+                ->with(['success_header' => 'La solicitud fue enviada']);
+        }
+
+        return redirect()->back()
+            ->with(['error_header' => 'La solicitud no pudo ser enviada']);
     }
 }

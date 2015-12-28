@@ -22,7 +22,7 @@
 </div>
 @endsection
 
-@section('content-wrapper')
+@section('content')
 <div class="row">
     <div class="col-md-12">
         <!-- Horizontal form -->

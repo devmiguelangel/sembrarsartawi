@@ -40,29 +40,25 @@ class DetailRepository extends BaseRepository
         return $this->saveModel();
     }
 
-    public function updateBalance(Request $request, $detail_id)
+    public function updateBalance(Request $request)
     {
         $this->data  = $request->all();
         $header      = $this->data['header'];
 
-        if ($this->getDetailById($detail_id)) {
-            if ($this->data['amount_requested'] == $header->amount_requested) {
-                $cumulus = $this->model->amount + $this->data['balance'];
+        if ($this->data['amount_requested'] == $header->amount_requested) {
+            $cumulus = $this->model->amount + $this->data['balance'];
 
-                $this->model->balance = $this->data['balance'];
-                $this->model->cumulus = $cumulus;
+            $this->model->balance = $this->data['balance'];
+            $this->model->cumulus = $cumulus;
 
-                return $this->saveModel();
-            }
+            return $this->saveModel();
         }
 
         return false;
     }
 
-    public function setApprovedDetail($detail, $approved = true)
+    public function setApprovedDetail($approved = true)
     {
-        $this->model = $detail;
-
         $this->model->approved = $approved;
 
         $this->saveModel();

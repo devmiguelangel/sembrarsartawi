@@ -11,6 +11,10 @@ class Detail extends Model
 
     public $incrementing = false;
 
+    protected $casts = [
+        'approved' => 'boolean'
+    ];
+
     public function client()
     {
         return $this->belongsTo(Client::class, 'op_client_id', 'id');

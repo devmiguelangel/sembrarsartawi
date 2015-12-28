@@ -2,6 +2,7 @@
 
 namespace Sibas\Repositories\De;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Beneficiary;
 use Sibas\Repositories\BaseRepository;
@@ -12,37 +13,51 @@ class BeneficiaryRepository extends BaseRepository
      * Store Beneficiary
      *
      * @param Request $request
-     * @param int $detail_id
      * @return bool
      */
-    public function storeBeneficiary($request, $detail_id)
+    public function storeBeneficiary($request)
     {
         $this->data = $request->all();
+        $detail     = $this->data['detail'];
 
-        $this->model = new Beneficiary();
-
-        $this->model->id               = date('U');
-        $this->model->op_de_detail_id  = $detail_id;
-        $this->model->coverage         = 'VI';
+        $this->model = new Beneficiary([
+            'id'       => date('U'),
+            'coverage' => 'VI',
+        ]);
 
         $this->setData();
 
-        return $this->saveModel();
+        try {
+            if ($detail->beneficiary()->save($this->model)) {
+                return true;
+            }
+        } catch(QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+
+        return false;
     }
 
     /**
      * @param Request $request
-     * @param $beneficiary_id
      * @return bool
      */
-    public function updateBeneficiary($request, $beneficiary_id)
+    public function updateBeneficiary($request)
     {
         $this->data = $request->all();
+        $detail     = $this->data['detail'];
 
-        if ($this->getBeneficiaryById($beneficiary_id)) {
+        if ($this->getBeneficiaryById(decode($this->data['beneficiary_id']))) {
+            $beneficiary = $this->getModel();
             $this->setData();
 
-            return $this->saveModel();
+            try {
+                if ($detail->beneficiary()->update($beneficiary->toArray())) {
+                    return true;
+                }
+            } catch(QueryException $e) {
+                $this->errors = $e->getMessage();
+            }
         }
 
         return false;

@@ -57,13 +57,13 @@ class QuestionRepository extends BaseRepository
         $detail     = $request['detail'];
 
         if ((int) $this->data['qs_number'] === count($this->data['qs'])) {
-            $this->model = $detail->response;
+            $response = [
+                'response'    => json_encode($this->data['qs']),
+                'observation' => $this->data['qs_observation'],
+            ];
 
-            $this->model->response    = json_encode($this->data['qs']);
-            $this->model->observation = $this->data['qs_observation'];
-            
             try {
-                if ($detail->response()->update($this->model->toArray())) {
+                if ($detail->response()->update($response)) {
                     return true;
                 }
             } catch(QueryException $e) {

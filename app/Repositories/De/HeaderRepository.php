@@ -45,11 +45,11 @@ class HeaderRepository extends BaseRepository
      * @param Request $request
      * @return bool
      */
-    public function updateHeader($request)
+    public function updateHeader($request, $header_id)
     {
         $this->data = $request->all();
 
-        if ($this->getHeaderById(decode($this->data['header_id']))) {
+        if ($this->getHeaderById($header_id)) {
             $this->model = $this->getModel();
 
             $facultative = false;
@@ -145,7 +145,9 @@ class HeaderRepository extends BaseRepository
      */
     public function getHeaderById($header_id)
     {
-        $this->model = Header::where('id', '=', $header_id)->get();
+        $this->model = Header::with('details.client', 'details.beneficiary', 'details.facultative')
+            ->where('id', '=', $header_id)
+            ->get();
 
         if ($this->model->count() === 1) {
             $this->model = $this->model->first();
@@ -154,6 +156,23 @@ class HeaderRepository extends BaseRepository
         }
 
         return false;
+    }
+
+    /**
+     * @param Request $request
+     * @param $header_id
+     * @return bool
+     */
+    public function storeFacultative($request, $header_id)
+    {
+        if ($this->getHeaderById($header_id)) {
+            $this->data = $request->all();
+
+            $this->model->approved = true;
+            $this->model->facultative_observation = $this->data['facultative_observation'];
+
+            return $this->saveModel();
+        }
     }
 
 }
