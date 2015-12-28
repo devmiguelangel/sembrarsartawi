@@ -17,12 +17,12 @@ class FacultativeRepository extends BaseRepository
      * @param Request $request
      * @return bool
      */
-    public function storeFacultative(Request $request)
+    public function storeFacultative(Request $request, $rp_id)
     {
         $header          = $request['header'];
         $detail          = $request['detail'];
-        $retailerProduct = $request['retailerProduct'];
-        $retailer        = $retailerProduct->retailer;
+        $retailer        = $request['retailer'];
+        $retailerProduct = $retailer->retailerProducts()->where('id', $rp_id)->first();
 
         if ($retailerProduct->facultative) {
             $this->getParameter($retailerProduct, $detail->amount, $detail->cumulus);

@@ -263,8 +263,6 @@
                     </div>
 
                     {!! Form::open(['route' => ['de.update',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'put', 'class' => 'form-horizontal']) !!}
-                    {!! Form::hidden('header_id', $header_id) !!}
-                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
                     <div class="panel-body ">
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">

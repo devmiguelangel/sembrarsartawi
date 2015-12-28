@@ -45,11 +45,11 @@ class HeaderRepository extends BaseRepository
      * @param Request $request
      * @return bool
      */
-    public function updateHeader($request)
+    public function updateHeader($request, $header_id)
     {
         $this->data = $request->all();
 
-        if ($this->getHeaderById(decode($this->data['header_id']))) {
+        if ($this->getHeaderById($header_id)) {
             $this->model = $this->getModel();
 
             $facultative = false;

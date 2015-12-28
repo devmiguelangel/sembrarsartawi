@@ -10,6 +10,17 @@ class Beneficiary extends Model
 
     public $incrementing = false;
 
+    protected $fillable = [
+        'id',
+        'coverage',
+        'first_name',
+        'last_name',
+        'mother_last_name',
+        'dni',
+        'extension',
+        'relationship',
+    ];
+
     public function setFirstNameAttribute($value)
     {
         $this->attributes['first_name'] = mb_strtoupper($value);

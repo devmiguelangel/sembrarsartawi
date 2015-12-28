@@ -134,8 +134,8 @@ class HeaderController extends Controller
         $data   = null;
 
         if ($this->repository->getHeaderById(decode($header_id))) {
+            $header = $this->repository->getModel();
             $data   = $this->getData(decode($rp_id));
-            $header = $this->getHeader();
 
             $cumulus = $header->details->sum(function($detail) {
                 return $detail->cumulus;
@@ -154,12 +154,12 @@ class HeaderController extends Controller
      * @param HeaderEditFormRequest $request
      * @return Response
      */
-    public function update(HeaderEditFormRequest $request)
+    public function update(HeaderEditFormRequest $request, $rp_id, $header_id)
     {
-        if ($this->repository->updateHeader($request)) {
+        if ($this->repository->updateHeader($request, decode($header_id))) {
             return redirect()->route('de.edit', [
-                'rp_id'     => decrypt($request->get('rp_id')),
-                'header_id' => $request->get('header_id'),
+                'rp_id'     => $rp_id,
+                'header_id' => $header_id,
             ])->with(['success_header' => 'La Póliza fue actualizada con éxito.']);
         }
 

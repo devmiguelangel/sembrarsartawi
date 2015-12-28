@@ -54,13 +54,14 @@ class BeneficiaryController extends Controller
      */
     public function create($rp_id, $header_id, $detail_id)
     {
-        $data = [
-            'cities' => $this->cityRepository->getCitiesByType(),
-        ];
 
         if ($this->detailRepository->getDetailById(decode($detail_id))) {
             $detail      = $this->detailRepository->getModel();
             $beneficiary = new Beneficiary();
+
+            $data = [
+                'cities' => $this->cityRepository->getCitiesByType(),
+            ];
 
             return view('beneficiary.create', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
         }
@@ -77,9 +78,13 @@ class BeneficiaryController extends Controller
      */
     public function store(BeneficiaryDeFormRequest $request, $rp_id, $header_id, $detail_id)
     {
-        if ($this->repository->storeBeneficiary($request, decode($detail_id))) {
-            return redirect()->route('de.edit', compact('rp_id', 'header_id'))
-                ->with(['success_beneficiary' => 'El Beneficiario fue registrado con éxito']);
+        if ($this->detailRepository->getDetailById(decode($detail_id))) {
+            $request['detail'] = $this->detailRepository->getModel();
+
+            if ($this->repository->storeBeneficiary($request)) {
+                return redirect()->route('de.edit', compact('rp_id', 'header_id'))
+                    ->with(['success_beneficiary' => 'El Beneficiario fue registrado con éxito']);
+            }
         }
 
         return redirect()->back()
@@ -108,13 +113,14 @@ class BeneficiaryController extends Controller
      */
     public function edit($rp_id, $header_id, $detail_id)
     {
-        $data = [
-            'cities' => $this->cityRepository->getCitiesByType(),
-        ];
 
         if ($this->detailRepository->getDetailById(decode($detail_id))) {
             $detail      = $this->detailRepository->getModel();
             $beneficiary = $detail->beneficiary;
+
+            $data = [
+                'cities' => $this->cityRepository->getCitiesByType(),
+            ];
 
             return view('beneficiary.edit', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
         }
@@ -131,11 +137,13 @@ class BeneficiaryController extends Controller
      */
     public function update(BeneficiaryDeFormRequest $request, $rp_id, $header_id, $detail_id)
     {
-        $beneficiary_id = decode($request->get('beneficiary_id'));
+        if ($this->detailRepository->getDetailById(decode($detail_id))) {
+            $request['detail'] = $this->detailRepository->getModel();
 
-        if ($this->repository->updateBeneficiary($request, $beneficiary_id)) {
-            return redirect()->route('de.edit', compact('rp_id', 'header_id'))
-                ->with(['success_beneficiary' => 'El Beneficiario fue actualizado correctamente']);
+            if ($this->repository->updateBeneficiary($request)) {
+                return redirect()->route('de.edit', compact('rp_id', 'header_id'))
+                    ->with(['success_beneficiary' => 'El Beneficiario fue actualizado correctamente']);
+            }
         }
 
         return redirect()->back()
