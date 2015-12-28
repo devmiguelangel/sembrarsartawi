@@ -25,7 +25,7 @@
     </div>
 @endsection
 
-@section('content-wrapper')
+@section('content')
     <div class="row">
         <div class="col-md-12">
             <!-- Horizontal form -->
@@ -360,9 +360,15 @@
                                         Emitir <i class="icon-floppy-disk position-right"></i>
                                     </a>
                                 @else
-                                    <a href="{{ route('de.fa.request', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-warning">
-                                        Solicitar aprobación de la Compañia <i class="icon-warning position-right"></i>
-                                    </a>
+                                    @if($header->facultative && ! $header->approved)
+                                        <a href="{{ route('de.fa.request.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-warning">
+                                            Solicitar aprobación de la Compañia <i class="icon-warning position-right"></i>
+                                        </a>
+                                    @else
+                                        <a href="{{ route('home', []) }}" class="btn btn-info">
+                                            Solicitud enviada (Cerrar) <i class="icon-warning position-right"></i>
+                                        </a>
+                                    @endif
                                 @endif
                             @endif
 

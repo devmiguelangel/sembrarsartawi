@@ -96,7 +96,7 @@
         <!-- Main content -->
         <div class="content-wrapper">
             <!-- Grid -->
-            @yield('content-wrapper')
+            @yield('content')
 
         </div>
         <!-- /grid -->

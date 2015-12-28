@@ -6,7 +6,7 @@
 
 @section('class-container', 'login-container')
 
-@section('content-wrapper')
+@section('content')
     {!! Form::open(['route' => 'auth.login.post', 'method' => 'post']) !!}
     <div class="panel panel-body login-form">
         <div class="text-center">

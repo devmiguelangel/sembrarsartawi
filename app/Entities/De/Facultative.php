@@ -10,4 +10,6 @@ class Facultative extends Model
 
     public $incrementing = false;
 
+    protected $fillable = ['id', 'reason', 'state', ];
+
 }
