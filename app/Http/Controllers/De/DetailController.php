@@ -16,7 +16,6 @@ use Sibas\Repositories\De\DetailRepository;
 use Sibas\Repositories\De\FacultativeRepository;
 use Sibas\Repositories\De\HeaderRepository;
 use Sibas\Repositories\Retailer\CityRepository;
-use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class DetailController extends Controller
 {
@@ -32,10 +31,6 @@ class DetailController extends Controller
      * @var ClientRepository
      */
     protected $clientRepository;
-    /**
-     * @var RetailerProductRepository
-     */
-    protected $retailerProductRepository;
     /**
      * @var FacultativeRepository
      */
@@ -61,7 +56,6 @@ class DetailController extends Controller
                                 DataRepository $dataRepository,
                                 CityRepository $cityRepository,
                                 ActivityRepository $activityRepository,
-                                RetailerProductRepository $retailerProductRepository,
                                 FacultativeRepository $facultativeRepository)
     {
         $this->repository                = $repository;
@@ -70,7 +64,6 @@ class DetailController extends Controller
         $this->dataRepository            = $dataRepository;
         $this->cityRepository            = $cityRepository;
         $this->activityRepository        = $activityRepository;
-        $this->retailerProductRepository = $retailerProductRepository;
         $this->facultativeRepository     = $facultativeRepository;
 
         $this->reference = ['ISE', 'ISU'];
@@ -134,16 +127,10 @@ class DetailController extends Controller
     public function store(ClientCreateFormRequest $request, $rp_id, $header_id)
     {
         if ($this->headerRepository->getHeaderById(decode($header_id))) {
-            $header            = $this->headerRepository->getModel();
-            $request['header'] = $header;
+            $request['header'] = $this->headerRepository->getModel();
 
-            if ($this->clientRepository->createClient($request)
-                    && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
-                $client            = $this->clientRepository->getModel();
-                $retailerProduct   = $this->retailerProductRepository->getModel();
-
-                $request['client']          = $client;
-                $request['retailerProduct'] = $retailerProduct;
+            if ($this->clientRepository->createClient($request)) {
+                $request['client'] = $this->clientRepository->getModel();
 
                 if ($this->repository->createDetail($request)) {
                     $detail = $this->repository->getModel();
@@ -338,18 +325,4 @@ class DetailController extends Controller
         //
     }
 
-    /** Find Detail by Id
-     *
-     * @param $detail_id
-     * @return bool
-     */
-    public function detailById($detail_id)
-    {
-        return $this->repository->getDetailById($detail_id);
-    }
-
-    public function getDetail()
-    {
-        return $this->repository->getModel();
-    }
 }

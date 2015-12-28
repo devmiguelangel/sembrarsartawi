@@ -3,8 +3,6 @@
 namespace Sibas\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
-use Sibas\Http\Controllers\De\DetailController;
-use Sibas\Http\Controllers\Retailer\RetailerProductController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Client\QuestionFormRequest;
@@ -56,8 +54,6 @@ class QuestionController extends Controller
      */
     public function create($rp_id, $header_id, $detail_id)
     {
-        $data = null;
-
         if ($this->detailRepository->getDetailById(decode($detail_id))) {
             $detail = $this->detailRepository->getModel();
 
@@ -67,9 +63,13 @@ class QuestionController extends Controller
                 'observation' => ''
             ];
 
+            return view('client.de.question-create', compact('rp_id', 'header_id', 'detail_id', 'data'));
         }
 
-        return view('client.de.question-create', compact('rp_id', 'header_id', 'detail_id', 'data'));
+        return redirect()->route('de.client.list', [
+            'rp_id'     => $rp_id,
+            'header_id' => $header_id
+        ])->with(['error_detail' => 'Ha ocurrido un error en el Cuestionario de Salud']);
     }
 
     /**
@@ -81,8 +81,7 @@ class QuestionController extends Controller
     public function storeDe(QuestionFormRequest $request, $rp_id, $header_id, $detail_id)
     {
         if ($this->detailRepository->getDetailById(decode($detail_id))) {
-            $detail            = $this->detailRepository->getModel();
-            $request['detail'] = $detail;
+            $request['detail'] = $this->detailRepository->getModel();
 
             if ($this->repository->storeQuestionDe($request)) {
                 return redirect()->route('de.client.list', [
@@ -155,8 +154,7 @@ class QuestionController extends Controller
     public function updateDe(QuestionFormRequest $request, $rp_id, $header_id, $detail_id)
     {
         if ($this->detailRepository->getDetailById(decode($detail_id))) {
-            $detail            = $this->detailRepository->getModel();
-            $request['detail'] = $detail;
+            $request['detail'] = $this->detailRepository->getModel();
 
             if ($this->repository->updateQuestionDe($request)) {
                 return redirect()->route('de.client.list', [

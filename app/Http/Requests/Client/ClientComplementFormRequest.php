@@ -23,9 +23,9 @@ class ClientComplementFormRequest extends Request
      */
     public function rules()
     {
-        $civil_status  = join(',', array_keys(\Config::get('base.client_civil_status')));
-        $hands         = join(',', array_keys(\Config::get('base.client_hands')));
-        $avenue_street = join(',', array_keys(\Config::get('base.avenue_street')));
+        $civil_status  = join(',', array_keys(config('base.client_civil_status')));
+        $hands         = join(',', array_keys(config('base.client_hands')));
+        $avenue_street = join(',', array_keys(config('base.avenue_street')));
 
         return [
             'first_name'        => 'required|alpha_space',

@@ -85,7 +85,7 @@
                     </div>
                 @endif
 
-                {!! Form::open(['route' => ['de.detail.store', 'rp_id' => (isset($rp_id) ? $rp_id : route()->get('rp_id')), 'header_id' => (isset($header_id) ? $header_id : route()->get('header_id'))], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                {!! Form::open(['route' => ['de.detail.store', 'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                     <div class="panel-body ">
                         @include('client.de.partials.inputs-quote')
 

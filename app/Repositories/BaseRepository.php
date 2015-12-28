@@ -5,7 +5,6 @@ namespace Sibas\Repositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Sibas\Collections\BaseCollection;
@@ -31,6 +30,10 @@ abstract class BaseRepository
 
     protected $data;
     /**
+     * @var array
+     */
+    protected $fieldName;
+    /**
      * @var string
      */
     protected $reasonImc;
@@ -53,6 +56,11 @@ abstract class BaseRepository
         $this->reasonResponse = 'El Titular :name no cumple con el Cuestionario de Salud';
         $this->reasonCumulus  = 'El monto total acumulado del Titular :name es :cumulus Bs. y supera el monto maximo '
                                 . 'permitido. Monto maximo permitido :amount_max Bs. ';
+
+        $this->fieldName = [
+            'Q' => 'quote_number',
+            'I' => 'issue_number',
+        ];
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Sibas\Http\Controllers\De;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Sibas\Entities\Rate;
@@ -12,9 +11,7 @@ use Sibas\Http\Requests\De\HeaderEditFormRequest;
 use Sibas\Http\Requests\De\HeaderResultFormRequest;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\HeaderRepository;
-use Sibas\Repositories\Retailer\RetailerProductCoverageRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
-
 
 class HeaderController extends Controller
 {
@@ -31,23 +28,17 @@ class HeaderController extends Controller
      */
     protected $retailerProductRepository;
     /**
-     * @var RetailerProductCoverageRepository
-     */
-    protected $retailerProductCoverageRepository;
-    /**
      * @var Rate
      */
     protected $rate;
 
     public function __construct(HeaderRepository $repository,
                                 DataRepository $dataRepository,
-                                RetailerProductRepository $retailerProductRepository,
-                                RetailerProductCoverageRepository $retailerProductCoverageRepository)
+                                RetailerProductRepository $retailerProductRepository)
     {
-        $this->repository         = $repository;
-        $this->dataRepository     = $dataRepository;
-        $this->retailerProductRepository         = $retailerProductRepository;
-        $this->retailerProductCoverageRepository = $retailerProductCoverageRepository;
+        $this->repository                = $repository;
+        $this->dataRepository            = $dataRepository;
+        $this->retailerProductRepository = $retailerProductRepository;
     }
 
     /**
@@ -59,7 +50,7 @@ class HeaderController extends Controller
     protected function getData($rp_id)
     {
         return [
-            'coverages'  => $this->retailerProductCoverageRepository->getCoverageByProduct($rp_id),
+            'coverages'  => $this->retailerProductRepository->getCoverageByProduct($rp_id),
             'currencies' => $this->dataRepository->getCurrency(),
             'term_types' => $this->dataRepository->getTermType(),
         ];
@@ -281,22 +272,5 @@ class HeaderController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    /** Find Header by Id
-     *
-     * @param $header_id
-     * @return bool
-     */
-    public function headerById($header_id)
-    {
-        return $this->repository->getHeaderById($header_id);
-    }
-
-    /**
-     * @return Model
-     */
-    public function getHeader(){
-        return $this->repository->getModel();
     }
 }

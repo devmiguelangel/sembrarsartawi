@@ -2,6 +2,7 @@
 
 namespace Sibas\Repositories\Client;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Sibas\Entities\De\Response;
@@ -26,14 +27,19 @@ class QuestionRepository extends BaseRepository
                 $qs['response'] = (boolean) $qs['response'];
             }
 
-            $this->model = new Response();
+            $this->model = new Response([
+                'id'              => date('U'),
+                'response'        => json_encode($this->data['qs']),
+                'observation'     => $this->data['qs_observation']
+            ]);
 
-            $this->model->id              = date('U');
-            $this->model->op_de_detail_id = $detail->id;
-            $this->model->response        = json_encode($this->data['qs']);
-            $this->model->observation     = $this->data['qs_observation'];
-
-            return $this->saveModel();
+            try {
+                if ($detail->response()->save($this->model)) {
+                    return true;
+                }
+            } catch(QueryException $e) {
+                $this->errors = $e->getMessage();
+            }
         }
 
         return false;
@@ -55,8 +61,14 @@ class QuestionRepository extends BaseRepository
 
             $this->model->response    = json_encode($this->data['qs']);
             $this->model->observation = $this->data['qs_observation'];
-
-            return $this->saveModel();
+            
+            try {
+                if ($detail->response()->update($this->model->toArray())) {
+                    return true;
+                }
+            } catch(QueryException $e) {
+                $this->errors = $e->getMessage();
+            }
         }
 
         return false;

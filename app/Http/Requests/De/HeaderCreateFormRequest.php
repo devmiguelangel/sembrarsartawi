@@ -23,8 +23,8 @@ class HeaderCreateFormRequest extends Request
      */
     public function rules()
     {
-        $currencies = join(',', array_keys(\Config::get('base.currencies')));
-        $term_types = join(',', array_keys(\Config::get('base.term_types')));
+        $currencies = join(',', array_keys(config('base.currencies')));
+        $term_types = join(',', array_keys(config('base.term_types')));
 
         return [
             'coverage'         => 'required|exists:ad_coverages,id',

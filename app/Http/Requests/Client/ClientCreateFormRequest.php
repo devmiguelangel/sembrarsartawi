@@ -23,9 +23,9 @@ class ClientCreateFormRequest extends Request
      */
     public function rules()
     {
-        $civil_status   = join(',', array_keys(\Config::get('base.client_civil_status')));
-        $document_types = join(',', array_keys(\Config::get('base.client_document_types')));
-        $genders        = join(',', array_keys(\Config::get('base.client_genders')));
+        $civil_status   = join(',', array_keys(config('base.client_civil_status')));
+        $document_types = join(',', array_keys(config('base.client_document_types')));
+        $genders        = join(',', array_keys(config('base.client_genders')));
 
         return [
             'first_name'        => 'required|alpha_space',

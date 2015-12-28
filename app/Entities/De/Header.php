@@ -17,12 +17,12 @@ class Header extends Model
 
     public function coverage()
     {
-        return $this->hasOne('Sibas\Entities\De\Coverage', 'id', 'ad_coverage_id');
+        return $this->hasOne(Coverage::class, 'id', 'ad_coverage_id');
     }
 
     public function details()
     {
-        return $this->hasMany('Sibas\Entities\De\Detail', 'op_de_header_id', 'id');
+        return $this->hasMany(Detail::class, 'op_de_header_id', 'id');
     }
 
     public function getCompletedAttribute()
