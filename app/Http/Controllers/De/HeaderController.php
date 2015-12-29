@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Sibas\Entities\De\Facultative;
 use Sibas\Entities\Rate;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Http\Controllers\MailController;
 use Sibas\Http\Requests\De\FacultativeRequestFormRequest;
 use Sibas\Http\Requests\De\HeaderCreateFormRequest;
 use Sibas\Http\Requests\De\HeaderEditFormRequest;
@@ -313,6 +314,16 @@ class HeaderController extends Controller
     public function requestStore(FacultativeRequestFormRequest $request, $rp_id, $header_id)
     {
         if ($this->repository->storeFacultative($request, decode($header_id))) {
+            $subject  = 'Solicitud de aprobacion: Caso Facultativo No ';
+            $receiver = [
+                'email' => 'djmiguelarango@gmail.com',
+                'name'  => 'Miguel Mamani',
+            ];
+
+            $mail = new MailController('emails.de.request-approval', [], $subject, $receiver);
+
+            $mail->send(auth()->user());
+
             return redirect()->route('de.edit', compact('rp_id', 'header_id'))
                 ->with(['success_header' => 'La solicitud fue enviada']);
         }
