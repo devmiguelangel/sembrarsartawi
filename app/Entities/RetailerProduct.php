@@ -16,36 +16,41 @@ class RetailerProduct extends Model
 
     public function productQuestions()
     {
-        return $this->hasMany('Sibas\Entities\RetailerProductQuestion', 'ad_retailer_product_id', 'id');
+        return $this->hasMany(RetailerProductQuestion::class, 'ad_retailer_product_id', 'id');
     }
 
     public function rates()
     {
-        return $this->hasMany('Sibas\Entities\Rate', 'ad_retailer_product_id', 'id');
+        return $this->hasMany(Rate::class, 'ad_retailer_product_id', 'id');
     }
 
     public function companyProduct()
     {
-        return $this->belongsTo('Sibas\Entities\CompanyProduct', 'ad_company_product_id', 'id');
+        return $this->belongsTo(CompanyProduct::class, 'ad_company_product_id', 'id');
     }
 
     public function subProducts()
     {
-        return $this->hasMany('Sibas\Entities\RetailerSubProduct', 'ad_retailer_product_id', 'id');
+        return $this->hasMany(RetailerSubProduct::class, 'ad_retailer_product_id', 'id');
     }
 
     public function plans()
     {
-        return $this->hasMany('Sibas\Entities\Plan', 'ad_retailer_product_id', 'id');
+        return $this->hasMany(Plan::class, 'ad_retailer_product_id', 'id');
     }
 
     public function parameters()
     {
-        return $this->hasMany('Sibas\Entities\ProductParameter', 'ad_retailer_product_id', 'id');
+        return $this->hasMany(ProductParameter::class, 'ad_retailer_product_id', 'id');
     }
 
     public function retailer()
     {
-        return $this->belongsTo('Sibas\Entities\Retailer', 'ad_retailer_id', 'id');
+        return $this->belongsTo(Retailer::class, 'ad_retailer_id', 'id');
+    }
+
+    public function emails()
+    {
+        return $this->belongsToMany(Email::class, 'ad_retailer_product_emails', 'ad_retailer_product_id', 'ad_email_id');
     }
 }

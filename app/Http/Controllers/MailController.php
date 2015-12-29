@@ -2,15 +2,18 @@
 
 namespace Sibas\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Mail;
+use Sibas\Entities\RetailerProduct;
 use Sibas\Entities\User;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 
 class MailController extends Controller
 {
+    /**
+     * @var User
+     */
+    protected $user;
     /**
      * @var array
      */
@@ -22,17 +25,17 @@ class MailController extends Controller
     /**
      * @var array
      */
-    protected $receiver;
+    protected $receivers;
     /**
      * @var null
      */
-    private $attach;
+    protected $attach;
     /**
      * @var array
      */
     protected $defaultSender = [
-        'email' => 'info@sibas.com',
-        'name'  => 'Sibas v2.0',
+        'email' => 'emontano@sudseguros.com',
+        'name'  => 'Ernesto Montaño',
     ];
     /**
      * @var array
@@ -44,32 +47,51 @@ class MailController extends Controller
     /**
      * @var string
      */
-    private $template;
+    protected $template;
+    /**
+     * @var array
+     */
+    protected $emails;
 
-    public function __construct($template, array $sender = [], $subject, array $receiver, $attach = null)
+    public function __construct(User $user, $template, array $sender = [], $subject, array $receivers, $attach = null)
     {
-        $this->template = $template;
-        $this->sender   = $sender;
-        $this->subject  = $subject;
-        $this->receiver = $receiver;
-        $this->attach   = $attach;
+        $this->user      = $user;
+        $this->template  = $template;
+        $this->sender    = $sender;
+        $this->subject   = $subject;
+        $this->receivers = $receivers;
+        $this->attach    = $attach;
+        $this->emails    = [];
 
         $this->setSenderAndReceiver();
     }
 
     /**
-     * @param User $user
+     * @param $rp_id
      * @return bool
      */
-    public function send(User $user)
+    public function send($rp_id)
     {
-        Mail::send($this->template, ['user' => $user], function($message) use ($user)
+        $this->emailsByProduct($rp_id);
+        $user = $this->user;
+
+        Mail::send($this->template, ['user' => $this->user], function($message) use ($user)
         {
             $message->from($this->sender['email'], $this->sender['name']);
 
             $message->subject($this->subject);
 
-            $message->to($this->receiver['email'], $this->receiver['name']);
+            foreach ($this->receivers as $key => $receiver) {
+                if (is_array($receiver)) {
+                    $message->to($receiver['email'], $receiver['name']);
+                } elseif ($key === 'email') {
+                    $message->to($this->receivers['email'], $this->receivers['name']);
+                }
+            }
+
+            foreach ($this->emails as $email) {
+                $message->cc($email->email, $email->name);
+            }
         });
 
         return true;
@@ -78,11 +100,31 @@ class MailController extends Controller
     protected function setSenderAndReceiver()
     {
         if (count($this->sender) != 2) {
-            $this->sender = $this->defaultSender;
+            $this->sender         = $this->defaultSender;
+            $this->sender['name'] = $this->user->retailer->first()->name;
         }
 
-        if (count($this->receiver) < 2) {
-            $this->receiver = $this->defaultReceiver;
+        if (count($this->receivers) < 2) {
+            foreach ($this->receivers as $receiver) {
+                if (! is_array($receiver)) {
+                    $this->receivers = $this->defaultReceiver;
+
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * @param $rp_id
+     */
+    protected function emailsByProduct($rp_id)
+    {
+        $retailerProduct = $this->user->retailer()->first()
+            ->retailerProducts()->where('id', $rp_id)->first();
+
+        if ($retailerProduct instanceof RetailerProduct) {
+            $this->emails = $retailerProduct->emails;
         }
     }
 }

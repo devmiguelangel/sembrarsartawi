@@ -15,6 +15,7 @@ use Sibas\Http\Requests\De\HeaderResultFormRequest;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\HeaderRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
+use Sibas\Repositories\UserRepository;
 
 class HeaderController extends Controller
 {
@@ -34,14 +35,20 @@ class HeaderController extends Controller
      * @var Rate
      */
     protected $rate;
+    /**
+     * @var UserRepository
+     */
+    protected $userRepository;
 
     public function __construct(HeaderRepository $repository,
                                 DataRepository $dataRepository,
-                                RetailerProductRepository $retailerProductRepository)
+                                RetailerProductRepository $retailerProductRepository,
+                                UserRepository $userRepository)
     {
         $this->repository                = $repository;
         $this->dataRepository            = $dataRepository;
         $this->retailerProductRepository = $retailerProductRepository;
+        $this->userRepository            = $userRepository;
     }
 
     /**
@@ -314,15 +321,21 @@ class HeaderController extends Controller
     public function requestStore(FacultativeRequestFormRequest $request, $rp_id, $header_id)
     {
         if ($this->repository->storeFacultative($request, decode($header_id))) {
-            $subject  = 'Solicitud de aprobacion: Caso Facultativo No ';
-            $receiver = [
-                'email' => 'djmiguelarango@gmail.com',
-                'name'  => 'Miguel Mamani',
-            ];
+            $header   = $this->repository->getModel();
+            $subject  = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->issue_number;
+            $users    = $this->userRepository->getUserByProfile($request->user(), ['COP']);
+            $receiver = [];
 
-            $mail = new MailController('emails.de.request-approval', [], $subject, $receiver);
+            foreach ($users as $user) {
+                array_push($receiver, [
+                    'email' => $user->email,
+                    'name'  => $user->full_name,
+                ]);
+            }
 
-            $mail->send(auth()->user());
+            $mail = new MailController($request->user(), 'emails.de.request-approval', [], $subject, $receiver);
+
+            $mail->send(decode($rp_id));
 
             return redirect()->route('de.edit', compact('rp_id', 'header_id'))
                 ->with(['success_header' => 'La solicitud fue enviada']);

@@ -37,6 +37,10 @@ class DatabaseSeeder extends Seeder
             'ad_product_parameters',
             'ad_retailer_product_coverages',
             'ad_exchange_rates',
+            'ad_emails',
+            'ad_retailer_product_emails',
+            'ad_profiles',
+            'ad_user_profiles',
 
             'op_de_headers',
             'op_de_details',
@@ -74,6 +78,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductParameterTableSeeder::class);
         $this->call(RetailerProductCoverageTableSeeder::class);
         $this->call(ExchangeRateTableSeeder::class);
+        $this->call(EmailTableSeeder::class);
+        $this->call(RetailerProductEmailTableSeeder::class);
+        $this->call(ProfileTableSeeder::class);
+        $this->call(UserProfileTableSeeder::class);
 
         Model::reguard();
     }

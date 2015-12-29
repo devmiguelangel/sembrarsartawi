@@ -10,6 +10,6 @@ class RetailerSubProduct extends Model
 
     public function productCompany()
     {
-        return $this->belongsTo('Sibas\Entities\RetailerProduct', 'ad_company_product_id', 'ad_company_product_id');
+        return $this->belongsTo(RetailerProduct::class, 'ad_company_product_id', 'ad_company_product_id');
     }
 }

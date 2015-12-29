@@ -48,4 +48,9 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->belongsTo(UserType::class, 'ad_user_type_id', 'id');
     }
+
+    public function profile()
+    {
+        return $this->belongsToMany(Profile::class, 'ad_user_profiles', 'ad_user_id', 'ad_profile_id');
+    }
 }

@@ -10,12 +10,12 @@ class CompanyProduct extends Model
 
     public function company()
     {
-        return $this->belongsTo('Sibas\Entities\Company', 'ad_company_id', 'id');
+        return $this->belongsTo(Company::class, 'ad_company_id', 'id');
     }
 
     public function product()
     {
-        return $this->belongsTo('Sibas\Entities\Product', 'ad_product_id', 'id');
+        return $this->belongsTo(Product::class, 'ad_product_id', 'id');
     }
 
 }

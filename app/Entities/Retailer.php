@@ -10,16 +10,16 @@ class Retailer extends Model
 
     public function users()
     {
-        return $this->belongsToMany('Sibas\Entities\User', 'ad_retailer_users', 'ad_user_id', 'ad_retailer_id');
+        return $this->belongsToMany(User::class, 'ad_retailer_users', 'ad_retailer_id', 'ad_user_id');
     }
 
     public function retailerProducts()
     {
-        return $this->hasMany('Sibas\Entities\RetailerProduct', 'ad_retailer_id', 'id');
+        return $this->hasMany(RetailerProduct::class, 'ad_retailer_id', 'id');
     }
 
     public function exchangeRate()
     {
-        return $this->hasOne('Sibas\Entities\ExchangeRate', 'ad_retailer_id', 'id');
+        return $this->hasOne(ExchangeRate::class, 'ad_retailer_id', 'id');
     }
 }
