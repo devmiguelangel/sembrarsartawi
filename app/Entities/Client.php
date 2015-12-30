@@ -96,5 +96,4 @@ class Client extends Model
         $this->attributes['business_address'] = strtoupper($value);
     }
 
-
 }

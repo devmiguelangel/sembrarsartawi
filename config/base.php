@@ -119,4 +119,12 @@ return [
         'M' => 'Mensual'
     ],
 
+    'profiles' => [
+        'SUP' => 'Supervisor',   // Reportes - Emision
+        'REP' => 'Reportes',     // Nacional - Sucursal - Agencia
+        'SEP' => 'Vendedor',     // Cotizacion - Emision - Reportes
+        'COP' => 'Compañia',     // Procesar casos - Rep. Producto
+        'TEP' => 'Pruebas',      // Supervisor
+    ],
+
 ];

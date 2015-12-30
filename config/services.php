@@ -30,7 +30,7 @@ return [
     ],
 
     'stripe' => [
-        'model'  => Sibas\User::class,
+        'model'  => \Sibas\Entities\User::class,
         'key'    => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],

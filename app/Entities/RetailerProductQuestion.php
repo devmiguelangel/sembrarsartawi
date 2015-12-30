@@ -14,6 +14,6 @@ class RetailerProductQuestion extends Model
 
     public function question()
     {
-        return $this->belongsTo('Sibas\Entities\Question', 'ad_question_id', 'id');
+        return $this->belongsTo(Question::class, 'ad_question_id', 'id');
     }
 }
