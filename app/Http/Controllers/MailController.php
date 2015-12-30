@@ -7,6 +7,7 @@ use Sibas\Entities\RetailerProduct;
 use Sibas\Entities\User;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class MailController extends Controller
 {
@@ -49,6 +50,10 @@ class MailController extends Controller
      */
     protected $template;
     /**
+     * @var string
+     */
+    protected $html;
+    /**
      * @var array
      */
     protected $emails;
@@ -68,14 +73,17 @@ class MailController extends Controller
 
     /**
      * @param $rp_id
+     * @param array $data
      * @return bool
      */
-    public function send($rp_id)
+    public function send($rp_id, array $data = [])
     {
         $this->emailsByProduct($rp_id);
         $user = $this->user;
 
-        Mail::send($this->template, ['user' => $this->user], function($message) use ($user)
+        $this->setHtml($data);
+
+        Mail::send('emails.layout', ['html' => $this->html], function($message) use ($user)
         {
             $message->from($this->sender['email'], $this->sender['name']);
 
@@ -126,5 +134,25 @@ class MailController extends Controller
         if ($retailerProduct instanceof RetailerProduct) {
             $this->emails = $retailerProduct->emails;
         }
+    }
+
+    /**
+     * @param array $data
+     * @throws \TijsVerkoyen\CssToInlineStyles\Exception
+     */
+    protected function setHtml(array $data)
+    {
+        $html = view('emails.' . $this->template, [
+            'user' => $this->user,
+            'data' => $data
+        ])->render();
+
+        $css = file_get_contents(asset('assets/css/bootstrap.css'));
+
+        $cssToInlineStyles = new CssToInlineStyles();
+        $cssToInlineStyles->setHTML($html);
+        $cssToInlineStyles->setCSS($css);
+
+        $this->html = $cssToInlineStyles->convert();
     }
 }

@@ -333,9 +333,9 @@ class HeaderController extends Controller
                 ]);
             }
 
-            $mail = new MailController($request->user(), 'emails.de.request-approval', [], $subject, $receiver);
+            $mail = new MailController($request->user(), 'de.request-approval', [], $subject, $receiver);
 
-            $mail->send(decode($rp_id));
+            $mail->send(decode($rp_id), ['header' => $header]);
 
             return redirect()->route('de.edit', compact('rp_id', 'header_id'))
                 ->with(['success_header' => 'La solicitud fue enviada']);
