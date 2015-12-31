@@ -5,20 +5,18 @@ namespace Sibas\Http\Controllers\Vi;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Sibas\Http\Controllers\BaseController;
-use Sibas\Http\Controllers\Client\AccountController;
-use Sibas\Http\Controllers\Client\ClientController;
-use Sibas\Http\Controllers\De\DetailController as DetailDeController;
-use Sibas\Http\Controllers\De\HeaderController as HeaderDeController;
-use Sibas\Http\Controllers\Retailer\RetailerProductController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Vi\HeaderSpCreateFormRequest;
 use Sibas\Repositories\Client\AccountRepository;
+use Sibas\Repositories\Client\ActivityRepository;
 use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\DetailRepository as DetailDeRepository;
 use Sibas\Repositories\De\HeaderRepository as HeaderDeRepository;
+use Sibas\Repositories\Retailer\CityRepository;
+use Sibas\Repositories\Retailer\PlanRepository;
+use Sibas\Repositories\Retailer\PolicyRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 use Sibas\Repositories\Vi\DetailRepository;
 use Sibas\Repositories\Vi\HeaderRepository;
@@ -28,54 +26,91 @@ class HeaderController extends Controller
     /**
      * @var HeaderRepository
      */
-    private $repository;
+    protected $repository;
     /**
-     * @var HeaderDeController
+     * @var DetailRepository
      */
-    private $headerDe;
+    protected $detailRepository;
     /**
-     * @var DetailDeController
+     * @var HeaderDeRepository
      */
-    private $detailDe;
+    protected $headerDeRepository;
     /**
-     * @var ClientController
+     * @var DetailDeRepository
      */
-    private $client;
+    protected $detailDeRepository;
     /**
-     * @var RetailerProductController
+     * @var ClientRepository
      */
-    private $retailerProduct;
+    protected $clientRepository;
     /**
-     * @var BaseController
+     * @var RetailerProductRepository
      */
-    private $base;
+    protected $retailerProductRepository;
     /**
-     * @var DetailController
+     * @var AccountRepository
      */
-    private $detail;
+    protected $accountRepository;
     /**
-     * @var AccountController
+     * @var PlanRepository
      */
-    private $account;
+    private $planRepository;
+    /**
+     * @var PolicyRepository
+     */
+    protected $policyRepository;
+    /**
+     * @var DataRepository
+     */
+    protected $dataRepository;
+    /**
+     * @var CityRepository
+     */
+    protected $cityRepository;
+    /**
+     * @var ActivityRepository
+     */
+    protected $activityRepository;
 
-    public function __construct(HeaderRepository $repository)
+    public function __construct(HeaderRepository $repository,
+                                DetailRepository $detailRepository,
+                                HeaderDeRepository $headerDeRepository,
+                                DetailDeRepository $detailDeRepository,
+                                ClientRepository $clientRepository,
+                                RetailerProductRepository $retailerProductRepository,
+                                AccountRepository $accountRepository,
+                                PlanRepository $planRepository,
+                                PolicyRepository $policyRepository,
+                                DataRepository $dataRepository,
+                                CityRepository $cityRepository,
+                                ActivityRepository $activityRepository)
     {
-        $this->repository      = $repository;
-        $this->base            = new BaseController(new DataRepository);
-        $this->headerDe        = new HeaderDeController(new HeaderDeRepository);
-        $this->detailDe        = new DetailDeController(new DetailDeRepository);
-        $this->client          = new ClientController(new ClientRepository);
-        $this->retailerProduct = new RetailerProductController(new RetailerProductRepository);
-
-        $this->detail          = new DetailController(new DetailRepository);
-        $this->account         = new AccountController(new AccountRepository);
+        $this->repository                = $repository;
+        $this->detailRepository          = $detailRepository;
+        $this->headerDeRepository        = $headerDeRepository;
+        $this->detailDeRepository        = $detailDeRepository;
+        $this->clientRepository          = $clientRepository;
+        $this->retailerProductRepository = $retailerProductRepository;
+        $this->accountRepository         = $accountRepository;
+        $this->planRepository            = $planRepository;
+        $this->policyRepository          = $policyRepository;
+        $this->dataRepository            = $dataRepository;
+        $this->cityRepository            = $cityRepository;
+        $this->activityRepository        = $activityRepository;
     }
 
     public function getData()
     {
         return [
-            'payment_methods' => $this->base->getPaymentMethod(),
-            'periods'         => $this->base->getPeriod(),
+            'payment_methods' => $this->dataRepository->getPaymentMethod(),
+            'periods'         => $this->dataRepository->getPeriod(),
+            'civil_status'    => $this->dataRepository->getCivilStatus(),
+            'document_type'   => $this->dataRepository->getDocumentType(),
+            'gender'          => $this->dataRepository->getGender(),
+            'cities'          => $this->cityRepository->getCitiesByType(),
+            'activities'      => $this->activityRepository->getActivities(),
+            'hands'           => $this->dataRepository->getHand(),
+            'avenue_street'   => $this->dataRepository->getAvenueStreet(),
         ];
     }
 
@@ -175,13 +210,13 @@ class HeaderController extends Controller
                 $detail_id = array_shift($clients);
 
                 if (! is_null($detail_id)) {
-                    if ($this->headerDe->headerById(decode($header_id)) && $this->detailDe->detailById(decode($detail_id))) {
-                        $header = $this->headerDe->getHeader();
-                        $detail = $this->detailDe->getDetail();
+                    if ($this->headerDeRepository->getHeaderById(decode($header_id))
+                            && $this->detailDeRepository->getDetailById(decode($detail_id))) {
+                        $header = $this->headerDeRepository->getModel();
+                        $detail = $this->detailDeRepository->getModel();
                         $data   = $this->getData();
-                        $data   = array_merge($data, $this->client->getData());
-                        $data['questions'] = $this->retailerProduct->questionByProduct($sp_id);
-                        $data['plans']     = $this->retailerProduct->plans($sp_id);
+                        $data['questions'] = $this->retailerProductRepository->getQuestionByProduct(decode($sp_id));
+                        $data['plans']     = $this->planRepository->getPlanByProduct(decode($sp_id));
 
                         return view('vi.sp.create', compact('rp_id', 'header_id', 'sp_id', 'data', 'header', 'detail'));
                     }
@@ -195,35 +230,36 @@ class HeaderController extends Controller
         ])->with(['error_header' => 'La Poliza de Vida no puede ser creada']);
     }
 
-    public function storeSubProduct(HeaderSpCreateFormRequest $request)
+    public function storeSubProduct(HeaderSpCreateFormRequest $request, $rp_id, $header_id, $sp_id)
     {
         $key            = 'clients_' . $request->get('header_id');
         $success_header = ['success_header' => 'El Sub-Producto fue asociado correctamente'];
 
-        if ($this->headerDe->headerById(decode($request->get('header_id')))
-                && $this->detailDe->detailById(decode($request->get('detail_id')))) {
-            $headerDe = $this->headerDe->getHeader();
-            $detailDe = $this->detailDe->getDetail();
+        if ($this->headerDeRepository->getHeaderById(decode($header_id))
+                && $this->detailDeRepository->getDetailById(decode($request->get('detail_id')))) {
+            $headerDe = $this->headerDeRepository->getModel();
+            $detailDe = $this->detailDeRepository->getModel();
 
             $request['header']   = $headerDe;
             $request['detail']   = $detailDe;
-            $request['policies'] = $this->retailerProduct->policies($request->get('sp_id'));
-            $request['plans']    = $this->retailerProduct->plans($request->get('sp_id'));
+            $request['policies'] = $this->policyRepository->getPolicyByProduct(decode($sp_id));
+            $request['plans']    = $this->planRepository->getPlanByProduct(decode($sp_id));
 
             if ($this->repository->storeHeaderSubProduct($request)) {
                 $header = $this->repository->getModel();
 
-                if ($this->detail->storeDetailSubProduct($request, $header->id) && $this->account->store($request)) {
-                    if ($this->repository->destroyClientCacheSP($request->get('header_id'), $request->get('detail_id'))) {
+                if ($this->detailRepository->storeDetailSubProduct($request, $header->id)
+                        && $this->accountRepository->storeAccount($request)) {
+                    if ($this->repository->destroyClientCacheSP(decode($header_id), decode($request->get('detail_id')))) {
                         return redirect()->route('de.vi.sp.create', [
-                            'rp_id'     => decrypt($request->get('rp_id')),
-                            'header_id' => $request->get('header_id'),
-                            'sp_id'     => $request->get('sp_id'),
+                            'rp_id'     => $rp_id,
+                            'header_id' => $header_id,
+                            'sp_id'     => $sp_id,
                         ])->with($success_header);
                     } else {
                         return redirect()->route('de.issuance', [
-                            'rp_id'     => decrypt($request->get('rp_id')),
-                            'header_id' => $request->get('header_id'),
+                            'rp_id'     => $rp_id,
+                            'header_id' => $header_id,
                         ])->with($success_header);
                     }
                 }

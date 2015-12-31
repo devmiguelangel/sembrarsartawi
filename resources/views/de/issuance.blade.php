@@ -94,7 +94,7 @@
                 <div class="panel-body ">
                     <div class="col-md-4 col-md-offset-2">
                         <div class="modal-header bg-primary">
-                            <h6 class="modal-title">Póliza {{ $header->prefix }} - {{ $header->policy_number }}</h6>
+                            <h6 class="modal-title">Póliza {{ $header->prefix }} - {{ $header->issue_number }}</h6>
                         </div>
                         <div class="panel panel-body border-top-primary text-center">
                             <p class="text-muted content-group-sm">Certificados</p>
