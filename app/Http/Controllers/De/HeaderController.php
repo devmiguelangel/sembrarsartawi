@@ -231,7 +231,7 @@ class HeaderController extends Controller
         if ($this->repository->getHeaderById(decode($header_id))) {
             $header = $this->repository->getModel();
 
-            $subProducts = $this->retailerProductRepository->getSubProductByIdProduct($rp_id);
+            $subProducts = $this->retailerProductRepository->getSubProductByIdProduct(decode($rp_id));
 
             return view('de.issuance', compact('rp_id', 'header_id', 'header', 'subProducts'));
 

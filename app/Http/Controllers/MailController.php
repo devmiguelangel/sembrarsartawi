@@ -134,6 +134,8 @@ class MailController extends Controller
         if ($retailerProduct instanceof RetailerProduct) {
             $this->emails = $retailerProduct->emails;
         }
+
+        array_push($this->emails, $this->user);
     }
 
     /**

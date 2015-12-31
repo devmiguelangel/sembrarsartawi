@@ -333,10 +333,7 @@
                     </div>
                 </div>
                 {!! Form::open(['route' => ['de.vi.sp.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id], 'method' => 'post', 'class' => '']) !!}
-                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
-                    {!! Form::hidden('header_id', $header_id) !!}
                     {!! Form::hidden('detail_id', encode($detail->id)) !!}
-                    {!! Form::hidden('sp_id', $sp_id) !!}
                 <div class="col-md-10 col-md-offset-1">
                     <div class="modal-header bg-primary title">
                         <div class="panel-heading">
