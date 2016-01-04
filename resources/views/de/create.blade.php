@@ -30,7 +30,7 @@
         <div class="col-md-12">
             <!-- Horizontal form -->
             <div class="panel panel-flat border-top-primary">
-                <div class="panel-heading divhr">
+                <!--<div class="panel-heading divhr">
                     <h6 class="form-wizard-title2 text-semibold">
                         <span class="col-md-11">
                             <span class="form-wizard-count">1</span>
@@ -43,8 +43,8 @@
                             </button>
                         </span>
                     </h6>
-                </div>
-
+                </div>-->
+                <div class="panel-heading divhr">
                 <div class="steps-basic2 wizard">
                     <div class="steps">
                         <ul>
@@ -77,6 +77,11 @@
                         </ul>
                     </div>
                 </div>
+                <button style="float: right;" type="button" class="btn btn-rounded btn-default text-right" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
+                    <i class="icon-question7"></i> Producto
+                </button>
+                </div>
+                <div class="clearfix"></div>
 
                 @if(session('error_header'))
                     <div class="alert bg-danger alert-styled-right">
@@ -84,7 +89,7 @@
                         <span class="text-semibold">{{ session('error_header') }}</span>.
                     </div>
                 @endif
-
+                
                 <div class="panel-body ">
                     <div class="col-xs-8">
                         {!! Form::open(['route' => ['de.store', 'rp_id' => $rp_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
@@ -96,7 +101,7 @@
                                 </div>
                                 <div class="col-lg-1">
                                     <a onclick="$('#cobertura').show();
-                                                            $('#monto').hide();"><i class="icon-question7 " data-popup="tooltip" title="Mas detalle"></i></a>
+                                                            $('#monto').hide();"><i class="icon-question7 " title="Mas detalle"></i></a>
                                 </div>
                             </div>
 
@@ -120,7 +125,7 @@
                                 </div>
                                 <div class="col-lg-1">
                                     <a onclick="$('#monto').show();
-                                                            $('#cobertura').hide();"><i class="icon-question7 " data-popup="tooltip" title="Mas detalle"></i></a>
+                                                            $('#cobertura').hide();"><i class="icon-question7 " title="Mas detalle"></i></a>
                                 </div>
                             </div>
 

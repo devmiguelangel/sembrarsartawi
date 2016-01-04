@@ -32,15 +32,10 @@
         <div class="panel panel-flat border-top-primary">
             <div class="panel-heading divhr">
                 <h6 class="form-wizard-title2 text-semibold">
-                    <span class="col-md-11">
+                    <span class="col-md-12">
                         <span class="form-wizard-count">R</span>
                         Reporte General
                         <small class="display-block">Listado de Pólizas Emitidas</small>
-                    </span>
-                    <span class="col-md-1">
-                        <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right" data-popup="tooltip" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
-                            <i class="icon-question7"></i> Producto
-                        </button>
                     </span>
                 </h6>
             </div>
@@ -144,7 +139,6 @@
                                 <div class="text-right">
                                     <a href="{{ route('report.report_general') }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
                                     <button type="submit" class="btn btn-primary" id="buscar" onclick="$('#xls_download').val(0);">Buscar <i class="icon-search4 position-right"></i></button>
-                                    <a onclick="$('#xls_download').val(1); $('#form_search_general').submit();"><i class="icon-file-excel fa-2x"></i></a>
                                 </div>
                             </div>
                             
@@ -154,7 +148,15 @@
                 </div>
                 <div class="col-xs-12 col-md-12">  
                     @if (count($result)>0)
-                        <div class="panel panel-flat">                        
+                        <div class="panel panel-flat">  
+                            <div class="col-xs-12 col-md-12">
+                                <div class="text-right">
+                                    <br />
+                                    <a onclick="$('#xls_download').val(1); $('#form_search_general').submit();">
+                                        <img src="{{ asset('images/xls2.png') }}" alt="descargar" />
+                                    </a>
+                                </div>
+                            </div>
                             <table class="table datatable-fixed-left table-striped" width="100%">
                                 <thead>
                                     <tr style="background-color: #337ab7" class="text-white">

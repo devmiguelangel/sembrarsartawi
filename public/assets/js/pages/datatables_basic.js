@@ -40,6 +40,26 @@ $(function() {
 
     // Basic datatable
     $('.datatable-basic').DataTable();
+    
+    // Basic 2
+    $('.datatable-basic2').DataTable({
+        searching: false,
+        lengthChange: false,
+        iDisplayLength: 30,
+        oLanguage: {
+                    sEmptyTable: "No hay registros disponibles",
+                    sInfo: "Hay _TOTAL_ registros. Mostrando de (_START_ a _END_)",
+                    sLoadingRecords: "Por favor espera - Cargando...",
+                    sSearch: "Filtro:",
+                    sLengthMenu: "Mostrar _MENU_",
+                    oPaginate: {
+                        sLast: "Última página",
+                        sFirst: "Primera",
+                        sNext: "Siguiente",
+                        sPrevious: "Anterior"
+                    }
+                }
+    });
 
 
     // Alternative pagination

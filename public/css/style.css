@@ -93,9 +93,24 @@ and open the template in the editor.
 .table-striped > tbody > tr:nth-of-type(2n+1) {
     background-color: #eef9f8;
 }
-/* fin color del datable*/
-/* fin general */
 
+/* border del menu */
+.navbar {
+    border-width: 0px 0;
+    margin-bottom: 0;
+//    padding-left: 0;
+//    padding-right: 0;
+}
+.navbar-default {
+    border-top-color: #f5f5f5;
+    
+}
+/* fin border del menu */
+
+.form-control::-moz-placeholder {
+    color: #999;
+    opacity: 0.53;
+}
 
 
 

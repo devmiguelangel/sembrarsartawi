@@ -122,7 +122,7 @@
                         </li>
                         <li  class="{{Request::is('report/cotizacion') ? 'active':''}}">
                             <a href="{{ route('report.report_cotizacion') }}">
-                                Cotizaciones
+                                Solicitudes
                             </a>
                         </li>
                     </ul>
