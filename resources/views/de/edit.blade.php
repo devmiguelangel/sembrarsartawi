@@ -211,10 +211,11 @@
                                                 </li>
                                                 <li>
                                                     @if(is_null($detail->beneficiary))
-                                                        <a href="{{ route('de.beneficiary.create', [
-                                                        'rp_id'     => $rp_id,
-                                                        'header_id' => $header_id,
-                                                        'detail_id' => encode($detail->id)]) }}">
+                                                        <a href="#" 
+                                                            ng-click="createBeneficiary($event)" 
+                                                            data-rp-id="{{ $rp_id }}" 
+                                                            data-header-id="{{ $header_id }}" 
+                                                            data-detail-id="{{ encode($detail->id) }}">
                                                             <i class="icon-plus2"></i> Registrar Beneficiarios
                                                         </a>
                                                     @else

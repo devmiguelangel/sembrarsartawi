@@ -111,5 +111,10 @@
 <!-- modal information product -->
 @include('partials.information_product')
 <!-- /modal -->
+
+@include('partials.popup')
+
+<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+
 </body>
 </html>
