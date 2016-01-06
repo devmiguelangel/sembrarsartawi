@@ -14,7 +14,7 @@
                     <i class="icon-home4"></i><span>Dashboard</span>
                 </a>
             </li>
-            <li class="navigation-header"><span>Entidades y Compañias</span> <i class="icon-menu" title="Forms"></i></li>
+            <li class="navigation-header"><span>Retailers,Productos y Compañías</span> <i class="icon-menu" title="Forms"></i></li>
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Compañías de Seguros</span></a>
                 @if($nav=='company')
@@ -85,9 +85,25 @@
             </li>
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Desgravamen</span></a>
+                @if($nav=='de')
+                    @if($action=='list_parameter' || $action=='edit_parameter' ||
+                        $action=='list_parameter_additional' || $action=='new_parameter_additional' ||
+                        $action=='edit_parameter_additional')
+                        @var $data_pp='active'
+                        @var $data_ap=''
+                    @endif
+                @elseif($nav=='addquestion')
+                    @if($action=='list')
+                        @var $data_ap='active'
+                        @var $data_pp=''
+                    @endif
+                @else
+                    @var $data_pp=''
+                    @var $data_ap=''
+                @endif
                 <ul>
-                    <li>
-                        <a href="#">Parametros del producto</a>
+                    <li class="{{$data_pp}}">
+                        <a href="{{route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer'=>auth()->user()->retailer->first()->id])}}">Parametros del producto</a>
                     </li>
                 </ul>
                 <ul>
@@ -96,8 +112,8 @@
                     </li>
                 </ul>
                 <ul>
-                    <li>
-                        <a href="#">Administrar preguntas</a>
+                    <li class="{{$data_ap}}">
+                        <a href="{{route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>1450961973])}}">Administrar preguntas</a>
                     </li>
                 </ul>
                 <ul>
@@ -116,52 +132,76 @@
                     </li>
                 </ul>
             </li>
+            <li>
+                <a href="#"><i class="icon-stack2"></i> <span>Vida Individual</span></a>
+                <ul>
+                    <li>
+                        <a href="vid_parameter.html">Parametros del producto</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a href="vid_list_ap.html">Administrar preguntas</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a href="vid_edit_content.html">Administrar contenido</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a href="vid_managing_occupation.html">Administrar ocupación</a>
+                    </li>
+                </ul>
+            </li>
             <li class="navigation-header">
-                <span>Forma de Pago</span> <i class="icon-menu" title="Forms"></i>
+                <span>kits de Página</span> <i class="icon-menu" title="Forms"></i>
             </li>
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Formas de pago</span></a>
-                <ul>
-                    <li>
-                        <a href="payment_methods_list.html">Listar Registros</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="navigation-header">
-                <span>Correos electronicos</span> <i class="icon-menu" title="Forms"></i>
             </li>
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Administrar correos</span></a>
-                <ul>
-                    <li>
-                        <a href="email_list.html">Listar Registros</a>
-                    </li>
-                </ul>
+
             </li>
-            <li class="navigation-header">
-                <span>Sucursales</span> <i class="icon-menu" title="Forms"></i>
-            </li>
+            @if($nav=='city')
+                @if($action=='list' || $action=='edit' || $action=='new')
+                    @var $data_dpt='active'
+                    @var $data_age=''
+                @endif
+            @elseif($nav=='agency')
+                @if($action=='list' || $action=='edit' || $action=='new')
+                    @var $data_age='active'
+                    @var $data_dpt=''
+                @endif
+            @else
+                @var $data_dpt=''
+                @var $data_age=''
+            @endif
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Departamento/Agencias</span></a>
                 <ul>
-                    <li>
-                        <a href="#">Departamentos</a>
+                    <li class="{{$data_dpt}}">
+                        <a href="{{route('admin.cities.list', ['nav'=>'city', 'action'=>'list'])}}">Departamentos</a>
                     </li>
-                    <li>
-                        <a href="#">Agencias</a>
+                    <li class="{{$data_age}}">
+                        <a href="{{route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list', 'id_retailer'=>auth()->user()->retailer->first()->id])}}">Agencias</a>
                     </li>
                 </ul>
-            </li>
-            <li class="navigation-header">
-                <span>Archivos</span> <i class="icon-menu" title="Forms"></i>
             </li>
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Administrar archivos</span></a>
-                <ul>
-                    <li>
-                        <a href="#">Listar archivos</a>
-                    </li>
-                </ul>
+            </li>
+            @if($nav=='question')
+                @if($action=='list' || $action=='edit' || $action=='new')
+                    @var $data_pp='active'
+                @endif
+            @else
+                @var $data_pp=''
+            @endif
+            <li class="{{$data_pp}}">
+                <a href="{{route('admin.questions.list', ['nav'=>'question', 'action'=>'list'])}}"><i class="icon-stack2"></i> <span>Administrar preguntas</span></a>
             </li>
         </ul>
     </div>
