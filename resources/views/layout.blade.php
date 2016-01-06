@@ -73,7 +73,7 @@
     
     
 </head>
-<body class="layout-boxed">
+<body class="layout-boxed" ng-app="sibas">
 <!-- Main navbar -->
 @yield('header')
 <!-- /main navbar -->

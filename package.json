@@ -8,5 +8,8 @@
     "bootstrap": "^3.3.6",
     "jquery": "^2.1.4",
     "laravel-elixir": "^3.0.0"
+  },
+  "scripts": {
+    "build": "browserify ./resources/assets/js/app.js -t | uglifyjs -mc -o ./public/js/app.js"
   }
 }
