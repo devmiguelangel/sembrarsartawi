@@ -308,6 +308,14 @@ Author: Mosaddek Hossain
     width: 100%;
     color: #fff;
 }
+
+.btn-compose2 {
+    background: #337ab7;
+    padding: 12px 0;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+}
 .btn-compose:hover, .btn-compose:focus {
     background: #c74d4c;
     color: #fff;

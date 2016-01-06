@@ -110,6 +110,43 @@ $(function() {
             rightColumns: 1
         }
     });
+    // Right fixed column example inbox
+    $('.datatable_inbox-fixed-right').DataTable({
+        columnDefs: [
+            { 
+                orderable: false,
+                targets: [5]
+            },
+            { 
+                //width: "300px",
+                targets: [0]
+            },
+            { 
+                //width: "300px",
+                targets: [1]
+            },
+            { 
+                //width: "200px",
+                targets: [5, 6]
+            },
+            { 
+               // width: "100px",
+                targets: [3, 4]
+            }
+        ],
+        scrollX: true,
+        scrollY: false,
+        scrollCollapse: true,
+        searching: false,
+        lengthChange: false,
+        //iDisplayLength: 100,
+        fixedColumns: true,
+        paginate: false,
+        fixedColumns: {
+            leftColumns: 0,
+            rightColumns: 1
+        }
+    });
 
 
     // Left and right fixed columns
