@@ -8,10 +8,6 @@
     @include('partials.menu-main')
 @endsection
 
-@section('menu-header')
-    @include('partials.menu-header')
-@endsection
-
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -22,51 +18,48 @@
                     <div class="mail-box">
                         <aside class="sm-side">
                             <div class="m-title">
-                                <h3>Inbox</h3>
-                                <span>14 unread mail</span>
+                                <h3>Mis casos facultativos</h3>
+                                <span>4 Casos no atendidos</span>
                             </div>
                             <div class="inbox-body">
                                 <a class="btn btn-compose" href="inbox-compose.html">
-                                    Compose
+                                    Desgravamen
                                 </a>
                             </div>
                             <ul class="inbox-nav inbox-divider">
                                 <li class="active">
-                                    <a href="#"><i class="icon-inbox"></i> Inbox <span class="label label-danger pull-right">2</span></a>
+                                    <a href="#"><i class="icon-inbox"></i> Bandeja de entrada <span class="label label-info pull-right">10</span></a>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="icon-envelope"></i> Sent Mail</a>
+                                    <a href="#"><i class="icon-check"></i> Aprobados <span class="label label-primary pull-right">2</span></a>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="icon-briefcase"></i> Important</a>
+                                    <a href="#"><i class="icon-trash"></i> Rechazados <span class="label label-primary pull-right">2</span></a>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="icon-star-empty3"></i> Starred </a>
+                                    <a href="#"><i class="fa fa-clock-o"></i> Observados <span class="label label-primary pull-right">2</span></a>
                                 </li>
-                                <li>
-                                    <a href="#"><i class="icon-new-tab"></i> Drafts <span class="label label-info pull-right">30</span></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="icon-trash"></i> Trash</a>
-                                </li>
+                                
                             </ul>
-                            <ul class="nav nav-pills nav-stacked labels-info inbox-divider">
-                                <li> <h4>Labels</h4> </li>
-                                <li> <a href="#"> <i class=" fa fa-sign-blank text-danger"></i> Work </a> </li>
-                                <li> <a href="#"> <i class=" fa fa-sign-blank text-success"></i> Design </a> </li>
-                                <li> <a href="#"> <i class=" fa fa-sign-blank text-info "></i> Family </a>
-                                <li> <a href="#"> <i class=" fa fa-sign-blank text-warning "></i> Friends </a>
-                                <li> <a href="#"> <i class=" fa fa-sign-blank text-primary "></i> Office </a>
+                            <div class="inbox-body success">
+                                <a class="btn btn-compose2" href="inbox-compose.html">
+                                    Automotores
+                                </a>
+                            </div>
+                            <ul class="inbox-nav inbox-divider">
+                                <li class="active">
+                                    <a href="#"><i class="icon-inbox"></i> Bandeja de entrada <span class="label label-info pull-right">30</span></a>
                                 </li>
-                            </ul>
-                            <ul class="nav nav-pills nav-stacked labels-info inbox-divider ">
-                                <li> <h4>Buddy online</h4> </li>
-                                <li> <a href="#"> <i class="icon-circle2 text-success"></i> Jhone Doe <p>I do not think</p></a>  </li>
-                                <li> <a href="#"> <i class="icon-circle2 text-danger"></i> Sumon <p>Busy with coding</p></a> </li>
-                                <li> <a href="#"> <i class="icon-circle2 text-muted "></i> Anjelina Joli <p>I out of control</p></a>
-                                <li> <a href="#"> <i class="icon-circle2 text-muted "></i> Jonathan Smith <p>I am not here</p></a>
-                                <li> <a href="#"> <i class="icon-circle2 text-muted "></i> Tawseef <p>I do not think</p></a>
+                                <li>
+                                    <a href="#"><i class="icon-check"></i> Aprobados <span class="label label-primary pull-right">10</span></a>
                                 </li>
+                                <li>
+                                    <a href="#"><i class="icon-trash"></i> Rechazados <span class="label label-primary pull-right">5</span></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-clock-o"></i> Observados <span class="label label-primary pull-right">2</span></a>
+                                </li>
+                                
                             </ul>
                             <div class="inbox-body text-center">
                                 <div class="btn-group">
@@ -83,480 +76,434 @@
                             <div class="inbox-head">
                                 <div class="mail-option">
                                     <div class="btn-group">
-                                        <a class="btn mini tooltips" href="#" data-toggle="dropdown" data-placement="top" data-original-title="Refresh">
+                                        <a class="btn mini tooltips" href="#"  data-popup="tooltip" data-original-title="Actualizar">
                                             <i class=" icon-loop3"></i>
                                         </a>
                                     </div>
                                     <div class="btn-group">
-                                        <a class="btn" href="#">
-                                            <i class="icon-archive"></i>
+                                        <a class="btn" href="#" data-popup="tooltip" data-original-title="Aprobados">
+                                            <i class="icon-check"></i>
                                         </a>
-                                        <a class="btn" href="#">
-                                            <i class="icon-info22"></i>
-                                        </a>
-                                        <a class="btn" href="#">
+                                        <a class="btn" href="#" data-popup="tooltip" data-original-title="Rechazados">
                                             <i class="icon-trash"></i>
                                         </a>
-                                    </div>
-                                    <div class="btn-group">
-                                        <a class="btn" href="#">
-                                            <i class="icon-folder2"></i>
-                                        </a>
-                                        <a class="btn" href="#">
-                                            <i class="icon-price-tag2"></i>
+                                        <a class="btn" href="#" data-popup="tooltip" data-original-title="Observados">
+                                            <i class="fa fa-clock-o"></i>
                                         </a>
                                     </div>
-                                    <div class="btn-group hidden-phone">
-                                        <a class="btn mini blue" href="#" data-toggle="dropdown">
-                                            More
-                                            <i class="icon-arrow-down32 "></i>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#"><i class="icon-pencil"></i> Mark as Read</a></li>
-                                            <li><a href="#"><i class="icon-ban"></i> Spam</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#"><i class="icon-trash"></i> Delete</a></li>
-                                        </ul>
-                                    </div>
+                                    
                                     <ul class="unstyled inbox-pagination">
-                                        <li><span>1-50 of 2045</span></li>
-                                        <li>
-                                            <a href="#" class="np-btn"><i class="icon-arrow-left12"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="np-btn"><i class="icon-arrow-right13"></i></a>
-                                        </li>
+                                        <li><span class="label label-danger pull-right">&nbsp;</span><span>Mayor a 10 d&iacute;as</span></li>
+                                        <li><span class="label label-warning pull-right">&nbsp;</span><span>3 a 10 d&iacute;as</span></li>
+                                        <li><span class="label label-success pull-right">&nbsp;</span><span>0 a 2 d&iacute;as</span></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="inbox-body no-pad">
                                 <table class="table table-inbox table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Dias en Proceso</th>
+                                            <th>Nombre Completo</th>
+                                            <th>Carnet</th>
+                                            <th>Fecha de Ingreso</th>
+                                            <th>Adjunto</th>
+                                            <th class="text-center">Acción</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
-                                    <tr class="unread">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3 text-primary"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img1.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message  dont-show">Vector Lab</td>
-                                        <td class="view-message ">Lorem ipsum dolor imit set.</td>
-                                        <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
-                                        <td class="view-message  text-right">9:27 AM</td>
-                                    </tr>
-                                    <tr class="unread">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img2.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Mosaddek Hossain</td>
-                                        <td class="view-message">Hi Bro, How are you?</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">March 15</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <span class="bg-success">D</span>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Dulal khan</td>
-                                        <td class="view-message">Lorem ipsum dolor sit amet</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">June 15</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img4.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Facebook</td>
-                                        <td class="view-message">Dolor sit amet, consectetuer adipiscing</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">April 01</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3 text-primary"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <span class="bg-primary">M</span>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Mosaddek <span class="label label-danger pull-right">urgent</span></td>
-                                        <td class="view-message">Lorem ipsum dolor sit amet</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">May 23</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3 text-primary"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img2.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Facebook</td>
-                                        <td class="view-message">Dolor sit amet, consectetuer adipiscing</td>
-                                        <td class="view-message inbox-small-cells"><i class="icon-attachment2"></i></td>
-                                        <td class="view-message text-right">March 14</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3 text-primary"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <span class="bg-warning">R</span>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Rafiq</td>
-                                        <td class="view-message">Lorem ipsum dolor sit amet</td>
-                                        <td class="view-message inbox-small-cells"><i class="icon-attachment2"></i></td>
-                                        <td class="view-message text-right">January 19</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img4.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Facebook <span class="label label-success pull-right">megazine</span></td>
-                                        <td class="view-message view-message">Dolor sit amet, consectetuer adipiscing</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">March 04</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img1.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Mosaddek</td>
-                                        <td class="view-message view-message">Lorem ipsum dolor sit amet</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">June 13</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img1.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Facebook <span class="label label-info pull-right">family</span></td>
-                                        <td class="view-message view-message">Dolor sit amet, consectetuer adipiscing</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">March 24</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3 text-primary"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img4.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Mosaddek</td>
-                                        <td class="view-message">Lorem ipsum dolor sit amet</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">March 09</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3 text-primary"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img2.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="dont-show">Facebook</td>
-                                        <td class="view-message">Dolor sit amet, consectetuer adipiscing</td>
-                                        <td class="view-message inbox-small-cells"><i class="icon-attachment2"></i></td>
-                                        <td class="view-message text-right">May 14</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img3.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Sumon</td>
-                                        <td class="view-message">Lorem ipsum dolor sit amet</td>
-                                        <td class="view-message inbox-small-cells"><i class="icon-attachment2"></i></td>
-                                        <td class="view-message text-right">February 25</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img1.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="dont-show">Facebook</td>
-                                        <td class="view-message view-message">Dolor sit amet, consectetuer adipiscing</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">March 14</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img4.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Dulal</td>
-                                        <td class="view-message">Lorem ipsum dolor sit amet</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">April 07</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img1.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Twitter</td>
-                                        <td class="view-message">Dolor sit amet, consectetuer adipiscing</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">July 14</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3 text-primary"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img3.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Sumon</td>
-                                        <td class="view-message">Lorem ipsum dolor sit amet</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">August 10</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img2.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Facebook</td>
-                                        <td class="view-message view-message">Dolor sit amet, consectetuer adipiscing</td>
-                                        <td class="view-message inbox-small-cells"><i class="icon-attachment2"></i></td>
-                                        <td class="view-message text-right">April 14</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img1.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Mosaddek</td>
-                                        <td class="view-message">Lorem ipsum dolor sit amet</td>
-                                        <td class="view-message inbox-small-cells"><i class="icon-attachment2"></i></td>
-                                        <td class="view-message text-right">June 16</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3 text-primary"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img3.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Sumon</td>
-                                        <td class="view-message">Lorem ipsum dolor sit amet</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">August 10</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img4.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Facebook</td>
-                                        <td class="view-message view-message">Dolor sit amet, consectetuer adipiscing</td>
-                                        <td class="view-message inbox-small-cells"><i class="icon-attachment2"></i></td>
-                                        <td class="view-message text-right">April 14</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img2.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Facebook</td>
-                                        <td class="view-message view-message">Dolor sit amet, consectetuer adipiscing</td>
-                                        <td class="view-message inbox-small-cells"><i class="icon-attachment2"></i></td>
-                                        <td class="view-message text-right">April 14</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img1.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Mosaddek</td>
-                                        <td class="view-message">Lorem ipsum dolor sit amet</td>
-                                        <td class="view-message inbox-small-cells"><i class="icon-attachment2"></i></td>
-                                        <td class="view-message text-right">June 16</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3 text-primary"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img3.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Sumon</td>
-                                        <td class="view-message">Lorem ipsum dolor sit amet</td>
-                                        <td class="view-message inbox-small-cells"></td>
-                                        <td class="view-message text-right">August 10</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="inbox-small-cells">
-                                            <label class="chek_inbox">
-                                                <input type="checkbox" class="styled">
-                                            </label>
-                                        </td>
-                                        <td class="inbox-small-cells"><i class="icon-star-empty3"></i></td>
-                                        <td>
-                                            <a href="#" class="avatar">
-                                                <img src="images/img4.jpg" alt=""/>
-                                            </a>
-                                        </td>
-                                        <td class="view-message dont-show">Facebook</td>
-                                        <td class="view-message view-message">Dolor sit amet, consectetuer adipiscing</td>
-                                        <td class="view-message inbox-small-cells"><i class="icon-attachment2"></i></td>
-                                        <td class="view-message text-right">April 14</td>
-                                    </tr>
+                                        <tr class="unread">
+                                            <td class="inbox-small-cells te">
+                                                <label class="chek_inbox">
+                                                    <input type="checkbox" class="styled">
+                                                </label>
+                                            </td>
+                                            <td class="inbox-small-cells">
+                                                <a href="#" class="avatar">
+                                                    <span class="bg-success">2</span>
+                                                </a>
+                                            </td>
+                                            <td class="view-message  dont-show">Vector Lab Lafuente <span class="label label-primary pull-right">Rechazado</span></td>
+                                            <td class="view-message ">4565458 LP</td>
+                                            <td class="view-message ">2015/01/31 9:27 AM</td>
+                                            <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
+                                            <td class="view-message  text-right" style="z-index:34;">
+                                                <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="icon-menu9"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Estado</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Observacion</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="unread">
+                                            <td class="inbox-small-cells te">
+                                                <label class="chek_inbox">
+                                                    <input type="checkbox" class="styled">
+                                                </label>
+                                            </td>
+                                            <td class="inbox-small-cells">
+                                                <a href="#" class="avatar">
+                                                    <span class="bg-warning">5</span>
+                                                </a>
+                                            </td>
+                                            <td class="view-message  dont-show">Andres Mamani Quispe <span class="label label-primary pull-right">Aprobado</span></td>
+                                            <td class="view-message ">4565458 LP</td>
+                                            <td class="view-message ">2015/01/31 9:27 AM</td>
+                                            <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
+                                            <td class="view-message  text-right">
+                                                <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="icon-menu9"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Estado</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Observacion</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="">
+                                            <td class="inbox-small-cells te">
+                                                <label class="chek_inbox">
+                                                    <input type="checkbox" class="styled">
+                                                </label>
+                                            </td>
+                                            <td class="inbox-small-cells">
+                                                <a href="#" class="avatar">
+                                                    <span class="bg-warning">8</span>
+                                                </a>
+                                            </td>
+                                            <td class="view-message  dont-show">Juan Mendoza Medrano <span class="label label-primary pull-right">Observado</span></td>
+                                            <td class="view-message ">4565458 LP</td>
+                                            <td class="view-message ">2015/01/31 9:27 AM</td>
+                                            <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
+                                            <td class="view-message  text-right">
+                                                <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="icon-menu9"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Estado</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Observacion</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="">
+                                            <td class="inbox-small-cells te">
+                                                <label class="chek_inbox">
+                                                    <input type="checkbox" class="styled">
+                                                </label>
+                                            </td>
+                                            <td class="inbox-small-cells">
+                                                <a href="#" class="avatar">
+                                                    <span class="bg-danger">12</span>
+                                                </a>
+                                            </td>
+                                            <td class="view-message  dont-show">Daniel Salas</td>
+                                            <td class="view-message ">4565458 LP</td>
+                                            <td class="view-message ">2015/01/31 9:27 AM</td>
+                                            <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
+                                            <td class="view-message  text-right">
+                                                <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="icon-menu9"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Estado</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Observacion</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="">
+                                            <td class="inbox-small-cells te">
+                                                <label class="chek_inbox">
+                                                    <input type="checkbox" class="styled">
+                                                </label>
+                                            </td>
+                                            <td class="inbox-small-cells">
+                                                <a href="#" class="avatar">
+                                                    <span class="bg-success">1</span>
+                                                </a>
+                                            </td>
+                                            <td class="view-message  dont-show">Jose Gutierrez</td>
+                                            <td class="view-message ">4565458 LP</td>
+                                            <td class="view-message ">2015/01/31 9:27 AM</td>
+                                            <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
+                                            <td class="view-message  text-right">
+                                                <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="icon-menu9"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Estado</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Observacion</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="">
+                                            <td class="inbox-small-cells te">
+                                                <label class="chek_inbox">
+                                                    <input type="checkbox" class="styled">
+                                                </label>
+                                            </td>
+                                            <td class="inbox-small-cells">
+                                                <a href="#" class="avatar">
+                                                    <span class="bg-success">2</span>
+                                                </a>
+                                            </td>
+                                            <td class="view-message  dont-show">Juaquin Mascaro Lozano</td>
+                                            <td class="view-message ">4565458 LP</td>
+                                            <td class="view-message ">2015/01/31 9:27 AM</td>
+                                            <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
+                                            <td class="view-message  text-right">
+                                                <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="icon-menu9"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Estado</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Observacion</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="">
+                                            <td class="inbox-small-cells te">
+                                                <label class="chek_inbox">
+                                                    <input type="checkbox" class="styled">
+                                                </label>
+                                            </td>
+                                            <td class="inbox-small-cells">
+                                                <a href="#" class="avatar">
+                                                    <span class="bg-warning">7</span>
+                                                </a>
+                                            </td>
+                                            <td class="view-message  dont-show">David Limber Mamani</td>
+                                            <td class="view-message ">4565458 LP</td>
+                                            <td class="view-message ">2015/01/31 9:27 AM</td>
+                                            <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
+                                            <td class="view-message  text-right">
+                                                <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="icon-menu9"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Estado</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Observacion</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="unread">
+                                            <td class="inbox-small-cells te">
+                                                <label class="chek_inbox">
+                                                    <input type="checkbox" class="styled">
+                                                </label>
+                                            </td>
+                                            <td class="inbox-small-cells">
+                                                <a href="#" class="avatar">
+                                                    <span class="bg-warning">9</span>
+                                                </a>
+                                            </td>
+                                            <td class="view-message  dont-show">Jose Quispe Medrano <span class="label label-primary pull-right">Rechazado</span></td>
+                                            <td class="view-message ">4565458 LP</td>
+                                            <td class="view-message ">2015/01/31 9:27 AM</td>
+                                            <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
+                                            <td class="view-message  text-right" style="z-index:34;">
+                                                <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="icon-menu9"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Estado</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Observacion</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="unread">
+                                            <td class="inbox-small-cells te">
+                                                <label class="chek_inbox">
+                                                    <input type="checkbox" class="styled">
+                                                </label>
+                                            </td>
+                                            <td class="inbox-small-cells">
+                                                <a href="#" class="avatar">
+                                                    <span class="bg-success">1</span>
+                                                </a>
+                                            </td>
+                                            <td class="view-message  dont-show">Lorena Paz Guitierrez <span class="label label-primary pull-right">Aprobado</span></td>
+                                            <td class="view-message ">4565458 LP</td>
+                                            <td class="view-message ">2015/01/31 9:27 AM</td>
+                                            <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
+                                            <td class="view-message  text-right">
+                                                <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="icon-menu9"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Estado</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Observacion</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="">
+                                            <td class="inbox-small-cells te">
+                                                <label class="chek_inbox">
+                                                    <input type="checkbox" class="styled">
+                                                </label>
+                                            </td>
+                                            <td class="inbox-small-cells">
+                                                <a href="#" class="avatar">
+                                                    <span class="bg-warning">10</span>
+                                                </a>
+                                            </td>
+                                            <td class="view-message  dont-show">Sandra Mamani Quispe <span class="label label-primary pull-right">Observado</span></td>
+                                            <td class="view-message ">4565458 LP</td>
+                                            <td class="view-message ">2015/01/31 9:27 AM</td>
+                                            <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
+                                            <td class="view-message  text-right">
+                                                <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="icon-menu9"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Estado</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Observacion</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    
                                     </tbody>
                                 </table>
                             </div>

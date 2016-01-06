@@ -21,11 +21,14 @@
     {!! Html::script('assets/js/core/libraries/bootstrap.min.js') !!}
     {!! Html::script('assets/js/plugins/loaders/blockui.min.js') !!}
     {!! Html::script('assets/js/plugins/notifications/bootbox.min.js')!!}
+    {!! Html::script('assets/js/plugins/notifications/sweet_alert.min.js') !!}
     <!-- /core JS files -->
 
-    @if($nav=='user' || $nav=='exchange' || $nav=='company')
-        @if($action=='list' || $action=='list_company')
-            @if($nav!='exchange' && $nav!='company')
+    @if($nav=='user' || $nav=='exchange' || $nav=='company' || $nav=='de' || $nav=='question' || $nav=='city' || $nav=='agency' ||
+        $nav=='addquestion')
+        @if($action=='list' || $action=='list_company' || $action=='list_parameter' || $action=='list_parameter_additional')
+            @if($nav!='exchange' && $nav!='company' && $nav!='de' && $nav!='question' && $nav!='city' && $nav!='agency' &&
+                $nav!='addquestion')
                 <!-- Theme JS files CON PAGINADOR-->
                 {!! Html::script('assets/js/plugins/tables/datatables/datatables.min.js') !!}
                 {!! Html::script('assets/js/plugins/forms/selects/select2.min.js') !!}
@@ -44,11 +47,13 @@
                 {!! Html::script('assets/js/plugins/pickers/daterangepicker.js') !!}
 
                 {!! Html::script('assets/js/core/app.js') !!}
-                {!! Html::script('assets/js/pages/dashboard.js') !!}
+                <!--{!! Html::script('assets/js/pages/dashboard.js') !!}-->
                 <!-- /theme JS files -->
             @endif
-        @elseif($action=='new'|| $action=='edit' || $action=='changepass' || $action=='resetpass' || $action=='new_company')
-            <!-- Theme JS files -->
+        @elseif($action=='new'|| $action=='edit' || $action=='changepass' ||
+                $action=='resetpass' || $action=='new_company' || $action=='edit_parameter' ||
+                $action=='new_parameter_additional' || $action=='edit_parameter_additional')
+            <!-- Theme JS files FORMULARIOS-->
             {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
 
             {!! Html::script('assets/js/core/app.js') !!}
@@ -97,7 +102,7 @@
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     <img src="{{ asset('images/placeholder.jpg') }}" alt="">
-                    <span>Victoria</span>
+                    <span>{{auth()->user()->full_name}}</span>
                     <i class="caret"></i>
                 </a>
 

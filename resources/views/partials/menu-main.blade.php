@@ -103,7 +103,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes  <span class="caret"></span></a>
                     <ul class="dropdown-menu width-200">
-                        <li class="dropdown-submenu">
+                        <!--<li class="dropdown-submenu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cotización</a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Cotización personas</a></li>
@@ -114,7 +114,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="#">Certificados personas</a></li>
                             </ul>
-                        </li>
+                        </li>-->
                         <li class="{{Request::is('report/general') ? 'active':''}}">
                             <a href="{{ route('report.report_general') }}">
                                 General

@@ -1,6 +1,6 @@
 <div class="page-header-content">
     <div class="page-title">
-        <h4>
+        <h4><!--
             <i class="icon-arrow-left52 position-left"></i>
             @if($nav=='begin')
                 <span class="text-semibold">Home</span> - Dashboard
@@ -24,7 +24,24 @@
                 @endif
             @elseif($nav=='exchange')
                 <span class="text-semibold">lista</span> - Tipo de cambio moneda
+            @elseif($nav=='de')
+                @if($action=='list_parameter')
+                    <span class="text-semibold">lista</span> - Parametros
+                @elseif($action=='edit_parameter')
+                    <span class="text-semibold">Formulario</span> - Parametros
+                @elseif($action=='list_parameter_additional')
+                    <span class="text-semibold">Lista</span> - Parametros Adicionales
+                @elseif($action=='new_parameter_additional' || $action=='edit_parameter_additional')
+                    <span class="text-semibold">Formulario</span> - Parametros Adicionales
+                @endif
+            @elseif($nav=='question' || $nav=='city' || $nav=='agency' || $nav=='addquestion')
+                @if($action=='list')
+                    <span class="text-semibold">Listar Registros</span>
+                @elseif($action=='edit' || $action=='new')
+                    <span class="text-semibold">Formulario</span>
+                @endif
             @endif
+            -->
         </h4>
     </div>
     <!--
@@ -105,6 +122,87 @@
                 </li>
                 <li><a href="{{ route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list']) }}">Listar registros</a></li>
                 <li class="active">Tipo de cambio</li>
+            @endif
+        @elseif($nav=='de')
+            @if($action=='list_parameter')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li class="active">Parametros</li>
+            @elseif($action=='edit_parameter')
+                <li>
+                    <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
+                        <i class="icon-home2 position-left"></i>Inicio
+                    </a>
+                </li>
+                <li><a href="{{ route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer'=>auth()->user()->retailer->first()->id]) }}">Listar registros</a></li>
+                <li class="active">Formulario parametros</li>
+            @elseif($action=='list_parameter_additional')
+                <li>
+                    <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
+                        <i class="icon-home2 position-left"></i>Inicio
+                    </a>
+                </li>
+                <li><a href="{{ route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer'=>auth()->user()->retailer->first()->id]) }}">Listar registros</a></li>
+                <li class="active">Lista parametros adicionales</li>
+            @elseif($action=='new_parameter_additional' || $action=='edit_parameter_additional')
+                <li>
+                    <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
+                        <i class="icon-home2 position-left"></i>Inicio
+                    </a>
+                </li>
+                <li><a href="{{route('admin.de.parameters.list-parameter-additional', ['nav'=>'de', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}">Listar parametros adicionales</a></li>
+                @if($action=='new_parameter_additional')
+                    <li class="active">Formulario nuevo registro</li>
+                @elseif($action=='edit_parameter_additional')
+                    <li class="active">Formulario editar registro</li>
+                @endif
+            @endif
+        @elseif($nav=='question')
+            @if($action=='list')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li class="active">Preguntas</li>
+            @elseif($action=='edit' || $action=='new')
+                <li>
+                    <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
+                        <i class="icon-home2 position-left"></i>Inicio
+                    </a>
+                </li>
+                <li><a href="{{ route('admin.questions.list', ['nav'=>'question', 'action'=>'list']) }}">Listar preguntas</a></li>
+                @if($action=='edit')
+                    <li class="active">Editar pregunta</li>
+                @elseif($action=='new')
+                    <li class="active">Crear pregunta</li>
+                @endif
+            @endif
+        @elseif($nav=='city')
+            @if($action=='list')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li class="active">Departamentos</li>
+            @elseif($action=='edit' || $action=='new')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li><a href="{{ route('admin.cities.list', ['nav'=>'city', 'action'=>'list']) }}">Listar registros</a></li>
+                @if($action=='edit')
+                    <li class="active">Editar Registro</li>
+                @elseif($action=='new')
+                    <li class="active">Crear Registro</li>
+                @endif
+            @endif
+        @elseif($nav=='agency')
+            @if($action=='list')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li class="active">Agencias</li>
+            @elseif($action=='edit' || $action=='new')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li><a href="{{ route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list', 'id_retailer'=>auth()->user()->retailer->first()->id]) }}">Listar registros</a></li>
+                @if($action=='edit')
+                    <li class="active">Editar</li>
+                @elseif($action=='new')
+                    <li class="active">Crear</li>
+                @endif
+            @endif
+        @elseif($nav=='addquestion')
+            @if($action=='list')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li class="active">Listado de Preguntas</li>
             @endif
         @endif
     </ul>
