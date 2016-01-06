@@ -58,3 +58,8 @@ Route::get('admin/user/active_ajax/{id_user}/{text}', 'Admin\UserAdminController
 
 require "admin.company.php";
 require "admin.exchange.php";
+require "admin.de.php";
+require "admin.question.php";
+require "admin.city.php";
+require "admin.agency.php";
+require "admin.addquestion.php";
