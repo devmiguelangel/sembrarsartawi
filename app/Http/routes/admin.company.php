@@ -4,12 +4,12 @@ Route::get('admin/company/list/{nav}/{action}',[
     'uses' => 'Admin\CompanyAdminController@index'
 ]);
 
-Route::get('admin/company/edit_company/{nav}/{action}/{id_company}', [
-    'as' => 'admin.company.edit_company',
+Route::get('admin/company/edit/{nav}/{action}/{id_company}', [
+    'as' => 'admin.company.edit',
     'uses' => 'Admin\CompanyAdminController@edit'
 ]);
 
-Route::get('admin/company/new_company/{nav}/{action}', [
-    'as' => 'admin.company.new_company',
+Route::get('admin/company/new/{nav}/{action}', [
+    'as' => 'admin.company.new',
     'uses' => 'Admin\CompanyAdminController@index'
 ]);

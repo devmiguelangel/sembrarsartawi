@@ -63,3 +63,5 @@ require "admin.question.php";
 require "admin.city.php";
 require "admin.agency.php";
 require "admin.addquestion.php";
+require "admin.retailer.php";
+require "admin.product.php";

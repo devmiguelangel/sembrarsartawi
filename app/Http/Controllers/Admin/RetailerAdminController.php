@@ -3,21 +3,28 @@
 namespace Sibas\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+
+
 use Sibas\Http\Requests;
 
-
-class HomeAdminController extends BaseController
+class RetailerAdminController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($nav='begin')
+    public function index($nav, $action)
     {
         $main_menu = $this->menu_principal();
-        //dd($main_menu);
-        return view('admin.home', compact('nav', 'main_menu'));
+        if($action=='list'){
+            $query = \DB::table('ad_retailers')->get();
+            //dd($query);
+            return view('admin.retailer.list', compact('nav', 'action', 'query', 'main_menu'));
+        }elseif($action=='new'){
+            return view('admin.retailer.new', compact('nav', 'action', 'main_menu'));
+        }
+        //
     }
 
     /**
@@ -58,9 +65,13 @@ class HomeAdminController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($nav, $action, $id_retailer)
     {
-        //
+        $main_menu = $this->menu_principal();
+        $query = \DB::table('ad_retailers')
+                    ->where('id', '=', $id_retailer)
+                    ->first();
+        return view('admin.retailer.edit', compact('nav', 'action', 'query', 'main_menu'));
     }
 
     /**

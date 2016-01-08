@@ -15,7 +15,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Formulario crear nuevo registro</h5>
+            <h5 class="panel-title">Formulario nuevo registro</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="reload"></a></li>

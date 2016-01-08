@@ -15,11 +15,11 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Lista Compañía Aseguradora</h5>
+            <h5 class="panel-title">Lista de Registros</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li>
-                        <a href="{{route('admin.company.new_company', ['nav'=>'company', 'action'=>'new_company'])}}" class="btn btn-link btn-float has-text">
+                        <a href="{{route('admin.company.new', ['nav'=>'company', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-calendar5 text-primary"></i>
                             <span>Agregar Compañia</span>
                         </a>
@@ -60,7 +60,7 @@
                                 <i class="icon-menu9"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="{{route('admin.company.edit_company', ['nav'=>'company', 'action'=>'edit_company', 'id_company'=>$data->id])}}"><i class="icon-file-pdf"></i> Editar</a></li>
+                                <li><a href="{{route('admin.company.edit', ['nav'=>'company', 'action'=>'edit', 'id_company'=>$data->id])}}"><i class="icon-file-pdf"></i> Editar</a></li>
                                 <li><a href="#"><i class="icon-file-excel"></i> Desactivar</a></li>
                             </ul>
                         </li>

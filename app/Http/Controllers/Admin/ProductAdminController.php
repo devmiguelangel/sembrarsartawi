@@ -3,21 +3,29 @@
 namespace Sibas\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+
+use Sibas\Entities\Product;
 use Sibas\Http\Requests;
 
 
-class HomeAdminController extends BaseController
+class ProductAdminController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($nav='begin')
+    public function index($nav, $action)
     {
         $main_menu = $this->menu_principal();
-        //dd($main_menu);
-        return view('admin.home', compact('nav', 'main_menu'));
+        if($action=='list'){
+            $query = Product::get();
+            //dd($query);
+            return view('admin.product.list', compact('nav', 'action', 'query', 'main_menu'));
+        }elseif($action=='new'){
+
+        }
+        //
     }
 
     /**
