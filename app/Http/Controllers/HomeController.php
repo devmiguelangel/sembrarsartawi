@@ -28,10 +28,15 @@ class HomeController extends Controller
      */
     public function index(Guard $auth)
     {
-        $auth->user();
-        // $this->facultativeRepository->getList($auth->user());
+        $user = $auth->user();
 
-        return view('home');
+        $data = [];
+
+        if ($user->profile->first()->slug === 'SEP' || $user->profile->first()->slug === 'COP') {
+            $data['de'] = $this->facultativeRepository->getList($user);
+        }
+
+        return view('home', compact('user', 'data'));
     }
 
     /**
