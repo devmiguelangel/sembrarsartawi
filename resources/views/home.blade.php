@@ -21,46 +21,65 @@
                                 <h3>Mis casos facultativos</h3>
                                 <span>4 Casos no atendidos</span>
                             </div>
-                            <div class="inbox-body">
-                                <a class="btn btn-compose" href="inbox-compose.html">
-                                    Desgravamen
-                                </a>
-                            </div>
-                            <ul class="inbox-nav inbox-divider">
-                                <li class="active">
-                                    <a href="#"><i class="icon-inbox"></i> Bandeja de entrada <span class="label label-info pull-right">10</span></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="icon-check"></i> Aprobados <span class="label label-primary pull-right">2</span></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="icon-trash"></i> Rechazados <span class="label label-primary pull-right">2</span></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-clock-o"></i> Observados <span class="label label-primary pull-right">2</span></a>
-                                </li>
-                                
-                            </ul>
-                            <div class="inbox-body success">
-                                <a class="btn btn-compose2" href="inbox-compose.html">
-                                    Automotores
-                                </a>
-                            </div>
-                            <ul class="inbox-nav inbox-divider">
-                                <li class="active">
-                                    <a href="#"><i class="icon-inbox"></i> Bandeja de entrada <span class="label label-info pull-right">30</span></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="icon-check"></i> Aprobados <span class="label label-primary pull-right">10</span></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="icon-trash"></i> Rechazados <span class="label label-primary pull-right">5</span></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-clock-o"></i> Observados <span class="label label-primary pull-right">2</span></a>
-                                </li>
-                                
-                            </ul>
+                            <div id="accordion" class="panel-group" aria-multiselectable="true" role="tablist"> 
+                                <div class="panel panel-default"> 
+                                    <div id="headingOne" role="tab"> 
+                                        <div class="inbox-body">
+                                            <a class="btn btn-compose" aria-controls="collapseOne" aria-expanded="true" href="#collapseOne" data-parent="#accordion" data-toggle="collapse" role="button">
+                                            
+                                                Desgravamen
+                                            </a>
+                                        </div>
+                                    </div> 
+                                    <div aria-labelledby="headingOne" role="tabpanel" class="panel-collapse collapse in" id="collapseOne" aria-expanded="true" style=""> 
+                                        <ul class="inbox-nav inbox-divider">
+                                            <li class="active">
+                                                <a href="#"><i class="icon-inbox"></i> Bandeja de entrada <span class="label label-info pull-right">10</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="icon-check"></i> Aprobados <span class="label label-primary pull-right">2</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="icon-trash"></i> Rechazados <span class="label label-primary pull-right">2</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="fa fa-clock-o"></i> Observados <span class="label label-primary pull-right">2</span></a>
+                                            </li>
+
+                                        </ul> 
+                                    </div> 
+                                </div> 
+                                <div class="panel panel-default"> 
+                                    <div id="headingTwo" role="tab" > 
+                                        <div class="inbox-body success">
+                                            <a class="btn btn-compose2 collapsed" aria-controls="collapseTwo" aria-expanded="false" href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" role="button">
+                                                Automotores
+                                            </a>
+                                        </div>
+                                    </div> 
+                                    <div aria-labelledby="headingTwo" role="tabpanel" class="panel-collapse collapse" id="collapseTwo" aria-expanded="false" style="height: 0px;"> 
+
+                                        <ul class="inbox-nav inbox-divider">
+                                            <li class="active">
+                                                <a href="#"><i class="icon-inbox"></i> Bandeja de entrada <span class="label label-info pull-right">30</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="icon-check"></i> Aprobados <span class="label label-primary pull-right">10</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="icon-trash"></i> Rechazados <span class="label label-primary pull-right">5</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="fa fa-clock-o"></i> Observados <span class="label label-primary pull-right">2</span></a>
+                                            </li>
+
+                                        </ul>
+
+
+                                    </div> 
+                            </div> 
+                            </div> 
+                            
                             <div class="inbox-body text-center">
                                 <div class="btn-group">
                                     <a href="javascript:;" class="btn btn-default">
@@ -508,7 +527,7 @@
                                 </table>
                             </div>
                         </aside>
-                    </div>
+                    </div>        
                     <!--mail inbox end-->
                 </div>
             </div>
