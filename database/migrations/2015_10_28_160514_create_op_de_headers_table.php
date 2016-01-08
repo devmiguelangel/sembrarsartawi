@@ -37,7 +37,7 @@ class CreateOpDeHeadersTable extends Migration
             $table->boolean('approved')->default(false);
             $table->boolean('rejected')->default(false);
             $table->integer('copy')->unsigned();
-            $table->integer('read')->unsigned();
+            $table->boolean('read')->default(false);
             $table->timestamps();
 
             $table->primary('id');

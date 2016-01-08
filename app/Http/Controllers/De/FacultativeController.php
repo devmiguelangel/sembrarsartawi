@@ -32,7 +32,7 @@ class FacultativeController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 use Sibas\Entities\RetailerProduct;
 use Sibas\Entities\User;
@@ -54,7 +55,7 @@ class MailController extends Controller
      */
     protected $html;
     /**
-     * @var array
+     * @var Collection
      */
     protected $emails;
 
@@ -79,7 +80,9 @@ class MailController extends Controller
     public function send($rp_id, array $data = [])
     {
         $this->emailsByProduct($rp_id);
-        $user = $this->user;
+
+        $this->user->name = $this->user->full_name;
+        $user             = $this->user;
 
         $this->setHtml($data);
 
@@ -135,7 +138,7 @@ class MailController extends Controller
             $this->emails = $retailerProduct->emails;
         }
 
-        array_push($this->emails, $this->user);
+        $this->emails->push($this->user);
     }
 
     /**
