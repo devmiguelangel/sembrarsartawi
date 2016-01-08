@@ -19,7 +19,9 @@ abstract class BaseRepository
      * @var BaseCollection
      */
     private $collection;
-
+    /**
+     * @var Collection
+     */
     private $selectOption;
     /**
      * @var Carbon
@@ -51,6 +53,7 @@ abstract class BaseRepository
         $this->collection   = new BaseCollection();
         $this->selectOption = $this->collection->selectOption();
         $this->carbon       = new Carbon();
+        $this->response     = false;
 
         $this->reasonImc      = 'El Titular :name no cumple con el IMC. ';
         $this->reasonResponse = 'El Titular :name no cumple con el Cuestionario de Salud. ';
@@ -61,6 +64,7 @@ abstract class BaseRepository
             'Q' => 'quote_number',
             'I' => 'issue_number',
         ];
+
     }
 
     /**

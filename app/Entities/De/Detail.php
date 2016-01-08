@@ -15,6 +15,11 @@ class Detail extends Model
         'approved' => 'boolean'
     ];
 
+    public function header()
+    {
+        return $this->belongsTo(Header::class, 'op_de_header_id', 'id');
+    }
+
     public function client()
     {
         return $this->belongsTo(Client::class, 'op_client_id', 'id');

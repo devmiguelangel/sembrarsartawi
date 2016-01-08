@@ -4,7 +4,12 @@
     "gulp": "^3.8.8"
   },
   "dependencies": {
-    "laravel-elixir": "^3.0.0",
-    "bootstrap-sass": "^3.0.0"
+    "angular": "^1.4.8",
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.1.4",
+    "laravel-elixir": "^3.0.0"
+  },
+  "scripts": {
+    "build": "watchify ./resources/assets/js/app.js -o 'uglifyjs -mc warnings=false > ./public/js/app.js' -v"
   }
 }

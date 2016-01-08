@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Sibas</title>
     <!-- Global stylesheets -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -73,7 +75,7 @@
     
     
 </head>
-<body class="layout-boxed">
+<body class="layout-boxed" ng-app="sibas">
 <!-- Main navbar -->
 @yield('header')
 <!-- /main navbar -->
@@ -111,5 +113,10 @@
 <!-- modal information product -->
 @include('partials.information_product')
 <!-- /modal -->
+
+@include('partials.popup')
+
+<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+
 </body>
 </html>

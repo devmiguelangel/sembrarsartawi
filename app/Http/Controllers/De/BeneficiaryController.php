@@ -54,20 +54,24 @@ class BeneficiaryController extends Controller
      */
     public function create($rp_id, $header_id, $detail_id)
     {
+        if (request()->ajax()) {
+            if ($this->detailRepository->getDetailById(decode($detail_id))) {
+                $detail      = $this->detailRepository->getModel();
+                $beneficiary = new Beneficiary();
 
-        if ($this->detailRepository->getDetailById(decode($detail_id))) {
-            $detail      = $this->detailRepository->getModel();
-            $beneficiary = new Beneficiary();
+                $data = [
+                    'cities' => $this->cityRepository->getCitiesByType(),
+                ];
 
-            $data = [
-                'cities' => $this->cityRepository->getCitiesByType(),
-            ];
+                $response = view('beneficiary.create', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
 
-            return view('beneficiary.create', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
+                return response()->json([
+                    'payload' => $response->render()
+                ]);
+            }
         }
 
-        return redirect()->back()
-            ->with(['error_beneficiary' => 'No se puede registrar el Beneficiario']);
+        return response()->json(['err'=>'Unauthorized action.'], 401);
     }
 
     /**
@@ -78,18 +82,22 @@ class BeneficiaryController extends Controller
      */
     public function store(BeneficiaryDeFormRequest $request, $rp_id, $header_id, $detail_id)
     {
-        if ($this->detailRepository->getDetailById(decode($detail_id))) {
-            $request['detail'] = $this->detailRepository->getModel();
+        /*$token  = $request->session()->token();
+        $header = $request->header('X-CSRF-TOKEN');*/
 
-            if ($this->repository->storeBeneficiary($request)) {
-                return redirect()->route('de.edit', compact('rp_id', 'header_id'))
-                    ->with(['success_beneficiary' => 'El Beneficiario fue registrado con éxito']);
+        if ($request->ajax()) {
+            if ($this->detailRepository->getDetailById(decode($detail_id))) {
+                $request['detail'] = $this->detailRepository->getModel();
+
+                if ($this->repository->storeBeneficiary($request)) {
+                    return response()->json([
+                        'location' => route('de.edit', compact('rp_id', 'header_id'))
+                    ]);
+                }
             }
         }
 
-        return redirect()->back()
-            ->with(['error_beneficiary' => 'El Beneficiario no puede ser registrado'])
-            ->withInput()->withErrors($this->repository->getErrors());
+        return response()->json(['err'=>'Unauthorized action.'], 401);
     }
 
     /**

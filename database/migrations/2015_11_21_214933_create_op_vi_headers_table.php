@@ -32,6 +32,8 @@ class CreateOpViHeadersTable extends Migration
             $table->string('case_number', 140);
             $table->double('amount_pledged', 20, 2);
             $table->text('file');
+            $table->integer('copy')->unsigned();
+            $table->boolean('read')->default(false);
             $table->timestamps();
 
             $table->primary('id');

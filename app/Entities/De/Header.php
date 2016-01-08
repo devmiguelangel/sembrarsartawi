@@ -3,6 +3,7 @@
 namespace Sibas\Entities\De;
 
 use Illuminate\Database\Eloquent\Model;
+use Sibas\Entities\User;
 
 class Header extends Model
 {
@@ -14,6 +15,11 @@ class Header extends Model
         'facultative' => 'boolean',
         'approved'    => 'boolean',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'ad_user_id', 'id');
+    }
 
     public function coverage()
     {

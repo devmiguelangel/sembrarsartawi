@@ -2,19 +2,35 @@
 
 namespace Sibas\Http\Controllers;
 
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Repositories\De\FacultativeRepository;
 
 class HomeController extends Controller
 {
     /**
+     * @var FacultativeRepository
+     */
+    protected $facultativeRepository;
+
+    public function __construct(FacultativeRepository $facultativeRepository)
+    {
+        $this->facultativeRepository = $facultativeRepository;
+    }
+
+    /**
      * Display a listing of the resource.
      *
+     * @param Guard $auth
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Guard $auth)
     {
+        $auth->user();
+        // $this->facultativeRepository->getList($auth->user());
+
         return view('home');
     }
 
