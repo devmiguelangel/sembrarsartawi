@@ -29,6 +29,10 @@
                 @include('beneficiary.partials.inputs')
 
                 <div class="text-right">
+                    <script ng-if="success.beneficiary">
+                        $(function(){messageAction('succes', 'El Beneficiario fue registrado con éxito');});
+                    </script>
+
                     <button type="button" class="btn border-slate text-slate-800 btn-flat" data-dismiss="modal">Cancelar</button>
 
                     {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}

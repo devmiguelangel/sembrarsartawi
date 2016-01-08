@@ -82,10 +82,9 @@ class BeneficiaryController extends Controller
      */
     public function store(BeneficiaryDeFormRequest $request, $rp_id, $header_id, $detail_id)
     {
-        return response()->json([
-            'location' => route('de.edit', compact('rp_id', 'header_id'))
-        ]);
-        
+        /*$token  = $request->session()->token();
+        $header = $request->header('X-CSRF-TOKEN');*/
+
         if ($request->ajax()) {
             if ($this->detailRepository->getDetailById(decode($detail_id))) {
                 $request['detail'] = $this->detailRepository->getModel();
@@ -94,18 +93,11 @@ class BeneficiaryController extends Controller
                     return response()->json([
                         'location' => route('de.edit', compact('rp_id', 'header_id'))
                     ]);
-
-                    /*return redirect()->route('de.edit', compact('rp_id', 'header_id'))
-                        ->with(['success_beneficiary' => 'El Beneficiario fue registrado coxn éxito']);*/
                 }
             }
         }
 
         return response()->json(['err'=>'Unauthorized action.'], 401);
-
-        /*return redirect()->back()
-            ->with(['error_beneficiary' => 'El Beneficiario no puede ser registrado'])
-            ->withInput()->withErrors($this->repository->getErrors());*/
     }
 
     /**

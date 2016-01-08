@@ -106,12 +106,6 @@
                     </script>
                 @endif
 
-                @if(session('success_beneficiary'))
-                    <script>
-                        $(function(){messageAction('succes',"{{ session('success_beneficiary') }}");});
-                    </script>
-                @endif
-
                 @if(session('error_detail'))
                     <script>
                         $(function(){messageAction('error',"{{ session('error_detail') }}");});
@@ -164,18 +158,19 @@
                                 <td>
                                     @if($detail->completed)
                                         <a href="{{ route('de.beneficiary.edit', [
-                                                        'rp_id'     => $rp_id,
-                                                        'header_id' => $header_id,
-                                                        'detail_id' => encode($detail->id)]) }}" title="Completado">
+                                            'rp_id'     => $rp_id,
+                                            'header_id' => $header_id,
+                                            'detail_id' => encode($detail->id)]) }}" title="Completado">
                                             <span class="label label-success">Completado</span>
                                         </a>
                                     @else
-                                    <a href="{{ route('de.beneficiary.create', [
-                                                        'rp_id'     => $rp_id,
-                                                        'header_id' => $header_id,
-                                                        'detail_id' => encode($detail->id)]) }}" title="Pendiente">
-                                        <span class="label label-danger">Pendiente</span>
-                                    </a>
+                                        <a href="{{ route('de.beneficiary.create', [
+                                            'rp_id'     => $rp_id,
+                                            'header_id' => $header_id,
+                                            'detail_id' => encode($detail->id)]) }}" title="Pendiente"
+                                            ng-click="detailDe.createBeneficiary($event)" class="label label-danger">
+                                            Pendiente
+                                        </a>
                                     @endif
                                 </td>
                                 <td>
