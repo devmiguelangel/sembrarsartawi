@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use Sibas\Entities\Agency;
 use Sibas\Entities\Retailer;
 use Sibas\Http\Requests;
-use Sibas\Http\Controllers\Controller;
 
-class AgencyAdminController extends Controller
+
+class AgencyAdminController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +18,11 @@ class AgencyAdminController extends Controller
      */
     public function index($nav, $action, $id_retailer)
     {
+        $main_menu = $this->menu_principal();
         if($action=='list'){
             //dd($id_retailer);
             $query = Agency::get();
-            return view('admin.agencies.list', compact('nav','action', 'query', 'id_retailer'));
+            return view('admin.agencies.list', compact('nav','action', 'query', 'id_retailer', 'main_menu'));
         }elseif($action=='new'){
             $query_re = Retailer::where('id', $id_retailer)->where('active', true)->first();
             $query_dp = \DB::table('ad_retailer_cities')
@@ -31,7 +32,7 @@ class AgencyAdminController extends Controller
                 ->where('ad_retailer_cities.active', '=', true)
                 ->get();
             //dd($query_dp);
-            return view('admin.agencies.new', compact('nav', 'action', 'id_retailer', 'query_re', 'query_dp'));
+            return view('admin.agencies.new', compact('nav', 'action', 'id_retailer', 'query_re', 'query_dp', 'main_menu'));
         }
 
     }
@@ -87,6 +88,7 @@ class AgencyAdminController extends Controller
      */
     public function edit($nav, $action, $id_agency, $id_retailer)
     {
+        $main_menu = $this->menu_principal();
         $query_re = Retailer::where('id', $id_retailer)->where('active', true)->first();
         $query_ag = Agency::where('id', $id_agency)->first();
         $query_dp = \DB::table('ad_retailer_cities')
@@ -96,7 +98,7 @@ class AgencyAdminController extends Controller
                         ->where('ad_retailer_cities.active', '=', true)
                         ->get();
         //dd($query_dp);
-        return view('admin.agencies.edit', compact('nav', 'action', 'query_re', 'query_ag', 'query_dp'));
+        return view('admin.agencies.edit', compact('nav', 'action', 'query_re', 'query_ag', 'query_dp', 'main_menu'));
     }
 
     /**

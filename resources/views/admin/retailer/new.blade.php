@@ -15,7 +15,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Formulario nueva Compañía Aseguradora</h5>
+            <h5 class="panel-title">Formulario nuevo Retailer</h5>
             <!--
             <div class="heading-elements">
                 <ul class="icons-list">
@@ -33,9 +33,16 @@
                 <fieldset class="content-group">
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Compañía Aseguradora</label>
+                        <label class="control-label col-lg-2">Retailer</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" name="txtCompany" id="txtCompany">
+                            <input type="text" class="form-control" name="txtRetailer" id="txtRetailer">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Dominio</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" name="txtDominio" id="txtDominio">
                         </div>
                     </div>
 
@@ -52,8 +59,7 @@
                     <button type="submit" class="btn btn-primary">
                         Guardar <i class="icon-arrow-right14 position-right"></i>
                     </button>
-
-                    <a href="{{route('admin.company.list', ['nav'=>'company', 'action'=>'list'])}}" class="btn btn-primary">
+                    <a href="{{route('admin.retailer.list', ['nav'=>'retailer', 'action'=>'list'])}}" class="btn btn-primary">
                         Cancelar <i class="icon-arrow-right14 position-right"></i>
                     </a>
                 </div>

@@ -25,10 +25,10 @@
     <!-- /core JS files -->
 
     @if($nav=='user' || $nav=='exchange' || $nav=='company' || $nav=='de' || $nav=='question' || $nav=='city' || $nav=='agency' ||
-        $nav=='addquestion')
+        $nav=='addquestion' || $nav=='retailer' || $nav=='product')
         @if($action=='list' || $action=='list_company' || $action=='list_parameter' || $action=='list_parameter_additional')
             @if($nav!='exchange' && $nav!='company' && $nav!='de' && $nav!='question' && $nav!='city' && $nav!='agency' &&
-                $nav!='addquestion')
+                $nav!='addquestion' && $nav!='retailer' && $nav!='product')
                 <!-- Theme JS files CON PAGINADOR-->
                 {!! Html::script('assets/js/plugins/tables/datatables/datatables.min.js') !!}
                 {!! Html::script('assets/js/plugins/forms/selects/select2.min.js') !!}

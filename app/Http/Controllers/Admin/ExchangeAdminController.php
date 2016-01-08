@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use Sibas\Entities\ExchangeRate;
 use Sibas\Entities\Retailer;
 use Sibas\Http\Requests;
-use Sibas\Http\Controllers\Controller;
 
-class ExchangeAdminController extends Controller
+
+class ExchangeAdminController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -17,16 +17,17 @@ class ExchangeAdminController extends Controller
      */
     public function index($nav, $action)
     {
+        $main_menu = $this->menu_principal();
         if($action=='list'){
             $exchange = ExchangeRate::join('ad_retailers', 'ad_exchange_rates.ad_retailer_id', '=', 'ad_retailers.id')
                 ->select('ad_retailers.name as entidad', 'ad_exchange_rates.usd_value', 'ad_exchange_rates.bs_value', 'ad_exchange_rates.created_at as creation_date', 'ad_exchange_rates.id')
                 ->where('ad_retailers.active', '=', 1)->get();
             //dd($exchange);
-            return view('admin.exchange.list', compact('nav', 'action', 'exchange'));
+            return view('admin.exchange.list', compact('nav', 'action', 'exchange', 'main_menu'));
         }elseif($action=='new'){
             $retailer = Retailer::where('active', 1)->first();
             //dd($retailer);
-            return view('admin.exchange.new', compact('nav', 'action', 'retailer'));
+            return view('admin.exchange.new', compact('nav', 'action', 'retailer', 'main_menu'));
         }
 
     }

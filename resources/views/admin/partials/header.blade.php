@@ -98,17 +98,17 @@
                 <li class="active">Resetear contraseña</li>
             @endif
         @elseif($nav=='company')
-            @if($action=='list_company')
+            @if($action=='list')
                 <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
                 <li class="active">Compañías</li>
-            @elseif($action=='new_company')
-                <li>
-                    <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
-                        <i class="icon-home2 position-left"></i>Inicio
-                    </a>
-                </li>
-                <li><a href="{{ route('admin.company.list', ['nav'=>'exchange', 'action'=>'list_company']) }}">Listar registros</a></li>
-                <li class="active">Nuevo registro</li>
+            @elseif($action=='new' || $action=='edit')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li><a href="{{ route('admin.company.list', ['nav'=>'company', 'action'=>'list']) }}">Listar registros</a></li>
+                @if($action=='new')
+                    <li class="active">Nuevo registro</li>
+                @elseif($action=='edit')
+                    <li class="active">Editar registro</li>
+                @endif
             @endif
         @elseif($nav=='exchange')
             @if($action=='list')
@@ -133,16 +133,16 @@
                         <i class="icon-home2 position-left"></i>Inicio
                     </a>
                 </li>
-                <li><a href="{{ route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer'=>auth()->user()->retailer->first()->id]) }}">Listar registros</a></li>
-                <li class="active">Formulario parametros</li>
+                <li><a href="{{ route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}">Listar registros</a></li>
+                <li class="active">Formulario</li>
             @elseif($action=='list_parameter_additional')
                 <li>
                     <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
                         <i class="icon-home2 position-left"></i>Inicio
                     </a>
                 </li>
-                <li><a href="{{ route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer'=>auth()->user()->retailer->first()->id]) }}">Listar registros</a></li>
-                <li class="active">Lista parametros adicionales</li>
+                <li><a href="{{ route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}">Listar registros</a></li>
+                <li class="active">parametros adicionales</li>
             @elseif($action=='new_parameter_additional' || $action=='edit_parameter_additional')
                 <li>
                     <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
@@ -203,6 +203,28 @@
             @if($action=='list')
                 <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
                 <li class="active">Listado de Preguntas</li>
+            @elseif($action=='new')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li><a href="{{ route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Listado de Preguntas</a></li>
+                <li class="active">Agregar pregunta</li>
+            @endif
+        @elseif($nav=='retailer')
+            @if($action=='list')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li class="active">Retailer</li>
+            @elseif($action=='new' || $action=='edit')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li><a href="{{ route('admin.retailer.list', ['nav'=>'retailer', 'action'=>'list']) }}">Listado registros</a></li>
+                @if($action=='new')
+                    <li class="active">Nuevo registro</li>
+                @elseif($action=='edit')
+                    <li class="active">Editar registro</li>
+                @endif
+            @endif
+        @elseif($nav=='product')
+            @if($action=='list')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li class="active">Productos</li>
             @endif
         @endif
     </ul>

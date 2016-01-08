@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use Sibas\Entities\City;
 use Sibas\Entities\Retailer;
 use Sibas\Http\Requests;
-use Sibas\Http\Controllers\Controller;
 
-class CityAdminController extends Controller
+
+class CityAdminController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -18,14 +18,15 @@ class CityAdminController extends Controller
      */
     public function index($nav, $action)
     {
+        $main_menu = $this->menu_principal();
         if($action=='list'){
             $query = City::get();
             //dd($query);
-            return view('admin.cities.list', compact('nav', 'action', 'query'));
+            return view('admin.cities.list', compact('nav', 'action', 'query', 'main_menu'));
         }elseif($action=='new'){
             $query_re = Retailer::where('active',1)->get();
             //dd($query_re);
-            return view('admin.cities.new', compact('nav', 'action', 'query_re'));
+            return view('admin.cities.new', compact('nav', 'action', 'query_re', 'main_menu'));
         }
 
     }
@@ -81,10 +82,11 @@ class CityAdminController extends Controller
      */
     public function edit($nav, $action, $id_depto)
     {
+        $main_menu = $this->menu_principal();
         $query = City::where('id', $id_depto)->first();
         $query_re = Retailer::where('active',1)->get();
         //dd($id_depto);
-        return view('admin.cities.edit', compact('nav', 'action', 'query', 'query_re'));
+        return view('admin.cities.edit', compact('nav', 'action', 'query', 'query_re', 'main_menu'));
     }
 
     /**

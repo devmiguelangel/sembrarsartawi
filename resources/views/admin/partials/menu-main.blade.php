@@ -14,38 +14,40 @@
                     <i class="icon-home4"></i><span>Dashboard</span>
                 </a>
             </li>
-            <li class="navigation-header"><span>Retailers,Productos y Compañías</span> <i class="icon-menu" title="Forms"></i></li>
-            <li>
-                <a href="#"><i class="icon-stack2"></i> <span>Compañías de Seguros</span></a>
-                @if($nav=='company')
-                    @if($action=='list_company' || $action=='new_company')
-                        @var $data_lc='active'
-                        @var $data_lp=''
-                    @elseif($action=='list_policy')
-                        @var $data_lp='active'
-                        @var $data_lc=''
-                    @endif
-                @else
-                    @var $data_lp=''
-                    @var $data_lc=''
-                @endif
-                <ul>
-                    <li class="{{$data_lc}}">
-                        <a href="{{ route('admin.company.list', ['nav'=>'company', 'action'=>'list_company']) }}">Listar Compañías</a>
-                    </li>
-                    <li class="{{$data_lp}}">
-                        <a href="policy_list.html">Administración de Pólizas</a>
-                    </li>
-                </ul>
+            <li class="navigation-header"><span>Retailers/Productos/Compañías</span> <i class="icon-menu" title="Forms"></i></li>
+            @if($nav=='retailer')
+                @var $link_ar='active'
+                @var $link_acs=''
+                @var $link_pro=''
+            @elseif($nav=='company')
+                @var $link_acs='active'
+                @var $link_ar=''
+                @var $link_pro=''
+            @elseif($nav=='product')
+                @var $link_pro='active'
+                @var $link_acs=''
+                @var $link_ar=''
+            @else
+                @var $link_acs=''
+                @var $link_ar=''
+                @var $link_pro=''
+            @endif
+            <li class="{{$link_ar}}">
+                <a href="{{route('admin.retailer.list', ['nav'=>'retailer', 'action'=>'list'])}}">
+                    <i class="icon-stack2"></i> <span>Retailer</span>
+                </a>
             </li>
-            <li>
-                <a href="#"><i class="icon-stack2"></i> <span>Entidad Financiera</span></a>
-                <ul>
-                    <li>
-                        <a href="entidades_list.html">Listar Registros</a>
-                    </li>
-                </ul>
+            <li class="{{$link_acs}}">
+                <a href="{{ route('admin.company.list', ['nav'=>'company', 'action'=>'list']) }}">
+                    <i class="icon-stack2"></i> <span>Compañía de Seguros</span>
+                </a>
             </li>
+            <li class="{{$link_pro}}">
+                <a href="{{ route('admin.product.list', ['nav'=>'product', 'action'=>'list']) }}">
+                    <i class="icon-stack2"></i> <span>Productos</span>
+                </a>
+            </li>
+            <!--
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Agegar compañías a Entidad Financiera</span></a>
                 <ul>
@@ -54,6 +56,7 @@
                     </li>
                 </ul>
             </li>
+            -->
             <li class="navigation-header">
                 <span>Usuarios</span> <i class="icon-menu" title="Forms"></i>
             </li>
@@ -67,8 +70,95 @@
                     <i class="icon-stack2"></i> <span>Usuarios</span>
                 </a>
             </li>
+
+
             <li class="navigation-header">
-                <span>Cambio Monetario</span> <i class="icon-menu" title="Forms"></i>
+                <span>Productos</span> <i class="icon-menu" title="Forms"></i>
+            </li>
+            @if(count($main_menu)>0)
+                @foreach($main_menu as $data)
+                    @if($data->product=='de')
+                        <li>
+                            <a href="#"><i class="icon-stack2"></i> <span>Desgravamen</span></a>
+                            @if($nav=='de')
+                                @if($action=='list_parameter' || $action=='edit_parameter' ||
+                                    $action=='list_parameter_additional' || $action=='new_parameter_additional' ||
+                                    $action=='edit_parameter_additional')
+                                    @var $data_pp='active'
+                                    @var $data_ap=''
+                                @endif
+                            @elseif($nav=='addquestion')
+                                @if($action=='list' || $action=='new')
+                                    @var $data_ap='active'
+                                    @var $data_pp=''
+                                @endif
+                            @else
+                                @var $data_pp=''
+                                @var $data_ap=''
+                            @endif
+                            <ul>
+                                <li class="{{$data_pp}}">
+                                    <a href="{{route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li class="{{$data_ap}}">
+                                    <a href="{{route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar preguntas</a>
+                                </li>
+                            </ul>
+                            <!--
+                            <ul>
+                                <li>
+                                    <a href="#">Administrar contenido</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <a href="#">Administrar certificado médico</a>
+                                </li>
+                            </ul>
+                            -->
+                            <ul>
+                                <li>
+                                    <a href="#">Administrar ocupación</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
+
+                    @if($data->product=='vi')
+                        <li>
+                                <a href="#"><i class="icon-stack2"></i> <span>Vida Individual</span></a>
+                                <ul>
+                                    <li>
+                                        <a href="vid_parameter.html">Parametros del producto</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        <a href="vid_list_ap.html">Administrar preguntas</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        <a href="vid_edit_content.html">Administrar contenido</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        <a href="vid_managing_occupation.html">Administrar ocupación</a>
+                                    </li>
+                                </ul>
+                            </li>
+                    @endif
+                @endforeach
+            @else
+                <div class="alert alert-warning alert-styled-left">
+                    <span class="text-semibold">Warning!</span> No existe ningun producto, ingrese un nuevo producto.
+                </div>
+            @endif
+            <li class="navigation-header">
+                <span>kits de Página</span> <i class="icon-menu" title="Forms"></i>
             </li>
             @if($nav=='exchange')
                 @var $data='active'
@@ -79,87 +169,6 @@
                 <a href="{{ route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list']) }}">
                     <i class="icon-stack2"></i> <span>Tipo de Cambio</span>
                 </a>
-            </li>
-            <li class="navigation-header">
-                <span>Productos</span> <i class="icon-menu" title="Forms"></i>
-            </li>
-            <li>
-                <a href="#"><i class="icon-stack2"></i> <span>Desgravamen</span></a>
-                @if($nav=='de')
-                    @if($action=='list_parameter' || $action=='edit_parameter' ||
-                        $action=='list_parameter_additional' || $action=='new_parameter_additional' ||
-                        $action=='edit_parameter_additional')
-                        @var $data_pp='active'
-                        @var $data_ap=''
-                    @endif
-                @elseif($nav=='addquestion')
-                    @if($action=='list')
-                        @var $data_ap='active'
-                        @var $data_pp=''
-                    @endif
-                @else
-                    @var $data_pp=''
-                    @var $data_ap=''
-                @endif
-                <ul>
-                    <li class="{{$data_pp}}">
-                        <a href="{{route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer'=>auth()->user()->retailer->first()->id])}}">Parametros del producto</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <a href="#">Producto crediticio</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="{{$data_ap}}">
-                        <a href="{{route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>1450961973])}}">Administrar preguntas</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <a href="#">Administrar contenido</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <a href="#">Administrar certificado médico</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <a href="#">Administrar ocupación</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#"><i class="icon-stack2"></i> <span>Vida Individual</span></a>
-                <ul>
-                    <li>
-                        <a href="vid_parameter.html">Parametros del producto</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <a href="vid_list_ap.html">Administrar preguntas</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <a href="vid_edit_content.html">Administrar contenido</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <a href="vid_managing_occupation.html">Administrar ocupación</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="navigation-header">
-                <span>kits de Página</span> <i class="icon-menu" title="Forms"></i>
-            </li>
-            <li>
-                <a href="#"><i class="icon-stack2"></i> <span>Formas de pago</span></a>
             </li>
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Administrar correos</span></a>

@@ -2,12 +2,12 @@
 
 /**/
 
-Route::get('admin/de/parameters/list-parameter/{nav}/{action}/{id_retailer}',[
+Route::get('admin/de/parameters/list-parameter/{nav}/{action}/{id_retailer_product}',[
 'as'   => 'admin.de.parameters.list-parameter',
 'uses' => 'Admin\DeAdminController@index'
 ]);
 
-Route::get('admin/de/parameters/edit-parameter/{nav}/{action}/{id_retailer_product}/{id_retailer}', [
+Route::get('admin/de/parameters/edit-parameter/{nav}/{action}/{id_retailer_product}', [
     'as' => 'admin.de.parameters.edit-parameter',
     'uses' => 'Admin\DeAdminController@edit'
 ]);

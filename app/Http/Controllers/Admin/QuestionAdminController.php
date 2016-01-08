@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use Sibas\Entities\Question;
 use Sibas\Http\Requests;
-use Sibas\Http\Controllers\Controller;
 
-class QuestionAdminController extends Controller
+
+class QuestionAdminController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -17,12 +17,13 @@ class QuestionAdminController extends Controller
      */
     public function index($nav, $action)
     {
+        $main_menu = $this->menu_principal();
         if($action=='list'){
             $query = Question::get();
             //dd($query);
-            return view('admin.questions.list', compact('nav', 'action', 'query'));
+            return view('admin.questions.list', compact('nav', 'action', 'query','main_menu'));
         }elseif($action=='new'){
-            return view('admin.questions.new', compact('nav', 'action'));
+            return view('admin.questions.new', compact('nav', 'action', 'main_menu'));
         }
 
     }
@@ -71,10 +72,10 @@ class QuestionAdminController extends Controller
      */
     public function edit($nav, $action, $id_question)
     {
-
+        $main_menu = $this->menu_principal();
         $query = Question::where('id', $id_question)->first();
         //dd($query);
-        return view('admin.questions.edit', compact('nav', 'action', 'query'));
+        return view('admin.questions.edit', compact('nav', 'action', 'query', 'main_menu'));
 
     }
 

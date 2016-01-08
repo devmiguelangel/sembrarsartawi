@@ -5,9 +5,9 @@ namespace Sibas\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Sibas\Entities\Company;
 use Sibas\Http\Requests;
-use Sibas\Http\Controllers\Controller;
 
-class CompanyAdminController extends Controller
+
+class CompanyAdminController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +16,14 @@ class CompanyAdminController extends Controller
      */
     public function index($nav, $action)
     {
-        if($action=='list_company'){
+        $main_menu = $this->menu_principal();
+
+        if($action=='list'){
             $company_new = Company::get();
 
-            return view('admin.company.list', compact('nav', 'action', 'company_new'));
-        }elseif($action=='new_company'){
-            return view('admin.company.new', compact('nav', 'action'));
+            return view('admin.company.list', compact('nav', 'action', 'company_new', 'main_menu'));
+        }elseif($action=='new'){
+            return view('admin.company.new', compact('nav', 'action', 'main_menu'));
         }
 
         //
@@ -65,9 +67,13 @@ class CompanyAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($nav, $action, $id_company)
     {
-        //
+        $main_menu = $this->menu_principal();
+        $query = \DB::table('ad_companies')
+                      ->where('id', '=', $id_company)
+                      ->first();
+        return view('admin.company.edit', compact('nav', 'action', 'query', 'main_menu'));
     }
 
     /**

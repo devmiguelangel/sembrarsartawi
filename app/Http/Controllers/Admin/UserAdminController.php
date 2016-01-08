@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Sibas\Entities\User;
 use Sibas\Http\Requests;
-use Sibas\Http\Controllers\Controller;
+
 use Sibas\Repositories\Admin\UserAdminRepository;
 
-class UserAdminController extends Controller
+class UserAdminController extends BaseController
 {
     /**
      * @var UserAdminRepository
@@ -27,12 +27,13 @@ class UserAdminController extends Controller
      */
     public function index($nav, $action)
     {
+        $main_menu = $this->menu_principal();
         if($action=='list'){
             if($this->repository->listUser()){
                 $users = $this->repository->getModel() ;
             }
             //dd($users);
-            return view('admin.user.list', compact('nav', 'action', 'users'));
+            return view('admin.user.list', compact('nav', 'action', 'users', 'main_menu'));
         }elseif($action=='new'){
             $cities = \DB::table('ad_retailer_cities')
                         ->join('ad_cities','ad_retailer_cities.ad_city_id', '=', 'ad_cities.id')
@@ -40,7 +41,7 @@ class UserAdminController extends Controller
                         ->where('ad_cities.abbreviation', '<>', 'PE')
                         ->where('ad_retailer_cities.active', '=', 1)
                         ->get();
-            return view('admin.user.new', compact('nav','action', 'cities'));
+            return view('admin.user.new', compact('nav','action', 'cities', 'main_menu'));
         }
 
     }
@@ -99,6 +100,7 @@ class UserAdminController extends Controller
      */
     public function edit($nav, $action, $id_user)
     {
+        $main_menu = $this->menu_principal();
         if($action=='edit'){
             $user_find = \DB::table('ad_users')
                             ->where('id', '=', $id_user)
@@ -120,18 +122,18 @@ class UserAdminController extends Controller
                             ->get();
             //dd($agencies);
 
-            return view('admin.user.edit', compact('nav', 'action', 'user_find', 'cities', 'agencies'));
+            return view('admin.user.edit', compact('nav', 'action', 'user_find', 'cities', 'agencies', 'main_menu'));
         }elseif($action=='changepass'){
             $user_find = \DB::table('ad_users')
                             ->where('id', '=', $id_user)
                             ->first();
 
-            return view('admin.user.change-password', compact('nav', 'action', 'user_find'));
+            return view('admin.user.change-password', compact('nav', 'action', 'user_find', 'main_menu'));
         }elseif($action=='resetpass'){
             $user_find = \DB::table('ad_users')
                 ->where('id', '=', $id_user)
                 ->first();
-            return view('admin.user.reset-password', compact('nav', 'action', 'user_find'));
+            return view('admin.user.reset-password', compact('nav', 'action', 'user_find', 'main_menu'));
         }
 
 

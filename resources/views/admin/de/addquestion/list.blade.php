@@ -20,7 +20,7 @@
 
                 <ul class="icons-list">
                     <li>
-                        <a href="#" class="btn btn-link btn-float has-text">
+                        <a href="{{route('admin.de.addquestion.new', ['nav'=>'addquestion', 'action'=>'new', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-calendar5 text-primary"></i>
                             <span>Agregar pregunta</span>
                         </a>
@@ -33,13 +33,13 @@
         <div class="panel-body">
 
         </div>
-
-        <table class="table datatable-basic">
+        @if(count($query_list_q)>0)
+            <table class="table datatable-basic">
             <thead>
             <tr>
                 <th>Nro</th>
                 <th>Pregunta</th>
-                <th>Respuesta esperada</th>
+                <th style="text-align: center;">Respuesta esperada</th>
                 <th style="text-align: center;">Estado</th>
                 <th class="text-center">Accion</th>
             </tr>
@@ -71,8 +71,19 @@
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="entidad_edit.html"><i class="icon-file-pdf"></i> Editar</a></li>
-                                <li><a href="#"><i class="icon-file-excel"></i> Desactivar</a></li>
+                                @if((boolean)$data->active==true)
+                                    <li>
+                                        <a href="#" id="{{$data->id}}|inactive|desactivar" class="confirm_active">
+                                            <i class="icon-file-excel"></i> Desactivar
+                                        </a>
+                                    </li>
+                                @elseif((boolean)$data->active==false)
+                                    <li>
+                                        <a href="#" id="{{$data->id}}|active|activar" class="confirm_active">
+                                            <i class="icon-file-excel"></i> Activar
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
                     </ul>
@@ -81,5 +92,35 @@
             @endforeach
             </tbody>
         </table>
+        @else
+            <div class="alert alert-warning alert-styled-left">
+                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+            </div>
+        @endif
     </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('a[href].confirm_active').click(function(e){
+
+                var _id = $(this).prop('id');
+                var arr = _id.split("|");
+                var id_retailer_product_question = arr[0];
+                var text = arr[1];
+                bootbox.confirm("Esta seguro de "+arr[2]+" la pregunta ?.", function(result) {
+                    if(result){
+                        //bootbox.alert("Confirm result: " + result+ "/" +id_user);
+                        $.get( "{{url('/')}}/admin/de/addquestion/active_ajax/"+id_retailer_product_question+"/"+text, function( data ) {
+                            console.log(data);
+                            if(data==1){
+                                window.setTimeout('location.reload()', 1000);
+                            }else if(data==0){
+                                bootbox.alert("Error no se actualizo el dato.");
+                            }
+                        });
+                    }
+                });
+
+            });
+        });
+    </script>
 @endsection

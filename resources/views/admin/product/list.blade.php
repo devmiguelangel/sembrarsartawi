@@ -15,18 +15,16 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Listado de Preguntas</h5>
+            <h5 class="panel-title">Lista de Registros</h5>
             <div class="heading-elements">
-
                 <ul class="icons-list">
                     <li>
-                        <a href="{{route('admin.questions.new', ['nav'=>'question', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
+                        <a href="{{route('admin.product.new', ['nav'=>'company', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-calendar5 text-primary"></i>
-                            <span>Crear pregunta</span>
+                            <span>Agregar Producto</span>
                         </a>
                     </li>
                 </ul>
-
             </div>
         </div>
 
@@ -37,31 +35,24 @@
         <table class="table datatable-basic">
             <thead>
             <tr>
-                <th>Nro</th>
-                <th>Pregunta</th>
-                <th class="text-center">Acción</th>
+                <th>Producto</th>
+                <th>Tipo de Producto</th>
+                <th class="text-center">Acciones</th>
             </tr>
             </thead>
             <tbody>
-            @var $j=0
             @foreach($query as $data)
-                @var $j=$j+1
                 <tr>
-                    <td>{{$j}}</td>
-                    <td>{{$data->question}}</td>
+                    <td>{{$data->name}}</td>
+                    <td></td>
                     <td class="text-center">
                         <ul class="icons-list">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="icon-menu9"></i>
                                 </a>
-
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li>
-                                        <a href="{{route('admin.questions.edit', ['nav'=>'question', 'action'=>'edit', 'id_question'=>$data->id])}}">
-                                            <i class="icon-file-excel"></i> Editar pregunta
-                                        </a>
-                                    </li>
+                                    <li><a href="{{route('admin.product.edit', ['nav'=>'product', 'action'=>'edit', 'id_product'=>$data->id])}}"><i class="icon-file-pdf"></i> Editar</a></li>
                                 </ul>
                             </li>
                         </ul>

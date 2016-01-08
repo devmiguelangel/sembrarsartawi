@@ -15,7 +15,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Resgistro de Parametros</h5>
+            <h5 class="panel-title">Registro de parametros</h5>
             <div class="heading-elements">
                 <!--
                 <ul class="icons-list">
@@ -87,7 +87,7 @@
                         @endif
                     </td>
                     <td style="text-align: center;">
-                        <a href="{{route('admin.de.parameters.list-parameter-additional', ['nav'=>'de', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$data->id_retailer_product])}}">Agregar/Modificar Parametros</a>
+                        <a href="{{route('admin.de.parameters.list-parameter-additional', ['nav'=>'de', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}">Agregar/Modificar Parametros</a>
                     </td>
                     <td>
                         @if((boolean)$data->active == true)
@@ -106,7 +106,7 @@
 
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
-                                        <a href="{{route('admin.de.parameters.edit-parameter', ['nav'=>'de', 'action'=>'edit_parameter', 'id_retailer_product'=>$data->id_retailer_product, 'id_retailer'=>auth()->user()->retailer->first()->id])}}">
+                                        <a href="{{route('admin.de.parameters.edit-parameter', ['nav'=>'de', 'action'=>'edit_parameter', 'id_retailer_product'=>$id_retailer_product])}}">
                                             <i class="icon-file-pdf"></i> Editar
                                         </a>
                                     </li>
