@@ -24,12 +24,10 @@ class FacultativeRepository extends BaseRepository
 
     public function getList($user)
     {
-        $data = Facultative::with('detail.header.user')->whereHas('detail.header', function ($query) use ($user) {
+        return Facultative::with('detail.header.user')->whereHas('detail.header', function ($query) use ($user) {
             $query->where('ad_user_id', $user->id);
             $query->where('type', 'I');
         })->where('state', 'PE')->get();
-
-        //dd($data);
     }
 
     /**

@@ -34,6 +34,7 @@ class CreateOpDeHeadersTable extends Migration
             $table->boolean('canceled')->default(false);
             $table->boolean('facultative')->default(false);
             $table->longText('facultative_observation');
+            $table->boolean('facultative_sent')->default(false);
             $table->boolean('approved')->default(false);
             $table->boolean('rejected')->default(false);
             $table->integer('copy')->unsigned();
