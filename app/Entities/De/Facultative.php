@@ -12,6 +12,14 @@ class Facultative extends Model
 
     protected $fillable = ['id', 'reason', 'state', ];
 
+    protected $casts = [
+        'read' => 'boolean',
+    ];
+
+    protected $appends = [
+
+    ];
+
     public function detail()
     {
         return $this->belongsTo(Detail::class, 'op_de_detail_id', 'id');

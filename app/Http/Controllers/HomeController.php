@@ -13,11 +13,11 @@ class HomeController extends Controller
     /**
      * @var FacultativeRepository
      */
-    protected $facultativeRepository;
+    protected $facultativeDeRepository;
 
-    public function __construct(FacultativeRepository $facultativeRepository)
+    public function __construct(FacultativeRepository $facultativeDeRepository)
     {
-        $this->facultativeRepository = $facultativeRepository;
+        $this->facultativeDeRepository = $facultativeDeRepository;
     }
 
     /**
@@ -30,10 +30,24 @@ class HomeController extends Controller
     {
         $user = $auth->user();
 
-        $data = [];
+        $data = [
+            'products' => [],
+        ];
 
         if ($user->profile->first()->slug === 'SEP' || $user->profile->first()->slug === 'COP') {
-            $data['de'] = $this->facultativeRepository->getList($user);
+            foreach ($user->retailer->first()->retailerProducts as $retailerProduct) {
+                if ($retailerProduct->type === 'MP' && $retailerProduct->facultative) {
+                    $product = $retailerProduct->companyProduct->product;
+
+                    if ($product->code === 'de') {
+                        $product->records = $this->facultativeDeRepository->getRecords($user);
+                    }
+
+                    array_push($data['products'], $product);
+                }
+            }
+
+            // dd($data['products']);
         }
 
         return view('home', compact('user', 'data'));

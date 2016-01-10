@@ -5,37 +5,46 @@
             <span>4 Casos no atendidos</span>
         </div>
         <div id="accordion" class="panel-group" aria-multiselectable="true" role="tablist">
-            @foreach ($user->retailer->first()->retailerProducts as $index => $retailerProduct)
-                @if ($retailerProduct->type === 'MP' && $retailerProduct->facultative)
-                    <div class="panel panel-default"> 
-                        <div role="tab"> 
-                            <div class="inbox-body">
-                                <a class="btn btn-compose" aria-controls="collapseOne" aria-expanded="true" href="#collapse-{{ $index }}" data-parent="#accordion" data-toggle="collapse" role="button">
-                                    {{ $retailerProduct->companyProduct->product->name }}
-                                </a>
-                            </div>
-                        </div> 
-                        <div aria-labelledby="headingOne" role="tabpanel" class="panel-collapse collapse in" id="collapse-{{ $index }}" aria-expanded="true" style=""> 
-                            <ul class="inbox-nav inbox-divider">
-                                <li class="active">
-                                    <a href="#"><i class="icon-inbox"></i> Bandeja de entrada <span class="label label-info pull-right">10</span></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="icon-check"></i> Aprobados <span class="label label-primary pull-right">2</span></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="icon-trash"></i> Rechazados <span class="label label-primary pull-right">2</span></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-clock-o"></i> Observados <span class="label label-primary pull-right">2</span></a>
-                                </li>
-
-                            </ul> 
+            @foreach ($data['products'] as $index => $product)
+                <div class="panel panel-default">
+                    <div role="tab"> 
+                        <div class="inbox-body">
+                            <a class="btn btn-compose" aria-controls="collapseOne" aria-expanded="true" href="#collapse-{{ $index }}" data-parent="#accordion" data-toggle="collapse" role="button">
+                                {{ $product->name }}
+                            </a>
                         </div>
+                    </div> 
+                    <div aria-labelledby="headingOne" role="tabpanel" class="panel-collapse collapse in" id="collapse-{{ $index }}" aria-expanded="true" style=""> 
+                        <ul class="inbox-nav inbox-divider">
+                            <li class="active">
+                                <a href="#">
+                                    <i class="icon-inbox"></i> Bandeja de entrada 
+                                    <span class="label label-info pull-right">{{ count($product->records['all-unread']) }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="icon-check"></i> Aprobados 
+                                    <span class="label label-primary pull-right">{{ count($product->records['approved-unread']) }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-clock-o"></i> Observados 
+                                    <span class="label label-primary pull-right">{{ count($product->records['observed-unread']) }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="icon-trash"></i> Rechazados 
+                                    <span class="label label-primary pull-right">{{ count($product->records['rejected-unread']) }}</span>
+                                </a>
+                            </li>
+                        </ul> 
                     </div>
-                @endif
+                </div>
             @endforeach
-
+            
             {{-- <div class="panel panel-default"> 
                 <div id="headingTwo" role="tab" > 
                     <div class="inbox-body success">
@@ -106,7 +115,7 @@
                 </ul>
             </div>
         </div>
-        <div class="inbox-body no-pad">
+        <div id="inbox" class="inbox-body no-pad">
             <table class="table table-inbox table-hover">
                 <thead>
                     <tr>
@@ -120,396 +129,51 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="unread">
-                        <td class="inbox-small-cells te">
-                            <label class="chek_inbox">
-                                <input type="checkbox" class="styled">
-                            </label>
-                        </td>
-                        <td class="inbox-small-cells">
-                            <a href="#" class="avatar">
-                                <span class="bg-success">2</span>
-                            </a>
-                        </td>
-                        <td class="view-message  dont-show">Vector Lab Lafuente <span class="label label-primary pull-right">Rechazado</span></td>
-                        <td class="view-message ">4565458 LP</td>
-                        <td class="view-message ">2015/01/31 9:27 AM</td>
-                        <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
-                        <td class="view-message  text-right" style="z-index:34;">
-                            <ul class="icons-list">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Estado</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Observacion</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="unread">
-                        <td class="inbox-small-cells te">
-                            <label class="chek_inbox">
-                                <input type="checkbox" class="styled">
-                            </label>
-                        </td>
-                        <td class="inbox-small-cells">
-                            <a href="#" class="avatar">
-                                <span class="bg-warning">5</span>
-                            </a>
-                        </td>
-                        <td class="view-message  dont-show">Andres Mamani Quispe <span class="label label-primary pull-right">Aprobado</span></td>
-                        <td class="view-message ">4565458 LP</td>
-                        <td class="view-message ">2015/01/31 9:27 AM</td>
-                        <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
-                        <td class="view-message  text-right">
-                            <ul class="icons-list">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Estado</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Observacion</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="">
-                        <td class="inbox-small-cells te">
-                            <label class="chek_inbox">
-                                <input type="checkbox" class="styled">
-                            </label>
-                        </td>
-                        <td class="inbox-small-cells">
-                            <a href="#" class="avatar">
-                                <span class="bg-warning">8</span>
-                            </a>
-                        </td>
-                        <td class="view-message  dont-show">Juan Mendoza Medrano <span class="label label-primary pull-right">Observado</span></td>
-                        <td class="view-message ">4565458 LP</td>
-                        <td class="view-message ">2015/01/31 9:27 AM</td>
-                        <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
-                        <td class="view-message  text-right">
-                            <ul class="icons-list">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Estado</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Observacion</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="">
-                        <td class="inbox-small-cells te">
-                            <label class="chek_inbox">
-                                <input type="checkbox" class="styled">
-                            </label>
-                        </td>
-                        <td class="inbox-small-cells">
-                            <a href="#" class="avatar">
-                                <span class="bg-danger">12</span>
-                            </a>
-                        </td>
-                        <td class="view-message  dont-show">Daniel Salas</td>
-                        <td class="view-message ">4565458 LP</td>
-                        <td class="view-message ">2015/01/31 9:27 AM</td>
-                        <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
-                        <td class="view-message  text-right">
-                            <ul class="icons-list">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Estado</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Observacion</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="">
-                        <td class="inbox-small-cells te">
-                            <label class="chek_inbox">
-                                <input type="checkbox" class="styled">
-                            </label>
-                        </td>
-                        <td class="inbox-small-cells">
-                            <a href="#" class="avatar">
-                                <span class="bg-success">1</span>
-                            </a>
-                        </td>
-                        <td class="view-message  dont-show">Jose Gutierrez</td>
-                        <td class="view-message ">4565458 LP</td>
-                        <td class="view-message ">2015/01/31 9:27 AM</td>
-                        <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
-                        <td class="view-message  text-right">
-                            <ul class="icons-list">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Estado</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Observacion</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="">
-                        <td class="inbox-small-cells te">
-                            <label class="chek_inbox">
-                                <input type="checkbox" class="styled">
-                            </label>
-                        </td>
-                        <td class="inbox-small-cells">
-                            <a href="#" class="avatar">
-                                <span class="bg-success">2</span>
-                            </a>
-                        </td>
-                        <td class="view-message  dont-show">Juaquin Mascaro Lozano</td>
-                        <td class="view-message ">4565458 LP</td>
-                        <td class="view-message ">2015/01/31 9:27 AM</td>
-                        <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
-                        <td class="view-message  text-right">
-                            <ul class="icons-list">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Estado</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Observacion</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="">
-                        <td class="inbox-small-cells te">
-                            <label class="chek_inbox">
-                                <input type="checkbox" class="styled">
-                            </label>
-                        </td>
-                        <td class="inbox-small-cells">
-                            <a href="#" class="avatar">
-                                <span class="bg-warning">7</span>
-                            </a>
-                        </td>
-                        <td class="view-message  dont-show">David Limber Mamani</td>
-                        <td class="view-message ">4565458 LP</td>
-                        <td class="view-message ">2015/01/31 9:27 AM</td>
-                        <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
-                        <td class="view-message  text-right">
-                            <ul class="icons-list">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Estado</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Observacion</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="unread">
-                        <td class="inbox-small-cells te">
-                            <label class="chek_inbox">
-                                <input type="checkbox" class="styled">
-                            </label>
-                        </td>
-                        <td class="inbox-small-cells">
-                            <a href="#" class="avatar">
-                                <span class="bg-warning">9</span>
-                            </a>
-                        </td>
-                        <td class="view-message  dont-show">Jose Quispe Medrano <span class="label label-primary pull-right">Rechazado</span></td>
-                        <td class="view-message ">4565458 LP</td>
-                        <td class="view-message ">2015/01/31 9:27 AM</td>
-                        <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
-                        <td class="view-message  text-right" style="z-index:34;">
-                            <ul class="icons-list">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Estado</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Observacion</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="unread">
-                        <td class="inbox-small-cells te">
-                            <label class="chek_inbox">
-                                <input type="checkbox" class="styled">
-                            </label>
-                        </td>
-                        <td class="inbox-small-cells">
-                            <a href="#" class="avatar">
-                                <span class="bg-success">1</span>
-                            </a>
-                        </td>
-                        <td class="view-message  dont-show">Lorena Paz Guitierrez <span class="label label-primary pull-right">Aprobado</span></td>
-                        <td class="view-message ">4565458 LP</td>
-                        <td class="view-message ">2015/01/31 9:27 AM</td>
-                        <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
-                        <td class="view-message  text-right">
-                            <ul class="icons-list">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Estado</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Observacion</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="">
-                        <td class="inbox-small-cells te">
-                            <label class="chek_inbox">
-                                <input type="checkbox" class="styled">
-                            </label>
-                        </td>
-                        <td class="inbox-small-cells">
-                            <a href="#" class="avatar">
-                                <span class="bg-warning">10</span>
-                            </a>
-                        </td>
-                        <td class="view-message  dont-show">Sandra Mamani Quispe <span class="label label-primary pull-right">Observado</span></td>
-                        <td class="view-message ">4565458 LP</td>
-                        <td class="view-message ">2015/01/31 9:27 AM</td>
-                        <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
-                        <td class="view-message  text-right">
-                            <ul class="icons-list">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Estado</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Observacion</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
+                    @foreach ($data['products'][0]->records['all'] as $record)
+                        <tr class="{{ ! $record->read ? 'unread' : '' }}">
+                            <td class="inbox-small-cells te">
+                                <label class="chek_inbox">
+                                    <input type="checkbox" class="styled" {{ ! $record->read ? 'checked' : '' }}>
+                                </label>
+                            </td>
+                            <td class="inbox-small-cells">
+                                <a href="#" class="avatar">
+                                    <span class="bg-success">2</span>
+                                </a>
+                            </td>
+                            <td class="view-message  dont-show">
+                                {{ $record->detail->client->full_name }}
+                                <span class="label label-primary pull-right">Rechazado</span></td>
+                            <td class="view-message ">
+                                {{ $record->detail->client->dni }} {{ $record->detail->client->extension }}
+                            </td>
+                            <td class="view-message ">{{ date('d/m/Y H:i A', strtotime($record->created_at)) }}</td>
+                            <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
+                            <td class="view-message  text-right" style="z-index:34;">
+                                <ul class="icons-list">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
+                                            <li>
+                                                <a href="#"><i class="icon-plus2"></i> Estado</a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="icon-plus2"></i> Observacion</a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    @endforeach
                 
                 </tbody>
             </table>

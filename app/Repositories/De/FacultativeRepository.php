@@ -2,6 +2,7 @@
 
 namespace Sibas\Repositories\De;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Facultative;
@@ -22,12 +23,33 @@ class FacultativeRepository extends BaseRepository
         'state'  => '',
     ];
 
-    public function getList($user)
+    /**
+     * @param $user
+     * @return mixed
+     */
+    public function getRecords($user)
     {
-        return Facultative::with('detail.header.user')->whereHas('detail.header', function ($query) use ($user) {
-            $query->where('ad_user_id', $user->id);
-            $query->where('type', 'I');
-        })->where('state', 'PE')->get();
+        $cases = Facultative::with('detail.header.user', 'detail.client')
+            ->whereHas('detail.header', function ($query) use ($user) {
+                $query->where('ad_user_id', $user->id);
+                $query->where('type', 'I');
+            })->get();
+
+        $all = $cases;
+
+        $this->records['all'] = $all;
+
+        if ($user->profile->first()->slug === 'SEP') {
+            $this->records['all-unread'] = $all->filter(function ($case) {
+                if (! $case->read) {
+                    return true;
+                }
+            });
+        } else {
+            $this->records['all-unread'] = $all->count();
+        }
+
+        return $this->records;
     }
 
     /**
