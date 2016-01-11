@@ -2,6 +2,7 @@
 
 namespace Sibas\Repositories\De;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Facultative;
@@ -22,14 +23,48 @@ class FacultativeRepository extends BaseRepository
         'state'  => '',
     ];
 
-    public function getList($user)
+    /**
+     * @param $user
+     * @return mixed
+     */
+    public function getRecords($user)
     {
-        $data = Facultative::with('detail.header.user')->whereHas('detail.header', function ($query) use ($user) {
-            $query->where('ad_user_id', $user->id);
-            $query->where('type', 'I');
-        })->where('state', 'PE')->get();
+        $cases = null;
+        $user_type = $user->profile->first()->slug;
 
-        //dd($data);
+        switch ($user_type) {
+            case 'SEP':
+                $cases = Facultative::with('detail.header.user', 'detail.client')
+                    ->whereHas('detail.header', function ($query) use ($user) {
+                        $query->where('ad_user_id', $user->id);
+                        $query->where('type', 'I');
+                    })->get();
+                break;
+            case 'COP':
+                $cases = Facultative::with('detail.header.user', 'detail.client')
+                    ->whereHas('detail.header', function ($query) use ($user) {
+                        $query->where('type', 'I');
+                    })
+                    ->where('state', 'PE')
+                    ->get();
+                break;
+        }
+
+        $all = $cases;
+
+        $this->records['all'] = $all;
+
+        if ($user_type === 'SEP') {
+            $this->records['all-unread'] = $all->filter(function ($case) {
+                if (! $case->read) {
+                    return true;
+                }
+            });
+        } else {
+            $this->records['all-unread'] = $all->count();
+        }
+
+        return $this->records;
     }
 
     /**
@@ -137,6 +172,21 @@ class FacultativeRepository extends BaseRepository
                 $this->parameter = $parameter;
             }
         }
+    }
+
+    public function getFacultativeById($id)
+    {
+        $this->model = Facultative::with('detail.header.user', 'detail.client')
+            ->where('id', '=', $id)
+            ->get();
+
+        if ($this->model->count() === 1) {
+            $this->model = $this->model->first();
+
+            return true;
+        }
+
+        return false;
     }
 
 }

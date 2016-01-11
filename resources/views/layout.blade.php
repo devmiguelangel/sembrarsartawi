@@ -17,6 +17,7 @@
     {!! Html::style('assets/css/colors.min.css') !!}
     {!! Html::style('css/style.css') !!}
     {!! Html::style('css/style_inbox.css') !!}
+    {!! Html::style('css/animate.min.css') !!}
             <!-- /global stylesheets -->
     <!-- Core JS files -->
     {!! Html::script('assets/js/plugins/loaders/pace.min.js') !!}

@@ -7,6 +7,7 @@ use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Repositories\De\FacultativeRepository;
 use Sibas\Repositories\De\HeaderRepository;
+use Sibas\Repositories\StateRepository;
 
 class FacultativeController extends Controller
 {
@@ -18,11 +19,18 @@ class FacultativeController extends Controller
      * @var HeaderRepository
      */
     protected $headerRepository;
+    /**
+     * @var StateRepository
+     */
+    protected $stateRepository;
 
-    public function __construct(FacultativeRepository $repository, HeaderRepository $headerRepository)
+    public function __construct(FacultativeRepository $repository,
+                                HeaderRepository $headerRepository,
+                                StateRepository $stateRepository)
     {
         $this->repository       = $repository;
         $this->headerRepository = $headerRepository;
+        $this->stateRepository  = $stateRepository;
     }
 
     /**
@@ -35,22 +43,6 @@ class FacultativeController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
@@ -64,7 +56,23 @@ class FacultativeController extends Controller
      */
     public function edit($id)
     {
-        //
+        if (request()->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                $fa = $this->repository->getModel();
+
+                $data = [
+                    'states' => $this->stateRepository->getStatus(),
+                ];
+
+                return response()->json([
+                    'payload' => view('de.facultative.edit', compact('fa', 'data'))->render()
+                ]);
+            }
+
+            return response()->json(['err'=>'Unauthorized action.'], 401);
+        }
+
+        return redirect()->back();
     }
 
     /**

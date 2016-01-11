@@ -26,7 +26,6 @@ class CreateOpDeFacultativesTable extends Migration
             $table->mediumText('observation');
             $table->boolean('reminder')->default(false);
             $table->timestamp('date_reminder')->nullable();
-            $table->boolean('sent')->default(false);
             $table->boolean('read')->default(false);
             $table->timestamps();
 

@@ -16,17 +16,32 @@ class UserProfileTableSeeder extends BaseSeeder
     {
         $data = [];
 
-        $user = $this->getModelData('User')->last();
+        $users = $this->getModelData('User');
 
         $profiles = $this->getModelData('Profile');
 
-        foreach ($profiles as $profile) {
-            if ($profile->slug === 'COP') {
-                $data[] = [
-                    'ad_user_id'    => $user->id,
-                    'ad_profile_id' => $profile->id,
-                    'active'        => true,
-                ];
+        foreach ($users as $user) {
+            foreach ($profiles as $profile) {
+                switch ($user->username) {
+                    case 'emontano':
+                        if ($profile->slug === 'SEP') {
+                            $data[] = [
+                                'ad_user_id'    => $user->id,
+                                'ad_profile_id' => $profile->id,
+                                'active'        => true,
+                            ];
+                        }
+                        break;
+                    case 'aperez':
+                        if ($profile->slug === 'COP') {
+                            $data[] = [
+                                'ad_user_id'    => $user->id,
+                                'ad_profile_id' => $profile->id,
+                                'active'        => true,
+                            ];
+                        }
+                        break;
+                }
             }
         }
 

@@ -10,6 +10,10 @@ class Client extends Model
 
     public $incrementing = false;
 
+    protected $appends = [
+        'full_name',
+    ];
+
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name . ' ' . $this->mother_last_name;

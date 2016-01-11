@@ -175,4 +175,15 @@ class HeaderRepository extends BaseRepository
         }
     }
 
+    /**
+     * @param Header $header
+     * @return bool
+     */
+    public function storeSent($header)
+    {
+        $header->facultative_sent = true;
+
+        return $this->saveModel();
+    }
+
 }

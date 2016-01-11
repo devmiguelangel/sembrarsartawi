@@ -47,6 +47,10 @@ abstract class BaseRepository
      * @var string
      */
     protected $reasonCumulus;
+    /**
+     * @var array
+     */
+    protected $records;
 
     public function __construct()
     {
@@ -65,6 +69,16 @@ abstract class BaseRepository
             'I' => 'issue_number',
         ];
 
+        $this->records = [
+            'all'             => [],
+            'all-unread'      => [],
+            'approved'        => [],
+            'approved-unread' => [],
+            'observed'        => [],
+            'observed-unread' => [],
+            'rejected'        => [],
+            'rejected-unread' => [],
+        ];
     }
 
     /**

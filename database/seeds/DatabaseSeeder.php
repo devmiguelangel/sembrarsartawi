@@ -41,6 +41,8 @@ class DatabaseSeeder extends Seeder
             'ad_retailer_product_emails',
             'ad_profiles',
             'ad_user_profiles',
+            'ad_states',
+            'ad_retailer_product_states',
 
             'op_de_headers',
             'op_de_details',
@@ -82,6 +84,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RetailerProductEmailTableSeeder::class);
         $this->call(ProfileTableSeeder::class);
         $this->call(UserProfileTableSeeder::class);
+        $this->call(StateTableSeeder::class);
+        $this->call(RetailerProductStateTableSeeder::class);
 
         Model::reguard();
     }
