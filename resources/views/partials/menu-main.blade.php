@@ -27,79 +27,81 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Productos <span class="caret"></span></a>
-                    <ul class="dropdown-menu width-200">
-                        @foreach(auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
-                            @if($retailerProduct->type == 'MP')
-                                <li class="dropdown-submenu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-list-unordered"></i> {{ $retailerProduct->companyProduct->product->name }}
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        @if(isset($client))
-                                            @var $client= encode($client->id)
-                                        @else
-                                            @var $client= ''
-                                        @endif
-                                        
-                                        @if(isset($detail_id))
-                                            @var $detail_id= $detail_id
-                                        @else
-                                            @var $detail_id= ''
-                                        @endif
-                                        
-                                        @if(isset($header_id))
-                                            @var $header_id= $header_id
-                                        @else
-                                            @var $header_id= ''
-                                        @endif
-                                        
-                                        @if(isset($header))
-                                            @var $header= encode($header->id)
-                                        @else
-                                            @var $header= ''
-                                        @endif
-                                        
-                                        @if(isset($detail))
-                                            @var $detail= encode($detail->id)
-                                        @else
-                                            @var $detail= ''
-                                        @endif
-                                        
-                                        @if(isset($sp_id))
-                                            @var $sp_id= $sp_id
-                                        @else
-                                            @var $sp_id= ''
-                                        @endif
-                                        
-                                        <li class="{{ 
-                                                    Request::is('de/'.encode($retailerProduct->id).'/create') ? 'active' : 
-                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/list') ? 'active':
-                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/create') ? 'active':
-                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/create/'.$client.'') ? 'active':
-                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/'.$detail_id.'/question/create') ? 'active':
-                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/edit/'.$detail_id.'') ? 'active':
-                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/result') ? 'active':
-                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/edit') ? 'active':
-                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/beneficiary/create/'.$detail.'') ? 'active':
-                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/'.$detail_id.'/question/edit') ? 'active':
-                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/issuance') ? 'active':
-                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/vi/'.$sp_id.'') ? 'active':
-                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/vi/'.$sp_id.'/create') ? 'active':
-                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header.'/balance/edit/'.$detail.'') ? 'active':
-                                                    '' 
-                                                   }}">
-                                            <a href="{{ route('de.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a>
-                                        </li>
-                                        <li class="dropdown-header highlight"><a href="#">Emitir</a></li>
-                                        <li><a href="#">Facultativo</a></li>
-                                    </ul>
-                                </li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </li>
+                @if (auth()->user()->profile->first()->slug === 'SEP')
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Productos <span class="caret"></span></a>
+                        <ul class="dropdown-menu width-200">
+                            @foreach(auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
+                                @if($retailerProduct->type == 'MP')
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <i class="icon-list-unordered"></i> {{ $retailerProduct->companyProduct->product->name }}
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            @if(isset($client))
+                                                @var $client= encode($client->id)
+                                            @else
+                                                @var $client= ''
+                                            @endif
+                                            
+                                            @if(isset($detail_id))
+                                                @var $detail_id= $detail_id
+                                            @else
+                                                @var $detail_id= ''
+                                            @endif
+                                            
+                                            @if(isset($header_id))
+                                                @var $header_id= $header_id
+                                            @else
+                                                @var $header_id= ''
+                                            @endif
+                                            
+                                            @if(isset($header))
+                                                @var $header= encode($header->id)
+                                            @else
+                                                @var $header= ''
+                                            @endif
+                                            
+                                            @if(isset($detail))
+                                                @var $detail= encode($detail->id)
+                                            @else
+                                                @var $detail= ''
+                                            @endif
+                                            
+                                            @if(isset($sp_id))
+                                                @var $sp_id= $sp_id
+                                            @else
+                                                @var $sp_id= ''
+                                            @endif
+                                            
+                                            <li class="{{ 
+                                                        Request::is('de/'.encode($retailerProduct->id).'/create') ? 'active' : 
+                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/list') ? 'active':
+                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/create') ? 'active':
+                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/create/'.$client.'') ? 'active':
+                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/'.$detail_id.'/question/create') ? 'active':
+                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/edit/'.$detail_id.'') ? 'active':
+                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/result') ? 'active':
+                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/edit') ? 'active':
+                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/beneficiary/create/'.$detail.'') ? 'active':
+                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/'.$detail_id.'/question/edit') ? 'active':
+                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/issuance') ? 'active':
+                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/vi/'.$sp_id.'') ? 'active':
+                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/vi/'.$sp_id.'/create') ? 'active':
+                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header.'/balance/edit/'.$detail.'') ? 'active':
+                                                        '' 
+                                                       }}">
+                                                <a href="{{ route('de.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a>
+                                            </li>
+                                            <li class="dropdown-header highlight"><a href="#">Emitir</a></li>
+                                            <li><a href="#">Facultativo</a></li>
+                                        </ul>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </li>
+                @endif
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes  <span class="caret"></span></a>
                     <ul class="dropdown-menu width-200">

@@ -29,17 +29,32 @@ class FacultativeRepository extends BaseRepository
      */
     public function getRecords($user)
     {
-        $cases = Facultative::with('detail.header.user', 'detail.client')
-            ->whereHas('detail.header', function ($query) use ($user) {
-                $query->where('ad_user_id', $user->id);
-                $query->where('type', 'I');
-            })->get();
+        $cases = null;
+        $user_type = $user->profile->first()->slug;
+
+        switch ($user_type) {
+            case 'SEP':
+                $cases = Facultative::with('detail.header.user', 'detail.client')
+                    ->whereHas('detail.header', function ($query) use ($user) {
+                        $query->where('ad_user_id', $user->id);
+                        $query->where('type', 'I');
+                    })->get();
+                break;
+            case 'COP':
+                $cases = Facultative::with('detail.header.user', 'detail.client')
+                    ->whereHas('detail.header', function ($query) use ($user) {
+                        $query->where('type', 'I');
+                    })
+                    ->where('state', 'PE')
+                    ->get();
+                break;
+        }
 
         $all = $cases;
 
         $this->records['all'] = $all;
 
-        if ($user->profile->first()->slug === 'SEP') {
+        if ($user_type === 'SEP') {
             $this->records['all-unread'] = $all->filter(function ($case) {
                 if (! $case->read) {
                     return true;
@@ -157,6 +172,21 @@ class FacultativeRepository extends BaseRepository
                 $this->parameter = $parameter;
             }
         }
+    }
+
+    public function getFacultativeById($id)
+    {
+        $this->model = Facultative::with('detail.header.user', 'detail.client')
+            ->where('id', '=', $id)
+            ->get();
+
+        if ($this->model->count() === 1) {
+            $this->model = $this->model->first();
+
+            return true;
+        }
+
+        return false;
     }
 
 }

@@ -2,7 +2,6 @@
 
 namespace Sibas\Repositories\Client;
 
-
 use Sibas\Entities\Activity;
 use Sibas\Repositories\BaseRepository;
 

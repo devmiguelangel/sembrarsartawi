@@ -50,6 +50,8 @@ class HomeController extends Controller
             // dd($data['products']);
         }
 
+        // dd($data);
+
         return view('home', compact('user', 'data'));
     }
 

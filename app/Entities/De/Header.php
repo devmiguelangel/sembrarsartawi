@@ -16,6 +16,10 @@ class Header extends Model
         'approved'    => 'boolean',
     ];
 
+    protected $appends = [
+        'certificate_number',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'ad_user_id', 'id');
@@ -44,6 +48,11 @@ class Header extends Model
         }
 
         return $completed;
+    }
+
+    public function getCertificateNumberAttribute()
+    {
+        return $this->prefix . '-' . $this->issue_number;
     }
 
 }

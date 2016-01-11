@@ -127,4 +127,11 @@ return [
         'TEP' => 'Pruebas',      // Supervisor
     ],
 
+    'states' => [
+        'me' => 'Exámenes Médicos y/o Requisitos',
+        're' => 'Reaseguro',
+        'cl' => 'Aclaraciones',
+        'de' => 'Error en Datos',
+    ],
+
 ];

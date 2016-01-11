@@ -1,4 +1,5 @@
 var angular = require('angular');
+var ngAnimate = require('angular-animate');
 /*var $ = require('jquery');
 global.jQuery = $;
 var bootstrap = require('bootstrap');*/
@@ -6,8 +7,9 @@ var bootstrap = require('bootstrap');*/
 
 var DetailController = require('./components/de/DetailController');
 var BeneficiaryController = require('./components/de/BeneficiaryController');
+var FacultativeController = require('./components/de/FacultativeController');
 
-var app = angular.module('sibas', []);
+var app = angular.module('sibas', ['ngAnimate']);
 
 app.config(['$httpProvider', function ($httpProvider) {
   $httpProvider.defaults.headers
@@ -30,6 +32,7 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
 
   $rootScope.popup = function (payload) {
     angular.element('#popup').find('.modal-body').html($compile(payload)($rootScope));
+    // angular.element('#popup').find('.modal-body').html(payload);
     angular.element('#popup').modal();
   };
 
@@ -44,3 +47,5 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
 app.controller('DetailDeController', ['$scope', '$http', DetailController.detailEdit]);
 
 app.controller('BeneficiaryController', ['$scope', '$http', BeneficiaryController.beneficiary]);
+
+app.controller('FacultativeController', ['$scope', '$http', FacultativeController.facultative]);

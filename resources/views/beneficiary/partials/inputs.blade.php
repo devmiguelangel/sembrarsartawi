@@ -56,7 +56,7 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="control-label col-lg-3 ">Documento de Identidad: </label>
+    <label class="control-label col-lg-3 label_required">Documento de Identidad: </label>
     <div class="col-lg-9">
         <div class="input-group">
             <span class="input-group-addon">C.I.</span>
@@ -71,7 +71,7 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="col-lg-3 control-label">Extensión: </label>
+    <label class="col-lg-3 control-label label_required">Extensión: </label>
     <div class="col-lg-9">
         {!! SelectField::input('extension', $data['cities']['CI']->toArray(), [
             'class' => 'form-control',

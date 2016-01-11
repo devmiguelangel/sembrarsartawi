@@ -1,4 +1,4 @@
-<div class="mail-box">
+<div class="mail-box" ng-controller="FacultativeController">
     <aside class="sm-side">
         <div class="m-title">
             <h3>Mis casos facultativos</h3>
@@ -120,11 +120,11 @@
                 <thead>
                     <tr>
                         <th></th>
+                        <th>No. Certificado</th>
                         <th>Días en Proceso</th>
                         <th>Cliente</th>
                         <th>C.I.</th>
                         <th>Fecha de Ingreso</th>
-                        <th>Adjunto</th>
                         <th class="text-center">Acción</th>
                     </tr>
                 </thead>
@@ -135,6 +135,9 @@
                                 <label class="chek_inbox">
                                     <input type="checkbox" class="styled" {{ ! $record->read ? 'checked' : '' }}>
                                 </label>
+                            </td>
+                            <td class="view-message">
+                                {{ $record->detail->header->certificate_number }}
                             </td>
                             <td class="inbox-small-cells">
                                 <a href="#" class="avatar">
@@ -148,29 +151,27 @@
                                 {{ $record->detail->client->dni }} {{ $record->detail->client->extension }}
                             </td>
                             <td class="view-message ">{{ date('d/m/Y H:i A', strtotime($record->created_at)) }}</td>
-                            <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>
+                            {{-- <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td> --}}
                             <td class="view-message  text-right" style="z-index:34;">
-                                <ul class="icons-list">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            <i class="icon-menu9"></i>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
-                                            <li>
-                                                <a href="#"><i class="icon-plus2"></i> Estado</a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="icon-plus2"></i> Observacion</a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="icon-plus2"></i> Marar como no leido</a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                @if ($user->profile->first()->slug === 'SEP')
+                                    {{-- expr --}}
+                                @elseif ($user->profile->first()->slug === 'COP')
+                                    <ul class="icons-list">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
+                                                <li>
+                                                    <a href="{{ route('de.fa.edit', ['id' => encode($record->id)]) }}" ng-click="process($event)"><i class="icon-plus2"></i> Procesar</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

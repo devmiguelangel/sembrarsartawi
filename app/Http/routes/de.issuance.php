@@ -76,5 +76,19 @@ Route::group(['prefix' => 'de/{rp_id}'], function() {
         'as'    => 'de.fa.request.store',
         'uses'  => 'De\HeaderController@requestStore'
     ]);
+});
 
+Route::group(['prefix' => 'de'], function() {
+    /*
+     * Facultative process
+     */
+    Route::get('facultative/edit/{id}', [
+        'as'    => 'de.fa.edit',
+        'uses'  => 'De\FacultativeController@edit'
+    ]);
+
+    Route::put('facultative/edit/{id}', [
+        'as'    => 'de.fa.update',
+        'uses'  => 'De\FacultativeController@update'
+    ]);
 });

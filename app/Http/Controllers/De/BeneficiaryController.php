@@ -69,9 +69,11 @@ class BeneficiaryController extends Controller
                     'payload' => $response->render()
                 ]);
             }
+
+            return response()->json(['err' => 'Unauthorized action.'], 401);
         }
 
-        return response()->json(['err'=>'Unauthorized action.'], 401);
+        return redirect()->back();
     }
 
     /**
@@ -95,9 +97,11 @@ class BeneficiaryController extends Controller
                     ]);
                 }
             }
+
+            return response()->json(['err'=>'Unauthorized action.'], 401);
         }
 
-        return response()->json(['err'=>'Unauthorized action.'], 401);
+        return redirect()->back();
     }
 
     /**
