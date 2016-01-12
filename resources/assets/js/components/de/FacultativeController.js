@@ -1,4 +1,4 @@
-var facultative = function ($scope, $http) {
+var facultative = function ($rootScope, $scope, $http) {
   $scope.approved  = false;
   $scope.surcharge = false;
   $scope.state     = false;
@@ -7,6 +7,8 @@ var facultative = function ($scope, $http) {
     approved: 0,
     surcharge: 0,
     percentage: 0,
+    state: null,
+    emails: ''
   };
 
   $scope.process = function (event) {
@@ -18,6 +20,9 @@ var facultative = function ($scope, $http) {
 
     }).success(function (data, status, headers, config) {
         if (status == 200) {
+          $rootScope.dataOptions   = data.states;
+          $rootScope.currentOption = $rootScope.dataOptions[0];
+
           $scope.popup(data.payload);
         }
       }).error(function (err, status, headers, config) {
@@ -33,6 +38,8 @@ var facultative = function ($scope, $http) {
 
     CSRF_TOKEN = $scope.csrf_token();
 
+    $scope.formData.emails = $scope.formData.emails.split(',');
+
     console.log($scope.formData);
 
     $http({
@@ -45,14 +52,23 @@ var facultative = function ($scope, $http) {
       }
     }).success(function (data, status, headers, config) {
         $scope.errors = {};
-        console.log(data);
-        /*if (status == 200) {
-          $scope.success = { beneficiary: true };
-          $scope.redirect(data.location);
-        }*/
+
+        if (status == 200) {
+          // $scope.success = { beneficiary: true };
+          // $scope.redirect(data.location);
+        }
       })
       .error(function (err, status, headers, config) {
         if (status == 422) {
+          angular.forEach($scope.formData.emails, function(value, key){
+            if ('emails.' + key in err) {
+              err.emails = [
+                'El email no es válido'
+              ];
+            }
+          });
+          $scope.formData.emails = $scope.formData.emails.join(',');
+
           $scope.errors = err;
         } else if (status == 500) {
           console.log('Unauthorized action.');
@@ -61,6 +77,10 @@ var facultative = function ($scope, $http) {
         console.log(err);
       });
 
+  };
+
+  $scope.stateChange = function () {
+    $scope.formData.state = $scope.currentOption;
   };
 
 };

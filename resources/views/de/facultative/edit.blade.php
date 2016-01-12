@@ -23,7 +23,7 @@
                     <div class="col-lg-9">
                         <div class="input-group">
                             <label class="radio-inline">
-                                {!! Form::radio('approved', 'aaa', false, [
+                                {!! Form::radio('approved', 1, false, [
                                     'ng-click' => 'approved = true; state = false;', 
                                     'ng-model' => 'formData.approved'
                                 ]) !!}
@@ -86,7 +86,8 @@
                                         'class'        => 'form-control',
                                         'placeholder'  => 'Porcentaje de Recargo',
                                         'autocomplete' => 'off', 
-                                        'ng-model'     => 'formData.percentage'
+                                        'ng-model'     => 'formData.percentage',
+                                        'ng-keyup'     => 'formData.final_rate=((formData.percentage/100) + formData.current_rate | number:2)',
                                     ]) !!}
                                 </div>
                                 <label id="location-error" class="validation-error-label" for="location" ng-show="errors.percentage">
@@ -104,10 +105,11 @@
                                         'class'        => 'form-control',
                                         'placeholder'  => 'Tasa Actual',
                                         'autocomplete' => 'off',
+                                        'ng-init'      => 'formData.current_rate=' . $fa->detail->header->total_rate,
                                         'ng-model'     => 'formData.current_rate',
-                                        'ng-init'      => 'formData.current_rate = "0.88"'
+                                        'readonly'     => true
                                     ]) !!}
-                                </div>
+                                </div ngmodel>
                                 <label id="location-error" class="validation-error-label" for="location" ng-show="errors.current_rate">
                                     @{{ errors.current_rate[0] }}
                                 </label>
@@ -121,11 +123,11 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="icon-user-plus"></i></span>
                                 {!! Form::text('final_rate', null, [
-                                    'class'        => 'form-control',
-                                    'placeholder'  => 'Tasa Final',
-                                    'autocomplete' => 'off',
-                                    'ng-model'     => 'formData.final_rate',
-                                     'ng-init'     => 'formData.final_rate = formData.current_rate + formData.percentage'
+                                    'class'            => 'form-control',
+                                    'placeholder'      => 'Tasa Final',
+                                    'autocomplete'     => 'off',
+                                    'ng-init'          => 'formData.final_rate=formData.current_rate',
+                                    'ng-model'         => 'formData.final_rate',
                                 ]) !!}
                             </div>
                             <label id="location-error" class="validation-error-label" for="location" ng-show="errors.final_rate">
@@ -141,10 +143,8 @@
                         <label class="col-lg-3 control-label label_required">Estado: </label>
                         <div class="col-lg-9">
                             <div class="input-group">
-                                {!! SelectField::input('state', $data['states']->toArray(), [
-                                    'class'    => 'form-control',
-                                    'ng-model' => 'formData.state'
-                                ]) !!}
+                                <select ng-init="formData.state=currentOption" ng-options="item as item.name for item in dataOptions track by item.id" ng-model="currentOption" class="form-control" ng-change="stateChange()">
+                                </select>
                             </div>
                             <label id="location-error" class="validation-error-label" for="location" ng-show="errors.state">
                                 @{{ errors.state[0] }}
@@ -175,11 +175,18 @@
                     <label class="control-label col-lg-12 label_required">Envie la aprobación vía correo electrónico: </label>
                     <br>
                     <div class="col-lg-12">
-                        {!! Form::email('email', $fa->detail->header->user->email, [
-                            'class' => 'form-control ui-wizard-content',
-                            'placeholder' => 'mail@email.com',
-                            'autocomplete' => 'off'])
-                        !!}
+                        {!! Form::text('emails', null, [
+                            'class'        => 'form-control ',
+                            'placeholder'  => 'mail@email.com',
+                            'autocomplete' => 'off',
+                            'ng-model'     => 'formData.emails',
+                            'ng-init'      => 'formData.emails="' . $fa->detail->header->user->email . '"',
+                        ]) !!}
+                        <div class="input-group">
+                        <label id="location-error" class="validation-error-label" for="location" ng-show="errors.emails">
+                            @{{ errors.emails[0] }}
+                        </label>
+                        </div>
                     </div>
                 </div>
 

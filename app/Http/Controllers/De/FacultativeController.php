@@ -3,8 +3,8 @@
 namespace Sibas\Http\Controllers\De;
 
 use Illuminate\Http\Request;
-use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Http\Requests\De\FacultativeFormRequest;
 use Sibas\Repositories\De\FacultativeRepository;
 use Sibas\Repositories\De\HeaderRepository;
 use Sibas\Repositories\StateRepository;
@@ -60,12 +60,9 @@ class FacultativeController extends Controller
             if ($this->repository->getFacultativeById(decode($id))) {
                 $fa = $this->repository->getModel();
 
-                $data = [
-                    'states' => $this->stateRepository->getStatus(),
-                ];
-
                 return response()->json([
-                    'payload' => view('de.facultative.edit', compact('fa', 'data'))->render()
+                    'payload' => view('de.facultative.edit', compact('fa'))->render(),
+                    'states'  => $this->stateRepository->getStatus(),
                 ]);
             }
 
@@ -78,25 +75,17 @@ class FacultativeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param Request|FacultativeFormRequest $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(FacultativeFormRequest $request, $id)
     {
         if ($request->ajax()) {
-            $this->validate($request, [
-                'approved'     => 'required|integer',
-                'surcharge'    => 'required|integer',
-                'percentage'   => 'required|integer|min:0|max:100',
-                'current_rate' => 'required|numeric',
-                'final_rate'   => 'required|numeric',
-                'state'        => 'required|ad_states,slug',
-                'observation'  => 'required|ands_full'
-            ]);
-
             if ($this->repository->getFacultativeById(decode($id))) {
                 $fa = $this->repository->getModel();
+
+                dd($fa);
             }
 
             return response()->json(['err'=>'Unauthorized action.'], 401);

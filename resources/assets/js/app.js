@@ -26,6 +26,9 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
   $rootScope.success = {
   };
 
+  $rootScope.dataOptions = [];
+  $rootScope.currentOption = [];
+
   $rootScope.getActionAttribute = function (event) {
     return event.target.attributes.action.value;
   };
@@ -51,4 +54,4 @@ app.controller('DetailDeController', ['$scope', '$http', DetailController.detail
 
 app.controller('BeneficiaryController', ['$scope', '$http', BeneficiaryController.beneficiary]);
 
-app.controller('FacultativeController', ['$scope', '$http', FacultativeController.facultative]);
+app.controller('FacultativeController', ['$rootScope', '$scope', '$http', FacultativeController.facultative]);
