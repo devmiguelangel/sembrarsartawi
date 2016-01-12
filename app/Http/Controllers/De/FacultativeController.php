@@ -84,7 +84,25 @@ class FacultativeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->ajax()) {
+            $this->validate($request, [
+                'approved'     => 'required|integer',
+                'surcharge'    => 'required|integer',
+                'percentage'   => 'required|integer|min:0|max:100',
+                'current_rate' => 'required|numeric',
+                'final_rate'   => 'required|numeric',
+                'state'        => 'required|ad_states,slug',
+                'observation'  => 'required|ands_full'
+            ]);
+
+            if ($this->repository->getFacultativeById(decode($id))) {
+                $fa = $this->repository->getModel();
+            }
+
+            return response()->json(['err'=>'Unauthorized action.'], 401);
+        }
+
+        return redirect()->back();
     }
 
     /**

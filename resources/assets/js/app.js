@@ -32,7 +32,6 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
 
   $rootScope.popup = function (payload) {
     angular.element('#popup').find('.modal-body').html($compile(payload)($rootScope));
-    // angular.element('#popup').find('.modal-body').html(payload);
     angular.element('#popup').modal();
   };
 
@@ -40,6 +39,10 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
     $timeout(function(){
       $window.location.href = location;
     }, 1500);
+  };
+
+  $rootScope.csrf_token = function () {
+    return angular.element('meta[name="csrf-token"]').attr('content');
   };
 
 }]);

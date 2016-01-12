@@ -8,7 +8,7 @@ var beneficiary = function($scope, $http){
 
     var action = $scope.getActionAttribute(event);
 
-    CSRF_TOKEN = angular.element('meta[name="csrf-token"]').attr('content');
+    CSRF_TOKEN = $scope.csrf_token();
 
     $http({
       method: 'POST',
@@ -35,7 +35,7 @@ var beneficiary = function($scope, $http){
 
         console.log(err);
       });
-  }
+  };
 };
 
 module.exports.beneficiary = beneficiary;
