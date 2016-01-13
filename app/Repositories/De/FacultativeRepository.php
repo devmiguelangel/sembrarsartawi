@@ -189,4 +189,51 @@ class FacultativeRepository extends BaseRepository
         return false;
     }
 
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    public function updateFacultative($request)
+    {
+        $user       = $request->user();
+        $this->data = $request->all();
+
+        $this->data['approved']  = (int) $this->data['approved'];
+        $this->data['surcharge'] = (boolean) $this->data['surcharge'];
+
+        if ($this->data['approved'] === 1 || $this->data['approved'] == 0) {
+            $this->model->ad_user_id  = $user->id;
+            $this->model->state       = 'PR';
+            $this->model->observation = $this->data['observation'];
+
+            if ($this->data['approved'] === 1) {
+                $this->model->approved = true;
+
+                if ($this->data['surcharge']) {
+                    $this->model->surcharge    = true;
+                    $this->model->percentage   = $this->data['percentage'];
+                    $this->model->current_rate = $this->data['current_rate'];
+                    $this->model->final_rate   = $this->data['final_rate'];
+                } else {
+                    $this->model->surcharge    = false;
+                    $this->model->current_rate = $this->data['current_rate'];
+                    $this->model->final_rate   = $this->data['final_rate'];
+                }
+            } else {
+
+            }
+        } elseif ($this->data['approved'] === 2) {
+
+        }
+
+        // dd($this->model);
+
+        return $this->saveModel();
+    }
+
+    private function approved($request)
+    {
+
+    }
+
 }

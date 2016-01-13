@@ -8,7 +8,8 @@ var facultative = function ($rootScope, $scope, $http) {
     surcharge: 0,
     percentage: 0,
     state: null,
-    emails: ''
+    emails: [
+    ]
   };
 
   $scope.process = function (event) {
@@ -52,10 +53,11 @@ var facultative = function ($rootScope, $scope, $http) {
       }
     }).success(function (data, status, headers, config) {
         $scope.errors = {};
+        $scope.formData.emails = $scope.formData.emails.join(',');
 
         if (status == 200) {
           // $scope.success = { beneficiary: true };
-          // $scope.redirect(data.location);
+          $scope.redirect(data.location);
         }
       })
       .error(function (err, status, headers, config) {
@@ -67,6 +69,7 @@ var facultative = function ($rootScope, $scope, $http) {
               ];
             }
           });
+
           $scope.formData.emails = $scope.formData.emails.join(',');
 
           $scope.errors = err;
@@ -82,6 +85,13 @@ var facultative = function ($rootScope, $scope, $http) {
   $scope.stateChange = function () {
     $scope.formData.state = $scope.currentOption;
   };
+
+  $scope.$watch('formData.surcharge', function(value, oldValue, scope) {
+    if (value == 0) {
+      $scope.formData.percentage = 0;
+      $scope.formData.final_rate = $scope.formData.current_rate;
+    }
+  });
 
 };
 

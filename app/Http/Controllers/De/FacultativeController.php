@@ -85,7 +85,11 @@ class FacultativeController extends Controller
             if ($this->repository->getFacultativeById(decode($id))) {
                 $fa = $this->repository->getModel();
 
-                dd($fa);
+                if ($this->repository->updateFacultative($request)) {
+                    return response()->json([
+                        'location' => route('home')
+                    ]);
+                }
             }
 
             return response()->json(['err'=>'Unauthorized action.'], 401);
