@@ -134,4 +134,12 @@ return [
         're' => 'Reaseguro',
     ],
 
+    'company_state' => [
+        'A'  => 'Aprobado',
+        'R'  => 'Rechazado',
+        'P'  => 'Pendiente',
+        'O'  => 'Observado',
+        'C'  => 'Subsanado/Pendiente',
+    ],
+
 ];

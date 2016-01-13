@@ -19,27 +19,35 @@
                             <li class="active">
                                 <a href="#">
                                     <i class="icon-inbox"></i> Bandeja de entrada 
-                                    <span class="label label-info pull-right">{{ count($product->records['all-unread']) }}</span>
+                                    <span class="label label-info pull-right">{{ $product->records['all-unread']->count() }}</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <i class="icon-check"></i> Aprobados 
-                                    <span class="label label-primary pull-right">{{ count($product->records['approved-unread']) }}</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-clock-o"></i> Observados 
-                                    <span class="label label-primary pull-right">{{ count($product->records['observed-unread']) }}</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="icon-trash"></i> Rechazados 
-                                    <span class="label label-primary pull-right">{{ count($product->records['rejected-unread']) }}</span>
-                                </a>
-                            </li>
+                            @if ($user->profile->first()->slug === 'SEP')
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-check"></i> Aprobados 
+                                        <span class="label label-primary pull-right">
+                                            {{ $product->records['approved-unread']->count() }}
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-clock-o"></i> Observados 
+                                        <span class="label label-primary pull-right">
+                                            {{ $product->records['observed-unread']->count() }}
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-trash"></i> Rechazados 
+                                        <span class="label label-primary pull-right">
+                                            {{ $product->records['rejected-unread']->count() }}
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif
                         </ul> 
                     </div>
                 </div>
@@ -141,16 +149,18 @@
                             </td>
                             <td class="inbox-small-cells">
                                 <a href="#" class="avatar">
-                                    <span class="bg-success">2</span>
+                                    <span class="{{ $record->process_days <= 2 ? 'bg-success' : ($record->process_days <= 10 ? 'bg-warning' : 'bg-danger') }}">
+                                        {{ $record->process_days }}
+                                    </span>
                                 </a>
                             </td>
                             <td class="view-message  dont-show">
                                 {{ $record->detail->client->full_name }}
-                                <span class="label label-primary pull-right">Rechazado</span></td>
+                                <span class="label label-primary pull-right">{{ config('base.company_state.' . $record->company_state) }}</span></td>
                             <td class="view-message ">
                                 {{ $record->detail->client->dni }} {{ $record->detail->client->extension }}
                             </td>
-                            <td class="view-message ">{{ date('d/m/Y H:i A', strtotime($record->created_at)) }}</td>
+                            <td class="view-message ">{{ $record->date_admission }}</td>
                             {{-- <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td> --}}
                             <td class="view-message  text-right" style="z-index:34;">
                                 @if ($user->profile->first()->slug === 'SEP')

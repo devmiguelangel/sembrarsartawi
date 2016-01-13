@@ -52,16 +52,6 @@ class HeaderRepository extends BaseRepository
         if ($this->getHeaderById($header_id)) {
             $this->model = $this->getModel();
 
-            $facultative = false;
-
-            foreach ($this->model->details as $detail) {
-                if ($detail->facultative instanceof Facultative) {
-                    $facultative = true;
-
-                    break;
-                }
-            }
-
             $issue_number = $this->getNumber('I');
 
             $this->model->type             = 'I';
@@ -69,7 +59,7 @@ class HeaderRepository extends BaseRepository
             $this->model->prefix           = 'DE';
             $this->model->policy_number    = $this->data['policy_number'];
             $this->model->operation_number = $this->data['operation_number'];
-            $this->model->facultative      = $facultative;
+            $this->model->facultative      = $this->setFacultative();
 
             if (! $this->checkNumber('I', $issue_number)) {
                 return $this->saveModel();
@@ -77,6 +67,25 @@ class HeaderRepository extends BaseRepository
         }
 
         return false;
+    }
+
+    public function setFacultative($header = null)
+    {
+        if ($header instanceof Header) {
+            $this->model = $header;
+        }
+
+        $facultative = false;
+
+        foreach ($this->model->details as $detail) {
+            if ($detail->facultative instanceof Facultative) {
+                $facultative = true;
+
+                break;
+            }
+        }
+
+        return $facultative;
     }
 
     /**

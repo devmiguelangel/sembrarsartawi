@@ -48,7 +48,7 @@ abstract class BaseRepository
      */
     protected $reasonCumulus;
     /**
-     * @var array
+     * @var Collection
      */
     protected $records;
 
@@ -69,16 +69,16 @@ abstract class BaseRepository
             'I' => 'issue_number',
         ];
 
-        $this->records = [
-            'all'             => [],
-            'all-unread'      => [],
-            'approved'        => [],
-            'approved-unread' => [],
-            'observed'        => [],
-            'observed-unread' => [],
-            'rejected'        => [],
-            'rejected-unread' => [],
-        ];
+        $this->records = collect([
+            'all'             => collect(),
+            'all-unread'      => collect(),
+            'approved'        => collect(),
+            'approved-unread' => collect(),
+            'observed'        => collect(),
+            'observed-unread' => collect(),
+            'rejected'        => collect(),
+            'rejected-unread' => collect(),
+        ]);
     }
 
     /**

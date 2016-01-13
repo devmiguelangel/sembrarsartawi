@@ -26,7 +26,7 @@ class FacultativeFormRequest extends Request
         $data = $this->request->all();
 
         $rules = [
-            'approved'     => 'required|integer|min:1|max:2',
+            'approved'     => 'required|integer|min:0|max:2',
             'surcharge'    => 'required|boolean',
             'percentage'   => 'required|integer|min:0|max:100',
             'current_rate' => 'required|numeric',

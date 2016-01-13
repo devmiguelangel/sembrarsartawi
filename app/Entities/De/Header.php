@@ -20,6 +20,10 @@ class Header extends Model
         'certificate_number',
     ];
 
+    protected $fillable = [
+        'facultative'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'ad_user_id', 'id');

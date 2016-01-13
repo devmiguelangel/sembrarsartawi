@@ -300,7 +300,15 @@ class DetailController extends Controller
                         $approved = false;
                     }
 
-                    $this->repository->setApprovedDetail($approved);
+                    $header = $this->repository->getModel()->header;
+
+                    $facultative = false;
+
+                    if ($header->type === 'I') {
+                        $facultative = $this->headerRepository->setFacultative($header);
+                    }
+
+                    $this->repository->setApprovedDetail($approved, $facultative);
 
                     return redirect()->route('de.edit', compact('rp_id', 'header_id'))
                         ->with(['success_detail' => 'El Saldo Deudor fue actualizado correctamente']);

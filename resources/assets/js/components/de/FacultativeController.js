@@ -1,7 +1,8 @@
 var facultative = function ($rootScope, $scope, $http) {
-  $scope.approved  = false;
-  $scope.surcharge = false;
-  $scope.state     = false;
+  $scope.approved    = false;
+  $scope.surcharge   = false;
+  $scope.state       = false;
+  $scope.observation = true;
 
   $scope.formData = {
     approved: 0,
@@ -56,8 +57,9 @@ var facultative = function ($rootScope, $scope, $http) {
         $scope.formData.emails = $scope.formData.emails.join(',');
 
         if (status == 200) {
-          // $scope.success = { beneficiary: true };
+          $scope.success = { facultative: true };
           $scope.redirect(data.location);
+          console.log(data);
         }
       })
       .error(function (err, status, headers, config) {
@@ -84,6 +86,12 @@ var facultative = function ($rootScope, $scope, $http) {
 
   $scope.stateChange = function () {
     $scope.formData.state = $scope.currentOption;
+
+    if ($scope.currentOption.data_slug == 'me') {
+      $scope.observation = false;
+    } else {
+      $scope.observation = true;
+    }
   };
 
   $scope.$watch('formData.surcharge', function(value, oldValue, scope) {

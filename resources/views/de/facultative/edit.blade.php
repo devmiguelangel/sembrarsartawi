@@ -153,7 +153,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group animated" ng-show="observation" ng-class="{ fadeIn: observation, fadeOut: !observation }">
                     <label class="control-label col-lg-3 label_required">Observaciones: </label>
                     <div class="col-lg-9">
                         <div>
@@ -191,6 +191,10 @@
                 </div>
 
                 <div class="text-right">
+                    <script ng-if="success.facultative">
+                        $(function(){messageAction('succes', 'El caso facultativo se proceso correctamente');});
+                    </script>
+
                     <button type="button" class="btn border-slate text-slate-800 btn-flat" data-dismiss="modal">Cancelar</button>
 
                     {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}

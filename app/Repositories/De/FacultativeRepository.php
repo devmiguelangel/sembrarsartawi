@@ -2,10 +2,10 @@
 
 namespace Sibas\Repositories\De;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Facultative;
+use Sibas\Entities\De\Observation;
 use Sibas\Entities\ProductParameter;
 use Sibas\Repositories\BaseRepository;
 
@@ -29,19 +29,19 @@ class FacultativeRepository extends BaseRepository
      */
     public function getRecords($user)
     {
-        $cases = null;
+        $fa = null;
         $user_type = $user->profile->first()->slug;
 
         switch ($user_type) {
             case 'SEP':
-                $cases = Facultative::with('detail.header.user', 'detail.client')
+                $fa = Facultative::with('detail.header.user', 'detail.client', 'observations')
                     ->whereHas('detail.header', function ($query) use ($user) {
                         $query->where('ad_user_id', $user->id);
                         $query->where('type', 'I');
                     })->get();
                 break;
             case 'COP':
-                $cases = Facultative::with('detail.header.user', 'detail.client')
+                $fa = Facultative::with('detail.header.user', 'detail.client', 'observations')
                     ->whereHas('detail.header', function ($query) use ($user) {
                         $query->where('type', 'I');
                     })
@@ -50,19 +50,55 @@ class FacultativeRepository extends BaseRepository
                 break;
         }
 
-        $all = $cases;
+        $all = $fa;
 
         $this->records['all'] = $all;
 
-        if ($user_type === 'SEP') {
-            $this->records['all-unread'] = $all->filter(function ($case) {
-                if (! $case->read) {
-                    return true;
+        $fa->each(function ($item, $key) use ($user_type) {
+            // All
+            if ($user_type === 'SEP') {
+                if (! $item->read) {
+                    $this->records['all-unread']->push($item);
                 }
-            });
-        } else {
-            $this->records['all-unread'] = $all->count();
-        }
+            } else {
+                $this->records['all-unread']->push($item);
+            }
+
+            // Approved
+            if ($item->state === 'PR' && $item->approved) {
+                $this->records['approved']->push($item);
+
+                if (! $item->read) {
+                    $this->records['approved-unread']->push($item);
+                }
+
+                return true;
+            }
+
+            // Observed
+            if ($item->observations->count() > 0) {
+                $this->records['observed']->push($item);
+
+                if (! $item->read) {
+                    $this->records['observed-unread']->push($item);
+                }
+
+                return true;
+            }
+
+            // Rejected
+            if ($item->state === 'PR' && ! $item->approved) {
+                $this->records['rejected']->push($item);
+
+                if (! $item->read) {
+                    $this->records['rejected-unread']->push($item);
+                }
+
+                return true;
+            }
+        });
+
+        //dd($this->records);
 
         return $this->records;
     }
@@ -176,7 +212,7 @@ class FacultativeRepository extends BaseRepository
 
     public function getFacultativeById($id)
     {
-        $this->model = Facultative::with('detail.header.user', 'detail.client')
+        $this->model = Facultative::with('detail.header.user', 'detail.client', 'observations')
             ->where('id', '=', $id)
             ->get();
 
@@ -201,10 +237,12 @@ class FacultativeRepository extends BaseRepository
         $this->data['approved']  = (int) $this->data['approved'];
         $this->data['surcharge'] = (boolean) $this->data['surcharge'];
 
+        $_obs = $this->data['observation'];
+
         if ($this->data['approved'] === 1 || $this->data['approved'] == 0) {
             $this->model->ad_user_id  = $user->id;
             $this->model->state       = 'PR';
-            $this->model->observation = $this->data['observation'];
+            $this->model->observation = $_obs;
 
             if ($this->data['approved'] === 1) {
                 $this->model->approved = true;
@@ -220,11 +258,24 @@ class FacultativeRepository extends BaseRepository
                     $this->model->final_rate   = $this->data['final_rate'];
                 }
             } else {
-
+                $this->model->approved = false;
             }
         } elseif ($this->data['approved'] === 2) {
+            $observation = new Observation([
+                'id'          => date('U'),
+                'ad_user_id'  => $user->id,
+                'ad_state_id' => $this->data['state']['id'],
+                'observation' => $_obs,
+            ]);
 
+            try {
+                $this->model->observations()->save($observation);
+            } catch (QueryException $e) {
+                $this->errors = $e->getMessage();
+            }
         }
+
+        $this->model->read = false;
 
         // dd($this->model);
 

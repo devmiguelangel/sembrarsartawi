@@ -25,7 +25,7 @@ class RetailerProductStateTableSeeder extends BaseSeeder
                     array_push($data, [
                         'ad_retailer_product_id' => $retailerProduct->id,
                         'ad_state_id'            => $state->id,
-                        'active'                 => truebase
+                        'active'                 => true
                     ]);
                 }
             }

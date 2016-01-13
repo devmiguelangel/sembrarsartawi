@@ -152,7 +152,6 @@ class HeaderController extends Controller
             });
 
             $header->cumulus = $cumulus;
-
         }
 
         return view('de.edit', compact('rp_id', 'header_id', 'header', 'data'));
