@@ -173,7 +173,7 @@ class HeaderController extends Controller
         }
 
         return redirect()->back()
-            ->with(['error_header' => 'La Póliza no pudo ser registrada.'])
+            ->with(['error_header' => 'La Póliza no pudo ser actualizada.'])
             ->withInput()->withErrors($this->repository->getErrors());
     }
 
@@ -344,5 +344,23 @@ class HeaderController extends Controller
 
         return redirect()->back()
             ->with(['error_header' => 'La solicitud no pudo ser enviada']);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param HeaderEditFormRequest $request
+     * @return Response
+     */
+    public function updateFa(HeaderEditFormRequest $request, $rp_id, $header_id)
+    {
+        if ($this->repository->updateHeaderFacultative($request, decode($header_id))) {
+            return redirect()->route('home')
+                ->with(['success_header' => 'La Póliza fue actualizada con éxito.']);
+        }
+
+        return redirect()->back()
+            ->with(['error_header' => 'La Póliza no pudo ser actualizada.'])
+            ->withInput()->withErrors($this->repository->getErrors());
     }
 }

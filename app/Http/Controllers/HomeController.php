@@ -37,7 +37,8 @@ class HomeController extends Controller
         if ($user->profile->first()->slug === 'SEP' || $user->profile->first()->slug === 'COP') {
             foreach ($user->retailer->first()->retailerProducts as $retailerProduct) {
                 if ($retailerProduct->type === 'MP' && $retailerProduct->facultative) {
-                    $product = $retailerProduct->companyProduct->product;
+                    $product     = $retailerProduct->companyProduct->product;
+                    $product->rp = $retailerProduct;
 
                     if ($product->code === 'de') {
                         $product->records = $this->facultativeDeRepository->getRecords($user);
@@ -46,11 +47,7 @@ class HomeController extends Controller
                     array_push($data['products'], $product);
                 }
             }
-
-            // dd($data['products']);
         }
-
-        // dd($data);
 
         return view('home', compact('user', 'data'));
     }

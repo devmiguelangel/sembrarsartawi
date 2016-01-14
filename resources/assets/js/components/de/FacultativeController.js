@@ -30,7 +30,22 @@ var facultative = function ($rootScope, $scope, $http) {
       }).error(function (err, status, headers, config) {
         console.log(err);
       });
+  };
 
+  $scope.observation = function (event) {
+    event.preventDefault();
+
+    var href = event.target.href;
+
+    $http.get(href, {
+
+    }).success(function (data, status, headers, config) {
+        if (status == 200) {
+          $scope.popup(data.payload);
+        }
+      }).error(function (err, status, headers, config) {
+        console.log(err);
+      });
   };
 
   $scope.store = function (event) {
@@ -41,8 +56,6 @@ var facultative = function ($rootScope, $scope, $http) {
     CSRF_TOKEN = $scope.csrf_token();
 
     $scope.formData.emails = $scope.formData.emails.split(',');
-
-    console.log($scope.formData);
 
     $http({
       method: 'PUT',
@@ -59,7 +72,6 @@ var facultative = function ($rootScope, $scope, $http) {
         if (status == 200) {
           $scope.success = { facultative: true };
           $scope.redirect(data.location);
-          console.log(data);
         }
       })
       .error(function (err, status, headers, config) {
@@ -74,6 +86,41 @@ var facultative = function ($rootScope, $scope, $http) {
 
           $scope.formData.emails = $scope.formData.emails.join(',');
 
+          $scope.errors = err;
+        } else if (status == 500) {
+          console.log('Unauthorized action.');
+        }
+
+        console.log(err);
+      });
+
+  };
+
+  $scope.storeAnswer = function (event) {
+    event.preventDefault();
+
+    var action = $scope.getActionAttribute(event);
+
+    CSRF_TOKEN = $scope.csrf_token();
+
+    $http({
+      method: 'PUT',
+      url: action,
+      data: $.param($scope.formData),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRF-TOKEN': CSRF_TOKEN
+      }
+    }).success(function (data, status, headers, config) {
+        $scope.errors = {};
+
+        if (status == 200) {
+          $scope.success = { facultative: true };
+          $scope.redirect(data.location);
+        }
+      })
+      .error(function (err, status, headers, config) {
+        if (status == 422) {
           $scope.errors = err;
         } else if (status == 500) {
           console.log('Unauthorized action.');

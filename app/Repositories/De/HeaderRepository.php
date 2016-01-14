@@ -50,8 +50,6 @@ class HeaderRepository extends BaseRepository
         $this->data = $request->all();
 
         if ($this->getHeaderById($header_id)) {
-            $this->model = $this->getModel();
-
             $issue_number = $this->getNumber('I');
 
             $this->model->type             = 'I';
@@ -111,8 +109,6 @@ class HeaderRepository extends BaseRepository
     public function issueHeader($header_id)
     {
         if ($this->getHeaderById(decode($header_id))) {
-            $this->model = $this->getModel();
-
             $this->model->issued     = true;
             $this->model->date_issue = $this->carbon->format('Y-m-d H:i:s');
             $this->model->approved   = true;
@@ -193,6 +189,27 @@ class HeaderRepository extends BaseRepository
         $header->facultative_sent = true;
 
         return $this->saveModel();
+    }
+
+    /**
+     * @param Request $request
+     * @param string $header_id
+     * @return bool
+     */
+    public function updateHeaderFacultative($request, $header_id)
+    {
+        $this->data = $request->all();
+
+        if ($this->getHeaderById($header_id)) {
+            $this->model->policy_number    = $this->data['policy_number'];
+            $this->model->operation_number = $this->data['operation_number'];
+            $this->model->term             = $this->data['term'];
+            $this->model->type_term        = $this->data['type_term'];
+
+            return $this->saveModel();
+        }
+
+        return false;
     }
 
 }

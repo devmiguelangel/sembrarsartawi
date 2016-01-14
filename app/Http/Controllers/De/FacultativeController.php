@@ -109,4 +109,77 @@ class FacultativeController extends Controller
         //
     }
 
+    public function createAnswer($id, $id_observation)
+    {
+        if (request()->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                $fa = $this->repository->getModel();
+
+                return response()->json([
+                    'payload' => view('de.facultative.answer', compact('fa', 'id_observation'))->render()
+                ]);
+            }
+
+            return response()->json(['err'=>'Unauthorized action.'], 401);
+        }
+
+        return redirect()->back();
+    }
+
+    public function storeAnswer(Request $request, $id, $id_observation)
+    {
+        $this->validate($request, [
+            'observation_response' => 'required|ands_full'
+        ]);
+
+        if (request()->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                if ($this->repository->storeAnswer($request, decode($id_observation))) {
+                    return response()->json([
+                        'location' => route('home')
+                    ]);
+                }
+            }
+
+            return response()->json(['err'=>'Unauthorized action.'], 401);
+        }
+
+        return redirect()->back();
+    }
+
+    public function observation($id)
+    {
+        if (request()->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                $fa = $this->repository->getModel();
+
+                return response()->json([
+                    'payload' => view('de.facultative.observation', compact('fa'))->render()
+                ]);
+            }
+
+            return response()->json(['err'=>'Unauthorized action.'], 401);
+        }
+
+        return redirect()->back();
+    }
+
+    public function response($id, $id_observation)
+    {
+        if (request()->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                $fa          = $this->repository->getModel();
+                $observation = $fa->observations()->where('id', decode($id_observation))->first();
+
+                return response()->json([
+                    'payload' => view('de.facultative.response', compact('fa', 'observation'))->render()
+                ]);
+            }
+
+            return response()->json(['err'=>'Unauthorized action.'], 401);
+        }
+
+        return redirect()->back();
+    }
+
 }

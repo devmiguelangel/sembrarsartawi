@@ -258,7 +258,8 @@ class DetailController extends Controller
                 if (($detail->client instanceof Client) && $this->clientRepository->updateIssueClient($request)) {
                     return redirect()->route('de.edit', [
                         'rp_id'     => $rp_id,
-                        'header_id' => $header_id
+                        'header_id' => $header_id,
+                        $request->has('_idf') ? 'idf=' . e($request->get('_idf')) : null
                     ])->with(['success_client' => 'La información del Cliente se actualizó correctamente']);
                 }
             };

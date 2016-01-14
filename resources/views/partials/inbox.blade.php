@@ -163,25 +163,74 @@
                             <td class="view-message ">{{ $record->date_admission }}</td>
                             {{-- <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td> --}}
                             <td class="view-message  text-right" style="z-index:34;">
-                                @if ($user->profile->first()->slug === 'SEP')
-                                    {{-- expr --}}
-                                @elseif ($user->profile->first()->slug === 'COP')
-                                    <ul class="icons-list">
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                <i class="icon-menu9"></i>
-                                            </a>
-                                            <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
+                                <ul class="icons-list">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
+                                            @if ($user->profile->first()->slug === 'SEP')
+                                                
+                                            @elseif ($user->profile->first()->slug === 'COP')
                                                 <li>
-                                                    <a href="{{ route('de.fa.edit', ['id' => encode($record->id)]) }}" ng-click="process($event)"><i class="icon-plus2"></i> Procesar</a>
+                                                    <a href="{{ route('de.fa.edit', ['id' => encode($record->id)]) }}" ng-click="process($event)">
+                                                        <i class="icon-plus2"></i> Procesar
+                                                    </a>
                                                 </li>
+                                            @endif
+
+                                            @if ($record->company_state === 'O' || $record->company_state === 'C')
                                                 <li>
-                                                    <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                                    <a href="{{ route('de.fa.observation', ['id' => encode($record->id)]) }}" ng-click="observation($event)">
+                                                        <i class="icon-plus2"></i> Observación ({{ $record->observations->last()->state->state }})
+                                                    </a>
                                                 </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                @endif
+
+                                                @if ($user->profile->first()->slug === 'SEP' 
+                                                    && $record->company_state === 'O'
+                                                    && $record->observations->last()->state->slug === 'cl'
+                                                    && ! $record->observations->last()->response)
+                                                    <li>
+                                                        <a href="{{ route('de.fa.create.answer', [
+                                                            'id'             => encode($record->id), 
+                                                            'id_observation' => encode($record->observations->last()->id) 
+                                                            ]) }}" ng-click="observation($event)">
+                                                            <i class="icon-plus2"></i> Responder
+                                                        </a>
+                                                    </li>
+                                                @endif
+
+                                                @if ($user->profile->first()->slug === 'SEP' && $record->observations->last()->state->slug === 'de')
+                                                    <li>
+                                                        <a href="{{ route('de.edit', [
+                                                            'rp_id'     => encode($data['products'][0]->rp->id),
+                                                            'header_id' => encode($record->detail->header->id),
+                                                            'idf'       => encode($record->id)
+                                                            ]) }}">
+                                                            <i class="icon-plus2"></i> Editar Póliza
+                                                        </a>
+                                                    </li>
+                                                @endif
+
+                                            @endif
+
+                                            @if ($record->company_state === 'C' && $record->observations->last()->response)
+                                                <li>
+                                                    <a href="{{ route('de.fa.response', [
+                                                        'id' => encode($record->id),
+                                                        'id_observation' => encode($record->observations->last()->id) 
+                                                        ]) }}" ng-click="observation($event)">
+                                                        <i class="icon-plus2"></i> Respuesta ({{ $record->observations->last()->state->state }})
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            <li>
+                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </td>
                         </tr>
                     @endforeach
@@ -191,3 +240,9 @@
         </div>
     </aside>
 </div>
+
+@if(session('success_header'))
+    <script>
+        $(function(){messageAction('succes',"{{ session('success_header') }}");});
+    </script>
+@endif

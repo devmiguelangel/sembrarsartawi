@@ -2,6 +2,7 @@
 
 namespace Sibas\Repositories\De;
 
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Facultative;
@@ -29,30 +30,28 @@ class FacultativeRepository extends BaseRepository
      */
     public function getRecords($user)
     {
-        $fa = null;
         $user_type = $user->profile->first()->slug;
+
+        $fa = Facultative::with('detail.header.user', 'detail.client', 'observations.state');
 
         switch ($user_type) {
             case 'SEP':
-                $fa = Facultative::with('detail.header.user', 'detail.client', 'observations')
-                    ->whereHas('detail.header', function ($query) use ($user) {
+                $fa->whereHas('detail.header', function ($query) use ($user) {
                         $query->where('ad_user_id', $user->id);
                         $query->where('type', 'I');
-                    })->get();
+                    });
                 break;
             case 'COP':
-                $fa = Facultative::with('detail.header.user', 'detail.client', 'observations')
-                    ->whereHas('detail.header', function ($query) use ($user) {
+                $fa->whereHas('detail.header', function ($query) use ($user) {
                         $query->where('type', 'I');
                     })
-                    ->where('state', 'PE')
-                    ->get();
+                    ->where('state', 'PE');
                 break;
         }
 
-        $all = $fa;
+        $fa = $fa->orderBy('created_at', 'desc')->get();
 
-        $this->records['all'] = $all;
+        $this->records['all'] = $fa;
 
         $fa->each(function ($item, $key) use ($user_type) {
             // All
@@ -97,8 +96,6 @@ class FacultativeRepository extends BaseRepository
                 return true;
             }
         });
-
-        //dd($this->records);
 
         return $this->records;
     }
@@ -277,14 +274,26 @@ class FacultativeRepository extends BaseRepository
 
         $this->model->read = false;
 
-        // dd($this->model);
-
         return $this->saveModel();
     }
 
-    private function approved($request)
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    public function storeAnswer($request, $id_observation)
     {
+        $user       = $request->user();
+        $this->data = $request->all();
 
+        $this->model->observations()->update([
+            'id'                   => $id_observation,
+            'response'             => true,
+            'observation_response' => $this->data['observation_response'],
+            'date_response'        => new Carbon()
+        ]);
+
+        return $this->saveModel();
     }
 
 }
