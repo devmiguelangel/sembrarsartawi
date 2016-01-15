@@ -47,7 +47,33 @@ class CompanyAdminController extends BaseController
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'txtFile' => 'required|mimes:jpeg,jpg,png'
+        ]);
+
+        //dd($request->file('txtFile'));
+
+        // upload the image //
+        $especiales = array("ñ", "Ñ", "á", "Á", "é", "É", "í", "Í", "ó", "Ó", "ú", "Ú", "ü", "Ü", " ");
+        $reemplazos = array("n", "N", "a", "A", "e", "E", "i", "I", "o", "O", "u", "U", "u", "U", "-");
+        $slug = str_replace($especiales, $reemplazos, $request->input('txtCompany'));
+
+        $file = $request->file('txtFile');
+        $destination_path = 'assets/img/';
+        $file_id = date('U') . '_' . md5(uniqid('@F#1$' . time(), true));
+        $filename = $file_id . '.' . $file->getClientOriginalExtension();
+        $file->move($destination_path, $filename);
+        $field_image = $destination_path . $filename;
+
+
+        // save image data into database //
+        $query_update = new Company();
+        $query_update->name=$request->input('txtCompany');
+        $query_update->image=$field_image;
+        $query_update->slug=$slug;
+        if($query_update->save()){
+            return redirect()->route('admin.company.list', ['nav'=>'company', 'action'=>'list']);
+        }
     }
 
     /**
@@ -77,15 +103,38 @@ class CompanyAdminController extends BaseController
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+ * Update the specified resource in storage.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @param  int  $id
+ * @return \Illuminate\Http\Response
+ */
+    public function update(Request $request)
     {
-        //
+        $this->validate($request, [
+            'txtFile' => 'mimes:jpeg,jpg,png'
+        ]);
+
+        //dd($request->file('txtFile'));
+        if(count($request->file('txtFile'))>0){
+            // upload the image //
+            $file = $request->file('txtFile');
+            $destination_path = 'assets/img/';
+            $file_id = date('U') . '_' . md5(uniqid('@F#1$' . time(), true));
+            $filename = $file_id . '.' . $file->getClientOriginalExtension();
+            $file->move($destination_path, $filename);
+            $field_image = $destination_path . $filename;
+        }else{
+            $field_image = $request->input('aux_file');
+        }
+
+        // save image data into database //
+        $query_update = Company::where('id', $request->input('id_company'))->first();
+        $query_update->name=$request->input('txtCompany');
+        $query_update->image=$field_image;
+        if($query_update->save()){
+            return redirect()->route('admin.company.list', ['nav'=>'company', 'action'=>'list']);
+        }
     }
 
     /**
@@ -97,5 +146,34 @@ class CompanyAdminController extends BaseController
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * ajax
+     *
+     * procesos ajax
+     */
+    public function ajax_active_inactive($id_company, $text){
+        //dd($id_company);
+        if($text=='inactive'){
+            $query_update = \DB::table('ad_companies')
+                ->where('id', $id_company)
+                ->update(['active' => false]);
+            //dd($query_update);
+            if($query_update) {
+                return 1;
+            }else{
+                return 0;
+            }
+        }elseif($text=='active'){
+            $query_update = \DB::table('ad_companies')
+                ->where('id', $id_company)
+                ->update(['active' => true]);
+            if($query_update) {
+                return 1;
+            }else{
+                return 0;
+            }
+        }
     }
 }

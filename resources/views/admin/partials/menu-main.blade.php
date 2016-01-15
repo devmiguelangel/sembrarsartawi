@@ -19,7 +19,7 @@
                 @var $link_ar='active'
                 @var $link_acs=''
                 @var $link_pro=''
-            @elseif($nav=='company')
+            @elseif($nav=='company' || $nav=='addprocom' || $nav=='addtoretailer' || $nav=='policynumber')
                 @var $link_acs='active'
                 @var $link_ar=''
                 @var $link_pro=''
@@ -37,26 +37,17 @@
                     <i class="icon-stack2"></i> <span>Retailer</span>
                 </a>
             </li>
-            <li class="{{$link_acs}}">
-                <a href="{{ route('admin.company.list', ['nav'=>'company', 'action'=>'list']) }}">
-                    <i class="icon-stack2"></i> <span>Compañía de Seguros</span>
-                </a>
-            </li>
             <li class="{{$link_pro}}">
                 <a href="{{ route('admin.product.list', ['nav'=>'product', 'action'=>'list']) }}">
                     <i class="icon-stack2"></i> <span>Productos</span>
                 </a>
             </li>
-            <!--
-            <li>
-                <a href="#"><i class="icon-stack2"></i> <span>Agegar compañías a Entidad Financiera</span></a>
-                <ul>
-                    <li>
-                        <a href="agrega_cia_entidad_list.html">Listar Registros</a>
-                    </li>
-                </ul>
+            <li class="{{$link_acs}}">
+                <a href="{{ route('admin.company.list', ['nav'=>'company', 'action'=>'list']) }}">
+                    <i class="icon-stack2"></i> <span>Compañía de Seguros</span>
+                </a>
             </li>
-            -->
+
             <li class="navigation-header">
                 <span>Usuarios</span> <i class="icon-menu" title="Forms"></i>
             </li>
@@ -127,7 +118,8 @@
                     @endif
 
                     @if($data->product=='vi')
-                        <li>
+                        <!--
+                            <li>
                                 <a href="#"><i class="icon-stack2"></i> <span>Vida Individual</span></a>
                                 <ul>
                                     <li>
@@ -150,6 +142,7 @@
                                     </li>
                                 </ul>
                             </li>
+                        -->
                     @endif
                 @endforeach
             @else
@@ -170,10 +163,12 @@
                     <i class="icon-stack2"></i> <span>Tipo de Cambio</span>
                 </a>
             </li>
+            <!--
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Administrar correos</span></a>
 
             </li>
+            -->
             @if($nav=='city')
                 @if($action=='list' || $action=='edit' || $action=='new')
                     @var $data_dpt='active'
@@ -199,9 +194,11 @@
                     </li>
                 </ul>
             </li>
+            <!--
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Administrar archivos</span></a>
             </li>
+            -->
             @if($nav=='question')
                 @if($action=='list' || $action=='edit' || $action=='new')
                     @var $data_pp='active'

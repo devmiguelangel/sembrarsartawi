@@ -65,3 +65,6 @@ require "admin.agency.php";
 require "admin.addquestion.php";
 require "admin.retailer.php";
 require "admin.product.php";
+require "admin.addprodcomp.php";
+require "admin.addtoretailer.php";
+require "admin.policy.php";

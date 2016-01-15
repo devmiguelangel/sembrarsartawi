@@ -22,59 +22,119 @@
                 Formulario
                 <small class="display-block">Nuevo registro</small>
             </h5>
-            <!--
             <div class="heading-elements">
+                <!--
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
                     <li><a data-action="reload"></a></li>
                     <li><a data-action="close"></a></li>
                 </ul>
+                -->
             </div>
-            -->
         </div>
 
         <div class="panel-body">
 
-            {!! Form::open(array('route' => 'new_company', 'name' => 'NewCompanyForm', 'id' => 'NewCompanyForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
+            {!! Form::open(array('route' => 'new_addproductretailer', 'name' => 'NewForm', 'id' => 'NewForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
                 <fieldset class="content-group">
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Compañía Aseguradora <span class="text-danger">*</span></label>
+                        <label class="control-label col-lg-2">Retailer</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control required text" name="txtCompany" id="txtCompany">
+                            <select name="id_retailer" id="id_retailer" class="form-control required">
+                                <option value="0">Seleccione</option>
+                                @foreach($query_ret as $data_ret)
+                                    <option value="{{$data_ret->id}}">{{$data_ret->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Archivo <span class="text-danger">*</span></label>
+                        <label class="control-label col-lg-2">Producto</label>
                         <div class="col-lg-10">
-                            <input type="file" class="file-styled required" name="txtFile" id="txtFile">
+                            <select name="id_company_products" id="id_company_products" class="form-control required" disabled>
+                                <option value="0">Seleccione</option>
+                                @foreach($query_pr_co as $data_pro)
+                                    <option value="{{$data_pro->id_company_products}}">{{$data_pro->product}}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div>
-                            @if($errors)
-                                {{ $errors->first('txtFile')}}
-                            @endif
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Tipo Producto</label>
+                        <div class="col-lg-10">
+                            <select name="tipo_prod" id="tipo_prod" class="form-control required" disabled>
+                                <option value="0">Seleccione</option>
+                                @foreach(config('base.retailer_product_types') as $key=>$data_type)
+                                    <option value="{{$key}}">{{$data_type}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
                 </fieldset>
 
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" disabled>
                         Guardar <i class="icon-arrow-right14 position-right"></i>
                     </button>
-
-                    <a href="{{route('admin.company.list', ['nav'=>'company', 'action'=>'list'])}}" class="btn btn-primary">
+                    <a href="{{route('admin.addtoretailer.list', ['nav'=>'addtoretailer', 'action'=>'list', 'id_company'=>$id_company])}}" class="btn btn-primary">
                         Cancelar <i class="icon-arrow-right14 position-right"></i>
                     </a>
+                    <input type="hidden" name="id_company" id="id_company" value="{{$id_company}}">
                 </div>
             {!!Form::close()!!}
         </div>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
+            $('#id_retailer').change(function(){
+                var id_retailer = $(this).prop('value');
+                if(id_retailer!=0){
+                    $('#id_company_products').prop('disabled', false);
+                    $('#tipo_prod').prop('disabled', false);
+                    $('button[type="submit"]').prop('disabled', false);
+                }else{
+                    $('#id_company_products').prop('disabled', true);
+                    $('#tipo_prod').prop('disabled', true);
+                    $('button[type="submit"]').prop('disabled', true);
+                }
+            });
+
+            $('#id_company_products').change(function(){
+                var id_company_product = $(this).prop('value');
+                var id_retailer = $('#id_retailer option:selected').prop('value');
+                //alert(id_retailer);
+                if(id_company_product!=0){
+                    $.get( "{{url('/')}}/admin/addtoretailer/quest_ajax/"+id_company_product+"/"+id_retailer, function( data ) {
+                        console.log(data);
+                        if(data==1){
+                            if($("#id_company_products + .validation-error-label").length) {
+                                $("#id_company_products + .validation-error-label").remove();
+                            }
+                            $('button[type="submit"]').prop('disabled', true);
+                            if(!$("#id_company_products + .validation-error-label").length) {
+                                $("#id_company_products:last").after('<span class="validation-error-label">El Producto ya esta agregado al Retailer</span>');
+                            }
+                        }else if(data==0){
+                            if($("#id_company_products + .validation-error-label").length) {
+                                $("#id_company_products + .validation-error-label").remove();
+                            }
+                            $('button[type="submit"]').prop('disabled', false);
+                        }
+                    });
+                }else{
+                    if($("#id_company_products + .validation-error-label").length) {
+                        $("#id_company_products + .validation-error-label").remove();
+                    }
+                    $('button[type="submit"]').prop('disabled', false);
+                }
+            });
+
             //VERIFICAMOS EL FORMULARIO
-            $('#NewCompanyForm').submit(function(e){
+            $('#NewForm').submit(function(e){
                 var sw = true;
                 var err = 'Esta informacion es obligatoria';
                 $(this).find('.required, .not-required').each(function(index, element) {

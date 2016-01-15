@@ -97,7 +97,8 @@ class AgencyAdminController extends BaseController
                         ->where('ad_retailer_cities.ad_retailer_id', '=', $id_retailer)
                         ->where('ad_retailer_cities.active', '=', true)
                         ->get();
-        //dd($query_dp);
+        
+
         return view('admin.agencies.edit', compact('nav', 'action', 'query_re', 'query_ag', 'query_dp', 'main_menu'));
     }
 
