@@ -83,8 +83,6 @@ class FacultativeController extends Controller
     {
         if ($request->ajax()) {
             if ($this->repository->getFacultativeById(decode($id))) {
-                $fa = $this->repository->getModel();
-
                 if ($this->repository->updateFacultative($request)) {
                     return response()->json([
                         'location' => route('home')
@@ -173,6 +171,23 @@ class FacultativeController extends Controller
 
                 return response()->json([
                     'payload' => view('de.facultative.response', compact('fa', 'observation'))->render()
+                ]);
+            }
+
+            return response()->json(['err'=>'Unauthorized action.'], 401);
+        }
+
+        return redirect()->back();
+    }
+
+    public function observationProcess($id)
+    {
+        if (request()->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                $fa = $this->repository->getModel();
+
+                return response()->json([
+                    'payload' => view('de.facultative.observation-process', compact('fa'))->render()
                 ]);
             }
 

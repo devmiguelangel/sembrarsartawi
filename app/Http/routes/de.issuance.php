@@ -117,4 +117,9 @@ Route::group(['prefix' => 'de'], function() {
         'uses'  => 'De\FacultativeController@response'
     ]);
 
+    Route::get('facultative/{id}/observation-process', [
+        'as'    => 'de.fa.observation.process',
+        'uses'  => 'De\FacultativeController@observationProcess'
+    ]);
+
 });

@@ -170,10 +170,30 @@
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
                                             @if ($user->profile->first()->slug === 'SEP')
-                                                
+                                                @if ($record->company_state === 'A' || $record->company_state === 'R')
+                                                    <li>
+                                                        <a href="{{ route('de.fa.observation.process', [
+                                                            'id' => encode($record->id), 
+                                                            ]) }}" ng-click="observation($event)">
+                                                            <i class="icon-plus2"></i>
+                                                            Respuesta ({{ config('base.company_state.' . $record->company_state) }})
+                                                        </a>
+                                                    </li>
+
+                                                    @if ($record->company_state === 'A')
+                                                        <li>
+                                                            <a href="#" ng-click="observation($event)">
+                                                                <i class="icon-plus2"></i>
+                                                                Emitir -- {{ $record->detail->header->issuance_status }} --
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endif
                                             @elseif ($user->profile->first()->slug === 'COP')
                                                 <li>
-                                                    <a href="{{ route('de.fa.edit', ['id' => encode($record->id)]) }}" ng-click="process($event)">
+                                                    <a href="{{ route('de.fa.edit', [
+                                                        'id' => encode($record->id)
+                                                        ]) }}" ng-click="process($event)">
                                                         <i class="icon-plus2"></i> Procesar
                                                     </a>
                                                 </li>

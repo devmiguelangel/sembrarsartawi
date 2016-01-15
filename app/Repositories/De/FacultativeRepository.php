@@ -254,6 +254,10 @@ class FacultativeRepository extends BaseRepository
                     $this->model->current_rate = $this->data['current_rate'];
                     $this->model->final_rate   = $this->data['final_rate'];
                 }
+
+                $this->model->detail()->update([
+                    'approved' => true
+                ]);
             } else {
                 $this->model->approved = false;
             }
