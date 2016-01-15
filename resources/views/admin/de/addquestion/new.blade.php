@@ -59,6 +59,8 @@
                             @else
                                 <div class="alert alert-info alert-styled-left alert-bordered">
                                     <span class="text-semibold">Alert</span> No existe ninguna pregunta, ingrese una nueva pregunta.
+                                    <br>
+                                    <a href="{{route('admin.questions.list', ['nav'=>'question', 'action'=>'list'])}}">Agregar una pregunta</a>
                                 </div>
                             @endif
                         </div>

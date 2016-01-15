@@ -17,15 +17,15 @@
         <div class="panel-heading">
             <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
                 <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
-                Compañías Aseguradoras
+                Productos Compañías agregados a Retailer
                 <small class="display-block">Listado de registros</small>
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li>
-                        <a href="{{route('admin.company.new', ['nav'=>'company', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
+                        <a href="{{route('admin.addtoretailer.new', ['nav'=>'addtoretailer', 'action'=>'new', 'id_company'=>$id_company])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
-                            <span>Agregar Compañia</span>
+                            <span>Agregar producto a Retailer</span>
                         </a>
                     </li>
                 </ul>
@@ -39,17 +39,19 @@
         <table class="table datatable-basic">
             <thead>
             <tr>
-                <th>Compañia de Seguros</th>
-                <th>Imagen</th>
+                <th>Retailer</th>
+                <th>Producto</th>
+                <th>Tipo Producto</th>
                 <th>Estado</th>
                 <th class="text-center">Acciones</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($company_new as $data)
+            @foreach($query as $data)
                 <tr>
-                <td>{{$data->name}}</td>
-                <td><img src="{{ asset($data->image) }}" height="60"></td>
+                <td>{{$data->retailer}}</td>
+                <td>{{$data->product}}</td>
+                <td>{{$parameter[$data->type]}}</td>
                 <td>
                     @if((boolean)$data->active==true)
                         <span class="label label-success">Activo</span>
@@ -63,22 +65,23 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="icon-menu9"></i>
                             </a>
+
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="{{route('admin.company.edit', ['nav'=>'company', 'action'=>'edit', 'id_company'=>$data->id])}}"><i class="icon-file-pdf"></i> Editar</a></li>
-                                <li>
-                                    @if((boolean)$data->active==true)
-                                        <a href="#" id="{{$data->id}}|inactive|desactivar" class="confirm_active">
+                                @if((boolean)$data->active==true)
+                                    <li>
+                                        <a href="#" id="{{$data->id_retailer_products}}|inactive|desactivar" class="confirm_active">
                                             <i class="icon-file-excel"></i> Desactivar
                                         </a>
-                                    @else
-                                        <a href="#" id="{{$data->id}}|active|activar" class="confirm_active">
-                                            <i class="icon-file-excel"></i> Activar
+                                    </li>
+                                    <li>
+                                        <a href="{{route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_retailer_products'=>$data->id_retailer_products, 'id_company'=>$id_company])}}">
+                                            <i class="icon-file-excel"></i> Administrar numero póliza
                                         </a>
-                                    @endif
-                                </li>
-                                @if((boolean)$data->active==true)
-                                    <li><a href="{{route('admin.addproductcompany.list', ['nav'=>'addprocom', 'action'=>'list', 'id_company'=>$data->id])}}">
-                                            <i class="icon-file-excel"></i>Agregar producto
+                                    </li>
+                                @else
+                                    <li>
+                                        <a href="#" id="{{$data->id_retailer_products}}|active|activar" class="confirm_active">
+                                            <i class="icon-file-excel"></i> Activar
                                         </a>
                                     </li>
                                 @endif
@@ -97,12 +100,12 @@
 
                 var _id = $(this).prop('id');
                 var arr = _id.split("|");
-                var id_company = arr[0];
+                var id_retailer_products = arr[0];
                 var text = arr[1];
                 bootbox.confirm("Esta seguro de "+arr[2]+" la pregunta ?.", function(result) {
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
-                        $.get( "{{url('/')}}/admin/company/active_ajax/"+id_company+"/"+text, function( data ) {
+                        $.get( "{{url('/')}}/admin/addtoretailer/active_ajax/"+id_retailer_products+"/"+text, function( data ) {
                             console.log(data);
                             if(data==1){
                                 window.setTimeout('location.reload()', 1000);

@@ -24,11 +24,24 @@
     {!! Html::script('assets/js/plugins/notifications/sweet_alert.min.js') !!}
     <!-- /core JS files -->
 
+    <!--picker date-->
+    {!! Html::script('assets/js/core/libraries/jquery_ui/datepicker.min.js') !!}
+    {!! Html::script('assets/js/plugins/ui/moment/moment.min.js') !!}
+    {!! Html::script('assets/js/plugins/pickers/daterangepicker.js') !!}
+    {!! Html::script('assets/js/plugins/pickers/anytime.min.js') !!}
+    {!! Html::script('assets/js/plugins/pickers/pickadate/picker.js') !!}
+    {!! Html::script('assets/js/plugins/pickers/pickadate/picker.date.js') !!}
+    {!! Html::script('assets/js/plugins/pickers/pickadate/picker.time.js') !!}
+    {!! Html::script('assets/js/plugins/pickers/pickadate/legacy.js') !!}
+    {!! Html::script('assets/js/pages/picker_date.js') !!}
+    <!--fin picker date-->
+
     @if($nav=='user' || $nav=='exchange' || $nav=='company' || $nav=='de' || $nav=='question' || $nav=='city' || $nav=='agency' ||
-        $nav=='addquestion' || $nav=='retailer' || $nav=='product')
+        $nav=='addquestion' || $nav=='retailer' || $nav=='product' || $nav=='addprocom' || $nav=='addtoretailer' || $nav=='policynumber')
         @if($action=='list' || $action=='list_company' || $action=='list_parameter' || $action=='list_parameter_additional')
             @if($nav!='exchange' && $nav!='company' && $nav!='de' && $nav!='question' && $nav!='city' && $nav!='agency' &&
-                $nav!='addquestion' && $nav!='retailer' && $nav!='product')
+                $nav!='addquestion' && $nav!='retailer' && $nav!='product' && $nav!='addprocom' && $nav!='addtoretailer' &&
+                $nav!='policynumber')
                 <!-- Theme JS files CON PAGINADOR-->
                 {!! Html::script('assets/js/plugins/tables/datatables/datatables.min.js') !!}
                 {!! Html::script('assets/js/plugins/forms/selects/select2.min.js') !!}
