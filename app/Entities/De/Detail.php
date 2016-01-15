@@ -11,6 +11,11 @@ class Detail extends Model
 
     public $incrementing = false;
 
+    protected $fillable = [
+        'approved',
+        'rejected',
+    ];
+
     protected $casts = [
         'approved' => 'boolean'
     ];

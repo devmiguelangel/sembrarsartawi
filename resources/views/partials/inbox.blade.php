@@ -173,6 +173,7 @@
                                                 @if ($record->company_state === 'A' || $record->company_state === 'R')
                                                     <li>
                                                         <a href="{{ route('de.fa.observation.process', [
+                                                            'rp_id'     => encode($data['products'][0]->rp->id),
                                                             'id' => encode($record->id), 
                                                             ]) }}" ng-click="observation($event)">
                                                             <i class="icon-plus2"></i>
@@ -180,11 +181,13 @@
                                                         </a>
                                                     </li>
 
-                                                    @if ($record->company_state === 'A')
+                                                    @if ($record->company_state === 'A' && $record->detail->header->approved)
                                                         <li>
-                                                            <a href="#" ng-click="observation($event)">
-                                                                <i class="icon-plus2"></i>
-                                                                Emitir -- {{ $record->detail->header->issuance_status }} --
+                                                            <a href="{{ route('de.issue', [
+                                                                'rp_id'     => encode($data['products'][0]->rp->id),
+                                                                'header_id' => encode($record->detail->header->id)
+                                                                ]) }}">
+                                                                <i class="icon-plus2"></i> Emitir Póliza
                                                             </a>
                                                         </li>
                                                     @endif
@@ -192,7 +195,8 @@
                                             @elseif ($user->profile->first()->slug === 'COP')
                                                 <li>
                                                     <a href="{{ route('de.fa.edit', [
-                                                        'id' => encode($record->id)
+                                                        'rp_id' => encode($data['products'][0]->rp->id),
+                                                        'id'    => encode($record->id)
                                                         ]) }}" ng-click="process($event)">
                                                         <i class="icon-plus2"></i> Procesar
                                                     </a>
@@ -201,7 +205,10 @@
 
                                             @if ($record->company_state === 'O' || $record->company_state === 'C')
                                                 <li>
-                                                    <a href="{{ route('de.fa.observation', ['id' => encode($record->id)]) }}" ng-click="observation($event)">
+                                                    <a href="{{ route('de.fa.observation', [
+                                                        'rp_id' => encode($data['products'][0]->rp->id), 
+                                                        'id'    => encode($record->id) 
+                                                        ]) }}" ng-click="observation($event)">
                                                         <i class="icon-plus2"></i> Observación ({{ $record->observations->last()->state->state }})
                                                     </a>
                                                 </li>
@@ -212,6 +219,7 @@
                                                     && ! $record->observations->last()->response)
                                                     <li>
                                                         <a href="{{ route('de.fa.create.answer', [
+                                                            'rp_id'          => encode($data['products'][0]->rp->id), 
                                                             'id'             => encode($record->id), 
                                                             'id_observation' => encode($record->observations->last()->id) 
                                                             ]) }}" ng-click="observation($event)">
@@ -237,7 +245,8 @@
                                             @if ($record->company_state === 'C' && $record->observations->last()->response)
                                                 <li>
                                                     <a href="{{ route('de.fa.response', [
-                                                        'id' => encode($record->id),
+                                                        'rp_id'          => encode($data['products'][0]->rp->id),
+                                                        'id'             => encode($record->id),
                                                         'id_observation' => encode($record->observations->last()->id) 
                                                         ]) }}" ng-click="observation($event)">
                                                         <i class="icon-plus2"></i> Respuesta ({{ $record->observations->last()->state->state }})

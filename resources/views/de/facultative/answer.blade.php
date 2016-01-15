@@ -12,7 +12,7 @@
             </div>
             <br>
 
-            {!! Form::open(['route' => ['de.fa.store.answer', 'id' => encode($fa->id), 'id_observation' => $id_observation ], 
+            {!! Form::open(['route' => ['de.fa.store.answer', 'rp_id' => $rp_id, 'id' => encode($fa->id), 'id_observation' => $id_observation ], 
                 'method'    => 'put', 
                 'class'     => 'form-horizontal',
                 'ng-controller' => 'FacultativeController',

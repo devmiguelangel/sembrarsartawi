@@ -38,7 +38,8 @@ class FacultativeRepository extends BaseRepository
             case 'SEP':
                 $fa->whereHas('detail.header', function ($query) use ($user) {
                         $query->where('ad_user_id', $user->id);
-                        $query->where('type', 'I');
+                        $query->where('type', 'I')
+                            ->where('issued', false);
                     });
                 break;
             case 'COP':
@@ -259,6 +260,10 @@ class FacultativeRepository extends BaseRepository
                     'approved' => true
                 ]);
             } else {
+                $this->model->detail()->update([
+                    'rejected' => true
+                ]);
+
                 $this->model->approved = false;
             }
         } elseif ($this->data['approved'] === 2) {
@@ -290,12 +295,12 @@ class FacultativeRepository extends BaseRepository
         $user       = $request->user();
         $this->data = $request->all();
 
-        $this->model->observations()->update([
-            'id'                   => $id_observation,
-            'response'             => true,
-            'observation_response' => $this->data['observation_response'],
-            'date_response'        => new Carbon()
-        ]);
+        $this->model->observations()->where('id', $id_observation)
+            ->update([
+                'response'             => true,
+                'observation_response' => $this->data['observation_response'],
+                'date_response'        => new Carbon()
+            ]);
 
         return $this->saveModel();
     }

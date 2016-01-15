@@ -12,7 +12,7 @@
             </div>
             <br>
 
-            {!! Form::open(['route' => ['de.fa.update', 'id' => encode($fa->id)], 
+            {!! Form::open(['route' => ['de.fa.update', 'rp_id' => $rp_id, 'id' => encode($fa->id)], 
                 'method'    => 'put', 
                 'class'     => 'form-horizontal',
                 'ng-controller' => 'FacultativeController',

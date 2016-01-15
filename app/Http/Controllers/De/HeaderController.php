@@ -214,7 +214,7 @@ class HeaderController extends Controller
 
     public function issue($rp_id, $header_id)
     {
-        if ($this->repository->issueHeader($header_id)) {
+        if ($this->repository->issueHeader(decode($header_id))) {
             return redirect()->route('de.issuance', [
                 'rp_id'     => $rp_id,
                 'header_id' => $header_id,

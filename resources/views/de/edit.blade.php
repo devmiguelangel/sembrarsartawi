@@ -370,7 +370,7 @@
                                         Emitir <i class="icon-floppy-disk position-right"></i>
                                     </a>
                                 @else
-                                    @if($header->facultative && ! $header->approved)
+                                    @if($header->facultative && ! $header->approved && ! $header->facultative_sent && ! isset($_GET['idf']))
                                         <a href="{{ route('de.fa.request.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-warning">
                                             Solicitar aprobación de la Compañia <i class="icon-warning position-right"></i>
                                         </a>

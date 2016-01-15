@@ -108,13 +108,12 @@ class HeaderRepository extends BaseRepository
 
     public function issueHeader($header_id)
     {
-        if ($this->getHeaderById(decode($header_id))) {
+        if ($this->getHeaderById($header_id)) {
             $this->model->issued     = true;
             $this->model->date_issue = $this->carbon->format('Y-m-d H:i:s');
             $this->model->approved   = true;
 
             return $this->saveModel();
-
         }
 
         return false;
@@ -173,11 +172,12 @@ class HeaderRepository extends BaseRepository
         if ($this->getHeaderById($header_id)) {
             $this->data = $request->all();
 
-            $this->model->approved = true;
             $this->model->facultative_observation = $this->data['facultative_observation'];
 
             return $this->saveModel();
         }
+
+        return false;
     }
 
     /**
@@ -205,6 +205,38 @@ class HeaderRepository extends BaseRepository
             $this->model->operation_number = $this->data['operation_number'];
             $this->model->term             = $this->data['term'];
             $this->model->type_term        = $this->data['type_term'];
+
+            return $this->saveModel();
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Header $header
+     * @return bool
+     */
+    public function setApproved($header)
+    {
+        if ($header instanceof Header) {
+            $this->model = $header;
+            $details     = $this->model->details;
+            $approved    = 0;
+            $rejected    = 0;
+
+            foreach ($details as $detail) {
+                if ($detail->approved) {
+                    $approved += 1;
+                } elseif ($detail->rejected) {
+                    $rejected += 1;
+                }
+            }
+
+            if ($details->count() === $rejected) {
+                $this->model->rejected = true;
+            } elseif ($details->count() === ($approved + $rejected)) {
+                $this->model->approved = true;
+            }
 
             return $this->saveModel();
         }

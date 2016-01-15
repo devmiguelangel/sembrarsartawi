@@ -12,13 +12,13 @@ class Header extends Model
     public $incrementing = false;
 
     protected $casts = [
-        'facultative' => 'boolean',
-        'approved'    => 'boolean',
+        'facultative'      => 'boolean',
+        'facultative_sent' => 'boolean',
+        'approved'         => 'boolean',
     ];
 
     protected $appends = [
         'certificate_number',
-        'issuance_status',
     ];
 
     protected $fillable = [
@@ -58,25 +58,6 @@ class Header extends Model
     public function getCertificateNumberAttribute()
     {
         return $this->prefix . '-' . $this->issue_number;
-    }
-
-    public function getIssuanceStatusAttribute()
-    {
-        $approved = true;
-
-        foreach ($this->details as $detail) {
-            if (! $detail->approved) {
-                if ($detail->facultative instanceof Facultative) {
-                    if ($detail->facultative->state === 'PE') {
-                        $approved = false;
-
-                        break;
-                    }
-                }
-            }
-        }
-
-        return $approved;
     }
 
 }

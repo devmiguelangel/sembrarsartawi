@@ -90,7 +90,7 @@ class MailController extends Controller
         {
             $message->from($this->sender['email'], $this->sender['name']);
 
-            $message->subject($this->subject);
+            $message->subject($this->sender['name'] . '. ' . $this->subject);
 
             foreach ($this->receivers as $key => $receiver) {
                 if (is_array($receiver)) {

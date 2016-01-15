@@ -32,22 +32,6 @@ var facultative = function ($rootScope, $scope, $http) {
       });
   };
 
-  $scope.observation = function (event) {
-    event.preventDefault();
-
-    var href = event.target.href;
-
-    $http.get(href, {
-
-    }).success(function (data, status, headers, config) {
-        if (status == 200) {
-          $scope.popup(data.payload);
-        }
-      }).error(function (err, status, headers, config) {
-        console.log(err);
-      });
-  };
-
   $scope.store = function (event) {
     event.preventDefault();
 
@@ -94,6 +78,22 @@ var facultative = function ($rootScope, $scope, $http) {
         console.log(err);
       });
 
+  };
+
+  $scope.observation = function (event) {
+    event.preventDefault();
+
+    var href = event.target.href;
+
+    $http.get(href, {
+
+    }).success(function (data, status, headers, config) {
+        if (status == 200) {
+          $scope.popup(data.payload);
+        }
+      }).error(function (err, status, headers, config) {
+        console.log(err);
+      });
   };
 
   $scope.storeAnswer = function (event) {

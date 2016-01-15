@@ -83,7 +83,7 @@ Route::group(['prefix' => 'de/{rp_id}'], function() {
     ]);
 });
 
-Route::group(['prefix' => 'de'], function() {
+Route::group(['prefix' => '{rp_id}'], function() {
     /*
      * Facultative process
      */
