@@ -51,6 +51,11 @@ Route::group(['prefix' => 'de/{rp_id}'], function() {
         'uses'  => 'De\HeaderController@update'
     ]);
 
+    Route::put('{header_id}/edit/{id_facultative}', [
+        'as'    => 'de.update.fa',
+        'uses'  => 'De\HeaderController@updateFa'
+    ]);
+
     /*
      * Header Issuance
      */
@@ -78,7 +83,7 @@ Route::group(['prefix' => 'de/{rp_id}'], function() {
     ]);
 });
 
-Route::group(['prefix' => 'de'], function() {
+Route::group(['prefix' => '{rp_id}'], function() {
     /*
      * Facultative process
      */
@@ -91,4 +96,30 @@ Route::group(['prefix' => 'de'], function() {
         'as'    => 'de.fa.update',
         'uses'  => 'De\FacultativeController@update'
     ]);
+
+    Route::get('facultative/{id}/observation', [
+        'as'    => 'de.fa.observation',
+        'uses'  => 'De\FacultativeController@observation'
+    ]);
+
+    Route::get('facultative/{id}/answer/{id_observation}', [
+        'as'    => 'de.fa.create.answer',
+        'uses'  => 'De\FacultativeController@createAnswer'
+    ]);
+
+    Route::put('facultative/{id}/answer/{id_observation}', [
+        'as'    => 'de.fa.store.answer',
+        'uses'  => 'De\FacultativeController@storeAnswer'
+    ]);
+
+    Route::get('facultative/{id}/response/{id_observation}', [
+        'as'    => 'de.fa.response',
+        'uses'  => 'De\FacultativeController@response'
+    ]);
+
+    Route::get('facultative/{id}/observation-process', [
+        'as'    => 'de.fa.observation.process',
+        'uses'  => 'De\FacultativeController@observationProcess'
+    ]);
+
 });

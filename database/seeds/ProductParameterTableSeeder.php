@@ -71,7 +71,7 @@ class ProductParameterTableSeeder extends BaseSeeder
                 'age_min'    => 18,
                 'age_max'    => 71,
                 'amount_min' => 350001,
-                'amount_max' => 1000000000,
+                'amount_max' => 1000000000000000,
                 'expiration' => 0,
                 'detail'     => 0,
                 'old_car'    => 0,

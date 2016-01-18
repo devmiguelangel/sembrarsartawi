@@ -13,9 +13,10 @@ use Sibas\Http\Requests\De\HeaderCreateFormRequest;
 use Sibas\Http\Requests\De\HeaderEditFormRequest;
 use Sibas\Http\Requests\De\HeaderResultFormRequest;
 use Sibas\Repositories\De\DataRepository;
+use Sibas\Repositories\De\FacultativeRepository;
 use Sibas\Repositories\De\HeaderRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
-use Sibas\Repositories\UserRepository;
+
 
 class HeaderController extends Controller
 {
@@ -36,19 +37,19 @@ class HeaderController extends Controller
      */
     protected $rate;
     /**
-     * @var UserRepository
+     * @var FacultativeRepository
      */
-    protected $userRepository;
+    protected $facultativeRepository;
 
     public function __construct(HeaderRepository $repository,
                                 DataRepository $dataRepository,
                                 RetailerProductRepository $retailerProductRepository,
-                                UserRepository $userRepository)
+                                FacultativeRepository $facultativeRepository)
     {
         $this->repository                = $repository;
         $this->dataRepository            = $dataRepository;
         $this->retailerProductRepository = $retailerProductRepository;
-        $this->userRepository            = $userRepository;
+        $this->facultativeRepository     = $facultativeRepository;
     }
 
     /**
@@ -152,7 +153,6 @@ class HeaderController extends Controller
             });
 
             $header->cumulus = $cumulus;
-
         }
 
         return view('de.edit', compact('rp_id', 'header_id', 'header', 'data'));
@@ -174,7 +174,7 @@ class HeaderController extends Controller
         }
 
         return redirect()->back()
-            ->with(['error_header' => 'La Póliza no pudo ser registrada.'])
+            ->with(['error_header' => 'La Póliza no pudo ser actualizada.'])
             ->withInput()->withErrors($this->repository->getErrors());
     }
 
@@ -215,7 +215,7 @@ class HeaderController extends Controller
 
     public function issue($rp_id, $header_id)
     {
-        if ($this->repository->issueHeader($header_id)) {
+        if ($this->repository->issueHeader(decode($header_id))) {
             return redirect()->route('de.issuance', [
                 'rp_id'     => $rp_id,
                 'header_id' => $header_id,
@@ -322,20 +322,13 @@ class HeaderController extends Controller
     {
         if ($this->repository->storeFacultative($request, decode($header_id))) {
             $header   = $this->repository->getModel();
-            $subject  = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->issue_number;
-            $users    = $this->userRepository->getUserByProfile($request->user(), ['COP']);
-            $receiver = [];
 
-            foreach ($users as $user) {
-                array_push($receiver, [
-                    'email' => $user->email,
-                    'name'  => $user->full_name,
-                ]);
-            }
+            $mail = new MailController($request->user());
 
-            $mail = new MailController($request->user(), 'de.request-approval', [], $subject, $receiver);
+            $mail->subject  = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->issue_number;
+            $mail->template = 'de.request-approval';
 
-            if ($mail->send(decode($rp_id), ['header' => $header])) {
+            if ($mail->send(decode($rp_id), ['header' => $header], 'COP')) {
                 $this->repository->storeSent($header);
             }
 
@@ -345,5 +338,28 @@ class HeaderController extends Controller
 
         return redirect()->back()
             ->with(['error_header' => 'La solicitud no pudo ser enviada']);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param HeaderEditFormRequest $request
+     * @return Response
+     */
+    public function updateFa(HeaderEditFormRequest $request, $rp_id, $header_id, $id_facultative)
+    {
+        if ($this->repository->updateHeaderFacultative($request, decode($header_id))) {
+            $mail = new MailController($request->user());
+
+            $this->facultativeRepository->approved = 2;
+            $this->facultativeRepository->sendProcessMail($mail, $rp_id, $id_facultative, true);
+
+            return redirect()->route('home')
+                ->with(['success_header' => 'La Póliza fue actualizada con éxito.']);
+        }
+
+        return redirect()->back()
+            ->with(['error_header' => 'La Póliza no pudo ser actualizada.'])
+            ->withInput()->withErrors($this->repository->getErrors());
     }
 }

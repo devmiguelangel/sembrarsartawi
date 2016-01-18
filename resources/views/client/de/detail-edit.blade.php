@@ -209,8 +209,19 @@
                         </div>
                     </div>
                 </div>
+                
+                {!! Form::open(['route' => ['de.detail.i.update', 
+                    'rp_id'     => $rp_id, 
+                    'header_id' => $header_id, 
+                    'detail_id' => encode($detail->id), 
+                    'ref'       => $ref], 
+                    'method'    => 'put', 
+                    'class'     => 'form-horizontal'
+                    ]) !!}
 
-                {!! Form::open(['route' => ['de.detail.i.update', 'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => encode($detail->id), 'ref' => $ref], 'method' => 'put', 'class' => 'form-horizontal']) !!}
+                    @if (isset($_GET['idf']))
+                        <input type="hidden" name="_idf" value="{{ e($_GET['idf']) }}">
+                    @endif
                     <div class="panel-body ">
                         @var $client = $detail->client
 

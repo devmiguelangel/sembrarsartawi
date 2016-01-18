@@ -19,27 +19,35 @@
                             <li class="active">
                                 <a href="#">
                                     <i class="icon-inbox"></i> Bandeja de entrada 
-                                    <span class="label label-info pull-right">{{ count($product->records['all-unread']) }}</span>
+                                    <span class="label label-info pull-right">{{ $product->records['all-unread']->count() }}</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <i class="icon-check"></i> Aprobados 
-                                    <span class="label label-primary pull-right">{{ count($product->records['approved-unread']) }}</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-clock-o"></i> Observados 
-                                    <span class="label label-primary pull-right">{{ count($product->records['observed-unread']) }}</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="icon-trash"></i> Rechazados 
-                                    <span class="label label-primary pull-right">{{ count($product->records['rejected-unread']) }}</span>
-                                </a>
-                            </li>
+                            @if ($user->profile->first()->slug === 'SEP')
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-check"></i> Aprobados 
+                                        <span class="label label-primary pull-right">
+                                            {{ $product->records['approved-unread']->count() }}
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-clock-o"></i> Observados 
+                                        <span class="label label-primary pull-right">
+                                            {{ $product->records['observed-unread']->count() }}
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-trash"></i> Rechazados 
+                                        <span class="label label-primary pull-right">
+                                            {{ $product->records['rejected-unread']->count() }}
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif
                         </ul> 
                     </div>
                 </div>
@@ -141,37 +149,117 @@
                             </td>
                             <td class="inbox-small-cells">
                                 <a href="#" class="avatar">
-                                    <span class="bg-success">2</span>
+                                    <span class="{{ $record->process_days <= 2 ? 'bg-success' : ($record->process_days <= 10 ? 'bg-warning' : 'bg-danger') }}">
+                                        {{ $record->process_days }}
+                                    </span>
                                 </a>
                             </td>
                             <td class="view-message  dont-show">
                                 {{ $record->detail->client->full_name }}
-                                <span class="label label-primary pull-right">Rechazado</span></td>
+                                <span class="label label-primary pull-right">{{ config('base.company_state.' . $record->company_state) }}</span></td>
                             <td class="view-message ">
                                 {{ $record->detail->client->dni }} {{ $record->detail->client->extension }}
                             </td>
-                            <td class="view-message ">{{ date('d/m/Y H:i A', strtotime($record->created_at)) }}</td>
+                            <td class="view-message ">{{ $record->date_admission }}</td>
                             {{-- <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td> --}}
                             <td class="view-message  text-right" style="z-index:34;">
-                                @if ($user->profile->first()->slug === 'SEP')
-                                    {{-- expr --}}
-                                @elseif ($user->profile->first()->slug === 'COP')
-                                    <ul class="icons-list">
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                <i class="icon-menu9"></i>
-                                            </a>
-                                            <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
+                                <ul class="icons-list">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
+                                            @if ($user->profile->first()->slug === 'SEP')
+                                                @if ($record->company_state === 'A' || $record->company_state === 'R')
+                                                    <li>
+                                                        <a href="{{ route('de.fa.observation.process', [
+                                                            'rp_id'     => encode($data['products'][0]->rp->id),
+                                                            'id' => encode($record->id), 
+                                                            ]) }}" ng-click="observation($event)">
+                                                            <i class="icon-plus2"></i>
+                                                            Respuesta ({{ config('base.company_state.' . $record->company_state) }})
+                                                        </a>
+                                                    </li>
+
+                                                    @if ($record->company_state === 'A' && $record->detail->header->approved)
+                                                        <li>
+                                                            <a href="{{ route('de.issue', [
+                                                                'rp_id'     => encode($data['products'][0]->rp->id),
+                                                                'header_id' => encode($record->detail->header->id)
+                                                                ]) }}">
+                                                                <i class="icon-plus2"></i> Emitir Póliza
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endif
+                                            @elseif ($user->profile->first()->slug === 'COP')
                                                 <li>
-                                                    <a href="{{ route('de.fa.edit', ['id' => encode($record->id)]) }}" ng-click="process($event)"><i class="icon-plus2"></i> Procesar</a>
+                                                    <a href="{{ route('de.fa.edit', [
+                                                        'rp_id' => encode($data['products'][0]->rp->id),
+                                                        'id'    => encode($record->id)
+                                                        ]) }}" ng-click="process($event)">
+                                                        <i class="icon-plus2"></i> Procesar
+                                                    </a>
                                                 </li>
+                                            @endif
+
+                                            @if ($record->company_state === 'O' || $record->company_state === 'C')
                                                 <li>
-                                                    <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                                    <a href="{{ route('de.fa.observation', [
+                                                        'rp_id' => encode($data['products'][0]->rp->id), 
+                                                        'id'    => encode($record->id) 
+                                                        ]) }}" ng-click="observation($event)">
+                                                        <i class="icon-plus2"></i> Observación ({{ $record->observations->last()->state->state }})
+                                                    </a>
                                                 </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                @endif
+
+                                                @if ($user->profile->first()->slug === 'SEP' 
+                                                    && $record->company_state === 'O'
+                                                    && $record->observations->last()->state->slug === 'cl'
+                                                    && ! $record->observations->last()->response)
+                                                    <li>
+                                                        <a href="{{ route('de.fa.create.answer', [
+                                                            'rp_id'          => encode($data['products'][0]->rp->id), 
+                                                            'id'             => encode($record->id), 
+                                                            'id_observation' => encode($record->observations->last()->id) 
+                                                            ]) }}" ng-click="observation($event)">
+                                                            <i class="icon-plus2"></i> Responder
+                                                        </a>
+                                                    </li>
+                                                @endif
+
+                                                @if ($user->profile->first()->slug === 'SEP' && $record->observations->last()->state->slug === 'de')
+                                                    <li>
+                                                        <a href="{{ route('de.edit', [
+                                                            'rp_id'     => encode($data['products'][0]->rp->id),
+                                                            'header_id' => encode($record->detail->header->id),
+                                                            'idf'       => encode($record->id)
+                                                            ]) }}">
+                                                            <i class="icon-plus2"></i> Editar Póliza
+                                                        </a>
+                                                    </li>
+                                                @endif
+
+                                            @endif
+
+                                            @if ($record->company_state === 'C' && $record->observations->last()->response)
+                                                <li>
+                                                    <a href="{{ route('de.fa.response', [
+                                                        'rp_id'          => encode($data['products'][0]->rp->id),
+                                                        'id'             => encode($record->id),
+                                                        'id_observation' => encode($record->observations->last()->id) 
+                                                        ]) }}" ng-click="observation($event)">
+                                                        <i class="icon-plus2"></i> Respuesta ({{ $record->observations->last()->state->state }})
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            <li>
+                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </td>
                         </tr>
                     @endforeach
@@ -181,3 +269,9 @@
         </div>
     </aside>
 </div>
+
+@if(session('success_header'))
+    <script>
+        $(function(){messageAction('succes',"{{ session('success_header') }}");});
+    </script>
+@endif

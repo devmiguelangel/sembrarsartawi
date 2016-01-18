@@ -6,6 +6,11 @@ use Sibas\Entities\User;
 
 class UserRepository extends BaseRepository
 {
+    /**
+     * @param User $user
+     * @param array $profiles
+     * @return array
+     */
     public function getUserByProfile(User $user, array $profiles = [])
     {
         $data = [];

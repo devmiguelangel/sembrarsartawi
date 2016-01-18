@@ -128,10 +128,18 @@ return [
     ],
 
     'states' => [
-        'me' => 'Exámenes Médicos y/o Requisitos',
-        're' => 'Reaseguro',
         'cl' => 'Aclaraciones',
+        'me' => 'Exámenes Médicos y/o Requisitos',
         'de' => 'Error en Datos',
+        're' => 'Reaseguro',
+    ],
+
+    'company_state' => [
+        'A'  => 'Aprobado',
+        'R'  => 'Rechazado',
+        'P'  => 'Pendiente',
+        'O'  => 'Observado',
+        'C'  => 'Subsanado/Pendiente',
     ],
 
 ];
