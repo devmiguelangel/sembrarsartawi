@@ -16,7 +16,7 @@ class CreateAdProductParametersTable extends Migration
             $table->increments('id');
             $table->integer('ad_retailer_product_id')->unsigned();
             $table->string('name', 140);
-            $table->enum('slug', array_keys(\Config::get('base.product_parameters')));
+            $table->enum('slug', array_keys(config('base.product_parameters')));
             $table->integer('age_min')->unsigned();
             $table->integer('age_max')->unsigned();
             $table->double('amount_min', 20, 2);

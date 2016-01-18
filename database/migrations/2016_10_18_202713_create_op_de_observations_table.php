@@ -21,13 +21,14 @@ class CreateOpDeObservationsTable extends Migration
             $table->boolean('response')->default(false);
             $table->mediumText('observation_response');
             $table->timestamp('date_response')->nullable();
-            $table->integer('medical_certificate_id')->unsigned()->nullable();
+            $table->integer('op_mc_answer_id')->unsigned()->nullable();
             $table->timestamps();
 
             $table->primary('id');
             $table->foreign('op_de_facultative_id')->references('id')->on('op_de_facultatives');
             $table->foreign('ad_user_id')->references('id')->on('ad_users');
             $table->foreign('ad_state_id')->references('id')->on('ad_states');
+            $table->foreign('op_mc_answer_id')->references('id')->on('op_mc_answers');
         });
     }
 

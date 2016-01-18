@@ -142,4 +142,16 @@ return [
         'C'  => 'Subsanado/Pendiente',
     ],
 
+    'medical_certificate_types' => [
+        'E' => 'Editor',
+        'C' => 'Cuestionario',
+    ],
+
+    'mc_question_types' => [
+        'CB' => 'Checkbox',
+        'RB' => 'Radio Button',
+        'TX' => 'Texto',
+        'TA' => 'Area Texto',
+    ],
+
 ];

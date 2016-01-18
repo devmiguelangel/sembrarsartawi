@@ -16,7 +16,7 @@ class CreateOpAccountsTable extends Migration
             $table->integer('id')->unsigned();
             $table->integer('op_client_id')->unsigned();
             $table->string('number', 140);
-            $table->enum('type', array_keys(\Config::get('base.account_number_types')));
+            $table->enum('type', array_keys(config('base.account_number_types')));
             $table->boolean('active')->default(false);
             $table->timestamps();
 

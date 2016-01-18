@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAdProductsTable extends Migration
+class CreateAdMcQuestionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,10 @@ class CreateAdProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ad_products', function (Blueprint $table) {
+        Schema::create('ad_mc_questions', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('type', array_keys(config('base.product_types')));
-            $table->string('name', 140);
-            $table->string('code', 5)->unique();
-            $table->string('slug', 140)->unique();
+            $table->string('question', 140);
+            $table->enum('type', array_keys(config('base.mc_question_types')));
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateAdProductsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('ad_products');
+        Schema::drop('ad_mc_questions');
     }
 }

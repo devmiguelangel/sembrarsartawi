@@ -13,6 +13,10 @@ var facultative = function ($rootScope, $scope, $http) {
     ]
   };
 
+  $scope.record = [
+    
+  ];
+
   $scope.process = function (event) {
     event.preventDefault();
 

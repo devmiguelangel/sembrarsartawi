@@ -16,7 +16,7 @@ class CreateAdRetailerProductsTable extends Migration
             $table->integer('id')->unsigned();
             $table->integer('ad_retailer_id')->unsigned();
             $table->integer('ad_company_product_id')->unsigned();
-            $table->enum('type', array_keys(\Config::get('base.retailer_product_types')));
+            $table->enum('type', array_keys(config('base.retailer_product_types')));
             $table->boolean('billing')->default(false);
             $table->boolean('provisional_certificate')->default(false);
             $table->boolean('modality')->default(false);

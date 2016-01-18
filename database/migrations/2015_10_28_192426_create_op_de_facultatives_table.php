@@ -16,7 +16,7 @@ class CreateOpDeFacultativesTable extends Migration
             $table->integer('id')->unsigned();
             $table->integer('op_de_detail_id')->unsigned();
             $table->mediumText('reason');
-            $table->enum('state', array_keys(\Config::get('base.facultative_states')));
+            $table->enum('state', array_keys(config('base.facultative_states')));
             $table->integer('ad_user_id')->unsigned()->nullable();
             $table->boolean('approved')->default(false);
             $table->boolean('surcharge')->default(false);
