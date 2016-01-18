@@ -10,9 +10,31 @@
       </tr>
       <tr>
         <td>
-          <strong>OBSERVADO ({{ $data['fa']->observations->last()->state->state }})</strong>
+          <strong>{{ $data['fa']->approved ? 'APROBADO' : 'RECHAZADO' }}</strong>
         </td>
       </tr>
+      @if ($data['fa']->approved)
+        <tr class="info">
+          <td>
+            <strong>TASA DE RECARGO</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>{{ $data['fa']->surcharge ? 'SI' : 'NO' }} - {{ $data['fa']->percentage }} %</strong>
+          </td>
+        </tr>
+        <tr class="info">
+          <td>
+            <strong>TASA FINAL</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>{{ $data['fa']->final_rate }}</strong>
+          </td>
+        </tr>
+      @endif
       <tr class="info">
         <td>
           <strong>DETALLES:</strong>
@@ -20,7 +42,7 @@
       </tr>
       <tr>
         <td>
-          <strong>{{ $data['fa']->observations->last()->observation }}</strong>
+          <strong>{{ $data['fa']->observation }}</strong>
         </td>
       </tr>
       <tr class="info">

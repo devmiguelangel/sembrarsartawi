@@ -338,11 +338,11 @@ class FacultativeRepository extends BaseRepository
             switch ($this->approved) {
                 case 1:
                     $process  = 'Aprobado';
-                    $template .= '';
+                    $template .= 'process';
                     break;
                 case 0:
                     $process  = 'Rechazado';
-                    $template .= '';
+                    $template .= 'process';
                     break;
                 case 2:
                     $process  = $fa->observations->last()->state->state;
@@ -350,7 +350,6 @@ class FacultativeRepository extends BaseRepository
                     if ($response) {
                         $template .= 'response';
                         $subject  = str_replace(':response', 'del Oficial de Credito', $subject);
-                        // $profiles = 'COP';
                     } else {
                         $template .= 'observation';
                     }
@@ -378,9 +377,9 @@ class FacultativeRepository extends BaseRepository
             if ($mail->send(decode($rp_id), compact('fa'), $profiles)) {
                 return true;
             }
-
-            return false;
         }
+
+        return false;
     }
 
 }

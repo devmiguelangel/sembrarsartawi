@@ -15,8 +15,9 @@ class Facultative extends Model
     protected $fillable = ['id', 'reason', 'state', ];
 
     protected $casts = [
-        'approved' => 'boolean',
-        'read'     => 'boolean',
+        'approved'  => 'boolean',
+        'surcharge' => 'boolean',
+        'read'      => 'boolean',
     ];
 
     protected $appends = [

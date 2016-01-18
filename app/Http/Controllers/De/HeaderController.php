@@ -13,6 +13,7 @@ use Sibas\Http\Requests\De\HeaderCreateFormRequest;
 use Sibas\Http\Requests\De\HeaderEditFormRequest;
 use Sibas\Http\Requests\De\HeaderResultFormRequest;
 use Sibas\Repositories\De\DataRepository;
+use Sibas\Repositories\De\FacultativeRepository;
 use Sibas\Repositories\De\HeaderRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
@@ -35,14 +36,20 @@ class HeaderController extends Controller
      * @var Rate
      */
     protected $rate;
+    /**
+     * @var FacultativeRepository
+     */
+    protected $facultativeRepository;
 
     public function __construct(HeaderRepository $repository,
                                 DataRepository $dataRepository,
-                                RetailerProductRepository $retailerProductRepository)
+                                RetailerProductRepository $retailerProductRepository,
+                                FacultativeRepository $facultativeRepository)
     {
         $this->repository                = $repository;
         $this->dataRepository            = $dataRepository;
         $this->retailerProductRepository = $retailerProductRepository;
+        $this->facultativeRepository     = $facultativeRepository;
     }
 
     /**
@@ -339,9 +346,14 @@ class HeaderController extends Controller
      * @param HeaderEditFormRequest $request
      * @return Response
      */
-    public function updateFa(HeaderEditFormRequest $request, $rp_id, $header_id)
+    public function updateFa(HeaderEditFormRequest $request, $rp_id, $header_id, $id_facultative)
     {
         if ($this->repository->updateHeaderFacultative($request, decode($header_id))) {
+            $mail = new MailController($request->user());
+
+            $this->facultativeRepository->approved = 2;
+            $this->facultativeRepository->sendProcessMail($mail, $rp_id, $id_facultative, true);
+
             return redirect()->route('home')
                 ->with(['success_header' => 'La Póliza fue actualizada con éxito.']);
         }

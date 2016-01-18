@@ -4,35 +4,49 @@
   <table class="table table-striped table-condensed">
     <tbody>
       <tr class="success">
-        <td>ESTADO DE LA SOLICITUD</td>
+        <td>
+          <strong>ESTADO DE LA SOLICITUD</strong>
+        </td>
       </tr>
       <tr>
         <td>
-          OBSERVADO ({{ $data['fa']->observations->last()->state->state }})
+          <strong>OBSERVADO ({{ $data['fa']->observations->last()->state->state }})</strong>
         </td>
       </tr>
       <tr class="success">
-        <td>DETALLES:</td>
+        <td>
+          <strong>DETALLES:</strong>
+        </td>
       </tr>
       <tr>
         <td>
-          {{ $data['fa']->observations->last()->observation }}
+          <strong>{{ $data['fa']->observations->last()->observation }}</strong>
         </td>
       </tr>
       <tr class="success">
-        <td>RESPUESTA DEL OFICIAL DE CRÉDITO:</td>
+        <td>
+          <strong>RESPUESTA DEL OFICIAL DE CREDITO:</strong>
+        </td>
       </tr>
       <tr>
         <td>
-          {{ $data['fa']->observations->last()->observation_response }}
+          <strong>
+            @if ($data['fa']->observations->last()->response)
+              {{ $data['fa']->observations->last()->observation_response }}
+            @else
+              Se corrigieron las observaciones del caso.
+            @endif
+          </strong>
         </td>
       </tr>
       <tr class="success">
-        <td>TITULAR:</td>
+        <td>
+          <strong>TITULAR:</strong>
+        </td>
       </tr>
       <tr>
         <td>
-          {{ $data['fa']->detail->client->full_name }}
+          <strong>{{ $data['fa']->detail->client->full_name }}</strong>
         </td>
       </tr>
     </tbody>
