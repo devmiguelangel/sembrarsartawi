@@ -38,7 +38,7 @@ class ClientCreateFormRequest extends Request
             'complement'        => 'alpha',
             'extension'         => 'required|exists:ad_cities,abbreviation',
             'country'           => 'required|alpha_space',
-            'birthdate'         => 'required|date',
+            'birthdate'         => 'required|date_format:d/m/Y',
             'birth_place'       => 'required|alpha_dash_space',
             'place_residence'   => 'required|exists:ad_cities,slug',
             'locality'          => 'required|alpha_dash_space',
@@ -53,16 +53,6 @@ class ClientCreateFormRequest extends Request
             'height'            => 'required|numeric|min:1|digits_between:1,3',
             'gender'            => 'required|in:' . $genders
         ];
-    }
-
-    public function getValidatorInstance()
-    {
-        $input = $this->request->all();
-        $input['birthdate'] = date('Y-m-d', strtotime(str_replace('/', '-', $input['birthdate'])));
-
-        $this->request->replace($input);
-
-        return parent::getValidatorInstance();
     }
 
 }

@@ -11,7 +11,6 @@ use Sibas\Http\Requests\De\FacultativeFormRequest;
 use Sibas\Repositories\De\FacultativeRepository;
 use Sibas\Repositories\De\HeaderRepository;
 use Sibas\Repositories\StateRepository;
-use Sibas\Repositories\UserRepository;
 
 class FacultativeController extends Controller
 {
@@ -27,25 +26,14 @@ class FacultativeController extends Controller
      * @var StateRepository
      */
     protected $stateRepository;
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
-    /**
-     * @var int
-     */
-    protected $approved;
 
     public function __construct(FacultativeRepository $repository,
                                 HeaderRepository $headerRepository,
-                                StateRepository $stateRepository,
-                                UserRepository $userRepository)
+                                StateRepository $stateRepository)
     {
         $this->repository       = $repository;
         $this->headerRepository = $headerRepository;
         $this->stateRepository  = $stateRepository;
-        $this->userRepository   = $userRepository;
-        $this->approved         = null;
     }
 
     /**
@@ -104,11 +92,15 @@ class FacultativeController extends Controller
                     $fa     = $this->repository->getModel();
                     $header = $fa->detail->header;
 
-                    $this->approved = (int) $request->get('approved');
+                    $this->repository->approved = (int) $request->get('approved');
 
-                    if ($this->approved === 1 || $this->approved === 2) {
+                    if ($this->repository->approved === 1 || $this->repository->approved === 2) {
                         $this->headerRepository->setApproved($header);
                     }
+
+                    $mail = new MailController($request->user());
+
+                    $this->repository->sendProcessMail($mail, $rp_id, $id);
 
                     return response()->json([
                         'location' => route('home')
@@ -159,6 +151,11 @@ class FacultativeController extends Controller
         if (request()->ajax()) {
             if ($this->repository->getFacultativeById(decode($id))) {
                 if ($this->repository->storeAnswer($request, decode($id_observation))) {
+                    $mail = new MailController($request->user());
+
+                    $this->repository->approved = 2;
+                    $this->repository->sendProcessMail($mail, $rp_id, $id, true);
+
                     return response()->json([
                         'location' => route('home')
                     ]);
@@ -221,52 +218,6 @@ class FacultativeController extends Controller
         }
 
         return redirect()->back();
-    }
-
-    /**
-     * @param Request $request
-     * @param string $rp_id
-     * @param Facultative $fa
-     * @param Header $header
-     */
-    public function sendProcessMail($request, $rp_id, $fa, $header)
-    {
-        if (is_int($this->approved)) {
-            $user     = $request->user();
-            $users    = $this->userRepository->getUserByProfile($user, ['COP']);
-            $receiver = [];
-            $subject  = ' :process : Respuesta de la aseguradora a Caso Facultativo No. '
-                        . $header->prefix . '-' . $header->issue_number
-                        . $fa->detail->client->full_name;
-            $process  = '';
-            $template = 'emails.de.facultaive.';
-
-            foreach ($users as $user) {
-                array_push($receiver, [
-                    'email' => $user->email,
-                    'name'  => $user->full_name,
-                ]);
-            }
-
-            switch ($this->approved) {
-                case 1:
-                    $process  = 'Aprobado';
-                    $template .= '';
-                    break;
-                case 0:
-                    $process  = 'Rechazado';
-                    $template .= '';
-                    break;
-                case 2:
-                    $process  = $fa->observations->last()->state->state;
-                    $template .= '';
-                    break;
-            }
-
-            $subject = str_replace(':process', $process, $subject);
-
-            $mail = new MailController($user, $template, [], $subject, $receiver);
-        }
     }
 
 }

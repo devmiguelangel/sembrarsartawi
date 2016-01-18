@@ -4,6 +4,7 @@ namespace Sibas\Entities\De;
 
 use Illuminate\Database\Eloquent\Model;
 use Sibas\Entities\State;
+use Sibas\Entities\User;
 
 class Observation extends Model
 {
@@ -26,6 +27,11 @@ class Observation extends Model
         'date_response',
         'medical_certificate_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'ad_user_id', 'id');
+    }
 
     public function state()
     {

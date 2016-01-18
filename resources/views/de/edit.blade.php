@@ -119,9 +119,12 @@
                 @endif
 
                 @if(! is_null($header))
-                    <div class="page-header" style="padding: 5px;">
-                        <h2>Póliza {{ $header->prefix }}-{{ $header->issue_number }}</h2>
-                    </div>
+                    @if ($header->type === 'I')
+                        <div class="page-header" style="padding: 5px;">
+                            <h2>Póliza {{ $header->prefix }}-{{ $header->issue_number }}</h2>
+                        </div>
+                    @endif
+
                     @if($header->facultative)
                         <div class="alert bg-warning alert-styled-right">
                             <span class="text-semibold">

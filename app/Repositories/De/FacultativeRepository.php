@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Sibas\Entities\De\Facultative;
 use Sibas\Entities\De\Observation;
 use Sibas\Entities\ProductParameter;
+use Sibas\Http\Controllers\MailController;
 use Sibas\Repositories\BaseRepository;
 
 class FacultativeRepository extends BaseRepository
@@ -23,6 +24,10 @@ class FacultativeRepository extends BaseRepository
         'reason' => '',
         'state'  => '',
     ];
+    /**
+     * @var int
+     */
+    public $approved = null;
 
     /**
      * @param $user
@@ -32,7 +37,11 @@ class FacultativeRepository extends BaseRepository
     {
         $user_type = $user->profile->first()->slug;
 
-        $fa = Facultative::with('detail.header.user', 'detail.client', 'observations.state');
+        $fa = Facultative::with('user',
+                                'detail.header.user',
+                                'detail.client',
+                                'observations.state',
+                                'observations.user');
 
         switch ($user_type) {
             case 'SEP':
@@ -303,6 +312,75 @@ class FacultativeRepository extends BaseRepository
             ]);
 
         return $this->saveModel();
+    }
+
+    /**
+     * @param MailController $mail
+     * @param string $rp_id
+     * @param string $id
+     * @param bool $response
+     * @return bool
+     */
+    public function sendProcessMail(MailController $mail, $rp_id, $id, $response = false)
+    {
+        if ($this->getFacultativeById(decode($id)) && is_int($this->approved)) {
+            $fa     = $this->getModel();
+            $header = $fa->detail->header;
+
+            $profiles = '';
+            $process  = '';
+            $subject  = ':process : Respuesta :response a Caso Facultativo No. '
+                . $header->prefix . '-' . $header->issue_number . ' '
+                . $fa->detail->client->full_name;
+
+            $template = 'de.facultative.';
+
+            switch ($this->approved) {
+                case 1:
+                    $process  = 'Aprobado';
+                    $template .= '';
+                    break;
+                case 0:
+                    $process  = 'Rechazado';
+                    $template .= '';
+                    break;
+                case 2:
+                    $process  = $fa->observations->last()->state->state;
+
+                    if ($response) {
+                        $template .= 'response';
+                        $subject  = str_replace(':response', 'del Oficial de Credito', $subject);
+                        // $profiles = 'COP';
+                    } else {
+                        $template .= 'observation';
+                    }
+                    break;
+            }
+
+            $subject = str_replace(':response', 'de la aseguradora', $subject);
+            $subject = str_replace(':process', $process, $subject);
+
+            $mail->subject  = $subject;
+            $mail->template = $template;
+
+            if ($this->approved !== 2) {
+                array_push($mail->receivers, [
+                    'email' => $header->user->email,
+                    'name'  => $header->user->full_name,
+                ]);
+            } elseif ($response) {
+                array_push($mail->receivers, [
+                    'email' => $fa->observations->last()->user->email,
+                    'name'  => $fa->observations->last()->user->full_name,
+                ]);
+            }
+
+            if ($mail->send(decode($rp_id), compact('fa'), $profiles)) {
+                return true;
+            }
+
+            return false;
+        }
     }
 
 }

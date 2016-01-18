@@ -4,6 +4,7 @@ namespace Sibas\Entities\De;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Sibas\Entities\User;
 
 class Facultative extends Model
 {
@@ -23,6 +24,11 @@ class Facultative extends Model
         'process_days',
         'date_admission',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'ad_user_id', 'id');
+    }
 
     public function detail()
     {

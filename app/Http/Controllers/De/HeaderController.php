@@ -15,7 +15,7 @@ use Sibas\Http\Requests\De\HeaderResultFormRequest;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\HeaderRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
-use Sibas\Repositories\UserRepository;
+
 
 class HeaderController extends Controller
 {
@@ -35,20 +35,14 @@ class HeaderController extends Controller
      * @var Rate
      */
     protected $rate;
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
 
     public function __construct(HeaderRepository $repository,
                                 DataRepository $dataRepository,
-                                RetailerProductRepository $retailerProductRepository,
-                                UserRepository $userRepository)
+                                RetailerProductRepository $retailerProductRepository)
     {
         $this->repository                = $repository;
         $this->dataRepository            = $dataRepository;
         $this->retailerProductRepository = $retailerProductRepository;
-        $this->userRepository            = $userRepository;
     }
 
     /**
@@ -321,20 +315,13 @@ class HeaderController extends Controller
     {
         if ($this->repository->storeFacultative($request, decode($header_id))) {
             $header   = $this->repository->getModel();
-            $subject  = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->issue_number;
-            $users    = $this->userRepository->getUserByProfile($request->user(), ['COP']);
-            $receiver = [];
 
-            foreach ($users as $user) {
-                array_push($receiver, [
-                    'email' => $user->email,
-                    'name'  => $user->full_name,
-                ]);
-            }
+            $mail = new MailController($request->user());
 
-            $mail = new MailController($request->user(), 'de.request-approval', [], $subject, $receiver);
+            $mail->subject  = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->issue_number;
+            $mail->template = 'de.request-approval';
 
-            if ($mail->send(decode($rp_id), ['header' => $header])) {
+            if ($mail->send(decode($rp_id), ['header' => $header], 'COP')) {
                 $this->repository->storeSent($header);
             }
 
