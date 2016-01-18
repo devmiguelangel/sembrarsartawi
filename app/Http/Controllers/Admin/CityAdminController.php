@@ -85,8 +85,11 @@ class CityAdminController extends BaseController
         $main_menu = $this->menu_principal();
         $query = City::where('id', $id_depto)->first();
         $query_re = Retailer::where('active',1)->get();
+        $query_ret_city = \DB::table('ad_retailer_cities')
+                            ->where('ad_city_id', $id_depto)
+                            ->get();
         //dd($id_depto);
-        return view('admin.cities.edit', compact('nav', 'action', 'query', 'query_re', 'main_menu'));
+        return view('admin.cities.edit', compact('nav', 'action', 'query', 'query_re', 'main_menu', 'query_ret_city'));
     }
 
     /**

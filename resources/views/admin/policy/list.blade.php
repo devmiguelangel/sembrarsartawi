@@ -17,15 +17,15 @@
         <div class="panel-heading">
             <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
                 <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
-                Compañías Aseguradoras
-                <small class="display-block">Listado de registros</small>
+                Producto {{$query_prod->product}}
+                <small class="display-block">Listado de polizas</small>
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li>
-                        <a href="{{route('admin.company.new', ['nav'=>'company', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
+                        <a href="{{route('admin.policy.new', ['nav'=>'policynumber', 'action'=>'new', 'id_retailer_products'=>$id_retailer_products, 'id_company'=>$id_company])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
-                            <span>Agregar Compañia</span>
+                            <span>Agregar numero poliza</span>
                         </a>
                     </li>
                 </ul>
@@ -35,21 +35,25 @@
         <div class="panel-body">
 
         </div>
-
-        <table class="table datatable-basic">
+        @if(count($query)>0)
+            <table class="table datatable-basic">
             <thead>
             <tr>
-                <th>Compañia de Seguros</th>
-                <th>Imagen</th>
+                <th>Numero de poliza</th>
+                <th>Poliza final</th>
+                <th>Fecha inicial</th>
+                <th>Fecha final</th>
                 <th>Estado</th>
                 <th class="text-center">Acciones</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($company_new as $data)
+            @foreach($query as $data)
                 <tr>
-                <td>{{$data->name}}</td>
-                <td><img src="{{ asset($data->image) }}" height="60"></td>
+                <td>{{$data->number}}</td>
+                <td>{{$data->end_policy}}</td>
+                <td>{{$data->date_begin}}</td>
+                <td>{{$data->date_end}}</td>
                 <td>
                     @if((boolean)$data->active==true)
                         <span class="label label-success">Activo</span>
@@ -63,8 +67,9 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="icon-menu9"></i>
                             </a>
+
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="{{route('admin.company.edit', ['nav'=>'company', 'action'=>'edit', 'id_company'=>$data->id])}}"><i class="icon-file-pdf"></i> Editar</a></li>
+                                <li><a href="{{route('admin.policy.edit', ['nav'=>'policynumber', 'action'=>'edit', 'id_policies'=>$data->id, 'id_company'=>$id_company, 'id_retailer_products'=>$id_retailer_products])}}"><i class="icon-file-pdf"></i> Editar</a></li>
                                 <li>
                                     @if((boolean)$data->active==true)
                                         <a href="#" id="{{$data->id}}|inactive|desactivar" class="confirm_active">
@@ -76,12 +81,6 @@
                                         </a>
                                     @endif
                                 </li>
-                                @if((boolean)$data->active==true)
-                                    <li><a href="{{route('admin.addproductcompany.list', ['nav'=>'addprocom', 'action'=>'list', 'id_company'=>$data->id])}}">
-                                            <i class="icon-file-excel"></i>Agregar producto
-                                        </a>
-                                    </li>
-                                @endif
                             </ul>
                         </li>
                     </ul>
@@ -90,6 +89,11 @@
             @endforeach
             </tbody>
         </table>
+        @else
+            <div class="alert alert-warning alert-styled-left">
+                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+            </div>
+        @endif
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
@@ -97,12 +101,12 @@
 
                 var _id = $(this).prop('id');
                 var arr = _id.split("|");
-                var id_company = arr[0];
+                var id_policies = arr[0];
                 var text = arr[1];
                 bootbox.confirm("Esta seguro de "+arr[2]+" la pregunta ?.", function(result) {
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
-                        $.get( "{{url('/')}}/admin/company/active_ajax/"+id_company+"/"+text, function( data ) {
+                        $.get( "{{url('/')}}/admin/policy/active_ajax/"+id_policies+"/"+text, function( data ) {
                             console.log(data);
                             if(data==1){
                                 window.setTimeout('location.reload()', 1000);

@@ -38,7 +38,6 @@ class UserAdminController extends BaseController
             $cities = \DB::table('ad_retailer_cities')
                         ->join('ad_cities','ad_retailer_cities.ad_city_id', '=', 'ad_cities.id')
                         ->select('ad_cities.id', 'ad_cities.name', 'ad_cities.abbreviation')
-                        ->where('ad_cities.abbreviation', '<>', 'PE')
                         ->where('ad_retailer_cities.active', '=', 1)
                         ->get();
             return view('admin.user.new', compact('nav','action', 'cities', 'main_menu'));
