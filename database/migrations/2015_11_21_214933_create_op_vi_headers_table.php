@@ -15,7 +15,7 @@ class CreateOpViHeadersTable extends Migration
         Schema::create('op_vi_headers', function (Blueprint $table) {
             $table->integer('id')->unsigned();
             $table->integer('ad_user_id')->unsigned();
-            $table->enum('type', array_keys(\Config::get('base.header_types')));
+            $table->enum('type', array_keys(config('base.header_types')));
             $table->string('policy_number', 140);
             $table->bigInteger('issue_number')->unsigned();
             $table->text('prefix');
@@ -23,8 +23,8 @@ class CreateOpViHeadersTable extends Migration
             $table->string('pre_printed_number', 140);
             $table->integer('ad_plan_id')->unsigned();
             $table->double('premium', 20, 2);
-            $table->enum('payment_method', array_keys(\Config::get('base.payment_methods')));
-            $table->enum('period', array_keys(\Config::get('base.periods')));
+            $table->enum('payment_method', array_keys(config('base.payment_methods')));
+            $table->enum('period', array_keys(config('base.periods')));
             $table->boolean('issued')->default(false);
             $table->timestamp('date_issue')->nullable();
             $table->boolean('canceled')->default(false);

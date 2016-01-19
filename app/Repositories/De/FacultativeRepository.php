@@ -60,7 +60,6 @@ class FacultativeRepository extends BaseRepository
         }
 
         $fa = $fa->orderBy('created_at', 'desc')->get();
-
         $this->records['all'] = $fa;
 
         $fa->each(function ($item, $key) use ($user_type) {
@@ -85,7 +84,7 @@ class FacultativeRepository extends BaseRepository
             }
 
             // Observed
-            if ($item->observations->count() > 0) {
+            if ($item->state === 'PE' && $item->observations->count() > 0) {
                 $this->records['observed']->push($item);
 
                 if (! $item->read) {

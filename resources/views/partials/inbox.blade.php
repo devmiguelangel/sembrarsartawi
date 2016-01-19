@@ -27,7 +27,7 @@
                                     <a href="#">
                                         <i class="icon-check"></i> Aprobados 
                                         <span class="label label-primary pull-right">
-                                            {{ $product->records['approved-unread']->count() }}
+                                            {{ $product->records['approved']->count() }}
                                         </span>
                                     </a>
                                 </li>
@@ -35,7 +35,7 @@
                                     <a href="#">
                                         <i class="fa fa-clock-o"></i> Observados 
                                         <span class="label label-primary pull-right">
-                                            {{ $product->records['observed-unread']->count() }}
+                                            {{ $product->records['observed']->count() }}
                                         </span>
                                     </a>
                                 </li>
@@ -43,7 +43,7 @@
                                     <a href="#">
                                         <i class="icon-trash"></i> Rechazados 
                                         <span class="label label-primary pull-right">
-                                            {{ $product->records['rejected-unread']->count() }}
+                                            {{ $product->records['rejected']->count() }}
                                         </span>
                                     </a>
                                 </li>
@@ -137,12 +137,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($data['products'][0]->records['all'] as $record)
-                        <tr class="{{ ! $record->read ? 'unread' : '' }}">
+                    @foreach ($data['products'][0]->records['all'] as $key => $record)
+                        {{-- <tr class="{{ ! $record->read ? 'unread' : '' }}"> --}}
+                        <tr class="" ng-class="{ unread: !record[{{ $key }}].unread }">
                             <td class="inbox-small-cells te">
                                 <label class="chek_inbox">
-                                    <input type="checkbox" class="styled" {{ ! $record->read ? 'checked' : '' }}>
+                                    <input type="checkbox" class="styled" 
+                                        ng-model="record[{{ $key }}].unread" 
+                                        ng-init="record[{{ $key }}].unread=Boolean(record[{{ $key }}].unread)" 
+                                        ng-checked="Boolean(record[{{ $key }}].unread)">
                                 </label>
+                                <input type="text" ng-value="record[{{ $key }}].unread">
                             </td>
                             <td class="view-message">
                                 {{ $record->detail->header->certificate_number }}

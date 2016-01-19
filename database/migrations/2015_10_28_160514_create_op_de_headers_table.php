@@ -15,7 +15,7 @@ class CreateOpDeHeadersTable extends Migration
         Schema::create('op_de_headers', function (Blueprint $table) {
             $table->integer('id')->unsigned();
             $table->integer('ad_user_id')->unsigned();
-            $table->enum('type', array_keys(\Config::get('base.header_types')));
+            $table->enum('type', array_keys(config('base.header_types')));
             $table->bigInteger('issue_number')->unsigned();
             $table->bigInteger('quote_number')->unsigned();
             $table->text('prefix');
@@ -24,9 +24,9 @@ class CreateOpDeHeadersTable extends Migration
             $table->integer('ad_coverage_id')->unsigned();
             $table->integer('ad_credit_product_id')->unsigned()->nullable();
             $table->double('amount_requested', 20, 2);
-            $table->enum('currency', array_keys(\Config::get('base.currencies')));
+            $table->enum('currency', array_keys(config('base.currencies')));
             $table->integer('term')->unsigned();
-            $table->enum('type_term', array_keys(\Config::get('base.term_types')));
+            $table->enum('type_term', array_keys(config('base.term_types')));
             $table->double('total_rate', 10, 2);
             $table->double('total_premium', 20, 2);
             $table->boolean('issued')->default(false);

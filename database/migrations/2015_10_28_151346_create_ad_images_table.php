@@ -17,7 +17,7 @@ class CreateAdImagesTable extends Migration
             $table->integer('ad_retailer_id')->unsigned();
             $table->mediumText('description');
             $table->text('file');
-            $table->enum('type', array_keys(\Config::get('base.retailer_image_types')));
+            $table->enum('type', array_keys(config('base.retailer_image_types')));
             $table->timestamps();
 
             $table->foreign('ad_retailer_id')->references('id')->on('ad_retailers');
