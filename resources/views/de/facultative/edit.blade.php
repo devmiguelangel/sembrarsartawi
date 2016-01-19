@@ -1,5 +1,7 @@
-<div class="row">
-    <div class="col-md-12">
+<div class="row" ng-controller="FacultativeController">
+    <div id="fa-form" class="col-md-12 animated" 
+        ng-hide="mcEnabled"
+        ng-class="{ fadeIn: !mcEnabled, fadeOut: mcEnabled }">
         <!-- Horizontal form -->
         <div class="panel panel-flat border-top-primary">
             <div class="panel-heading divhr">
@@ -15,8 +17,9 @@
             {!! Form::open(['route' => ['de.fa.update', 'rp_id' => $rp_id, 'id' => encode($fa->id)], 
                 'method'    => 'put', 
                 'class'     => 'form-horizontal',
-                'ng-controller' => 'FacultativeController',
                 'ng-submit' => 'store($event)' ]) !!}
+
+                <input type="hidden" id="_mc" name="_mc" value="{{ route('de.fa.mc.create', ['rp_id' => $rp_id, 'id' => encode($fa->id)]) }}">
 
                 <div class="form-group">
                     <label class="control-label col-lg-3 label_required">Aprobado: </label>
@@ -24,14 +27,14 @@
                         <div class="input-group">
                             <label class="radio-inline">
                                 {!! Form::radio('approved', 1, false, [
-                                    'ng-click' => 'approved = true; state = false;', 
+                                    'ng-click' => 'approved = true; state = false; observation = true; mcEnabled = false;', 
                                     'ng-model' => 'formData.approved'
                                 ]) !!}
                                 SI
                             </label>
                             <label class="radio-inline">
                                 {!! Form::radio('approved', 0, false, [
-                                    'ng-click' => 'approved = false; state = false;', 
+                                    'ng-click' => 'approved = false; state = false; observation = true; mcEnabled = false;', 
                                     'ng-model' => 'formData.approved'
                                 ]) !!}
                                 NO
@@ -204,5 +207,11 @@
         </div>
 
         <!-- /horizotal form -->
+    </div>
+
+    <div id="mc-form" class="col-md-12 animated" 
+        ng-show="mcEnabled" 
+        ng-class="{ fadeIn: mcEnabled, fadeOut: !mcEnabled }">
+        Por favor espere ...
     </div>
 </div>

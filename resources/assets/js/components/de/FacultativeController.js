@@ -1,4 +1,4 @@
-var facultative = function ($rootScope, $scope, $http) {
+var facultative = function ($rootScope, $scope, $http, $compile) {
   $scope.approved    = false;
   $scope.surcharge   = false;
   $scope.state       = false;
@@ -17,6 +17,10 @@ var facultative = function ($rootScope, $scope, $http) {
     
   ];
 
+  /**
+   * Process create form
+   * @param  {[type]} event [description]
+   */
   $scope.process = function (event) {
     event.preventDefault();
 
@@ -36,6 +40,10 @@ var facultative = function ($rootScope, $scope, $http) {
       });
   };
 
+  /**
+   * Process store
+   * @param  {[type]} event [description]
+   */
   $scope.store = function (event) {
     event.preventDefault();
 
@@ -84,6 +92,10 @@ var facultative = function ($rootScope, $scope, $http) {
 
   };
 
+  /**
+   * Get Observation process
+   * @param  {[type]} event [description]
+   */
   $scope.observation = function (event) {
     event.preventDefault();
 
@@ -100,6 +112,10 @@ var facultative = function ($rootScope, $scope, $http) {
       });
   };
 
+  /**
+   * Answer update process
+   * @param  {[type]} event [description]
+   */
   $scope.storeAnswer = function (event) {
     event.preventDefault();
 
@@ -135,22 +151,84 @@ var facultative = function ($rootScope, $scope, $http) {
 
   };
 
+  /**
+   * State observation action
+   */
   $scope.stateChange = function () {
     $scope.formData.state = $scope.currentOption;
 
     if ($scope.currentOption.data_slug == 'me') {
       $scope.observation = false;
+      $scope.formData.observation = '--';
+
+      var _mc = angular.element('input#_mc').prop('value');
+      var mcForm  = angular.element('#mc-form');
+
+      $scope.mcEnabled = true;
+
+      $http.get(_mc, {
+
+      }).success(function (data, status, headers, config) {
+          console.log(data);
+
+          if (status == 200) {
+            // mcForm.html($scope.compileData(data.payload));
+            mcForm.html($compile(data.payload)($scope));
+          }
+        }).error(function (err, status, headers, config) {
+          console.log(err);
+        });
+
     } else {
+      $scope.mcEnabled   = false;
       $scope.observation = true;
+      $scope.formData.observation = '';
     }
   };
 
+  /**
+   * Approved actions
+   * @param  {[type]} value    [description]
+   * @param  {[type]} oldValue [description]
+   * @param  {[type]} scope)   {               if (value ! [description]
+   */
+  $scope.$watch('formData.approved', function(value, oldValue, scope) {
+    if (value != 2) {
+      $scope.formData.observation = '';
+    } else if ($scope.currentOption.data_slug == 'me') {
+      $scope.observation = false;
+      $scope.mcEnabled   = false;
+      $scope.formData.observation = '--';
+    }
+  });
+
+  /**
+   * Surcharge actions
+   * @param  {[type]} value    [description]
+   * @param  {[type]} oldValue [description]
+   * @param  {[type]} scope)   {               if (value [description]
+   */
   $scope.$watch('formData.surcharge', function(value, oldValue, scope) {
     if (value == 0) {
       $scope.formData.percentage = 0;
       $scope.formData.final_rate = $scope.formData.current_rate;
     }
   });
+
+  /**
+   * Medical Certificate store
+   * @param  {[type]} event [description]
+   */
+  $scope.mcStore = function (event) {
+    event.preventDefault();
+
+    var action = $scope.getActionAttribute(event);
+
+    CSRF_TOKEN = $scope.csrf_token();
+
+    console.log(action);
+  };
+
 
 };
 

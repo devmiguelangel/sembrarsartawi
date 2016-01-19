@@ -29,6 +29,8 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
   $rootScope.dataOptions = [];
   $rootScope.currentOption = [];
 
+  $rootScope.mcEnabled = false;
+
   $rootScope.getActionAttribute = function (event) {
     return event.target.attributes.action.value;
   };
@@ -48,10 +50,14 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
     return angular.element('meta[name="csrf-token"]').attr('content');
   };
 
+  $rootScope.compileData = function (payload) {
+    return $compile(payload)($rootScope);
+  }
+
 }]);
 
 app.controller('DetailDeController', ['$scope', '$http', DetailController.detailEdit]);
 
 app.controller('BeneficiaryController', ['$scope', '$http', BeneficiaryController.beneficiary]);
 
-app.controller('FacultativeController', ['$rootScope', '$scope', '$http', FacultativeController.facultative]);
+app.controller('FacultativeController', ['$rootScope', '$scope', '$http', '$compile', FacultativeController.facultative]);

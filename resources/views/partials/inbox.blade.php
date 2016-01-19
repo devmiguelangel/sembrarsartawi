@@ -147,7 +147,6 @@
                                         ng-init="record[{{ $key }}].unread=Boolean(record[{{ $key }}].unread)" 
                                         ng-checked="Boolean(record[{{ $key }}].unread)">
                                 </label>
-                                <input type="text" ng-value="record[{{ $key }}].unread">
                             </td>
                             <td class="view-message">
                                 {{ $record->detail->header->certificate_number }}
