@@ -221,6 +221,32 @@
                     <li class="active">Editar registro</li>
                 @endif
             @endif
+        @elseif($nav=='adActivitiesList')
+            @if($action=='list')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li class="active">Lista de Actividades</li>
+            @elseif($action=='new' || $action=='edit')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li><a href="{{ route('adActivitiesList') }}">Lista de Actividades</a></li>
+                @if($action=='new')
+                    <li class="active">Nuevo registro</li>
+                @elseif($action=='edit')
+                    <li class="active">Editar registro</li>
+                @endif
+            @endif
+        @elseif($nav=='adRetailerProductActivities')
+            @if($action=='list')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li class="active">Asignacion de Actividades</li>
+            @elseif($action=='new' || $action=='edit')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li><a href="{{ route('adRetailerProductActivities') }}">Asignacion de Actividades</a></li>
+                @if($action=='new')
+                    <li class="active">Nuevo registro</li>
+                @elseif($action=='edit')
+                    <li class="active">Editar registro</li>
+                @endif
+            @endif
         @elseif($nav=='product')
             @if($action=='list')
                 <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>

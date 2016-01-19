@@ -158,6 +158,8 @@ return [
          */
         \Sibas\Providers\Components\SelectFieldServiceProvider::class,
         \Sibas\Providers\HelperServiceProvider::class,
+         	
+        \Illuminate\Html\HtmlServiceProvider::class,
     ],
 
     /*
@@ -218,6 +220,8 @@ return [
          * Custom
          */
         'SelectField' => Sibas\Facades\SelectField::class,
+        'Html' => Illuminate\Html\HtmlFacade::class,
+        'Form' => Illuminate\Html\FormFacade::class,
         
     ],
 

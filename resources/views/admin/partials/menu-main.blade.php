@@ -92,9 +92,25 @@
                                     @var $data_ap='active'
                                     @var $data_pp=''
                                 @endif
+                            @elseif($nav=='adRetailerProductActivities')
+                                @if($action=='list' || $action=='new' || $action=='edit')
+                                    @var $data_ap2='active'
+                                    @var $data_ap3=''
+                                    @var $data_ap=''
+                                    @var $data_pp=''
+                                @endif
+                            @elseif($nav=='adActivitiesList')
+                                @if($action=='list' || $action=='new'|| $action=='edit')
+                                    @var $data_ap3='active'
+                                    @var $data_ap2=''
+                                    @var $data_ap=''
+                                    @var $data_pp=''
+                                @endif
                             @else
                                 @var $data_pp=''
                                 @var $data_ap=''
+                                @var $data_ap2=''
+                                @var $data_ap3=''
                             @endif
                             <ul>
                                 <li class="{{$data_pp}}">
@@ -119,8 +135,13 @@
                             </ul>
                             -->
                             <ul>
-                                <li>
-                                    <a href="#">Administrar ocupación</a>
+                                <li class="{{$data_ap2}}">
+                                    <a href="{{route('adRetailerProductActivities')}}" title='Administrar ocupación'>Administrar ocupación</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li class="{{$data_ap3}}">
+                                    <a href="{{route('adActivitiesList')}}" title='Administrar Actividades'>Administrar Actividades</a>
                                 </li>
                             </ul>
                         </li>

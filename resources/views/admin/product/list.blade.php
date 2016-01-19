@@ -1,4 +1,4 @@
-@extends('admin.layout')
+    @extends('admin.layout')
 
 @section('menu-user')
     @include('admin.partials.menu-user')

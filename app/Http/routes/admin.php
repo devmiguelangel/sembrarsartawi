@@ -65,3 +65,63 @@ require "admin.agency.php";
 require "admin.addquestion.php";
 require "admin.retailer.php";
 require "admin.product.php";
+require "admin.adActivities.php";
+Route::get('admin/ad_activities/list',[
+    'as' => 'adActivities',
+    'uses' => 'Admin\AdActivitiesController@index'
+]);
+
+/* retailer product activities*/
+Route::get('admin/ad_retailer_product_activities/list',[
+    'as' => 'adRetailerProductActivities',
+    'uses' => 'Admin\AdRetailerProductActivitiesController@index'
+]);
+Route::get('admin/retailer_product_activities/form_new',[
+    'as' => 'retailerProductActivitiesFormNew',
+    'uses' => 'Admin\AdRetailerProductActivitiesController@formNew'
+]);
+Route::get('admin/retailer_product_activities/form_edit/{id}',[
+    'as' => 'retailerProductActivitiesFormEdit',
+    'uses' => 'Admin\AdRetailerProductActivitiesController@edit'
+]);
+Route::get('admin/retailer_product_activities/destroy/{id}',[
+    'as' => 'retailerProductActivitiesFormDestroy',
+    'uses' => 'Admin\AdRetailerProductActivitiesController@destroy'
+]);
+# registro y edicion
+Route::post('admin/ad_retailer_product_activities/new', [
+    'as' => 'create_ad_retailer_product_activities',
+    'uses' => 'Admin\AdRetailerProductActivitiesController@store'
+]);
+Route::post('admin/ad_retailer_product_activities/edit/{id}', [
+    'as' => 'update_ad_retailer_product_activities',
+    'uses' => 'Admin\AdRetailerProductActivitiesController@update'
+]);
+
+/* activities */
+
+Route::get('admin/ad_activities/list',[
+    'as' => 'adActivitiesList',
+    'uses' => 'Admin\AdActivitiesController@index'
+]);
+Route::get('admin/a_activities/form_new',[
+    'as' => 'adActivitiesFormNew',
+    'uses' => 'Admin\AdActivitiesController@create'
+]);
+Route::get('admin/ad_activities/form_edit/{id}',[
+    'as' => 'adActivitiesFormEdit',
+    'uses' => 'Admin\AdActivitiesController@edit'
+]);
+Route::get('admin/ad_activities/destroy/{id}',[
+    'as' => 'adActivitiesFormDestroy',
+    'uses' => 'Admin\AdActivitiesController@destroy'
+]);
+# registro y edicion
+Route::post('admin/ad_activities/new', [
+    'as' => 'create_ad_activities',
+    'uses' => 'Admin\AdActivitiesController@store'
+]);
+Route::post('admin/ad_activities/edit/{id}', [
+    'as' => 'update_ad_activities',
+    'uses' => 'Admin\AdActivitiesController@update'
+]);

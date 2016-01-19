@@ -13,6 +13,7 @@
     {!! Html::style('assets/css/core.min.css') !!}
     {!! Html::style('assets/css/components.admin.min.css') !!}
     {!! Html::style('assets/css/colors.min.css') !!}
+    {!! Html::style('css/style.css') !!}
     <!-- /global stylesheets -->
 
     <!-- Core JSKKK files -->
@@ -74,6 +75,18 @@
         {!! Html::script('assets/js/pages/dashboard.js') !!}
         <!-- /theme JS files -->
     @endif
+    {!! Html::script('assets/js/plugins/forms/validation/validate.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/selects/bootstrap_multiselect.js') !!}
+    {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/inputs/touchspin.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/inputs/touchspin.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/selects/select2.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/styling/switch.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/styling/switchery.min.js') !!}
+    {!! Html::script('js/functions.js') !!}
+    
+    {!! Html::script('assets/js/core/app.js') !!}
+    {!! Html::script('assets/js/pages/form_validation.js') !!}
 
 
 </head>
@@ -175,6 +188,28 @@
     </div>
     <!-- /page content -->
 
+</div>
+<!-- The modal -->
+<div class="modal fade colored-header" id="md-colored" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Eliminar registro</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <hr />
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="i-circle primary"><i class="fa fa-info"></i></div>
+                    <h4>Esta seguro que desea eliminar el registro?</h4>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div>
 <!-- /page container -->
 

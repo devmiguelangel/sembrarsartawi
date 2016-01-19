@@ -87,4 +87,14 @@ function messageAction(key, text) {
     }
 }
 
+// validacion confirm
+var FormGralF = {
+    textDelConfirmDef: '¿Esta seguro de eliminar el registro?',
+    deleteElement: function (url, text) {
+        "use strict";
+        text = (text == '') ? this.textDelConfirmDef : text;
+        $('#md-colored .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" onclick="window.location = \''+url+'\'" data-dismiss="modal">Aceptar</button>')
+        $('#md-colored').modal();
+    },
+};
 	
