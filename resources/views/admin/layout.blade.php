@@ -16,7 +16,11 @@
     {!! Html::style('css/style.css') !!}
     <!-- /global stylesheets -->
 
-    <!-- Core JSKKK files -->
+    <!-- strength style-->
+    {!! Html::style('strength/css/strength-meter.css') !!}
+    <!-- /strength style-->
+
+    <!-- Core JS files -->
     {!! Html::script('assets/js/plugins/loaders/pace.min.js') !!}
     {!! Html::script('assets/js/core/libraries/jquery.min.js') !!}
     {!! Html::script('assets/js/core/libraries/bootstrap.min.js') !!}
@@ -36,6 +40,10 @@
     {!! Html::script('assets/js/plugins/pickers/pickadate/legacy.js') !!}
     {!! Html::script('assets/js/pages/picker_date.js') !!}
     <!--fin picker date-->
+
+    <!-- strength JS -->
+    {!! Html::script('strength/js/strength-meter.js') !!}
+    <!-- strength JS -->
 
     @if($nav=='user' || $nav=='exchange' || $nav=='company' || $nav=='de' || $nav=='question' || $nav=='city' || $nav=='agency' ||
         $nav=='addquestion' || $nav=='retailer' || $nav=='product' || $nav=='addprocom' || $nav=='addtoretailer' || $nav=='policynumber')

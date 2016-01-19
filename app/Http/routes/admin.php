@@ -55,6 +55,7 @@ Route::get('admin/user/agency_ajax/{id_depto}', 'Admin\UserAdminController@ajax_
 Route::get('admin/user/finduser_ajax/{usuario}', 'Admin\UserAdminController@ajax_finduser');
 Route::get('admin/user/pass_now_ajax/{id_user}/{contrasenia_actual}', 'Admin\UserAdminController@ajax_current_password');
 Route::get('admin/user/active_ajax/{id_user}/{text}', 'Admin\UserAdminController@ajax_active_inactive');
+Route::get('admin/user/profiles_ajax/{tipo_usuario}', 'Admin\UserAdminController@ajax_user_profiles');
 
 require "admin.company.php";
 require "admin.exchange.php";
