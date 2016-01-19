@@ -119,6 +119,12 @@
                 @endif
 
                 @if(! is_null($header))
+                    @if ($header->type === 'I')
+                        <div class="page-header" style="padding: 5px;">
+                            <h2>Póliza {{ $header->prefix }}-{{ $header->issue_number }}</h2>
+                        </div>
+                    @endif
+
                     @if($header->facultative)
                         <div class="alert bg-warning alert-styled-right">
                             <span class="text-semibold">
@@ -175,11 +181,15 @@
                                 </td>
                                 <td>
                                     @if($detail->cumulus > 0)
-                                        <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
+                                        @if (isset($_GET['idf']))
+                                            <span class="label label-success">Completado</span>
+                                        @else
+                                            <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
                                                         'header_id' => $header_id,
                                                         'detail_id' => encode($detail->id)]) }}" title="Completado">
-                                            <span class="label label-success">Completado</span>
-                                        </a>
+                                                <span class="label label-success">Completado</span>
+                                            </a>
+                                        @endif
                                     @else
                                         <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
                                                         'header_id' => $header_id,
@@ -197,10 +207,12 @@
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li>
                                                     <a href="{{ route('de.detail.i.edit', [
-                                                    'rp_id'     => $rp_id,
-                                                    'header_id' => $header_id,
-                                                    'detail_id' => encode($detail->id),
-                                                    'ref'       => 'ise']) }}">
+                                                        'rp_id'     => $rp_id,
+                                                        'header_id' => $header_id,
+                                                        'detail_id' => encode($detail->id),
+                                                        'ref'       => 'ise',
+                                                        isset($_GET['idf']) ? 'idf=' . e($_GET['idf']) : null
+                                                        ]) }}">
                                                         <i class="icon-pencil3"></i> Editar datos del cliente
                                                     </a>
                                                 </li>
@@ -223,16 +235,19 @@
                                                     @endif
                                                 </li>
                                                 <li>
-                                                    <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
-                                                    'header_id' => $header_id,
-                                                    'detail_id' => encode($detail->id)]) }}">
-                                                        <i class="icon-plus2"></i>
-                                                        @if($detail->cumulus > 0)
-                                                            Editar Saldo deudor
-                                                        @else
-                                                            Registrar Saldo deudor
-                                                        @endif
-                                                    </a>
+                                                    @if(! isset($_GET['idf']))
+                                                        <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
+                                                            'header_id' => $header_id,
+                                                            'detail_id' => encode($detail->id)
+                                                            ]) }}">
+                                                            <i class="icon-plus2"></i>
+                                                            @if($detail->cumulus > 0)
+                                                                Editar Saldo deudor
+                                                            @else
+                                                                Registrar Saldo deudor
+                                                            @endif
+                                                        </a>
+                                                    @endif
                                                 </li>
                                             </ul>
                                         </li>
@@ -249,7 +264,18 @@
                         </div>
                     </div>
 
-                    {!! Form::open(['route' => ['de.update',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'put', 'class' => 'form-horizontal']) !!}
+                    @if (! isset($_GET['idf']))
+                        {!! Form::open(['route' => ['de.update', 
+                            'rp_id'     => $rp_id, 
+                            'header_id' => $header_id
+                            ], 'method' => 'put', 'class' => 'form-horizontal']) !!}
+                    @else
+                        {!! Form::open(['route' => ['de.update.fa', 
+                            'rp_id'          => $rp_id, 
+                            'header_id'      => $header_id, 
+                            'id_facultative' => e($_GET['idf'])
+                            ], 'method' => 'put', 'class' => 'form-horizontal']) !!}
+                    @endif
                     <div class="panel-body ">
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">
@@ -271,8 +297,8 @@
                                             'class' => 'form-control',
                                             'autocomplete' => 'off',
                                             'placeholder' => 'Monto Actual Solicitado',
-                                            'readonly' => 'readonly'])
-                                        !!}
+                                            'readonly' => true
+                                        ]) !!}
                                     </div>
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('amount_requested') }}</label>
                                 </div>
@@ -291,11 +317,11 @@
                                 <label class="control-label col-lg-3 label_required">Plazo del Credito: </label>
                                 <div class="col-lg-3">
                                     {!! Form::text('term', old('term', $header->term), [
-                                        'class' => 'form-control ui-wizard-content',
+                                        'class'        => 'form-control ui-wizard-content',
                                         'autocomplete' => 'off',
-                                        'placeholder' => 'Plazo del Credito',
-                                        'readonly' => 'readonly'])
-                                    !!}
+                                        'placeholder'  => 'Plazo del Credito',
+                                        'readonly'     => isset($_GET['idf']) ? null : true
+                                    ]) !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('term') }}</label>
                                 </div>
                                 <div class="col-lg-6">
@@ -347,14 +373,23 @@
                                         Emitir <i class="icon-floppy-disk position-right"></i>
                                     </a>
                                 @else
-                                    @if($header->facultative && ! $header->approved)
+                                    @if($header->facultative && ! $header->approved && ! $header->facultative_sent && ! isset($_GET['idf']))
                                         <a href="{{ route('de.fa.request.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-warning">
                                             Solicitar aprobación de la Compañia <i class="icon-warning position-right"></i>
                                         </a>
                                     @else
-                                        <a href="{{ route('home', []) }}" class="btn btn-info">
-                                            Solicitud enviada (Cerrar) <i class="icon-warning position-right"></i>
-                                        </a>
+                                        @if (! isset($_GET['idf']))
+                                            <a href="{{ route('home', []) }}" class="btn btn-info">
+                                                Solicitud enviada (Cerrar) <i class="icon-warning position-right"></i>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('home') }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+
+                                            {!! Form::button('Solicitud enviada (Guardar y Cerrar) <i class="icon-warning position-right"></i>', [
+                                                'type'  => 'submit', 
+                                                'class' => 'btn btn-primary' 
+                                            ]) !!}
+                                        @endif
                                     @endif
                                 @endif
                             @endif

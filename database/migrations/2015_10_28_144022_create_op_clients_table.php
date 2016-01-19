@@ -16,7 +16,7 @@ class CreateOpClientsTable extends Migration
             $table->integer('id')->unsigned();
             $table->integer('ad_retailer_id')->unsigned();
             $table->string('code', 10);
-            $table->enum('type', array_keys(\Config::get('base.client_types')));
+            $table->enum('type', array_keys(config('base.client_types')));
             $table->string('business_name', 140);
             $table->string('first_name', 60);
             $table->string('last_name', 60);
@@ -28,15 +28,15 @@ class CreateOpClientsTable extends Migration
             $table->string('dni', 15);
             $table->string('extension', 4);
             $table->string('complement', 4);
-            $table->enum('document_type', array_keys(\Config::get('base.client_document_types')));
+            $table->enum('document_type', array_keys(config('base.client_document_types')));
             $table->text('dni_file');
-            $table->enum('civil_status', array_keys(\Config::get('base.client_civil_status')));
-            $table->enum('gender', array_keys(\Config::get('base.client_genders')));
+            $table->enum('civil_status', array_keys(config('base.client_civil_status')));
+            $table->enum('gender', array_keys(config('base.client_genders')));
             $table->string('place_residence', 140);
             $table->text('locality');
             $table->mediumText('home_address');
             $table->string('home_number', 10);
-            $table->enum('avenue_street', array_keys(\Config::get('base.avenue_street')))->nullable();
+            $table->enum('avenue_street', array_keys(config('base.avenue_street')))->nullable();
             $table->mediumText('business_address');
             $table->string('country', 60);
             $table->integer('ad_activity_id')->unsigned();
@@ -47,7 +47,7 @@ class CreateOpClientsTable extends Migration
             $table->string('email', 140);
             $table->integer('weight')->unsigned();
             $table->integer('height')->unsigned();
-            $table->enum('hand', array_keys(\Config::get('base.client_hands')))->nullable();
+            $table->enum('hand', array_keys(config('base.client_hands')))->nullable();
             $table->double('debit_balance', 20, 2);
             $table->timestamps();
 

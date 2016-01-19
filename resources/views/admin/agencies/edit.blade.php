@@ -15,7 +15,13 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Formulario editar registro</h5>
+            <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
+                <span class="form-wizard-count">
+                    <i class="icon-pencil7"></i>
+                </span>
+                Formulario
+                <small class="display-block">Editar registro</small>
+            </h5>
             <!--
             <div class="heading-elements">
                 <ul class="icons-list">
@@ -49,7 +55,7 @@
                 </fieldset>
 
                 <fieldset class="content-group">
-                    <h5 class="panel-title">Agregar agencia a departamento Retailer</h5>
+                    <h5 class="panel-title">Agregar agencia a departamento</h5>
                     <br>
                     <div class="form-group">
                         <label class="control-label col-lg-2">Retailer</label>

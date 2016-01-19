@@ -12,12 +12,17 @@ class Header extends Model
     public $incrementing = false;
 
     protected $casts = [
-        'facultative' => 'boolean',
-        'approved'    => 'boolean',
+        'facultative'      => 'boolean',
+        'facultative_sent' => 'boolean',
+        'approved'         => 'boolean',
     ];
 
     protected $appends = [
         'certificate_number',
+    ];
+
+    protected $fillable = [
+        'facultative'
     ];
 
     public function user()

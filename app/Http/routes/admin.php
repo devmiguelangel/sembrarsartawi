@@ -65,6 +65,9 @@ require "admin.agency.php";
 require "admin.addquestion.php";
 require "admin.retailer.php";
 require "admin.product.php";
+require "admin.addprodcomp.php";
+require "admin.addtoretailer.php";
+require "admin.policy.php";
 require "admin.adActivities.php";
 Route::get('admin/ad_activities/list',[
     'as' => 'adActivities',

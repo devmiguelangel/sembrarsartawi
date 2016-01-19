@@ -128,10 +128,30 @@ return [
     ],
 
     'states' => [
-        'me' => 'Exámenes Médicos y/o Requisitos',
-        're' => 'Reaseguro',
         'cl' => 'Aclaraciones',
+        'me' => 'Exámenes Médicos y/o Requisitos',
         'de' => 'Error en Datos',
+        're' => 'Reaseguro',
+    ],
+
+    'company_state' => [
+        'A'  => 'Aprobado',
+        'R'  => 'Rechazado',
+        'P'  => 'Pendiente',
+        'O'  => 'Observado',
+        'C'  => 'Subsanado/Pendiente',
+    ],
+
+    'medical_certificate_types' => [
+        'E' => 'Editor',
+        'C' => 'Cuestionario',
+    ],
+
+    'mc_question_types' => [
+        'CB' => 'Checkbox',
+        'RB' => 'Radio Button',
+        'TX' => 'Texto',
+        'TA' => 'Area Texto',
     ],
 
 ];

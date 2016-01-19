@@ -15,7 +15,7 @@ class CreateOpViBeneficiariesTable extends Migration
         Schema::create('op_vi_beneficiaries', function (Blueprint $table) {
             $table->integer('id')->unsigned();
             $table->integer('op_vi_detail_id')->unsigned();
-            $table->enum('coverage', array_keys(\Config::get('base.beneficiary_coverages')));
+            $table->enum('coverage', array_keys(config('base.beneficiary_coverages')));
             $table->string('first_name', 60);
             $table->string('last_name', 60);
             $table->string('mother_last_name', 60);

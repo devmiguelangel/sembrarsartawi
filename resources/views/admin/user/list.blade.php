@@ -15,12 +15,16 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Tabla Usuarios</h5>
+            <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
+                <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
+                Usuarios
+                <small class="display-block">Listado de registros</small>
+            </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li>
                         <a href="{{route('admin.user.new', ['nav'=>$nav, 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
-                            <i class="icon-calendar5 text-primary"></i>
+                            <i class="icon-file-plus text-primary"></i>
                             <span>Nuevo usuario</span>
                         </a>
                     </li>

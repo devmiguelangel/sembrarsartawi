@@ -26,13 +26,15 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
   $rootScope.success = {
   };
 
+  $rootScope.dataOptions = [];
+  $rootScope.currentOption = [];
+
   $rootScope.getActionAttribute = function (event) {
     return event.target.attributes.action.value;
   };
 
   $rootScope.popup = function (payload) {
     angular.element('#popup').find('.modal-body').html($compile(payload)($rootScope));
-    // angular.element('#popup').find('.modal-body').html(payload);
     angular.element('#popup').modal();
   };
 
@@ -42,10 +44,14 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
     }, 1500);
   };
 
+  $rootScope.csrf_token = function () {
+    return angular.element('meta[name="csrf-token"]').attr('content');
+  };
+
 }]);
 
 app.controller('DetailDeController', ['$scope', '$http', DetailController.detailEdit]);
 
 app.controller('BeneficiaryController', ['$scope', '$http', BeneficiaryController.beneficiary]);
 
-app.controller('FacultativeController', ['$scope', '$http', FacultativeController.facultative]);
+app.controller('FacultativeController', ['$rootScope', '$scope', '$http', FacultativeController.facultative]);

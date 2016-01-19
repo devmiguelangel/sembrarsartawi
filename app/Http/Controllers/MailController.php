@@ -8,6 +8,7 @@ use Sibas\Entities\RetailerProduct;
 use Sibas\Entities\User;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Repositories\UserRepository;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class MailController extends Controller
@@ -17,87 +18,79 @@ class MailController extends Controller
      */
     protected $user;
     /**
-     * @var array
+     * @var UserRepository
      */
-    protected $sender;
+    protected $userRepository;
     /**
      * @var string
      */
-    protected $subject;
+    public $subject = null;
     /**
      * @var array
      */
-    protected $receivers;
-    /**
-     * @var null
-     */
-    protected $attach;
+    public $sender;
     /**
      * @var array
      */
-    protected $defaultSender = [
-        'email' => 'emontano@sudseguros.com',
-        'name'  => 'Ernesto Montaño',
-    ];
-    /**
-     * @var array
-     */
-    protected $defaultReceiver = [
-        'email' => 'djmiguelarango@outlook.com',
-        'name'  => 'Miguel Angel',
-    ];
-    /**
-     * @var string
-     */
-    protected $template;
-    /**
-     * @var string
-     */
-    protected $html;
+    public $receivers;
     /**
      * @var Collection
      */
     protected $emails;
+    /**
+     * @var null
+     */
+    public $attach = null;
+    /**
+     * @var array
+     */
+    protected $defaultSender;
+    /**
+     * @var string
+     */
+    public $template = '';
+    /**
+     * @var string
+     */
+    protected $html;
 
-    public function __construct(User $user, $template, array $sender = [], $subject, array $receivers, $attach = null)
+    public function __construct(User $user)
     {
-        $this->user      = $user;
-        $this->template  = $template;
-        $this->sender    = $sender;
-        $this->subject   = $subject;
-        $this->receivers = $receivers;
-        $this->attach    = $attach;
-        $this->emails    = [];
+        $this->user           = $user;
+        $this->userRepository = new UserRepository();
+        $this->sender         = [];
+        $this->receivers      = [];
+        $this->emails         = [];
 
-        $this->setSenderAndReceiver();
+        $this->defaultSender = [
+            'email' => 'emontano@sudseguros.com',
+            'name'  => 'Ernesto Montaño'
+        ];
     }
 
     /**
      * @param $rp_id
      * @param array $data
+     * @param array|string $profiles
      * @return bool
      */
-    public function send($rp_id, array $data = [])
+    public function send($rp_id, array $data = [], $profiles = [])
     {
+        $this->setSender();
+        $this->setReceivers($profiles);
         $this->emailsByProduct($rp_id);
 
-        $this->user->name = $this->user->full_name;
-        $user             = $this->user;
+        $user = $this->user;
 
         $this->setHtml($data);
 
         Mail::send('emails.layout', ['html' => $this->html], function($message) use ($user)
         {
             $message->from($this->sender['email'], $this->sender['name']);
-
-            $message->subject($this->subject);
+            $message->subject($this->sender['name'] . '. ' . $this->subject);
 
             foreach ($this->receivers as $key => $receiver) {
-                if (is_array($receiver)) {
-                    $message->to($receiver['email'], $receiver['name']);
-                } elseif ($key === 'email') {
-                    $message->to($this->receivers['email'], $this->receivers['name']);
-                }
+                $message->to($receiver['email'], $receiver['name']);
             }
 
             foreach ($this->emails as $email) {
@@ -105,23 +98,39 @@ class MailController extends Controller
             }
         });
 
+        if (count(Mail::failures()) > 0) {
+            //dd(Mail::failures);
+            return false;
+        }
+
         return true;
     }
 
-    protected function setSenderAndReceiver()
+    protected function setSender()
     {
-        if (count($this->sender) != 2) {
+        if (empty($this->sender)) {
             $this->sender         = $this->defaultSender;
             $this->sender['name'] = $this->user->retailer->first()->name;
         }
+    }
 
-        if (count($this->receivers) < 2) {
-            foreach ($this->receivers as $receiver) {
-                if (! is_array($receiver)) {
-                    $this->receivers = $this->defaultReceiver;
+    /**
+     * @param array|string $profiles
+     */
+    protected function setReceivers($profiles)
+    {
+        if (! empty($profiles)) {
+            if (is_string($profiles)) {
+                $profiles = [ $profiles ];
+            }
 
-                    break;
-                }
+            $users = $this->userRepository->getUserByProfile($this->user, $profiles);
+
+            foreach ($users as $user) {
+                array_push($this->receivers, [
+                    'email' => $user->email,
+                    'name'  => $user->full_name,
+                ]);
             }
         }
     }
@@ -137,6 +146,8 @@ class MailController extends Controller
         if ($retailerProduct instanceof RetailerProduct) {
             $this->emails = $retailerProduct->emails;
         }
+
+        $this->user->name = $this->user->full_name;
 
         $this->emails->push($this->user);
     }

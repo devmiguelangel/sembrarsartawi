@@ -15,12 +15,16 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Lista de Registros</h5>
+            <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
+                <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
+                Productos
+                <small class="display-block">Listado de registros</small>
+            </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li>
-                        <a href="{{route('admin.product.new', ['nav'=>'company', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
-                            <i class="icon-calendar5 text-primary"></i>
+                        <a href="{{route('admin.product.new', ['nav'=>'product', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
+                            <i class="icon-file-plus text-primary"></i>
                             <span>Agregar Producto</span>
                         </a>
                     </li>
@@ -36,15 +40,18 @@
             <thead>
             <tr>
                 <th>Producto</th>
+                <th>Codigo</th>
                 <th>Tipo de Producto</th>
                 <th class="text-center">Acciones</th>
             </tr>
             </thead>
             <tbody>
+
             @foreach($query as $data)
                 <tr>
                     <td>{{$data->name}}</td>
-                    <td></td>
+                    <td>{{$data->code}}</td>
+                    <td>{{$parameter[$data->type]}}</td>
                     <td class="text-center">
                         <ul class="icons-list">
                             <li class="dropdown">

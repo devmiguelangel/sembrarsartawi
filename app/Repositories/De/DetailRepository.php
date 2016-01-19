@@ -57,9 +57,13 @@ class DetailRepository extends BaseRepository
         return false;
     }
 
-    public function setApprovedDetail($approved = true)
+    public function setApprovedDetail($approved = true, $facultative = false)
     {
         $this->model->approved = $approved;
+
+        $this->model->header()->update([
+            'facultative' => $facultative,
+        ]);
 
         $this->saveModel();
     }

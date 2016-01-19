@@ -258,7 +258,8 @@ class DetailController extends Controller
                 if (($detail->client instanceof Client) && $this->clientRepository->updateIssueClient($request)) {
                     return redirect()->route('de.edit', [
                         'rp_id'     => $rp_id,
-                        'header_id' => $header_id
+                        'header_id' => $header_id,
+                        $request->has('_idf') ? 'idf=' . e($request->get('_idf')) : null
                     ])->with(['success_client' => 'La información del Cliente se actualizó correctamente']);
                 }
             };
@@ -300,7 +301,15 @@ class DetailController extends Controller
                         $approved = false;
                     }
 
-                    $this->repository->setApprovedDetail($approved);
+                    $header = $this->repository->getModel()->header;
+
+                    $facultative = false;
+
+                    if ($header->type === 'I') {
+                        $facultative = $this->headerRepository->setFacultative($header);
+                    }
+
+                    $this->repository->setApprovedDetail($approved, $facultative);
 
                     return redirect()->route('de.edit', compact('rp_id', 'header_id'))
                         ->with(['success_detail' => 'El Saldo Deudor fue actualizado correctamente']);

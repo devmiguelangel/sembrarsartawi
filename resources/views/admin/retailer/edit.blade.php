@@ -29,7 +29,7 @@
 
         <div class="panel-body">
 
-            <form class="form-horizontal" action="#">
+            {!! Form::open(array('route' => 'edit_retailer', 'name' => 'EditForm', 'id' => 'EditForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
                 <fieldset class="content-group">
 
                     <div class="form-group">
@@ -42,7 +42,7 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2">Dominio</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" name="txtDominio" id="txtDominio" value="{{$query->domain}}">
+                            <input type="text" class="form-control" name="txtDominio" id="txtDominio" value="{{$query->domain}}" autocomplete="off">
                         </div>
                     </div>
 
@@ -50,7 +50,12 @@
                         <label class="control-label col-lg-2">Archivo</label>
                         <div class="col-lg-10">
                             <input type="file" class="file-styled" name="txtFile" id="txtFile">
-                            Archivo actual: {{$query->image}}
+                            <strong>Archivo actual:</strong> {{$query->image}}
+                        </div>
+                        <div>
+                            @if($errors)
+                                {{ $errors->first('txtFile')}}
+                            @endif
                         </div>
                     </div>
 
@@ -61,11 +66,12 @@
                         Guardar <i class="icon-arrow-right14 position-right"></i>
                     </button>
                     <input type="hidden" name="id_retailer", id="id_retailer" value="{{$query->id}}">
+                    <input type="hidden" name="aux_file" id="aux_file" value="{{$query->image}}">
                     <a href="{{route('admin.retailer.list', ['nav'=>'retailer', 'action'=>'list'])}}" class="btn btn-primary">
                         Cancelar <i class="icon-arrow-right14 position-right"></i>
                     </a>
                 </div>
-            </form>
+            {!!Form::close()!!}
         </div>
     </div>
 @endsection

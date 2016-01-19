@@ -107,9 +107,9 @@ class ClientRepository extends BaseRepository
     /** Set data to Client
      *
      */
-    private function    setData()
+    private function setData()
     {
-        $date = $this->carbon->createFromTimestamp(strtotime($this->data['birthdate']));
+        $date = $this->carbon->createFromTimestamp(strtotime(str_replace('/', '-', $this->data['birthdate'])));
 
         $this->model->type           = 'N';
         $this->model->first_name     = $this->data['first_name'];

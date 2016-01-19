@@ -48,6 +48,8 @@ class DatabaseSeeder extends Seeder
             'op_de_details',
             'op_de_responses',
             'op_clients',
+            'op_de_facultatives',
+            'op_de_observations',
 
             'ad_plans',
             'op_vi_headers',

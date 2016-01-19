@@ -22,7 +22,8 @@ class CreateOpDeDetailsTable extends Migration
             $table->double('cumulus', 20, 2);
             $table->double('amount', 20, 2);
             $table->boolean('approved')->default(false);
-            $table->enum('headline', array_keys(\Config::get('base.headlines')));
+            $table->boolean('rejected')->default(false);
+            $table->enum('headline', array_keys(config('base.headlines')));
             $table->timestamps();
 
             $table->primary('id');

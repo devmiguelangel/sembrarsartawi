@@ -2,11 +2,13 @@
 
 namespace Sibas\Repositories\De;
 
-use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Facultative;
+use Sibas\Entities\De\Observation;
 use Sibas\Entities\ProductParameter;
+use Sibas\Http\Controllers\MailController;
 use Sibas\Repositories\BaseRepository;
 
 class FacultativeRepository extends BaseRepository
@@ -22,6 +24,10 @@ class FacultativeRepository extends BaseRepository
         'reason' => '',
         'state'  => '',
     ];
+    /**
+     * @var int
+     */
+    public $approved = null;
 
     /**
      * @param $user
@@ -29,40 +35,76 @@ class FacultativeRepository extends BaseRepository
      */
     public function getRecords($user)
     {
-        $cases = null;
         $user_type = $user->profile->first()->slug;
+
+        $fa = Facultative::with('user',
+                                'detail.header.user',
+                                'detail.client',
+                                'observations.state',
+                                'observations.user');
 
         switch ($user_type) {
             case 'SEP':
-                $cases = Facultative::with('detail.header.user', 'detail.client')
-                    ->whereHas('detail.header', function ($query) use ($user) {
+                $fa->whereHas('detail.header', function ($query) use ($user) {
                         $query->where('ad_user_id', $user->id);
-                        $query->where('type', 'I');
-                    })->get();
+                        $query->where('type', 'I')
+                            ->where('issued', false);
+                    });
                 break;
             case 'COP':
-                $cases = Facultative::with('detail.header.user', 'detail.client')
-                    ->whereHas('detail.header', function ($query) use ($user) {
+                $fa->whereHas('detail.header', function ($query) use ($user) {
                         $query->where('type', 'I');
                     })
-                    ->where('state', 'PE')
-                    ->get();
+                    ->where('state', 'PE');
                 break;
         }
 
-        $all = $cases;
+        $fa = $fa->orderBy('created_at', 'desc')->get();
+        $this->records['all'] = $fa;
 
-        $this->records['all'] = $all;
-
-        if ($user_type === 'SEP') {
-            $this->records['all-unread'] = $all->filter(function ($case) {
-                if (! $case->read) {
-                    return true;
+        $fa->each(function ($item, $key) use ($user_type) {
+            // All
+            if ($user_type === 'SEP') {
+                if (! $item->read) {
+                    $this->records['all-unread']->push($item);
                 }
-            });
-        } else {
-            $this->records['all-unread'] = $all->count();
-        }
+            } else {
+                $this->records['all-unread']->push($item);
+            }
+
+            // Approved
+            if ($item->state === 'PR' && $item->approved) {
+                $this->records['approved']->push($item);
+
+                if (! $item->read) {
+                    $this->records['approved-unread']->push($item);
+                }
+
+                return true;
+            }
+
+            // Observed
+            if ($item->state === 'PE' && $item->observations->count() > 0) {
+                $this->records['observed']->push($item);
+
+                if (! $item->read) {
+                    $this->records['observed-unread']->push($item);
+                }
+
+                return true;
+            }
+
+            // Rejected
+            if ($item->state === 'PR' && ! $item->approved) {
+                $this->records['rejected']->push($item);
+
+                if (! $item->read) {
+                    $this->records['rejected-unread']->push($item);
+                }
+
+                return true;
+            }
+        });
 
         return $this->records;
     }
@@ -176,7 +218,7 @@ class FacultativeRepository extends BaseRepository
 
     public function getFacultativeById($id)
     {
-        $this->model = Facultative::with('detail.header.user', 'detail.client')
+        $this->model = Facultative::with('detail.header.user', 'detail.client', 'observations')
             ->where('id', '=', $id)
             ->get();
 
@@ -184,6 +226,156 @@ class FacultativeRepository extends BaseRepository
             $this->model = $this->model->first();
 
             return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    public function updateFacultative($request)
+    {
+        $user       = $request->user();
+        $this->data = $request->all();
+
+        $this->data['approved']  = (int) $this->data['approved'];
+        $this->data['surcharge'] = (boolean) $this->data['surcharge'];
+
+        $_obs = $this->data['observation'];
+
+        if ($this->data['approved'] === 1 || $this->data['approved'] == 0) {
+            $this->model->ad_user_id  = $user->id;
+            $this->model->state       = 'PR';
+            $this->model->observation = $_obs;
+
+            if ($this->data['approved'] === 1) {
+                $this->model->approved = true;
+
+                if ($this->data['surcharge']) {
+                    $this->model->surcharge    = true;
+                    $this->model->percentage   = $this->data['percentage'];
+                    $this->model->current_rate = $this->data['current_rate'];
+                    $this->model->final_rate   = $this->data['final_rate'];
+                } else {
+                    $this->model->surcharge    = false;
+                    $this->model->current_rate = $this->data['current_rate'];
+                    $this->model->final_rate   = $this->data['final_rate'];
+                }
+
+                $this->model->detail()->update([
+                    'approved' => true
+                ]);
+            } else {
+                $this->model->detail()->update([
+                    'rejected' => true
+                ]);
+
+                $this->model->approved = false;
+            }
+        } elseif ($this->data['approved'] === 2) {
+            $observation = new Observation([
+                'id'          => date('U'),
+                'ad_user_id'  => $user->id,
+                'ad_state_id' => $this->data['state']['id'],
+                'observation' => $_obs,
+            ]);
+
+            try {
+                $this->model->observations()->save($observation);
+            } catch (QueryException $e) {
+                $this->errors = $e->getMessage();
+            }
+        }
+
+        $this->model->read = false;
+
+        return $this->saveModel();
+    }
+
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    public function storeAnswer($request, $id_observation)
+    {
+        $user       = $request->user();
+        $this->data = $request->all();
+
+        $this->model->observations()->where('id', $id_observation)
+            ->update([
+                'response'             => true,
+                'observation_response' => $this->data['observation_response'],
+                'date_response'        => new Carbon()
+            ]);
+
+        return $this->saveModel();
+    }
+
+    /**
+     * @param MailController $mail
+     * @param string $rp_id
+     * @param string $id
+     * @param bool $response
+     * @return bool
+     */
+    public function sendProcessMail(MailController $mail, $rp_id, $id, $response = false)
+    {
+        if ($this->getFacultativeById(decode($id)) && is_int($this->approved)) {
+            $fa     = $this->getModel();
+            $header = $fa->detail->header;
+
+            $profiles = '';
+            $process  = '';
+            $subject  = ':process : Respuesta :response a Caso Facultativo No. '
+                . $header->prefix . '-' . $header->issue_number . ' '
+                . $fa->detail->client->full_name;
+
+            $template = 'de.facultative.';
+
+            switch ($this->approved) {
+                case 1:
+                    $process  = 'Aprobado';
+                    $template .= 'process';
+                    break;
+                case 0:
+                    $process  = 'Rechazado';
+                    $template .= 'process';
+                    break;
+                case 2:
+                    $process  = $fa->observations->last()->state->state;
+
+                    if ($response) {
+                        $template .= 'response';
+                        $subject  = str_replace(':response', 'del Oficial de Credito', $subject);
+                    } else {
+                        $template .= 'observation';
+                    }
+                    break;
+            }
+
+            $subject = str_replace(':response', 'de la aseguradora', $subject);
+            $subject = str_replace(':process', $process, $subject);
+
+            $mail->subject  = $subject;
+            $mail->template = $template;
+
+            if ($this->approved !== 2) {
+                array_push($mail->receivers, [
+                    'email' => $header->user->email,
+                    'name'  => $header->user->full_name,
+                ]);
+            } elseif ($response) {
+                array_push($mail->receivers, [
+                    'email' => $fa->observations->last()->user->email,
+                    'name'  => $fa->observations->last()->user->full_name,
+                ]);
+            }
+
+            if ($mail->send(decode($rp_id), compact('fa'), $profiles)) {
+                return true;
+            }
         }
 
         return false;

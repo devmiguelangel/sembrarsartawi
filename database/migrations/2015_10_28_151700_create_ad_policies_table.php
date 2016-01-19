@@ -21,7 +21,7 @@ class CreateAdPoliciesTable extends Migration
             $table->string('end_policy', 140);
             $table->date('date_begin')->nullable();
             $table->date('date_end')->nullable();
-            $table->enum('currency', array_keys(\Config::get('base.currencies')))->nullable();
+            $table->enum('currency', array_keys(config('base.currencies')))->nullable();
             $table->string('modality', 5);
             $table->boolean('auto_increment')->default(false);
             $table->boolean('active')->default(false);

@@ -14,18 +14,20 @@
 
 @section('content')
     <div class="panel panel-flat">
-        <!--
+
         <div class="panel-heading">
-            <h5 class="panel-title">Formulario resetear contraseña</h5>
+            <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
+                <span class="form-wizard-count">
+                    <i class="icon-pencil7"></i>
+                </span>
+                Formulario
+                <small class="display-block">Editar registro</small>
+            </h5>
             <div class="heading-elements">
-                <ul class="icons-list">
-                    <li><a data-action="collapse"></a></li>
-                    <li><a data-action="reload"></a></li>
-                    <li><a data-action="close"></a></li>
-                </ul>
+
             </div>
         </div>
-        -->
+
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'update_city', 'name' => 'CityUpdateForm', 'id' => 'CityUpdateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -51,7 +53,17 @@
                             <select name="id_retailer" id="id_retailer" class="form-control required">
                                 <option value="0">Ninguno</option>
                                 @foreach($query_re as $data)
-                                    <option value="{{$data->id}}">{{$data->name}}</option>
+                                    @if(count($query_ret_city)>0)
+                                        @foreach($query_ret_city as $data_city)
+                                            @if($data_city->ad_city_id==$data->id)
+                                                <option value="{{$data->id}}" selected>{{$data->name}}</option>
+                                            @else
+                                                <option value="{{$data->id}}">{{$data->name}}</option>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        <option value="{{$data->id}}">{{$data->name}}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>

@@ -15,11 +15,15 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Formulario nuevo usuario</h5>
+            <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
+                <span class="form-wizard-count">
+                    <i class="icon-pencil6"></i>
+                </span>
+                Formulario
+                <small class="display-block">Nuevo registro</small>
+            </h5>
             <div class="heading-elements">
-                <ul class="icons-list">
-                    <li><a data-action="reload"></a></li>
-                </ul>
+
             </div>
         </div>
 
@@ -29,7 +33,7 @@
                 <fieldset class="content-group">
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Tipo de usuario</label>
+                        <label class="control-label col-lg-2">Tipo de usuario <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <select name="tipo_usuario" id="tipo_usuario" class="form-control required">
                                 <option value="0">Seleccione</option>
@@ -40,7 +44,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Departamento</label>
+                        <label class="control-label col-lg-2">Departamento <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             @if(!empty($cities))
                                 <select name="depto" class="form-control required" id="depto">
@@ -49,21 +53,27 @@
                                         <option value="{{$data->id}}">{{$data->name}}</option>
                                     @endforeach
                                 </select>
+                            @else
+                                <div class="alert alert-warning alert-styled-left">
+                                    <span class="text-semibold">Warning!</span> No existe departamentos registrados en el Retailer.<br>
+                                    <a href="{{route('admin.cities.list', ['nav'=>'city', 'action'=>'list'])}}">Ingresar departamentos a Retailer</a>
+                                </div>
                             @endif
                         </div>
                     </div>
 
                     <div class="form-group" style="display: none;" id="content-agency">
-                        <label class="control-label col-lg-2">Agencia</label>
+                        <label class="control-label col-lg-2">Agencia <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <select id="agencia" name="agencia" class="form-control required">
                                 <option value="0">Seleccione</option>
                             </select>
+                            <div id="msg_agencia"></div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Usuario</label>
+                        <label class="control-label col-lg-2">Usuario <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <input type="text" class="form-control required" name="txtIdusuario" id="txtIdusuario" autocomplete="off">
                             <div id="msg_usuario"></div>
@@ -71,14 +81,14 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Contraseña</label>
+                        <label class="control-label col-lg-2">Contraseña <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <input type="password" class="form-control required" name="contrasenia" id="contrasenia">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Confirmar Contraseña</label>
+                        <label class="control-label col-lg-2">Confirmar Contraseña <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <input type="password" class="form-control required" name="confirmar" id="confirmar">
                             <div id="msg_confirmar"><div id="error_contrasenia_igual"></div></div>
@@ -86,7 +96,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Nombre Completo</label>
+                        <label class="control-label col-lg-2">Nombre Completo <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <input type="text" class="form-control required text" name="txtNombre" id="txtNnombre" autocomplete="off">
                         </div>
@@ -100,7 +110,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Correo electronico</label>
+                        <label class="control-label col-lg-2">Correo electronico <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <input type="text" class="form-control required email" name="txtEmail" id="txtEmail" autocomplete="off">
                         </div>
@@ -140,7 +150,7 @@
                             $('#agencia').append('<option value="'+this.id+'">'+this.name+'</option>');
                         });
                     }else{
-                        $('#msg_agencia').html('No existe ningun registro');
+                        $('#msg_agencia').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold">Warning!</span> No existen agencias agregadas al departamento.<br><a href="{{route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list', 'id_retailer'=>auth()->user()->retailer->first()->id])}}">Ingresar agencias a departamento</a></div>');
                     }
                 });
             });
@@ -237,16 +247,16 @@
             function addClassE(element,err){
                 var _id = $(element).prop('id');
                 //$(element).addClass('error-text');
-                if(!$("#"+_id+" + .msg-form").length) {
-                    $("#"+_id+":last").after('<span class="msg-form">'+err+'</span>');
+                if(!$("#"+_id+" + .validation-error-label").length) {
+                    $("#"+_id+":last").after('<span class="validation-error-label">'+err+'</span>');
                 }
             }
             //REMOVEMOS CLASE
             function removeClassE(element){
                 var _id = $(element).prop('id');
                 //$(element).removeClass('error-text');
-                if($("#"+_id+" + .msg-form").length) {
-                    $("#"+_id+" + .msg-form").remove();
+                if($("#"+_id+" + .validation-error-label").length) {
+                    $("#"+_id+" + .validation-error-label").remove();
                 }
             }
             //VALIDAR TIPO DE ELEMENTO
