@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAdMcCertificatesTable extends Migration
+class CreateMcCertificatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateAdMcCertificatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ad_mc_certificates', function (Blueprint $table) {
+        Schema::create('mc_certificates', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ad_retailer_product_id')->unsigned();
             $table->enum('type', array_keys(config('base.medical_certificate_types')));
@@ -31,6 +31,6 @@ class CreateAdMcCertificatesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('ad_mc_certificates');
+        Schema::drop('mc_certificates');
     }
 }

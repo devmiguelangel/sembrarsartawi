@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAdMcQuestionnairesTable extends Migration
+class CreateMcQuestionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,10 @@ class CreateAdMcQuestionnairesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ad_mc_questionnaires', function (Blueprint $table) {
+        Schema::create('mc_questions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title', 140);
+            $table->string('question', 140);
+            $table->enum('type', array_keys(config('base.mc_question_types')));
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ class CreateAdMcQuestionnairesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('ad_mc_questionnaires');
+        Schema::drop('mc_questions');
     }
 }
