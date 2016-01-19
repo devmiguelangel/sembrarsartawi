@@ -118,31 +118,29 @@
                     @endif
 
                     @if($data->product=='vi')
-                        <!--
-                            <li>
-                                <a href="#"><i class="icon-stack2"></i> <span>Vida Individual</span></a>
-                                <ul>
-                                    <li>
-                                        <a href="vid_parameter.html">Parametros del producto</a>
-                                    </li>
-                                </ul>
-                                <ul>
-                                    <li>
-                                        <a href="vid_list_ap.html">Administrar preguntas</a>
-                                    </li>
-                                </ul>
-                                <ul>
-                                    <li>
-                                        <a href="vid_edit_content.html">Administrar contenido</a>
-                                    </li>
-                                </ul>
-                                <ul>
-                                    <li>
-                                        <a href="vid_managing_occupation.html">Administrar ocupación</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        -->
+                        <li>
+                            <a href="#"><i class="icon-stack2"></i> <span>Vida Individual</span></a>
+                            <ul>
+                                <li>
+                                    <a href="vid_parameter.html">Parametros del producto</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <a href="vid_list_ap.html">Administrar preguntas</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <a href="vid_edit_content.html">Administrar contenido</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <a href="vid_managing_occupation.html">Administrar ocupación</a>
+                                </li>
+                            </ul>
+                        </li>
                     @endif
                 @endforeach
             @else
