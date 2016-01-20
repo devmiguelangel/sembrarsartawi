@@ -247,6 +247,32 @@
                     <li class="active">Editar registro</li>
                 @endif
             @endif
+        @elseif($nav=='mcQuestionnaries')
+            @if($action=='list')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li class="active">Questionarios</li>
+            @elseif($action=='new' || $action=='edit')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li><a href="{{ route('mcQuestionnariesList') }}">Questionarios</a></li>
+                @if($action=='new')
+                    <li class="active">Nuevo registro</li>
+                @elseif($action=='edit')
+                    <li class="active">Editar registro</li>
+                @endif
+            @endif
+        @elseif($nav=='mcQuestions')
+            @if($action=='list')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li class="active">Preguntas</li>
+            @elseif($action=='new' || $action=='edit')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li><a href="{{ route('mcQuestionsList') }}">Preguntas</a></li>
+                @if($action=='new')
+                    <li class="active">Nuevo registro</li>
+                @elseif($action=='edit')
+                    <li class="active">Editar registro</li>
+                @endif
+            @endif
         @elseif($nav=='product')
             <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
             @if($action=='list')

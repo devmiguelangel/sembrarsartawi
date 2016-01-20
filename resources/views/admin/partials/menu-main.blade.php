@@ -224,11 +224,29 @@
                 @if($action=='list' || $action=='edit' || $action=='new')
                     @var $data_pp='active'
                 @endif
+            @elseif($nav=='mcQuestionnaries')
+                @if($action=='list' || $action=='edit' || $action=='new')
+                    @var $data_pp2='active'
+                    @var $data_pp3=''
+                @endif
+            @elseif($nav=='mcQuestions')
+                @if($action=='list' || $action=='edit' || $action=='new')
+                    @var $data_pp3='active'
+                    @var $data_pp2=''
+                @endif
             @else
                 @var $data_pp=''
+                @var $data_pp2=''
+                @var $data_pp3=''
             @endif
             <li class="{{$data_pp}}">
                 <a href="{{route('admin.questions.list', ['nav'=>'question', 'action'=>'list'])}}"><i class="icon-stack2"></i> <span>Administrar preguntas</span></a>
+            </li>
+            <li class="{{$data_pp2}}">
+                <a href="{{route('mcQuestionnariesList')}}"><i class="icon-stack2"></i> <span>Administrar Questionarios</span></a>
+            </li>
+            <li class="{{$data_pp3}}">
+                <a href="{{route('mcQuestionsList')}}"><i class="icon-stack2"></i> <span>Administrar Preguntas</span></a>
             </li>
         </ul>
     </div>
