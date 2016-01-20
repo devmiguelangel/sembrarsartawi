@@ -26,6 +26,9 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
   $rootScope.success = {
   };
 
+  $rootScope.mcData = {
+  };
+
   $rootScope.dataOptions = [];
   $rootScope.currentOption = [];
 

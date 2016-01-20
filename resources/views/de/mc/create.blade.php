@@ -1,12 +1,13 @@
 <div class="">
-  <h4>Formulario de Requisitos de Asegurabilidad Prestatarios SEMBRAR SARTAWI IFD</h4>
+  <h4>{{ $mc->name }}</h4>
     {!! Form::open(['route' => ['de.fa.mc.store', 'rp_id' => $rp_id, 'id' => $id], 
       'method'    => 'post', 
       'class'     => 'form-inline',
       'ng-submit' => 'mcStore($event)' ]) !!}
       
       <h6>{{ $fa->detail->client->full_name }}</h6>
-
+      
+      <input type="hidden" ng-init="mcData.mcid='{{ encode($mc->id) }}'" ng-mode="mcData.mcid">
       <table class="table table-condensed">
         <tbody>
           <tr>
@@ -34,11 +35,18 @@
               <strong>Centro de Atención:</strong>
             </td>
             <td colspan="3">
-              {!! Form::text('center_attention', null, [
-                  'class' => 'form-control',
-                  'autocomplete' => 'off',
-                  'placeholder' => 'Centro de Atención'
-              ]) !!}
+              <div class="input-group">
+                {!! Form::text('center_attention', null, [
+                    'class'        => 'form-control',
+                    'autocomplete' => 'off',
+                    'placeholder'  => 'Centro de Atención',
+                    'size'         => '50',
+                    'ng-model'     => 'mcData.center_attention'
+                ]) !!}
+              </div>
+              <label id="location-error" class="validation-error-label" for="location" ng-show="errors.center_attention">
+                  @{{ errors.center_attention[0] }}
+              </label>
             </td>
           </tr>
           <tr>
@@ -46,68 +54,63 @@
               <strong>Persona de Contacto:</strong>
             </td>
             <td colspan="3">
-              {!! Form::text('contact_person', null, [
-                  'class' => 'form-control',
-                  'autocomplete' => 'off',
-                  'placeholder' => 'Persona de Contacto'
-              ]) !!}
+              <div class="input-group">
+                {!! Form::text('contact_person', null, [
+                    'class'        => 'form-control',
+                    'autocomplete' => 'off',
+                    'placeholder'  => 'Persona de Contacto',
+                    'size'         => '50',
+                    'ng-model'     => 'mcData.contact_person'
+                ]) !!}
+              </div>
+              <label id="location-error" class="validation-error-label" for="location" ng-show="errors.contact_person">
+                  @{{ errors.contact_person[0] }}
+              </label>
             </td>
           </tr>
         </tbody>
       </table>
 
-      <h5><span class="label label-primary">1</span> Example heading</h5>
+      @foreach ($mc->certificateQuestionnaires as $cq => $certificateQuestionnaire)
+        <h6><span class="label label-primary">{{ $cq + 1 }}</span> {{ $certificateQuestionnaire->questionnaire->title }}</h6>
 
-      <div class="row">
-        <div class="col-md-4 table-bordered">
-          <label class="checkbox-inline">
-            {!! Form::checkbox('qs-1', 1, false, [
-                
-            ]) !!}
-            Cuestionario medico especifico
-          </label>
-        </div>
-        <div class="col-md-4 table-bordered">
-          <label class="checkbox-inline">
-            {!! Form::checkbox('qs-1', 1, false, [
-                
-            ]) !!}
-            Cuestionario medico especifico
-          </label>
-        </div>
-        <div class="col-md-4 table-bordered">
-          <label class="checkbox-inline">
-            {!! Form::checkbox('qs-1', 1, false, [
-                
-            ]) !!}
-            Cuestionario medico especifico
-          </label>
-        </div>
-      </div>
-      
-      <h5><span class="label label-primary">2</span> Example heading</h5>
-      <div class="row">
-        <div class="col-md-6 table-bordered">.col-md-6</div>
-        <div class="col-md-6 table-bordered">.col-md-6</div>
-      </div>
+        @var $class = config('base.module_class.' . $certificateQuestionnaire->module);
 
-      <h5><span class="label label-primary">3</span> Example heading</h5>
-      <div class="row">
-        <div class="col-md-12 form-group table-bordered">
-          <label class="checkbox-inline">
-            {!! Form::checkbox('qs-1', 1, false, [
-                
-            ]) !!}
-            Otros
-          </label>
-          {!! Form::text('observation', null, [
-              'class'        => 'form-control',
-              'autocomplete' => 'off',
-              'placeholder'  => 'Observaciones',
-              'size'         => '75'
-          ]) !!}
+        <div class="row">
+          @foreach ($certificateQuestionnaire->questions as $question)
+              @if ($question->type === 'CB')
+                <div class="{{ $class }} table-bordered" style="height: 80px;">
+                  <label class="checkbox-inline">
+                    {!! Form::checkbox('', 1, false, [
+                      'ng-model' => 'mcData.answers[' . $certificateQuestionnaire->questionnaire->id . '][' . $question->id . ']["response"]',
+                    ]) !!}
+                    {{ $question->question }}
+                  </label>
+                </div>
+              @elseif ($question->type === 'TX')
+                <div class="col-md-12 table-bordered">
+                  <label class="checkbox-inline">
+                    {!! Form::checkbox('', 1, false, [
+                        'ng-model' => 'mcData.answers[' . $certificateQuestionnaire->questionnaire->id . '][' . $question->id . ']["response"]',
+                    ]) !!}
+                    {{ $question->question }}
+                  </label>
+                  {!! Form::text('', null, [
+                    'class'        => 'form-control',
+                    'autocomplete' => 'off',
+                    'placeholder'  => $question->question,
+                    'size'         => '75',
+                    'ng-model'     => 'mcData.answers[' . $certificateQuestionnaire->questionnaire->id . '][' . $question->id . ']["text"]'
+                  ]) !!}
+                </div>
+              @endif
+          @endforeach
         </div>
-      </div>
+      @endforeach
+
+      <label id="location-error" class="validation-error-label" for="location" ng-show="errors.answers">
+          @{{ errors.answers[0] }}
+      </label>
 
       <br>
       

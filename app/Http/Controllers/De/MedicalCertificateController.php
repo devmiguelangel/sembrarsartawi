@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Http\Requests\De\MedicalCertificateFormRequest;
 use Sibas\Repositories\De\FacultativeRepository;
 use Sibas\Repositories\De\MedicalCertificateRepository;
 
@@ -46,11 +47,14 @@ class MedicalCertificateController extends Controller
     public function create($rp_id, $id)
     {
         if (request()->ajax()) {
-            if ($this->facultativeRepository->getFacultativeById(decode($id))) {
+            if ($this->facultativeRepository->getFacultativeById(decode($id))
+                && $this->repository->getMedicalCertificateByProduct(decode($rp_id))) {
+
                 $fa = $this->facultativeRepository->getModel();
+                $mc = $this->repository->getModel();
 
                 return response()->json([
-                    'payload' => view('de.mc.create', compact('rp_id', 'id', 'fa'))->render()
+                    'payload' => view('de.mc.create', compact('rp_id', 'id', 'fa', 'mc'))->render()
                 ]);
             }
 
@@ -63,12 +67,26 @@ class MedicalCertificateController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param MedicalCertificateFormRequest $request
+     * @param string $rp_id
+     * @param string $id
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MedicalCertificateFormRequest $request, $rp_id, $id)
     {
-        //
+        if ($request->ajax()) {
+            if ($this->facultativeRepository->getFacultativeById(decode($id))
+                && $this->repository->storeMedicalCertificate($request)) {
+
+                $mc = $this->repository->getModel();
+
+                return response()->json([
+                    'mc' => $mc
+                ]);
+            }
+        }
+
+        return redirect()->back();
     }
 
     /**

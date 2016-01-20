@@ -169,10 +169,7 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
       $http.get(_mc, {
 
       }).success(function (data, status, headers, config) {
-          console.log(data);
-
           if (status == 200) {
-            // mcForm.html($scope.compileData(data.payload));
             mcForm.html($compile(data.payload)($scope));
           }
         }).error(function (err, status, headers, config) {
@@ -226,7 +223,34 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
 
     CSRF_TOKEN = $scope.csrf_token();
 
-    console.log(action);
+    // console.log($scope.mcData);
+    $http({
+      method: 'POST',
+      url: action,
+      data: $.param($scope.mcData),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRF-TOKEN': CSRF_TOKEN
+      }
+    }).success(function (data, status, headers, config) {
+        console.log(data);
+        $scope.errors = {};
+
+        if (status == 200) {
+          // $scope.success = { facultative: true };
+          // $scope.redirect(data.location);
+        }
+      })
+      .error(function (err, status, headers, config) {
+        if (status == 422) {
+          $scope.errors = err;
+        } else if (status == 500) {
+          console.log('Unauthorized action.');
+        }
+
+        console.log(err);
+      });
+
   };
 
 
