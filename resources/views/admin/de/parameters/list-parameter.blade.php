@@ -15,7 +15,11 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Registro de parametros</h5>
+            <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
+                <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
+                Parametros - Desgravamen
+                <small class="display-block">Listado de registros</small>
+            </h5>
             <div class="heading-elements">
                 <!--
                 <ul class="icons-list">
@@ -44,7 +48,6 @@
                 <th style="text-align: center;">Web Service</th>
                 <th style="text-align: center;">Parametros Adicionales</th>
                 <th style="text-align: center;">Estado</th>
-                <th style="text-align: center;">Producto</th>
                 <th class="text-center">Acción</th>
             </tr>
             </thead>
@@ -96,7 +99,6 @@
                             <span class="label label-default">Inactivo</span>
                         @endif
                     </td>
-                    <td>{{$data->producto}}</td>
                     <td class="text-center">
                         <ul class="icons-list">
                             <li class="dropdown">
@@ -107,10 +109,16 @@
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
                                         <a href="{{route('admin.de.parameters.edit-parameter', ['nav'=>'de', 'action'=>'edit_parameter', 'id_retailer_product'=>$id_retailer_product])}}">
-                                            <i class="icon-file-pdf"></i> Editar
+                                            <i class="icon-pencil3"></i> Editar
                                         </a>
                                     </li>
-                                    <li><a href="#"><i class="icon-file-excel"></i> Desactivar</a></li>
+                                    <li>
+                                        @if((boolean)$data->active == true)
+                                            <a href="#"><i class="icon-cross"></i> Desactivar</a>
+                                        @elseif((boolean)$data->active == false)
+                                            <a href="#"><i class="icon-checkmark4"></i> Activar</a>
+                                        @endif
+                                    </li>
                                 </ul>
                             </li>
                         </ul>

@@ -75,27 +75,27 @@
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li>
                                     <a href="{{ route('admin.user.edit', ['nav'=>'user', 'action'=>'edit', 'id_user'=>$data->id_user]) }}">
-                                        <i class="icon-file-pdf"></i> Editar
+                                        <i class="icon-pencil3"></i> Editar
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('admin.user.change-password', ['nav'=>'user', 'action'=>'changepass', 'id_user'=>$data->id_user]) }}">
-                                        <i class="icon-file-excel"></i> Cambiar contraseña
+                                        <i class="icon-key"></i> Cambiar contraseña
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('admin.user.reset-password', ['nav'=>'user', 'action'=>'resetpass', 'id_user'=>$data->id_user]) }}">
-                                        <i class="icon-file-word"></i> Resetear contraseña
+                                        <i class="icon-spinner11"></i> Resetear contraseña
                                     </a>
                                 </li>
                                 <li>
                                     @if((boolean)$data->active==true)
                                         <a href="#" class="confirm_active" id="{{$data->id_user}}|inactive|baja|{{$data->full_name}}">
-                                            <i class="icon-file-empty"></i>Dar baja
+                                            <i class="icon-user-cancel"></i>Dar baja
                                         </a>
                                     @elseif((boolean)$data->active==false)
                                         <a href="#" class="confirm_active" id="{{$data->id_user}}|active|alta|{{$data->full_name}}">
-                                            <i class="icon-file-empty"></i>Dar alta
+                                            <i class="icon-user-check"></i>Dar alta
                                         </a>
                                     @endif
                                 </li>

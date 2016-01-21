@@ -15,6 +15,8 @@ Route::get('admin/cities/edit/{nav}/{action}/{id_depto}', [
     'uses' => 'Admin\CityAdminController@edit'
 ]);
 
+/** PROCESOS POST **/
+
 Route::post('admin/cities/edit', [
     'as' => 'update_city',
     'uses' => 'Admin\CityAdminController@update'

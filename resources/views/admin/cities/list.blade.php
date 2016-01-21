@@ -26,7 +26,7 @@
                     <li>
                         <a href="{{route('admin.cities.new', ['nav'=>'city', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
-                            <span>Agregar registro</span>
+                            <span>Crear registro</span>
                         </a>
                     </li>
                 </ul>
@@ -84,7 +84,7 @@
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a href="{{route('admin.cities.edit', ['nav'=>'city', 'action'=>'edit', 'id_depto'=>$data->id])}}">
-                                                <i class="icon-file-pdf"></i>Editar
+                                                <i class="icon-pencil3"></i><i class="icon-drawer-in"></i>Editar/Agregar a Retailer
                                             </a>
                                         </li>
                                     </ul>

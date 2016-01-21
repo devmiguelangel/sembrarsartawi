@@ -37,12 +37,22 @@
                         <div class="col-lg-10">
                             <select name="tipo_usuario" id="tipo_usuario" class="form-control required">
                                 <option value="0">Seleccione</option>
-                                <option value="1">Administrador</option>
-                                <option value="2">Usuario</option>
-                                <option value="3">Operador</option>
+                                @foreach($query_type_user as $type)
+                                    <option value="{{$type->id}}|{{$type->code}}">{{$type->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
+
+                    <div class="form-group" style="display: none;" id="content-user-profiles">
+                        <label class="control-label col-lg-2">Perfiles <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <select id="id_profile" name="id_profile" class="form-control required">
+                                <option value="0">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="control-label col-lg-2">Departamento <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
@@ -56,7 +66,6 @@
                             @else
                                 <div class="alert alert-warning alert-styled-left">
                                     <span class="text-semibold">Warning!</span> No existe departamentos registrados en el Retailer.<br>
-                                    <a href="{{route('admin.cities.list', ['nav'=>'city', 'action'=>'list'])}}">Ingresar departamentos a Retailer</a>
                                 </div>
                             @endif
                         </div>
@@ -83,7 +92,7 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2">Contraseña <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="password" class="form-control required" name="contrasenia" id="contrasenia">
+                            <input type="password" class="form-control required strength" name="contrasenia" id="contrasenia">
                         </div>
                     </div>
 
@@ -120,12 +129,17 @@
 
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">
-                        Guardar <i class="icon-arrow-right14 position-right"></i>
+                        Guardar <i class="icon-floppy-disk position-right"></i>
                     </button>
 
                     <a href="{{route('admin.user.list', ['nav'=>'user', 'action'=>'list'])}}" class="btn btn-primary">
-                        Cancelar <i class="icon-arrow-right14 position-right"></i>
+                        Cancelar <i class="icon-cross position-right"></i>
                     </a>
+                    @if(empty($cities))
+                        <a href="{{route('admin.cities.list', ['nav'=>'city', 'action'=>'list'])}}" class="btn btn-primary">
+                            Agregar departamentos a Retailer <i class="icon-pencil3 position-right"></i>
+                        </a>
+                    @endif
                 </div>
             {!!Form::close()!!}
         </div>
@@ -155,10 +169,35 @@
                 });
             });
 
+            //OBTENER EL LISTA DE PERFILES DE USUARIO
+            $('#tipo_usuario').change(function(e){
+                var _id = $(this).prop('value');
+                var arr = _id.split("|");
+                var tipo_usuario = arr[0];
+                if(arr[1]=='UST'){
+                    //alert(tipo_usuario);
+                    $.get( "{{url('/')}}/admin/user/profiles_ajax/"+tipo_usuario, function( data ) {
+                        $('#content-user-profiles').fadeIn('slow');
+                        $('#perfiles option').remove();
+                        $('#id_profile').append('<option value="0">Seleccione</option>');
+                        if(data.length>0){
+                            $.each(data, function () {
+                                console.log("ID: " + this.id);
+                                console.log("Profiles: " + this.name);
+                                $('#id_profile').append('<option value="'+this.id+'">'+this.name+'</option>');
+                            });
+                        }
+                    });
+                    //$('#content-user-profiles').fadeIn('slow');
+                }else{
+                    $('#content-user-profiles').fadeOut('slow');
+                }
+            });
+
             //VERIFICAMOS SI EL USUARIO EXISTE
             $("#txtIdusuario").blur(function(e){
                 var usuario = $("#txtIdusuario").prop('value');
-                alert(usuario);
+                //alert(usuario);
                 if(usuario.match(/^[a-zA-Z]+$/)){
                     $.get( "{{url('/')}}/admin/user/finduser_ajax/"+usuario, function( data ) {
                         console.log(data);

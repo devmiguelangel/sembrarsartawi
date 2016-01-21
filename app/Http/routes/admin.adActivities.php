@@ -3,7 +3,7 @@
  PROCESOS GET
  **/
 
-Route::get('admin/adactivities', [
+Route::get('admin/adActivities', [
     'as' => 'adActivities',
     'uses' => 'Admin\AdActivitiesController@index'
 ]);
@@ -29,4 +29,4 @@ Route::post('admin/agencies/edit', [
 Route::post('admin/agencies/new', [
     'as' => 'create_agency',
     'uses' => 'Admin\AgencyAdminController@store'
-]);
+]);*/

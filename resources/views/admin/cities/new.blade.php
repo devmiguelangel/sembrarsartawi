@@ -14,18 +14,24 @@
 
 @section('content')
     <div class="panel panel-flat">
-        <!--
+
         <div class="panel-heading">
-            <h5 class="panel-title">Formulario resetear contraseña</h5>
+            <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
+                <span class="form-wizard-count">
+                    <i class="icon-pencil7"></i>
+                </span>
+                Formulario
+                <small class="display-block">Nuevo registro </small>
+            </h5>
             <div class="heading-elements">
-                <ul class="icons-list">
+                <!--<ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
                     <li><a data-action="reload"></a></li>
                     <li><a data-action="close"></a></li>
-                </ul>
+                </ul>-->
             </div>
         </div>
-        -->
+
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'create_city', 'name' => 'CityCreateForm', 'id' => 'CityCreateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -61,8 +67,11 @@
 
             <div class="text-right">
                 <button type="submit" class="btn btn-primary">
-                    Guardar <i class="icon-arrow-right14 position-right"></i>
+                    Guardar <i class="icon-floppy-disk position-right"></i>
                 </button>
+                <a href="{{ route('admin.cities.list', ['nav'=>'city', 'action'=>'list']) }}" class="btn btn-primary">
+                    Cancelar <i class="icon-cross position-right"></i>
+                </a>
             </div>
             {!!Form::close()!!}
         </div>

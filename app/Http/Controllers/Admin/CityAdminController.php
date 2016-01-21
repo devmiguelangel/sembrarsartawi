@@ -88,7 +88,7 @@ class CityAdminController extends BaseController
         $query_ret_city = \DB::table('ad_retailer_cities')
                             ->where('ad_city_id', $id_depto)
                             ->get();
-        //dd($id_depto);
+        //dd($query_ret_city);
         return view('admin.cities.edit', compact('nav', 'action', 'query', 'query_re', 'main_menu', 'query_ret_city'));
     }
 

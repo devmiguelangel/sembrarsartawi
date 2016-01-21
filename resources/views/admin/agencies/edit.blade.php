@@ -81,8 +81,11 @@
 
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">
-                        Guardar <i class="icon-arrow-right14 position-right"></i>
+                        Guardar <i class="icon-floppy-disk position-right"></i>
                     </button>
+                    <a href="{{ route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list', 'id_retailer'=>auth()->user()->retailer->first()->id]) }}" class="btn btn-primary">
+                        Cancelar <i class="icon-cross position-right"></i>
+                    </a>
                     <input type="hidden" name="id_agency" id="id_agency" value="{{$query_ag->id}}">
                 </div>
             {!!Form::close()!!}
