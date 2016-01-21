@@ -89,21 +89,24 @@
                         </td>
                     </tr>
                     @endforeach
+            </tbody>
+            <thead>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="text-center">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-center">
                             <hr />
                             <a href="{{route('mcQuestionnariesList')}}" class="btn btn-info" title="Nuevo Questionario"><i class="icon-list"></i> Administrar Questionarios</a>
-                        <td>
+                        </th>
+                        <th class="text-center">
                             <hr />
                             <a href="{{route('mcQuestionsList')}}" class="btn btn-primary" title="Nueva Pregunta"><i class="icon-list"></i> Administrar Preguntas</a>
-                        </td>
-                        <td class="text-center"></td>   
+                        </th>
+                        <th class="text-center"></th>
                     </tr>
-            </tbody>
+                </thead>
             </table>
             <hr />
         </div>

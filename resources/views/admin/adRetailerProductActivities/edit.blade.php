@@ -28,27 +28,28 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2 label_required">Producto</label>
                         <div class="col-lg-5">
-                            <select class="form-control" name="adRetailerProductActivities" id="adRetailerProductActivities" required="required">
+                            <select disabled="disabled" class="form-control" name="combo" id="combo" required="required">
                                 <option value="">Seleccione</option>
                                 @foreach($retailerProducts as $products)
                                     @if($adRetailerProductId == $products->id)
-                                        <option value="{{ $products->id }}" selected>{{ $products->id }}</option>
+                                        <option value="{{ $products->id }}" selected>{{ $products->name }}</option>
                                     @else
-                                        <option value="{{ $products->id }}">{{ $products->id }}</option>
+                                        <option value="{{ $products->id }}">{{ $products->name }}</option>
                                     @endif
                                 @endforeach
                             </select>
                         </div>
                     </div>
+                    <input type="hidden" name="adRetailerProductActivities" id="adRetailerProductActivities" value="{{ $adRetailerProductId }}">
                     <div class="form-group">
                         <label class="control-label col-lg-2 label_required">Multiple select</label>
                         <div class="col-lg-5">
                             <select class="form-control" multiple="multiple" id="adActivities" name="adActivities[]" required="required">
                                 @foreach($activities as $activity)
                                         @if($activity->selected == 1)
-                                            <option value="{{ $activity->id }}" selected="selected">{{ $activity->category }}</option>      
+                                            <option value="{{ $activity->id }}" selected="selected">{{ $activity->occupation }}</option>      
                                         @else
-                                            <option value="{{ $activity->id }}" >{{ $activity->category }}</option>      
+                                            <option value="{{ $activity->id }}" >{{ $activity->occupation }}</option>      
                                         @endif
                                 @endforeach
                             </select>

@@ -87,13 +87,6 @@
                                     @var $data_ap2=''
                                     @var $data_ap3=''
                                 @endif
-                            @elseif($nav=='adRetailerProductActivities')
-                                @if($action=='list' || $action=='new' || $action=='edit')
-                                    @var $data_ap2='active'
-                                    @var $data_ap3=''
-                                    @var $data_ap=''
-                                    @var $data_pp=''
-                                @endif
                             @elseif($nav=='adActivitiesList')
                                 @if($action=='list' || $action=='new'|| $action=='edit')
                                     @var $data_ap3='active'
@@ -129,11 +122,7 @@
                                 </li>
                             </ul>
                             -->
-                            <ul>
-                                <li class="{{$data_ap2}}">
-                                    <a href="{{route('adRetailerProductActivities')}}" title='Administrar ocupación'>Administrar ocupación</a>
-                                </li>
-                            </ul>
+                            
                             <ul>
                                 <li class="{{$data_ap3}}">
                                     <a href="{{route('adActivitiesList')}}" title='Administrar Actividades'>Administrar Actividades</a>
@@ -190,6 +179,20 @@
             <li class="navigation-header">
                 <span>kits de Página</span> <i class="icon-menu" title="Forms"></i>
             </li>
+            @if($nav=='adRetailerProductActivities')
+                @if($action=='list' || $action=='new' || $action=='edit')
+                    @var $data_sel='active'
+                @endif
+            @else
+                @var $data_sel=''
+            @endif
+           
+            <li class="{{ $data_sel }}">
+                <a href="{{route('adRetailerProductActivities')}}" title='Administrar ocupación'>
+                    <i class="icon-stack2"></i> Administrar ocupación
+                </a>
+            </li>
+                           
             @if($nav=='mcCertificate')
                 @if($action=='list' || $action=='edit' || $action=='new' || $action=='asign')
                     @var $data_pp2='active'                    
