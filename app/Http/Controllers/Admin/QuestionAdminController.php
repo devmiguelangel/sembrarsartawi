@@ -22,12 +22,14 @@ class QuestionAdminController extends BaseController
             $query = Question::get();
             //dd($query);
             return view('admin.questions.list', compact('nav', 'action', 'query','main_menu'));
-        }elseif($action=='new'){
-            return view('admin.questions.new', compact('nav', 'action', 'main_menu'));
         }
-
     }
 
+    public function index_retailer($nav, $action, $id_retailer_product, $code_product)
+    {
+        $main_menu = $this->menu_principal();
+        return view('admin.questions.new', compact('nav', 'action', 'main_menu', 'id_retailer_product', 'code_product'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -49,7 +51,17 @@ class QuestionAdminController extends BaseController
         $query = new Question();
         $query->question=$request->input('txtQuestion');
         if($query->save()) {
-            return redirect()->route('admin.questions.list', ['nav'=>'question', 'action'=>'list']);
+            if($request->input('id_retailer_product')!=0){
+                if($request->input('code_product')=='de'){
+                    return redirect()->route('admin.de.addquestion.new', ['nav'=>'addquestion', 'action'=>'new', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+                }elseif($request->input('code_product')=='vi'){
+                    return redirect()->route('admin.vi.addquestion.new', ['nav'=>'addquestionvi', 'action'=>'new', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+                }else{
+                    return redirect()->route('admin.questions.list', ['nav'=>'question', 'action'=>'list']);
+                }
+            }else{
+                return redirect()->route('admin.questions.list', ['nav'=>'question', 'action'=>'list']);
+            }
         }
     }
 

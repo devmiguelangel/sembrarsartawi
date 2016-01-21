@@ -42,7 +42,7 @@
 
         </div>
 
-        <table class="table datatable-basic">
+        <table class="table table-bordered">
             <thead>
             <tr>
                 <th>Compañía de Seguros</th>

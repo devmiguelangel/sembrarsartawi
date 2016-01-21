@@ -25,9 +25,7 @@
             <div class="heading-elements">
                 <!--
                 <ul class="icons-list">
-                    <li><a data-action="collapse"></a></li>
                     <li><a data-action="reload"></a></li>
-                    <li><a data-action="close"></a></li>
                 </ul>
                 -->
             </div>
@@ -35,81 +33,94 @@
 
         <div class="panel-body">
 
-            {!! Form::open(array('route' => 'create_add_question', 'name' => 'CreateForm', 'id' => 'CreateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
-                <fieldset class="content-group">
+            {!! Form::open(array('route' => 'create_parameter', 'name' => 'NewForm', 'id' => 'NewForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
+            <fieldset class="content-group">
 
-                    <div class="form-group">
-                        <label class="control-label col-lg-2">Retailer</label>
-                        <div class="col-lg-10">
-                            <strong>{{$query->retailer}}</strong>
-                        </div>
+                <div class="form-group">
+                    <label class="control-label col-lg-2">Producto Parametro <span class="text-danger">*</span></label>
+                    <div class="col-lg-10">
+                        <select name="prod_param" id="prod_param" class="form-control required">
+                            <option value="0">Seleccione</option>
+                            @foreach(config('base.product_parameters') as $key=>$data)
+                                <option value="{{$key}}">{{$data}}</option>
+                            @endforeach
+                        </select>
                     </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-lg-2">Producto</label>
-                        <div class="col-lg-10">
-                            <strong>{{$query->product}}</strong>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-lg-2">Pregunta <span class="text-danger">*</span></label>
-                        <div class="col-lg-10">
-                            @if(count($question)>0)
-                                <select name="id_question" id="id_question" class="form-control required">
-                                    <option value="0">Seleccione</option>
-                                    @foreach($question as $data)
-                                        <option value="{{$data->id}}">{{$data->question}}</option>
-                                    @endforeach
-                                </select>
-                            @else
-                                <div class="alert alert-info alert-styled-left alert-bordered">
-                                    <span class="text-semibold">Alert</span> No existe ninguna pregunta, ingrese una nueva pregunta.
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-lg-2">Respuesta esperada <span class="text-danger">*</span></label>
-                        <div class="col-lg-10">
-                            <select name="response" id="response" class="form-control required">
-                                <option value="0">Seleccione</option>
-                                <option value="1">SI</option>
-                                <option value="2">NO</option>
-                            </select>
-                        </div>
-                    </div>
-
-                </fieldset>
-
-                <div class="text-right">
-                    @if(count($question)>0)
-                        <button type="submit" class="btn btn-primary">
-                            Guardar <i class="icon-floppy-disk position-right"></i>
-                        </button>
-                    @else
-                        <button type="submit" class="btn btn-primary" disabled>
-                            Guardar <i class="icon-floppy-disk position-right"></i>
-                        </button>
-                    @endif
-                     <a href="{{route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-primary">
-                         Cancelar <i class="icon-cross position-right"></i>
-                     </a>
-                     @if(count($question)==0)
-                        <a href="{{route('admin.questions.list', ['nav'=>'question', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-primary">
-                            Crear pregunta<i class="icon-pencil3 position-right"></i>
-                        </a>
-                     @endif
-                    <input type="hidden" name="id_retailer_product" id="id_retailer_product" value="{{$id_retailer_product}}">
                 </div>
+                @var $j=18
+                <div class="form-group">
+                    <label class="control-label col-lg-2">Edad Mínima <span class="text-danger">*</span></label>
+                    <div class="col-lg-10">
+                        <select name="edad_min" id="edad_min" class="form-control required">
+                            <option value="0">Seleccione</option>
+                            @while($j<=85)
+                                <option value="{{$j}}">{{$j}}</option>
+                                @var $j=$j+1
+                            @endwhile
+                        </select>
+                    </div>
+                </div>
+                @var $i=18
+                <div class="form-group">
+                    <label class="control-label col-lg-2">Edad Máxima <span class="text-danger">*</span></label>
+                    <div class="col-lg-10">
+                        <select name="edad_max" id="edad_max" class="form-control required">
+                            <option value="0">Seleccione</option>
+                            @while($i<=85)
+                                <option value="{{$i}}">{{$i}}</option>
+                                @var $i=$i+1;
+                            @endwhile
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-lg-2">Monto Minimo <span class="text-danger">*</span></label>
+                    <div class="col-lg-10">
+                        <input type="text" name="monto_min" id="monto_min" class="form-control required number">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-lg-2">Monto Máximo <span class="text-danger">*</span></label>
+                    <div class="col-lg-10">
+                        <input type="text" name="monto_max" id="monto_max" class="form-control required number">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-lg-2">Numero Titulares <span class="text-danger">*</span></label>
+                    <div class="col-lg-10">
+                        <input type="text" name="num_titu" id="num_titu" class="form-control required number">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-lg-2">Caducidad Cotizacion <span class="text-danger">*</span></label>
+                    <div class="col-lg-10">
+                        <input type="text" name="caduc" id="caduc" class="form-control required number">
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary">
+                    Guardar <i class="icon-floppy-disk position-right"></i>
+                </button>
+
+                <a href="{{route('admin.de.parameters.list-parameter-additional', ['nav'=>'vi', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-primary">
+                    Cancelar <i class="icon-cross position-right"></i>
+                </a>
+                <input type="hidden" name="id_retailer_product" id="id_retailer_product" value="{{$id_retailer_product}}">
+            </div>
             {!!Form::close()!!}
         </div>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
             //VERIFICAMOS EL FORMULARIO
-            $('#CreateForm').submit(function(e){
+            $('#NewForm').submit(function(e){
                 var sw = true;
                 var err = 'Esta informacion es obligatoria';
                 $(this).find('.required, .not-required').each(function(index, element) {

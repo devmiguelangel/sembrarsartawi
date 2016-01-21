@@ -70,6 +70,8 @@ require "admin.addprodcomp.php";
 require "admin.addtoretailer.php";
 require "admin.policy.php";
 require "admin.adActivities.php";
+require "admin.vi.php";
+
 Route::get('admin/ad_activities/list',[
     'as' => 'adActivities',
     'uses' => 'Admin\AdActivitiesController@index'

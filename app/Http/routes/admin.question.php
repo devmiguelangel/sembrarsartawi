@@ -12,9 +12,9 @@ Route::get('admin/questions/edit/{nav}/{action}/{id_question}', [
     'uses' => 'Admin\QuestionAdminController@edit'
 ]);
 
-Route::get('admin/questions/new/{nav}/{action}', [
+Route::get('admin/questions/new/{nav}/{action}/{id_retailer_product}/{code_product}', [
     'as' => 'admin.questions.new',
-    'uses' => 'Admin\QuestionAdminController@index'
+    'uses' => 'Admin\QuestionAdminController@index_retailer'
 ]);
 
 

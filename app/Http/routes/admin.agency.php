@@ -17,6 +17,11 @@ Route::get('admin/agencies/new/{nav}/{action}/{id_retailer}', [
     'uses' => 'Admin\AgencyAdminController@index'
 ]);
 
+Route::get('admin/agencies/list_retailer/{nav}/{action}/{id_agency}', [
+    'as' => 'admin.agencies.list_retailer',
+    'uses' => 'Admin\AgencyAdminController@list_retailer'
+]);
+
 /**
 PROCESOS POST
  **/

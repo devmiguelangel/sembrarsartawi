@@ -17,28 +17,19 @@
         <div class="panel-heading">
             <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
                 <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
-                Parametros - Desgravamen
+                Parametros - Vida en Grupo
                 <small class="display-block">Listado de registros</small>
             </h5>
             <div class="heading-elements">
-                <!--
-                <ul class="icons-list">
-                    <li>
-                        <a href="company_new.html" class="btn btn-link btn-float has-text">
-                            <i class="icon-calendar5 text-primary"></i>
-                            <span>Agregar Compañia</span>
-                        </a>
-                    </li>
-                </ul>
-                -->
+
             </div>
         </div>
 
         <div class="panel-body">
 
         </div>
-
-        <table class="table datatable-basic">
+        @if(count($query)>0)
+            <table class="table datatable-basic">
             <thead>
             <tr>
                 <th style="text-align: center;">Facturación</th>
@@ -52,7 +43,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($sql as $data)
+            @foreach($query as $data)
                 <tr>
                     <td style="text-align: center;">
                         @if((boolean)$data->billing == true)
@@ -90,7 +81,7 @@
                         @endif
                     </td>
                     <td style="text-align: center;">
-                        <a href="{{route('admin.de.parameters.list-parameter-additional', ['nav'=>'de', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}">Agregar/Modificar Parametros</a>
+                        <a href="{{route('admin.vi.parameters.list-parameter-additional', ['nav'=>'vi', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}">Agregar/Modificar Parametros</a>
                     </td>
                     <td>
                         @if((boolean)$data->active == true)
@@ -108,7 +99,7 @@
 
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
-                                        <a href="{{route('admin.de.parameters.edit-parameter', ['nav'=>'de', 'action'=>'edit_parameter', 'id_retailer_product'=>$id_retailer_product])}}">
+                                        <a href="{{route('admin.vi.parameters.edit', ['nav'=>'vi', 'action'=>'edit', 'id_retailer_product'=>$id_retailer_product])}}">
                                             <i class="icon-pencil3"></i> Editar
                                         </a>
                                     </li>
@@ -127,5 +118,10 @@
             @endforeach
             </tbody>
         </table>
+        @else
+            <div class="alert alert-warning alert-styled-left">
+                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+            </div>
+        @endif
     </div>
 @endsection

@@ -299,6 +299,29 @@
                     <li class="active">Nuevo registro</li>
                 @endif
             @endif
+        @elseif($nav=='vi')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Parametros</li>
+            @elseif($action=='edit')
+                <li><a href="{{ route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Listado registros</a></li>
+                <li class="active">Editar registro</li>
+            @elseif($action=='list_parameter_additional')
+                <li><a href="{{ route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Listado parametros</a></li>
+                <li class="active">Parametros adicionales</li>
+            @elseif($action=='new_parameter_additional')
+                <li><a href="{{ route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">parametros</a></li>
+                <li><a href="{{ route('admin.vi.parameters.list-parameter-additional', ['nav'=>'vi', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product]) }}">parametros adicionales</a></li>
+                <li class="active">Nuevo registro</li>
+            @endif
+        @elseif($nav=='addquestionvi')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Preguntas</li>
+            @elseif($action=='new')
+                <li><a href="{{ route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">listado preguntas</a></li>
+                <li class="active">Formulario</li>
+            @endif
         @endif
     </ul>
     <!--

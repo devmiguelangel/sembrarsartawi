@@ -66,7 +66,6 @@
                             @else
                                 <div class="alert alert-warning alert-styled-left">
                                     <span class="text-semibold">Warning!</span> No existe departamentos registrados en el Retailer.<br>
-                                    <a href="{{route('admin.cities.list', ['nav'=>'city', 'action'=>'list'])}}">Ingresar departamentos a Retailer</a>
                                 </div>
                             @endif
                         </div>
@@ -136,6 +135,11 @@
                     <a href="{{route('admin.user.list', ['nav'=>'user', 'action'=>'list'])}}" class="btn btn-primary">
                         Cancelar <i class="icon-cross position-right"></i>
                     </a>
+                    @if(empty($cities))
+                        <a href="{{route('admin.cities.list', ['nav'=>'city', 'action'=>'list'])}}" class="btn btn-primary">
+                            Agregar departamentos a Retailer <i class="icon-pencil3 position-right"></i>
+                        </a>
+                    @endif
                 </div>
             {!!Form::close()!!}
         </div>

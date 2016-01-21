@@ -14,16 +14,22 @@
 
 @section('content')
     <div class="panel panel-flat">
-        <!--
+
         <div class="panel-heading">
-            <h5 class="panel-title">Editar pregunta</h5>
+            <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
+                <span class="form-wizard-count">
+                    <i class="icon-pencil7"></i>
+                </span>
+                Formulario
+                <small class="display-block">Editar registro </small>
+            </h5>
             <div class="heading-elements">
-                <ul class="icons-list">
+                <!--<ul class="icons-list">
                     <li><a data-action="reload"></a></li>
-                </ul>
+                </ul>-->
             </div>
         </div>
-        -->
+
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'update_question', 'name' => 'QuestUpdateForm', 'id' => 'QuestUpdateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -40,10 +46,10 @@
 
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">
-                        Guardar <i class="icon-arrow-right14 position-right"></i>
+                        Guardar <i class="icon-floppy-disk position-right"></i>
                     </button>
                     <a href="{{ route('admin.questions.list', ['nav'=>'question', 'action'=>'list']) }}" class="btn btn-primary">
-                        Cancelar <i class="icon-arrow-right14 position-right"></i>
+                        Cancelar <i class="icon-cross position-right"></i>
                     </a>
                     <input type="hidden" name="id_question" id="id_question" value="{{$query->id}}">
                 </div>

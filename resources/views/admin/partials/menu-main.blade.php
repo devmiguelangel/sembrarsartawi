@@ -62,10 +62,10 @@
                 </a>
             </li>
 
-
             <li class="navigation-header">
                 <span>Productos</span> <i class="icon-menu" title="Forms"></i>
             </li>
+
             @if(count($main_menu)>0)
                 @foreach($main_menu as $data)
                     @if($data->product=='de')
@@ -77,11 +77,15 @@
                                     $action=='edit_parameter_additional')
                                     @var $data_pp='active'
                                     @var $data_ap=''
+                                    @var $data_ap2=''
+                                    @var $data_ap3=''
                                 @endif
                             @elseif($nav=='addquestion')
                                 @if($action=='list' || $action=='new')
                                     @var $data_ap='active'
                                     @var $data_pp=''
+                                    @var $data_ap2=''
+                                    @var $data_ap3=''
                                 @endif
                             @elseif($nav=='adRetailerProductActivities')
                                 @if($action=='list' || $action=='new' || $action=='edit')
@@ -141,14 +145,28 @@
                     @if($data->product=='vi')
                         <li>
                             <a href="#"><i class="icon-stack2"></i> <span>Vida Individual</span></a>
+                            @if($nav=='vi')
+                                @if($action=='list' || $action=='edit' || $action='list_parameter_additional')
+                                    @var $data_vpp='active'
+                                    @var $data_cm=''
+                                @endif
+                            @elseif($nav=='addquestionvi')
+                                @if($action=='list' || $action=='new')
+                                    @var $data_cm='active'
+                                    @var $data_vpp=''
+                                @endif
+                            @else
+                                @var $data_cm=''
+                                @var $data_vpp=''
+                            @endif
                             <ul>
-                                <li>
-                                    <a href="vid_parameter.html">Parametros del producto</a>
+                                <li class="{{$data_vpp}}">
+                                    <a href="{{route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
                                 </li>
                             </ul>
                             <ul>
-                                <li>
-                                    <a href="vid_list_ap.html">Administrar preguntas</a>
+                                <li class="{{$data_cm}}">
+                                    <a href="{{route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Cuestionario Medico</a>
                                 </li>
                             </ul>
                             <ul>
