@@ -56,6 +56,11 @@
                 </tbody>
             </table>
             <hr />
+            <div class="text-right">
+                <a href="{{ route('mcCertificatesList') }}" class="btn btn-primary" title="Volver a Lista de Certificados">
+                    Volver a Lista de Certificados <i class="icon-arrow-right14"></i>
+                </a>
+            </div>
             
         </div>
     </div>

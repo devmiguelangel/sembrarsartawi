@@ -62,14 +62,26 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            @if($entity->questionnaire == 0)
-                                <a href="{{ route('mcCertificatesMcCuestionariesForm',['id'=>$entity->id]) }}"><span class="label label-success">Asignar</span></a>
+                            @if($entity->type == 'E')
+                                <i class="glyphicon glyphicon-remove"></i>
                             @else
-                                <a href="{{ route('mcCertificatesMcCuestionariesFormEdit',['id'=>$entity->id]) }}"><span class="label label-info">Editar</span></a>
+                                @if($entity->questionnaire == 0)
+                                    <a href="{{ route('mcCertificatesMcCuestionariesForm',['id'=>$entity->id]) }}"><span class="label label-success"><i class="icon-plus2"></i> Asignar</span></a>
+                                @else
+                                    <a href="{{ route('mcCertificatesMcCuestionariesFormEdit',['id'=>$entity->id]) }}"><span class="label label-info"><i class="icon-pencil"></i> Editar</span></a>
+                                @endif
                             @endif
                         </td>
-                        <td>
-                            <a href="{{ route('mcCertificateCuestionnairesList',['id_cert'=>$entity->id]) }}">Asignar</a>
+                        <td class="text-center">
+                            @if($entity->type == 'E')
+                                <i class="glyphicon glyphicon-remove"></i>
+                            @else
+                                @if($entity->questionnaire == 0)
+                                    <span class="label label-default">Asignar</span>
+                                @else
+                                    <a href="{{ route('asignQuestionList',['id_cert'=>$entity->id]) }}"><span class="label label-primary"><i class="icon-plus2"></i> Asignar</span></a>
+                                @endif
+                            @endif
                         </td>
                         <td class="text-center">
                             <a onclick="FormGralF.deleteElement('{{ route('mcCertificatesFormDestroy', ['id'=>$entity->id ]) }}','')" title="Eliminar"><i class="icon-trash"></i></a>&nbsp;
@@ -77,7 +89,21 @@
                         </td>
                     </tr>
                     @endforeach
-                </tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center">
+                            <hr />
+                            <a href="{{route('mcQuestionnariesList')}}" class="btn btn-info" title="Nuevo Questionario"><i class="icon-list"></i> Administrar Questionarios</a>
+                        <td>
+                            <hr />
+                            <a href="{{route('mcQuestionsList')}}" class="btn btn-primary" title="Nueva Pregunta"><i class="icon-list"></i> Administrar Preguntas</a>
+                        </td>
+                        <td class="text-center"></td>   
+                    </tr>
+            </tbody>
             </table>
             <hr />
         </div>

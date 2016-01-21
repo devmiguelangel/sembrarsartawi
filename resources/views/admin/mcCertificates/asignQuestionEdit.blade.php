@@ -19,7 +19,7 @@
         <hr />
     </div>
     <div class="panel-body">
-        {!! Form::open(array('route' => 'create_mc_certificates_mc_questionnaires', 'name' => 'Form', 'id' => 'mc_certificate-questionnaires', 'method'=>'post', 'class'=>'form-horizontal form-validate-jquery')) !!}
+        {!! Form::open(array('route' => 'update_asign_question', 'name' => 'Form', 'id' => 'mc_certificate_questionnaires_question', 'method'=>'post', 'class'=>'form-horizontal form-validate-jquery')) !!}
         <fieldset class="content-group">
             
             <div class="form-group">
@@ -27,21 +27,34 @@
                 <div class="col-lg-5">
                     <select class="form-control" multiple="multiple" id="mc_question_id" name="mc_question_id[]" required="required">
                         @foreach($mcQuestions as $questions)
-                        <option value="{{ $questions->id }}">{{ $questions->question }}</option>      
+                            @if($questions->selected == 1)
+                                <option value="{{ $questions->id }}" selected >{{ $questions->question }}</option>      
+                            @else
+                                <option value="{{ $questions->id }}">{{ $questions->question }}</option>      
+                            @endif
                         @endforeach
                     </select>
                 </div>
             </div>
-            <input type="hidden" id="mc_certificate_questionnaire_id" name="mc_certificate_questionnaire_id" value="{{ $mcQuestionnaires->id }}">
+            <input type="hidden" id="mc_certificate_questionnaire_id" name="mc_certificate_questionnaire_id" value="{{ $id_cert_quest }}">
+            <input type="hidden" id="id_certificado" name="id_certificado" value="{{ $id_cert }}">
             <hr />
             <div class="form-group">
                 <label class="radio-inline radio-right">
-                    <input type="radio" value="1" checked="checked" name="active">
+                    @if($selectActive == 1)
+                        <input type="radio" value="1" checked="checked" name="active">
+                    @else
+                        <input type="radio" value="1" name="active">
+                    @endif
                     Activar
                 </label>
 
                 <label class="radio-inline radio-right">
-                    <input type="radio" value="0" name="active">
+                    @if($selectActive == 0)
+                        <input type="radio" value="0" checked="checked" name="active">
+                    @else
+                        <input type="radio" value="0" name="active">
+                    @endif
                     Desactivar
                 </label>
             </div>
@@ -50,7 +63,7 @@
             <button type="submit" class="btn btn-primary">
                 Guardar <i class="icon-floppy-disk position-right"></i>
             </button>
-            <a href="{{ route('mcCertificateCuestionnairesList',['id_cert'=>$mcQuestionnaires->id]) }}" class="btn btn-danger">
+            <a href="{{ route('asignQuestionList',['id_cert'=>$id_cert]) }}" class="btn btn-danger">
                 Cancelar <i class="icon-arrow-right14 position-right"></i>
             </a>
         </div>

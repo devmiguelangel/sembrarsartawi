@@ -260,6 +260,21 @@
                     <li class="active">Editar registro</li>
                 @endif
             @endif
+        @elseif($nav=='mcCertificate')
+            @if($action=='list')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li class="active">Administrar Certificado</li>
+            @elseif($action=='new' || $action=='edit' || $action=='asign')
+                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+                <li><a href="{{ route('mcCertificatesList') }}">Administrar Certificado</a></li>
+                @if($action=='new')
+                    <li class="active">Nuevo registro</li>
+                @elseif($action=='edit')
+                    <li class="active">Editar registro</li>
+                @elseif($action=='asign')
+                    <li class="active">Asignación</li>
+                @endif
+            @endif
         @elseif($nav=='mcQuestions')
             @if($action=='list')
                 <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>

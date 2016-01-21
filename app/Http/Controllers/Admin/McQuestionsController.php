@@ -12,7 +12,8 @@ class McQuestionsController extends BaseController {
     public $nav = '';
 
     public function __construct() {
-        $this->nav = 'mcQuestions';
+        //edw-->$this->nav = 'mcQuestions';
+        $this->nav = 'mcCertificate';
     }
 
     /**

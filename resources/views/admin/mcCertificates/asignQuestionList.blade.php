@@ -16,7 +16,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title"> <i class="icon-list"></i> Asignación de Prequntas - {{ $mcCertificates->name }}</h5>
+            <h5 class="panel-title"> <i class="icon-list"></i> Asignación de Preguntas - {{ $mcCertificates->name }}</h5>
         </div>
         <hr />
         <div class="panel-body ">
@@ -25,7 +25,7 @@
                     <tr>
                         <th>Questionario</th>
                         <th>Activo</th>
-                        <th class="text-center">Acción</th>
+                        <th class="text-center">Asignacion de Preguntas</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,14 +44,22 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            <a href="{{ route('mcCertificateCuestionnairesNewForm',['id'=>$entity->mc_questionnaire_id]) }}"><span class="label label-success">Asignar</span></a>
-                            <a href="{{ route('mcCertificatesMcCuestionariesFormEdit',['id'=>$entity->id]) }}"><span class="label label-info">Editar</span></a>
+                            @if($entity->asign == 0)
+                                <a href="{{ route('asignQuestionNewForm',['id_questionnaire'=>$entity->mc_questionnaire_id, 'id_cert'=>$mcCertificates->id, 'id_cert_quest' => $entity->id]) }}"><span class="label label-success"><i class="icon-plus2"></i> Asignar</span></a>
+                            @else
+                            <a href="{{ route('asignQuestionEditForm',['id_questionnaire'=>$entity->mc_questionnaire_id, 'id_cert'=>$mcCertificates->id, 'id_cert_quest' => $entity->id]) }}"><span class="label label-info"><i class="icon-pencil"></i> Editar</span></a>
+                            @endif
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
             <hr />
+            <div class="text-right">
+                <a href="{{ route('mcCertificatesList') }}" class="btn btn-primary" title="Volver a Lista de Certificados">
+                    Volver a Lista de Certificados <i class="icon-arrow-right14"></i>
+                </a>
+            </div>
         </div>
     </div>
 @endsection

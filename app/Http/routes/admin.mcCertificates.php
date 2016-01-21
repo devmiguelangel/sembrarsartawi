@@ -37,18 +37,6 @@ Route::get('admin/mc_certificates/mc_questionnaries/edit/{id}',[
     'as' => 'mcCertificatesMcCuestionariesFormEdit',
     'uses' => 'Admin\McCertificatesController@asignQuestionnariesFormEdit'
 ]);
-Route::get('admin/mc_certificates/questionnaires/question/{id_cert}/list',[
-    'as' => 'mcCertificateCuestionnairesList',
-    'uses' => 'Admin\McCertificatesController@certificateCuestionnairesList'
-]);
-Route::get('admin/mc_certificates/questionnaires/question/new/{id}',[
-    'as' => 'mcCertificateCuestionnairesNewForm',
-    'uses' => 'Admin\McCertificatesController@certificateCuestionnairesNewForm'
-]);
-Route::get('admin/mc_certificates/questionnaires/question/edit/{id}',[
-    'as' => 'mcCertificateCuestionnairesEditForm',
-    'uses' => 'Admin\McCertificatesController@certificateCuestionnairesEditForm'
-]);
 # registro asignacion
 Route::post('admin/mc_certificates/mc_questionnaries/new', [
     'as' => 'create_mc_certificates_mc_questionnaires',
@@ -57,5 +45,30 @@ Route::post('admin/mc_certificates/mc_questionnaries/new', [
 Route::post('admin/mc_certificates/mc_questionnaries/edit', [
     'as' => 'update_mc_certificates_mc_questionnaires',
     'uses' => 'Admin\McCertificatesController@asignQuestionnairesUpdate'
+]);
+/* fin asignacion de questionarios*/
+
+/* asignacion de reguntas a certificados*/
+Route::get('admin/mc_certificates/asign_question/{id_cert}/list',[
+    'as' => 'asignQuestionList',
+    'uses' => 'Admin\McCertificatesController@asignQuestionList'
+]);
+# form de registro question a certificado
+Route::get('admin/mc_certificates/asign_question/new/{id_questionnaire}/{id_cert}/{id_cert_quest}',[
+    'as' => 'asignQuestionNewForm',
+    'uses' => 'Admin\McCertificatesController@asignQuestionNewForm'
+]);
+Route::get('admin/mc_certificates/asign_question/edit/{id_questionnaire}/{id_cert}/{id_cert_quest}',[
+    'as' => 'asignQuestionEditForm',
+    'uses' => 'Admin\McCertificatesController@asignQuestionEditForm'
+]);
+# registro asignacion de preguntas
+Route::post('admin/mc_certificates/asignquestion/new', [
+    'as' => 'create_asign_question',
+    'uses' => 'Admin\McCertificatesController@asignQuestionStore'
+]);
+Route::post('admin/mc_certificates/asignquestion/edit', [
+    'as' => 'update_asign_question',
+    'uses' => 'Admin\McCertificatesController@asignQuestionUpdate'
 ]);
 /* fin asignacion de questionarios*/

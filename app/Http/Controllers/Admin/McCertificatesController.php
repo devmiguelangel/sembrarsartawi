@@ -12,7 +12,7 @@ class McCertificatesController extends BaseController {
     public $nav = '';
 
     public function __construct() {
-        $this->nav = 'mcQuestions';
+        $this->nav = 'mcCertificate';
     }
 
     /**
@@ -107,15 +107,15 @@ class McCertificatesController extends BaseController {
     }
     
     /**
-     * lista de cuestionarios para su asignacion.
+     * lista de cuestionarios para asignacion.
      *
-     * @param  int  $id_cert_qu
+     * @param  int  $id_cert
      * @return \Illuminate\Http\Response
      */
-    public function certificateCuestionnairesList($id_cert) {
+    public function asignQuestionList($id_cert) {
         
         $nav = $this->nav;
-        $action = 'new';
+        $action = 'asign';
         $main_menu = $this->menu_principal();
         $mcCertificateQuestionnaires = DB::table('mc_certificate_questionnaires')
                 ->join('mc_questionnaires','mc_certificate_questionnaires.mc_questionnaire_id','=','mc_questionnaires.id')
@@ -123,30 +123,125 @@ class McCertificatesController extends BaseController {
                 ->select('mc_certificate_questionnaires.*','mc_questionnaires.title as title_cuestionnaire')
                 ->get();
         
+        $inQuestion = DB::table('mc_certificate_questionnaire_questions')->groupBy('mc_certificate_questionnaire_id')->get();
+        $var = array();
+        foreach ($inQuestion as $key => $value) {
+            $var[]=$value->mc_certificate_questionnaire_id;  
+        }
+        foreach ($mcCertificateQuestionnaires as $key => $value) {
+            if(in_array($value->id, $var))
+                    $mcCertificateQuestionnaires[$key]->asign = 1;
+                    else
+                    $mcCertificateQuestionnaires[$key]->asign = 0;
+        }
         $mcCertificates = DB::table('mc_certificates')->where('id', $id_cert)->get();
         $mcCertificates = $mcCertificates[0];
 
-        return view('admin.mcCertificates.certificateQuestionnairesList', compact('nav', 'action', 'main_menu', 'mcCertificateQuestionnaires', 'mcCertificates'));
+        return view('admin.mcCertificates.asignQuestionList', compact('nav', 'action', 'main_menu', 'mcCertificateQuestionnaires', 'mcCertificates'));
     }
     /**
-     * Formualario de asignacion de preguras.
+     * Formualario de asignacion de preguras nuevo.
      *
-     * @param  int  $id
+     * @param  int  $id_questionnaire
+     * @param  int  $id_cert
+     * @param  int  $id_cert_quest
      * @return \Illuminate\Http\Response
      */
-    public function certificateCuestionnairesNewForm($id) {
+    public function asignQuestionNewForm($id_questionnaire, $id_cert, $id_cert_quest) {
         
         $nav = $this->nav;
-        $action = 'new';
+        $action = 'asign';
         $main_menu = $this->menu_principal();
-        $mcQuestionnaires = DB::table('mc_questionnaires')->where('id',$id)->get();
+        $mcQuestionnaires = DB::table('mc_questionnaires')->where('id',$id_questionnaire)->get();
         $mcQuestionnaires = $mcQuestionnaires[0];
         
         $mcQuestions = DB::table('mc_questions')->get();
         
-        return view('admin.mcCertificates.certificateQuestionnairesQuestionNew', compact('nav', 'action', 'main_menu', 'mcQuestionnaires', 'mcQuestions'));
+        return view('admin.mcCertificates.asignQuestionNew', compact('nav', 'action', 'main_menu', 'mcQuestionnaires', 'mcQuestions', 'id_cert', 'id_cert_quest'));
+    }
+      
+    /**
+     * registrta asignacion de preguntas a cuestinoarios.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function asignQuestionStore(Request $request) {
+        if  (count($request->get('mc_question_id')) > 0) {
+            foreach ($request->get('mc_question_id') as $key => $value) {
+                $store = DB::table('mc_certificate_questionnaire_questions')->insert(
+                        [
+                            'mc_question_id' => $value,
+                            'mc_certificate_questionnaire_id' => $request->get('mc_certificate_questionnaire_id'),
+                            'active' => $request->get('active')
+                        ]
+                );
+            }
+        }
+        return redirect()->route('asignQuestionList',['id_cert'=>$request->get('id_certificado')])->with('new', 'message');
     }
     
+    /**
+     * Formualario de asignacion de preguras edicion.
+     *
+     * @param  int  $id_questionnaire
+     * @param  int  $id_cert
+     * @param  int  $id_cert_quest
+     * @return \Illuminate\Http\Response
+     */
+    public function asignQuestionEditForm($id_questionnaire, $id_cert, $id_cert_quest) {
+        
+        $nav = $this->nav;
+        $action = 'asign';
+        $main_menu = $this->menu_principal();
+        $mcQuestionnaires = DB::table('mc_questionnaires')->where('id',$id_questionnaire)->get();
+        $mcQuestionnaires = $mcQuestionnaires[0];
+
+        $qq = DB::table('mc_certificate_questionnaire_questions')->where('mc_certificate_questionnaire_id', $id_cert_quest)->get();
+        
+        $questionSlect = array();
+        $selectActive = 0;
+        foreach ($qq as $key => $value) {
+            $questionSlect[$key]=$value->mc_question_id;
+            $selectActive=$value->active;
+        }
+        
+        $mcQuestions = DB::table('mc_questions')->get();
+        
+        foreach ($mcQuestions as $key => $value) {
+            if (in_array($value->id, $questionSlect))
+                $mcQuestions[$key]->selected = 1;
+            else
+                $mcQuestions[$key]->selected = 0;
+        }
+        
+        
+        
+        return view('admin.mcCertificates.asignQuestionEdit', compact('nav', 'action', 'main_menu', 'mcQuestionnaires', 'mcQuestions', 'id_cert', 'id_cert_quest', 'selectActive'));
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function asignQuestionUpdate(Request $request) {
+        
+        if (count($request->get('mc_question_id')) > 0) {
+            \Sibas\Entities\McCertificateQuestionnaireQuestions::where('mc_certificate_questionnaire_id', $request->get('mc_certificate_questionnaire_id'))->delete();
+            foreach ($request->get('mc_question_id') as $key => $value) {
+                $store = DB::table('mc_certificate_questionnaire_questions')->insert(
+                        [
+                            'mc_question_id' => $value,
+                            'mc_certificate_questionnaire_id' => $request->get('mc_certificate_questionnaire_id'),
+                            'active' => $request->get('active')
+                        ]
+                );
+            }
+        }
+
+        return redirect()->route('asignQuestionList',['id_cert'=>$request->get('id_certificado')])->with('edit', 'message');
+    }
     /**
      * Display the specified resource.
      *
@@ -155,7 +250,7 @@ class McCertificatesController extends BaseController {
      */
     public function asignQuestionnariesForm($id) {
         $nav = $this->nav;
-        $action = 'new';
+        $action = 'asign';
         $main_menu = $this->menu_principal();
         $mcQuestionnaires = DB::table('mc_questionnaires')->get();
         
@@ -174,7 +269,7 @@ class McCertificatesController extends BaseController {
     public function asignQuestionnariesFormEdit($id) {
         
         $nav = $this->nav;
-        $action = 'new';
+        $action = 'asign';
         $main_menu = $this->menu_principal();
         $mcQuestionnaires = DB::table('mc_questionnaires')->get();
         
