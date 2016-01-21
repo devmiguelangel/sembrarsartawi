@@ -10,7 +10,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
     percentage: 0,
     state: null,
     emails: [
-    ]
+    ],
+    mc_id: null
   };
 
   $scope.record = [
@@ -223,7 +224,6 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
 
     CSRF_TOKEN = $scope.csrf_token();
 
-    // console.log($scope.mcData);
     $http({
       method: 'POST',
       url: action,
@@ -233,12 +233,14 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
         'X-CSRF-TOKEN': CSRF_TOKEN
       }
     }).success(function (data, status, headers, config) {
-        console.log(data);
         $scope.errors = {};
 
         if (status == 200) {
-          // $scope.success = { facultative: true };
-          // $scope.redirect(data.location);
+          $scope.formData.mc_id = data.mc_id;
+          $scope.success        = { medical_certificate: true };
+          $scope.mcEnabled      = false;
+
+          $scope.submitForm('#form-fa');
         }
       })
       .error(function (err, status, headers, config) {

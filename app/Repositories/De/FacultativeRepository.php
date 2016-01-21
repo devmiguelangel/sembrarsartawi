@@ -282,6 +282,10 @@ class FacultativeRepository extends BaseRepository
                 'observation' => $_obs,
             ]);
 
+            if ($this->data['state']['data_slug'] === 'me') {
+                $observation->op_mc_answer_id = $this->data['mc_id'];
+            }
+
             try {
                 $this->model->observations()->save($observation);
             } catch (QueryException $e) {

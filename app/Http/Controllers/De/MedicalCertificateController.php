@@ -4,6 +4,8 @@ namespace Sibas\Http\Controllers\De;
 
 use Illuminate\Http\Request;
 
+use Sibas\Entities\Mc\Answer;
+use Sibas\Http\Controllers\PdfController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\De\MedicalCertificateFormRequest;
@@ -20,11 +22,17 @@ class MedicalCertificateController extends Controller
      * @var MedicalCertificateRepository
      */
     protected $repository;
+    /**
+     * @var PdfController
+     */
+    protected $pdf;
 
-    public function __construct(MedicalCertificateRepository $repository, FacultativeRepository $facultativeRepository)
+    public function __construct(PdfController $pdf, MedicalCertificateRepository $repository,
+                                FacultativeRepository $facultativeRepository)
     {
         $this->repository            = $repository;
         $this->facultativeRepository = $facultativeRepository;
+        $this->pdf                   = $pdf;
     }
 
     /**
@@ -81,7 +89,7 @@ class MedicalCertificateController extends Controller
                 $mc = $this->repository->getModel();
 
                 return response()->json([
-                    'mc' => $mc
+                    'mc_id' => $mc->id
                 ]);
             }
         }
@@ -92,12 +100,32 @@ class MedicalCertificateController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param string $rp_id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($rp_id, $id)
     {
-        //
+        if ($this->facultativeRepository->getFacultativeById(decode($id))) {
+            $fa = $this->facultativeRepository->getModel();
+
+            if ($fa->observations->last()->state->slug === 'me') {
+                $answer = $fa->observations->last()->answers;
+
+                if (($answer instanceof Answer)
+                        && $this->repository->getMedicalCertificateById($answer->mc_certificate_id)) {
+                    $mc = $this->repository->getModel();
+
+                    $answer->response = json_decode($answer->response, true);
+
+                    $payload = view('de.mc.certificate', compact('mc', 'fa', 'answer'))->render();
+
+                    return $this->pdf->create($payload, 'Certificado Médico');
+                }
+            }
+        }
+
+        return redirect()->back();
     }
 
     /**

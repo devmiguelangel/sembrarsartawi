@@ -3,6 +3,7 @@
 namespace Sibas\Entities\De;
 
 use Illuminate\Database\Eloquent\Model;
+use Sibas\Entities\Mc\Answer;
 use Sibas\Entities\State;
 use Sibas\Entities\User;
 
@@ -36,5 +37,10 @@ class Observation extends Model
     public function state()
     {
         return $this->belongsTo(State::class, 'ad_state_id', 'id');
+    }
+
+    public function answers()
+    {
+        return $this->belongsTo(Answer::class, 'op_mc_answer_id', 'id');
     }
 }

@@ -84,6 +84,7 @@
                     {!! Form::checkbox('', 1, false, [
                       'ng-model' => 'mcData.answers[' . $certificateQuestionnaire->questionnaire->id . '][' . $question->id . ']["response"]',
                     ]) !!}
+
                     {{ $question->question }}
                   </label>
                 </div>
@@ -93,6 +94,7 @@
                     {!! Form::checkbox('', 1, false, [
                         'ng-model' => 'mcData.answers[' . $certificateQuestionnaire->questionnaire->id . '][' . $question->id . ']["response"]',
                     ]) !!}
+                    
                     {{ $question->question }}
                   </label>
                   {!! Form::text('', null, [
@@ -115,9 +117,9 @@
       <br>
       
       <div class="text-right">
-          {{-- <script ng-if="success.facultative">
-              $(function(){messageAction('succes', 'El caso facultativo se proceso correctamente');});
-          </script> --}}
+          <script ng-if="success.medical_certificate">
+              $(function(){messageAction('succes', 'El Certificado Médico fue registrado correctamente');});
+          </script>
 
           <button type="button" class="btn border-slate text-slate-800 btn-flat" ng-click="mcEnabled = false;">Cancelar</button>
 

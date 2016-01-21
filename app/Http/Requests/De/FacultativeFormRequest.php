@@ -36,6 +36,10 @@ class FacultativeFormRequest extends Request
             'emails'       => 'required'
         ];
 
+        if ($data['approved'] == 2 && $data['state']['data_slug'] === 'me') {
+            $rules['mc_id'] = 'required|exists:op_mc_answers,id';
+        }
+
         foreach ($data['emails'] as $key => $email) {
             if (! empty($email)) {
                 $rules['emails.' . $key] = 'email';

@@ -15,7 +15,8 @@
             <br>
 
             {!! Form::open(['route' => ['de.fa.update', 'rp_id' => $rp_id, 'id' => encode($fa->id)], 
-                'method'    => 'put', 
+                'id'        => 'form-fa',
+                'method'    => 'put',
                 'class'     => 'form-horizontal',
                 'ng-submit' => 'store($event)' ]) !!}
 

@@ -20,7 +20,14 @@
       </tr>
       <tr>
         <td>
-          <strong>{{ $data['fa']->observations->last()->observation }}</strong>
+          @if ($data['fa']->observations->last()->state->slug === 'me')
+            <a href="{{ route('de.fa.mc.show', [
+              'rp_id' => encode($data['rp_id']), 
+              'id'    => encode($data['fa']->id) 
+            ]) }}" class="btn btn-info">Certificado Medico</a>
+          @else
+            <strong>{{ $data['fa']->observations->last()->observation }}</strong>
+          @endif
         </td>
       </tr>
       <tr class="info">

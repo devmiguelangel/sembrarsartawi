@@ -54,3 +54,8 @@ Route::group(['middleware' => 'auth'], function() {
         require 'routes/admin.php';
     });
 });
+
+Route::get('{rp_id}/facultative/{id}/mc/show', [
+    'as'    => 'de.fa.mc.show',
+    'uses'  => 'De\MedicalCertificateController@show'
+]);

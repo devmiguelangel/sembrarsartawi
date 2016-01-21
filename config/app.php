@@ -152,6 +152,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Styde\Html\HtmlServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
 
         /*
          * Custom
@@ -208,13 +209,15 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
 
         /*
          * Vendor Aliases
          */
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Hashids'  => Vinkla\Hashids\Facades\Hashids::class,
+        'PDF'      => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'Image'    => Barryvdh\Snappy\Facades\SnappyImage::class,
 
         /*
          * Custom

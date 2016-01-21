@@ -3,8 +3,6 @@
 namespace Sibas\Http\Controllers\De;
 
 use Illuminate\Http\Request;
-use Sibas\Entities\De\Facultative;
-use Sibas\Entities\De\Header;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Controllers\MailController;
 use Sibas\Http\Requests\De\FacultativeFormRequest;
@@ -174,9 +172,14 @@ class FacultativeController extends Controller
             if ($this->repository->getFacultativeById(decode($id))) {
                 $fa = $this->repository->getModel();
 
-                return response()->json([
-                    'payload' => view('de.facultative.observation', compact('fa'))->render()
-                ]);
+                if ($fa->observations->last()->state->slug !== 'me') {
+                    $payload = view('de.facultative.observation', compact('fa'));
+
+                    return response()->json([
+                        'payload' => $payload->render()
+                    ]);
+                }
+
             }
 
             return response()->json(['err'=>'Unauthorized action.'], 401);

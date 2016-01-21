@@ -82,6 +82,8 @@ class MailController extends Controller
 
         $user = $this->user;
 
+        $data['rp_id'] = $rp_id;
+
         $this->setHtml($data);
 
         Mail::send('emails.layout', ['html' => $this->html], function($message) use ($user)

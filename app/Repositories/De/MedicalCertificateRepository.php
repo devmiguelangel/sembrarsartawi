@@ -26,7 +26,25 @@ class MedicalCertificateRepository extends BaseRepository
             ->where('ad_retailer_product_id', $rp_id)
             ->where('active', true)->first();
 
-        // dd($this->model);
+        if ($this->model instanceof Certificate) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get Medical Certificate by Id
+     * @param $id
+     * @return bool
+     */
+    public function getMedicalCertificateById($id)
+    {
+        $this->model = Certificate::with([
+            'certificateQuestionnaires.questionnaire',
+            'certificateQuestionnaires.questions'
+        ])
+            ->where('id', $id)->first();
 
         if ($this->model instanceof Certificate) {
             return true;
@@ -44,9 +62,11 @@ class MedicalCertificateRepository extends BaseRepository
         $user       = $request->user();
         $this->data = $request->all();
 
+        $number = $this->getMedicalCertificateNumber();
+
         $this->model = new Answer([
             'id'                         => date('U'),
-            'medical_certificate_number' => rand(10, 1000),
+            'medical_certificate_number' => $number,
             'ad_user_id'                 => $user->id,
             'mc_certificate_id'          => decode($this->data['mcid']),
             'center_attention'           => $this->data['center_attention'],
@@ -55,5 +75,16 @@ class MedicalCertificateRepository extends BaseRepository
         ]);
 
         return $this->saveModel();
+    }
+
+    /**
+     * Get Number of Medical Certificate
+     * @return int
+     */
+    protected function getMedicalCertificateNumber()
+    {
+        $number = Answer::max('medical_certificate_number');
+
+        return is_null($number) ? 1 : $number + 1;
     }
 }

@@ -57,6 +57,12 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
     return $compile(payload)($rootScope);
   }
 
+  $rootScope.submitForm = function (id_form) {
+    $timeout(function(){
+      angular.element(id_form).submit();
+    }, 0);
+  };
+
 }]);
 
 app.controller('DetailDeController', ['$scope', '$http', DetailController.detailEdit]);
