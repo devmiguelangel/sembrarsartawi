@@ -147,7 +147,6 @@
                                         ng-init="record[{{ $key }}].unread=Boolean(record[{{ $key }}].unread)" 
                                         ng-checked="Boolean(record[{{ $key }}].unread)">
                                 </label>
-                                <input type="text" ng-value="record[{{ $key }}].unread">
                             </td>
                             <td class="view-message">
                                 {{ $record->detail->header->certificate_number }}
@@ -210,12 +209,21 @@
 
                                             @if ($record->company_state === 'O' || $record->company_state === 'C')
                                                 <li>
-                                                    <a href="{{ route('de.fa.observation', [
-                                                        'rp_id' => encode($data['products'][0]->rp->id), 
-                                                        'id'    => encode($record->id) 
-                                                        ]) }}" ng-click="observation($event)">
-                                                        <i class="icon-plus2"></i> Observación ({{ $record->observations->last()->state->state }})
-                                                    </a>
+                                                    @if ($record->observations->last()->state->slug === 'me')
+                                                        <a href="{{ route('de.fa.mc.show', [
+                                                            'rp_id' => encode($data['products'][0]->rp->id), 
+                                                            'id'    => encode($record->id) 
+                                                            ]) }}" target="_blank">
+                                                            <i class="icon-plus2"></i> Observación ({{ $record->observations->last()->state->state }})
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('de.fa.observation', [
+                                                            'rp_id' => encode($data['products'][0]->rp->id), 
+                                                            'id'    => encode($record->id) 
+                                                            ]) }}" ng-click="observation($event)">
+                                                            <i class="icon-plus2"></i> Observación ({{ $record->observations->last()->state->state }})
+                                                        </a>
+                                                    @endif
                                                 </li>
 
                                                 @if ($user->profile->first()->slug === 'SEP' 

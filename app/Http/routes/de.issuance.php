@@ -122,4 +122,17 @@ Route::group(['prefix' => '{rp_id}'], function() {
         'uses'  => 'De\FacultativeController@observationProcess'
     ]);
 
+    /*
+     * Medical Certificate
+     */
+    Route::get('facultative/{id}/mc/create', [
+        'as'    => 'de.fa.mc.create',
+        'uses'  => 'De\MedicalCertificateController@create'
+    ]);
+
+    Route::post('facultative/{id}/mc/create', [
+        'as'    => 'de.fa.mc.store',
+        'uses'  => 'De\MedicalCertificateController@store'
+    ]);
+
 });

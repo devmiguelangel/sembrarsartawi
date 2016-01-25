@@ -154,4 +154,10 @@ return [
         'TA' => 'Area Texto',
     ],
 
+    'module_class' => [
+        0 => 'col-md-4',
+        1 => 'col-md-12',
+        2 => 'col-md-6',
+    ],
+
 ];

@@ -15,6 +15,7 @@ class CreateOpMcAnswersTable extends Migration
         Schema::create('op_mc_answers', function (Blueprint $table) {
             $table->integer('id')->unsigned();
             $table->integer('medical_certificate_number')->unsigned();
+            $table->integer('ad_user_id')->unsigned();
             $table->integer('mc_certificate_id')->unsigned();
             $table->string('center_attention', 140);
             $table->time('time_attention');
@@ -26,6 +27,7 @@ class CreateOpMcAnswersTable extends Migration
 
             $table->primary('id');
             $table->foreign('mc_certificate_id')->references('id')->on('mc_certificates');
+            $table->foreign('ad_user_id')->references('id')->on('ad_users');
         });
     }
 

@@ -89,6 +89,12 @@ class DatabaseSeeder extends Seeder
         $this->call(StateTableSeeder::class);
         $this->call(RetailerProductStateTableSeeder::class);
 
+        $this->call(McCertificateTableSeeder::class);
+        $this->call(McQuestionnaireTableSeeder::class);
+        $this->call(McCertificateQuestionnaireTableSeeder::class);
+        $this->call(McQuestionTableSeeder::class);
+        $this->call(McCertificateQuestionnaireQuestionTableSeeder::class);
+
         Model::reguard();
     }
 
