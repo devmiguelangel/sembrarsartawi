@@ -62,10 +62,10 @@
                 </a>
             </li>
 
-
             <li class="navigation-header">
                 <span>Productos</span> <i class="icon-menu" title="Forms"></i>
             </li>
+
             @if(count($main_menu)>0)
                 @foreach($main_menu as $data)
                     @if($data->product=='de')
@@ -77,18 +77,15 @@
                                     $action=='edit_parameter_additional')
                                     @var $data_pp='active'
                                     @var $data_ap=''
+                                    @var $data_ap2=''
+                                    @var $data_ap3=''
                                 @endif
                             @elseif($nav=='addquestion')
                                 @if($action=='list' || $action=='new')
                                     @var $data_ap='active'
                                     @var $data_pp=''
-                                @endif
-                            @elseif($nav=='adRetailerProductActivities')
-                                @if($action=='list' || $action=='new' || $action=='edit')
-                                    @var $data_ap2='active'
+                                    @var $data_ap2=''
                                     @var $data_ap3=''
-                                    @var $data_ap=''
-                                    @var $data_pp=''
                                 @endif
                             @elseif($nav=='adActivitiesList')
                                 @if($action=='list' || $action=='new'|| $action=='edit')
@@ -125,11 +122,7 @@
                                 </li>
                             </ul>
                             -->
-                            <ul>
-                                <li class="{{$data_ap2}}">
-                                    <a href="{{route('adRetailerProductActivities')}}" title='Administrar ocupación'>Administrar ocupación</a>
-                                </li>
-                            </ul>
+                            
                             <ul>
                                 <li class="{{$data_ap3}}">
                                     <a href="{{route('adActivitiesList')}}" title='Administrar Actividades'>Administrar Actividades</a>
@@ -139,31 +132,43 @@
                     @endif
 
                     @if($data->product=='vi')
-                        <!--
-                            <li>
-                                <a href="#"><i class="icon-stack2"></i> <span>Vida Individual</span></a>
-                                <ul>
-                                    <li>
-                                        <a href="vid_parameter.html">Parametros del producto</a>
-                                    </li>
-                                </ul>
-                                <ul>
-                                    <li>
-                                        <a href="vid_list_ap.html">Administrar preguntas</a>
-                                    </li>
-                                </ul>
-                                <ul>
-                                    <li>
-                                        <a href="vid_edit_content.html">Administrar contenido</a>
-                                    </li>
-                                </ul>
-                                <ul>
-                                    <li>
-                                        <a href="vid_managing_occupation.html">Administrar ocupación</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        -->
+                        <li>
+                            <a href="#"><i class="icon-stack2"></i> <span>Vida Individual</span></a>
+                            @if($nav=='vi')
+                                @if($action=='list' || $action=='edit' || $action='list_parameter_additional')
+                                    @var $data_vpp='active'
+                                    @var $data_cm=''
+                                @endif
+                            @elseif($nav=='addquestionvi')
+                                @if($action=='list' || $action=='new')
+                                    @var $data_cm='active'
+                                    @var $data_vpp=''
+                                @endif
+                            @else
+                                @var $data_cm=''
+                                @var $data_vpp=''
+                            @endif
+                            <ul>
+                                <li class="{{$data_vpp}}">
+                                    <a href="{{route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li class="{{$data_cm}}">
+                                    <a href="{{route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Cuestionario Medico</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <a href="vid_edit_content.html">Administrar contenido</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <a href="vid_managing_occupation.html">Administrar ocupación</a>
+                                </li>
+                            </ul>
+                        </li>
                     @endif
                 @endforeach
             @else
@@ -173,6 +178,32 @@
             @endif
             <li class="navigation-header">
                 <span>kits de Página</span> <i class="icon-menu" title="Forms"></i>
+            </li>
+            @if($nav=='adRetailerProductActivities')
+                @if($action=='list' || $action=='new' || $action=='edit')
+                    @var $data_sel='active'
+                @endif
+            @else
+                @var $data_sel=''
+            @endif
+           
+            <li class="{{ $data_sel }}">
+                <a href="{{route('adRetailerProductActivities')}}" title='Administrar ocupación'>
+                    <i class="icon-stack2"></i> Administrar ocupación
+                </a>
+            </li>
+                           
+            @if($nav=='mcCertificate')
+                @if($action=='list' || $action=='edit' || $action=='new' || $action=='asign')
+                    @var $data_pp2='active'                    
+                @endif
+             @else   
+                @var $data_pp2=''                    
+             @endif   
+             <li class="{{$data_pp2}}">
+                <a href="{{ route('mcCertificatesList') }}">
+                    <i class="icon-stack2"></i> <span>Administrar Certificado Médico</span>
+                </a>
             </li>
             @if($nav=='exchange')
                 @var $data='active'
@@ -224,12 +255,20 @@
                 @if($action=='list' || $action=='edit' || $action=='new')
                     @var $data_pp='active'
                 @endif
+            @elseif($nav=='mcQuestionnaries')
+                @if($action=='list' || $action=='edit' || $action=='new')
+                    @var $data_pp2='active'
+                    @var $data_pp3=''
+                @endif
             @else
                 @var $data_pp=''
+                @var $data_pp2=''
+                @var $data_pp3=''
             @endif
             <li class="{{$data_pp}}">
                 <a href="{{route('admin.questions.list', ['nav'=>'question', 'action'=>'list'])}}"><i class="icon-stack2"></i> <span>Administrar preguntas</span></a>
             </li>
+            
         </ul>
     </div>
 </div>

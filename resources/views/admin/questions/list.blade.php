@@ -15,13 +15,17 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Listado de Preguntas</h5>
+            <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
+                <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
+                Preguntas
+                <small class="display-block">Listado de registros</small>
+            </h5>
             <div class="heading-elements">
 
                 <ul class="icons-list">
                     <li>
-                        <a href="{{route('admin.questions.new', ['nav'=>'question', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
-                            <i class="icon-calendar5 text-primary"></i>
+                        <a href="{{route('admin.questions.new', ['nav'=>'question', 'action'=>'new', 'id_retailer_product'=>0, 'code_product'=>'nn'])}}" class="btn btn-link btn-float has-text">
+                            <i class="icon-file-plus text-primary"></i>
                             <span>Crear pregunta</span>
                         </a>
                     </li>
@@ -37,8 +41,8 @@
         <table class="table datatable-basic">
             <thead>
             <tr>
-                <th>Nro</th>
-                <th>Pregunta</th>
+                <th style="text-align: left;">Nro</th>
+                <th style="text-align: left;">Pregunta</th>
                 <th class="text-center">Acción</th>
             </tr>
             </thead>
@@ -47,8 +51,8 @@
             @foreach($query as $data)
                 @var $j=$j+1
                 <tr>
-                    <td>{{$j}}</td>
-                    <td>{{$data->question}}</td>
+                    <td style="text-align: left;">{{$j}}</td>
+                    <td style="text-align: left;">{{$data->question}}</td>
                     <td class="text-center">
                         <ul class="icons-list">
                             <li class="dropdown">
@@ -59,7 +63,7 @@
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
                                         <a href="{{route('admin.questions.edit', ['nav'=>'question', 'action'=>'edit', 'id_question'=>$data->id])}}">
-                                            <i class="icon-file-excel"></i> Editar pregunta
+                                            <i class="icon-pencil3"></i> Editar pregunta
                                         </a>
                                     </li>
                                 </ul>

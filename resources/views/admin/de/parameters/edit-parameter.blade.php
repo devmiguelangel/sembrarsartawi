@@ -15,13 +15,21 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Formulario editar parametros</h5>
+            <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
+                <span class="form-wizard-count">
+                    <i class="icon-pencil7"></i>
+                </span>
+                Formulario
+                <small class="display-block">Editar registro </small>
+            </h5>
             <div class="heading-elements">
+                <!--
                 <ul class="icons-list">
 
                     <li><a data-action="reload"></a></li>
 
                 </ul>
+                -->
             </div>
         </div>
 
@@ -129,10 +137,10 @@
 
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">
-                            Guardar <i class="icon-arrow-right14 position-right"></i>
+                            Guardar <i class="icon-floppy-disk position-right"></i>
                         </button>
-                        <a href="{{ route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer'=>$data->ad_retailer_id]) }}" class="btn btn-primary">
-                            Cancelar <i class="icon-arrow-right14 position-right"></i>
+                        <a href="{{ route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}" class="btn btn-primary">
+                            Cancelar <i class="icon-cross position-right"></i>
                         </a>
                         <input type="hidden" name="id_retailer_product" value="{{$id_retailer_product}}">
                         <input type="hidden" name="ad_retailer_id" value="{{$data->ad_retailer_id}}">

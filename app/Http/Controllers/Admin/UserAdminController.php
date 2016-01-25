@@ -40,7 +40,8 @@ class UserAdminController extends BaseController
                         ->select('ad_cities.id', 'ad_cities.name', 'ad_cities.abbreviation')
                         ->where('ad_retailer_cities.active', '=', 1)
                         ->get();
-            return view('admin.user.new', compact('nav','action', 'cities', 'main_menu'));
+            $query_type_user = \DB::table('ad_user_types')->get();
+            return view('admin.user.new', compact('nav','action', 'cities', 'main_menu', 'query_type_user'));
         }
 
     }
@@ -63,6 +64,7 @@ class UserAdminController extends BaseController
      */
     public function store(Request $request)
     {
+        $array = explode('|',$request->input('tipo_usuario'));
         $user_new = new User();
         $user_new->id=date('U');
         $user_new->username=$request->input('txtIdusuario');
@@ -72,10 +74,19 @@ class UserAdminController extends BaseController
         $user_new->phone_number=$request->input('txtTelefono');
         $user_new->ad_city_id=$request->input('depto');
         $user_new->ad_agency_id=$request->input('agencia');
-        $user_new->ad_user_type_id=$request->input('tipo_usuario');
+        $user_new->ad_user_type_id=$array[0];
         $user_new->active=true;
         if($user_new->save()) {
-            return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+            if($array[1]=='UST'){
+                $query_insert = \DB::table('ad_user_profiles')->insert(
+                    ['ad_user_id'=>$user_new->id, 'ad_profile_id'=>$request->input('id_profile'), 'active'=>true, 'created_at'=>date("Y-m-d H:i:s"), 'updated_at'=>date("Y-m-d H:i:s")]
+                );
+                if($query_insert){
+                    return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+                }
+            }else{
+                return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+            }
         }
         //dd($request->all());
     }
@@ -101,11 +112,21 @@ class UserAdminController extends BaseController
     {
         $main_menu = $this->menu_principal();
         if($action=='edit'){
-            $user_find = \DB::table('ad_users')
-                            ->where('id', '=', $id_user)
+            $user_find = \DB::table('ad_users as au')
+                            ->join('ad_user_types as aut', 'aut.id', '=', 'au.ad_user_type_id')
+                            ->select('au.id as id_user', 'au.ad_user_type_id', 'aut.code', 'au.ad_city_id', 'au.ad_agency_id', 'au.username', 'au.full_name', 'au.phone_number', 'au.email')
+                            ->where('au.id', '=', $id_user)
                             ->first();
 
-            //dd($user_find);
+            $profile_find = \DB::table('ad_user_profiles')
+                            ->where('ad_user_id', '=', $user_find->id_user)
+                            ->first();
+
+            $query_prof = \DB::table('ad_profiles')
+                               ->get();
+
+            //dd($profile_find);
+
             $cities = \DB::table('ad_retailer_cities')
                 ->join('ad_cities','ad_retailer_cities.ad_city_id', '=', 'ad_cities.id')
                 ->select('ad_cities.id', 'ad_cities.name', 'ad_cities.abbreviation')
@@ -121,7 +142,9 @@ class UserAdminController extends BaseController
                             ->get();
             //dd($agencies);
 
-            return view('admin.user.edit', compact('nav', 'action', 'user_find', 'cities', 'agencies', 'main_menu'));
+            $query_type_user = \DB::table('ad_user_types')->get();
+
+            return view('admin.user.edit', compact('nav', 'action', 'user_find', 'cities', 'agencies', 'main_menu', 'query_type_user', 'profile_find', 'query_prof'));
         }elseif($action=='changepass'){
             $user_find = \DB::table('ad_users')
                             ->where('id', '=', $id_user)
@@ -157,15 +180,30 @@ class UserAdminController extends BaseController
      */
     public function update(Request $request)
     {
-        $user_update = User::find($request->input('id_user'));
+        $array = explode('|',$request->input('tipo_usuario'));
+        $user_update = User::where('id', $request->input('id_user'))->first();
         $user_update->full_name=$request->input('txtNombre');
         $user_update->email=$request->input('txtEmail');
         $user_update->phone_number=$request->input('txtTelefono');
         $user_update->ad_city_id=$request->input('depto');
         $user_update->ad_agency_id=$request->input('agencia');
-        $user_update->ad_user_type_id=$request->input('tipo_usuario');
+        $user_update->ad_user_type_id=$array[0];
         if($user_update->save()) {
-            return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+            if($array[1]=='UST'){
+                $query_update_profile = \DB::table('ad_user_profiles')
+                    ->where('ad_user_id', $request->input('id_user'))
+                    ->update(['ad_profile_id' => $request->input('id_profile'), 'updated_at'=>date("Y-m-d H:i:s"), 'active'=>true]);
+                if($query_update_profile){
+                    return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+                }
+            }else{
+                $query_update_profile = \DB::table('ad_user_profiles')
+                    ->where('ad_user_id', $request->input('id_user'))
+                    ->update(['active'=>false]);
+                if($query_update_profile){
+                    return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+                }
+            }
         }
     }
 
@@ -247,6 +285,14 @@ class UserAdminController extends BaseController
             }else{
                 return 0;
             }
+        }
+    }
+
+    public function ajax_user_profiles($tipo_usuario){
+        $query = \DB::table('ad_profiles')->get();
+        //dd($query);
+        if($query){
+            return response()->json($query);
         }
     }
 }

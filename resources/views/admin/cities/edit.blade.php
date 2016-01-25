@@ -55,7 +55,7 @@
                                 @foreach($query_re as $data)
                                     @if(count($query_ret_city)>0)
                                         @foreach($query_ret_city as $data_city)
-                                            @if($data_city->ad_city_id==$data->id)
+                                            @if($data_city->ad_retailer_id==$data->id)
                                                 <option value="{{$data->id}}" selected>{{$data->name}}</option>
                                             @else
                                                 <option value="{{$data->id}}">{{$data->name}}</option>
@@ -73,8 +73,11 @@
 
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">
-                        Guardar <i class="icon-arrow-right14 position-right"></i>
+                        Guardar <i class="icon-floppy-disk position-right"></i>
                     </button>
+                    <a href="{{ route('admin.cities.list', ['nav'=>'city', 'action'=>'list']) }}" class="btn btn-primary">
+                        Cancelar <i class="icon-cross position-right"></i>
+                    </a>
                     <input type="hidden" id="id_depto" name="id_depto" value="{{$query->id}}">
                 </div>
             {!!Form::close()!!}

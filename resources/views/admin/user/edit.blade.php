@@ -22,7 +22,6 @@
                 </ul>
             </div>
         </div>
-
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'update_user', 'name' => 'userUpdateForm', 'id' => 'userUpdateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -31,35 +30,51 @@
                         <fieldset class="content-group">
 
                         <div class="form-group">
-                            <label class="control-label col-lg-2">Tipo de usuario</label>
+                            <label class="control-label col-lg-2">Tipo de usuario <span class="text-danger">*</span></label>
                             <div class="col-lg-10">
                                 <select name="tipo_usuario" id="tipo_usuario" class="form-control required">
-                                    <option value="0"
-                                        @if($user_find->ad_user_type_id=='')
-                                            selected
+                                    <option value="0">Seleccione</option>
+                                    @foreach($query_type_user as $type)
+                                        @if($user_find->ad_user_type_id==$type->id)
+                                            <option value="{{$type->id}}|{{$type->code}}" selected>{{$type->name}}</option>
+                                        @else
+                                            <option value="{{$type->id}}|{{$type->code}}">{{$type->name}}</option>
                                         @endif
-                                    >Seleccione</option>
-                                    <option value="1"
-                                        @if($user_find->ad_user_type_id==1)
-                                            selected
-                                        @endif
-                                    >Administrador</option>
-                                    <option value="2"
-                                        @if($user_find->ad_user_type_id==2)
-                                            selected
-                                        @endif
-                                    >Usuario</option>
-                                    <option value="3"
-                                        @if($user_find->ad_user_type_id==3)
-                                            selected
-                                        @endif
-                                    >Operador</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
-
+                        @if($user_find->code=='UST')
+                            <div class="form-group" id="content-user-profiles-edit">
+                                <label class="control-label col-lg-2">Perfiles <span class="text-danger">*</span></label>
+                                <div class="col-lg-10">
+                                    <select id="id_profile" name="id_profile" class="form-control required">
+                                        <option value="0">Seleccione</option>
+                                        @foreach($query_prof as $dat_prof)
+                                            @if($profile_find->ad_profile_id==$dat_prof->id)
+                                                <option value="{{$dat_prof->id}}" selected>{{$dat_prof->name}}</option>
+                                            @else
+                                                <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        @else
+                            <div class="form-group" style="display: none;" id="content-user-profiles-new">
+                                <label class="control-label col-lg-2">Perfiles <span class="text-danger">*</span></label>
+                                <div class="col-lg-10">
+                                    <select id="id_profile" name="id_profile" class="form-control required">
+                                        <option value="0">Seleccione</option>
+                                        @foreach($query_prof as $dat_prof)
+                                            <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        @endif
                         <div class="form-group">
-                            <label class="control-label col-lg-2">Departamento</label>
+                            <label class="control-label col-lg-2">Departamento <span class="text-danger">*</span></label>
                             <div class="col-lg-10">
                                 @if(!empty($cities))
                                     <select name="depto" class="form-control required" id="depto">
@@ -77,7 +92,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-2">Agencia</label>
+                            <label class="control-label col-lg-2">Agencia <span class="text-danger">*</span></label>
                             <div class="col-lg-10">
                                 <select id="agencia" name="agencia" class="form-control required">
                                     <option value="0">Seleccione</option>
@@ -101,7 +116,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-2">Nombre Completo</label>
+                            <label class="control-label col-lg-2">Nombre Completo <span class="text-danger">*</span></label>
                             <div class="col-lg-10">
                                 <input type="text" class="form-control required" name="txtNombre" id="txtNnombre" autocomplete="off" value="{{$user_find->full_name}}">
                             </div>
@@ -115,7 +130,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-2">Correo electrónico</label>
+                            <label class="control-label col-lg-2">Correo electrónico <span class="text-danger">*</span></label>
                             <div class="col-lg-10">
                                 <input type="text" class="form-control required" name="txtEmail" id="txtEmail" autocomplete="off" value="{{$user_find->email}}">
                             </div>
@@ -131,7 +146,8 @@
                         <a href="{{ route('admin.user.list', ['nav'=>'user', 'action'=>'list']) }}" class="btn btn-primary">
                             Cancelar <i class="icon-arrow-right14 position-right"></i>
                         </a>
-                        <input type="hidden" id="id_user" name="id_user" value="{{$user_find->id}}">
+                        <input type="hidden" id="id_user" name="id_user" value="{{$user_find->id_user}}">
+                        <input type="hidden" id="code" name="code" value="{{$user_find->code}}">
                     </div>
                 @endif
             {!!Form::close()!!}
@@ -158,6 +174,31 @@
                         $('#msg_agencia').html('No existe ningun registro');
                     }
                 });
+            });
+
+            //HABILITAR SELECT PROFILE
+            $('#tipo_usuario').change(function(){
+                var _id = $(this).prop('value');
+                var arr = _id.split("|");
+                var _code_db = $('#code').prop('value');
+                if(_code_db=='UST'){
+                    if(arr[1]=='UST'){
+                        $('#content-user-profiles-edit').fadeIn('slow');
+                        $( "#id_profile" ).last().addClass("form-control required");
+                    }else{
+                        $('#content-user-profiles-edit').fadeOut('slow');
+                        $('#id_profile option[value="0"]').prop('selected',true);
+                        $( "#id_profile" ).removeClass("form-control required");
+                    }
+                }else{
+                    if(arr[1]=='UST'){
+                        $('#content-user-profiles-new').fadeIn('slow');
+                        $( "#id_profile" ).last().addClass("form-control required");
+                    }else{
+                        $('#content-user-profiles-new').fadeOut('slow');
+                        $( "#id_profile" ).removeClass("form-control required");
+                    }
+                }
             });
 
             //VERIFICAMOS EL FORMULARIO
@@ -205,16 +246,16 @@
             function addClassE(element,err){
                 var _id = $(element).prop('id');
                 //$(element).addClass('error-text');
-                if(!$("#"+_id+" + .msg-form").length) {
-                    $("#"+_id+":last").after('<span class="msg-form">'+err+'</span>');
+                if(!$("#"+_id+" + .validation-error-label").length) {
+                    $("#"+_id+":last").after('<span class="validation-error-label">'+err+'</span>');
                 }
             }
             //REMOVEMOS CLASE
             function removeClassE(element){
                 var _id = $(element).prop('id');
                 //$(element).removeClass('error-text');
-                if($("#"+_id+" + .msg-form").length) {
-                    $("#"+_id+" + .msg-form").remove();
+                if($("#"+_id+" + .validation-error-label").length) {
+                    $("#"+_id+" + .validation-error-label").remove();
                 }
             }
 

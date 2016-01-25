@@ -9,21 +9,41 @@
     <!-- Global stylesheets -->
     {!! Html::style('https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900') !!}
     {!! Html::style('assets/css/icons/icomoon/styles.css') !!}
+    {!! Html::style('assets/css/icons/fontawesome/styles.min.css') !!}
     {!! Html::style('assets/css/bootstrap.min.css') !!}
     {!! Html::style('assets/css/core.min.css') !!}
     {!! Html::style('assets/css/components.admin.min.css') !!}
     {!! Html::style('assets/css/colors.min.css') !!}
     {!! Html::style('css/style.css') !!}
+    {!! Html::style('css/style_inbox.css') !!}
+    {!! Html::style('css/animate.min.css') !!}
     <!-- /global stylesheets -->
-
-    <!-- Core JSKKK files -->
+    <!-- Core JS files -->
     {!! Html::script('assets/js/plugins/loaders/pace.min.js') !!}
     {!! Html::script('assets/js/core/libraries/jquery.min.js') !!}
     {!! Html::script('assets/js/core/libraries/bootstrap.min.js') !!}
     {!! Html::script('assets/js/plugins/loaders/blockui.min.js') !!}
+    {!! Html::script('assets/js/plugins/ui/nicescroll.min.js') !!}
+    {!! Html::script('assets/js/plugins/ui/drilldown.js') !!}
     {!! Html::script('assets/js/plugins/notifications/bootbox.min.js')!!}
-    {!! Html::script('assets/js/plugins/notifications/sweet_alert.min.js') !!}
     <!-- /core JS files -->
+    <!-- Theme JS files -->
+    {!! Html::script('assets/js/plugins/forms/validation/validate.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/selects/bootstrap_multiselect.js') !!}
+    {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/styling/switchery.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/styling/switch.min.js') !!}
+    {!! Html::script('assets/js/plugins/forms/inputs/touchspin.min.js') !!}
+
+    {!! Html::script('assets/js/pages/form_input_groups.js') !!}
+    {!! Html::script('assets/js/core/libraries/jquery_ui/interactions.min.js') !!}
+
+    {!! Html::script('assets/js/pages/form_select2.js') !!}
+    {!! Html::script('assets/js/plugins/forms/selects/bootstrap_select.min.js') !!}
+    {!! Html::script('assets/js/pages/form_bootstrap_select.js') !!}
+    {!! Html::script('assets/js/pages/form_validation.js') !!}
+    {!! Html::script('js/functions.js') !!}
+    <!-- /theme JS files -->
 
     <!--picker date-->
     {!! Html::script('assets/js/core/libraries/jquery_ui/datepicker.min.js') !!}
@@ -37,70 +57,20 @@
     {!! Html::script('assets/js/pages/picker_date.js') !!}
     <!--fin picker date-->
 
-    @if($nav=='user' || $nav=='exchange' || $nav=='company' || $nav=='de' || $nav=='question' || $nav=='city' || $nav=='agency' ||
-        $nav=='addquestion' || $nav=='retailer' || $nav=='product' || $nav=='addprocom' || $nav=='addtoretailer' || $nav=='policynumber')
-        @if($action=='list' || $action=='list_company' || $action=='list_parameter' || $action=='list_parameter_additional')
-            @if($nav!='exchange' && $nav!='company' && $nav!='de' && $nav!='question' && $nav!='city' && $nav!='agency' &&
-                $nav!='addquestion' && $nav!='retailer' && $nav!='product' && $nav!='addprocom' && $nav!='addtoretailer' &&
-                $nav!='policynumber')
-                <!-- Theme JS files CON PAGINADOR-->
-                {!! Html::script('assets/js/plugins/tables/datatables/datatables.min.js') !!}
-                {!! Html::script('assets/js/plugins/forms/selects/select2.min.js') !!}
-
-                {!! Html::script('assets/js/core/app.js') !!}
-                {!! Html::script('assets/js/pages/datatables_basic.js') !!}
-                <!-- /theme JS files -->
-            @else
-                <!-- Theme JS files SIN PAGINADOR-->
-                {!! Html::script('assets/js/plugins/visualization/d3/d3.min.js') !!}
-                {!! Html::script('assets/js/plugins/visualization/d3/d3_tooltip.js') !!}
-                {!! Html::script('assets/js/plugins/forms/styling/switchery.min.js') !!}
-                {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
-                {!! Html::script('assets/js/plugins/forms/selects/bootstrap_multiselect.js') !!}
-                {!! Html::script('assets/js/plugins/ui/moment/moment.min.js') !!}
-                {!! Html::script('assets/js/plugins/pickers/daterangepicker.js') !!}
-
-                {!! Html::script('assets/js/core/app.js') !!}
-                <!--{!! Html::script('assets/js/pages/dashboard.js') !!}-->
-                <!-- /theme JS files -->
-            @endif
-        @elseif($action=='new'|| $action=='edit' || $action=='changepass' ||
-                $action=='resetpass' || $action=='new_company' || $action=='edit_parameter' ||
-                $action=='new_parameter_additional' || $action=='edit_parameter_additional')
-            <!-- Theme JS files FORMULARIOS-->
-            {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
-
-            {!! Html::script('assets/js/core/app.js') !!}
-            {!! Html::script('assets/js/pages/form_inputs.js') !!}
-            <!-- /theme JS files -->
-        @endif
-    @elseif($nav=='begin')
-        <!-- Theme JS files -->
-        {!! Html::script('assets/js/plugins/visualization/d3/d3.min.js') !!}
-        {!! Html::script('assets/js/plugins/visualization/d3/d3_tooltip.js') !!}
-        {!! Html::script('assets/js/plugins/forms/styling/switchery.min.js') !!}
-        {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
-        {!! Html::script('assets/js/plugins/forms/selects/bootstrap_multiselect.js') !!}
-        {!! Html::script('assets/js/plugins/ui/moment/moment.min.js') !!}
-        {!! Html::script('assets/js/plugins/pickers/daterangepicker.js') !!}
-
-        {!! Html::script('assets/js/core/app.js') !!}
-        {!! Html::script('assets/js/pages/dashboard.js') !!}
-        <!-- /theme JS files -->
-    @endif
-    {!! Html::script('assets/js/plugins/forms/validation/validate.min.js') !!}
-    {!! Html::script('assets/js/plugins/forms/selects/bootstrap_multiselect.js') !!}
-    {!! Html::script('assets/js/plugins/forms/styling/uniform.min.js') !!}
-    {!! Html::script('assets/js/plugins/forms/inputs/touchspin.min.js') !!}
-    {!! Html::script('assets/js/plugins/forms/inputs/touchspin.min.js') !!}
+    <!--datatable-->
+    {!! Html::script('assets/js/plugins/tables/datatables/datatables.min.js') !!}
+    {!! Html::script('assets/js/plugins/tables/datatables/extensions/fixed_columns.min.js') !!}
     {!! Html::script('assets/js/plugins/forms/selects/select2.min.js') !!}
-    {!! Html::script('assets/js/plugins/forms/styling/switch.min.js') !!}
-    {!! Html::script('assets/js/plugins/forms/styling/switchery.min.js') !!}
-    {!! Html::script('js/functions.js') !!}
-    
     {!! Html::script('assets/js/core/app.js') !!}
-    {!! Html::script('assets/js/pages/form_validation.js') !!}
+    {!! Html::script('assets/js/pages/datatables_extension_fixed_columns.js') !!}
+    {!! Html::script('assets/js/pages/datatables_basic.js') !!}
+    <!--fin datatable-->
 
+    <!--notificacion-->
+    {!! Html::script('assets/js/plugins/notifications/pnotify.min.js') !!}
+    {!! Html::script('assets/js/plugins/notifications/noty.min.js') !!}
+    {!! Html::script('assets/js/plugins/notifications/jgrowl.min.js') !!}
+    {!! Html::script('assets/js/pages/components_notifications_other.js') !!}
 
 </head>
 

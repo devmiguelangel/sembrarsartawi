@@ -30,7 +30,9 @@
                             <select class="form-control" name="adRetailerProductActivities" id="adRetailerProductActivities" required="required">
                                 <option value="">Seleccione</option>
                                 @foreach($retailerProducts as $products)
-                                    <option value="{{ $products->id }}">{{ $products->id }}</option>
+                                    @if($products->mostrar == 1)
+                                        <option value="{{ $products->id }}">{{ $products->name }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -40,7 +42,7 @@
                         <div class="col-lg-5">
                             <select class="form-control" multiple="multiple" id="adActivities" name="adActivities[]" required="required">
                                 @foreach($activities as $activity)
-                                    <option value="{{ $activity->id }}">{{ $activity->category }}</option>      
+                                    <option value="{{ $activity->id }}">{{ $activity->occupation }}</option>      
                                 @endforeach
                             </select>
                         </div>

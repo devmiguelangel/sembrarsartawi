@@ -3,7 +3,7 @@
  PROCESOS GET
  */
 
-Route::get('admin/adactivities', [
+Route::get('admin/adActivities', [
     'as' => 'adActivities',
     'uses' => 'Admin\AdActivitiesController@index'
 ]);

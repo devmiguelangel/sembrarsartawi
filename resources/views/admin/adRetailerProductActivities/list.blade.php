@@ -62,7 +62,7 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         @foreach($selection[$productActivities->ad_retailer_product_id] as $activity)
-                                            <li><a href="#">{{ $activity }}</a></li>
+                                            <li><a onclick="javascript:void(0)">{{ $activity }}</a></li>
                                         @endforeach
                                     </ul>
                                 </li>

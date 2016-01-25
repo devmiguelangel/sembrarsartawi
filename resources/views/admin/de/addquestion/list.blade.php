@@ -15,13 +15,17 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">&nbsp;</h5>
+            <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
+                <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
+                Cuestionario médico Desgravamen
+                <small class="display-block">Listado de registros</small>
+            </h5>
             <div class="heading-elements">
 
                 <ul class="icons-list">
                     <li>
                         <a href="{{route('admin.de.addquestion.new', ['nav'=>'addquestion', 'action'=>'new', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-link btn-float has-text">
-                            <i class="icon-calendar5 text-primary"></i>
+                            <i class="icon-file-plus text-primary"></i>
                             <span>Agregar pregunta</span>
                         </a>
                     </li>
@@ -47,8 +51,8 @@
             <tbody>
             @foreach($query_list_q as $data)
                 <tr>
-                <td>{{$data->order}}</td>
-                <td>{{$data->question}}</td>
+                <td style="text-align: left;">{{$data->order}}</td>
+                <td style="text-align: left;">{{$data->question}}</td>
                 <td style="text-align: center;">
                     @if((boolean)$data->response==true)
                         SI
@@ -73,14 +77,14 @@
                             <ul class="dropdown-menu dropdown-menu-right">
                                 @if((boolean)$data->active==true)
                                     <li>
-                                        <a href="#" id="{{$data->id}}|inactive|desactivar" class="confirm_active">
-                                            <i class="icon-file-excel"></i> Desactivar
+                                        <a href="#" id="{{$data->id}}|inactive|desactivar|{{$data->order}}" class="confirm_active">
+                                            <i class="icon-cross"></i> Desactivar
                                         </a>
                                     </li>
                                 @elseif((boolean)$data->active==false)
                                     <li>
-                                        <a href="#" id="{{$data->id}}|active|activar" class="confirm_active">
-                                            <i class="icon-file-excel"></i> Activar
+                                        <a href="#" id="{{$data->id}}|active|activar|{{$data->order}}" class="confirm_active">
+                                            <i class="icon-checkmark4"></i> Activar
                                         </a>
                                     </li>
                                 @endif
@@ -106,7 +110,7 @@
                 var arr = _id.split("|");
                 var id_retailer_product_question = arr[0];
                 var text = arr[1];
-                bootbox.confirm("Esta seguro de "+arr[2]+" la pregunta ?.", function(result) {
+                bootbox.confirm("Esta seguro de "+arr[2]+" la pregunta "+arr[3]+"?", function(result) {
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
                         $.get( "{{url('/')}}/admin/de/addquestion/active_ajax/"+id_retailer_product_question+"/"+text, function( data ) {

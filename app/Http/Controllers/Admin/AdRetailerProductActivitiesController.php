@@ -47,7 +47,7 @@ class AdRetailerProductActivitiesController extends BaseController {
         
         $selection = array();
         foreach ($activiyProduct as $key => $value) {
-            $selection[$value->ad_retailer_product_id][] = $value->category;
+            $selection[$value->ad_retailer_product_id][] = $value->occupation;
         }
         
         
@@ -74,8 +74,24 @@ class AdRetailerProductActivitiesController extends BaseController {
         $main_menu = $this->menu_principal();
         
         $activities = $this->adActivities;
-        $retailerProducts = $this->adRetailerProducts;
-        
+        $selectedProd = DB::table('ad_retailer_product_activities')->groupBy('ad_retailer_product_id')->get();
+        $selected = array();
+        foreach ($selectedProd as $key => $value) {
+            $selected[]=$value->ad_retailer_product_id;
+        }
+        //edw-->$retailerProducts = $this->adRetailerProducts;
+        $retailerProducts = DB::table('ad_retailer_products')
+                ->join('ad_company_products','ad_retailer_products.ad_company_product_id','=','ad_company_products.id')
+                ->join('ad_products','ad_company_products.ad_product_id','=','ad_products.id')
+                ->select('ad_retailer_products.*','ad_products.name')
+                ->get();
+        foreach ($retailerProducts as $key => $value) {
+            if (!in_array($value->id, $selected))
+                $retailerProducts[$key]->mostrar = 1;
+            else
+                $retailerProducts[$key]->mostrar = 0;
+        }
+
         return view('admin.adRetailerProductActivities.new', compact('nav', 'action', 'activities', 'retailerProducts','main_menu'));
     }
 
@@ -133,7 +149,12 @@ class AdRetailerProductActivitiesController extends BaseController {
                 $activities[$key]->selected = 0;
             }
         }
-        $retailerProducts = $this->adRetailerProducts;
+        //edw-->$retailerProducts = $this->adRetailerProducts;
+        $retailerProducts = DB::table('ad_retailer_products')
+                ->join('ad_company_products','ad_retailer_products.ad_company_product_id','=','ad_company_products.id')
+                ->join('ad_products','ad_company_products.ad_product_id','=','ad_products.id')
+                ->select('ad_retailer_products.*','ad_products.name')
+                ->get();
         
         return view('admin.adRetailerProductActivities.edit', compact('nav', 'action', 'activities', 'retailerProducts','arrSelect','main_menu', 'adRetailerProductId'));
     }
