@@ -94,7 +94,9 @@
                                                 <a href="{{ route('de.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a>
                                             </li>
                                             <li class="dropdown-header highlight"><a href="#">Emitir</a></li>
-                                            <li><a href="#">Facultativo</a></li>
+                                            <li>
+                                                <a href="{{ route('de.cancel.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Anular Póliza</a>
+                                            </li>
                                         </ul>
                                     </li>
                                 @endif

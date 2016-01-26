@@ -13,4 +13,13 @@ class PolicyRepository extends BaseRepository
 
         return $policies;
     }
+
+    public function gerPolicyForIssuance($rp_id)
+    {
+        $policies = Policy::select('number as id', 'number as name')
+            ->where('ad_retailer_product_id', $rp_id)
+            ->get();
+
+        return $policies;
+    }
 }

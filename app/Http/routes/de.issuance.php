@@ -81,6 +81,25 @@ Route::group(['prefix' => 'de/{rp_id}'], function() {
         'as'    => 'de.fa.request.store',
         'uses'  => 'De\HeaderController@requestStore'
     ]);
+
+    /*
+     * Cancellations
+     */
+    Route::get('cancel', [
+        'as'    => 'de.cancel.lists',
+        'uses'  => 'De\CancellationController@lists'
+    ]);
+
+    Route::get('cancel/{header_id}/create', [
+        'as'    => 'de.cancel.create',
+        'uses'  => 'De\CancellationController@create'
+    ]);
+
+    Route::post('cancel/{header_id}/create', [
+        'as'    => 'de.cancel.store',
+        'uses'  => 'De\CancellationController@store'
+    ]);
+
 });
 
 Route::group(['prefix' => '{rp_id}'], function() {

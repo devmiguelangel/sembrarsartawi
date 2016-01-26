@@ -12,6 +12,8 @@ class Header extends Model
     public $incrementing = false;
 
     protected $casts = [
+        'issued'           => 'boolean',
+        'canceled'         => 'boolean',
         'facultative'      => 'boolean',
         'facultative_sent' => 'boolean',
         'approved'         => 'boolean',
@@ -32,12 +34,17 @@ class Header extends Model
 
     public function coverage()
     {
-        return $this->hasOne(Coverage::class, 'id', 'ad_coverage_id');
+        return $this->belongsTo(Coverage::class, 'ad_coverage_id', 'id');
     }
 
     public function details()
     {
         return $this->hasMany(Detail::class, 'op_de_header_id', 'id');
+    }
+
+    public function cancellation()
+    {
+        return $this->hasOne(Cancellation::class, 'op_de_header_id', 'id');
     }
 
     public function getCompletedAttribute()

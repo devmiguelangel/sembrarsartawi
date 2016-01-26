@@ -101,7 +101,7 @@ class MailController extends Controller
         });
 
         if (count(Mail::failures()) > 0) {
-            //dd(Mail::failures);
+            // dd(Mail::failures);
             return false;
         }
 

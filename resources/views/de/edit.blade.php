@@ -350,14 +350,10 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-3 label_required">Número de Póliza: </label>
                                 <div class="col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Nro</span>
-                                        {!! Form::text('policy_number', old('policy_number', $header->policy_number), [
-                                            'class' => 'form-control ui-wizard-content',
-                                            'autocomplete' => 'off',
-                                            'placeholder' => 'Nombre de Póliza'])
-                                        !!}
-                                    </div>
+                                    {!! SelectField::input('policy_number', $data['policies']->toArray(), [
+                                        'class' => 'select-search'],
+                                        old('policy_number', $header->policy_number))
+                                    !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('policy_number') }}</label>
                                 </div>
                             </div>
