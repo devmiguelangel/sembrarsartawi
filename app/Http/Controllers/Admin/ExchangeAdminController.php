@@ -76,9 +76,15 @@ class ExchangeAdminController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($nav, $action, $id_exchange)
     {
-        //
+        $main_menu = $this->menu_principal();
+        $retailer = Retailer::where('active', 1)->first();
+        $query_exchange = \DB::table('ad_exchange_rates')
+                                ->where('id', $id_exchange)
+                                ->where('ad_retailer_id',$retailer->id)
+                                ->first();
+        return view('admin.exchange.edit', compact('nav', 'action', 'retailer', 'main_menu', 'query_exchange', 'id_exchange'));
     }
 
     /**
@@ -88,9 +94,14 @@ class ExchangeAdminController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $query_update = \DB::table('ad_exchange_rates')
+            ->where('id', $request->input('id_exchange'))
+            ->update(['bs_value' => $request->input('valor_bs')]);
+        if($query_update){
+            return redirect()->route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list']);
+        }
     }
 
     /**

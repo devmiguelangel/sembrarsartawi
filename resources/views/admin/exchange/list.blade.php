@@ -16,12 +16,16 @@
     <!-- Basic datatable -->
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Lista Tipo de Cambio</h5>
+            <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
+                <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
+                Tipo de cambio moneda
+                <small class="display-block">Listado de registros</small>
+            </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li>
                         <a href="{{route('admin.exchange.new', ['nav'=>'exchange', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
-                            <i class="icon-calendar5 text-primary"></i>
+                            <i class="icon-file-plus text-primary"></i>
                             <span>Agregar registro</span>
                         </a>
                     </li>
@@ -39,7 +43,6 @@
                     <th>Valor USD.</th>
                     <th>Valor Bs.</th>
                     <th>Fecha de registro</th>
-                    <th>vigente</th>
                     <th class="text-center">Actions</th>
                 </tr>
                 </thead>
@@ -49,7 +52,6 @@
                         <td>{{$data->usd_value}}</td>
                         <td>{{$data->bs_value}}</td>
                         <td>{{$data->creation_date}}</td>
-                        <td><span class="label label-success">Active{{$data->id}}</span></td>
                         <td class="text-center">
                             <ul class="icons-list">
                                 <li class="dropdown">
@@ -57,7 +59,7 @@
                                         <i class="icon-menu9"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="{{route('admin.exchange.edit', ['nav'=>'exchange', 'action'=>'edit', 'id_exchange'=>$data->id])}}"><i class="icon-file-pdf"></i> Editar</a></li>
+                                        <li><a href="{{route('admin.exchange.edit', ['nav'=>'exchange', 'action'=>'edit', 'id_exchange'=>$data->id])}}"><i class="icon-pencil3"></i> Editar</a></li>
                                     </ul>
                                 </li>
                             </ul>

@@ -92,14 +92,15 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2">Contraseña <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="password" class="form-control required strength" name="contrasenia" id="contrasenia">
+                            <input type="password" class="form-control required" name="contrasenia" id="contrasenia" maxlength="14">
                         </div>
+                        <div id="messages"></div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-lg-2">Confirmar Contraseña <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="password" class="form-control required" name="confirmar" id="confirmar">
+                            <input type="password" class="form-control required" name="confirmar" id="confirmar" maxlength="14">
                             <div id="msg_confirmar"><div id="error_contrasenia_igual"></div></div>
                         </div>
                     </div>

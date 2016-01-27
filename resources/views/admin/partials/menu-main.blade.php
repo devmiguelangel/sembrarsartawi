@@ -58,7 +58,7 @@
             @endif
             <li class="{{$data}}">
                 <a href="{{ route('admin.user.list', ['nav'=>'user', 'action'=>'list']) }}">
-                    <i class="icon-stack2"></i> <span>Usuarios</span>
+                    <i class="icon-users"></i> <span>Usuarios</span>
                 </a>
             </li>
 
@@ -70,7 +70,7 @@
                 @foreach($main_menu as $data)
                     @if($data->product=='de')
                         <li>
-                            <a href="#"><i class="icon-stack2"></i> <span>Desgravamen</span></a>
+                            <a href="#"><i class="icon-puzzle4"></i> <span>Desgravamen</span></a>
                             @if($nav=='de')
                                 @if($action=='list_parameter' || $action=='edit_parameter' ||
                                     $action=='list_parameter_additional' || $action=='new_parameter_additional' ||
@@ -107,7 +107,7 @@
                             </ul>
                             <ul>
                                 <li class="{{$data_ap}}">
-                                    <a href="{{route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar preguntas</a>
+                                    <a href="{{route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Cuestionario de Salud</a>
                                 </li>
                             </ul>
                             <!--
@@ -116,24 +116,19 @@
                                     <a href="#">Administrar contenido</a>
                                 </li>
                             </ul>
-                            <ul>
-                                <li>
-                                    <a href="#">Administrar certificado médico</a>
-                                </li>
-                            </ul>
-                            -->
-                            
+
                             <ul>
                                 <li class="{{$data_ap3}}">
                                     <a href="{{route('adActivitiesList')}}" title='Administrar Actividades'>Administrar Actividades</a>
                                 </li>
                             </ul>
+                            -->
                         </li>
                     @endif
 
                     @if($data->product=='vi')
                         <li>
-                            <a href="#"><i class="icon-stack2"></i> <span>Vida Individual</span></a>
+                            <a href="#"><i class="icon-puzzle4"></i> <span>Vida Individual</span></a>
                             @if($nav=='vi')
                                 @if($action=='list' || $action=='edit' || $action='list_parameter_additional')
                                     @var $data_vpp='active'
@@ -153,21 +148,13 @@
                                     <a href="{{route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
                                 </li>
                             </ul>
-                            <ul>
-                                <li class="{{$data_cm}}">
-                                    <a href="{{route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Cuestionario Medico</a>
-                                </li>
-                            </ul>
+                            <!--
                             <ul>
                                 <li>
                                     <a href="vid_edit_content.html">Administrar contenido</a>
                                 </li>
                             </ul>
-                            <ul>
-                                <li>
-                                    <a href="vid_managing_occupation.html">Administrar ocupación</a>
-                                </li>
-                            </ul>
+                            -->
                         </li>
                     @endif
                 @endforeach
@@ -189,7 +176,7 @@
            
             <li class="{{ $data_sel }}">
                 <a href="{{route('adRetailerProductActivities')}}" title='Administrar ocupación'>
-                    <i class="icon-stack2"></i> Administrar ocupación
+                    <i class="icon-briefcase3"></i> Administrar ocupación
                 </a>
             </li>
                            
@@ -202,7 +189,7 @@
              @endif   
              <li class="{{$data_pp2}}">
                 <a href="{{ route('mcCertificatesList') }}">
-                    <i class="icon-stack2"></i> <span>Administrar Certificado Médico</span>
+                    <i class="icon-paste"></i> <span>Administrar Certificado Médico</span>
                 </a>
             </li>
             @if($nav=='exchange')
@@ -212,15 +199,19 @@
             @endif
             <li class="{{$data}}">
                 <a href="{{ route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list']) }}">
-                    <i class="icon-stack2"></i> <span>Tipo de Cambio</span>
+                    <i class="icon-cash3"></i> <span>Tipo de Cambio</span>
                 </a>
             </li>
-            <!--
-            <li>
-                <a href="#"><i class="icon-stack2"></i> <span>Administrar correos</span></a>
-
+            @if($nav=='email')
+                @var $data_em='active'
+            @else
+                @var $data_em=''
+            @endif
+            <li class="{{$data_em}}">
+                <a href="{{route('admin.email.list-email-product-retailer', ['nav'=>'email', 'action'=>'list_epr'])}}">
+                    <i class="icon-mail5"></i> <span>Correos Electronicos</span>
+                </a>
             </li>
-            -->
             @if($nav=='city')
                 @if($action=='list' || $action=='edit' || $action=='new')
                     @var $data_dpt='active'
@@ -236,7 +227,7 @@
                 @var $data_age=''
             @endif
             <li>
-                <a href="#"><i class="icon-stack2"></i> <span>Departamento/Agencias</span></a>
+                <a href="#"><i class="icon-city"></i> <span>Departamento/Agencias</span></a>
                 <ul>
                     <li class="{{$data_dpt}}">
                         <a href="{{route('admin.cities.list', ['nav'=>'city', 'action'=>'list'])}}">Departamentos</a>
@@ -266,7 +257,7 @@
                 @var $data_pp3=''
             @endif
             <li class="{{$data_pp}}">
-                <a href="{{route('admin.questions.list', ['nav'=>'question', 'action'=>'list'])}}"><i class="icon-stack2"></i> <span>Administrar preguntas</span></a>
+                <a href="{{route('admin.questions.list', ['nav'=>'question', 'action'=>'list'])}}"><i class="icon-clipboard3"></i> <span>Administrar preguntas</span></a>
             </li>
             
         </ul>

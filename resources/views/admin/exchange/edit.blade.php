@@ -13,53 +13,49 @@
 @endsection
 
 @section('content')
+    <!-- Form horizontal -->
     <div class="panel panel-flat">
-
         <div class="panel-heading">
             <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
                 <span class="form-wizard-count">
-                    <i class="icon-pencil7"></i>
+                    <i class="icon-pencil6"></i>
                 </span>
                 Formulario
-                <small class="display-block">Nuevo registro </small>
+                <small class="display-block">Editar registro</small>
             </h5>
             <div class="heading-elements">
-                <!--<ul class="icons-list">
-                    <li><a data-action="collapse"></a></li>
+                <!--
+                <ul class="icons-list">
                     <li><a data-action="reload"></a></li>
-                    <li><a data-action="close"></a></li>
-                </ul>-->
+                </ul>
+                -->
             </div>
         </div>
 
         <div class="panel-body">
 
-            {!! Form::open(array('route' => 'create_city', 'name' => 'CityCreateForm', 'id' => 'CityCreateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
+            {!! Form::open(array('route' => 'update_exchange', 'name' => 'exchangeForm', 'id' => 'exchangeForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
             <fieldset class="content-group">
 
                 <div class="form-group">
-                    <label class="control-label col-lg-2">Departamento/Sucursal <span class="text-danger">*</span></label>
+                    <label class="control-label col-lg-2">Entidad Financiera</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control required text" id="txtSucursal" name="txtSucursal" value="" maxlength="100">
+                        {{$retailer->name}}
+                        <input type="hidden" class="form-control" name="id_retailer" id="id_retailer" value="{{$retailer->id}}">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-lg-2">Código <span class="text-danger">*</span></label>
+                    <label class="control-label col-lg-2">Valor USD</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control required" id="txtCodigo" name="txtCodigo" value="" maxlength="3">
+                        <input type="text" class="form-control required" name="valor_usd" id="valor_usd" value="1" readonly>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-lg-2">Agregar a Retailer <span class="text-danger">*</span></label>
+                    <label class="control-label col-lg-2">Valor Bs</label>
                     <div class="col-lg-10">
-                        <select name="id_retailer" id="id_retailer" class="form-control required">
-                            <option value="0">Ninguno</option>
-                            @foreach($query_re as $data)
-                                <option value="{{$data->id}}">{{$data->name}}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" class="form-control required real" id="valor_bs" name="valor_bs" value="{{$query_exchange->bs_value}}">
                     </div>
                 </div>
 
@@ -69,43 +65,40 @@
                 <button type="submit" class="btn btn-primary">
                     Guardar <i class="icon-floppy-disk position-right"></i>
                 </button>
-                <a href="{{ route('admin.cities.list', ['nav'=>'city', 'action'=>'list']) }}" class="btn btn-primary">
-                    Cancelar <i class="icon-cross position-right"></i>
+                <a href="{{route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list'])}}" class="btn btn-primary">
+                    Cancelar <i class="icon-arrow-right14 position-right"></i>
                 </a>
+                <input type="hidden" name="id_exchange" value="{{$id_exchange}}">
             </div>
             {!!Form::close()!!}
         </div>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#txtCodigo').keyup(function() {
-                $(this).val($(this).val().toUpperCase());
-            });
 
             //VERIFICAMOS EL FORMULARIO
-            $('#CityCreateForm').submit(function(e){
+            $('#exchangeForm').submit(function(e){
                 var sw = true;
                 var err = 'Esta informacion es obligatoria';
                 $(this).find('.required, .not-required').each(function(index, element) {
                     //alert(element.type+'='+element.value);
+
                     if($(this).hasClass('required') === true){
                         if(validateElement(element,err) === false){
                             sw = false;
                         }else if(validateElementType(element,err) === false){
                             sw = false;
                         }
-                    }else if($(this).hasClass('not-required') === true){
-                        removeClassE(element);
-                        if(validateElementType(element,err) === false){
-                            sw = false;
-                        }
                     }
+
                 });
+
                 if(sw==true){
 
                 }else{
                     e.preventDefault();
                 }
+
             });
 
             //VALIDAMOS ELEMENTO
@@ -150,12 +143,12 @@
             function validateElementType(element,err){
                 var _value = $(element).prop('value');
                 var regex = null;
-                if($(element).hasClass('text') === true){
-                    regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s]*$/;
-                    err = 'Ingrese solo texto';
-                }else if($(element).hasClass('email') === true){
-                    regex = /^([a-z]+[a-z0-9._-]*)@{1}([a-z0-9\.]{2,})\.([a-z]{2,3})$/;
-                    err = 'Email invalido';
+                if($(element).hasClass('number') === true){
+                    regex = /^([0-9])*$/;
+                    err = 'Ingrese solo numeros';
+                }else if($(element).hasClass('real') === true){
+                    regex = /^([0-9])*[.]?[0-9]*$/;
+                    err = 'Ingrese solo numeros.';
                 }
 
                 if(regex !== null){
@@ -171,6 +164,8 @@
                     return true;
                 }
             }
+
         });
     </script>
+    <!-- /form horizontal -->
 @endsection

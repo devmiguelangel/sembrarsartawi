@@ -36,7 +36,7 @@
 
         </div>
 
-        <table class="table datatable-basic">
+        <table class="table datatable-basic table-bordered">
             <thead>
             <tr>
                 <th style="text-align: left;">Agencias</th>
