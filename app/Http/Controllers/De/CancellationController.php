@@ -4,17 +4,15 @@ namespace Sibas\Http\Controllers\De;
 
 use Illuminate\Auth\Guard;
 use Illuminate\Http\Request;
-use Sibas\Entities\User;
 use Sibas\Http\Controllers\MailController;
-use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Http\Controllers\ReportTrait;
 use Sibas\Repositories\De\CancellationRepository;
 use Sibas\Repositories\De\HeaderRepository;
-use Sibas\Repositories\Retailer\AgencyRepository;
-use Sibas\Repositories\Retailer\CityRepository;
 
 class CancellationController extends Controller
 {
+    use ReportTrait;
     /**
      * @var CancellationRepository
      */
@@ -23,41 +21,17 @@ class CancellationController extends Controller
      * @var HeaderRepository
      */
     protected $headerRepository;
-    /**
-     * @var CityRepository
-     */
-    protected $cityRepository;
-    /**
-     * @var AgencyRepository
-     */
-    protected $agencyRepository;
 
     /**
      * CancellationController constructor.
      * @param CancellationRepository $repository
      * @param HeaderRepository $headerRepository
-     * @param CityRepository $cityRepository
-     * @param AgencyRepository $agencyRepository
      */
     public function __construct(CancellationRepository $repository,
-                                HeaderRepository $headerRepository,
-                                CityRepository $cityRepository,
-                                AgencyRepository $agencyRepository)
+                                HeaderRepository $headerRepository)
     {
         $this->repository       = $repository;
         $this->headerRepository = $headerRepository;
-        $this->cityRepository   = $cityRepository;
-        $this->agencyRepository = $agencyRepository;
-    }
-
-    public function data(User $user)
-    {
-        $retailer = $user->retailer()->first();
-
-        return [
-            'cities'   => $this->cityRepository->getCitiesByRetailer($retailer->id),
-            'agencies' => $this->agencyRepository->getAgenciesByRetailer($retailer->id),
-        ];
     }
 
     /**
@@ -70,10 +44,14 @@ class CancellationController extends Controller
      */
     public function lists(Guard $auth, Request $request, $rp_id)
     {
-        $data = $this->data($auth->user());
+        $data    = $this->data($auth->user());
+        $headers = [];
 
-        $request->flash();
-        $headers = $this->repository->getHeaderList($request);
+        if ($request->has('_token')) {
+            $request->flash();
+
+            $headers = $this->repository->getHeaderList($request);
+        }
 
         return view('de.cancellation.list', compact('rp_id', 'headers', 'data'));
     }

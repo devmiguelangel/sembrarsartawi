@@ -100,6 +100,14 @@ Route::group(['prefix' => 'de/{rp_id}'], function() {
         'uses'  => 'De\CancellationController@store'
     ]);
 
+    /*
+     * Pre-Approved
+     */
+    Route::get('pre-approved', [
+        'as'    => 'de.pre.approved.lists',
+        'uses'  => 'De\PreApprovedController@lists'
+    ]);
+
 });
 
 Route::group(['prefix' => '{rp_id}'], function() {

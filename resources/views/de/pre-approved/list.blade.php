@@ -12,7 +12,7 @@
   <div class="page-header">
       <div class="page-header-content">
           <div class="page-title">
-              <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Anulación de Pólizas</span></h4>
+              <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Solicitudes Preaprobadas</span></h4>
           </div>
       </div>
 
@@ -28,13 +28,13 @@
                 
                 <div class="panel-body">
                     <div class="col-xs-12">
-                        {!! Form::open(['route' => ['de.cancel.lists', 'rp_id' => $rp_id], 'method' => 'get', 'class' => 'form-horizontal']) !!}
+                        {!! Form::open(['route' => ['de.pre.approved.lists', 'rp_id' => $rp_id], 'method' => 'get', 'class' => 'form-horizontal']) !!}
                           <div class="col-xs-12 col-md-12">
                             @include('report.partials.inputs-search')
                           </div>
                         {!! Form::close() !!}
 
-                        <table class="table datatable-fixed-left table-striped" width="100%" ng-controller="CancellationController">
+                        <table class="table datatable-fixed-left table-striped" width="100%">
                           <thead>
                             <tr>
                               <th>Nro. de Póliza</th>
@@ -73,9 +73,8 @@
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li>
-                                                    <a href="{{ route('de.cancel.create', ['rp_id' => $rp_id, 'header_id' => encode($header->id)]) }}" 
-                                                      ng-click="cancelCreate($event)">
-                                                      <i class="icon-cancel-circle2"></i> Anular
+                                                    <a href="{{ route('de.edit', ['rp_id' => $rp_id, 'header_id' => encode($header->id)]) }}" >
+                                                      <i class="icon-database-edit2"></i> Editar Póliza
                                                     </a>
                                                 </li>
                                                 <li>

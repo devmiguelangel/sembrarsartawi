@@ -365,8 +365,12 @@
                                 @endif
                             @elseif($header->type === 'I')
                                 @if(! $header->facultative)
+                                    <a href="{{ route('home', []) }}" class="btn btn-info">
+                                        Guardar y Cerrar <i class="icon-floppy-disk position-right"></i>
+                                    </a>
+
                                     <a href="{{ route('de.issue', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-primary">
-                                        Emitir <i class="icon-floppy-disk position-right"></i>
+                                        Emitir <i class="icon-play position-right"></i>
                                     </a>
                                 @else
                                     @if($header->facultative && ! $header->approved && ! $header->facultative_sent && ! isset($_GET['idf']))
