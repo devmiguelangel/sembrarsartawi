@@ -4,6 +4,7 @@ namespace Sibas\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Str;
 use Sibas\Entities\Agency;
 use Sibas\Entities\Retailer;
 use Sibas\Http\Requests;
@@ -55,14 +56,22 @@ class AgencyAdminController extends BaseController
      */
     public function store(Request $request)
     {
+        $slug = Str::slug($request->input('txtAgencia'));
         $query_int = new Agency();
         $query_int->name=$request->input('txtAgencia');
         $query_int->code=$request->input('txtCodigo');
+        $query_int->slug=$slug;
         if($query_int->save()) {
             if($request->input('id_retailer_city')!=0){
                 $id_agency = $query_int->id;
                 $query_re_cit_ag = \DB::table('ad_retailer_city_agencies')->insert(
-                    ['ad_retailer_city_id'=>$request->input('id_retailer_city'), 'ad_agency_id'=>$id_agency, 'active'=>true]
+                    [
+                        'ad_retailer_city_id'=>$request->input('id_retailer_city'),
+                        'ad_agency_id'=>$id_agency,
+                        'active'=>true,
+                        'created_at'=>date("Y-m-d H:i:s"),
+                        'updated_at'=>date("Y-m-d H:i:s")
+                    ]
                 );
             }
             return redirect()->route('admin.agencies.list', ['nav' => 'city', 'action' => 'list', 'id_retailer'=>$request->input('id_retailer')]);
@@ -97,9 +106,14 @@ class AgencyAdminController extends BaseController
                         ->where('ad_retailer_cities.ad_retailer_id', '=', $id_retailer)
                         ->where('ad_retailer_cities.active', '=', true)
                         ->get();
-        
-
-        return view('admin.agencies.edit', compact('nav', 'action', 'query_re', 'query_ag', 'query_dp', 'main_menu'));
+        $city_agency = \DB::table('ad_retailer_city_agencies as arca')
+                            ->join('ad_retailer_cities as arc', 'arc.id', '=', 'arca.ad_retailer_city_id')
+                            ->select('arc.ad_city_id', 'arc.id as id_retailer_cities')
+                            ->where('arca.ad_agency_id',$id_agency)
+                            ->where('arc.ad_retailer_id',$id_retailer)
+                            ->first();
+        //dd($city_agency);
+        return view('admin.agencies.edit', compact('nav', 'action', 'query_re', 'query_ag', 'query_dp', 'main_menu', 'city_agency'));
     }
 
     /**
@@ -111,9 +125,11 @@ class AgencyAdminController extends BaseController
      */
     public function update(Request $request)
     {
+        $slug = Str::slug($request->input('txtAgencia'));
         $query_update = Agency::where('id', $request->input('id_agency'))->first();
         $query_update->name=$request->input('txtAgencia');
         $query_update->code=$request->input('txtCodigo');
+        $query_update->slug=$slug;
         if($query_update->save()){
             if($request->input('id_retailer_city')!=0){
                 $query_re_ag= \DB::table('ad_retailer_city_agencies')
@@ -122,7 +138,13 @@ class AgencyAdminController extends BaseController
                                 ->first();
                 if(count($query_re_ag)==0){
                     $query_int = \DB::table('ad_retailer_city_agencies')->insert(
-                        ['ad_retailer_city_id'=>$request->input('id_retailer_city'), 'ad_agency_id'=>$request->input('id_agency'), 'active'=>true]
+                        [
+                            'ad_retailer_city_id'=>$request->input('id_retailer_city'),
+                            'ad_agency_id'=>$request->input('id_agency'),
+                            'active'=>true,
+                            'created_at'=>date("Y-m-d H:i:s"),
+                            'updated_at'=>date("Y-m-d H:i:s")
+                        ]
                     );
                 }
                 return redirect()->route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list', 'id_retailer'=>$request->input('id_retailer')]);

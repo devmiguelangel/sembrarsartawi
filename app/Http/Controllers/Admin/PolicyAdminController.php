@@ -15,7 +15,7 @@ class PolicyAdminController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($nav, $action, $id_retailer_products, $id_company)
+    public function index($nav, $action, $id_retailer_products, $id_company, $code_product)
     {
         $main_menu = $this->menu_principal();
         if($action=='list'){
@@ -30,7 +30,7 @@ class PolicyAdminController extends BaseController
                 ->where('arp.id',$id_retailer_products)
                 ->first();
             //dd($query);
-            return view('admin.policy.list', compact('nav', 'action', 'id_company', 'main_menu', 'query', 'id_retailer_products', 'query_prod'));
+            return view('admin.policy.list', compact('nav', 'action', 'id_company', 'main_menu', 'query', 'id_retailer_products', 'query_prod', 'code_product'));
         }elseif($action=='new'){
             $query_prod = \DB::table('ad_retailer_products as arp')
                 ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
@@ -39,7 +39,7 @@ class PolicyAdminController extends BaseController
                 ->where('arp.id',$id_retailer_products)
                 ->first();
             //dd($id_retailer_products);
-            return view('admin.policy.new', compact('nav', 'action', 'id_company', 'main_menu', 'id_retailer_products', 'query_prod'));
+            return view('admin.policy.new', compact('nav', 'action', 'id_company', 'main_menu', 'id_retailer_products', 'query_prod', 'code_product'));
         }
 
     }
@@ -62,22 +62,28 @@ class PolicyAdminController extends BaseController
      */
     public function store(Request $request)
     {
+        $end_policy = 0;
+        $auto_increment = 0;
+        if($request->input('code_product')=='vi'){
+            $end_policy = $request->input('txtEndPoliza');
+            $auto_increment = $request->input('auto_inc');
+        }
 
-        //dd();
         $query_insert = \DB::table('ad_policies')->insert(
             [
                  'ad_retailer_product_id'=>$request->input('id_retailer_products'),
                  'number'=> $request->input('txtNumPoliza'),
-                 'end_policy' => $request->input('txtEndPoliza'),
+                 'end_policy' => $end_policy,
                  'date_begin' => new Carbon(str_replace('/','-',$request->input('fechaini'))),
                  'date_end' => new Carbon(str_replace('/','-',$request->input('fechafin'))),
                  'created_at' => date("Y-m-d H:i:s"),
                  'updated_at' => date("Y-m-d H:i:s"),
+                 'auto_increment' => $auto_increment,
                  'active' => false
             ]
         );
         if($query_insert){
-            return redirect()->route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_company'=>$request->input('id_company'), 'id_retailer_products'=>$request->input('id_retailer_products')]);
+            return redirect()->route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_company'=>$request->input('id_company'), 'id_retailer_products'=>$request->input('id_retailer_products'), 'code_product'=>$request->input('code_product')]);
         }
     }
 
@@ -98,7 +104,7 @@ class PolicyAdminController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($nav, $action, $id_policies, $id_company, $id_retailer_products)
+    public function edit($nav, $action, $id_policies, $id_company, $id_retailer_products, $code_product)
     {
         $main_menu = $this->menu_principal();
         $query_policy = \DB::table('ad_policies')
@@ -112,7 +118,7 @@ class PolicyAdminController extends BaseController
                         ->select('ap.name as product')
                         ->where('arp.id',$id_retailer_products)
                         ->first();
-        return view('admin.policy.edit', compact('nav', 'action', 'id_company', 'main_menu', 'query_policy', 'id_retailer_products', 'query_prod', 'id_policies'));
+        return view('admin.policy.edit', compact('nav', 'action', 'id_company', 'main_menu', 'query_policy', 'id_retailer_products', 'query_prod', 'id_policies', 'code_product'));
     }
 
     /**
@@ -124,17 +130,24 @@ class PolicyAdminController extends BaseController
      */
     public function update(Request $request)
     {
+        $end_policy = 0;
+        $auto_increment = 0;
+        if($request->input('code_product')=='vi'){
+            $end_policy = $request->input('txtEndPoliza');
+            $auto_increment = $request->input('auto_inc');
+        }
         $query_update = \DB::table('ad_policies')
             ->where('id', $request->input('id_policies'))
             ->update([
                 'number' => $request->input('txtNumPoliza'),
-                'end_policy' => $request->input('txtEndPoliza'),
+                'end_policy' => $end_policy,
+                'auto_increment' => $auto_increment,
                 'date_begin'=>new Carbon(str_replace('/','-',$request->input('fechaini'))),
                 'date_end'=>new Carbon(str_replace('/','-',$request->input('fechafin')))
                 ]);
         //dd($query_update);
         if($query_update) {
-            return redirect()->route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_company'=>$request->input('id_company'), 'id_retailer_products'=>$request->input('id_retailer_products')]);
+            return redirect()->route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_company'=>$request->input('id_company'), 'id_retailer_products'=>$request->input('id_retailer_products'), 'code_product'=>$request->input('code_product')]);
         }
     }
 

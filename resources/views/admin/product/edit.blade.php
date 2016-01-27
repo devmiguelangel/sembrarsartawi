@@ -72,7 +72,7 @@
 
             <div class="text-right">
                 <button type="submit" class="btn btn-primary">
-                    Guardar <i class="icon-arrow-right14 position-right"></i>
+                    Guardar <i class="icon-floppy-disk position-right"></i>
                 </button>
 
                 <a href="{{route('admin.product.list', ['nav'=>'product', 'action'=>'list'])}}" class="btn btn-primary">

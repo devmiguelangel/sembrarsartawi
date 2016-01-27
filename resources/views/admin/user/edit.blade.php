@@ -87,6 +87,10 @@
                                             @endif
                                         @endforeach
                                     </select>
+                                @else
+                                    <div class="alert alert-warning alert-styled-left">
+                                        <span class="text-semibold">Warning!</span> No existe departamentos registrados en el Retailer.<br>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -140,12 +144,17 @@
 
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">
-                            Guardar <i class="icon-arrow-right14 position-right"></i>
+                            Guardar <i class="icon-floppy-disk position-right"></i>
                         </button>
 
                         <a href="{{ route('admin.user.list', ['nav'=>'user', 'action'=>'list']) }}" class="btn btn-primary">
                             Cancelar <i class="icon-arrow-right14 position-right"></i>
                         </a>
+                        @if(empty($cities))
+                            <a href="{{route('admin.cities.list', ['nav'=>'city', 'action'=>'list'])}}" class="btn btn-primary">
+                                Agregar departamentos a Retailer <i class="icon-pencil3 position-right"></i>
+                            </a>
+                        @endif
                         <input type="hidden" id="id_user" name="id_user" value="{{$user_find->id_user}}">
                         <input type="hidden" id="code" name="code" value="{{$user_find->code}}">
                     </div>
@@ -158,7 +167,7 @@
             //OBTENER LISTA DE AGENCIAS DE ACUERDO AL DEPARTAMENTO
             $('#depto').change(function(e) {
                 var id_depto = $(this).val();
-                alert(id_depto);
+                //alert(id_depto);
                 $.get( "{{url('/')}}/admin/user/agency_ajax/"+id_depto, function( data ) {
                     console.log(data);
                     $('#agencia option').remove();
