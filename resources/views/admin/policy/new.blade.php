@@ -34,9 +34,11 @@
         </div>
         @if($code_product=='vi')
             @var $class_input='form-control required number'
+            @var $class_radio = 'styled required'
             @var $hide = ''
         @else
             @var $class_input=''
+            @var $class_radio=''
             @var $hide = 'display: none;'
         @endif
         <div class="panel-body">
@@ -68,10 +70,10 @@
                 <div class="form-group" style="{{$hide}}">
                     <label class="control-label col-lg-2">Auto Incremento <span class="text-danger">*</span></label>
                     <label class="radio-inline">
-                        <input type="radio" name="auto_inc" id="auto_inc" class="styled required" value="1">SI
+                        <input type="radio" name="auto_inc" id="auto_inc" class="{{$class_radio}}" value="1">SI
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="auto_inc" id="auto_inc" class="styled required" value="0">NO
+                        <input type="radio" name="auto_inc" id="auto_inc" class="{{$class_radio}}" value="0">NO
                     </label>
                     <div class="validation-error-label col-lg-10" id="error-increment"></div>
                 </div>

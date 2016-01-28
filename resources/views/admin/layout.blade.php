@@ -83,7 +83,7 @@
 <div class="navbar navbar-inverse">
     <div class="navbar-header">
         <a class="navbar-brand" href="#">
-            <img src="{{ asset('images/assets/abrenet-logo.png') }}" style="margin-top: -9px; height: 38px;">
+            <img src="{{ asset('images/assets/abrenet-logo-admin.png') }}" style="margin-top: -9px; height: 38px;">
         </a>
 
         <ul class="nav navbar-nav visible-xs-block">
