@@ -59,7 +59,7 @@
                                     <i class="icon-menu9"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href="{{route('admin.product.edit', ['nav'=>'product', 'action'=>'edit', 'id_product'=>$data->id])}}"><i class="icon-file-pdf"></i> Editar</a></li>
+                                    <li><a href="{{route('admin.product.edit', ['nav'=>'product', 'action'=>'edit', 'id_product'=>$data->id])}}"><i class="icon-pencil3"></i> Editar</a></li>
                                 </ul>
                             </li>
                         </ul>

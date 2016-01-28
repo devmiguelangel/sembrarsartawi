@@ -59,7 +59,7 @@ class CompanyAdminController extends BaseController
         $slug = str_replace($especiales, $reemplazos, $request->input('txtCompany'));
 
         $file = $request->file('txtFile');
-        $destination_path = 'assets/img/';
+        $destination_path = 'assets/files/';
         $file_id = date('U') . '_' . md5(uniqid('@F#1$' . time(), true));
         $filename = $file_id . '.' . $file->getClientOriginalExtension();
         $file->move($destination_path, $filename);
@@ -119,7 +119,7 @@ class CompanyAdminController extends BaseController
         if(count($request->file('txtFile'))>0){
             // upload the image //
             $file = $request->file('txtFile');
-            $destination_path = 'assets/img/';
+            $destination_path = 'assets/files/';
             $file_id = date('U') . '_' . md5(uniqid('@F#1$' . time(), true));
             $filename = $file_id . '.' . $file->getClientOriginalExtension();
             $file->move($destination_path, $filename);

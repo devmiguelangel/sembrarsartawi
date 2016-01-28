@@ -114,7 +114,7 @@
             @if($action=='list')
                 <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
                 <li class="active">Tipo de cambio</li>
-            @elseif($action=='new')
+            @elseif($action=='new' || $action=='edit')
                 <li>
                     <a href="{{ route('admin.home', ['nav'=>'begin']) }}">
                         <i class="icon-home2 position-left"></i>Inicio
@@ -332,8 +332,8 @@
             @elseif($action=='edit' || $action=='new')
                 <li><a href="{{ route('admin.company.list', ['nav'=>'company', 'action'=>'list']) }}">Listado compañias</a></li>
                 <li><a href="{{ route('admin.addproductcompany.list', ['nav'=>'addprocom', 'action'=>'list', 'id_company'=>$id_company]) }}">Productos agregados a Compañia</a></li>
-                <li><a href="{{ route('admin.addtoretailer.list', ['nav'=>'addtoretailer', 'action'=>'list', 'id_company'=>$id_company]) }}">Productos agregados a Retailer</a></li>
-                <li><a href="{{ route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_company'=>$id_company, 'id_retailer_products'=>$id_retailer_products]) }}">Listado de pólizas</a></li>
+                <li><a href="{{ route('admin.addtoretailer.list', ['nav'=>'addtoretailer', 'action'=>'list', 'id_company'=>$id_company, 'code_product'=>$code_product]) }}">Productos agregados a Retailer</a></li>
+                <li><a href="{{ route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_company'=>$id_company, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product]) }}">Listado de pólizas</a></li>
                 @if($action=='edit')
                     <li class="active">Editar registro</li>
                 @elseif($action=='new')
@@ -362,6 +362,21 @@
             @elseif($action=='new')
                 <li><a href="{{ route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">listado preguntas</a></li>
                 <li class="active">Formulario</li>
+            @endif
+        @elseif($nav=='email')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list_epr')
+                <li class="active">Correos electronicos</li>
+            @elseif($action=='new_add_email')
+                <li><a href="{{ route('admin.email.list-email-product-retailer', ['nav'=>'email', 'action'=>'list_epr']) }}">Correos electronicos</a></li>
+                <li class="active">Nuevo Formulario</li>
+            @elseif($action=='new_email')
+                <li><a href="{{ route('admin.email.list-email-product-retailer', ['nav'=>'email', 'action'=>'list_epr']) }}">Listar correos</a></li>
+                <li><a href="{{ route('admin.email.new-add-email', ['nav'=>'email', 'action'=>'new_add_email']) }}">Agregar correo a producto</a></li>
+                <li class="active">Nuevo Formulario</li>
+            @elseif($action=='edit_email')
+                <li><a href="{{ route('admin.email.list-email-product-retailer', ['nav'=>'email', 'action'=>'list_epr']) }}">Listar correos</a></li>
+                <li class="active">Editar Formulario</li>
             @endif
         @endif
     </ul>

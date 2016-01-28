@@ -74,6 +74,7 @@ require "admin.mcQuestionnaries.php";
 require "admin.mcQuestions.php";
 require "admin.mcCertificates.php";
 require "admin.vi.php";
+require "admin.email.php";
 
 Route::get('admin/ad_activities/list',[
     'as' => 'adActivities',
