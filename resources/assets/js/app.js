@@ -5,9 +5,10 @@ global.jQuery = $;
 var bootstrap = require('bootstrap');*/
 //import detail from ".components/DetailController.js";
 
-var DetailController = require('./components/de/DetailController');
-var BeneficiaryController = require('./components/de/BeneficiaryController');
-var FacultativeController = require('./components/de/FacultativeController');
+var DetailController       = require('./components/de/DetailController');
+var BeneficiaryController  = require('./components/de/BeneficiaryController');
+var FacultativeController  = require('./components/de/FacultativeController');
+var CancellationController = require('./components/de/CancellationController');
 
 var app = angular.module('sibas', ['ngAnimate']);
 
@@ -70,3 +71,5 @@ app.controller('DetailDeController', ['$scope', '$http', DetailController.detail
 app.controller('BeneficiaryController', ['$scope', '$http', BeneficiaryController.beneficiary]);
 
 app.controller('FacultativeController', ['$rootScope', '$scope', '$http', '$compile', FacultativeController.facultative]);
+
+app.controller('CancellationController', ['$scope', '$http', CancellationController.cancellation]);

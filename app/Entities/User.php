@@ -53,4 +53,15 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->belongsToMany(Profile::class, 'ad_user_profiles', 'ad_user_id', 'ad_profile_id');
     }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'ad_city_id', 'id');
+    }
+
+    public function agency()
+    {
+        return $this->belongsTo(Agency::class, 'ad_agency_id', 'id');
+    }
+
 }

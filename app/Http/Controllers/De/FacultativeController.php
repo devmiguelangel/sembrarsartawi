@@ -68,7 +68,7 @@ class FacultativeController extends Controller
                 ]);
             }
 
-            return response()->json(['err'=>'Unauthorized action.'], 401);
+            return response()->json(['err' => 'Unauthorized action.'], 401);
         }
 
         return redirect()->back();
@@ -106,7 +106,7 @@ class FacultativeController extends Controller
                 }
             }
 
-            return response()->json(['err'=>'Unauthorized action.'], 401);
+            return response()->json(['err' => 'Unauthorized action.'], 401);
         }
 
         return redirect()->back();
@@ -134,7 +134,7 @@ class FacultativeController extends Controller
                 ]);
             }
 
-            return response()->json(['err'=>'Unauthorized action.'], 401);
+            return response()->json(['err' => 'Unauthorized action.'], 401);
         }
 
         return redirect()->back();
@@ -160,7 +160,7 @@ class FacultativeController extends Controller
                 }
             }
 
-            return response()->json(['err'=>'Unauthorized action.'], 401);
+            return response()->json(['err' => 'Unauthorized action.'], 401);
         }
 
         return redirect()->back();
@@ -182,7 +182,7 @@ class FacultativeController extends Controller
 
             }
 
-            return response()->json(['err'=>'Unauthorized action.'], 401);
+            return response()->json(['err' => 'Unauthorized action.'], 401);
         }
 
         return redirect()->back();
@@ -200,7 +200,7 @@ class FacultativeController extends Controller
                 ]);
             }
 
-            return response()->json(['err'=>'Unauthorized action.'], 401);
+            return response()->json(['err' => 'Unauthorized action.'], 401);
         }
 
         return redirect()->back();
@@ -217,7 +217,7 @@ class FacultativeController extends Controller
                 ]);
             }
 
-            return response()->json(['err'=>'Unauthorized action.'], 401);
+            return response()->json(['err' => 'Unauthorized action.'], 401);
         }
 
         return redirect()->back();

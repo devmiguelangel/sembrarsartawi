@@ -3,6 +3,7 @@
 namespace Sibas\Repositories\Client;
 
 use Sibas\Entities\Activity;
+use Sibas\Entities\RetailerProduct;
 use Sibas\Repositories\BaseRepository;
 
 class ActivityRepository extends BaseRepository
@@ -16,6 +17,22 @@ class ActivityRepository extends BaseRepository
             ->get();
 
         $activities = $selectOption->merge($activities->toArray());
+
+        return $activities;
+    }
+
+    public function getActivitiesByProduct($rp_id)
+    {
+        $selectOption = $this->getSelectOption();
+
+        $rp = RetailerProduct::with([
+            'activities' => function ($query) {
+                $query->addSelect(['ad_activities.id', 'category', 'occupation']);
+            }
+        ])
+            ->where('id', $rp_id)->first();
+
+        $activities = $selectOption->merge($rp->activities->toArray());
 
         return $activities;
     }

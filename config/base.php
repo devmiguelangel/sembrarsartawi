@@ -47,11 +47,6 @@ return [
         'SP' => 'Sub Producto',
     ],
 
-    'retailer_image_types' => [
-        'A' => 'Artículo',
-        'S' => 'Slider',
-    ],
-
     'currencies' => [
         'BS'    => 'Bolivianos',
         'USD'   => 'Dolares',
@@ -158,6 +153,13 @@ return [
         0 => 'col-md-4',
         1 => 'col-md-12',
         2 => 'col-md-6',
+    ],
+
+    'permissions' => [
+        'RN' => 'Reporte Nacional',
+        'RR' => 'Reporte Sucursal/Regional',
+        'RA' => 'Reporte Agencia',
+        'RU' => 'Reporte Usuario',
     ],
 
 ];
