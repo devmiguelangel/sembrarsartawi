@@ -82,16 +82,17 @@ class DetailController extends Controller
 
     /**
      * Returns Data for Client register
+     * @param string $rp_id
      * @return array
      */
-    public function getData()
+    public function getData($rp_id)
     {
         return [
             'civil_status'  => $this->dataRepository->getCivilStatus(),
             'document_type' => $this->dataRepository->getDocumentType(),
             'gender'        => $this->dataRepository->getGender(),
             'cities'        => $this->cityRepository->getCitiesByType(),
-            'activities'    => $this->activityRepository->getActivities(),
+            'activities'    => $this->activityRepository->getActivitiesByProduct(decode($rp_id)),
             'hands'         => $this->dataRepository->getHand(),
             'avenue_street' => $this->dataRepository->getAvenueStreet(),
         ];
@@ -107,7 +108,7 @@ class DetailController extends Controller
      */
     public function create($rp_id, $header_id, $client_id = null)
     {
-        $data   = $this->getData();
+        $data   = $this->getData($rp_id);
         $client = new Client();
 
         if (! is_null($client_id) && $this->clientRepository->getClientById(decode($client_id))) {
@@ -176,7 +177,7 @@ class DetailController extends Controller
 
             if ($detail->client instanceof Client) {
                 $client = $detail->client;
-                $data   = $this->getData();
+                $data   = $this->getData($rp_id);
 
                 return view('client.de.edit', compact('rp_id', 'header_id', 'detail_id', 'data', 'client'));
             }
@@ -229,7 +230,7 @@ class DetailController extends Controller
             $detail = $this->repository->getModel();
 
             if (in_array($ref, $this->reference)) {
-                $data   = $this->getData();
+                $data   = $this->getData($rp_id);
                 $client = $detail->client;
 
                 if ($client instanceof Client) {

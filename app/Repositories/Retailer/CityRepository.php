@@ -12,7 +12,8 @@ class CityRepository extends BaseRepository
 
     private function getCities()
     {
-        return City::select('id', 'id as city_id', 'name', 'abbreviation', 'slug', 'type_ci', 'type_re', 'type_de')->get();
+        return City::select('id', 'id as city_id', 'name', 'abbreviation', 'slug', 'type_ci', 'type_re', 'type_de')
+            ->get();
     }
 
     public function getCitiesByType()
@@ -74,6 +75,19 @@ class CityRepository extends BaseRepository
         $item->data_city = $item->abbreviation;
 
         return $item;
+    }
+
+    /**
+     * @param int $retailer_id
+     * @return mixed
+     */
+    public function getCitiesByRetailer($retailer_id)
+    {
+        return City::select('*', 'slug as id')
+            ->whereHas('retailerCities', function($q) use ($retailer_id) {
+                $q->where('ad_retailer_id', $retailer_id);
+            })
+            ->get();
     }
 
 }

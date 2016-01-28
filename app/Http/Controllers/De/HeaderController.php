@@ -15,6 +15,7 @@ use Sibas\Http\Requests\De\HeaderResultFormRequest;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\FacultativeRepository;
 use Sibas\Repositories\De\HeaderRepository;
+use Sibas\Repositories\Retailer\PolicyRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 
@@ -33,6 +34,10 @@ class HeaderController extends Controller
      */
     protected $retailerProductRepository;
     /**
+     * @var PolicyRepository
+     */
+    private $policyRepository;
+    /**
      * @var Rate
      */
     protected $rate;
@@ -44,11 +49,13 @@ class HeaderController extends Controller
     public function __construct(HeaderRepository $repository,
                                 DataRepository $dataRepository,
                                 RetailerProductRepository $retailerProductRepository,
+                                PolicyRepository $policyRepository,
                                 FacultativeRepository $facultativeRepository)
     {
         $this->repository                = $repository;
         $this->dataRepository            = $dataRepository;
         $this->retailerProductRepository = $retailerProductRepository;
+        $this->policyRepository          = $policyRepository;
         $this->facultativeRepository     = $facultativeRepository;
     }
 
@@ -64,6 +71,7 @@ class HeaderController extends Controller
             'coverages'  => $this->retailerProductRepository->getCoverageByProduct($rp_id),
             'currencies' => $this->dataRepository->getCurrency(),
             'term_types' => $this->dataRepository->getTermType(),
+            'policies'   => $this->policyRepository->gerPolicyForIssuance($rp_id),
         ];
     }
 

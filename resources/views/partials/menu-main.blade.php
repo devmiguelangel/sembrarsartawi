@@ -90,11 +90,17 @@
                                                         Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/vi/'.$sp_id.'/create') ? 'active':
                                                         Request::is('de/'.encode($retailerProduct->id).'/'.$header.'/balance/edit/'.$detail.'') ? 'active':
                                                         '' 
-                                                       }}">
+                                                       }}
+                                                       ">
                                                 <a href="{{ route('de.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a>
                                             </li>
                                             <li class="dropdown-header highlight"><a href="#">Emitir</a></li>
-                                            <li><a href="#">Facultativo</a></li>
+                                            <li class="{{ request()->route()->getName() === 'de.cancel.lists' ? 'active' : '' }}">
+                                                <a href="{{ route('de.cancel.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Anular Póliza</a>
+                                            </li>
+                                            <li class="{{ request()->route()->getName() === 'de.pre.approved.lists' ? 'active' : '' }}">
+                                                <a href="{{ route('de.pre.approved.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Solicitudes Preaprobadas</a>
+                                            </li>
                                         </ul>
                                     </li>
                                 @endif
