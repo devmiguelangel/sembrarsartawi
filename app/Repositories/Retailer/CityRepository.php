@@ -83,8 +83,7 @@ class CityRepository extends BaseRepository
      */
     public function getCitiesByRetailer($retailer_id)
     {
-        return City::select('*', 'slug as id')
-            ->whereHas('retailerCities', function($q) use ($retailer_id) {
+        return City::whereHas('retailerCities', function($q) use ($retailer_id) {
                 $q->where('ad_retailer_id', $retailer_id);
             })
             ->get();

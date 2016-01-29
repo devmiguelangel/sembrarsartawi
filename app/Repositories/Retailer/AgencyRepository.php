@@ -13,13 +13,11 @@ class AgencyRepository extends BaseRepository
      */
     public function getAgenciesByRetailer($retailer_id)
     {
-        $agencies = Agency::select('*', 'slug as id')
+        return Agency::with('retailerCityAgencies.retailerCity')
             ->whereHas('retailerCityAgencies.retailerCity', function($q) use ($retailer_id) {
                 $q->where('ad_retailer_id', $retailer_id);
             })
             ->get();
-
-        return $agencies;
     }
 
 }
