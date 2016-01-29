@@ -11,7 +11,7 @@ class UserRepository extends BaseRepository
      * @param array $profiles
      * @return array
      */
-    public function getUserByProfile(User $user, array $profiles = [])
+    public function getUsersByProfile(User $user, array $profiles = [])
     {
         $data = [];
 
@@ -29,4 +29,19 @@ class UserRepository extends BaseRepository
 
         return $data;
     }
+
+    /**
+     * @param int $retailer_id
+     * @return mixed
+     */
+    public function getUsersByRetailer($retailer_id)
+    {
+        return User::with('agency', 'city')
+            ->whereHas('retailer', function ($q) use ($retailer_id) {
+                $q->where('ad_retailers.id', $retailer_id);
+            })
+            ->where('username', '!=', 'admin')
+            ->get();
+    }
+
 }

@@ -64,4 +64,10 @@ class User extends Model implements AuthenticatableContract,
         return $this->belongsTo(Agency::class, 'ad_agency_id', 'id');
     }
 
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'ad_user_permissions', 'ad_user_id', 'ad_permission_id')
+            ->wherePivot('active', true);
+    }
+
 }

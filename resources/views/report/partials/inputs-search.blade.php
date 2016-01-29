@@ -14,7 +14,7 @@
 <div class="form-group">
   <label class="control-label col-lg-1">Sucursal: </label>
   <div class="col-lg-3">
-    {!! SelectField::input('city', $data['cities']->toArray(), [
+    {!! SelectField::input('city', $data['cities'], [
       'class' => 'select-search', 
       'placeholder'  => 'Sucursal',
       ], old('city'))
@@ -23,7 +23,7 @@
 
   <label class="control-label col-lg-1">Agencia: </label>
   <div class="col-lg-3">
-    {!! SelectField::input('agency', $data['agencies']->toArray(), [
+    {!! SelectField::input('agency', $data['agencies'], [
       'class' => 'select-search', 
       'placeholder'  => 'Agencia',
       ], old('agency'))
@@ -32,10 +32,10 @@
 
   <label class="control-label col-lg-1">Usuario: </label>
   <div class="col-lg-3">
-    {!! Form::text('username', old('username'), [
-      'class'        => 'form-control ui-wizard-content',
-      'placeholder'  => 'Usuario',
-      'autocomplete' => 'off'])
+    {!! SelectField::input('username', $data['users'], [
+      'class' => 'select-search', 
+      'placeholder'  => 'Agencia',
+      ], old('username'))
     !!}
   </div>
 </div>
