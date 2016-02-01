@@ -101,6 +101,9 @@
                                             <li class="{{ request()->route()->getName() === 'de.pre.approved.lists' ? 'active' : '' }}">
                                                 <a href="{{ route('de.pre.approved.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Solicitudes Preaprobadas</a>
                                             </li>
+                                            <li class="{{ request()->route()->getName() === 'de.issue.lists' ? 'active' : '' }}">
+                                                <a href="{{ route('de.issue.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Emitir Solicitudes</a>
+                                            </li>
                                         </ul>
                                     </li>
                                 @endif

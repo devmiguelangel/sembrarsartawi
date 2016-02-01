@@ -1,14 +1,23 @@
-{{ csrf_field() }}
-
 <div class="form-group">
-  <label class="control-label col-lg-2">Nro. de Póliza: </label>
-  <div class="col-lg-2">
-    {!! Form::text('policy_number', old('policy_number'), [
-      'class'        => 'form-control ui-wizard-content',
-      'placeholder'  => 'Nro. de Póliza',
-      'autocomplete' => 'off'])
-    !!}
-  </div>
+  @if (isset($type) && $type === 'Q')
+    <label class="control-label col-lg-2">Nro. de Cotización: </label>
+    <div class="col-lg-2">
+      {!! Form::text('quote_number', old('quote_number'), [
+        'class'        => 'form-control ui-wizard-content',
+        'placeholder'  => 'Nro. de Cotización',
+        'autocomplete' => 'off'])
+      !!}
+    </div>
+  @else
+    <label class="control-label col-lg-2">Nro. de Póliza: </label>
+    <div class="col-lg-2">
+      {!! Form::text('policy_number', old('policy_number'), [
+        'class'        => 'form-control ui-wizard-content',
+        'placeholder'  => 'Nro. de Póliza',
+        'autocomplete' => 'off'])
+      !!}
+    </div>
+  @endif
 </div>
 
 <div class="form-group">
@@ -100,6 +109,8 @@
     </div>
   </div>
 </div>
+
+{{ csrf_field() }}
 
 <div class="text-right">
   {!! Form::button('Restablecer campos <i class="icon-reset position-right"></i>', ['type' => 'reset', 'class' => 'btn btn-default']) !!}

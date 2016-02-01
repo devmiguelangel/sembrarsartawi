@@ -45,7 +45,7 @@
                               <th>Plazo del Crédito</th>
                               <th>Usuario</th>
                               <th>Sucursal / Agencia</th>
-                              <th>Certificados Anulados</th>
+                              <th>Fecha de Ingreso</th>
                               <th>Acción</th>
                             </tr>
                           </thead>
@@ -64,7 +64,9 @@
                                     {{ ! is_null($header->user->city) ? $header->user->city->name : '' }}
                                     {{ ! is_null($header->user->agency) ? '/ ' . $header->user->agency->name : '' }}
                                   </td>
-                                  <td>{{ 'NO' }}</td>
+                                  <td>
+                                    {{ $header->created_date }}
+                                  </td>
                                   <td>
                                     <ul class="icons-list">
                                         <li class="dropdown">

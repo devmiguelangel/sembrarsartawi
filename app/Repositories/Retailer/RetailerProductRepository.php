@@ -59,7 +59,7 @@ class RetailerProductRepository extends BaseRepository
 
     public function getRetailerProductById($rp_id)
     {
-        $this->model = RetailerProduct::where('id', $rp_id)->get();
+        $this->model = RetailerProduct::with('parameters')->where('id', $rp_id)->get();
 
         if ($this->model->count() === 1) {
             $this->model = $this->model->first();
