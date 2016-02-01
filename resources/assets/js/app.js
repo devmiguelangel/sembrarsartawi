@@ -3,7 +3,6 @@ var ngAnimate = require('angular-animate');
 /*var $ = require('jquery');
 global.jQuery = $;
 var bootstrap = require('bootstrap');*/
-//import detail from ".components/DetailController.js";
 
 var DetailController       = require('./components/de/DetailController');
 var BeneficiaryController  = require('./components/de/BeneficiaryController');
@@ -62,6 +61,19 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
     $timeout(function(){
       angular.element(id_form).submit();
     }, 0);
+  };
+
+  $rootScope.easyLoading = function (element, theme, show) {
+    if (show) {
+      $(element).loading({
+        theme: theme,                  //light
+        message: 'Por favor espere...'
+      });
+    }
+
+    if (! show) {
+      $(element).loading('stop');
+    }
   };
 
 }]);

@@ -3,8 +3,14 @@ var beneficiary = function($scope, $http){
     mother_last_name: ''
   };
 
+  /**
+   * Beneficiary store
+   * @param  {[type]} event [description]
+   */
   $scope.store = function (event) {
     event.preventDefault();
+
+    $scope.easyLoading('#popup', 'dark', true);
 
     var action = $scope.getActionAttribute(event);
 
@@ -34,6 +40,8 @@ var beneficiary = function($scope, $http){
         }
 
         console.log(err);
+      }).finally(function () {
+        $scope.easyLoading('#popup', '', false);
       });
   };
 };
