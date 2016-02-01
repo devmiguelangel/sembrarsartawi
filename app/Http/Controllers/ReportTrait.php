@@ -84,6 +84,8 @@ trait ReportTrait
     {
         if ($request->has('policy_number')) {
             $builder = $builder->where('issue_number', 'like', '%' . $request->get('policy_number') . '%');
+        } elseif ($request->has('quote_number')) {
+            $builder = $builder->where('quote_number', 'like', '%' . $request->get('quote_number') . '%');
         }
 
         if ($request->has('city')) {
@@ -130,7 +132,7 @@ trait ReportTrait
             $date_begin = $this->carbon->createFromTimestamp(strtotime(str_replace('/', '-', $request->get('date_begin'))));
             $date_end   = $this->carbon->createFromTimestamp(strtotime(str_replace('/', '-', $request->get('date_end'))));
 
-            $builder = $builder->whereBetween('date_issue', [$date_begin, $date_end]);
+            $builder = $builder->whereBetween('created_at', [$date_begin, $date_end]);
         }
     }
 

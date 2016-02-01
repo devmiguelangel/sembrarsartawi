@@ -108,6 +108,14 @@ Route::group(['prefix' => 'de/{rp_id}'], function() {
         'uses'  => 'De\PreApprovedController@lists'
     ]);
 
+    /*
+     * Issue Quote
+     */
+    Route::get('issue', [
+        'as'    => 'de.issue.lists',
+        'uses'  => 'De\IssueController@lists'
+    ]);
+
 });
 
 Route::group(['prefix' => '{rp_id}'], function() {

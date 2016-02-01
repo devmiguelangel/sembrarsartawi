@@ -6,7 +6,6 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Controllers\ReportTrait;
-use Sibas\Repositories\De\HeaderRepository;
 use Sibas\Repositories\De\PreApprovedRepository;
 
 class PreApprovedController extends Controller
@@ -16,18 +15,18 @@ class PreApprovedController extends Controller
      * @var PreApprovedRepository
      */
     protected $repository;
-    /**
-     * @var HeaderRepository
-     */
-    protected $headerRepository;
 
-    public function __construct(PreApprovedRepository $repository,
-                                HeaderRepository $headerRepository)
+    public function __construct(PreApprovedRepository $repository)
     {
-        $this->repository       = $repository;
-        $this->headerRepository = $headerRepository;
+        $this->repository = $repository;
     }
 
+    /**
+     * @param Guard $auth
+     * @param Request $request
+     * @param string $rp_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function lists(Guard $auth, Request $request, $rp_id)
     {
         $data    = $this->data($auth->user());

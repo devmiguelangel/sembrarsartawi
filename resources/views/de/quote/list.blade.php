@@ -12,7 +12,7 @@
   <div class="page-header">
       <div class="page-header-content">
           <div class="page-title">
-              <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Anulación de Pólizas</span></h4>
+              <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Emisión de Solicitudes</span></h4>
           </div>
       </div>
 
@@ -28,16 +28,16 @@
                 
                 <div class="panel-body">
                     <div class="col-xs-12">
-                        {!! Form::open(['route' => ['de.cancel.lists', 'rp_id' => $rp_id], 'method' => 'get', 'class' => 'form-horizontal']) !!}
+                        {!! Form::open(['route' => ['de.issue.lists', 'rp_id' => $rp_id], 'method' => 'get', 'class' => 'form-horizontal']) !!}
                           <div class="col-xs-12 col-md-12">
-                            @include('report.partials.inputs-search')
+                            @include('report.partials.inputs-search', ['type' => 'Q'])
                           </div>
                         {!! Form::close() !!}
 
-                        <table class="table datatable-fixed-left table-striped" width="100%" ng-controller="CancellationController">
+                        <table class="table datatable-fixed-left table-striped" width="100%">
                           <thead>
                             <tr>
-                              <th>Nro. de Póliza</th>
+                              <th>Nro. de Cotización</th>
                               <th>Cliente</th>
                               <th>C.I.</th>
                               <th>Monto Solicitado</th>
@@ -46,7 +46,6 @@
                               <th>Usuario</th>
                               <th>Sucursal / Agencia</th>
                               <th>Fecha de Ingreso</th>
-                              <th>Certificados Anulados</th>
                               <th>Acción</th>
                             </tr>
                           </thead>
@@ -54,7 +53,7 @@
                             @foreach ($headers as $header)
                               @foreach ($header->details as $detail)
                                 <tr>
-                                  <td>{{ $header->prefix }}-{{ $header->issue_number }}</td>
+                                  <td>{{ $header->quote_number }}</td>
                                   <td>{{ $detail->client->full_name }}</td>
                                   <td>{{ $detail->client->dni }} {{ $detail->client->extension }}</td>
                                   <td>{{ number_format($header->amount_requested, '2', '.', ',') }}</td>
@@ -68,7 +67,6 @@
                                   <td>
                                     {{ $header->created_date }}
                                   </td>
-                                  <td>{{ 'NO' }}</td>
                                   <td>
                                     <ul class="icons-list">
                                         <li class="dropdown">
@@ -77,15 +75,20 @@
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li>
-                                                    <a href="{{ route('de.cancel.create', ['rp_id' => $rp_id, 'header_id' => encode($header->id)]) }}" 
-                                                      ng-click="cancelCreate($event)">
-                                                      <i class="icon-cancel-circle2"></i> Anular
+                                                  @if ($header->days_from_creation > $parameter->expiration)
+                                                    <a href="#">
+                                                      <span class="label label-danger">Fecha limite de emisión caducada</span>
                                                     </a>
+                                                  @else
+                                                    <a href="{{ route('de.result', ['rp_id' => $rp_id, 'header_id' => encode($header->id)]) }}" >
+                                                      <i class="icon-database-edit2"></i> Emitir Solicitud
+                                                    </a>
+                                                  @endif
                                                 </li>
                                                 <li>
-                                                    <a href="#" onclick="cargaModal({{ $header->id }},'{{ Session::token() }}', 'slip', 'POST', 'emision')" data-toggle="modal" data-target="#modal_general">
-                                                        <i class="icon-plus2"></i> Ver Certificado de Desgravamen
-                                                    </a>
+                                                  <a href="#" onclick="cargaModal({{ $header->id }},'{{ Session::token() }}', 'slip', 'POST', 'emision')" data-toggle="modal" data-target="#modal_general">
+                                                      <i class="icon-plus2"></i> Ver Solicitud
+                                                  </a>
                                                 </li>
                                             </ul>
                                         </li>
