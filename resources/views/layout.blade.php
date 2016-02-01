@@ -18,10 +18,11 @@
     {!! Html::style('css/style.css') !!}
     {!! Html::style('css/style_inbox.css') !!}
     {!! Html::style('css/animate.min.css') !!}
+    {!! Html::style('css/jquery.loading.css') !!}
             <!-- /global stylesheets -->
     <!-- Core JS files -->
-    {!! Html::script('assets/js/plugins/loaders/pace.min.js') !!}
     {!! Html::script('assets/js/core/libraries/jquery.min.js') !!}
+    {!! Html::script('assets/js/plugins/loaders/pace.min.js') !!}
     {!! Html::script('assets/js/core/libraries/bootstrap.min.js') !!}
     {!! Html::script('assets/js/plugins/loaders/blockui.min.js') !!}
     {!! Html::script('assets/js/plugins/ui/nicescroll.min.js') !!}
@@ -74,6 +75,7 @@
     
     <!--fin notificacion-->
     
+    {!! Html::script('js/jquery.loading.min.js') !!}
     
 </head>
 <body class="layout-boxed" ng-app="sibas">
@@ -117,7 +119,7 @@
 
 @include('partials.popup')
 
-<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+{!! Html::script('js/app.js') !!}
 
 </body>
 </html>

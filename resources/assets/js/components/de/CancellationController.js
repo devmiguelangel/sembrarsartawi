@@ -7,6 +7,8 @@ var cancellation = function ($scope, $http) {
   $scope.cancelCreate = function (event) {
     event.preventDefault();
 
+    $scope.easyLoading('body', 'dark', true);
+
     var href = event.target.href;
 
     $http.get(href, {
@@ -17,6 +19,8 @@ var cancellation = function ($scope, $http) {
         }
       }).error(function (err, status, headers, config) {
         console.log(err);
+      }).finally(function () {
+        $scope.easyLoading('body', '', false);
       });
   };
 
@@ -26,6 +30,8 @@ var cancellation = function ($scope, $http) {
    */
   $scope.cancelStore = function (event) {
     event.preventDefault();
+
+    $scope.easyLoading('#popup', 'dark', true);
 
     var action = $scope.getActionAttribute(event);
 
@@ -55,6 +61,8 @@ var cancellation = function ($scope, $http) {
         }
 
         console.log(err);
+      }).finally(function () {
+        $scope.easyLoading('#popup', '', false);
       });
 
   };
