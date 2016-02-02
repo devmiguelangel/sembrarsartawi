@@ -21,11 +21,29 @@ class ReportController extends Controller {
     }
 
     /**
+     * funcion determina tipo de reporte si es polizas emitidas o general
+     * @param type $request
+     */
+    public function tipoReporte($request) {
+        $flag = '';
+        if ($request->method() == 'GET') {
+            $url = explode('/', $request->path());
+            $flag = $url[2];
+        } else {
+            $flag = $request->get('flag');
+        }
+        return $flag;
+    }
+
+    /**
      * 
      * @param \Illuminate\Http\Request $request
      * @return type
      */
     public function general(Request $request) {
+        # tipo de reporte
+        $flag = $this->tipoReporte($request);
+        
         $users = $this->users;
         $agencies = $this->agencies;
         $cities = $this->cities;
@@ -41,8 +59,11 @@ class ReportController extends Controller {
                 ->join('ad_users', 'op_de_headers.ad_user_id', '=', 'ad_users.id')
                 ->join('ad_coverages', 'op_de_headers.ad_coverage_id', '=', 'ad_coverages.id')
                 ->select('op_de_headers.policy_number', 'op_de_headers.id', 'ad_coverages.name', 'op_de_headers.operation_number', 'op_de_headers.amount_requested', 'op_de_headers.currency', 'op_de_headers.term', 'op_de_headers.type_term', 'op_de_headers.total_rate', 'op_de_headers.total_premium', 'op_de_headers.date_issue', 'ad_users.username', 'ad_users.full_name')
-                //edw-->->where('op_de_headers.issued', 1)
                 ->where('op_de_headers.type', 'I');
+        
+        if($flag == 2)
+            $query->where('op_de_headers.issued', 1);
+        
         $details = array();
         $result = array();
         $flagClient = 0;
@@ -103,6 +124,21 @@ class ReportController extends Controller {
             # fecha de emision final
             if ($request->get('fecha_fin'))
                 $query->where('op_de_headers.date_issue', '<=', date('Y-m-d', strtotime('+1 days', strtotime(str_replace('/', '-', $request->get('fecha_fin'))))));
+            
+            # anulados
+            if ($request->get('anulados')){
+                switch ($request->get('anulados')) {
+                    case 1:
+                        $query->where('op_de_headers.canceled', 1);
+                        break;
+                    case 2:
+                        $query->where('op_de_headers.canceled', 0);
+                        break;
+                    default:
+                        break;
+                }
+            }
+                
 
             # extencion cliente
             if ($request->get('extension'))
@@ -143,8 +179,8 @@ class ReportController extends Controller {
         # validacion exporta xls
         if ($request->get('xls_download'))
             $this->exportXls($result, 'General', 1);
-
-        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm'));
+        
+        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag'));
     }
     
     /**
@@ -426,6 +462,7 @@ class ReportController extends Controller {
             'pendiente' => ($request->get('pendiente')) ? $request->get('pendiente') : '',
             'subsanado' => ($request->get('subsanado')) ? $request->get('subsanado') : '',
             'observado' => ($request->get('observado')) ? $request->get('observado') : '',
+            'anulados' => ($request->get('anulados')) ? $request->get('anulados') : '3',
         );
         return $arr;
     }

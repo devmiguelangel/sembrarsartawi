@@ -9,14 +9,22 @@
 @endsection
 
 @section('menu-header')
+
+@if($flag == 1) 
+ @var $title = 'Reporte General' 
+ @var $sub_title = 'Listado de Pólizas' 
+@else 
+ @var $title = 'Reporte Polizas Emitidas' 
+ @var $sub_title = 'Listado de Pólizas Emitidas' 
+@endif
 <div class="page-header">
     <div class="page-header-content">
         <div class="page-title">
-            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Reporte General</span></h4>
+            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">{{ $title }}</span></h4>
 
             <ul class="breadcrumb breadcrumb-caret position-right">
                 <li><a href="">Inicio</a></li>
-                <li class="active">Reporte General</li>
+                <li class="active">{{ $title }}</li>
             </ul>
         </div>
 
@@ -34,8 +42,8 @@
                 <h6 class="form-wizard-title2 text-semibold">
                     <span class="col-md-12">
                         <span class="form-wizard-count">R</span>
-                        Reporte General
-                        <small class="display-block">Listado de Pólizas Emitidas</small>
+                        {{ $title }}
+                        <small class="display-block">{{ $sub_title }}</small>
                     </span>
                 </h6>
             </div>
@@ -118,8 +126,8 @@
                                 </div>
                                 
                             </div>
-                            <div class="col-xs-12 col-md-7">
-                                <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="form-group col-md-8">
                                     <label class="control-label col-lg-1">Fecha: </label>
                                     <label class="control-label col-lg-1">Desde: </label>
                                     <div class="col-lg-4">
@@ -136,9 +144,28 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if($flag == 2)
+                                <div class="form-group col-md-4">
+                                    <label class="radio-inline radio-right">Anulados: </label>
+                                    <label class="radio-inline radio-left">
+                                        <input type="radio" name="anulados" value="1" class="styled" @if($valueForm['anulados']==1) checked @endif>
+                                        Si
+                                    </label>
+                                    <label class="radio-inline radio-left">
+                                        <input type="radio" name="anulados" value="2" class="styled" @if($valueForm['anulados']==2) checked @endif>
+                                        No
+                                    </label>
+                                    <label class="radio-inline radio-left">
+                                        <input type="radio" name="anulados" value="3" class="styled" @if($valueForm['anulados']==3) checked @endif>
+                                        Todos
+                                    </label>
+                                </div>
+                                @endif
                             </div>
                             <input type="hidden" id="xls_download" name="xls_download" value="0">
+                            <input type="hidden" id="flag" name="flag" value="{{ $flag }}">
                         </div>
+                        @if($flag == 1)
                         <div class="col-md-12">
                             <div class="panel panel-flat">
                                 <div class="panel-body">
@@ -205,13 +232,13 @@
                                             </label>
                                         </div>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </div>
+                        @endif
                         <div class="col-xs-12 col-md-12">
                             <div class="text-right">
-                                <a href="{{ route('report.report_general') }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
+                                <a href="{{ route('report.report_general',['flag'=>$flag]) }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
                                 <button type="submit" class="btn btn-primary" id="buscar" onclick="$('#xls_download').val(0);">Buscar <i class="icon-search4 position-right"></i></button>
                             </div>
                             <p>&nbsp;</p>

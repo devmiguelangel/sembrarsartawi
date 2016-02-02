@@ -5,7 +5,7 @@
  * Route Client DE
  */
 Route::group(['prefix' => '/'], function() {
-    Route::get('report/general', [
+    Route::get('report/general/{flag}', [
         'as' => 'report.report_general',
         'uses' => 'Report\ReportController@general'
     ]);
