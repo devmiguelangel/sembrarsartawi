@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAdImagesTable extends Migration
+class CreateAdContentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,15 @@ class CreateAdImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ad_images', function (Blueprint $table) {
+        Schema::create('ad_contents', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('ad_retailer_id')->unsigned();
-            $table->mediumText('description');
+            $table->integer('ad_retailer_product_id')->unsigned();
+            $table->string('title', 140);
+            $table->longText('content');
             $table->text('file');
-            $table->enum('type', array_keys(config('base.retailer_image_types')));
             $table->timestamps();
 
-            $table->foreign('ad_retailer_id')->references('id')->on('ad_retailers');
+            $table->foreign('ad_retailer_product_id')->references('id')->on('ad_retailer_products');
         });
     }
 
@@ -31,6 +31,6 @@ class CreateAdImagesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('ad_images');
+        Schema::drop('ad_contents');
     }
 }

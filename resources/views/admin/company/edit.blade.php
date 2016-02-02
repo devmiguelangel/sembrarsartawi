@@ -62,7 +62,7 @@
 
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">
-                        Guardar <i class="icon-arrow-right14 position-right"></i>
+                        Guardar <i class="icon-floppy-disk position-right"></i>
                     </button>
                     <input type="hidden" name="id_company", id="id_company", value="{{$query->id}}">
                     <input type="hidden" name="aux_file" id="aux_file" value="{{$query->image}}">

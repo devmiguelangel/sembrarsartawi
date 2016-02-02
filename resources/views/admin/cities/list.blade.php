@@ -38,7 +38,7 @@
 
         </div>
         @if($query->count()>0)
-            <table class="table datatable-basic">
+            <table class="table datatable-basic table-bordered">
                 <thead>
                 <tr>
                     <th>Departamento</th>

@@ -4,6 +4,7 @@ namespace Sibas\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Str;
 use Sibas\Entities\City;
 use Sibas\Entities\Retailer;
 use Sibas\Http\Requests;
@@ -49,14 +50,23 @@ class CityAdminController extends BaseController
      */
     public function store(Request $request)
     {
+        $slug = Str::slug($request->input('txtSucursal'));
+
         $query_int = new City();
         $query_int->name=$request->input('txtSucursal');
         $query_int->abbreviation=$request->input('txtCodigo');
+        $query_int->slug=$slug;
         if($query_int->save()) {
             if($request->input('id_retailer')!=0){
                 $id_city=$query_int->id;
                 $query_re_cit = \DB::table('ad_retailer_cities')->insert(
-                    ['ad_retailer_id'=>$request->input('id_retailer'), 'ad_city_id'=>$id_city, 'active'=>true]
+                    [
+                        'ad_retailer_id'=>$request->input('id_retailer'),
+                        'ad_city_id'=>$id_city,
+                        'active'=>true,
+                        'created_at'=>date("Y-m-d H:i:s"),
+                        'updated_at'=>date("Y-m-d H:i:s")
+                    ]
                 );
             }
             return redirect()->route('admin.cities.list', ['nav' => 'city', 'action' => 'list']);
@@ -101,9 +111,11 @@ class CityAdminController extends BaseController
      */
     public function update(Request $request)
     {
+        $slug = Str::slug($request->input('txtSucursal'));
         $query_update = City::where('id', $request->input('id_depto'))->first();
         $query_update->name=$request->input('txtSucursal');
         $query_update->abbreviation=$request->input('txtCodigo');
+        $query_update->slug=$slug;
         if($query_update->save()){
             if($request->input('id_retailer')!=0){
                 $query_re = \DB::table('ad_retailer_cities')

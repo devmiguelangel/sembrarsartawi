@@ -434,16 +434,16 @@
             5: 'label label-success',
         },
         rules: {
-            midChar: 2,
+            midChar: 8, //minimo caracteres
             consecAlphaUC: 2,
             consecAlphaLC: 2,
-            consecNumber: 2,
-            seqAlpha: 3,
-            seqNumber: 3,
-            seqSymbol: 3,
-            length: 4,
-            number: 4,
-            symbol: 6
+            consecNumber: 2,//numeros consecutivos
+            seqAlpha: 3, //secuencia alfabetica
+            seqNumber: 3, //secuencia de numeros
+            seqSymbol: 3, //secuencia de simbolos
+            length: 4, //cantidad tamaño
+            number: 4, //cantidad numero
+            symbol: 6  //cantidad simbolos
         }
     };
 

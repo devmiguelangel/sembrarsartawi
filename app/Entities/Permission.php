@@ -4,7 +4,8 @@ namespace Sibas\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class McMcCertificateQuestionnaireQuestions extends Model
+class Permission extends Model
 {
-    //
+    protected $table = 'ad_permissions';
+
 }

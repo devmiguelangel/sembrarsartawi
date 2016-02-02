@@ -21,14 +21,16 @@
                 <small class="display-block">Listado de registros</small>
             </h5>
             <div class="heading-elements">
-                <ul class="icons-list">
-                    <li>
-                        <a href="{{route('admin.retailer.new', ['nav'=>'retailer', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
-                            <i class="icon-file-plus text-primary"></i>
-                            <span>Agregar Retailer</span>
-                        </a>
-                    </li>
-                </ul>
+                @if(count($query)==0)
+                    <ul class="icons-list">
+                        <li>
+                            <a href="{{route('admin.retailer.new', ['nav'=>'retailer', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
+                                <i class="icon-file-plus text-primary"></i>
+                                <span>Agregar Retailer</span>
+                            </a>
+                        </li>
+                    </ul>
+                @endif
             </div>
         </div>
 
@@ -69,17 +71,17 @@
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a href="{{route('admin.retailer.edit', ['nav'=>'retailer', 'action'=>'edit', 'id_retailer'=>$data->id])}}">
-                                                <i class="icon-file-pdf"></i> Editar
+                                                <i class="icon-pencil3"></i> Editar
                                             </a>
                                         </li>
                                         <li>
                                             @if((boolean)$data->active==true)
                                                 <a href="#" id="{{$data->id}}|inactive|desactivar" class="confirm_active">
-                                                    <i class="icon-file-excel"></i> Desactivar
+                                                    <i class="icon-cross"></i> Desactivar
                                                 </a>
                                             @else
                                                 <a href="#" id="{{$data->id}}|active|activar" class="confirm_active">
-                                                    <i class="icon-file-excel"></i> Activar
+                                                    <i class="icon-checkmark4"></i> Activar
                                                 </a>
                                             @endif
                                         </li>

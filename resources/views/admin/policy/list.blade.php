@@ -23,7 +23,7 @@
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li>
-                        <a href="{{route('admin.policy.new', ['nav'=>'policynumber', 'action'=>'new', 'id_retailer_products'=>$id_retailer_products, 'id_company'=>$id_company])}}" class="btn btn-link btn-float has-text">
+                        <a href="{{route('admin.policy.new', ['nav'=>'policynumber', 'action'=>'new', 'id_retailer_products'=>$id_retailer_products, 'id_company'=>$id_company, 'code_product'=>$code_product])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
                             <span>Agregar numero poliza</span>
                         </a>
@@ -40,7 +40,10 @@
             <thead>
             <tr>
                 <th>Numero de poliza</th>
-                <th>Poliza final</th>
+                @if($code_product=='vi')
+                    <th>Poliza final</th>
+                    <th>Auto incremento</th>
+                @endif
                 <th>Fecha inicial</th>
                 <th>Fecha final</th>
                 <th>Estado</th>
@@ -51,7 +54,16 @@
             @foreach($query as $data)
                 <tr>
                 <td>{{$data->number}}</td>
-                <td>{{$data->end_policy}}</td>
+                @if($code_product=='vi')
+                    <td>{{$data->end_policy}}</td>
+                    <td>
+                        @if((boolean)$data->auto_increment==true)
+                            SI
+                        @else
+                            NO
+                        @endif
+                    </td>
+                @endif
                 <td>{{$data->date_begin}}</td>
                 <td>{{$data->date_end}}</td>
                 <td>
@@ -69,15 +81,15 @@
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="{{route('admin.policy.edit', ['nav'=>'policynumber', 'action'=>'edit', 'id_policies'=>$data->id, 'id_company'=>$id_company, 'id_retailer_products'=>$id_retailer_products])}}"><i class="icon-file-pdf"></i> Editar</a></li>
+                                <li><a href="{{route('admin.policy.edit', ['nav'=>'policynumber', 'action'=>'edit', 'id_policies'=>$data->id, 'id_company'=>$id_company, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}"><i class="icon-pencil3"></i> Editar</a></li>
                                 <li>
                                     @if((boolean)$data->active==true)
                                         <a href="#" id="{{$data->id}}|inactive|desactivar" class="confirm_active">
-                                            <i class="icon-file-excel"></i> Desactivar
+                                            <i class="icon-cross2"></i> Desactivar
                                         </a>
                                     @else
                                         <a href="#" id="{{$data->id}}|active|activar" class="confirm_active">
-                                            <i class="icon-file-excel"></i> Activar
+                                            <i class="icon-checkmark4"></i> Activar
                                         </a>
                                     @endif
                                 </li>

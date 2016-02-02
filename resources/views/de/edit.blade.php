@@ -350,14 +350,10 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-3 label_required">Número de Póliza: </label>
                                 <div class="col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Nro</span>
-                                        {!! Form::text('policy_number', old('policy_number', $header->policy_number), [
-                                            'class' => 'form-control ui-wizard-content',
-                                            'autocomplete' => 'off',
-                                            'placeholder' => 'Nombre de Póliza'])
-                                        !!}
-                                    </div>
+                                    {!! SelectField::input('policy_number', $data['policies']->toArray(), [
+                                        'class' => 'select-search'],
+                                        old('policy_number', $header->policy_number))
+                                    !!}
                                     <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('policy_number') }}</label>
                                 </div>
                             </div>
@@ -369,8 +365,12 @@
                                 @endif
                             @elseif($header->type === 'I')
                                 @if(! $header->facultative)
+                                    <a href="{{ route('home', []) }}" class="btn btn-info">
+                                        Guardar y Cerrar <i class="icon-floppy-disk position-right"></i>
+                                    </a>
+
                                     <a href="{{ route('de.issue', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-primary">
-                                        Emitir <i class="icon-floppy-disk position-right"></i>
+                                        Emitir <i class="icon-play position-right"></i>
                                     </a>
                                 @else
                                     @if($header->facultative && ! $header->approved && ! $header->facultative_sent && ! isset($_GET['idf']))

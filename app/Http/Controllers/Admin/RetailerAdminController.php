@@ -56,7 +56,7 @@ class RetailerAdminController extends BaseController
         $slug = str_replace($especiales, $reemplazos, $request->input('txtRetailer'));
         //dd($request->file('txtFile'));
         $file = $request->file('txtFile');
-        $destination_path = 'assets/img/';
+        $destination_path = 'assets/files/';
         $file_id = date('U') . '_' . md5(uniqid('@F#1$' . time(), true));
         $filename = $file_id . '.' . $file->getClientOriginalExtension();
         $file->move($destination_path, $filename);
@@ -116,7 +116,7 @@ class RetailerAdminController extends BaseController
         if(count($request->file('txtFile'))>0){
             // upload the image //
             $file = $request->file('txtFile');
-            $destination_path = 'assets/img/';
+            $destination_path = 'assets/files/';
             $file_id = date('U') . '_' . md5(uniqid('@F#1$' . time(), true));
             $filename = $file_id . '.' . $file->getClientOriginalExtension();
             $file->move($destination_path, $filename);

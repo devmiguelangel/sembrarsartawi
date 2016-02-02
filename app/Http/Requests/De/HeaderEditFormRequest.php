@@ -33,7 +33,7 @@ class HeaderEditFormRequest extends Request
             'term'             => 'required|integer|min:1',
             'type_term'        => 'required|in:' . $term_types,
             'operation_number' => 'numeric',
-            'policy_number'    => 'required|alpha_dash',
+            'policy_number'    => 'required|exists:ad_policies,number',
         ];
     }
 }

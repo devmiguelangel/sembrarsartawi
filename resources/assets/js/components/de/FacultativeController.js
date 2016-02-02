@@ -25,6 +25,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
   $scope.process = function (event) {
     event.preventDefault();
 
+    $scope.easyLoading('body', 'dark', true);
+
     var href = event.target.href;
 
     $http.get(href, {
@@ -38,6 +40,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
         }
       }).error(function (err, status, headers, config) {
         console.log(err);
+      }).finally(function () {
+        $scope.easyLoading('body', '', false);
       });
   };
 
@@ -47,6 +51,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
    */
   $scope.store = function (event) {
     event.preventDefault();
+
+    $scope.easyLoading('#popup', 'dark', true);
 
     var action = $scope.getActionAttribute(event);
 
@@ -89,6 +95,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
         }
 
         console.log(err);
+      }).finally(function () {
+        $scope.easyLoading('#popup', '', false);
       });
 
   };
@@ -100,6 +108,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
   $scope.observation = function (event) {
     event.preventDefault();
 
+    $scope.easyLoading('body', 'dark', true);
+
     var href = event.target.href;
 
     $http.get(href, {
@@ -110,6 +120,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
         }
       }).error(function (err, status, headers, config) {
         console.log(err);
+      }).finally(function () {
+        $scope.easyLoading('body', '', false);
       });
   };
 
@@ -119,6 +131,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
    */
   $scope.storeAnswer = function (event) {
     event.preventDefault();
+
+    $scope.easyLoading('#popup', 'dark', true);
 
     var action = $scope.getActionAttribute(event);
 
@@ -148,6 +162,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
         }
 
         console.log(err);
+      }).finally(function () {
+        $scope.easyLoading('#popup', '', false);
       });
 
   };
@@ -167,6 +183,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
 
       $scope.mcEnabled = true;
 
+      $scope.easyLoading('#popup', 'dark', true);
+
       $http.get(_mc, {
 
       }).success(function (data, status, headers, config) {
@@ -175,6 +193,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
           }
         }).error(function (err, status, headers, config) {
           console.log(err);
+        }).finally(function () {
+          $scope.easyLoading('#popup', '', false);
         });
 
     } else {
@@ -220,6 +240,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
   $scope.mcStore = function (event) {
     event.preventDefault();
 
+    $scope.easyLoading('#popup', 'dark', true);
+
     var action = $scope.getActionAttribute(event);
 
     CSRF_TOKEN = $scope.csrf_token();
@@ -251,6 +273,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
         }
 
         console.log(err);
+      }).finally(function () {
+        $scope.easyLoading('#popup', '', false);
       });
 
   };

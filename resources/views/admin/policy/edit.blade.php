@@ -32,7 +32,13 @@
                 -->
             </div>
         </div>
-
+@if($code_product=='vi')
+    @var $class_input='form-control required number'
+    @var $hide = ''
+@else
+    @var $class_input=''
+    @var $hide = 'display: none;'
+@endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'update_policy', 'name' => 'UpdateForm', 'id' => 'UpdateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -52,11 +58,30 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="{{$hide}}">
                         <label class="control-label col-lg-2">Póliza Final <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" name="txtEndPoliza" id="txtEndPoliza" value="{{$query_policy->end_policy}}" class="form-control required number">
+                            <input type="text" name="txtEndPoliza" id="txtEndPoliza" value="{{$query_policy->end_policy}}" class="{{$class_input}}">
                         </div>
+                    </div>
+
+                    <div class="form-group" style="{{$hide}}">
+                        <label class="control-label col-lg-2">Auto Incremento</label>
+                        <label class="radio-inline">
+                            @if((boolean)$query_policy->auto_increment==true)
+                                <input type="radio" name="auto_inc" class="styled" checked="checked" value="1">SI
+                            @else
+                                <input type="radio" name="auto_inc" class="styled" value="1">SI
+                            @endif
+                        </label>
+
+                        <label class="radio-inline">
+                            @if((boolean)$query_policy->auto_increment==false)
+                                <input type="radio" name="auto_inc" class="styled" checked="checked" value="0">NO
+                            @else
+                                <input type="radio" name="auto_inc" class="styled" value="0">NO
+                            @endif
+                        </label>
                     </div>
 
                     <div class="form-group">
@@ -83,14 +108,15 @@
 
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">
-                        Guardar <i class="icon-arrow-right14 position-right"></i>
+                        Guardar <i class="icon-floppy-disk position-right"></i>
                     </button>
-                    <a href="{{route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_company'=>$id_company, 'id_retailer_products'=>$id_retailer_products])}}" class="btn btn-primary">
+                    <a href="{{route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_company'=>$id_company, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}" class="btn btn-primary">
                         Cancelar <i class="icon-arrow-right14 position-right"></i>
                     </a>
                     <input type="hidden" name="id_policies" id="id_policies" value="{{$id_policies}}">
                     <input type="hidden" name="id_company" id="id_company" value="{{$id_company}}">
                     <input type="hidden" name="id_retailer_products" id="id_retailer_products", value="{{$id_retailer_products}}">
+                    <input type="hidden" name="code_product" id="code_product" value="{{$code_product}}">
                 </div>
             {!!Form::close()!!}
         </div>

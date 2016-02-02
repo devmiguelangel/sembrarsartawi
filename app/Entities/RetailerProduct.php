@@ -53,4 +53,12 @@ class RetailerProduct extends Model
     {
         return $this->belongsToMany(Email::class, 'ad_retailer_product_emails', 'ad_retailer_product_id', 'ad_email_id');
     }
+
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class,
+                                    'ad_retailer_product_activities',
+                                    'ad_retailer_product_id',
+                                    'ad_activity_id');
+    }
 }

@@ -101,7 +101,7 @@ class MailController extends Controller
         });
 
         if (count(Mail::failures()) > 0) {
-            //dd(Mail::failures);
+            // dd(Mail::failures);
             return false;
         }
 
@@ -126,7 +126,7 @@ class MailController extends Controller
                 $profiles = [ $profiles ];
             }
 
-            $users = $this->userRepository->getUserByProfile($this->user, $profiles);
+            $users = $this->userRepository->getUsersByProfile($this->user, $profiles);
 
             foreach ($users as $user) {
                 array_push($this->receivers, [

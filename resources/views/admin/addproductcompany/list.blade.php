@@ -74,11 +74,11 @@
                                 <li>
                                     @if((boolean)$data->active==true)
                                         <a href="#" id="{{$data->id_company_product}}|inactive|desactivar" class="confirm_active">
-                                            <i class="icon-file-excel"></i> Desactivar
+                                            <i class="icon-cross"></i> Desactivar
                                         </a>
                                     @elseif((boolean)$data->active==false)
                                         <a href="#" id="{{$data->id_company_product}}|active|activar" class="confirm_active">
-                                            <i class="icon-file-excel"></i> Activar
+                                            <i class="icon-checkmark4"></i> Activar
                                         </a>
                                     @endif
                                 </li>

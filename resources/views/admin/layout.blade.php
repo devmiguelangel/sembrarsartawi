@@ -11,12 +11,14 @@
     {!! Html::style('assets/css/icons/icomoon/styles.css') !!}
     {!! Html::style('assets/css/icons/fontawesome/styles.min.css') !!}
     {!! Html::style('assets/css/bootstrap.min.css') !!}
+    {!! Html::style('css/bootstrap-combined.min.css') !!}
     {!! Html::style('assets/css/core.min.css') !!}
     {!! Html::style('assets/css/components.admin.min.css') !!}
     {!! Html::style('assets/css/colors.min.css') !!}
     {!! Html::style('css/style.css') !!}
     {!! Html::style('css/style_inbox.css') !!}
     {!! Html::style('css/animate.min.css') !!}
+
     <!-- /global stylesheets -->
     <!-- Core JS files -->
     {!! Html::script('assets/js/plugins/loaders/pace.min.js') !!}
@@ -26,6 +28,7 @@
     {!! Html::script('assets/js/plugins/ui/nicescroll.min.js') !!}
     {!! Html::script('assets/js/plugins/ui/drilldown.js') !!}
     {!! Html::script('assets/js/plugins/notifications/bootbox.min.js')!!}
+    {!! Html::script('js/strength-meter.js')!!}
     <!-- /core JS files -->
     <!-- Theme JS files -->
     {!! Html::script('assets/js/plugins/forms/validation/validate.min.js') !!}
@@ -80,7 +83,7 @@
 <div class="navbar navbar-inverse">
     <div class="navbar-header">
         <a class="navbar-brand" href="#">
-            <img src="{{ asset('images/assets/abrenet-logo.png') }}" style="margin-top: -9px; height: 38px;">
+            <img src="{{ asset('images/assets/abrenet-logo-admin.png') }}" style="margin-top: -9px; height: 38px;">
         </a>
 
         <ul class="nav navbar-nav visible-xs-block">
@@ -105,7 +108,7 @@
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
                     <li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
-                    <li><a href="#"><i class="icon-switch2"></i> Logout</a></li>
+                    <li><a href="{{route('auth.logout')}}"><i class="icon-switch2"></i> Salir</a></li>
                 </ul>
             </li>
         </ul>

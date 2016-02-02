@@ -64,21 +64,21 @@
                                 <i class="icon-menu9"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="{{route('admin.company.edit', ['nav'=>'company', 'action'=>'edit', 'id_company'=>$data->id])}}"><i class="icon-file-pdf"></i> Editar</a></li>
+                                <li><a href="{{route('admin.company.edit', ['nav'=>'company', 'action'=>'edit', 'id_company'=>$data->id])}}"><i class="icon-pencil3"></i> Editar</a></li>
                                 <li>
                                     @if((boolean)$data->active==true)
                                         <a href="#" id="{{$data->id}}|inactive|desactivar" class="confirm_active">
-                                            <i class="icon-file-excel"></i> Desactivar
+                                            <i class="icon-cross"></i> Desactivar
                                         </a>
                                     @else
                                         <a href="#" id="{{$data->id}}|active|activar" class="confirm_active">
-                                            <i class="icon-file-excel"></i> Activar
+                                            <i class="icon-checkmark4"></i> Activar
                                         </a>
                                     @endif
                                 </li>
                                 @if((boolean)$data->active==true)
                                     <li><a href="{{route('admin.addproductcompany.list', ['nav'=>'addprocom', 'action'=>'list', 'id_company'=>$data->id])}}">
-                                            <i class="icon-file-excel"></i>Agregar producto
+                                            <i class="icon-drawer-in"></i>Agregar producto
                                         </a>
                                     </li>
                                 @endif
