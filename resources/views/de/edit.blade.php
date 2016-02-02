@@ -112,7 +112,7 @@
                     </script>
                 @endif
 
-                @if(session('success_detail'))                    
+                @if(session('success_detail'))
                     <script>
                         $(function(){messageAction('succes',"{{ session('success_detail') }}");});
                     </script>
@@ -166,7 +166,7 @@
                                         <a href="{{ route('de.beneficiary.edit', [
                                             'rp_id'     => $rp_id,
                                             'header_id' => $header_id,
-                                            'detail_id' => encode($detail->id)]) }}" 
+                                            'detail_id' => encode($detail->id)]) }}"
                                             title="Completado" class="label label-success"
                                             ng-click="detailDe.editBeneficiary($event)">
                                             Completado
@@ -175,7 +175,7 @@
                                         <a href="{{ route('de.beneficiary.create', [
                                             'rp_id'     => $rp_id,
                                             'header_id' => $header_id,
-                                            'detail_id' => encode($detail->id)]) }}" 
+                                            'detail_id' => encode($detail->id)]) }}"
                                             title="Pendiente" class="label label-danger"
                                             ng-click="detailDe.createBeneficiary($event)">
                                             Pendiente
@@ -188,16 +188,20 @@
                                             <span class="label label-success">Completado</span>
                                         @else
                                             <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
-                                                        'header_id' => $header_id,
-                                                        'detail_id' => encode($detail->id)]) }}" title="Completado">
-                                                <span class="label label-success">Completado</span>
+                                                'header_id' => $header_id,
+                                                'detail_id' => encode($detail->id)]) }}"
+                                                title="Completado" class="label label-success"
+                                                ng-click="detailDe.editBalance($event)">
+                                                Completado
                                             </a>
                                         @endif
                                     @else
                                         <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
-                                                        'header_id' => $header_id,
-                                                        'detail_id' => encode($detail->id)]) }}" title="Pendiente">
-                                            <span class="label label-danger">Pendiente</span>
+                                                'header_id' => $header_id,
+                                                'detail_id' => encode($detail->id)]) }}"
+                                                title="Pendiente" class="label label-danger"
+                                                ng-click="detailDe.editBalance($event)">
+                                            Pendiente
                                         </a>
                                     @endif
                                 </td>
@@ -224,7 +228,7 @@
                                                         <a href="{{ route('de.beneficiary.create', [
                                                             'rp_id'     => $rp_id,
                                                             'header_id' => $header_id,
-                                                            'detail_id' => encode($detail->id)]) }}" 
+                                                            'detail_id' => encode($detail->id)]) }}"
                                                             ng-click="detailDe.createBeneficiary($event)">
                                                             <i class="icon-plus2"></i> Registrar Beneficiarios
                                                         </a>
@@ -243,7 +247,8 @@
                                                         <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
                                                             'header_id' => $header_id,
                                                             'detail_id' => encode($detail->id)
-                                                            ]) }}">
+                                                            ]) }}"
+                                                            ng-click="detailDe.editBalance($event)">
                                                             <i class="icon-plus2"></i>
                                                             @if($detail->cumulus > 0)
                                                                 Editar Saldo deudor
@@ -269,14 +274,14 @@
                     </div>
 
                     @if (! isset($_GET['idf']))
-                        {!! Form::open(['route' => ['de.update', 
-                            'rp_id'     => $rp_id, 
+                        {!! Form::open(['route' => ['de.update',
+                            'rp_id'     => $rp_id,
                             'header_id' => $header_id
                             ], 'method' => 'put', 'class' => 'form-horizontal']) !!}
                     @else
-                        {!! Form::open(['route' => ['de.update.fa', 
-                            'rp_id'          => $rp_id, 
-                            'header_id'      => $header_id, 
+                        {!! Form::open(['route' => ['de.update.fa',
+                            'rp_id'          => $rp_id,
+                            'header_id'      => $header_id,
                             'id_facultative' => e($_GET['idf'])
                             ], 'method' => 'put', 'class' => 'form-horizontal']) !!}
                     @endif
@@ -390,8 +395,8 @@
                                             <a href="{{ route('home') }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
 
                                             {!! Form::button('Solicitud enviada (Guardar y Cerrar) <i class="icon-warning position-right"></i>', [
-                                                'type'  => 'submit', 
-                                                'class' => 'btn btn-primary' 
+                                                'type'  => 'submit',
+                                                'class' => 'btn btn-primary'
                                             ]) !!}
                                         @endif
                                     @endif
