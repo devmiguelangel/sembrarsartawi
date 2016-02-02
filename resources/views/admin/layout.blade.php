@@ -18,6 +18,7 @@
     {!! Html::style('css/style.css') !!}
     {!! Html::style('css/style_inbox.css') !!}
     {!! Html::style('css/animate.min.css') !!}
+    {!! Html::style('summernote/dist/summernote.css') !!}
 
     <!-- /global stylesheets -->
     <!-- Core JS files -->
@@ -46,6 +47,7 @@
     {!! Html::script('assets/js/pages/form_bootstrap_select.js') !!}
     {!! Html::script('assets/js/pages/form_validation.js') !!}
     {!! Html::script('js/functions.js') !!}
+    {!! Html::script('summernote/dist/summernote.min.js') !!}
     <!-- /theme JS files -->
 
     <!--picker date-->

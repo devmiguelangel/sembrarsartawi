@@ -126,8 +126,13 @@
                             </ul>
                         </li>-->
                         <li class="{{Request::is('report/general') ? 'active':''}}">
-                            <a href="{{ route('report.report_general') }}">
+                            <a href="{{ route('report.report_general',['flag'=>1]) }}">
                                 General
+                            </a>
+                        </li>
+                        <li class="{{Request::is('report/general') ? 'active':''}}">
+                            <a href="{{ route('report.report_general',['flag'=>2]) }}" title="Polizas Emitidas">
+                                Polizas Emitidas
                             </a>
                         </li>
                         <li  class="{{Request::is('report/cotizacion') ? 'active':''}}">
