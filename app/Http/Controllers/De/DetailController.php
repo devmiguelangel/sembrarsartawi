@@ -4,6 +4,7 @@ namespace Sibas\Http\Controllers\De;
 
 use Illuminate\Http\Response;
 use Sibas\Entities\Client;
+use Sibas\Entities\De\Detail;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Client\ClientComplementFormRequest;
@@ -273,28 +274,39 @@ class DetailController extends Controller
 
     public function editBalance($rp_id, $header_id, $detail_id)
     {
-        if ($this->headerRepository->getHeaderById(decode($header_id))
-                && $this->repository->getDetailById(decode($detail_id))) {
-            $header = $this->headerRepository->getModel();
-            $detail = $this->repository->getModel();
+        if (request()->ajax()) {
+            if ($this->headerRepository->getHeaderById(decode($header_id))) {
+                $header = $this->headerRepository->getModel();
+                $detail = $header->details()->where('id', decode($detail_id))->first();
 
-            return view('client.de.balance', compact('rp_id', 'header', 'detail'));
+                if ($detail instanceof Detail) {
+                    $payload = view('client.de.balance', compact('rp_id', 'header', 'detail'));
+
+                    return response()->json([
+                        'payload'          => $payload->render(),
+                        'amount_requested' => $header->amount_requested,
+                        'balance'          => $detail->balance,
+                        'cumulus'          => $detail->cumulus,
+                    ]);
+                }
+            }
+
+            return response()->json(['err' => 'Unauthorized action.'], 401);
         }
 
         return redirect()->back()
             ->with(['error_detail' => 'El Saldo Deudor no puede ser editado']);
+
     }
 
     public function updateBalance(BalanceFormRequest $request, $rp_id, $header_id, $detail_id)
     {
-        if ($this->headerRepository->getHeaderById(decode($header_id))) {
-            $request['header'] = $this->headerRepository->getModel();
+        if ($request->ajax()) {
+            if ($this->headerRepository->getHeaderById(decode($header_id))) {
+                $request['header'] = $this->headerRepository->getModel();
 
-            if ($this->repository->getDetailById(decode($detail_id))) {
-                $detail = $this->repository->getModel();
-
-                if ($this->repository->updateBalance($request)) {
-                    $request['detail']          = $detail;
+                if ($this->repository->updateBalance($request, decode($detail_id))) {
+                    $request['detail']   = $this->repository->getModel();
                     $request['retailer'] = $request->user()->retailer->first();
 
                     $approved = true;
@@ -312,16 +324,16 @@ class DetailController extends Controller
 
                     $this->repository->setApprovedDetail($approved, $facultative);
 
-                    return redirect()->route('de.edit', compact('rp_id', 'header_id'))
-                        ->with(['success_detail' => 'El Saldo Deudor fue actualizado correctamente']);
+                    return response()->json([
+                        'location' => route('de.edit', compact('rp_id', 'header_id'))
+                    ]);
                 }
             }
 
+            return response()->json(['err'=>'Unauthorized action.'], 401);
         }
 
-        return redirect()->back()
-            ->with(['error_detail' => 'El Saldo Deudor no puede ser actualizado'])
-            ->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back();
     }
 
     /**
