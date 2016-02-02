@@ -156,6 +156,14 @@
                     <li class="active">Formulario editar registro</li>
                 @endif
             @endif
+        @elseif($nav=='contentde')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Tabla de datos</li>
+            @elseif($action=='new' || $action=='edit')
+                <li><a href="{{ route('admin.de.content.list', ['nav'=>'contentde', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Tabla de datos</a></li>
+                <li class="active">Formulario</li>
+            @endif
         @elseif($nav=='question')
             @if($action=='list')
                 <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
@@ -346,7 +354,10 @@
                 <li class="active">Parametros</li>
             @elseif($action=='edit')
                 <li><a href="{{ route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Listado registros</a></li>
-                <li class="active">Editar registro</li>
+                <li class="active">Editar datos</li>
+            @elseif($action=='new')
+                <li><a href="{{ route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Listado registros</a></li>
+                <li class="active">Nuevos datos</li>
             @elseif($action=='list_parameter_additional')
                 <li><a href="{{ route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Listado parametros</a></li>
                 <li class="active">Parametros adicionales</li>
@@ -355,12 +366,28 @@
                 <li><a href="{{ route('admin.vi.parameters.list-parameter-additional', ['nav'=>'vi', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product]) }}">parametros adicionales</a></li>
                 <li class="active">Nuevo registro</li>
             @endif
+        @elseif($nav=='listplansvi')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Planes</li>
+            @elseif($action=='edit' || $action=='new')
+                <li><a href="{{ route('admin.vi.planes.list', ['nav'=>'listplansvi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">listado planes</a></li>
+                <li class="active">Formulario</li>
+            @endif
         @elseif($nav=='addquestionvi')
             <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
             @if($action=='list')
                 <li class="active">Preguntas</li>
             @elseif($action=='new')
                 <li><a href="{{ route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">listado preguntas</a></li>
+                <li class="active">Formulario</li>
+            @endif
+        @elseif($nav=='contentvi')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Tabla de datos</li>
+            @elseif($action=='new' || $action=='edit')
+                <li><a href="{{ route('admin.vi.content.list', ['nav'=>'contentvi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Tabla de datos</a></li>
                 <li class="active">Formulario</li>
             @endif
         @elseif($nav=='email')
