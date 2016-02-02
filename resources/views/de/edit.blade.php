@@ -166,15 +166,18 @@
                                         <a href="{{ route('de.beneficiary.edit', [
                                             'rp_id'     => $rp_id,
                                             'header_id' => $header_id,
-                                            'detail_id' => encode($detail->id)]) }}" title="Completado">
-                                            <span class="label label-success">Completado</span>
+                                            'detail_id' => encode($detail->id)]) }}" 
+                                            title="Completado" class="label label-success"
+                                            ng-click="detailDe.editBeneficiary($event)">
+                                            Completado
                                         </a>
                                     @else
                                         <a href="{{ route('de.beneficiary.create', [
                                             'rp_id'     => $rp_id,
                                             'header_id' => $header_id,
-                                            'detail_id' => encode($detail->id)]) }}" title="Pendiente"
-                                            ng-click="detailDe.createBeneficiary($event)" class="label label-danger">
+                                            'detail_id' => encode($detail->id)]) }}" 
+                                            title="Pendiente" class="label label-danger"
+                                            ng-click="detailDe.createBeneficiary($event)">
                                             Pendiente
                                         </a>
                                     @endif
@@ -219,17 +222,18 @@
                                                 <li>
                                                     @if(is_null($detail->beneficiary))
                                                         <a href="{{ route('de.beneficiary.create', [
-                                                        'rp_id'     => $rp_id,
-                                                        'header_id' => $header_id,
-                                                        'detail_id' => encode($detail->id)]) }}" 
+                                                            'rp_id'     => $rp_id,
+                                                            'header_id' => $header_id,
+                                                            'detail_id' => encode($detail->id)]) }}" 
                                                             ng-click="detailDe.createBeneficiary($event)">
                                                             <i class="icon-plus2"></i> Registrar Beneficiarios
                                                         </a>
                                                     @else
                                                         <a href="{{ route('de.beneficiary.edit', [
-                                                        'rp_id'     => $rp_id,
-                                                        'header_id' => $header_id,
-                                                        'detail_id' => encode($detail->id)]) }}">
+                                                            'rp_id'     => $rp_id,
+                                                            'header_id' => $header_id,
+                                                            'detail_id' => encode($detail->id)]) }}"
+                                                            ng-click="detailDe.editBeneficiary($event)">
                                                             <i class="icon-plus2"></i> Editar Beneficiarios
                                                         </a>
                                                     @endif

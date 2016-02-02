@@ -17,25 +17,18 @@ class BeneficiaryRepository extends BaseRepository
      */
     public function storeBeneficiary($request)
     {
-        $this->data = $request->all();
-        $detail     = $this->data['detail'];
+        $this->data  = $request->all();
+        $this->model = $this->data['detail'];
 
-        $this->model = new Beneficiary([
-            'id'       => date('U'),
-            'coverage' => 'VI',
-        ]);
-
-        $this->setData();
+        $this->data['beneficiary_id'] = date('U');
 
         try {
-            if ($detail->beneficiary()->save($this->model)) {
-                return true;
-            }
+            $this->model->beneficiary()->create($this->setData());
         } catch(QueryException $e) {
             $this->errors = $e->getMessage();
         }
 
-        return false;
+        return $this->saveModel();
     }
 
     /**
@@ -44,23 +37,16 @@ class BeneficiaryRepository extends BaseRepository
      */
     public function updateBeneficiary($request)
     {
-        $this->data = $request->all();
-        $detail     = $this->data['detail'];
+        $this->data  = $request->all();
+        $this->model = $this->data['detail'];
 
-        if ($this->getBeneficiaryById(decode($this->data['beneficiary_id']))) {
-            $beneficiary = $this->getModel();
-            $this->setData();
-
-            try {
-                if ($detail->beneficiary()->update($beneficiary->toArray())) {
-                    return true;
-                }
-            } catch(QueryException $e) {
-                $this->errors = $e->getMessage();
-            }
+        try {
+            $this->model->beneficiary()->update($this->setData());
+        } catch(QueryException $e) {
+            $this->errors = $e->getMessage();
         }
 
-        return false;
+        return $this->saveModel();
     }
 
     public function getBeneficiaryById($beneficiary_id)
@@ -76,11 +62,15 @@ class BeneficiaryRepository extends BaseRepository
 
     private function setData()
     {
-        $this->model->first_name       = $this->data['first_name'];
-        $this->model->last_name        = $this->data['last_name'];
-        $this->model->mother_last_name = $this->data['mother_last_name'];
-        $this->model->dni              = $this->data['dni'];
-        $this->model->extension        = $this->data['extension'];
-        $this->model->relationship     = $this->data['relationship'];
+        return [
+            'id'               => $this->data['beneficiary_id'],
+            'coverage'         => 'VI',
+            'first_name'       => mb_strtoupper($this->data['first_name']),
+            'last_name'        => mb_strtoupper($this->data['last_name']),
+            'mother_last_name' => mb_strtoupper($this->data['mother_last_name']),
+            'dni'              => mb_strtoupper($this->data['dni']),
+            'extension'        => mb_strtoupper($this->data['extension']),
+            'relationship'     => mb_strtoupper($this->data['relationship']),
+        ];
     }
 }
