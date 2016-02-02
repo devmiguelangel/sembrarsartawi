@@ -33,7 +33,7 @@
 
         <div class="panel-body">
 
-            {!! Form::open(array('route' => 'create_parameter', 'name' => 'NewForm', 'id' => 'NewForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
+            {!! Form::open(array('route' => 'create_parameter_aditional_vi', 'name' => 'NewForm', 'id' => 'NewForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
             <fieldset class="content-group">
 
                 <div class="form-group">
@@ -77,28 +77,28 @@
                 <div class="form-group">
                     <label class="control-label col-lg-2">Monto Minimo <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input type="text" name="monto_min" id="monto_min" class="form-control required number">
+                        <input type="text" name="monto_min" id="monto_min" class="form-control required number" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-lg-2">Monto Máximo <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input type="text" name="monto_max" id="monto_max" class="form-control required number">
+                        <input type="text" name="monto_max" id="monto_max" class="form-control required number" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-lg-2">Numero Titulares <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input type="text" name="num_titu" id="num_titu" class="form-control required number">
+                        <input type="text" name="num_titu" id="num_titu" class="form-control required number" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-lg-2">Caducidad Cotizacion <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input type="text" name="caduc" id="caduc" class="form-control required number">
+                        <input type="text" name="caduc" id="caduc" class="form-control required number" autocomplete="off">
                     </div>
                 </div>
 
@@ -109,7 +109,7 @@
                     Guardar <i class="icon-floppy-disk position-right"></i>
                 </button>
 
-                <a href="{{route('admin.de.parameters.list-parameter-additional', ['nav'=>'vi', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-primary">
+                <a href="{{route('admin.vi.parameters.list-parameter-additional', ['nav'=>'vi', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-primary">
                     Cancelar <i class="icon-cross position-right"></i>
                 </a>
                 <input type="hidden" name="id_retailer_product" id="id_retailer_product" value="{{$id_retailer_product}}">

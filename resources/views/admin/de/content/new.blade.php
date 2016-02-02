@@ -22,99 +22,83 @@
                 Formulario
                 <small class="display-block">Nuevo registro </small>
             </h5>
+            <!--
             <div class="heading-elements">
-                <!--
                 <ul class="icons-list">
-
+                    <li><a data-action="collapse"></a></li>
                     <li><a data-action="reload"></a></li>
-
+                    <li><a data-action="close"></a></li>
                 </ul>
-                -->
             </div>
+            -->
         </div>
 
         <div class="panel-body">
-            {!! Form::open(array('route' => 'new_parameter_vi', 'name' => 'NewForm', 'id' => 'NewForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
-            <fieldset class="content-group">
 
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Facturación <span class="text-danger">*</span></label>
-                    <label class="radio-inline">
-                        <input type="radio" name="fact" class="styled required" value="1">SI
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="fact" class="styled required" value="0">NO
-                    </label>
+            {!! Form::open(array('route' => 'create_content_de', 'name' => 'CreateForm', 'id' => 'CreateForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
+                <fieldset class="content-group">
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Producto</label>
+                        <div class="col-lg-10">
+                            <strong>{{$query_retailer->product}}</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Titulo <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control required text" name="txtTitulo" id="txtTitulo" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Contenido</label>
+                        <div class="col-lg-10">
+                            <textarea rows="1" cols="5" class="form-control summernote" name="txtContenido" id="txtContenido"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Imagen <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <input type="file" class="file-styled required" name="txtFile" id="txtFile">
+                        </div>
+                        <div class="col-lg-10">
+                            @if($errors)
+                                {{ $errors->first('txtFile')}}
+                            @endif
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary">Guardar <i class="icon-floppy-disk position-right"></i></button>
+                    <a href="{{ route('admin.de.content.list', ['nav'=>'contentde', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}" class="btn btn-primary">
+                        Cancelar <i class="icon-cross position-right"></i>
+                    </a>
+                    <input type="hidden" name="id_retailer_product" value="{{$id_retailer_product}}">
                 </div>
-
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Certificado Provisional <span class="text-danger">*</span></label>
-                    <label class="radio-inline">
-                        <input type="radio" name="cert" class="styled required" value="1">SI
-                    </label>
-
-                    <label class="radio-inline">
-                        <input type="radio" name="cert" class="styled required" value="0">NO
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Modalidad <span class="text-danger">*</span></label>
-                    <label class="radio-inline">
-                        <input type="radio" name="moda" class="styled required" value="1">SI
-                    </label>
-
-                    <label class="radio-inline">
-                        <input type="radio" name="moda" class="styled required" value="0">NO
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Facultativo <span class="text-danger">*</span></label>
-                    <label class="radio-inline">
-                        <input type="radio" name="facu" class="styled required" value="1">SI
-                    </label>
-
-                    <label class="radio-inline">
-                        <input type="radio" name="facu" class="styled required" value="0">NO
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Web Service <span class="text-danger">*</span></label>
-                    <label class="radio-inline">
-                        <input type="radio" name="webs" class="styled required" value="1">SI
-                    </label>
-
-                    <label class="radio-inline">
-                        <input type="radio" name="webs" class="styled required" value="0">NO
-                    </label>
-                </div>
-                <div class="form-group">
-                    <div class="validation-error-label col-lg-10" id="error-radio"></div>
-                </div>
-
-            </fieldset>
-
-            <div class="text-right">
-                <button type="submit" class="btn btn-primary">
-                    Guardar <i class="icon-floppy-disk position-right"></i>
-                </button>
-                <a href="{{ route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}" class="btn btn-primary">
-                    Cancelar <i class="icon-cross position-right"></i>
-                </a>
-                <input type="hidden" name="id_retailer_product" value="{{$id_retailer_product}}">
-            </div>
             {!!Form::close()!!}
         </div>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
+            //EDITOR DE TEXTO
+            $('.summernote').summernote({
+                height: 100,                 // set editor height
+
+                minHeight: null,             // set minimum height of editor
+                maxHeight: null,             // set maximum height of editor
+
+                focus: true                 // set focus to editable area after initializing summernote
+            });
+
             //VERIFICAMOS EL FORMULARIO
-            $('#NewForm').submit(function(e){
+            $('#CreateForm').submit(function(e){
                 var sw = true;
                 var err = 'Esta informacion es obligatoria';
-                var age = new Array();
                 $(this).find('.required, .not-required').each(function(index, element) {
                     //alert(element.type+'='+element.value);
                     if($(this).hasClass('required') === true){
@@ -152,14 +136,13 @@
                         return true;
                     }
                 }else if(_type=='radio'){
-                    err = 'seleccionar los campos requeridos con (*)';
                     var rd_val = $("input[name=" + _name + "]:radio").is(':checked');
                     //alert(rd_val);
                     if(rd_val === false){
-                        $('#error-radio').html(err);
+                        $('#error-increment').html(err);
                         return false;
                     }else{
-                        $('#error-radio').html('');
+                        $('#error-increment').html('');
                         return true;
                     }
                 }else{

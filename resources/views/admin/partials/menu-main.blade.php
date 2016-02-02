@@ -79,6 +79,7 @@
                                     @var $data_ap=''
                                     @var $data_ap2=''
                                     @var $data_ap3=''
+                                    @var $data_content=''
                                 @endif
                             @elseif($nav=='addquestion')
                                 @if($action=='list' || $action=='new')
@@ -86,6 +87,7 @@
                                     @var $data_pp=''
                                     @var $data_ap2=''
                                     @var $data_ap3=''
+                                    @var $data_content=''
                                 @endif
                             @elseif($nav=='adActivitiesList')
                                 @if($action=='list' || $action=='new'|| $action=='edit')
@@ -93,12 +95,22 @@
                                     @var $data_ap2=''
                                     @var $data_ap=''
                                     @var $data_pp=''
+                                    @var $data_content=''
+                                @endif
+                            @elseif($nav=='contentde')
+                                @if($action=='list' || $action=='edit')
+                                    @var $data_content='active'
+                                    @var $data_pp=''
+                                    @var $data_ap=''
+                                    @var $data_ap2=''
+                                    @var $data_ap3=''
                                 @endif
                             @else
                                 @var $data_pp=''
                                 @var $data_ap=''
                                 @var $data_ap2=''
                                 @var $data_ap3=''
+                                @var $data_content=''
                             @endif
                             <ul>
                                 <li class="{{$data_pp}}">
@@ -110,19 +122,11 @@
                                     <a href="{{route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Cuestionario de Salud</a>
                                 </li>
                             </ul>
-                            <!--
                             <ul>
-                                <li>
-                                    <a href="#">Administrar contenido</a>
+                                <li class="{{$data_content}}">
+                                    <a href="{{route('admin.de.content.list', ['nav'=>'contentde', 'action'=>'list', 'id_retailer_products'=>$data->id_retailer_product])}}">Administrar contenido</a>
                                 </li>
                             </ul>
-
-                            <ul>
-                                <li class="{{$data_ap3}}">
-                                    <a href="{{route('adActivitiesList')}}" title='Administrar Actividades'>Administrar Actividades</a>
-                                </li>
-                            </ul>
-                            -->
                         </li>
                     @endif
 
@@ -133,28 +137,56 @@
                                 @if($action=='list' || $action=='edit' || $action='list_parameter_additional')
                                     @var $data_vpp='active'
                                     @var $data_cm=''
+                                    @var $data_pl=''
+                                    @var $data_contvi=''
                                 @endif
                             @elseif($nav=='addquestionvi')
                                 @if($action=='list' || $action=='new')
                                     @var $data_cm='active'
                                     @var $data_vpp=''
+                                    @var $data_pl=''
+                                    @var $data_contvi=''
+                                @endif
+                            @elseif($nav=='listplansvi')
+                                @if($action=='list' || $action=='edit' || $action=='new')
+                                    @var $data_pl='active'
+                                    @var $data_cm=''
+                                    @var $data_vpp=''
+                                    @var $data_contvi=''
+                                @endif
+                            @elseif($nav=='contentvi')
+                                @if($action=='list' || $action=='edit' || $action=='new')
+                                    @var $data_contvi='active'
+                                    @var $data_cm=''
+                                    @var $data_vpp=''
+                                    @var $data_pl=''
                                 @endif
                             @else
                                 @var $data_cm=''
                                 @var $data_vpp=''
+                                @var $data_pl=''
+                                @var $data_contvi=''
                             @endif
                             <ul>
                                 <li class="{{$data_vpp}}">
                                     <a href="{{route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
                                 </li>
                             </ul>
-                            <!--
                             <ul>
-                                <li>
-                                    <a href="vid_edit_content.html">Administrar contenido</a>
+                                <li class="{{$data_cm}}">
+                                    <a href="{{route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Cuestionario de Salud</a>
                                 </li>
                             </ul>
-                            -->
+                            <ul>
+                                <li class="{{$data_pl}}">
+                                    <a href="{{route('admin.vi.planes.list', ['nav'=>'listplansvi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar planes</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li class="{{$data_contvi}}">
+                                    <a href="{{route('admin.vi.content.list', ['nav'=>'contentvi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar contenido</a>
+                                </li>
+                            </ul>
                         </li>
                     @endif
                 @endforeach
