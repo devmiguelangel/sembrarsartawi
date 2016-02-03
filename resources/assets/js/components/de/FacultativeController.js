@@ -15,7 +15,7 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
   };
 
   $scope.record = [
-    
+
   ];
 
   /**

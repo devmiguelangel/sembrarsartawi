@@ -1,46 +1,38 @@
-@extends('layout')
+<div class="panel-heading divhr">
+    <h6 class="form-wizard-title2 text-semibold">
+        <span class="col-md-11">
+            <span class="form-wizard-count">4</span>
+            Solicitud de aprobación a caso facultativo
+        </span>
+    </h6>
+</div>
+<br>
 
-@section('header')
-    @include('partials.header-home')
-@endsection
+{!! Form::open(['route' => ['de.fa.request.store',  'rp_id' => $rp_id, 'header_id' => encode($header->id)],
+  'method'        => 'put',
+  'class'         => 'form-horizontal',
+  'ng-controller' => 'HeaderDeController',
+  'ng-submit'     => 'requestStore($event)' ]) !!}
 
-@section('menu-main')
-    @include('partials.menu-main')
-@endsection
+  {!! Form::textArea('facultative_observation', null, [
+      'size'         => '4x4',
+      'class'        => 'form-control',
+      'placeholder'  => 'Observación del Caso Facultativo',
+      'autocomplete' => 'off',
+      'ng-model'     => 'formData.facultative_observation'
+  ]) !!}
 
-@section('menu-header')
-    <div class="page-header">
-        <div class="page-header-content">
-            <div class="page-title">
-                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Seguro de Desgravamen</span></h4>
+  <label id="location-error" class="validation-error-label" for="location" ng-show="errors.facultative_observation">@{{ errors.facultative_observation[0] }}</label>
 
-                <ul class="breadcrumb breadcrumb-caret position-right">
-                    <li><a href="">Inicio</a></li>
-                    <li><a href="">Desgravamen</a></li>
-                    <li class="active">Solicitud de aprobación a caso facultativo</li>
-                </ul>
-            </div>
+  <div class="text-right">
+    <br>
+    <script ng-if="success.facultative">
+        $(function(){messageAction('succes', 'La solicitud fue enviada');});
+    </script>
 
-        </div>
-    </div>
-@endsection
+    <button type="button" class="btn border-slate text-slate-800 btn-flat" data-dismiss="modal">Cancelar</button>
 
-@section('content')
-    {!! Form::open(['route' => ['de.fa.request.store',  'rp_id' => $rp_id, 'header_id' => encode($header->id)], 'method' => 'put', 'class' => 'form-horizontal']) !!}
-        {!! Form::textArea('facultative_observation', old('facultative_observation', strip_tags($header->facultative_observation)), [
-                'size' => '4x4',
-            'class' => 'form-control',
-            'placeholder' => 'Observación del Caso Facultativo',
-            'autocomplete' => 'off'])
-        !!}
+    {!! Form::button('Enviar Solicitud <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+  </div>
 
-        <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('facultative_observation') }}</label>
-
-        <div class="text-right">
-            <a href="{{ route('de.edit', ['rp_id' => $rp_id, 'header_id' => encode($header->id)]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
-
-            {!! Form::button('Enviar Solicitud <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
-        </div>
-
-    {!! Form::close() !!}
-@endsection
+{!! Form::close() !!}
