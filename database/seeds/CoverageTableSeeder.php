@@ -14,20 +14,7 @@ class CoverageTableSeeder extends BaseSeeder
 
     protected function getData()
     {
-        $coverages = [
-            [
-                'name' => 'Individual',
-                'slug' => 'IC'
-            ],
-            [
-                'name' => 'Mancomunado',
-                'slug' => 'MC'
-            ],
-            [
-                'name' => 'Banca Comunal',
-                'slug' => 'BC'
-            ],
-        ];
+        $coverages = config('base.coverages');
 
         $data = [];
 

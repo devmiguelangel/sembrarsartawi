@@ -15,7 +15,7 @@ class UserTypeTableSeeder extends BaseSeeder
 
     protected function getData()
     {
-        $user_types = \Config::get('base.user_types');
+        $user_types = config('base.user_types');
 
         $data = [];
 
