@@ -405,6 +405,11 @@
                 <li><a href="{{ route('admin.email.list-email-product-retailer', ['nav'=>'email', 'action'=>'list_epr']) }}">Listar correos</a></li>
                 <li class="active">Editar Formulario</li>
             @endif
+        @elseif($nav=='subproduct')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Subproducto</li>
+            @endif
         @endif
     </ul>
     <!--
