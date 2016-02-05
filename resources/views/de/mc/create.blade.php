@@ -1,13 +1,14 @@
 <div class="">
   <h4>{{ $mc->name }}</h4>
-    {!! Form::open(['route' => ['de.fa.mc.store', 'rp_id' => $rp_id, 'id' => $id], 
-      'method'    => 'post', 
+    {!! Form::open(['route' => ['de.fa.mc.store', 'rp_id' => $rp_id, 'id' => $id],
+      'method'    => 'post',
       'class'     => 'form-inline',
       'ng-submit' => 'mcStore($event)' ]) !!}
-      
+
       <h6>{{ $fa->detail->client->full_name }}</h6>
-      
-      <input type="hidden" ng-init="mcData.mcid='{{ encode($mc->id) }}'" ng-mode="mcData.mcid">
+
+      <input type="hidden" ng-model="mcData.mcid">
+
       <table class="table table-condensed">
         <tbody>
           <tr>
@@ -94,7 +95,7 @@
                     {!! Form::checkbox('', 1, false, [
                         'ng-model' => 'mcData.answers[' . $certificateQuestionnaire->questionnaire->id . '][' . $question->id . ']["response"]',
                     ]) !!}
-                    
+
                     {{ $question->question }}
                   </label>
                   {!! Form::text('', null, [
@@ -115,7 +116,7 @@
       </label>
 
       <br>
-      
+
       <div class="text-right">
           <script ng-if="success.medical_certificate">
               $(function(){messageAction('succes', 'El Certificado Médico fue registrado correctamente');});

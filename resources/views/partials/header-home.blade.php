@@ -2,32 +2,22 @@
     <div class="navbar-boxed">
         <div class="navbar-collapse collapse" id="navbar-mobile">
             <ul class="nav navbar-nav">
-                <li><a href="home.html">
-                  {!! Html::image('images/logo.jpg', '', ['width' => '120']) !!}
-                </a></li>
+              <li><a href="{{ route('home') }}">
+                {!! Html::image(auth()->user()->retailer->first()->image, '', ['width' => '120']) !!}
+              </a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" >
-                  {!! Html::image('images/image_gallery6.png', '', ['width' => '86', 'height' => '20']) !!}
-                </a></li>
-                <li><a href="#" >
-                  {!! Html::image('images/image_gallery7.png', '', ['width' => '86', 'height' => '20']) !!}
-                </a></li>
-                <li><a href="#" >
-                  {!! Html::image('images/image_gallery8.png', '', ['width' => '86', 'height' => '20']) !!}
-                </a></li>
-                <li><a href="#" >
-                  {!! Html::image('images/image_gallery11.png', '', ['width' => '86', 'height' => '20']) !!}
-                </a></li>
-                <li><a href="#" >
-                  {!! Html::image('images/image_gallery2.png', '', ['width' => '86', 'height' => '20']) !!}
-                </a></li>
-                <li><a href="#" >
-                  {!! Html::image('images/image_gallery13.png', '', ['width' => '86', 'height' => '20']) !!}
-                </a></li>
-                <li><a href="#" >
-                  {!! Html::image('images/image_gallery2.png', '', ['width' => '86', 'height' => '20']) !!}
-                </a></li>
+              @var $company_id = 0;
+
+              @foreach (auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
+                @if ($company_id !== $retailerProduct->companyProduct->company->id)
+                  <li><a href="{{ route('home') }}" >
+                    {!! Html::image($retailerProduct->companyProduct->company->image, '', ['height' => '44']) !!}
+                  </a></li>
+
+                  @var $company_id = $retailerProduct->companyProduct->company->id
+                @endif
+              @endforeach
             </ul>
         </div>
     </div>

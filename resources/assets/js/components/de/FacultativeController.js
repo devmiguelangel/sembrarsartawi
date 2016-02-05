@@ -1,22 +1,16 @@
-var facultative = function ($rootScope, $scope, $http, $compile) {
+var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
   $scope.approved    = false;
   $scope.surcharge   = false;
   $scope.state       = false;
   $scope.observation = true;
 
-  $scope.formData = {
-    approved: 0,
-    surcharge: 0,
-    percentage: 0,
-    state: null,
-    emails: [
-    ],
-    mc_id: null
-  };
+  $scope.formData.approved   = 0;
+  $scope.formData.surcharge  = 0;
+  $scope.formData.percentage = 0;
+  $scope.formData.state      = null;
+  $scope.formData.mc_id      = null;
 
-  $scope.record = [
-
-  ];
+  $scope.record = [];
 
   /**
    * Process create form
@@ -33,8 +27,11 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
 
     }).success(function (data, status, headers, config) {
         if (status == 200) {
-          $rootScope.dataOptions   = data.states;
-          $rootScope.currentOption = $rootScope.dataOptions[0];
+          $rootScope.dataOptions       = data.states;
+          $rootScope.currentOption     = $rootScope.dataOptions[0];
+          $scope.formData.current_rate = data.current_rate;
+          $scope.formData.final_rate   = data.current_rate;
+          $scope.formData.emails       = data.user_email;
 
           $scope.popup(data.payload);
         }
@@ -189,6 +186,8 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
 
       }).success(function (data, status, headers, config) {
           if (status == 200) {
+            $scope.mcData.mcid = data.mc_id;
+
             mcForm.html($compile(data.payload)($scope));
           }
         }).error(function (err, status, headers, config) {
@@ -279,6 +278,41 @@ var facultative = function ($rootScope, $scope, $http, $compile) {
 
   };
 
+  $scope.finalRate = function () {
+    var percentage   = $scope.formData.percentage;
+    var current_rate = $scope.formData.current_rate;
+    var final_rate   = $filter('number')(((percentage/100) + current_rate), 2);
+
+    $scope.formData.final_rate = final_rate;
+  };
+
+  $scope.readEdit = function (event, value) {
+    var rp_id = event.target.attributes['data-rp-id'].value;
+    var id    = event.target.attributes['data-record'].value;
+    var url   = angular.element('#read-edit').prop('value');
+    url       = url.replace(':rp_id', rp_id);
+    url       = url.replace(':id', id);
+
+    CSRF_TOKEN = $scope.csrf_token();
+
+    console.log($.param({read: value}));
+
+    $http.put(url, $.param({read: value}), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRF-TOKEN': CSRF_TOKEN
+      }
+    }).success(function (data, status, headers, config) {
+        // console.log(data);
+      })
+      .error(function (err, status, header, config) {
+        console.log(err);
+      });
+  };
+
+  $scope.readToBoolean = function (value) {
+    return Boolean(value);
+  };
 
 };
 

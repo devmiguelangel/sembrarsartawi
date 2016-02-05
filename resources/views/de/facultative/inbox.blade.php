@@ -7,25 +7,25 @@
         <div id="accordion" class="panel-group" aria-multiselectable="true" role="tablist">
             @foreach ($data['products'] as $index => $product)
                 <div class="panel panel-default">
-                    <div role="tab"> 
+                    <div role="tab">
                         <div class="inbox-body">
                             <a class="btn btn-compose" aria-controls="collapseOne" aria-expanded="true" href="#collapse-{{ $index }}" data-parent="#accordion" data-toggle="collapse" role="button">
                                 {{ $product->name }}
                             </a>
                         </div>
-                    </div> 
-                    <div aria-labelledby="headingOne" role="tabpanel" class="panel-collapse collapse in" id="collapse-{{ $index }}" aria-expanded="true" style=""> 
+                    </div>
+                    <div aria-labelledby="headingOne" role="tabpanel" class="panel-collapse collapse in" id="collapse-{{ $index }}" aria-expanded="true" style="">
                         <ul class="inbox-nav inbox-divider">
                             <li class="active">
                                 <a href="#">
-                                    <i class="icon-inbox"></i> Bandeja de entrada 
+                                    <i class="icon-inbox"></i> Bandeja de entrada
                                     <span class="label label-info pull-right">{{ $product->records['all-unread']->count() }}</span>
                                 </a>
                             </li>
                             @if ($user->profile->first()->slug === 'SEP')
                                 <li>
                                     <a href="#">
-                                        <i class="icon-check"></i> Aprobados 
+                                        <i class="icon-check"></i> Aprobados
                                         <span class="label label-primary pull-right">
                                             {{ $product->records['approved']->count() }}
                                         </span>
@@ -33,7 +33,7 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <i class="fa fa-clock-o"></i> Observados 
+                                        <i class="fa fa-clock-o"></i> Observados
                                         <span class="label label-primary pull-right">
                                             {{ $product->records['observed']->count() }}
                                         </span>
@@ -41,27 +41,27 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <i class="icon-trash"></i> Rechazados 
+                                        <i class="icon-trash"></i> Rechazados
                                         <span class="label label-primary pull-right">
                                             {{ $product->records['rejected']->count() }}
                                         </span>
                                     </a>
                                 </li>
                             @endif
-                        </ul> 
+                        </ul>
                     </div>
                 </div>
             @endforeach
-            
-            {{-- <div class="panel panel-default"> 
-                <div id="headingTwo" role="tab" > 
+
+            {{-- <div class="panel panel-default">
+                <div id="headingTwo" role="tab" >
                     <div class="inbox-body success">
                         <a class="btn btn-compose2 collapsed" aria-controls="collapseTwo" aria-expanded="false" href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" role="button">
                             Automotores
                         </a>
                     </div>
-                </div> 
-                <div aria-labelledby="headingTwo" role="tabpanel" class="panel-collapse collapse" id="collapseTwo" aria-expanded="false" style="height: 0px;"> 
+                </div>
+                <div aria-labelledby="headingTwo" role="tabpanel" class="panel-collapse collapse" id="collapseTwo" aria-expanded="false" style="height: 0px;">
 
                     <ul class="inbox-nav inbox-divider">
                         <li class="active">
@@ -80,10 +80,10 @@
                     </ul>
 
 
-                </div> 
+                </div>
             </div> --}}
-        </div> 
-        
+        </div>
+
         <div class="inbox-body text-center">
             <div class="btn-group">
                 <a href="javascript:;" class="btn btn-default">
@@ -115,7 +115,7 @@
                         <i class="fa fa-clock-o"></i>
                     </a>
                 </div>
-                
+
                 <ul class="unstyled inbox-pagination">
                     <li><span class="label label-danger pull-right">&nbsp;</span><span>Mayor a 10 días </span></li>
                     <li><span class="label label-warning pull-right">&nbsp;</span><span>3 a 10 días </span></li>
@@ -139,13 +139,15 @@
                 <tbody>
                     @foreach ($data['products'][0]->records['all'] as $key => $record)
                         {{-- <tr class="{{ ! $record->read ? 'unread' : '' }}"> --}}
-                        <tr class="" ng-class="{ unread: !record[{{ $key }}].unread }">
+                        <tr ng-init="record[{{ $key }}].unread = readToBoolean({{ (int) $record->read }})" ng-class="{ unread: !record[{{ $key }}].unread }">
                             <td class="inbox-small-cells te">
                                 <label class="chek_inbox">
-                                    <input type="checkbox" class="styled" 
-                                        ng-model="record[{{ $key }}].unread" 
-                                        ng-init="record[{{ $key }}].unread=Boolean(record[{{ $key }}].unread)" 
-                                        ng-checked="Boolean(record[{{ $key }}].unread)">
+                                    <input type="checkbox" class="styled"
+                                        ng-model="record[{{ $key }}].unread"
+                                        ng-click="readEdit($event, record[{{ $key }}].unread)"
+                                        data-record="{{ encode($record->id) }}"
+                                        data-rp-id="{{ encode($data['products'][0]->rp->id) }}"
+                                        {{ $record->read ? 'checked' : '' }}>
                                 </label>
                             </td>
                             <td class="view-message">
@@ -178,7 +180,7 @@
                                                     <li>
                                                         <a href="{{ route('de.fa.observation.process', [
                                                             'rp_id'     => encode($data['products'][0]->rp->id),
-                                                            'id' => encode($record->id), 
+                                                            'id' => encode($record->id),
                                                             ]) }}" ng-click="observation($event)">
                                                             <i class="icon-plus2"></i>
                                                             Respuesta ({{ config('base.company_state.' . $record->company_state) }})
@@ -211,30 +213,30 @@
                                                 <li>
                                                     @if ($record->observations->last()->state->slug === 'me')
                                                         <a href="{{ route('de.fa.mc.show', [
-                                                            'rp_id' => encode($data['products'][0]->rp->id), 
-                                                            'id'    => encode($record->id) 
+                                                            'rp_id' => encode($data['products'][0]->rp->id),
+                                                            'id'    => encode($record->id)
                                                             ]) }}" target="_blank">
                                                             <i class="icon-plus2"></i> Observación ({{ $record->observations->last()->state->state }})
                                                         </a>
                                                     @else
                                                         <a href="{{ route('de.fa.observation', [
-                                                            'rp_id' => encode($data['products'][0]->rp->id), 
-                                                            'id'    => encode($record->id) 
+                                                            'rp_id' => encode($data['products'][0]->rp->id),
+                                                            'id'    => encode($record->id)
                                                             ]) }}" ng-click="observation($event)">
                                                             <i class="icon-plus2"></i> Observación ({{ $record->observations->last()->state->state }})
                                                         </a>
                                                     @endif
                                                 </li>
 
-                                                @if ($user->profile->first()->slug === 'SEP' 
+                                                @if ($user->profile->first()->slug === 'SEP'
                                                     && $record->company_state === 'O'
                                                     && $record->observations->last()->state->slug === 'cl'
                                                     && ! $record->observations->last()->response)
                                                     <li>
                                                         <a href="{{ route('de.fa.create.answer', [
-                                                            'rp_id'          => encode($data['products'][0]->rp->id), 
-                                                            'id'             => encode($record->id), 
-                                                            'id_observation' => encode($record->observations->last()->id) 
+                                                            'rp_id'          => encode($data['products'][0]->rp->id),
+                                                            'id'             => encode($record->id),
+                                                            'id_observation' => encode($record->observations->last()->id)
                                                             ]) }}" ng-click="observation($event)">
                                                             <i class="icon-plus2"></i> Responder
                                                         </a>
@@ -260,7 +262,7 @@
                                                     <a href="{{ route('de.fa.response', [
                                                         'rp_id'          => encode($data['products'][0]->rp->id),
                                                         'id'             => encode($record->id),
-                                                        'id_observation' => encode($record->observations->last()->id) 
+                                                        'id_observation' => encode($record->observations->last()->id)
                                                         ]) }}" ng-click="observation($event)">
                                                         <i class="icon-plus2"></i> Respuesta ({{ $record->observations->last()->state->state }})
                                                     </a>
@@ -276,9 +278,11 @@
                             </td>
                         </tr>
                     @endforeach
-                
+
                 </tbody>
             </table>
+
+            <input type="hidden" id="read-edit" value="{{ route('de.fa.read.update', ['rp_id' => ':rp_id', 'id' => ':id']) }}">
         </div>
     </aside>
 </div>

@@ -157,6 +157,11 @@ Route::group(['prefix' => '{rp_id}'], function() {
         'uses'  => 'De\FacultativeController@observationProcess'
     ]);
 
+    Route::put('facultative/read/edit/{id}', [
+        'as'    => 'de.fa.read.update',
+        'uses'  => 'De\FacultativeController@readUpdate'
+    ]);
+
     /*
      * Medical Certificate
      */
