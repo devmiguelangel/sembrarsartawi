@@ -26,11 +26,27 @@
 
             </div>
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-success">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'create_user', 'name' => 'userForm', 'id' => 'userForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
                 <fieldset class="content-group">
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <select name="id_retailer" id="id_retailer" class="form-control required">
+                                <option value="0">Seleccione</option>
+                                @foreach($retailer as $data_retailer)
+                                    <option value="{{$data_retailer->id}}">{{$data_retailer->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label class="control-label col-lg-2">Tipo de usuario <span class="text-danger">*</span></label>
@@ -47,8 +63,19 @@
                     <div class="form-group" style="display: none;" id="content-user-profiles">
                         <label class="control-label col-lg-2">Perfiles <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <select id="id_profile" name="id_profile" class="form-control required">
+                            <select id="id_profile" name="id_profile" class="">
                                 <option value="0">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display: none;" id="content-permissions">
+                        <label class="control-label col-lg-2">Permisos <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <select multiple="multiple" class="" name="permiso[]" id="permiso">
+                                @foreach($permissions as $dat_per)
+                                    <option value="{{$dat_per->id}}">{{$dat_per->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -60,7 +87,7 @@
                                 <select name="depto" class="form-control required" id="depto">
                                     <option value="0">Seleccione</option>
                                     @foreach($cities as $data)
-                                        <option value="{{$data->id}}">{{$data->name}}</option>
+                                        <option value="{{$data->id_retailer_city}}|{{$data->id_city}}">{{$data->name}}</option>
                                     @endforeach
                                 </select>
                             @else
@@ -150,9 +177,11 @@
 
             //OBTENER LISTA DE AGENCIAS DE ACUERDO AL DEPARTAMENTO
             $('#depto').change(function(e) {
-                var id_depto = $(this).val();
-                //alert(id_depto);
-                $.get( "{{url('/')}}/admin/user/agency_ajax/"+id_depto, function( data ) {
+                var  _data= $(this).prop('value');
+                var array = _data.split('|');
+                var id_retailer_city = array[0];
+                //alert(id_retailer_city);
+                $.get( "{{url('/')}}/admin/user/agency_ajax/"+id_retailer_city, function( data ) {
                     console.log(data);
                     $('#content-agency').fadeIn('slow');
                     $('#agencia option').remove();
@@ -178,8 +207,11 @@
                 if(arr[1]=='UST'){
                     //alert(tipo_usuario);
                     $.get( "{{url('/')}}/admin/user/profiles_ajax/"+tipo_usuario, function( data ) {
-                        $('#content-user-profiles').fadeIn('slow');
-                        $('#perfiles option').remove();
+                        $('#permiso').addClass('form-control required');
+                        $('#content-permissions').fadeIn('fast');
+                        $('#id_profile').addClass('form-control required');
+                        $('#content-user-profiles').fadeIn('fast');
+                        $('#id_profile option').remove();
                         $('#id_profile').append('<option value="0">Seleccione</option>');
                         if(data.length>0){
                             $.each(data, function () {
@@ -191,7 +223,10 @@
                     });
                     //$('#content-user-profiles').fadeIn('slow');
                 }else{
-                    $('#content-user-profiles').fadeOut('slow');
+                    $('#id_profile').removeClass('form-control required');
+                    $('#content-user-profiles').fadeOut('fast');
+                    $('#permiso').removeClass('form-control required');
+                    $('#content-permissions').fadeOut('fast');
                 }
             });
 
@@ -219,13 +254,14 @@
                 var password_nuevo = $('#contrasenia').prop('value');
 
                 if(password_nuevo==password_repite){
-                    //$("#btn_cambiar_pass").removeAttr("disabled");
+                    $('button[type="submit"]').prop('disabled', false);
                     $("#msg_confirmar").html('contrase&ntilde;as iguales');
                     setTimeout(function() {
                         // Do something after 2 seconds
                         $("#msg_confirmar").html('');
                     }, 3000);
                 }else{
+                    $('button[type="submit"]').prop('disabled', true);
                     $("#msg_confirmar").html("Las contrase&ntilde;as tienen que ser iguales");
                     //$("#txtPassRepite").css({'border' : '1px solid #d44d24'}).focus();
                     e.preventDefault();

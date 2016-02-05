@@ -15,7 +15,7 @@ Route::get('admin/user/new/{nav}/{action}', [
     'uses' => 'Admin\UserAdminController@index'
 ]);
 
-Route::get('admin/user/edit/{nav}/{action}/{id_user}', [
+Route::get('admin/user/edit/{nav}/{action}/{id_user}/{id_retailer}', [
     'as' => 'admin.user.edit',
     'uses' => 'Admin\UserAdminController@edit'
 ]);
@@ -51,11 +51,12 @@ Route::post('admin/user/reset', [
 ]);
 
 //procesos ajax
-Route::get('admin/user/agency_ajax/{id_depto}', 'Admin\UserAdminController@ajax_agency');
+Route::get('admin/user/agency_ajax/{id_retailer_city}', 'Admin\UserAdminController@ajax_agency');
 Route::get('admin/user/finduser_ajax/{usuario}', 'Admin\UserAdminController@ajax_finduser');
 Route::get('admin/user/pass_now_ajax/{id_user}/{contrasenia_actual}', 'Admin\UserAdminController@ajax_current_password');
 Route::get('admin/user/active_ajax/{id_user}/{text}', 'Admin\UserAdminController@ajax_active_inactive');
 Route::get('admin/user/profiles_ajax/{tipo_usuario}', 'Admin\UserAdminController@ajax_user_profiles');
+Route::get('admin/user/disabled_ajax/{id_user}', 'Admin\UserAdminController@ajax_disabled_permissions');
 
 require "admin.company.php";
 require "admin.exchange.php";
@@ -75,6 +76,8 @@ require "admin.mcQuestions.php";
 require "admin.mcCertificates.php";
 require "admin.vi.php";
 require "admin.email.php";
+require "admin.planes.php";
+require "admin.content.php";
 
 Route::get('admin/ad_activities/list',[
     'as' => 'adActivities',

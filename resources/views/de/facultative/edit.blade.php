@@ -1,5 +1,5 @@
 <div class="row" ng-controller="FacultativeController">
-    <div id="fa-form" class="col-md-12 animated" 
+    <div id="fa-form" class="col-md-12 animated"
         ng-hide="mcEnabled"
         ng-class="{ fadeIn: !mcEnabled, fadeOut: mcEnabled }">
         <!-- Horizontal form -->
@@ -14,7 +14,7 @@
             </div>
             <br>
 
-            {!! Form::open(['route' => ['de.fa.update', 'rp_id' => $rp_id, 'id' => encode($fa->id)], 
+            {!! Form::open(['route' => ['de.fa.update', 'rp_id' => $rp_id, 'id' => encode($fa->id)],
                 'id'        => 'form-fa',
                 'method'    => 'put',
                 'class'     => 'form-horizontal',
@@ -28,21 +28,21 @@
                         <div class="input-group">
                             <label class="radio-inline">
                                 {!! Form::radio('approved', 1, false, [
-                                    'ng-click' => 'approved = true; state = false; observation = true; mcEnabled = false;', 
+                                    'ng-click' => 'approved = true; state = false; observation = true; mcEnabled = false;',
                                     'ng-model' => 'formData.approved'
                                 ]) !!}
                                 SI
                             </label>
                             <label class="radio-inline">
                                 {!! Form::radio('approved', 0, false, [
-                                    'ng-click' => 'approved = false; state = false; observation = true; mcEnabled = false;', 
+                                    'ng-click' => 'approved = false; state = false; observation = true; mcEnabled = false;',
                                     'ng-model' => 'formData.approved'
                                 ]) !!}
                                 NO
                             </label>
                             <label class="radio-inline">
                                 {!! Form::radio('approved', 2, false, [
-                                    'ng-click' => 'approved = false; state = true;', 
+                                    'ng-click' => 'approved = false; state = true;',
                                     'ng-model' => 'formData.approved'
                                 ]) !!}
                                 Pendiente
@@ -53,7 +53,7 @@
                         </label>
                     </div>
                 </div>
-                
+
                 <div class="animated" ng-show="approved" ng-class="{ fadeIn: approved, fadeOut: !approved }">
                     <div class="form-group">
                         <label class="control-label col-lg-3 label_required">Tasa de Racargo: </label>
@@ -61,14 +61,14 @@
                             <div class="input-group">
                                 <label class="radio-inline">
                                     {!! Form::radio('surcharge', 1, false, [
-                                        'ng-click' => 'surcharge=true;', 
+                                        'ng-click' => 'surcharge=true;',
                                         'ng-model' => 'formData.surcharge'
                                     ]) !!}
                                     SI
                                 </label>
                                 <label class="radio-inline">
                                     {!! Form::radio('surcharge', 0, false, [
-                                        'ng-click' => 'surcharge=false;', 
+                                        'ng-click' => 'surcharge=false;',
                                         'ng-model' => 'formData.surcharge'
                                     ]) !!}
                                     NO
@@ -89,9 +89,9 @@
                                     {!! Form::text('percentage', null, [
                                         'class'        => 'form-control',
                                         'placeholder'  => 'Porcentaje de Recargo',
-                                        'autocomplete' => 'off', 
+                                        'autocomplete' => 'off',
                                         'ng-model'     => 'formData.percentage',
-                                        'ng-keyup'     => 'formData.final_rate=((formData.percentage/100) + formData.current_rate | number:2)',
+                                        'ng-keyup'     => 'finalRate()',
                                     ]) !!}
                                 </div>
                                 <label id="location-error" class="validation-error-label" for="location" ng-show="errors.percentage">
@@ -109,7 +109,6 @@
                                         'class'        => 'form-control',
                                         'placeholder'  => 'Tasa Actual',
                                         'autocomplete' => 'off',
-                                        'ng-init'      => 'formData.current_rate=' . $fa->detail->header->total_rate,
                                         'ng-model'     => 'formData.current_rate',
                                         'readonly'     => true
                                     ]) !!}
@@ -130,7 +129,6 @@
                                     'class'            => 'form-control',
                                     'placeholder'      => 'Tasa Final',
                                     'autocomplete'     => 'off',
-                                    'ng-init'          => 'formData.final_rate=formData.current_rate',
                                     'ng-model'         => 'formData.final_rate',
                                 ]) !!}
                             </div>
@@ -147,7 +145,8 @@
                         <label class="col-lg-3 control-label label_required">Estado: </label>
                         <div class="col-lg-9">
                             <div class="input-group">
-                                <select ng-init="formData.state=currentOption" ng-options="item as item.name for item in dataOptions track by item.id" ng-model="currentOption" class="form-control" ng-change="stateChange()">
+                                <select ng-init="formData.state=currentOption" ng-options="item as item.name for item in dataOptions track by item.id"
+                                  ng-model="currentOption" class="form-control" ng-change="stateChange()">
                                 </select>
                             </div>
                             <label id="location-error" class="validation-error-label" for="location" ng-show="errors.state">
@@ -184,7 +183,6 @@
                             'placeholder'  => 'mail@email.com',
                             'autocomplete' => 'off',
                             'ng-model'     => 'formData.emails',
-                            'ng-init'      => 'formData.emails="' . $fa->detail->header->user->email . '"',
                         ]) !!}
                         <div class="input-group">
                         <label id="location-error" class="validation-error-label" for="location" ng-show="errors.emails">
@@ -210,8 +208,8 @@
         <!-- /horizotal form -->
     </div>
 
-    <div id="mc-form" class="col-md-12 animated" 
-        ng-show="mcEnabled" 
+    <div id="mc-form" class="col-md-12 animated"
+        ng-show="mcEnabled"
         ng-class="{ fadeIn: mcEnabled, fadeOut: !mcEnabled }">
         Por favor espere ...
     </div>

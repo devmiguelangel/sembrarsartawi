@@ -35,6 +35,8 @@ class ViAdminController extends BaseController
             return view('admin.vi.parameters.list-parameter-additional', compact('nav', 'action', 'query', 'id_retailer_product', 'main_menu'));
         }elseif($action=='new_parameter_additional'){
             return view('admin.vi.parameters.new-parameter-additional', compact('nav', 'action', 'id_retailer_product', 'main_menu'));
+        }elseif($action=='new'){
+            return view('admin.vi.parameters.new', compact('nav','action', 'id_retailer_product', 'main_menu'));
         }
     }
 
@@ -104,6 +106,16 @@ class ViAdminController extends BaseController
         return view('admin.vi.parameters.edit', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu'));
     }
 
+    public function edit_parameter_additional($nav, $action, $id_product_parameters, $id_retailer_product)
+    {
+        $main_menu = $this->menu_principal();
+        $query = \DB::table('ad_product_parameters')
+                        ->where('id', $id_product_parameters)
+                        ->where('ad_retailer_product_id', $id_retailer_product)
+                        ->first();
+        //dd($query);
+        return view('admin.vi.parameters.edit-parameter-additional', compact('nav', 'action', 'id_product_parameters', 'id_retailer_product', 'query', 'main_menu'));
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -122,6 +134,31 @@ class ViAdminController extends BaseController
         if($retailer_update->save()) {
             return redirect()->route('admin.vi.parameters.list', ['nav' => 'vi', 'action' => 'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
         }
+    }
+
+    public function update_parameter_additional(Request $request)
+    {
+        $parameter = config('base.product_parameters');
+        $name = $parameter[$request->input('prod_param')];
+
+        $query_update = ProductParameter::where('id', $request->input('id_product_parameters'))->where('ad_retailer_product_id', $request->input('id_retailer_product'))->first();
+        //dd($query_update);
+        if($query_update instanceof ProductParameter){
+            $query_update->name=$name;
+            $query_update->slug=$request->input('prod_param');
+            $query_update->age_min=$request->input('edad_min');
+            $query_update->age_max=$request->input('edad_max');
+            $query_update->amount_min=$request->input('monto_min');
+            $query_update->amount_max=$request->input('monto_max');
+            $query_update->expiration=$request->input('caduc');
+            $query_update->detail=$request->input('num_titu');
+            if($query_update->save()){
+                return redirect()->route('admin.vi.parameters.list-parameter-additional', ['nav'=>'vi', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+            }
+        }else{
+            return redirect()->back()->with(array('error'=>'error de consulta'));
+        }
+
     }
 
     /**

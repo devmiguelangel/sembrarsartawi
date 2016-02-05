@@ -34,7 +34,7 @@
         </div>
 
         <div class="panel-body">
-                {!! Form::open(array('route' => 'update_parameter', 'name' => 'UpdateForm', 'id' => 'UpdateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
+                {!! Form::open(array('route' => 'update_parameter_vi', 'name' => 'UpdateForm', 'id' => 'UpdateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
                 <fieldset class="content-group">
 
                     <div class="form-group">
@@ -137,7 +137,7 @@
                     <button type="submit" class="btn btn-primary">
                         Guardar <i class="icon-floppy-disk position-right"></i>
                     </button>
-                    <a href="{{ route('admin.de.parameters.list-parameter', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}" class="btn btn-primary">
+                    <a href="{{ route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}" class="btn btn-primary">
                         Cancelar <i class="icon-cross position-right"></i>
                     </a>
                     <input type="hidden" name="id_retailer_product" value="{{$id_retailer_product}}">

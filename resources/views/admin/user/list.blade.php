@@ -74,7 +74,7 @@
 
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li>
-                                    <a href="{{ route('admin.user.edit', ['nav'=>'user', 'action'=>'edit', 'id_user'=>$data->id_user]) }}">
+                                    <a href="{{ route('admin.user.edit', ['nav'=>'user', 'action'=>'edit', 'id_user'=>$data->id_user, 'id_retailer'=>$data->ad_retailer_id]) }}">
                                         <i class="icon-pencil3"></i> Editar
                                     </a>
                                 </li>

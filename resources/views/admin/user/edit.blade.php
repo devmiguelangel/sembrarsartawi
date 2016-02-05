@@ -22,125 +22,179 @@
                 </ul>
             </div>
         </div>
+        @if (session('error'))
+            <div class="alert alert-success">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'update_user', 'name' => 'userUpdateForm', 'id' => 'userUpdateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
                 @if(!empty($user_find))
+                    @var $sw=1;
+                    @if(!empty($user_find->ad_city_id))
+                        @var $style = ''
+                    @else
+                        @var $style = 'display: none;'
+                    @endif
 
                         <fieldset class="content-group">
 
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Tipo de usuario <span class="text-danger">*</span></label>
-                            <div class="col-lg-10">
-                                <select name="tipo_usuario" id="tipo_usuario" class="form-control required">
-                                    <option value="0">Seleccione</option>
-                                    @foreach($query_type_user as $type)
-                                        @if($user_find->ad_user_type_id==$type->id)
-                                            <option value="{{$type->id}}|{{$type->code}}" selected>{{$type->name}}</option>
-                                        @else
-                                            <option value="{{$type->id}}|{{$type->code}}">{{$type->name}}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        @if($user_find->code=='UST')
-                            <div class="form-group" id="content-user-profiles-edit">
-                                <label class="control-label col-lg-2">Perfiles <span class="text-danger">*</span></label>
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
                                 <div class="col-lg-10">
-                                    <select id="id_profile" name="id_profile" class="form-control required">
+                                    <strong>{{$retailer->name}}</strong>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Tipo de usuario <span class="text-danger">*</span></label>
+                                <div class="col-lg-10">
+                                    <select name="tipo_usuario" id="tipo_usuario" class="form-control required">
                                         <option value="0">Seleccione</option>
-                                        @foreach($query_prof as $dat_prof)
-                                            @if($profile_find->ad_profile_id==$dat_prof->id)
-                                                <option value="{{$dat_prof->id}}" selected>{{$dat_prof->name}}</option>
+                                        @foreach($query_type_user as $type)
+                                            @if($user_find->ad_user_type_id==$type->id)
+                                                <option value="{{$type->id}}|{{$type->code}}" selected>{{$type->name}}</option>
                                             @else
-                                                <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
+                                                <option value="{{$type->id}}|{{$type->code}}">{{$type->name}}</option>
                                             @endif
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                        @else
-                            <div class="form-group" style="display: none;" id="content-user-profiles-new">
-                                <label class="control-label col-lg-2">Perfiles <span class="text-danger">*</span></label>
-                                <div class="col-lg-10">
-                                    <select id="id_profile" name="id_profile" class="form-control required">
-                                        <option value="0">Seleccione</option>
-                                        @foreach($query_prof as $dat_prof)
-                                            <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        @endif
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Departamento <span class="text-danger">*</span></label>
-                            <div class="col-lg-10">
-                                @if(!empty($cities))
-                                    <select name="depto" class="form-control required" id="depto">
-                                        <option value="0">Seleccione</option>
-                                        @foreach($cities as $arrcity)
-                                            @if($user_find->ad_city_id==$arrcity->id)
-                                                <option value="{{$arrcity->id}}" selected>{{$arrcity->name}}</option>
-                                            @else
-                                                <option value="{{$arrcity->id}}">{{$arrcity->name}}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                @else
-                                    <div class="alert alert-warning alert-styled-left">
-                                        <span class="text-semibold">Warning!</span> No existe departamentos registrados en el Retailer.<br>
+                            @if($user_find->code=='UST')
+                                @var $dt_var = 0
+                                <div class="form-group" id="content-user-profiles-edit">
+                                    <label class="control-label col-lg-2">Perfiles <span class="text-danger">*</span></label>
+                                    <div class="col-lg-10">
+                                        <select id="id_profile" name="id_profile" class="form-control required">
+                                            <option value="0">Seleccione</option>
+                                            @foreach($query_prof as $dat_prof)
+                                                @if($profile_find->ad_profile_id==$dat_prof->id)
+                                                    <option value="{{$dat_prof->id}}" selected>{{$dat_prof->name}}</option>
+                                                @else
+                                                    <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
                                     </div>
-                                @endif
-                            </div>
-                        </div>
+                                </div>
+                                <div class="form-group" id="content-permissions">
+                                    <label class="control-label col-lg-2">Permisos <span class="text-danger">*</span></label>
+                                    <div class="col-lg-10">
+                                        <select multiple="multiple" class="form-control required" name="permiso[]" id="permiso">
+                                            @foreach($permissions as $dat_per)
+                                                @if(count($user_permission)>0)
+                                                    @foreach($user_permission as $dat_idp)
+                                                        @if($dat_idp->ad_permission_id==$dat_per->id)
+                                                            <option value="{{$dat_per->id}}" selected>{{$dat_per->name}}</option>
+                                                            @var $dt_var = $dat_per->id
+                                                        @endif
+                                                    @endforeach
+                                                    @if($dt_var != $dat_per->id)
+                                                        <option value="{{$dat_per->id}}">{{$dat_per->name}}</option>
+                                                    @endif
+                                                @else
+                                                    <option value="{{$dat_per->id}}">{{$dat_per->name}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="form-group" style="display: none;" id="content-user-profiles-new">
+                                    <label class="control-label col-lg-2">Perfiles <span class="text-danger">*</span></label>
+                                    <div class="col-lg-10">
+                                        <select id="id_profile" name="id_profile" class="">
+                                            <option value="0">Seleccione</option>
+                                            @foreach($query_prof as $dat_prof)
+                                                <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Agencia <span class="text-danger">*</span></label>
-                            <div class="col-lg-10">
-                                <select id="agencia" name="agencia" class="form-control required">
-                                    <option value="0">Seleccione</option>
-                                    @foreach($agencies as $arragency)
-                                        @if($arragency->id==$user_find->ad_agency_id)
-                                            <option value="{{$arragency->id}}" selected>{{$arragency->name}}</option>
-                                        @else
-                                            <option value="{{$arragency->id}}">{{$arragency->name}}</option>
+                                <div class="form-group" style="display: none;" id="content-permissions">
+                                    <label class="control-label col-lg-2">Permisos <span class="text-danger">*</span></label>
+                                    <div class="col-lg-10">
+                                        <select multiple="multiple" class="" name="permiso[]" id="permiso">
+                                            @foreach($permissions as $dat_per)
+                                                <option value="{{$dat_per->id}}">{{$dat_per->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Departamento <span class="text-danger">*</span></label>
+                                <div class="col-lg-10">
+                                    @if(!empty($cities))
+                                        <select name="depto" class="form-control required" id="depto">
+                                            <option value="0">Seleccione</option>
+                                            @foreach($cities as $arrcity)
+                                                @if($user_find->ad_city_id==$arrcity->id_city)
+                                                    <option value="{{$arrcity->id_retailer_city}}|{{$arrcity->id_city}}" selected>{{$arrcity->name}}</option>
+                                                @else
+                                                    <option value="{{$arrcity->id_retailer_city}}|{{$arrcity->id_city}}">{{$arrcity->name}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    @else
+                                        <div class="alert alert-warning alert-styled-left">
+                                            <span class="text-semibold">Warning!</span> No existe departamentos registrados en el Retailer.<br>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="{{$style}}" id="content-agency">
+                                <label class="control-label col-lg-2">Agencia <span class="text-danger">*</span></label>
+                                <div class="col-lg-10">
+                                    <select id="agencia" name="agencia" class="form-control required">
+                                        <option value="0">Seleccione</option>
+                                        @if(count($agencies)>0)
+                                            @foreach($agencies as $arragency)
+                                                @if($arragency->id==$user_find->ad_agency_id)
+                                                    <option value="{{$arragency->id}}" selected>{{$arragency->name}}</option>
+                                                @else
+                                                    <option value="{{$arragency->id}}">{{$arragency->name}}</option>
+                                                @endif
+                                            @endforeach
                                         @endif
-                                    @endforeach
-                                </select>
-                                <span id="msg_agencia"></span>
+                                    </select>
+                                    <span id="msg_agencia"></span>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Usuario</label>
-                            <div class="col-lg-10" style="font-weight: bold;">
-                                {{$user_find->username}}
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Usuario</label>
+                                <div class="col-lg-10" style="font-weight: bold;">
+                                    {{$user_find->username}}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Nombre Completo <span class="text-danger">*</span></label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control required" name="txtNombre" id="txtNnombre" autocomplete="off" value="{{$user_find->full_name}}">
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Nombre Completo <span class="text-danger">*</span></label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control required" name="txtNombre" id="txtNnombre" autocomplete="off" value="{{$user_find->full_name}}">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Telefono agencia</label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control" name="txtTelefono" id="txtTelefono" autocomplete="off" value="{{$user_find->phone_number}}">
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Telefono agencia</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control" name="txtTelefono" id="txtTelefono" autocomplete="off" value="{{$user_find->phone_number}}">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Correo electrónico <span class="text-danger">*</span></label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control required" name="txtEmail" id="txtEmail" autocomplete="off" value="{{$user_find->email}}">
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Correo electrónico <span class="text-danger">*</span></label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control required" name="txtEmail" id="txtEmail" autocomplete="off" value="{{$user_find->email}}">
+                                </div>
                             </div>
-                        </div>
 
-                    </fieldset>
+                        </fieldset>
 
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">
@@ -155,7 +209,7 @@
                                 Agregar departamentos a Retailer <i class="icon-pencil3 position-right"></i>
                             </a>
                         @endif
-                        <input type="hidden" id="id_user" name="id_user" value="{{$user_find->id_user}}">
+                        <input type="hidden" id="id_user" name="id_user" id="id_user" value="{{$user_find->id_user}}">
                         <input type="hidden" id="code" name="code" value="{{$user_find->code}}">
                     </div>
                 @endif
@@ -166,10 +220,13 @@
         $(document).ready(function(){
             //OBTENER LISTA DE AGENCIAS DE ACUERDO AL DEPARTAMENTO
             $('#depto').change(function(e) {
-                var id_depto = $(this).val();
-                //alert(id_depto);
-                $.get( "{{url('/')}}/admin/user/agency_ajax/"+id_depto, function( data ) {
+                var  _data= $(this).prop('value');
+                var array = _data.split('|');
+                var id_retailer_city = array[0];
+                //alert(id_retailer_city);
+                $.get( "{{url('/')}}/admin/user/agency_ajax/"+id_retailer_city, function( data ) {
                     console.log(data);
+                    $('#content-agency').fadeIn('slow');
                     $('#agencia option').remove();
                     $('#agencia').append('<option value="0">Seleccione</option>');
                     if(data.length>0) {
@@ -190,21 +247,33 @@
                 var _id = $(this).prop('value');
                 var arr = _id.split("|");
                 var _code_db = $('#code').prop('value');
+                var id_user = $('#id_user').prop('value');
+                //alert('_code_db: '+_code_db+ 'arr: '+arr[1]);
                 if(_code_db=='UST'){
                     if(arr[1]=='UST'){
-                        $('#content-user-profiles-edit').fadeIn('slow');
-                        $( "#id_profile" ).last().addClass("form-control required");
+                        $('#content-user-profiles-edit').fadeIn('fast');
+                        $( "#id_profile" ).addClass("form-control required");
+                        $('#content-permissions').fadeIn('fast');
+                        $('#permiso').addClass('form-control required');
                     }else{
-                        $('#content-user-profiles-edit').fadeOut('slow');
+                        $('#content-user-profiles-edit').fadeOut('fast');
                         $('#id_profile option[value="0"]').prop('selected',true);
                         $( "#id_profile" ).removeClass("form-control required");
+                        $('#content-permissions').fadeOut('fast');
+                        $('#permiso').removeClass('form-control required');
+                        $('#permiso option:selected').removeAttr("selected");
+                        $.get( "{{url('/')}}/admin/user/disabled_ajax/"+id_user, function( data ) {
+                            console.log(data);
+                        });
                     }
                 }else{
                     if(arr[1]=='UST'){
-                        $('#content-user-profiles-new').fadeIn('slow');
-                        $( "#id_profile" ).last().addClass("form-control required");
+                        $('#content-user-profiles-new').fadeIn('fast');
+                        $( "#id_profile" ).addClass("form-control required");
+                        $('#content-permissions').fadeIn('fast');
+                        $('#permiso').addClass('form-control required');
                     }else{
-                        $('#content-user-profiles-new').fadeOut('slow');
+                        $('#content-user-profiles-new').fadeOut('fast');
                         $( "#id_profile" ).removeClass("form-control required");
                     }
                 }

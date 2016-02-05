@@ -63,8 +63,10 @@ class FacultativeController extends Controller
                 $fa = $this->repository->getModel();
 
                 return response()->json([
-                    'payload' => view('de.facultative.edit', compact('fa', 'rp_id'))->render(),
-                    'states'  => $this->stateRepository->getStatus(),
+                    'payload'      => view('de.facultative.edit', compact('fa', 'rp_id'))->render(),
+                    'states'       => $this->stateRepository->getStatus(),
+                    'current_rate' => $fa->detail->header->total_rate,
+                    'user_email'   => $fa->detail->header->user->email,
                 ]);
             }
 
@@ -96,7 +98,7 @@ class FacultativeController extends Controller
                         $this->headerRepository->setApproved($header);
                     }
 
-                    $mail = new MailController($request->user());
+                    $mail = new MailController($request->user(), $request->get('emails'));
 
                     $this->repository->sendProcessMail($mail, $rp_id, $id);
 
@@ -214,6 +216,21 @@ class FacultativeController extends Controller
 
                 return response()->json([
                     'payload' => view('de.facultative.observation-process', compact('fa'))->render()
+                ]);
+            }
+
+            return response()->json(['err' => 'Unauthorized action.'], 401);
+        }
+
+        return redirect()->back();
+    }
+
+    public function readUpdate(Request $request, $rp_id, $id)
+    {
+        if (request()->ajax()) {
+            if ($this->repository->readUpdate($request, decode($id))) {
+                return response()->json([
+                    'read' => filter_var($request->get('read'), FILTER_VALIDATE_BOOLEAN)
                 ]);
             }
 

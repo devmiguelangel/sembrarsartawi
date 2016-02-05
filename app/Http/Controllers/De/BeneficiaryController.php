@@ -63,10 +63,10 @@ class BeneficiaryController extends Controller
                     'cities' => $this->cityRepository->getCitiesByType(),
                 ];
 
-                $response = view('beneficiary.create', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
+                $payload = view('beneficiary.create', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
 
                 return response()->json([
-                    'payload' => $response->render()
+                    'payload' => $payload->render()
                 ]);
             }
 
@@ -125,20 +125,27 @@ class BeneficiaryController extends Controller
      */
     public function edit($rp_id, $header_id, $detail_id)
     {
+        if (request()->ajax()) {
+            if ($this->detailRepository->getDetailById(decode($detail_id))) {
+                $detail      = $this->detailRepository->getModel();
+                $beneficiary = $detail->beneficiary;
 
-        if ($this->detailRepository->getDetailById(decode($detail_id))) {
-            $detail      = $this->detailRepository->getModel();
-            $beneficiary = $detail->beneficiary;
+                $data = [
+                    'cities' => $this->cityRepository->getCitiesByType(),
+                ];
 
-            $data = [
-                'cities' => $this->cityRepository->getCitiesByType(),
-            ];
+                $payload = view('beneficiary.edit', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
 
-            return view('beneficiary.edit', compact('rp_id', 'header_id', 'detail', 'beneficiary', 'data'));
+                return response()->json([
+                    'payload'     => $payload->render(),
+                    'beneficiary' => [$beneficiary]
+                ]);
+            }
+
+            return response()->json(['err' => 'Unauthorized action.'], 401);
         }
 
-        return redirect()->back()
-            ->with(['error_beneficiary' => 'No se puede editar el Beneficiario']);
+        return redirect()->back();
     }
 
     /**
@@ -149,18 +156,21 @@ class BeneficiaryController extends Controller
      */
     public function update(BeneficiaryDeFormRequest $request, $rp_id, $header_id, $detail_id)
     {
-        if ($this->detailRepository->getDetailById(decode($detail_id))) {
-            $request['detail'] = $this->detailRepository->getModel();
+        if ($request->ajax()) {
+            if ($this->detailRepository->getDetailById(decode($detail_id))) {
+                $request['detail'] = $this->detailRepository->getModel();
 
-            if ($this->repository->updateBeneficiary($request)) {
-                return redirect()->route('de.edit', compact('rp_id', 'header_id'))
-                    ->with(['success_beneficiary' => 'El Beneficiario fue actualizado correctamente']);
+                if ($this->repository->updateBeneficiary($request)) {
+                    return response()->json([
+                        'location' => route('de.edit', compact('rp_id', 'header_id'))
+                    ]);
+                }
             }
+
+            return response()->json(['err'=>'Unauthorized action.'], 401);
         }
 
-        return redirect()->back()
-            ->with(['error_beneficiary' => 'El Beneficiario no puede ser actualizado'])
-            ->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back();
     }
 
     /**

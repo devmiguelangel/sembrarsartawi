@@ -17,7 +17,7 @@
         <div class="panel-heading">
             <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
                 <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
-                Parametros adicionales
+                Parametros adicionales - Vida Individual
                 <small class="display-block">Listado de registros</small>
             </h5>
             <div class="heading-elements">
@@ -35,7 +35,11 @@
         </div>
 
         <div class="panel-body">
-
+            @if (session('error'))
+                <div class="alert alert-success">
+                    {{ session('error') }}
+                </div>
+            @endif
         </div>
         @if(count($query)>0)
             <table class="table datatable-basic">
