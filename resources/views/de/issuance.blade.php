@@ -107,6 +107,13 @@
                                         Ver Certificado de Desgravamen
                                     </a>
                                 </p>
+                                <div class="col-md-6">&nbsp;</div>
+                                <p>
+                                    <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'print_all')" class="btn btn-primary btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
+                                        <b><i class="icon-printer4"></i></b> 
+                                        Imprimir Todo
+                                    </a>
+                                </p>
                             </div>
                         </div>
                     </div>

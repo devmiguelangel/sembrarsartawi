@@ -41,15 +41,53 @@ class ReportController extends Controller {
      * @return type
      */
     public function general(Request $request) {
-        # tipo de reporte
-        $flag = $this->tipoReporte($request);
-        
+        $flag = 1;
         $users = $this->users;
         $agencies = $this->agencies;
         $cities = $this->cities;
         $extencion = $this->extencion;
         
         $valueForm = $this->addValueForm($request);
+       
+        $array = $this->result($request, $flag);
+        $result = $array['result'];
+        
+        # validacion exporta xls
+        if ($request->get('xls_download'))
+            $this->exportXls($result, 'General', 1);
+        
+        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag'));
+    }
+    /**
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return type
+     */
+    public function general_emitido(Request $request) {
+        $flag = 2;
+        $users = $this->users;
+        $agencies = $this->agencies;
+        $cities = $this->cities;
+        $extencion = $this->extencion;
+        
+        $valueForm = $this->addValueForm($request);
+       
+        $array = $this->result($request, $flag);
+        $result = $array['result'];
+        
+        # validacion exporta xls
+        if ($request->get('xls_download'))
+            $this->exportXls($result, 'General', 1);
+        
+        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag'));
+    }
+    /**
+     * fuincion retorna resultado de consulta y busqueda de formulario
+     * @param type $request
+     * @param type $flag
+     * @return type
+     */
+    public function result($request, $flag) {
         
         $opClients = DB::table('op_clients')
                 ->join('op_de_details', 'op_clients.id', '=', 'op_de_details.op_client_id')
@@ -58,7 +96,10 @@ class ReportController extends Controller {
         $query = DB::table('op_de_headers')
                 ->join('ad_users', 'op_de_headers.ad_user_id', '=', 'ad_users.id')
                 ->join('ad_coverages', 'op_de_headers.ad_coverage_id', '=', 'ad_coverages.id')
-                ->select('op_de_headers.policy_number', 'op_de_headers.id', 'ad_coverages.name', 'op_de_headers.operation_number', 'op_de_headers.amount_requested', 'op_de_headers.currency', 'op_de_headers.term', 'op_de_headers.type_term', 'op_de_headers.total_rate', 'op_de_headers.total_premium', 'op_de_headers.date_issue', 'ad_users.username', 'ad_users.full_name')
+                //edw-->->select('op_de_headers.policy_number','op_de_headers.prefix', 'op_de_headers.id', 'ad_coverages.name', 'op_de_headers.operation_number', 'op_de_headers.amount_requested', 'op_de_headers.currency', 'op_de_headers.term', 'op_de_headers.type_term', 'op_de_headers.total_rate', 'op_de_headers.total_premium', 'op_de_headers.date_issue', 'ad_users.username', 'ad_users.full_name')
+                ->select(DB::raw("CONCAT(op_de_headers.policy_number, '-', op_de_headers.prefix) as policy_number"), 'op_de_headers.id', 'ad_coverages.name', 'op_de_headers.operation_number',
+                        'op_de_headers.amount_requested', 'op_de_headers.currency', 'op_de_headers.term', 'op_de_headers.type_term', 'op_de_headers.total_rate', 
+                         DB::raw('DATE_FORMAT(op_de_headers.date_issue,"%d/%m/%Y") as date_issue'), 'ad_users.full_name')
                 ->where('op_de_headers.type', 'I');
         
         if($flag == 2)
@@ -180,7 +221,9 @@ class ReportController extends Controller {
         if ($request->get('xls_download'))
             $this->exportXls($result, 'General', 1);
         
-        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag'));
+        $res = array('result' => $result,'flag'=>$flag);
+        
+        return $res;
     }
     
     /**
