@@ -17,6 +17,7 @@
  @var $title = 'Reporte Polizas Emitidas' 
  @var $sub_title = 'Listado de Pólizas Emitidas' 
 @endif
+
 <div class="page-header">
     <div class="page-header-content">
         <div class="page-title">
@@ -50,7 +51,11 @@
             <div class="panel-body ">
                 <div class="col-xs-12 col-md-12">
                     <form class="form-horizontal form-validate-jquery" action="" id="form_search_general">
-                    {!! Form::open(['route' => ['report.report_general_result'], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                    @if($flag == 1) 
+                        {!! Form::open(['route' => ['report.report_general_result'], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                    @else
+                        {!! Form::open(['route' => ['report.report_general_result_emitido'], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                    @endif
                         <div class="panel-body ">
                             <div class="col-xs-12 col-md-3">
                                 <div class="form-group">
@@ -238,7 +243,12 @@
                         @endif
                         <div class="col-xs-12 col-md-12">
                             <div class="text-right">
-                                <a href="{{ route('report.report_general',['flag'=>$flag]) }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
+                                @if($flag == 1) 
+                                <a href="{{ route('report.report_general') }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
+                                @else 
+                                <a href="{{ route('report.report_general_emitido') }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
+                                @endif 
+                                
                                 <button type="submit" class="btn btn-primary" id="buscar" onclick="$('#xls_download').val(0);">Buscar <i class="icon-search4 position-right"></i></button>
                             </div>
                             <p>&nbsp;</p>
@@ -266,10 +276,10 @@
                                         <th>Moneda</th>
                                         <th>Tiempo</th>
                                         <th>Tasa total</th>
-                                        <th>Prima total</th>
+                                        <!--<th>Prima total</th>-->
                                         <th>Fecha de emisión</th>
                                         <th>Usuario</th>
-                                        <th>Rol</th>
+                                        <!--<th>Rol</th>-->
                                         <th>Accion</th>
                                     </tr>
                                 </thead>
@@ -283,11 +293,9 @@
                                         <td>{{ $entities->operation_number }}</td>
                                         <td>{{ $entities->amount_requested }}</td>
                                         <td>{{ $entities->currency }}</td>
-                                        <td>{{ $entities->term }} {{ $entities->type_term == 'M'?'Meses':$entities->type_term == 'Y'?'Años':$entities->type_term == 'W'?'Semanas':$entities->type_term == 'D'?'DIas':'' }}</td>
+                                        <td>{{ $entities->term }} @if($entities->type_term == 'M')Meses @elseif($entities->type_term == 'Y')Años @elseif($entities->type_term == 'W')Semanas @elseif($entities->type_term == 'D')DIas @endif </td>
                                         <td>{{ $entities->total_rate }}</td>
-                                        <td>{{ $entities->total_premium }}</td>
-                                        <td>{{ $entities->date_issue != ''?date('d-m-Y', strtotime($entities->date_issue)):'' }}</td>
-                                        <td>{{ $entities->username }}</td>
+                                        <td>{{ $entities->date_issue != ''?$entities->date_issue:'' }}</td>
                                         <td>{{ $entities->full_name }}</td>
                                         <td class="text-center">
                                             <ul class="icons-list">
