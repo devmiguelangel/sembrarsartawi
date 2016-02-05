@@ -78,6 +78,7 @@ require "admin.vi.php";
 require "admin.email.php";
 require "admin.planes.php";
 require "admin.content.php";
+require "admin.subproduct.php";
 
 Route::get('admin/ad_activities/list',[
     'as' => 'adActivities',

@@ -19,18 +19,27 @@
                 @var $link_ar='active'
                 @var $link_acs=''
                 @var $link_pro=''
+                @var $link_spd=''
             @elseif($nav=='company' || $nav=='addprocom' || $nav=='addtoretailer' || $nav=='policynumber')
                 @var $link_acs='active'
                 @var $link_ar=''
                 @var $link_pro=''
+                @var $link_spd=''
             @elseif($nav=='product')
                 @var $link_pro='active'
                 @var $link_acs=''
                 @var $link_ar=''
+                @var $link_spd=''
+            @elseif($nav=='subproduct')
+                @var $link_spd='active'
+                @var $link_acs=''
+                @var $link_ar=''
+                @var $link_pro=''
             @else
                 @var $link_acs=''
                 @var $link_ar=''
                 @var $link_pro=''
+                @var $link_spd=''
             @endif
             <li class="{{$link_ar}}">
                 <a href="{{route('admin.retailer.list', ['nav'=>'retailer', 'action'=>'list'])}}">
@@ -45,6 +54,11 @@
             <li class="{{$link_acs}}">
                 <a href="{{ route('admin.company.list', ['nav'=>'company', 'action'=>'list']) }}">
                     <i class="icon-stack2"></i> <span>Compañía de Seguros</span>
+                </a>
+            </li>
+            <li class="{{$link_spd}}">
+                <a href="{{ route('admin.subproduct.list', ['nav'=>'subproduct', 'action'=>'list', 'id_retailer_product_select'=>0]) }}">
+                    <i class="icon-stack2"></i> <span>Administrar Subproductos</span>
                 </a>
             </li>
 
@@ -289,7 +303,7 @@
                 @var $data_pp3=''
             @endif
             <li class="{{$data_pp}}">
-                <a href="{{route('admin.questions.list', ['nav'=>'question', 'action'=>'list'])}}"><i class="icon-clipboard3"></i> <span>Administrar preguntas</span></a>
+                <a href="{{route('admin.questions.list', ['nav'=>'question', 'action'=>'list'])}}"><i class="icon-clipboard3"></i> <span>Administrar preguntas (Cuestionario de Salud)</span></a>
             </li>
             
         </ul>
