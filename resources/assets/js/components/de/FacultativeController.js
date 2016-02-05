@@ -295,8 +295,6 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
 
     CSRF_TOKEN = $scope.csrf_token();
 
-    console.log($.param({read: value}));
-
     $http.put(url, $.param({read: value}), {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

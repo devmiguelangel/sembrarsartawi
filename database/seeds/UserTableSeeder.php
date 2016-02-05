@@ -33,7 +33,7 @@ class UserTableSeeder extends BaseSeeder
                 'ad_user_type_id'   => 1,
                 'active'            => true
             ],
-            [
+            /*[
                 'id'        => date('U') + 1,
                 'username'  => 'emontano',
                 'password'  => Hash::make('emontano123'),
@@ -66,7 +66,7 @@ class UserTableSeeder extends BaseSeeder
                 'ad_agency_id'      => null,
                 'ad_user_type_id'   => 2,
                 'active'            => true
-            ],
+            ],*/
         ];
 
         return $data;

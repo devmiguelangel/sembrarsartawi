@@ -1,6 +1,21 @@
 <?php
 
 return [
+    'coverages' => [
+        [
+            'name' => 'Individual',
+            'slug' => 'IC'
+        ],
+        [
+            'name' => 'Mancomunado',
+            'slug' => 'MC'
+        ],
+        [
+            'name' => 'Banca Comunal',
+            'slug' => 'BC'
+        ],
+    ],
+    
     'user_types' => [
         'ADT' => 'Administrador',
         'UST' => 'Usuario',

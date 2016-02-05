@@ -59,43 +59,43 @@ class DatabaseSeeder extends Seeder
             'op_vi_beneficiaries',
         ];
 
-        $this->truncateTables($tables);
+        // $this->truncateTables($tables);
 
-        $this->call(ActivityTableSeeder::class);
-        $this->call(AgencyTableSeeder::class);
+        // $this->call(ActivityTableSeeder::class);
+        // $this->call(AgencyTableSeeder::class);
         $this->call(CityTableSeeder::class);
         $this->call(UserTypeTableSeeder::class);
         $this->call(UserTableSeeder::class);
         $this->call(CoverageTableSeeder::class);
-        $this->call(ProductTableSeeder::class);
-        $this->call(CompanyTableSeeder::class);
-        $this->call(CompanyProductTableSeeder::class);
-        $this->call(RetailerTableSeeder::class);
-        $this->call(RetailerUserTableSeeder::class);
-        $this->call(RetailerProductTableSeeder::class);
-        $this->call(QuestionTableSeeder::class);
-        $this->call(RetailerProductQuestionTableSeeder::class);
-        $this->call(RateTableSeeder::class);
-        $this->call(RetailerSubProductTableSeeder::class);
-        $this->call(PlanTableSeeder::class);
-        $this->call(PolicyTableSeeder::class);
-        $this->call(ProductParameterTableSeeder::class);
-        $this->call(RetailerProductCoverageTableSeeder::class);
-        $this->call(ExchangeRateTableSeeder::class);
+        // $this->call(ProductTableSeeder::class);
+        // $this->call(CompanyTableSeeder::class);
+        // $this->call(CompanyProductTableSeeder::class);
+        // $this->call(RetailerTableSeeder::class);
+        // $this->call(RetailerUserTableSeeder::class);
+        // $this->call(RetailerProductTableSeeder::class);
+        // $this->call(QuestionTableSeeder::class);
+        // $this->call(RetailerProductQuestionTableSeeder::class);
+        // $this->call(RateTableSeeder::class);
+        // $this->call(RetailerSubProductTableSeeder::class);
+        // $this->call(PlanTableSeeder::class);
+        // $this->call(PolicyTableSeeder::class);
+        // $this->call(ProductParameterTableSeeder::class);
+        // $this->call(RetailerProductCoverageTableSeeder::class);
+        // $this->call(ExchangeRateTableSeeder::class);
         $this->call(EmailTableSeeder::class);
-        $this->call(RetailerProductEmailTableSeeder::class);
+        // $this->call(RetailerProductEmailTableSeeder::class);
         $this->call(ProfileTableSeeder::class);
-        $this->call(UserProfileTableSeeder::class);
-        $this->call(StateTableSeeder::class);
-        $this->call(RetailerProductStateTableSeeder::class);
+        // $this->call(UserProfileTableSeeder::class);
+        // $this->call(StateTableSeeder::class);
+        // $this->call(RetailerProductStateTableSeeder::class);
         $this->call(PermissionTableSeeder::class);
-        $this->call(UserPermissionTableSeeder::class);
+        // $this->call(UserPermissionTableSeeder::class);
 
-        $this->call(McCertificateTableSeeder::class);
-        $this->call(McQuestionnaireTableSeeder::class);
-        $this->call(McCertificateQuestionnaireTableSeeder::class);
-        $this->call(McQuestionTableSeeder::class);
-        $this->call(McCertificateQuestionnaireQuestionTableSeeder::class);
+        // $this->call(McCertificateTableSeeder::class);
+        // $this->call(McQuestionnaireTableSeeder::class);
+        // $this->call(McCertificateQuestionnaireTableSeeder::class);
+        // $this->call(McQuestionTableSeeder::class);
+        // $this->call(McCertificateQuestionnaireQuestionTableSeeder::class);
 
         Model::reguard();
     }
