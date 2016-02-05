@@ -275,15 +275,19 @@
 
                     @if (! isset($_GET['idf']))
                         {!! Form::open(['route' => ['de.update',
-                            'rp_id'     => $rp_id,
-                            'header_id' => $header_id
-                            ], 'method' => 'put', 'class' => 'form-horizontal']) !!}
+                            'rp_id'         => $rp_id,
+                            'header_id'     => $header_id
+                            ],
+                            'method'        => 'put', 'class' => 'form-horizontal',
+                            'ng-controller' => 'HeaderDeController' ]) !!}
                     @else
                         {!! Form::open(['route' => ['de.update.fa',
                             'rp_id'          => $rp_id,
                             'header_id'      => $header_id,
                             'id_facultative' => e($_GET['idf'])
-                            ], 'method' => 'put', 'class' => 'form-horizontal']) !!}
+                            ],
+                            'method'         => 'put', 'class' => 'form-horizontal',
+                            'ng-controller'  => 'HeaderDeController' ]) !!}
                     @endif
                     <div class="panel-body ">
                         <div class="col-xs-12 col-md-6">
@@ -383,7 +387,8 @@
                                     </a>
                                 @else
                                     @if($header->facultative && ! $header->approved && ! $header->facultative_sent && ! isset($_GET['idf']))
-                                        <a href="{{ route('de.fa.request.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-warning">
+                                        <a href="{{ route('de.fa.request.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-warning"
+                                          ng-click="requestCreate($event)">
                                             Solicitar aprobación de la Compañia <i class="icon-warning position-right"></i>
                                         </a>
                                     @else

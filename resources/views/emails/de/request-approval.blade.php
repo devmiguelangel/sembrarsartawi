@@ -16,7 +16,7 @@
                 {{ $data['header']->facultative_observation }}
             </div>
 
-            <a href="#" class="btn btn-success btn-lg">Procesar caso facultativo</a>
+            <a href="{{ route('home') }}" class="btn btn-success btn-lg">Procesar caso facultativo</a>
         </div>
         <div class="col-md-2">
 

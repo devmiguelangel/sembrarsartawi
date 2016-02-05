@@ -62,7 +62,8 @@ class MedicalCertificateController extends Controller
                 $mc = $this->repository->getModel();
 
                 return response()->json([
-                    'payload' => view('de.mc.create', compact('rp_id', 'id', 'fa', 'mc'))->render()
+                    'payload' => view('de.mc.create', compact('rp_id', 'id', 'fa', 'mc'))->render(),
+                    'mc_id'   => encode($mc->id)
                 ]);
             }
 

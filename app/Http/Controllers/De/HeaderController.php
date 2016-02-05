@@ -295,25 +295,35 @@ class HeaderController extends Controller
     /**
      * @param $rp_id
      * @param $header_id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function requestCreate($rp_id, $header_id)
     {
-        if ($this->repository->getHeaderById(decode($header_id))) {
-            $header = $this->repository->getModel();
+        if (request()->ajax()) {
+            if ($this->repository->getHeaderById(decode($header_id))) {
+                $header = $this->repository->getModel();
 
-            $observation = '';
+                $observation = '';
 
-            foreach ($header->details as $detail) {
-                if (! $detail->approved && ($detail->facultative instanceof Facultative)) {
-                    $observation .= $detail->facultative->reason;
+                foreach ($header->details as $detail) {
+                    if (! $detail->approved && ($detail->facultative instanceof Facultative)) {
+                        $observation .= $detail->facultative->reason;
+                    }
+                }
+
+                if (! empty($observation)) {
+                    $header->facultative_observation = $observation;
+
+                    $payload = view('de.facultative.request', compact('rp_id', 'header'));
+
+                    return response()->json([
+                        'payload'                 => $payload->render(),
+                        'facultative_observation' => strip_tags($header->facultative_observation),
+                    ]);
                 }
             }
 
-            if (! empty($observation)) {
-                $header->facultative_observation = $observation;
-                return view('de.facultative.request', compact('rp_id', 'header'));
-            }
+            return response()->json(['err' => 'Unauthorized action.'], 401);
         }
 
         return redirect()->back()
@@ -328,20 +338,25 @@ class HeaderController extends Controller
      */
     public function requestStore(FacultativeRequestFormRequest $request, $rp_id, $header_id)
     {
-        if ($this->repository->storeFacultative($request, decode($header_id))) {
-            $header   = $this->repository->getModel();
+        if ($request->ajax()) {
+            if ($this->repository->storeFacultative($request, decode($header_id))) {
+                $header = $this->repository->getModel();
 
-            $mail = new MailController($request->user());
+                $mail = new MailController($request->user());
 
-            $mail->subject  = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->issue_number;
-            $mail->template = 'de.request-approval';
+                $mail->subject  = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->issue_number;
+                $mail->template = 'de.request-approval';
 
-            if ($mail->send(decode($rp_id), ['header' => $header], 'COP')) {
-                $this->repository->storeSent($header);
+                if ($mail->send(decode($rp_id), ['header' => $header], 'COP')) {
+                    $this->repository->storeSent($header);
+                }
+
+                return response()->json([
+                    'location' => route('de.edit', compact('rp_id', 'header_id'))
+                ]);
             }
 
-            return redirect()->route('de.edit', compact('rp_id', 'header_id'))
-                ->with(['success_header' => 'La solicitud fue enviada']);
+            return response()->json(['err'=>'Unauthorized action.'], 401);
         }
 
         return redirect()->back()

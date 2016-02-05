@@ -16,7 +16,7 @@
                 <div class="wrapper no-pad" >
                     <!--mail inbox start-->
                     @if ($user->profile->first()->slug === 'SEP' || $user->profile->first()->slug === 'COP')
-                        @include('partials.inbox')
+                        @include('de.facultative.inbox')
                     @endif
                     <!--mail inbox end-->
                 </div>

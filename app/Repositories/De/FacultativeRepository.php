@@ -365,7 +365,7 @@ class FacultativeRepository extends BaseRepository
             $mail->subject  = $subject;
             $mail->template = $template;
 
-            if ($this->approved !== 2) {
+            if ($this->approved >= 0 && ! $response) {
                 array_push($mail->receivers, [
                     'email' => $header->user->email,
                     'name'  => $header->user->full_name,
@@ -380,6 +380,20 @@ class FacultativeRepository extends BaseRepository
             if ($mail->send(decode($rp_id), compact('fa'), $profiles)) {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    public function readUpdate(Request $request, $id)
+    {
+        if ($this->getFacultativeById($id)) {
+            $this->data = $request->all();
+            $read       = filter_var($this->data['read'], FILTER_VALIDATE_BOOLEAN);
+
+            $this->model->read = $read;
+
+            return $this->saveModel();
         }
 
         return false;

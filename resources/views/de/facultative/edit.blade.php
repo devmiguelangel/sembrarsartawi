@@ -91,7 +91,7 @@
                                         'placeholder'  => 'Porcentaje de Recargo',
                                         'autocomplete' => 'off',
                                         'ng-model'     => 'formData.percentage',
-                                        'ng-keyup'     => 'formData.final_rate=((formData.percentage/100) + formData.current_rate | number:2)',
+                                        'ng-keyup'     => 'finalRate()',
                                     ]) !!}
                                 </div>
                                 <label id="location-error" class="validation-error-label" for="location" ng-show="errors.percentage">
@@ -109,7 +109,6 @@
                                         'class'        => 'form-control',
                                         'placeholder'  => 'Tasa Actual',
                                         'autocomplete' => 'off',
-                                        'ng-init'      => 'formData.current_rate=' . $fa->detail->header->total_rate,
                                         'ng-model'     => 'formData.current_rate',
                                         'readonly'     => true
                                     ]) !!}
@@ -130,7 +129,6 @@
                                     'class'            => 'form-control',
                                     'placeholder'      => 'Tasa Final',
                                     'autocomplete'     => 'off',
-                                    'ng-init'          => 'formData.final_rate=formData.current_rate',
                                     'ng-model'         => 'formData.final_rate',
                                 ]) !!}
                             </div>
@@ -147,7 +145,8 @@
                         <label class="col-lg-3 control-label label_required">Estado: </label>
                         <div class="col-lg-9">
                             <div class="input-group">
-                                <select ng-init="formData.state=currentOption" ng-options="item as item.name for item in dataOptions track by item.id" ng-model="currentOption" class="form-control" ng-change="stateChange()">
+                                <select ng-init="formData.state=currentOption" ng-options="item as item.name for item in dataOptions track by item.id"
+                                  ng-model="currentOption" class="form-control" ng-change="stateChange()">
                                 </select>
                             </div>
                             <label id="location-error" class="validation-error-label" for="location" ng-show="errors.state">
@@ -184,7 +183,6 @@
                             'placeholder'  => 'mail@email.com',
                             'autocomplete' => 'off',
                             'ng-model'     => 'formData.emails',
-                            'ng-init'      => 'formData.emails="' . $fa->detail->header->user->email . '"',
                         ]) !!}
                         <div class="input-group">
                         <label id="location-error" class="validation-error-label" for="location" ng-show="errors.emails">

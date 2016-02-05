@@ -4,7 +4,8 @@ var ngAnimate = require('angular-animate');
 global.jQuery = $;
 var bootstrap = require('bootstrap');*/
 
-var DetailController       = require('./components/de/DetailController');
+var HeaderDeController     = require('./components/de/HeaderController');
+var DetailDeController     = require('./components/de/DetailController');
 var BeneficiaryController  = require('./components/de/BeneficiaryController');
 var FacultativeController  = require('./components/de/FacultativeController');
 var CancellationController = require('./components/de/CancellationController');
@@ -18,7 +19,8 @@ app.config(['$httpProvider', function ($httpProvider) {
 
 app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $compile, $window, $timeout){
   $rootScope.formData = {
-    mother_last_name: ''
+    mother_last_name: '',
+    emails: []
   };
 
   $rootScope.errors = {
@@ -79,10 +81,12 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
 
 }]);
 
-app.controller('DetailDeController', ['$scope', '$http', DetailController.detailEdit]);
+app.controller('HeaderDeController', ['$scope', '$http', HeaderDeController.header]);
+
+app.controller('DetailDeController', ['$scope', '$http', DetailDeController.detailEdit]);
 
 app.controller('BeneficiaryController', ['$scope', '$http', BeneficiaryController.beneficiary]);
 
-app.controller('FacultativeController', ['$rootScope', '$scope', '$http', '$compile', FacultativeController.facultative]);
+app.controller('FacultativeController', ['$rootScope', '$scope', '$http', '$compile', '$filter', FacultativeController.facultative]);
 
 app.controller('CancellationController', ['$scope', '$http', CancellationController.cancellation]);

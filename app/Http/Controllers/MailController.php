@@ -53,8 +53,12 @@ class MailController extends Controller
      * @var string
      */
     protected $html;
+    /**
+     * @var array
+     */
+    public $customEmails;
 
-    public function __construct(User $user)
+    public function __construct(User $user, array $customEmails = [])
     {
         $this->user           = $user;
         $this->userRepository = new UserRepository();
@@ -66,6 +70,8 @@ class MailController extends Controller
             'email' => 'emontano@sudseguros.com',
             'name'  => 'Ernesto Montaño'
         ];
+
+        $this->customEmails = $customEmails;
     }
 
     /**
@@ -90,6 +96,10 @@ class MailController extends Controller
         {
             $message->from($this->sender['email'], $this->sender['name']);
             $message->subject($this->sender['name'] . '. ' . $this->subject);
+
+            foreach ($this->customEmails as $customEmail) {
+                $message->to($customEmail);
+            }
 
             foreach ($this->receivers as $key => $receiver) {
                 $message->to($receiver['email'], $receiver['name']);
