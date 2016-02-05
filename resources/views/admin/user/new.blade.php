@@ -26,7 +26,11 @@
 
             </div>
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-success">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'create_user', 'name' => 'userForm', 'id' => 'userForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -59,8 +63,19 @@
                     <div class="form-group" style="display: none;" id="content-user-profiles">
                         <label class="control-label col-lg-2">Perfiles <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <select id="id_profile" name="id_profile" class="form-control required">
+                            <select id="id_profile" name="id_profile" class="">
                                 <option value="0">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display: none;" id="content-permissions">
+                        <label class="control-label col-lg-2">Permisos <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <select multiple="multiple" class="" name="permiso[]" id="permiso">
+                                @foreach($permissions as $dat_per)
+                                    <option value="{{$dat_per->id}}">{{$dat_per->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -192,7 +207,10 @@
                 if(arr[1]=='UST'){
                     //alert(tipo_usuario);
                     $.get( "{{url('/')}}/admin/user/profiles_ajax/"+tipo_usuario, function( data ) {
-                        $('#content-user-profiles').fadeIn('slow');
+                        $('#permiso').addClass('form-control required');
+                        $('#content-permissions').fadeIn('fast');
+                        $('#id_profile').addClass('form-control required');
+                        $('#content-user-profiles').fadeIn('fast');
                         $('#id_profile option').remove();
                         $('#id_profile').append('<option value="0">Seleccione</option>');
                         if(data.length>0){
@@ -205,7 +223,10 @@
                     });
                     //$('#content-user-profiles').fadeIn('slow');
                 }else{
-                    $('#content-user-profiles').fadeOut('slow');
+                    $('#id_profile').removeClass('form-control required');
+                    $('#content-user-profiles').fadeOut('fast');
+                    $('#permiso').removeClass('form-control required');
+                    $('#content-permissions').fadeOut('fast');
                 }
             });
 

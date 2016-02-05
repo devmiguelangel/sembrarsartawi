@@ -22,10 +22,16 @@
                 </ul>
             </div>
         </div>
+        @if (session('error'))
+            <div class="alert alert-success">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'update_user', 'name' => 'userUpdateForm', 'id' => 'userUpdateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
                 @if(!empty($user_find))
+                    @var $sw=1;
                     @if(!empty($user_find->ad_city_id))
                         @var $style = ''
                     @else
@@ -57,6 +63,7 @@
                                 </div>
                             </div>
                             @if($user_find->code=='UST')
+                                @var $dt_var = 0
                                 <div class="form-group" id="content-user-profiles-edit">
                                     <label class="control-label col-lg-2">Perfiles <span class="text-danger">*</span></label>
                                     <div class="col-lg-10">
@@ -72,14 +79,47 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group" id="content-permissions">
+                                    <label class="control-label col-lg-2">Permisos <span class="text-danger">*</span></label>
+                                    <div class="col-lg-10">
+                                        <select multiple="multiple" class="form-control required" name="permiso[]" id="permiso">
+                                            @foreach($permissions as $dat_per)
+                                                @if(count($user_permission)>0)
+                                                    @foreach($user_permission as $dat_idp)
+                                                        @if($dat_idp->ad_permission_id==$dat_per->id)
+                                                            <option value="{{$dat_per->id}}" selected>{{$dat_per->name}}</option>
+                                                            @var $dt_var = $dat_per->id
+                                                        @endif
+                                                    @endforeach
+                                                    @if($dt_var != $dat_per->id)
+                                                        <option value="{{$dat_per->id}}">{{$dat_per->name}}</option>
+                                                    @endif
+                                                @else
+                                                    <option value="{{$dat_per->id}}">{{$dat_per->name}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             @else
                                 <div class="form-group" style="display: none;" id="content-user-profiles-new">
                                     <label class="control-label col-lg-2">Perfiles <span class="text-danger">*</span></label>
                                     <div class="col-lg-10">
-                                        <select id="id_profile" name="id_profile" class="form-control required">
+                                        <select id="id_profile" name="id_profile" class="">
                                             <option value="0">Seleccione</option>
                                             @foreach($query_prof as $dat_prof)
                                                 <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="display: none;" id="content-permissions">
+                                    <label class="control-label col-lg-2">Permisos <span class="text-danger">*</span></label>
+                                    <div class="col-lg-10">
+                                        <select multiple="multiple" class="" name="permiso[]" id="permiso">
+                                            @foreach($permissions as $dat_per)
+                                                <option value="{{$dat_per->id}}">{{$dat_per->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -169,7 +209,7 @@
                                 Agregar departamentos a Retailer <i class="icon-pencil3 position-right"></i>
                             </a>
                         @endif
-                        <input type="hidden" id="id_user" name="id_user" value="{{$user_find->id_user}}">
+                        <input type="hidden" id="id_user" name="id_user" id="id_user" value="{{$user_find->id_user}}">
                         <input type="hidden" id="code" name="code" value="{{$user_find->code}}">
                     </div>
                 @endif
@@ -207,21 +247,33 @@
                 var _id = $(this).prop('value');
                 var arr = _id.split("|");
                 var _code_db = $('#code').prop('value');
+                var id_user = $('#id_user').prop('value');
+                //alert('_code_db: '+_code_db+ 'arr: '+arr[1]);
                 if(_code_db=='UST'){
                     if(arr[1]=='UST'){
-                        $('#content-user-profiles-edit').fadeIn('slow');
-                        $( "#id_profile" ).last().addClass("form-control required");
+                        $('#content-user-profiles-edit').fadeIn('fast');
+                        $( "#id_profile" ).addClass("form-control required");
+                        $('#content-permissions').fadeIn('fast');
+                        $('#permiso').addClass('form-control required');
                     }else{
-                        $('#content-user-profiles-edit').fadeOut('slow');
+                        $('#content-user-profiles-edit').fadeOut('fast');
                         $('#id_profile option[value="0"]').prop('selected',true);
                         $( "#id_profile" ).removeClass("form-control required");
+                        $('#content-permissions').fadeOut('fast');
+                        $('#permiso').removeClass('form-control required');
+                        $('#permiso option:selected').removeAttr("selected");
+                        $.get( "{{url('/')}}/admin/user/disabled_ajax/"+id_user, function( data ) {
+                            console.log(data);
+                        });
                     }
                 }else{
                     if(arr[1]=='UST'){
-                        $('#content-user-profiles-new').fadeIn('slow');
-                        $( "#id_profile" ).last().addClass("form-control required");
+                        $('#content-user-profiles-new').fadeIn('fast');
+                        $( "#id_profile" ).addClass("form-control required");
+                        $('#content-permissions').fadeIn('fast');
+                        $('#permiso').addClass('form-control required');
                     }else{
-                        $('#content-user-profiles-new').fadeOut('slow');
+                        $('#content-user-profiles-new').fadeOut('fast');
                         $( "#id_profile" ).removeClass("form-control required");
                     }
                 }

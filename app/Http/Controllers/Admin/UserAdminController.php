@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Sibas\Entities\User;
@@ -32,7 +33,6 @@ class UserAdminController extends BaseController
             if($this->repository->listUser()){
                 $users = $this->repository->getModel() ;
             }
-            //dd($users);
             return view('admin.user.list', compact('nav', 'action', 'users', 'main_menu'));
         }elseif($action=='new'){
             $retailer = \DB::table('ad_retailers')
@@ -46,7 +46,10 @@ class UserAdminController extends BaseController
                         ->get();
             //dd($cities);
             $query_type_user = \DB::table('ad_user_types')->get();
-            return view('admin.user.new', compact('nav','action', 'cities', 'main_menu', 'query_type_user', 'retailer'));
+
+            $permissions = \DB::table('ad_permissions')
+                ->get();
+            return view('admin.user.new', compact('nav','action', 'cities', 'main_menu', 'query_type_user', 'retailer', 'permissions'));
         }
 
     }
@@ -95,12 +98,35 @@ class UserAdminController extends BaseController
                                         );
             if($query_retailer_user){
                 if($array[1]=='UST'){
-                    $query_insert = \DB::table('ad_user_profiles')->insert(
-                        ['ad_user_id'=>$user_new->id, 'ad_profile_id'=>$request->input('id_profile'), 'active'=>true, 'created_at'=>date("Y-m-d H:i:s"), 'updated_at'=>date("Y-m-d H:i:s")]
-                    );
-                    if($query_insert){
+                    try {
+                        $query_insert = \DB::table('ad_user_profiles')->insert(
+                            [
+                                'ad_user_id'=>$user_new->id,
+                                'ad_profile_id'=>$request->input('id_profile'),
+                                'active'=>true,
+                                'created_at'=>date("Y-m-d H:i:s"),
+                                'updated_at'=>date("Y-m-d H:i:s")
+                            ]
+                        );
+
+                        foreach ($request->get('permiso') as $key => $value) {
+                            $query_permissions = \DB::table('ad_user_permissions')->insert(
+                                [
+                                    'ad_user_id' => $user_new->id,
+                                    'ad_permission_id' => $value,
+                                    'active' => true,
+                                    'created_at'=>date("Y-m-d H:i:s"),
+                                    'updated_at'=>date("Y-m-d H:i:s")
+                                ]
+                            );
+                        }
+
                         return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+
+                    } catch(QueryException $e) {
+                        return redirect()->back()->with(array('error'=>$e->getMessage()));
                     }
+
                 }else{
                     return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
                 }
@@ -137,6 +163,10 @@ class UserAdminController extends BaseController
                             ->where('au.id', '=', $id_user)
                             ->first();
 
+            $user_permission = \DB::table('ad_user_permissions')
+                                    ->where('ad_user_id', $user_find->id_user)
+                                    ->get();
+            //dd($user_permission);
             $profile_find = \DB::table('ad_user_profiles')
                             ->where('ad_user_id', '=', $user_find->id_user)
                             ->first();
@@ -174,7 +204,10 @@ class UserAdminController extends BaseController
 
             $query_type_user = \DB::table('ad_user_types')->get();
 
-            return view('admin.user.edit', compact('nav', 'action', 'user_find', 'cities', 'agencies', 'main_menu', 'query_type_user', 'profile_find', 'query_prof', 'retailer'));
+            $permissions = \DB::table('ad_permissions')
+                                ->get();
+            //dd($permissions);
+            return view('admin.user.edit', compact('nav', 'action', 'user_find', 'cities', 'agencies', 'main_menu', 'query_type_user', 'profile_find', 'query_prof', 'retailer', 'permissions', 'user_permission'));
         }elseif($action=='changepass'){
             $user_find = \DB::table('ad_users')
                             ->where('id', '=', $id_user)
@@ -221,18 +254,41 @@ class UserAdminController extends BaseController
         $user_update->ad_user_type_id=$array[0];
         if($user_update->save()) {
             if($array[1]=='UST'){
-                $query_update_profile = \DB::table('ad_user_profiles')
-                    ->where('ad_user_id', $request->input('id_user'))
-                    ->update(['ad_profile_id' => $request->input('id_profile'), 'updated_at'=>date("Y-m-d H:i:s"), 'active'=>true]);
-                if($query_update_profile){
+                try{
+                    $query_update_profile = \DB::table('ad_user_profiles')
+                        ->where('ad_user_id', $request->input('id_user'))
+                        ->update(['ad_profile_id' => $request->input('id_profile'), 'updated_at'=>date("Y-m-d H:i:s"), 'active'=>true]);
+
+                    $query_del = \DB::table('ad_user_permissions')
+                                    ->where('ad_user_id', $request->input('id_user'))->delete();
+
+                    foreach ($request->get('permiso') as $key => $value) {
+                        $query_permissions = \DB::table('ad_user_permissions')->insert(
+                            [
+                                'ad_user_id' => $request->input('id_user'),
+                                'ad_permission_id' => $value,
+                                'active' => true,
+                                'created_at'=>date("Y-m-d H:i:s"),
+                                'updated_at'=>date("Y-m-d H:i:s")
+                            ]
+                        );
+                    }
+
                     return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+
+                } catch(QueryException $e){
+                    return redirect()->back()->with(array('error'=>$e->getMessage()));
                 }
             }else{
-                $query_update_profile = \DB::table('ad_user_profiles')
-                    ->where('ad_user_id', $request->input('id_user'))
-                    ->update(['active'=>false]);
-                if($query_update_profile){
-                    return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+                try{
+                    $query_update_profile = \DB::table('ad_user_profiles')
+                        ->where('ad_user_id', $request->input('id_user'))
+                        ->update(['active'=>false]);
+                    if($query_update_profile){
+                        return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+                    }
+                } catch(QueryException $e){
+                    return redirect()->back()->with(array('error'=>$e->getMessage()));
                 }
             }
         }
@@ -317,6 +373,17 @@ class UserAdminController extends BaseController
                 return 0;
             }
         }
+    }
+
+    public function ajax_disabled_permissions($id_user){
+        //dd($id_user);
+        $query = \DB::table('ad_user_permissions')->where('ad_user_id',$id_user)->delete();
+        if($query){
+            return 1;
+        }else{
+            return 0;
+        }
+
     }
 
     public function ajax_user_profiles($tipo_usuario){
