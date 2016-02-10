@@ -97,7 +97,7 @@ class ReportController extends Controller {
                 ->join('ad_users', 'op_de_headers.ad_user_id', '=', 'ad_users.id')
                 ->join('ad_coverages', 'op_de_headers.ad_coverage_id', '=', 'ad_coverages.id')
                 //edw-->->select('op_de_headers.policy_number','op_de_headers.prefix', 'op_de_headers.id', 'ad_coverages.name', 'op_de_headers.operation_number', 'op_de_headers.amount_requested', 'op_de_headers.currency', 'op_de_headers.term', 'op_de_headers.type_term', 'op_de_headers.total_rate', 'op_de_headers.total_premium', 'op_de_headers.date_issue', 'ad_users.username', 'ad_users.full_name')
-                ->select(DB::raw("CONCAT(op_de_headers.policy_number, '-', op_de_headers.prefix) as policy_number"), 'op_de_headers.id', 'ad_coverages.name', 'op_de_headers.operation_number',
+                ->select(DB::raw("CONCAT(op_de_headers.prefix, ' - ',op_de_headers.policy_number ) as policy_number"), 'op_de_headers.id', 'ad_coverages.name', 'op_de_headers.operation_number',
                         'op_de_headers.amount_requested', 'op_de_headers.currency', 'op_de_headers.term', 'op_de_headers.type_term', 'op_de_headers.total_rate', 
                          DB::raw('DATE_FORMAT(op_de_headers.date_issue,"%d/%m/%Y") as date_issue'), 'ad_users.full_name')
                 ->where('op_de_headers.type', 'I');

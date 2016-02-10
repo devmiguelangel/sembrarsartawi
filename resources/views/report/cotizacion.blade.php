@@ -190,11 +190,11 @@
                                                                     <i class="icon-plus2"></i> Ver Slip de Cotización
                                                                 </a>
                                                             </li>
-                                                            <li>
+                                                            <!--<li>
                                                                 <a href="{{ route('de.result', ['rp_id' => encode($entities->ad_user_id), 'header_id' => encode($entities->id)]) }}" >
                                                                     <i class="icon-plus2"></i> Emitir Cotización
                                                                 </a>
-                                                            </li>
+                                                            </li>-->
                                                         </ul>
                                                     </li>
                                                 </ul>
