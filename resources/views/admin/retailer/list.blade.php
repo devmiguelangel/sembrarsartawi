@@ -95,7 +95,7 @@
         </table>
         @else
             <div class="alert alert-warning alert-styled-left">
-                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+                <span class="text-semibold"></span> No existe ningun Retailer registrado.
             </div>
         @endif
     </div>

@@ -25,7 +25,7 @@
                     <li>
                         <a href="{{route('admin.product.new', ['nav'=>'product', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
-                            <span>Agregar Producto</span>
+                            <span>Agregar nuevo Producto</span>
                         </a>
                     </li>
                 </ul>
@@ -70,7 +70,7 @@
         </table>
         @else
             <div class="alert alert-warning alert-styled-left">
-                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+                <span class="text-semibold"></span> No existe ningun producto registrado.
             </div>
         @endif
     </div>

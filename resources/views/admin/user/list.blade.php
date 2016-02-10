@@ -25,7 +25,7 @@
                     <li>
                         <a href="{{route('admin.user.new', ['nav'=>$nav, 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
-                            <span>Nuevo usuario</span>
+                            <span>Crear nuevo usuario</span>
                         </a>
                     </li>
                 </ul>
@@ -35,8 +35,8 @@
         <div class="panel-body">
 
         </div>
-
-        <table class="table datatable-basic">
+        @if(count($users)>0)
+            <table class="table datatable-basic">
             <thead>
             <tr>
                 <th>Tipo usuario</th>
@@ -107,6 +107,11 @@
             @endforeach
             </tbody>
         </table>
+        @else
+            <div class="alert alert-warning alert-styled-left">
+                <span class="text-semibold"></span> No existe ninguna usuario registrado.
+            </div>
+        @endif
     </div>
     <script type="text/javascript">
         // Confirmation dialog

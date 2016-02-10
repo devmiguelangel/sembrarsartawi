@@ -25,7 +25,7 @@
                     <li>
                         <a href="{{route('admin.company.new', ['nav'=>'company', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
-                            <span>Agregar Compañia</span>
+                            <span>Agregar nueva <br>Compañía de Seguros</span>
                         </a>
                     </li>
                 </ul>
@@ -92,7 +92,7 @@
         </table>
         @else
             <div class="alert alert-warning alert-styled-left">
-                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+                <span class="text-semibold"></span> No existe ninguna compañía registrada.
             </div>
         @endif
     </div>

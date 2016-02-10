@@ -11,7 +11,7 @@
             @endif
             <li class="{{$data}}">
                 <a href="{{route('admin.home', ['nav'=>'begin'])}}">
-                    <i class="icon-home4"></i><span>Dashboard</span>
+                    <i class="icon-home4"></i><span>Inicio</span>
                 </a>
             </li>
             <li class="navigation-header"><span>Retailers/Productos/Compañías</span> <i class="icon-menu" title="Forms"></i></li>
@@ -206,7 +206,7 @@
                 @endforeach
             @else
                 <div class="alert alert-warning alert-styled-left">
-                    <span class="text-semibold">Warning!</span> No existe ningun producto, ingrese un nuevo producto.
+                    <span class="text-semibold"></span> No existe ningun producto registrado.
                 </div>
             @endif
             <li class="navigation-header">

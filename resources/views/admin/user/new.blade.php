@@ -164,7 +164,7 @@
                         Cancelar <i class="icon-cross position-right"></i>
                     </a>
                     @if(empty($cities))
-                        <a href="{{route('admin.cities.list', ['nav'=>'city', 'action'=>'list'])}}" class="btn btn-primary">
+                        <a href="{{route('admin.cities.list-city-retailer', ['nav'=>'city', 'action'=>'list_city_retailer'])}}" class="btn btn-primary">
                             Agregar departamentos a Retailer <i class="icon-pencil3 position-right"></i>
                         </a>
                     @endif
@@ -194,7 +194,7 @@
                             $('#agencia').append('<option value="'+this.id+'">'+this.name+'</option>');
                         });
                     }else{
-                        $('#msg_agencia').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold">Warning!</span> No existen agencias agregadas al departamento.<br><a href="{{route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list', 'id_retailer'=>auth()->user()->retailer->first()->id])}}">Ingresar agencias a departamento</a></div>');
+                        $('#msg_agencia').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span> No existen agencias agregadas al departamento.<br><a href="{{route('admin.agencies.list-agency-retailer', ['nav'=>'agency', 'action'=>'list_agency_retailer'])}}">Ingresar agencias a departamento</a></div>');
                     }
                 });
             });

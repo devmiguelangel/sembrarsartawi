@@ -37,85 +37,91 @@
             @var $disabled='disabled'
         @endif
         <div class="panel-body">
-            {!! Form::open(array('route' => 'add_subproduct', 'name' => 'CreateForm', 'id' => 'CreateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
+            @if(count($product)>0)
+                {!! Form::open(array('route' => 'add_subproduct', 'name' => 'CreateForm', 'id' => 'CreateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
 
-                <fieldset class="content-group">
+                    <fieldset class="content-group">
 
-                    <div class="col-md-6">
-                        <div class="panel panel-flat">
-                            <div class="panel-heading">
-                                <h5 class="panel-title">Productos</h5>
-                            </div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    @if(count($product)>0)
-                                        <select name="id_retailer_product" id="id_retailer_product" class="form-control required">
-                                        <option value="0">Seleccione</option>
-                                        @foreach($product as $value_pr)
-                                            @var $vec = explode('|',$value_pr)
-                                            @var $id_retailer_product = $vec[0]
-                                            @var $product = $vec[1]
-                                            @if($id_retailer_product_select==$id_retailer_product)
-                                                <option value="{{$id_retailer_product}}" selected>{{$product}}</option>
-                                            @else
-                                                <option value="{{$id_retailer_product}}">{{$product}}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                    @else
-                                        <div class="alert alert-warning alert-styled-left">
-                                            <span class="text-semibold">Warning!</span> No existe ningun subproducto, ingrese un nuevo subproducto.
-                                        </div>
-                                    @endif
+                        <div class="col-md-6">
+                            <div class="panel panel-flat">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">Productos</h5>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="panel panel-flat">
-                            <div class="panel-heading">
-                                <h5 class="panel-title">Subproductos</h5>
-                            </div>
-                            @var $dt_var = 0
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    @if(count($subproduct)>0)
-                                        <select multiple="multiple" class="form-control required" name="subproduct[]" id="subproduct" {{$disabled}}>
-                                        @foreach($subproduct as $value_sp)
-                                            @var $vec = explode('|',$value_sp)
-                                            @var $id_company_product = $vec[0]
-                                            @var $product = $vec[1]
-                                            @if(count($retailer_subproduct)>0)
-                                                @foreach($retailer_subproduct as $data)
-                                                    @if($id_company_product==$data->ad_company_product_id)
-                                                        <option value="{{$id_company_product}}" selected>{{$product}}</option>
-                                                        @var $dt_var=$id_company_product
-                                                    @endif
-                                                @endforeach
-                                                @if($id_company_product!=$dt_var)
-                                                        <option value="{{$id_company_product}}">{{$product}}</option>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        @if(count($product)>0)
+                                            <select name="id_retailer_product" id="id_retailer_product" class="form-control required">
+                                            <option value="0">Seleccione</option>
+                                            @foreach($product as $value_pr)
+                                                @var $vec = explode('|',$value_pr)
+                                                @var $id_retailer_product = $vec[0]
+                                                @var $product = $vec[1]
+                                                @if($id_retailer_product_select==$id_retailer_product)
+                                                    <option value="{{$id_retailer_product}}" selected>{{$product}}</option>
+                                                @else
+                                                    <option value="{{$id_retailer_product}}">{{$product}}</option>
                                                 @endif
-                                            @else
-                                                <option value="{{$id_company_product}}">{{$product}}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-
-                                    @endif
+                                            @endforeach
+                                        </select>
+                                        @else
+                                            <div class="alert alert-warning alert-styled-left">
+                                                <span class="text-semibold">Warning!</span> No existe ningun subproducto, ingrese un nuevo subproducto.
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <div class="panel panel-flat">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">Subproductos</h5>
+                                </div>
+                                @var $dt_var = 0
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        @if(count($subproduct)>0)
+                                            <select multiple="multiple" class="form-control required" name="subproduct[]" id="subproduct" {{$disabled}}>
+                                            @foreach($subproduct as $value_sp)
+                                                @var $vec = explode('|',$value_sp)
+                                                @var $id_company_product = $vec[0]
+                                                @var $product = $vec[1]
+                                                @if(count($retailer_subproduct)>0)
+                                                    @foreach($retailer_subproduct as $data)
+                                                        @if($id_company_product==$data->ad_company_product_id)
+                                                            <option value="{{$id_company_product}}" selected>{{$product}}</option>
+                                                            @var $dt_var=$id_company_product
+                                                        @endif
+                                                    @endforeach
+                                                    @if($id_company_product!=$dt_var)
+                                                            <option value="{{$id_company_product}}">{{$product}}</option>
+                                                    @endif
+                                                @else
+                                                    <option value="{{$id_company_product}}">{{$product}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary">
+                            Guardar <i class="icon-floppy-disk position-right"></i>
+                        </button>
                     </div>
-
-                </fieldset>
-
-                <div class="text-right">
-                    <button type="submit" class="btn btn-primary">
-                        Guardar <i class="icon-floppy-disk position-right"></i>
-                    </button>
+                {!!Form::close()!!}
+            @else
+                <div class="alert alert-warning alert-styled-left">
+                    <span class="text-semibold"></span> No existen productos/subproductos registrados al retailer.
                 </div>
-            {!!Form::close()!!}
+            @endif
         </div>
 
     </div>

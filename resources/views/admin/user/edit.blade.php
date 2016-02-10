@@ -205,7 +205,7 @@
                             Cancelar <i class="icon-arrow-right14 position-right"></i>
                         </a>
                         @if(empty($cities))
-                            <a href="{{route('admin.cities.list', ['nav'=>'city', 'action'=>'list'])}}" class="btn btn-primary">
+                            <a href="{{route('admin.cities.list-city-retailer', ['nav'=>'city', 'action'=>'list_city_retailer'])}}" class="btn btn-primary">
                                 Agregar departamentos a Retailer <i class="icon-pencil3 position-right"></i>
                             </a>
                         @endif

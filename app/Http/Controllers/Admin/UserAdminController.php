@@ -32,6 +32,8 @@ class UserAdminController extends BaseController
         if($action=='list'){
             if($this->repository->listUser()){
                 $users = $this->repository->getModel() ;
+            }else{
+                $users = null;
             }
             return view('admin.user.list', compact('nav', 'action', 'users', 'main_menu'));
         }elseif($action=='new'){
