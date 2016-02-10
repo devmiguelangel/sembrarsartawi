@@ -182,30 +182,38 @@
                 @endif
             @endif
         @elseif($nav=='city')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
             @if($action=='list')
-                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
                 <li class="active">Departamentos</li>
             @elseif($action=='edit' || $action=='new')
-                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
                 <li><a href="{{ route('admin.cities.list', ['nav'=>'city', 'action'=>'list']) }}">Listar registros</a></li>
                 @if($action=='edit')
                     <li class="active">Editar Registro</li>
                 @elseif($action=='new')
                     <li class="active">Crear Registro</li>
                 @endif
+            @elseif($action=='list_city_retailer')
+                <li class="active">Departamentos Retailer</li>
+            @elseif($action=='new_city_retailer')
+                <li><a href="{{ route('admin.cities.list-city-retailer', ['nav'=>'city', 'action'=>'list_city_retailer']) }}">Departamentos Retailer</a></li>
+                <li class="active">Agregar departamento a retailer</li>
             @endif
         @elseif($nav=='agency')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
             @if($action=='list')
-                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
                 <li class="active">Agencias</li>
             @elseif($action=='edit' || $action=='new')
-                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
-                <li><a href="{{ route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list', 'id_retailer'=>auth()->user()->retailer->first()->id]) }}">Listar registros</a></li>
+                <li><a href="{{ route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list']) }}">Listar registros</a></li>
                 @if($action=='edit')
                     <li class="active">Editar</li>
                 @elseif($action=='new')
                     <li class="active">Crear</li>
                 @endif
+            @elseif($action=='list_agency_retailer')
+                <li class="active">Agencias Departamentos</li>
+            @elseif($action=='new_agency_retailer')
+                <li><a href="{{ route('admin.agencies.list-agency-retailer', ['nav'=>'agency', 'action'=>'list_agency_retailer']) }}">Agencias Departamentos</a></li>
+                <li class="active">Agregar agencia a departamento</li>
             @endif
         @elseif($nav=='addquestion')
             @if($action=='list')

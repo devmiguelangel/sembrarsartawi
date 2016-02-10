@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Str;
@@ -32,6 +33,27 @@ class CityAdminController extends BaseController
 
     }
 
+    public function index_city_retailer($nav, $action)
+    {
+        $main_menu = $this->menu_principal();
+        if($action=='list_city_retailer'){
+            $query = \DB::table('ad_retailer_cities as arc')
+                ->join('ad_cities as ac', 'ac.id', '=', 'arc.ad_city_id')
+                ->join('ad_retailers as ar', 'ar.id', '=', 'arc.ad_retailer_id')
+                ->select('arc.id as id_city_retailer', 'ac.name as cities', 'ar.name as retailer', 'arc.ad_retailer_id', 'arc.active')
+                ->get();
+            //dd($query);
+            return view('admin.cities.list-city-retailer', compact('nav', 'action', 'query', 'main_menu'));
+        }elseif($action=='new_city_retailer'){
+            $retailer = \DB::table('ad_retailers')
+                            ->get();
+            $city = \DB::table('ad_cities')
+                            ->where('abbreviation', '<>', 'PE')
+                            ->get();
+            return view('admin.cities.new-city-retailer', compact('nav', 'action', 'main_menu', 'retailer', 'city'));
+        }
+
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -51,28 +73,59 @@ class CityAdminController extends BaseController
     public function store(Request $request)
     {
         $slug = Str::slug($request->input('txtSucursal'));
-
-        $query_int = new City();
-        $query_int->name=$request->input('txtSucursal');
-        $query_int->abbreviation=$request->input('txtCodigo');
-        $query_int->slug=$slug;
-        if($query_int->save()) {
-            if($request->input('id_retailer')!=0){
-                $id_city=$query_int->id;
-                $query_re_cit = \DB::table('ad_retailer_cities')->insert(
-                    [
-                        'ad_retailer_id'=>$request->input('id_retailer'),
-                        'ad_city_id'=>$id_city,
-                        'active'=>true,
-                        'created_at'=>date("Y-m-d H:i:s"),
-                        'updated_at'=>date("Y-m-d H:i:s")
-                    ]
-                );
+        try {
+            $query_int = new City();
+            $query_int->name = $request->input('txtSucursal');
+            $query_int->abbreviation = $request->input('txtCodigo');
+            $query_int->slug = $slug;
+            if ($query_int->save()) {
+                return redirect()->route('admin.cities.list', ['nav' => 'city', 'action' => 'list']);
             }
-            return redirect()->route('admin.cities.list', ['nav' => 'city', 'action' => 'list']);
+        }catch (QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
+    public function store_city_retailer(Request $request)
+    {
+        try {
+            //VERIFICAMOS SI EL ID_RETAILER_CITY NO ESTA EN LA TABLA AD_RETAILER_CITY_AGENCIES
+            $query_retailer_city = \DB::table('ad_retailer_cities')
+                                    ->where('ad_retailer_id', '=', $request->input('id_retailer'))
+                                    ->get();
+
+            foreach($query_retailer_city as $data){
+                $quest = \DB::table('ad_retailer_city_agencies')
+                            ->where('ad_retailer_city_id', '=', $data->id)
+                            ->first();
+                if(count($quest)==0){
+                    $query_del = \DB::table('ad_retailer_cities')
+                        ->where('id', $quest->id)->delete();
+                }
+            }
+
+            foreach ($request->get('city') as $key => $value) {
+                $query_quest_city = \DB::table('ad_retailer_cities')
+                                        ->where('ad_city_id', '=', $value)
+                                        ->first();
+                if(count($query_quest_city)==0){
+                    $query_cities_retailer = \DB::table('ad_retailer_cities')->insert(
+                        [
+                            'ad_retailer_id' => $request->input('id_retailer'),
+                            'ad_city_id' => $value,
+                            'active' => true,
+                            'created_at'=>date("Y-m-d H:i:s"),
+                            'updated_at'=>date("Y-m-d H:i:s")
+                        ]
+                    );
+                }
+            }
+            return redirect()->route('admin.cities.list-city-retailer', ['nav' => 'city', 'action' => 'list_city_retailer']);
+
+        } catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
+        }
+    }
     /**
      * Display the specified resource.
      *
@@ -111,26 +164,17 @@ class CityAdminController extends BaseController
      */
     public function update(Request $request)
     {
-        $slug = Str::slug($request->input('txtSucursal'));
-        $query_update = City::where('id', $request->input('id_depto'))->first();
-        $query_update->name=$request->input('txtSucursal');
-        $query_update->abbreviation=$request->input('txtCodigo');
-        $query_update->slug=$slug;
-        if($query_update->save()){
-            if($request->input('id_retailer')!=0){
-                $query_re = \DB::table('ad_retailer_cities')
-                                ->where('ad_retailer_id','=',$request->input('id_retailer'))
-                                ->where('ad_city_id', '=', $request->input('id_depto'))->first();
-                //dd(count($query_re));
-                if(count($query_re)==0){
-                    $query_int = \DB::table('ad_retailer_cities')->insert(
-                        ['ad_retailer_id'=>$request->input('id_retailer'), 'ad_city_id'=>$request->input('id_depto'), 'active'=>true]
-                    );
-                }
-                return redirect()->route('admin.cities.list', ['nav'=>'city', 'action'=>'list']);
-            }else{
-                return redirect()->route('admin.cities.list', ['nav'=>'city', 'action'=>'list']);
+        try {
+            $slug = Str::slug($request->input('txtSucursal'));
+            $query_update = City::where('id', $request->input('id_depto'))->first();
+            $query_update->name = $request->input('txtSucursal');
+            $query_update->abbreviation = $request->input('txtCodigo');
+            $query_update->slug = $slug;
+            if ($query_update->save()) {
+                return redirect()->route('admin.cities.list', ['nav' => 'city', 'action' => 'list']);
             }
+        }catch (QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -204,5 +248,23 @@ class CityAdminController extends BaseController
         }else{
             return 0;
         }
+    }
+
+    public function ajax_city_retailer($id_retailer)
+    {
+        $city = \DB::table('ad_cities as ac')
+                    ->select('ac.id as id_city', 'ac.name as cities')
+                    ->where('ac.abbreviation', '<>', 'PE')
+                    ->get();
+
+        $city_retailer = \DB::table('ad_retailer_cities as arc')
+                                ->select('arc.id as id_retailer_cities', 'arc.ad_retailer_id', 'arc.ad_city_id')
+                                ->where('arc.ad_retailer_id', '=', $id_retailer)
+                                ->get();
+        //dd($city_retailer);
+        $arr = array();
+        $arr['city'] = $city;
+        $arr['cityretailer'] = $city_retailer;
+        return response()->json($arr);
     }
 }

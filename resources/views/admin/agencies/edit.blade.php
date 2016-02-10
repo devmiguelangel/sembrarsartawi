@@ -32,7 +32,11 @@
             </div>
             -->
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'update_agency', 'name' => 'AgencyUpdateForm', 'id' => 'AgencyUpdateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -54,44 +58,11 @@
 
                 </fieldset>
 
-                <fieldset class="content-group">
-                    <h5 class="panel-title">Agregar agencia a departamento</h5>
-                    <br>
-                    <div class="form-group">
-                        <label class="control-label col-lg-2">Retailer</label>
-                        <div class="col-lg-10">
-                        {{$query_re->name}}
-                        <input type="hidden" id="id_retailer" name="id_retailer" value="{{$query_re->id}}">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-lg-2">Departamento <span class="text-danger">*</span></label>
-                        <div class="col-lg-10">
-                            <select name="id_retailer_city" id="id_retailer_city" class="form-control required">
-                                <option value="0">Ninguno</option>
-                                @foreach($query_dp as $data)
-                                    @if(count($city_agency)>0)
-                                        @if($city_agency->id_retailer_cities == $data->id_retailer_city)
-                                            <option value="{{$data->id_retailer_city}}" selected>{{$data->departamento}}</option>
-                                        @else
-                                            <option value="{{$data->id_retailer_city}}">{{$data->departamento}}</option>
-                                        @endif
-                                    @else
-                                        <option value="{{$data->id_retailer_city}}">{{$data->departamento}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                </fieldset>
-
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">
                         Guardar <i class="icon-floppy-disk position-right"></i>
                     </button>
-                    <a href="{{ route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list', 'id_retailer'=>auth()->user()->retailer->first()->id]) }}" class="btn btn-primary">
+                    <a href="{{ route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list']) }}" class="btn btn-primary">
                         Cancelar <i class="icon-cross position-right"></i>
                     </a>
                     <input type="hidden" name="id_agency" id="id_agency" value="{{$query_ag->id}}">
@@ -169,7 +140,7 @@
             var _value = $(element).prop('value');
             var regex = null;
             if($(element).hasClass('text') === true){
-                regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s]*$/;
+                regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s\.]*$/;
                 err = 'Ingrese solo texto';
             }else if($(element).hasClass('email') === true){
                 regex = /^([a-z]+[a-z0-9._-]*)@{1}([a-z0-9\.]{2,})\.([a-z]{2,3})$/;

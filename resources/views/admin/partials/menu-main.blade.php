@@ -259,12 +259,12 @@
                 </a>
             </li>
             @if($nav=='city')
-                @if($action=='list' || $action=='edit' || $action=='new')
+                @if($action=='list' || $action=='edit' || $action=='new' || $action=='list_city_retailer' || $action=='new_city_retailer')
                     @var $data_dpt='active'
                     @var $data_age=''
                 @endif
             @elseif($nav=='agency')
-                @if($action=='list' || $action=='edit' || $action=='new')
+                @if($action=='list' || $action=='edit' || $action=='new' || $action=='list_agency_retailer'|| $action=='new_agency_retailer')
                     @var $data_age='active'
                     @var $data_dpt=''
                 @endif
@@ -276,10 +276,10 @@
                 <a href="#"><i class="icon-city"></i> <span>Departamento/Agencias</span></a>
                 <ul>
                     <li class="{{$data_dpt}}">
-                        <a href="{{route('admin.cities.list', ['nav'=>'city', 'action'=>'list'])}}">Departamentos</a>
+                        <a href="{{route('admin.cities.list-city-retailer', ['nav'=>'city', 'action'=>'list_city_retailer'])}}">Departamentos</a>
                     </li>
                     <li class="{{$data_age}}">
-                        <a href="{{route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list', 'id_retailer'=>auth()->user()->retailer->first()->id])}}">Agencias</a>
+                        <a href="{{route('admin.agencies.list-agency-retailer', ['nav'=>'agency', 'action'=>'list_agency_retailer'])}}">Agencias</a>
                     </li>
                 </ul>
             </li>

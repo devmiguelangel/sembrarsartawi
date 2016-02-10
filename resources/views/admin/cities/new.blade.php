@@ -31,7 +31,11 @@
                 </ul>-->
             </div>
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'create_city', 'name' => 'CityCreateForm', 'id' => 'CityCreateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -48,18 +52,6 @@
                     <label class="control-label col-lg-2">Código <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control required" id="txtCodigo" name="txtCodigo" value="" maxlength="3">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Agregar a Retailer <span class="text-danger">*</span></label>
-                    <div class="col-lg-10">
-                        <select name="id_retailer" id="id_retailer" class="form-control required">
-                            <option value="0">Ninguno</option>
-                            @foreach($query_re as $data)
-                                <option value="{{$data->id}}">{{$data->name}}</option>
-                            @endforeach
-                        </select>
                     </div>
                 </div>
 

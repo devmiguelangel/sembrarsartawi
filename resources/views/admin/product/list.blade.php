@@ -35,8 +35,8 @@
         <div class="panel-body">
 
         </div>
-
-        <table class="table table-bordered">
+        @if(count($query)>0)
+            <table class="table table-bordered">
             <thead>
             <tr>
                 <th>Producto</th>
@@ -68,5 +68,10 @@
             @endforeach
             </tbody>
         </table>
+        @else
+            <div class="alert alert-warning alert-styled-left">
+                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+            </div>
+        @endif
     </div>
 @endsection

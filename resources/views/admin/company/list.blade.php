@@ -35,8 +35,8 @@
         <div class="panel-body">
 
         </div>
-
-        <table class="table table-bordered">
+        @if(count($company_new)>0)
+            <table class="table table-bordered">
             <thead>
             <tr>
                 <th>Compañia de Seguros</th>
@@ -90,6 +90,11 @@
             @endforeach
             </tbody>
         </table>
+        @else
+            <div class="alert alert-warning alert-styled-left">
+                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+            </div>
+        @endif
     </div>
     <script type="text/javascript">
         $(document).ready(function(){

@@ -23,7 +23,7 @@
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li>
-                        <a href="{{route('admin.agencies.new', ['nav'=>'agency', 'action'=>'new', 'id_retailer'=>auth()->user()->retailer->first()->id])}}" class="btn btn-link btn-float has-text">
+                        <a href="{{route('admin.agencies.new', ['nav'=>'agency', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
                             <span>Crear agencia</span>
                         </a>
@@ -35,8 +35,8 @@
         <div class="panel-body">
 
         </div>
-
-        <table class="table datatable-basic table-bordered">
+        @if(count($query)>0)
+            <table class="table datatable-basic table-bordered">
             <thead>
             <tr>
                 <th style="text-align: left;">Agencias</th>
@@ -55,8 +55,8 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
-                                        <a href="{{route('admin.agencies.edit', ['nav'=>'agency', 'action'=>'edit', 'id_agency'=>$data->id, 'id_retailer'=>$id_retailer])}}">
-                                            <i class="icon-pencil3"></i><i class="icon-drawer-in"></i> Editar/Agregar a departamento
+                                        <a href="{{route('admin.agencies.edit', ['nav'=>'agency', 'action'=>'edit', 'id_agency'=>$data->id])}}">
+                                            <i class="icon-pencil3"></i>Editar
                                         </a>
                                     </li>
                                 </ul>
@@ -67,5 +67,15 @@
             @endforeach
             </tbody>
         </table>
+        @else
+            <div class="alert alert-warning alert-styled-left">
+                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+            </div>
+        @endif
+        <div class="panel-heading" style="text-align: right;">
+            <a href="{{route('admin.agencies.list-agency-retailer', ['nav'=>'agency', 'action'=>'list_agency_retailer'])}}" class="btn btn-primary">
+                Administrar agencias/departamento  <i class="icon-arrow-right7 position-right"></i>
+            </a>
+        </div>
     </div>
 @endsection

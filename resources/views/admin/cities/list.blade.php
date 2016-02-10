@@ -84,7 +84,7 @@
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a href="{{route('admin.cities.edit', ['nav'=>'city', 'action'=>'edit', 'id_depto'=>$data->id])}}">
-                                                <i class="icon-pencil3"></i><i class="icon-drawer-in"></i>Editar/Agregar a Retailer
+                                                <i class="icon-pencil3"></i>Editar
                                             </a>
                                         </li>
                                     </ul>
@@ -100,6 +100,12 @@
                 <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
             </div>
         @endif
+
+        <div class="panel-heading" style="text-align: right;">
+            <a href="{{route('admin.cities.list-city-retailer', ['nav'=>'city', 'action'=>'list_city_retailer'])}}" class="btn btn-primary">
+                Administrar Departamento Retailer <i class="icon-arrow-right7 position-right"></i>
+            </a>
+        </div>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){

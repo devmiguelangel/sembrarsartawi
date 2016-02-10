@@ -27,7 +27,11 @@
 
             </div>
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'update_city', 'name' => 'CityUpdateForm', 'id' => 'CityUpdateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -44,28 +48,6 @@
                         <label class="control-label col-lg-2">Código <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <input type="text" class="form-control required" id="txtCodigo" name="txtCodigo" value="{{$query->abbreviation}}" maxlength="3">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-lg-2">Agregar a Retailer <span class="text-danger">*</span></label>
-                        <div class="col-lg-10">
-                            <select name="id_retailer" id="id_retailer" class="form-control required">
-                                <option value="0">Ninguno</option>
-                                @foreach($query_re as $data)
-                                    @if(count($query_ret_city)>0)
-                                        @foreach($query_ret_city as $data_city)
-                                            @if($data_city->ad_retailer_id==$data->id)
-                                                <option value="{{$data->id}}" selected>{{$data->name}}</option>
-                                            @else
-                                                <option value="{{$data->id}}">{{$data->name}}</option>
-                                            @endif
-                                        @endforeach
-                                    @else
-                                        <option value="{{$data->id}}">{{$data->name}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
                         </div>
                     </div>
 

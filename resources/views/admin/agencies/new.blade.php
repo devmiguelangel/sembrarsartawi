@@ -32,7 +32,11 @@
             </div>
             -->
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'create_agency', 'name' => 'AgencyCreateForm', 'id' => 'AgencyCreateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -54,49 +58,13 @@
 
             </fieldset>
 
-            <fieldset class="content-group">
-                <h5 class="panel-title">Agregar agencia a departamento Retailer</h5>
-                <br>
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Retailer</label>
-                    <div class="col-lg-10">
-                        {{$query_re->name}}
-                        <input type="hidden" id="id_retailer" name="id_retailer" value="{{$query_re->id}}">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Departamento <span class="text-danger">*</span></label>
-                    <div class="col-lg-10">
-                        @if(count($query_dp)>0)
-                            <select name="id_retailer_city" id="id_retailer_city" class="form-control required">
-                                <option value="0">Ninguno</option>
-                                @foreach($query_dp as $data)
-                                    <option value="{{$data->id_retailer_city}}">{{$data->departamento}}</option>
-                                @endforeach
-                            </select>
-                        @else
-                            <div class="alert alert-info alert-styled-left alert-bordered">
-                                <span class="text-semibold">Alert</span> No existe departamento asignados a Retailer.
-                            </div>
-                        @endif
-                    </div>
-                </div>
-
-            </fieldset>
-
             <div class="text-right">
                 <button type="submit" class="btn btn-primary">
                     Guardar <i class="icon-floppy-disk position-right"></i>
                 </button>
-                <a href="{{ route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list', 'id_retailer'=>auth()->user()->retailer->first()->id]) }}" class="btn btn-primary">
+                <a href="{{ route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list']) }}" class="btn btn-primary">
                     Cancelar <i class="icon-cross position-right"></i>
                 </a>
-                @if(count($query_dp)==0)
-                    <a href="{{ route('admin.cities.list', ['nav'=>'city', 'action'=>'list']) }}" class="btn btn-primary">
-                        Agregar departamento a Retailer <i class="icon-drawer-in position-right"></i>
-                    </a>
-                @endif
             </div>
             {!!Form::close()!!}
         </div>
@@ -171,7 +139,7 @@
             var _value = $(element).prop('value');
             var regex = null;
             if($(element).hasClass('text') === true){
-                regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s]*$/;
+                regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s\.]*$/;
                 err = 'Ingrese solo texto';
             }else if($(element).hasClass('email') === true){
                 regex = /^([a-z]+[a-z0-9._-]*)@{1}([a-z0-9\.]{2,})\.([a-z]{2,3})$/;
