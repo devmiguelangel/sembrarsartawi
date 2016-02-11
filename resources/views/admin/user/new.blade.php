@@ -39,12 +39,18 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <select name="id_retailer" id="id_retailer" class="form-control required">
-                                <option value="0">Seleccione</option>
-                                @foreach($retailer as $data_retailer)
-                                    <option value="{{$data_retailer->id}}">{{$data_retailer->name}}</option>
-                                @endforeach
-                            </select>
+                            @if(count($retailer)>0)
+                                <select name="id_retailer" id="id_retailer" class="form-control required">
+                                    <option value="0">Seleccione</option>
+                                    @foreach($retailer as $data_retailer)
+                                        <option value="{{$data_retailer->id}}">{{$data_retailer->name}}</option>
+                                    @endforeach
+                                </select>
+                            @else
+                                <div class="alert alert-warning alert-styled-left">
+                                    <span class="text-semibold"></span> No existe Retailer registrado.<br>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -70,7 +76,7 @@
                     </div>
 
                     <div class="form-group" style="display: none;" id="content-permissions">
-                        <label class="control-label col-lg-2">Permisos <span class="text-danger">*</span></label>
+                        <label class="control-label col-lg-2">Permisos </label>
                         <div class="col-lg-10">
                             <select multiple="multiple" class="" name="permiso[]" id="permiso">
                                 @foreach($permissions as $dat_per)
@@ -92,7 +98,7 @@
                                 </select>
                             @else
                                 <div class="alert alert-warning alert-styled-left">
-                                    <span class="text-semibold">Warning!</span> No existe departamentos registrados en el Retailer.<br>
+                                    <span class="text-semibold"></span> No existe departamentos registrados en el Retailer.<br>
                                 </div>
                             @endif
                         </div>
@@ -156,10 +162,15 @@
                 </fieldset>
 
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary">
-                        Guardar <i class="icon-floppy-disk position-right"></i>
-                    </button>
-
+                    @if(count($retailer)>0 && count($cities)>0)
+                        <button type="submit" class="btn btn-primary">
+                            Guardar <i class="icon-floppy-disk position-right"></i>
+                        </button>
+                    @else
+                        <button type="submit" class="btn btn-primary" disabled>
+                            Guardar <i class="icon-floppy-disk position-right"></i>
+                        </button>
+                    @endif
                     <a href="{{route('admin.user.list', ['nav'=>'user', 'action'=>'list'])}}" class="btn btn-primary">
                         Cancelar <i class="icon-cross position-right"></i>
                     </a>
@@ -207,7 +218,7 @@
                 if(arr[1]=='UST'){
                     //alert(tipo_usuario);
                     $.get( "{{url('/')}}/admin/user/profiles_ajax/"+tipo_usuario, function( data ) {
-                        $('#permiso').addClass('form-control required');
+                        $('#permiso').addClass('form-control');
                         $('#content-permissions').fadeIn('fast');
                         $('#id_profile').addClass('form-control required');
                         $('#content-user-profiles').fadeIn('fast');
@@ -225,7 +236,7 @@
                 }else{
                     $('#id_profile').removeClass('form-control required');
                     $('#content-user-profiles').fadeOut('fast');
-                    $('#permiso').removeClass('form-control required');
+                    $('#permiso').removeClass('form-control');
                     $('#content-permissions').fadeOut('fast');
                 }
             });

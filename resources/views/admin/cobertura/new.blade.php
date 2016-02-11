@@ -16,121 +16,109 @@
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
-                <span class="form-wizard-count">
-                    <i class="icon-pencil6"></i>
-                </span>
-                Formulario
-                <small class="display-block">Nuevo registro</small>
+                <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
+                Agregar nueva Cobertura
+                <small class="display-block">Formulario</small>
             </h5>
             <div class="heading-elements">
-                <!--
-                <ul class="icons-list">
-                    <li><a data-action="collapse"></a></li>
-                    <li><a data-action="reload"></a></li>
-                    <li><a data-action="close"></a></li>
-                </ul>
-                -->
+
             </div>
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
-            {!! Form::open(array('route' => 'new_addproductretailer', 'name' => 'NewForm', 'id' => 'NewForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
+            {!! Form::open(array('route' => 'new_coverage', 'name' => 'NewForm', 'id' => 'NewForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
                 <fieldset class="content-group">
 
                     <div class="form-group">
                         <label class="control-label col-lg-2">Retailer</label>
                         <div class="col-lg-10">
-                            <select name="id_retailer" id="id_retailer" class="form-control required">
-                                <option value="0">Seleccione</option>
-                                @foreach($query_ret as $data_ret)
-                                    <option value="{{$data_ret->id}}">{{$data_ret->name}}</option>
-                                @endforeach
-                            </select>
+                            @if(count($query)>0)
+                                <select name="id_retailer" id="id_retailer" class="form-control required">
+                                    <option value="0">Seleccione</option>
+                                    @foreach($query as $data)
+                                        <option value="{{$data->id}}">{{$data->name}}</option>
+                                    @endforeach
+                                </select>
+                            @else
+                                <div class="alert alert-warning alert-styled-left">
+                                    <span class="text-semibold"></span>- No existe Retailer registrado.<br>- El Retailer no esta activado
+                                </div>
+                            @endif
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-lg-2">Producto</label>
                         <div class="col-lg-10">
-                            <select name="id_company_products" id="id_company_products" class="form-control required" disabled>
+                            <select name="id_product" id="id_product" class="form-control required" disabled>
                                 <option value="0">Seleccione</option>
-                                @foreach($query_pr_co as $data_pro)
-                                    <option value="{{$data_pro->id_company_products}}">{{$data_pro->product}}</option>
+                            </select>
+                            <div id="msg_error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Cobertura</label>
+                        <div class="col-lg-10">
+                            <select name="id_cobertura" id="id_cobertura" class="form-control required">
+                                <option value="0">Seleccione</option>
+                                @foreach($query_coverage as $dat_coverage)
+                                <option value="{{$dat_coverage->id}}">{{$dat_coverage->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Tipo Producto</label>
+                        <label class="control-label col-lg-2">Numero de Titulares</label>
                         <div class="col-lg-10">
-                            <select name="tipo_prod" id="tipo_prod" class="form-control required" disabled>
-                                <option value="0">Seleccione</option>
-                                @foreach(config('base.retailer_product_types') as $key=>$data_type)
-                                    <option value="{{$key}}">{{$data_type}}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" class="form-control required number" name="num_titulares" id="num_titulares" maxlength="3">
                         </div>
                     </div>
 
                 </fieldset>
 
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary" disabled>
+                    <button type="submit" class="btn btn-primary">
                         Guardar <i class="icon-floppy-disk position-right"></i>
                     </button>
-                    <a href="{{route('admin.addtoretailer.list', ['nav'=>'addtoretailer', 'action'=>'list', 'id_company'=>$id_company])}}" class="btn btn-primary">
+                    <a href="{{route('admin.cobertura.list', ['nav'=>'coverage', 'action'=>'list'])}}" class="btn btn-primary">
                         Cancelar <i class="icon-arrow-right14 position-right"></i>
                     </a>
-                    <input type="hidden" name="id_company" id="id_company" value="{{$id_company}}">
                 </div>
             {!!Form::close()!!}
         </div>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#id_retailer').change(function(){
-                var id_retailer = $(this).prop('value');
-                if(id_retailer!=0){
-                    $('#id_company_products').prop('disabled', false);
-                    $('#tipo_prod').prop('disabled', false);
-                    $('button[type="submit"]').prop('disabled', false);
-                }else{
-                    $('#id_company_products').prop('disabled', true);
-                    $('#tipo_prod').prop('disabled', true);
-                    $('button[type="submit"]').prop('disabled', true);
-                }
-            });
-
-            $('#id_company_products').change(function(){
-                var id_company_product = $(this).prop('value');
-                var id_retailer = $('#id_retailer option:selected').prop('value');
+            //BUSCAMOS LOS PRODUCTOS AGREGADOS AL RETAILER
+            $('#id_retailer').change(function(e) {
+                var  id_retailer = $(this).prop('value');
                 //alert(id_retailer);
-                if(id_company_product!=0){
-                    $.get( "{{url('/')}}/admin/addtoretailer/quest_ajax/"+id_company_product+"/"+id_retailer, function( data ) {
-                        console.log(data);
-                        if(data==1){
-                            if($("#id_company_products + .validation-error-label").length) {
-                                $("#id_company_products + .validation-error-label").remove();
-                            }
-                            $('button[type="submit"]').prop('disabled', true);
-                            if(!$("#id_company_products + .validation-error-label").length) {
-                                $("#id_company_products:last").after('<span class="validation-error-label">El Producto ya esta agregado al Retailer</span>');
-                            }
-                        }else if(data==0){
-                            if($("#id_company_products + .validation-error-label").length) {
-                                $("#id_company_products + .validation-error-label").remove();
-                            }
-                            $('button[type="submit"]').prop('disabled', false);
-                        }
-                    });
-                }else{
-                    if($("#id_company_products + .validation-error-label").length) {
-                        $("#id_company_products + .validation-error-label").remove();
+                $.get( "{{url('/')}}/admin/cobertura/product_retailer_ajax/"+id_retailer, function( data ) {
+                    console.log(data);
+                    if(data.length>0) {
+                        $('button[type="submit"]').prop('disabled', false);
+                        $('#id_product').prop('disabled', false);
+                        $('#id_product option').remove();
+                        $('#id_product').append('<option value="0">Seleccione</option>');
+                        $('#msg_error').html('');
+                        $.each(data, function () {
+                            console.log("ID: " + this.id_retailer_product);
+                            console.log("First Name: " + this.product);
+                            $('#id_product').append('<option value="'+this.id_retailer_product+'">'+this.product+'</option>');
+                        });
+                    }else{
+                        $('#id_retailer option[value="0"]').prop('selected',true);
+                        $('button[type="submit"]').prop('disabled', true);
+                        $('#msg_error').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span> - No existen productos agregados a un Retailer.<br>- No Existen productos humanitarios</div>');
                     }
-                    $('button[type="submit"]').prop('disabled', false);
-                }
+                });
             });
 
             //VERIFICAMOS EL FORMULARIO

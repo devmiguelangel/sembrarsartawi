@@ -112,7 +112,7 @@
                                     @var $data_content=''
                                 @endif
                             @elseif($nav=='contentde')
-                                @if($action=='list' || $action=='edit')
+                                @if($action=='list' || $action=='edit' || $action=='new')
                                     @var $data_content='active'
                                     @var $data_pp=''
                                     @var $data_ap=''
@@ -206,7 +206,7 @@
                 @endforeach
             @else
                 <div class="alert alert-warning alert-styled-left">
-                    <span class="text-semibold"></span> No existe ningun producto registrado.
+                    <span class="text-semibold"></span> No existe ningun producto registrado a un Retailer.
                 </div>
             @endif
             <li class="navigation-header">
@@ -223,6 +223,18 @@
             <li class="{{ $data_sel }}">
                 <a href="{{route('adRetailerProductActivities')}}" title='Administrar ocupación'>
                     <i class="icon-briefcase3"></i> Administrar ocupación
+                </a>
+            </li>
+            @if($nav=='coverage')
+                @if($action=='list' || $action=='new' || $action=='edit')
+                    @var $data_cov='active'
+                @endif
+            @else
+                @var $data_cov=''
+            @endif
+            <li class="{{$data_cov}}">
+                <a href="{{route('admin.cobertura.list',['nav'=>'coverage', 'action'=>'list'])}}" title='Administrar cobertura'>
+                    <i class="icon-folder"></i> Administrar coberturas
                 </a>
             </li>
                            

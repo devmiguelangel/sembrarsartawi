@@ -24,7 +24,7 @@
                 @if(count($query)==0)
                     <ul class="icons-list">
                         <li>
-                            <a href="{{route('admin.de.content.new', ['nav'=>'contentde', 'action'=>'new', 'id_retailer_products'=>$id_retailer_product])}}" class="btn btn-link btn-float has-text">
+                            <a href="{{route('admin.de.content.new', ['nav'=>'contentde', 'action'=>'new', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-link btn-float has-text">
                                 <i class="icon-file-plus text-primary"></i>
                                 <span>Crear Contenido</span>
                             </a>
@@ -70,7 +70,7 @@
         </table>
         @else
             <div class="alert alert-warning alert-styled-left">
-                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+                <span class="text-semibold"></span> No existe ningun contenido registrado.
             </div>
         @endif
     </div>

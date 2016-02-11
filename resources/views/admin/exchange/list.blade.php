@@ -26,7 +26,7 @@
                     <li>
                         <a href="{{route('admin.exchange.new', ['nav'=>'exchange', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
-                            <span>Agregar registro</span>
+                            <span>Agregar nuevo <br>tipo de cambio</span>
                         </a>
                     </li>
                 </ul>
@@ -42,7 +42,7 @@
                 <tr>
                     <th>Valor USD.</th>
                     <th>Valor Bs.</th>
-                    <th>Fecha de registro</th>
+                    <th>Retailer</th>
                     <th class="text-center">Actions</th>
                 </tr>
                 </thead>
@@ -51,7 +51,7 @@
                     <tr>
                         <td>{{$data->usd_value}}</td>
                         <td>{{$data->bs_value}}</td>
-                        <td>{{$data->creation_date}}</td>
+                        <td>{{$data->entidad}}</td>
                         <td class="text-center">
                             <ul class="icons-list">
                                 <li class="dropdown">
@@ -70,7 +70,7 @@
             </table>
         @else
             <div class="alert alert-warning alert-styled-left">
-                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+                <span class="text-semibold"></span> No existe ningun tipo de cambio registrado.
             </div>
         @endif
     </div>

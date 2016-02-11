@@ -38,10 +38,20 @@
                 <fieldset class="content-group">
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Entidad Financiera</label>
+                        <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            {{$retailer->name}}
-                            <input type="hidden" class="form-control" name="id_retailer" id="id_retailer" value="{{$retailer->id}}">
+                            @if(count($retailer)>0)
+                                <select name="id_retailer" id="id_retailer" class="form-control required">
+                                    <option value="0">Seleccione</option>
+                                    @foreach($retailer as $data_retailer)
+                                        <option value="{{$data_retailer->id}}">{{$data_retailer->name}}</option>
+                                    @endforeach
+                                </select>
+                            @else
+                                <div class="alert alert-warning alert-styled-left">
+                                    <span class="text-semibold"></span> No existe Retailer registrado.<br>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -62,9 +72,15 @@
                 </fieldset>
 
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary">
-                        Guardar <i class="icon-floppy-disk position-right"></i>
-                    </button>
+                    @if(count($retailer)>0)
+                        <button type="submit" class="btn btn-primary">
+                            Guardar <i class="icon-floppy-disk position-right"></i>
+                        </button>
+                    @else
+                        <button type="submit" class="btn btn-primary" disabled>
+                            Guardar <i class="icon-floppy-disk position-right"></i>
+                        </button>
+                    @endif
                     <a href="{{route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list'])}}" class="btn btn-primary">
                         Cancelar <i class="icon-arrow-right14 position-right"></i>
                     </a>

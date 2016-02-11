@@ -80,9 +80,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group" id="content-permissions">
-                                    <label class="control-label col-lg-2">Permisos <span class="text-danger">*</span></label>
+                                    <label class="control-label col-lg-2">Permisos </label>
                                     <div class="col-lg-10">
-                                        <select multiple="multiple" class="form-control required" name="permiso[]" id="permiso">
+                                        <select multiple="multiple" class="form-control" name="permiso[]" id="permiso">
                                             @foreach($permissions as $dat_per)
                                                 @if(count($user_permission)>0)
                                                     @foreach($user_permission as $dat_idp)
@@ -115,7 +115,7 @@
                                 </div>
 
                                 <div class="form-group" style="display: none;" id="content-permissions">
-                                    <label class="control-label col-lg-2">Permisos <span class="text-danger">*</span></label>
+                                    <label class="control-label col-lg-2">Permisos </label>
                                     <div class="col-lg-10">
                                         <select multiple="multiple" class="" name="permiso[]" id="permiso">
                                             @foreach($permissions as $dat_per)
@@ -254,13 +254,13 @@
                         $('#content-user-profiles-edit').fadeIn('fast');
                         $( "#id_profile" ).addClass("form-control required");
                         $('#content-permissions').fadeIn('fast');
-                        $('#permiso').addClass('form-control required');
+                        $('#permiso').addClass('form-control');
                     }else{
                         $('#content-user-profiles-edit').fadeOut('fast');
                         $('#id_profile option[value="0"]').prop('selected',true);
                         $( "#id_profile" ).removeClass("form-control required");
                         $('#content-permissions').fadeOut('fast');
-                        $('#permiso').removeClass('form-control required');
+                        $('#permiso').removeClass('form-control');
                         $('#permiso option:selected').removeAttr("selected");
                         $.get( "{{url('/')}}/admin/user/disabled_ajax/"+id_user, function( data ) {
                             console.log(data);
@@ -271,7 +271,7 @@
                         $('#content-user-profiles-new').fadeIn('fast');
                         $( "#id_profile" ).addClass("form-control required");
                         $('#content-permissions').fadeIn('fast');
-                        $('#permiso').addClass('form-control required');
+                        $('#permiso').addClass('form-control');
                     }else{
                         $('#content-user-profiles-new').fadeOut('fast');
                         $( "#id_profile" ).removeClass("form-control required");

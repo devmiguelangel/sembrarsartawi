@@ -418,6 +418,18 @@
             @if($action=='list')
                 <li class="active">Subproducto</li>
             @endif
+        @elseif($nav=='coverage')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Coberturas</li>
+            @elseif($action=='new' || $action=='edit')
+                <li><a href="{{ route('admin.cobertura.list', ['nav'=>'coverage', 'action'=>'list']) }}">Listar coberturas</a></li>
+                @if($action=='new')
+                    <li class="active">Nuevo Registro</li>
+                @elseif($action=='edit')
+                    <li class="active">Editar Registro</li>
+                @endif
+            @endif
         @endif
     </ul>
     <!--

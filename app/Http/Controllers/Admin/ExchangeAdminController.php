@@ -25,7 +25,7 @@ class ExchangeAdminController extends BaseController
             //dd($exchange);
             return view('admin.exchange.list', compact('nav', 'action', 'exchange', 'main_menu'));
         }elseif($action=='new'){
-            $retailer = Retailer::where('active', 1)->first();
+            $retailer = Retailer::get();
             //dd($retailer);
             return view('admin.exchange.new', compact('nav', 'action', 'retailer', 'main_menu'));
         }

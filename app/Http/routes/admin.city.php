@@ -48,3 +48,4 @@ Route::get('admin/cities/typeci_ajax/{id_depto}/{answer}', 'Admin\CityAdminContr
 Route::get('admin/cities/typere_ajax/{id_depto}/{answer}', 'Admin\CityAdminController@ajax_typere');
 Route::get('admin/cities/typede_ajax/{id_depto}/{answer}', 'Admin\CityAdminController@ajax_typede');
 Route::get('admin/cities/retailer_city_ajax/{id_retailer}', 'Admin\CityAdminController@ajax_city_retailer');
+Route::get('admin/cities/active_ajax/{id_city_retailer}/{text}', 'Admin\CityAdminController@ajax_active_inactive');

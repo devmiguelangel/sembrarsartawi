@@ -28,12 +28,14 @@
                             <span>Agregar producto a compañía</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{route('admin.addtoretailer.list', ['nav'=>'addtoretailer', 'action'=>'list', 'id_company'=>$id_company])}}" class="btn btn-link btn-float has-text">
-                            <i class="icon-file-plus text-primary"></i>
-                            <span>Agregar a un Retailer</span>
-                        </a>
-                    </li>
+                    @if(count($query)>0)
+                        <li>
+                            <a href="{{route('admin.addtoretailer.list', ['nav'=>'addtoretailer', 'action'=>'list', 'id_company'=>$id_company])}}" class="btn btn-link btn-float has-text">
+                                <i class="icon-file-plus text-primary"></i>
+                                <span>Agregar a un Retailer</span>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>
@@ -41,8 +43,8 @@
         <div class="panel-body">
 
         </div>
-
-        <table class="table table-bordered">
+        @if(count($query)>0)
+            <table class="table table-bordered">
             <thead>
             <tr>
                 <th>Compañía de Seguros</th>
@@ -90,6 +92,11 @@
             @endforeach
             </tbody>
         </table>
+        @else
+            <div class="alert alert-warning alert-styled-left">
+                <span class="text-semibold"></span> No existe productos registrados a una Compañía de Seguros<br>
+            </div>
+        @endif
     </div>
     <script type="text/javascript">
         $(document).ready(function(){

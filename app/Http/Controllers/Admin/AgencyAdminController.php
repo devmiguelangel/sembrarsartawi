@@ -215,4 +215,28 @@ class AgencyAdminController extends BaseController
         $arr['agenciestable'] = $agencies;
         return response()->json($arr);
     }
+
+    public function ajax_active_inactive($id_retailer_city_agency, $text){
+        //dd($id_company);
+        if($text=='inactive'){
+            $query_update = \DB::table('ad_retailer_city_agencies')
+                ->where('id', $id_retailer_city_agency)
+                ->update(['active' => false]);
+            //dd($query_update);
+            if($query_update) {
+                return 1;
+            }else{
+                return 0;
+            }
+        }elseif($text=='active'){
+            $query_update = \DB::table('ad_retailer_city_agencies')
+                ->where('id', $id_retailer_city_agency)
+                ->update(['active' => true]);
+            if($query_update) {
+                return 1;
+            }else{
+                return 0;
+            }
+        }
+    }
 }

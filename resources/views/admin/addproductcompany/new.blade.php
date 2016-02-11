@@ -63,11 +63,11 @@
                 <div class="text-right">
                     @if(count($query_prod)>0)
                         <button type="submit" class="btn btn-primary">
-                            Guardar <i class="icon-arrow-right14 position-right"></i>
+                            Guardar <i class="icon-floppy-disk position-right"></i>
                         </button>
                     @else
                         <button type="submit" class="btn btn-primary" disabled>
-                            Guardar <i class="icon-arrow-right14 position-right"></i>
+                            Guardar <i class="icon-floppy-disk position-right"></i>
                         </button>
                     @endif
                     <a href="{{route('admin.addproductcompany.list', ['nav'=>'company', 'action'=>'list', 'id_company'=>$id_company])}}" class="btn btn-primary">

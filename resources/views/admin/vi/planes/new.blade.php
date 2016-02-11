@@ -197,6 +197,7 @@
             $('#CreateForm').submit(function(e){
                 var sw = true;
                 var err = 'Esta informacion es obligatoria';
+                var age = new Array();
                 $(this).find('.required, .not-required').each(function(index, element) {
                     //alert(element.type+'='+element.value);
                     if($(this).hasClass('required') === true){
@@ -206,19 +207,23 @@
                             sw = false;
                         }else if($(this).hasClass('age') === true){
                             var  age_type = $(this).prop('id');
-                            if(age_type.indexOf('edad_min') > -1){
+                            //alert(age_type);
+                            //alert(age_type.indexOf('edad_min'));
+
+                            if(age_type.indexOf('edad_min') == 0){
                                 age[0] = $(this).prop('value');
-                            }else if(age_type.indexOf('edad_max') > -1){
+                            }else if(age_type.indexOf('edad_max') == 0){
                                 age[1] = $(this).prop('value');
                             }
+                            //alert('age[0]:'+ age[0]);
+                            //alert('age[1]:'+ age[1]);
                             if(age.length==2){
                                 if(age[1]<age[0]){
                                     bootbox.alert("Error!! La edad minima debe ser menor a la edad maxima");
                                     sw = false;
-                                }else{
-                                    sw = true;
                                 }
                             }
+
                         }
                     }else if($(this).hasClass('not-required') === true){
                         removeClassE(element);
