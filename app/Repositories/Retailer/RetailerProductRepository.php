@@ -43,23 +43,14 @@ class RetailerProductRepository extends BaseRepository
         return $questions;
     }
 
-    public function getSubProductByIdProduct($rp_id)
-    {
-        $this->model = RetailerProduct::where('id', $rp_id)->first();
-
-        if (! is_null($this->model)) {
-            $subProducts = $this->model->subProducts;
-            if ($subProducts->count() > 0) {
-                return $subProducts;
-            }
-        }
-
-        return null;
-    }
-
     public function getRetailerProductById($rp_id)
     {
-        $this->model = RetailerProduct::with('parameters')->where('id', $rp_id)->get();
+        $this->model = RetailerProduct::with(
+                'parameters',
+                'subProducts.productCompany',
+                'subProducts.companyProduct.product')
+            ->where('id', $rp_id)
+            ->get();
 
         if ($this->model->count() === 1) {
             $this->model = $this->model->first();

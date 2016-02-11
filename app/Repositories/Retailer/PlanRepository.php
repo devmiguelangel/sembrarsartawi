@@ -23,4 +23,9 @@ class PlanRepository extends BaseRepository
 
         return $plans;
     }
+
+    public function getPlansByProduct($rp_id)
+    {
+        return Plan::where('ad_retailer_product_id', $rp_id)->get();
+    }
 }

@@ -9,6 +9,7 @@ var DetailDeController     = require('./components/de/DetailController');
 var BeneficiaryController  = require('./components/de/BeneficiaryController');
 var FacultativeController  = require('./components/de/FacultativeController');
 var CancellationController = require('./components/de/CancellationController');
+var HeaderViController     = require('./components/vi/HeaderController');
 
 var app = angular.module('sibas', ['ngAnimate']);
 
@@ -32,7 +33,7 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
   $rootScope.mcData = {
   };
 
-  $rootScope.dataOptions = [];
+  $rootScope.dataOptions   = [];
   $rootScope.currentOption = [];
 
   $rootScope.mcEnabled = false;
@@ -90,3 +91,5 @@ app.controller('BeneficiaryController', ['$scope', '$http', BeneficiaryControlle
 app.controller('FacultativeController', ['$rootScope', '$scope', '$http', '$compile', '$filter', FacultativeController.facultative]);
 
 app.controller('CancellationController', ['$scope', '$http', CancellationController.cancellation]);
+
+app.controller('HeaderViController', ['$scope', '$http', HeaderViController.header]);

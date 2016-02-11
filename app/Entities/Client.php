@@ -3,6 +3,8 @@
 namespace Sibas\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Sibas\Entities\Vi\Detail as DetailVi;
+use Sibas\Entities\De\Detail as DetailDe;
 
 class Client extends Model
 {
@@ -13,6 +15,16 @@ class Client extends Model
     protected $appends = [
         'full_name',
     ];
+
+    public function detailsDe()
+    {
+        return $this->hasMany(DetailDe::class, 'op_client_id', 'id');
+    }
+
+    public function detailsVi()
+    {
+        return $this->hasMany(DetailVi::class, 'op_client_id', 'id');
+    }
 
     public function getFullNameAttribute()
     {

@@ -96,28 +96,28 @@
                                 <div class="col-md-12">&nbsp;</div>-->
                                 <p>
                                     <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion')" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
-                                        <b><i class="icon-printer4"></i></b> 
+                                        <b><i class="icon-printer4"></i></b>
                                         Ver Slip de Cotización
                                     </a>
                                 </p>
                                 <div class="col-md-6">&nbsp;</div>
                                 <p>
                                     <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'emision')" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
-                                        <b><i class="icon-printer4"></i></b> 
+                                        <b><i class="icon-printer4"></i></b>
                                         Ver Certificado de Desgravamen
                                     </a>
                                 </p>
                                 <div class="col-md-6">&nbsp;</div>
                                 <p>
                                     <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'print_all')" class="btn btn-primary btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
-                                        <b><i class="icon-printer4"></i></b> 
+                                        <b><i class="icon-printer4"></i></b>
                                         Imprimir Todo
                                     </a>
                                 </p>
                             </div>
                         </div>
                     </div>
-                    @if(! is_null($subProducts))
+                    @if(! is_null($product->subProducts))
                         <div class="col-md-4">
                             <div class="modal-header bg-success">
                                 <h6 class="modal-title">Sub-Productos</h6>
@@ -125,24 +125,38 @@
                             <div class="panel panel-body border-top-primary text-center">
                                 <p class="text-muted content-group-sm">Selecciona nuestros productos </p>
                                 <div class="col-md-12">
-                                    @foreach($subProducts as $subProduct)
-                                        <p>
-                                            <a href="{{ route('de.vi.sp.list', [
-                                                'rp_id'     => $rp_id,
-                                                'header_id' => $header_id,
-                                                'sp_id'     => encode($subProduct->productCompany->id)
+                                  @foreach($product->subProducts as $subProduct)
+                                    @if ($subProduct->companyProduct->product->code === 'vi')
+                                      <p>
+                                          <a href="{{ route('de.vi.sp.list', [
+                                              'rp_id'     => $rp_id,
+                                              'header_id' => $header_id,
+                                              'sp_id'     => encode($subProduct->productCompany->id)
                                             ]) }}"
-                                                class="btn btn-default col-lg-12 btn-xlg">
-                                                <i class="icon-hyperlink"></i> {{ $subProduct->productCompany->companyProduct->product->name }}
+                                            class="btn btn-default col-lg-12 btn-xlg">
+                                            <i class="icon-hyperlink"></i> {{ $subProduct->companyProduct->product->name }}
+                                          </a>
+                                      </p>
+                                      <div class="col-md-6">&nbsp;</div>
+
+                                      @var $clientVi = false
+
+                                      @foreach ($header->details as $detail)
+                                        @if ($detail->client->detailsVi->count() > 0)
+                                          @var $clientVi = true
+                                        @endif
+                                      @endforeach
+
+                                      @if ($clientVi)
+                                        <p>
+                                            <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'sub_vida_emision')" class="btn btn-success btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
+                                                <b><i class="icon-printer4"></i></b> Ver Certificado de {{ $subProduct->companyProduct->product->name }}
                                             </a>
                                         </p>
                                         <div class="col-md-6">&nbsp;</div>
-                                        <p>
-                                            <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'sub_vida_emision')" class="btn btn-success btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
-                                                <b><i class="icon-printer4"></i></b> Ver Certificado de {{ $subProduct->productCompany->companyProduct->product->name }}</a>
-                                        </p>
-                                        <div class="col-md-6">&nbsp;</div>
-                                    @endforeach
+                                      @endif
+                                    @endif
+                                  @endforeach
                                 </div>
                             </div>
                         </div>
