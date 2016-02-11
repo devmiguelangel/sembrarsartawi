@@ -77,7 +77,7 @@
             //VISUALIZAR DEPARTAMENTOS Y FERIFICAR SI ESTAN ADICIONADOS A UN RETAILER
             $('#id_retailer').change(function(e){
                 var id_retailer = $(this).prop('value');
-                alert(id_retailer);
+                //alert(id_retailer);
                 if(id_retailer!=0){
                     var cities;
                     var cities_retailer;

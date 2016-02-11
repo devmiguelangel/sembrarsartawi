@@ -31,6 +31,11 @@ Route::get('admin/de/content/edit/{nav}/{action}/{id_retailer_product}/{id_conte
     'uses' => 'Admin\ContentAdminController@edit_de'
 ]);
 
+Route::get('admin/de/content/new/{nav}/{action}/{id_retailer_product}', [
+    'as' => 'admin.de.content.new',
+    'uses' => 'Admin\ContentAdminController@index_de'
+]);
+
 Route::post('admin/de/content/edit', [
     'as' => 'update_content_de',
     'uses' => 'Admin\ContentAdminController@update_de'

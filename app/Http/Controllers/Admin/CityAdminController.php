@@ -98,9 +98,10 @@ class CityAdminController extends BaseController
                 $quest = \DB::table('ad_retailer_city_agencies')
                             ->where('ad_retailer_city_id', '=', $data->id)
                             ->first();
+                //dd($quest);
                 if(count($quest)==0){
                     $query_del = \DB::table('ad_retailer_cities')
-                        ->where('id', $quest->id)->delete();
+                        ->where('id', $data->id)->delete();
                 }
             }
 
@@ -266,5 +267,29 @@ class CityAdminController extends BaseController
         $arr['city'] = $city;
         $arr['cityretailer'] = $city_retailer;
         return response()->json($arr);
+    }
+
+    public function ajax_active_inactive($id_city_retailer, $text){
+        //dd($id_company);
+        if($text=='inactive'){
+            $query_update = \DB::table('ad_retailer_cities')
+                ->where('id', $id_city_retailer)
+                ->update(['active' => false]);
+            //dd($query_update);
+            if($query_update) {
+                return 1;
+            }else{
+                return 0;
+            }
+        }elseif($text=='active'){
+            $query_update = \DB::table('ad_retailer_cities')
+                ->where('id', $id_city_retailer)
+                ->update(['active' => true]);
+            if($query_update) {
+                return 1;
+            }else{
+                return 0;
+            }
+        }
     }
 }

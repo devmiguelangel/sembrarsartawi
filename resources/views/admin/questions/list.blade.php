@@ -37,8 +37,8 @@
         <div class="panel-body">
 
         </div>
-
-        <table class="table datatable-basic">
+        @if(count($query)>0)
+            <table class="table datatable-basic">
             <thead>
             <tr>
                 <th style="text-align: left;">Nro</th>
@@ -74,5 +74,10 @@
             @endforeach
             </tbody>
         </table>
+        @else
+            <div class="alert alert-warning alert-styled-left">
+                <span class="text-semibold"></span> No existe preguntas registradas
+            </div>
+        @endif
     </div>
 @endsection

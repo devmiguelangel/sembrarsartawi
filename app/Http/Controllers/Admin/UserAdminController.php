@@ -111,16 +111,18 @@ class UserAdminController extends BaseController
                             ]
                         );
 
-                        foreach ($request->get('permiso') as $key => $value) {
-                            $query_permissions = \DB::table('ad_user_permissions')->insert(
-                                [
-                                    'ad_user_id' => $user_new->id,
-                                    'ad_permission_id' => $value,
-                                    'active' => true,
-                                    'created_at'=>date("Y-m-d H:i:s"),
-                                    'updated_at'=>date("Y-m-d H:i:s")
-                                ]
-                            );
+                        if(count($request->get('permiso'))>0){
+                            foreach ($request->get('permiso') as $key => $value) {
+                                $query_permissions = \DB::table('ad_user_permissions')->insert(
+                                    [
+                                        'ad_user_id' => $user_new->id,
+                                        'ad_permission_id' => $value,
+                                        'active' => true,
+                                        'created_at'=>date("Y-m-d H:i:s"),
+                                        'updated_at'=>date("Y-m-d H:i:s")
+                                    ]
+                                );
+                            }
                         }
 
                         return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
@@ -264,16 +266,18 @@ class UserAdminController extends BaseController
                     $query_del = \DB::table('ad_user_permissions')
                                     ->where('ad_user_id', $request->input('id_user'))->delete();
 
-                    foreach ($request->get('permiso') as $key => $value) {
-                        $query_permissions = \DB::table('ad_user_permissions')->insert(
-                            [
-                                'ad_user_id' => $request->input('id_user'),
-                                'ad_permission_id' => $value,
-                                'active' => true,
-                                'created_at'=>date("Y-m-d H:i:s"),
-                                'updated_at'=>date("Y-m-d H:i:s")
-                            ]
-                        );
+                    if(count($request->get('permiso'))>0){
+                        foreach ($request->get('permiso') as $key => $value) {
+                            $query_permissions = \DB::table('ad_user_permissions')->insert(
+                                [
+                                    'ad_user_id' => $request->input('id_user'),
+                                    'ad_permission_id' => $value,
+                                    'active' => true,
+                                    'created_at'=>date("Y-m-d H:i:s"),
+                                    'updated_at'=>date("Y-m-d H:i:s")
+                                ]
+                            );
+                        }
                     }
 
                     return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);

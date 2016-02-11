@@ -216,12 +216,9 @@
                             sw = false;
                         }else if($(this).hasClass('age') === true){
                             var  age_type = $(this).prop('id');
-                            //alert(age_type);
-                            //alert(age_type.indexOf('edad_min'));
-                            //alert(age_type.indexOf('edad_max'));
-                            if(age_type.indexOf('edad_min') > -1){
+                            if(age_type.indexOf('edad_min') == 0){
                                 age[0] = $(this).prop('value');
-                            }else if(age_type.indexOf('edad_max') > -1){
+                            }else if(age_type.indexOf('edad_max') == 0){
                                 age[1] = $(this).prop('value');
                             }
                             //alert(age.length);
@@ -229,8 +226,6 @@
                                 if(age[1]<age[0]){
                                     bootbox.alert("Error!! La edad minima debe ser menor a la edad maxima");
                                     sw = false;
-                                }else{
-                                    sw = true;
                                 }
                             }
                         }

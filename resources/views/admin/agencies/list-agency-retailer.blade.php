@@ -65,9 +65,13 @@
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             @if((boolean)$data->active==true)
-                                                <a href="#"><i class="icon-cross"></i> Desactivar</a>
+                                                <a href="#" id="{{$data->id_retailer_city_agency}}|inactive|desactivar" class="confirm_active">
+                                                    <i class="icon-cross2"></i> Desactivar
+                                                </a>
                                             @else
-                                                <a href="#"><i class="icon-file-pdf"></i> Activar</a>
+                                                <a href="#" id="{{$data->id_retailer_city_agency}}|active|activar" class="confirm_active">
+                                                    <i class="icon-checkmark4"></i> Activar
+                                                </a>
                                             @endif
                                         </li>
                                     </ul>
@@ -80,13 +84,33 @@
             </table>
         @else
             <div class="alert alert-warning alert-styled-left">
-                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+                <span class="text-semibold"></span> No existe agencias registradas a departamento.
             </div>
         @endif
-        <div class="panel-heading" style="text-align: right;">
-            <a href="{{route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list'])}}" class="btn btn-primary">
-                Administrar Agencias  <i class="icon-arrow-right7 position-right"></i>
-            </a>
-        </div>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('a[href].confirm_active').click(function(e){
+
+                var _id = $(this).prop('id');
+                var arr = _id.split("|");
+                var id_retailer_city_agency = arr[0];
+                var text = arr[1];
+                bootbox.confirm("Esta seguro de "+arr[2]+" el departamento ?", function(result) {
+                    if(result){
+                        //bootbox.alert("Confirm result: " + result+ "/" +id_user);
+                        $.get( "{{url('/')}}/admin/cities/active_ajax/"+id_retailer_city_agency+"/"+text, function( data ) {
+                            console.log(data);
+                            if(data==1){
+                                window.setTimeout('location.reload()', 1000);
+                            }else if(data==0){
+                                bootbox.alert("Error!! no se actualizo el dato, vuelva a intentarlo otra vez");
+                            }
+                        });
+                    }
+                });
+
+            });
+        });
+    </script>
 @endsection

@@ -127,10 +127,21 @@ class AddQuestionAdminController extends BaseController
                                 ->get();
         //dd(count($order_question));
         $num = count($order_question)+1;
-
-        $query_insert = \DB::table('ad_retailer_product_questions')->insert(
-            ['ad_retailer_product_id'=>$request->input('id_retailer_product'), 'ad_question_id'=>$request->input('id_question'), 'order'=>$num, 'active'=>false]
-        );
+        if($request->input('response')==1){
+            $response = true;
+        }elseif($request->input('response')==2){
+            $response = false;
+        }
+        $query_insert = \DB::table('ad_retailer_product_questions')
+                            ->insert(
+                                    [
+                                        'ad_retailer_product_id'=>$request->input('id_retailer_product'),
+                                        'ad_question_id'=>$request->input('id_question'),
+                                        'order'=> $num,
+                                        'response' => $response,
+                                        'active'=>false
+                                    ]
+                            );
 
         return redirect()->route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
     }

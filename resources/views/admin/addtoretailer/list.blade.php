@@ -35,8 +35,8 @@
         <div class="panel-body">
 
         </div>
-
-        <table class="table table-bordered">
+        @if(count($query)>0)
+            <table class="table table-bordered">
             <thead>
             <tr>
                 <th>Retailer</th>
@@ -93,6 +93,11 @@
             @endforeach
             </tbody>
         </table>
+        @else
+            <div class="alert alert-warning alert-styled-left">
+                <span class="text-semibold"></span> No existe productos/compañías registrados a un Retailer<br>
+            </div>
+        @endif
     </div>
     <script type="text/javascript">
         $(document).ready(function(){

@@ -45,14 +45,14 @@
                 <div class="form-group">
                     <label class="control-label col-lg-2">Agencia <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control required text" id="txtAgencia" name="txtAgencia" value="">
+                        <input type="text" class="form-control required text" id="txtAgencia" name="txtAgencia" value="" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-lg-2">Codigo <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control required" id="txtCodigo" name="txtCodigo", value="">
+                        <input type="text" class="form-control required" id="txtCodigo" name="txtCodigo", value="" autocomplete="off">
                     </div>
                 </div>
 
@@ -139,7 +139,7 @@
             var _value = $(element).prop('value');
             var regex = null;
             if($(element).hasClass('text') === true){
-                regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s\.]*$/;
+                regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s\.\()]*$/;
                 err = 'Ingrese solo texto';
             }else if($(element).hasClass('email') === true){
                 regex = /^([a-z]+[a-z0-9._-]*)@{1}([a-z0-9\.]{2,})\.([a-z]{2,3})$/;

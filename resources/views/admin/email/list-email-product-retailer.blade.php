@@ -25,15 +25,15 @@
                     <li>
                         <a href="{{route('admin.email.new-add-email', ['nav'=>'email', 'action'=>'new_add_email'])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
-                            <span>Agregar correo a producto</span>
+                            <span>Agregar correo <br>a un producto</span>
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
 
-
-        <table class="table datatable-basic table-bordered">
+        @if(count($query)>0)
+            <table class="table datatable-basic table-bordered">
             <thead>
             <tr>
                 <th>Nombre</th>
@@ -44,7 +44,6 @@
             </tr>
             </thead>
             <tbody>
-            @if(count($query)>0)
                 @foreach($query as $data)
                     <tr>
                         <td>{{$data->name}}</td>
@@ -87,16 +86,16 @@
                         </td>
                     </tr>
                 @endforeach
-            @else
-                <div class="alert alert-warning alert-styled-left">
-                    <span class="text-semibold">Warning!</span> No existe ningun registro:<br>
-                    - Verifique que el producto en el retailer este activado<br>
-                    - Verifique que el producto en la compañia este activado<br>
-                    - Ingrese un nuevo registro
-                </div>
-            @endif
             </tbody>
         </table>
+        @else
+            <div class="alert alert-warning alert-styled-left">
+                <span class="text-semibold"></span> No existe correos registrados:<br>
+                - Verifique que se a registrado un nuevo Retailer<br>
+                - Verifique que el producto en el retailer este activado<br>
+                - Verifique que el producto en la compañia este activado<br>
+            </div>
+        @endif
     </div>
     <script type="text/javascript">
         $(document).ready(function(){

@@ -53,3 +53,4 @@ Route::post('admin/agencies/new-agency-retailer', [
 /** PROCESOS AJAX **/
 Route::get('admin/agencies/cities_ajax/{id_retailer}', 'Admin\AgencyAdminController@ajax_cities');
 Route::get('admin/agencies/retailer_agencies_ajax/{id_retailer_city}', 'Admin\AgencyAdminController@ajax_agencies_retailer');
+Route::get('admin/cities/active_ajax/{id_retailer_city_agency}/{text}', 'Admin\AgencyAdminController@ajax_active_inactive');

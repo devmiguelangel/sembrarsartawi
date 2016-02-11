@@ -40,12 +40,18 @@
                 <div class="form-group">
                     <label class="control-label col-lg-2">Retailer</label>
                     <div class="col-lg-10">
-                        <select name="id_retailer" id="id_retailer" class="form-control">
-                            <option value="0">Seleccione</option>
-                            @foreach($retailer as $dat_ret)
-                                <option value="{{$dat_ret->id_retailer}}">{{$dat_ret->retailer}}</option>
-                            @endforeach
-                        </select>
+                        @if(count($agency)>0)
+                            <select name="id_retailer" id="id_retailer" class="form-control">
+                                <option value="0">Seleccione</option>
+                                @foreach($retailer as $dat_ret)
+                                    <option value="{{$dat_ret->id_retailer}}">{{$dat_ret->retailer}}</option>
+                                @endforeach
+                            </select>
+                        @else
+                            <div class="alert alert-warning alert-styled-left">
+                                <span class="text-semibold"></span> Lista de Retailer desabilitada, no existe agencias registradas.
+                            </div>
+                        @endif
                     </div>
                 </div>
 
@@ -62,21 +68,36 @@
                 <div class="form-group">
                     <label class="control-label col-lg-2">Agencias</label>
                     <div class="col-lg-10">
-                        <select multiple="multiple" name="agencies[]" id="id_agency" class="form-control" disabled>
-                            @foreach($agency as $dat_agency)
-                                <option value="{{$dat_agency->id_agency}}">{{$dat_agency->agency}}</option>
-                            @endforeach
-                        </select>
+                        @if(count($agency)>0)
+                            <select multiple="multiple" name="agencies[]" id="id_agency" class="form-control" disabled>
+                                @foreach($agency as $dat_agency)
+                                    <option value="{{$dat_agency->id_agency}}">{{$dat_agency->agency}}</option>
+                                @endforeach
+                            </select>
+                        @else
+                            <div class="alert alert-warning alert-styled-left">
+                                <span class="text-semibold"></span> No existe agencias registradas.
+                            </div>
+                        @endif
                     </div>
                 </div>
             </fieldset>
 
             <div class="text-right">
-                <button type="submit" class="btn btn-primary">
-                    Guardar <i class="icon-floppy-disk position-right"></i>
-                </button>
+                @if(count($agency)>0)
+                    <button type="submit" class="btn btn-primary">
+                        Guardar <i class="icon-floppy-disk position-right"></i>
+                    </button>
+                @else
+                    <button type="submit" class="btn btn-primary" disabled>
+                        Guardar <i class="icon-floppy-disk position-right"></i>
+                    </button>
+                @endif
                 <a href="{{route('admin.agencies.list-agency-retailer', ['nav'=>'agency', 'action'=>'list_agency_retailer'])}}" class="btn btn-primary">
                     Cancelar <i class="icon-cross position-right"></i>
+                </a>
+                <a href="{{route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list'])}}" class="btn btn-primary">
+                    Administrar Agencias  <i class="icon-arrow-right7 position-right"></i>
                 </a>
             </div>
             {!!Form::close()!!}
@@ -87,7 +108,7 @@
             //VISUALIZAR DEPARTAMENTO RETAILER
             $('#id_retailer').change(function(e){
                 var id_retailer = $(this).prop('value');
-                alert(id_retailer);
+                //alert(id_retailer);
                 if(id_retailer!=0){
                     $.get( "{{url('/')}}/admin/agencies/cities_ajax/"+id_retailer, function( data ) {
                         console.log(data);
@@ -114,7 +135,7 @@
             //VISUALIZAR AGENCIAS AGREGADAS AL DEPARTAMENTO
             $('#id_retailer_cities').change(function(e){
                 var id_retailer_city = $(this).prop('value');
-                alert(id_retailer_city);
+                //alert(id_retailer_city);
 
                 if(id_retailer!=0){
                     var agencies;
