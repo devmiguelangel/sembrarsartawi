@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(RetailerProductEmailTableSeeder::class);
         $this->call(ProfileTableSeeder::class);
         // $this->call(UserProfileTableSeeder::class);
-        // $this->call(StateTableSeeder::class);
+        $this->call(StateTableSeeder::class);
         // $this->call(RetailerProductStateTableSeeder::class);
         $this->call(PermissionTableSeeder::class);
         // $this->call(UserPermissionTableSeeder::class);

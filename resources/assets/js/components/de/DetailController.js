@@ -10,7 +10,6 @@ var detailEdit = function ($scope, $http) {
     $scope.easyLoading('body', 'dark', true);
 
     var href = event.target.href;
-    console.log(href);
 
     $http.get(href, {
 

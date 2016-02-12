@@ -5,15 +5,6 @@
         <table cellpadding="0" cellspacing="0" border="0"
                style="width: 100%; height: auto; font-size: 80%; font-family: Arial;">
             <tr>
-                <td style="width:34%;" align="left">
-                    <img src="{{ asset('images/logo.jpg') }}" width="100">
-                </td>
-                <td style="width:32%;"></td>
-                <td style="width:34%;" align="right">
-                    <img src="{{ asset('images/alianza.jpg') }}" height="60">
-                </td>
-            </tr>
-            <tr>
                 <td style="width:34%;" align="left">SLIP DE COTIZACIÓN<br/>{{ $cli->quote_number }}</td>
                 <td style="width:32%;"></td>
                 <td style="width:34%;" align="right">Cotización válida hasta el: {{ date('d-m-Y',strtotime('+2 days', strtotime($cli->created_at))) }}</td>
@@ -50,7 +41,7 @@
                     <b>Plazo del Presente Crédito:</b>
                 </td>
                 <td style="width:50%; text-align: left;">
-                    {{ $cli->term }}  {{ $cli->type_term == 'D'? 'Días':$cli->type_term == 'M'? 'Meses':$cli->type_term == 'Y'? 'Años':'' }}  
+                    {{ $cli->term }}  {{ $cli->type_term == 'D'? 'Días':$cli->type_term == 'M'? 'Meses':$cli->type_term == 'Y'? 'Años':'' }}
                 </td>
             </tr>
             <tr style="background:#D5D5D5;">
