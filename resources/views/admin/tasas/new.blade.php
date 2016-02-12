@@ -17,7 +17,7 @@
         <div class="panel-heading">
             <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
                 <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
-                Agregar nueva Cobertura
+                Nuevo Registro agregar tasas a productos
                 <small class="display-block">Formulario</small>
             </h5>
             <div class="heading-elements">
@@ -31,31 +31,30 @@
         @endif
         <div class="panel-body">
 
-            {!! Form::open(array('route' => 'new_coverage', 'name' => 'NewForm', 'id' => 'NewForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
+            {!! Form::open(array('route' => 'new_rates', 'name' => 'NewForm', 'id' => 'NewForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
                 <fieldset class="content-group">
-
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Retailer </label>
+                        <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            @if(count($query)>0)
+                            @if(count($retailer)>0)
                                 <select name="id_retailer" id="id_retailer" class="form-control required">
                                     <option value="0">Seleccione</option>
-                                    @foreach($query as $data)
+                                    @foreach($retailer as $data)
                                         <option value="{{$data->id}}">{{$data->name}}</option>
                                     @endforeach
                                 </select>
                             @else
                                 <div class="alert alert-warning alert-styled-left">
-                                    <span class="text-semibold"></span>- No existe Retailer registrado.<br>- El Retailer no esta activado
+                                    <span class="text-semibold"></span>No existe Retailer registrado.<br>- El Retailer no esta activado
                                 </div>
                             @endif
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Producto</label>
+                        <label class="control-label col-lg-2">Producto <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <select name="id_product" id="id_product" class="form-control required" disabled>
+                            <select name="id_producto_retailer" id="id_producto_retailer" class="form-control required" disabled>
                                 <option value="0">Seleccione</option>
                             </select>
                             <div id="msg_error"></div>
@@ -63,21 +62,32 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Cobertura</label>
+                        <label class="control-label col-lg-2">Coberturas <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <select name="id_cobertura" id="id_cobertura" class="form-control required">
+                            <select name="id_coverage" id="id_coverage" class="form-control required" disabled>
                                 <option value="0">Seleccione</option>
-                                @foreach($query_coverage as $dat_coverage)
-                                <option value="{{$dat_coverage->id}}">{{$dat_coverage->name}}</option>
-                                @endforeach
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Numero de Titulares</label>
+                        <label class="control-label col-lg-2">Tasa Compañía <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control required number" name="num_titulares" id="num_titulares" maxlength="3">
+                            <input type="text" class="form-control required decimal" name="rate_company" id="rate_company" value="0" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Tasa Banco <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control required decimal" name="rate_bank" id="rate_bank" value="0" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Tasa Final <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" readonly value="0">
                         </div>
                     </div>
 
@@ -87,7 +97,7 @@
                     <button type="submit" class="btn btn-primary">
                         Guardar <i class="icon-floppy-disk position-right"></i>
                     </button>
-                    <a href="{{route('admin.cobertura.list', ['nav'=>'coverage', 'action'=>'list'])}}" class="btn btn-primary">
+                    <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list'])}}" class="btn btn-primary">
                         Cancelar <i class="icon-arrow-right14 position-right"></i>
                     </a>
                 </div>
@@ -100,18 +110,18 @@
             $('#id_retailer').change(function(e) {
                 var  id_retailer = $(this).prop('value');
                 //alert(id_retailer);
-                $.get( "{{url('/')}}/admin/cobertura/product_retailer_ajax/"+id_retailer, function( data ) {
+                $.get( "{{url('/')}}/admin/tasas/product_retailer_ajax/"+id_retailer, function( data ) {
                     console.log(data);
                     if(data.length>0) {
                         $('button[type="submit"]').prop('disabled', false);
-                        $('#id_product').prop('disabled', false);
-                        $('#id_product option').remove();
-                        $('#id_product').append('<option value="0">Seleccione</option>');
+                        $('#id_producto_retailer').prop('disabled', false);
+                        $('#id_producto_retailer option').remove();
+                        $('#id_producto_retailer').append('<option value="0">Seleccione</option>');
                         $('#msg_error').html('');
                         $.each(data, function () {
                             console.log("ID: " + this.id_retailer_product);
                             console.log("First Name: " + this.product);
-                            $('#id_product').append('<option value="'+this.id_retailer_product+'">'+this.product+'</option>');
+                            $('#id_producto_retailer').append('<option value="'+this.id_retailer_product+'">'+this.product+'</option>');
                         });
                     }else{
                         $('#id_retailer option[value="0"]').prop('selected',true);
@@ -120,6 +130,78 @@
                     }
                 });
             });
+
+            //VERIFICAMOS LAS COBERTURAS EXISTENTES
+            $('#id_producto_retailer').change(function(e){
+                var id_retailer_product = $(this).prop('value');
+                //alert(id_retailer_product);
+                if(id_retailer_product!=0){
+                    $.get( "{{url('/')}}/admin/tasas/cobertura_ajax/"+id_retailer_product, function( data ) {
+                        console.log(data);
+
+                        if(data.length>0) {
+                            $('button[type="submit"]').prop('disabled', false);
+                            $('#id_coverage').prop('disabled', false);
+                            $('#id_coverage option').remove();
+                            $('#id_coverage').append('<option value="0">Seleccione</option>');
+                            $('#msg_error').html('');
+                            $.each(data, function () {
+                                console.log("ID: " + this.id_coverage);
+                                console.log("First Name: " + this.coverage);
+                                $('#id_coverage').append('<option value="'+this.id_coverage+'">'+this.coverage+'</option>');
+                            });
+                        }else{
+                            $('#id_coverage option').remove();
+                            $('#id_coverage').append('<option value="0">Seleccione</option>');
+                            $('button[type="submit"]').prop('disabled', true);
+                            $('#msg_error').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span>Las coberturas ya tienen registrados las tasas o no existen coberturas registradas a producto</div>');
+                        }
+
+                    });
+                }else{
+
+                }
+            });
+
+            //REALIZAR SUMAS DE TASAS PARA EL RESULTADO TASA FINAL
+            $('#rate_company').click(function(){
+                $('#rate_company').prop('value', '');
+            });
+            $('#rate_company').keyup(function(){
+                var rate_company = $('#rate_company').prop('value');
+                var regex = /^([0-9\.])*$/;
+                if(!(regex.test(rate_company))){
+                    $('#rate_company').prop('value', '');
+                }else{
+                    var rate_bank = $('#rate_bank').prop('value');
+                    var tasa_final = parseFloat(rate_company)+ parseFloat(rate_bank);
+                    if(isNaN(tasa_final)){
+                        $('#rate_final').prop('value', 0);
+                    }else{
+                        $('#rate_final').prop('value',tasa_final.toFixed(2));
+                    }
+                }
+            });
+
+            $('#rate_bank').click(function(){
+                $('#rate_bank').prop('value', '');
+            });
+            $('#rate_bank').keyup(function(){
+                var rate_bank = $('#rate_bank').prop('value');
+                var regex = /^([0-9\.])*$/;
+                if(!(regex.test(rate_bank))){
+                    $('#rate_bank').prop('value', '');
+                }else{
+                    var rate_company = $('#rate_company').prop('value');
+                    var tasa_final = parseFloat(rate_company)+ parseFloat(rate_bank);
+                    if(isNaN(tasa_final)){
+                        $('#rate_final').prop('value', 0);
+                    }else{
+                        $('#rate_final').prop('value',tasa_final.toFixed(2));
+                    }
+                }
+            });
+
 
             //VERIFICAMOS EL FORMULARIO
             $('#NewForm').submit(function(e){
@@ -160,7 +242,8 @@
                         return true;
                     }
                 }else{
-                    if(_value==''){
+                    if(_value==0){
+                        err = 'Ingrese una tasa';
                         addClassE(element,err);
                         return false;
                     }else{
@@ -192,9 +275,9 @@
                 if($(element).hasClass('text') === true){
                     regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s]*$/;
                     err = 'Ingrese solo texto';
-                }else if($(element).hasClass('number') === true){
-                    regex = /^([0-9])*$/;
-                    err = 'Ingrese solo numeros';
+                }else if($(element).hasClass('decimal') === true){
+                    regex = /^([0-9\.])*$/;
+                    err = 'Ingrese solo numeros enteros o numeros decimales';
                 }
 
                 if(regex !== null){

@@ -237,6 +237,18 @@
                     <i class="icon-folder"></i> Administrar coberturas
                 </a>
             </li>
+            @if($nav=='rate')
+                @if($action=='list' || $action=='new' || $action=='edit')
+                    @var $data_rate='active'
+                @endif
+            @else
+                @var $data_rate=''
+            @endif
+            <li class="{{$data_rate}}">
+                <a href="{{route('admin.tasas.list',['nav'=>'rate', 'action'=>'list'])}}" title='Administrar tasas'>
+                    <i class="icon-folder"></i> Administrar tasas
+                </a>
+            </li>
                            
             @if($nav=='mcCertificate')
                 @if($action=='list' || $action=='edit' || $action=='new' || $action=='asign')

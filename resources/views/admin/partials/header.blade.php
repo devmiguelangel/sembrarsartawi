@@ -430,6 +430,14 @@
                     <li class="active">Editar Registro</li>
                 @endif
             @endif
+        @elseif($nav=='rate')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Tasas</li>
+            @elseif($action=='new' || $action=='edit')
+                <li><a href="{{ route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list']) }}">Tasas</a></li>
+                <li class="active">Formulario</li>
+            @endif
         @endif
     </ul>
     <!--
