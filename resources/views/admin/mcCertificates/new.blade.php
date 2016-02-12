@@ -21,9 +21,9 @@
     <div class="panel-body">
         {!! Form::open(array('route' => 'create_mc_certificates', 'name' => 'Form', 'id' => 'mc_certificates', 'method'=>'post', 'class'=>'form-horizontal form-validate-jquery')) !!}
         <fieldset class="content-group">
-            
+
             <div class="form-group">
-                <label class="col-lg-2 control-label label_required">Tipo certificado: </label>
+                <label class="col-lg-2 control-label label_required">Producto: </label>
                 <div class="col-lg-5">
                     <select name="ad_retailer_product_id" class="form-control" id="ad_retailer_product_id" required="required">
                         <option value="">Seleccione</option>

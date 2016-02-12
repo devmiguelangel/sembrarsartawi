@@ -18,13 +18,16 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Descargar Formularios <span class="caret"></span></a>
                     <ul class="dropdown-menu width-200">
-                        <li class="dropdown-header">Desgravamen</li>
-                        <li>
-                            <a href="#"><i class="icon-align-center-horizontal"></i> Fixed width</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="icon-flip-vertical3"></i> Sticky sidebar</a>
-                        </li>
+                      @foreach(auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
+                        @if($retailerProduct->type == 'MP')
+                          <li class="dropdown-header">{{ $retailerProduct->companyProduct->product->name }}</li>
+                          @foreach ($retailerProduct->forms as $form)
+                            <li>
+                              <a href="{{ asset($form->file) }}" target="_blank"><i class="icon-align-center-horizontal"></i> {{ $form->title }}</a>
+                            </li>
+                          @endforeach
+                        @endif
+                      @endforeach
                     </ul>
                 </li>
                 @if (auth()->user()->profile->first()->slug === 'SEP')
@@ -43,39 +46,39 @@
                                             @else
                                                 @var $client= ''
                                             @endif
-                                            
+
                                             @if(isset($detail_id))
                                                 @var $detail_id= $detail_id
                                             @else
                                                 @var $detail_id= ''
                                             @endif
-                                            
+
                                             @if(isset($header_id))
                                                 @var $header_id= $header_id
                                             @else
                                                 @var $header_id= ''
                                             @endif
-                                            
+
                                             @if(isset($header))
                                                 @var $header= encode($header->id)
                                             @else
                                                 @var $header= ''
                                             @endif
-                                            
+
                                             @if(isset($detail))
                                                 @var $detail= encode($detail->id)
                                             @else
                                                 @var $detail= ''
                                             @endif
-                                            
+
                                             @if(isset($sp_id))
                                                 @var $sp_id= $sp_id
                                             @else
                                                 @var $sp_id= ''
                                             @endif
-                                            
-                                            <li class="{{ 
-                                                        Request::is('de/'.encode($retailerProduct->id).'/create') ? 'active' : 
+
+                                            <li class="{{
+                                                        Request::is('de/'.encode($retailerProduct->id).'/create') ? 'active' :
                                                         Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/list') ? 'active':
                                                         Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/create') ? 'active':
                                                         Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/create/'.$client.'') ? 'active':
@@ -89,7 +92,7 @@
                                                         Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/vi/'.$sp_id.'') ? 'active':
                                                         Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/vi/'.$sp_id.'/create') ? 'active':
                                                         Request::is('de/'.encode($retailerProduct->id).'/'.$header.'/balance/edit/'.$detail.'') ? 'active':
-                                                        '' 
+                                                        ''
                                                        }}
                                                        ">
                                                 <a href="{{ route('de.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a>

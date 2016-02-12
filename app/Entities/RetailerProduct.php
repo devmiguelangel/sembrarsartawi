@@ -61,4 +61,15 @@ class RetailerProduct extends Model
                                     'ad_retailer_product_id',
                                     'ad_activity_id');
     }
+
+    public function forms()
+    {
+        return $this->hasMany(Form::class, 'ad_retailer_product_id', 'id');
+    }
+
+    public function content()
+    {
+        return $this->hasOne(Content::class, 'ad_retailer_product_id', 'id');
+    }
+
 }

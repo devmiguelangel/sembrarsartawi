@@ -156,7 +156,7 @@ class MailController extends Controller
             ->retailerProducts()->where('id', $rp_id)->first();
 
         if ($retailerProduct instanceof RetailerProduct) {
-            $this->emails = $retailerProduct->emails;
+            $this->emails = $retailerProduct->emails()->where('active', true)->get();
         }
 
         $this->user->name = $this->user->full_name;

@@ -42,11 +42,6 @@ class RetailerProductController extends Controller
         return $this->repository->getQuestionByProduct(decode($rp_id));
     }
 
-    public function subProductByIdProduct($rp_id)
-    {
-        return $this->repository->getSubProductByIdProduct(decode($rp_id));
-    }
-
     public function plans($rp_id)
     {
         return $this->plan->planByProduct(decode($rp_id));

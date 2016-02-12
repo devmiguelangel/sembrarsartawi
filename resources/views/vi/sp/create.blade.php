@@ -332,252 +332,262 @@
                         </div>
                     </div>
                 </div>
-                {!! Form::open(['route' => ['de.vi.sp.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id], 'method' => 'post', 'class' => '']) !!}
-                    {!! Form::hidden('detail_id', encode($detail->id)) !!}
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="modal-header bg-primary title">
-                        <div class="panel-heading">
-                            <h6 class="modal-title">Cuestionario de Salud</h6>
-                        </div>
-                    </div>
-                    <div class="panel panel-body border-top-success">
-                        <!--
-                        <div class="panel-heading modal-header bg-success">
-                            <h5 class="panel-title">Cuestionario de Salud</h5>
-                            <div class="heading-elements">
-                                <ul class="icons-list">
-                                    <li><a data-action="collapse"></a></li>
-                                    <li><a data-action="reload"></a></li>
-                                    <li><a data-action="close"></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <hr>
-                        -->
-                        <div class="panel-heading">
-                            <div class="heading-elements">
-                                <ul class="icons-list">
-                                    <!--<li><a data-action="collapse"></a></li>
-                                    <li><a data-action="reload"></a></li>
-                                    <li><a data-action="close"></a></li>-->
-                                </ul>
-                            </div>
-                        </div>
+                {!! Form::open(['route' => ['de.vi.sp.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id],
+                  'method' => 'post',
+                  'class' => '',
+                  'ng-controller' => 'HeaderViController' ]) !!}
 
-                        <div class="col-xs-12 col-md-12">
-                            @foreach($data['questions'] as $question)
-                                <div class="form-group">
-                                    <div class="col-xs-12 col-md-10">
-                                        <label class="radio-inline text-semibold">
-                                            <strong>{{ $question['order'] }}</strong>.
-                                            {{ $question['question'] }}
-                                        </label>
-                                    </div>
-                                    <div class="col-xs-12 col-md-2">
-                                        {!! Form::hidden('qs[' . $question['order'] . '][id]', $question['id']) !!}
-                                        {!! Form::hidden('qs[' . $question['order'] . '][question]', $question['question']) !!}
-                                        <label class="radio-inline radio-right">
-                                            {!! Form::radio('qs[' . $question['order'] . '][response]', '1', $question['check_yes'], ['class' => 'styled']) !!}
-                                            Si
-                                        </label>
-                                        <label class="radio-inline radio-right">
-                                            {!! Form::radio('qs[' . $question['order'] . '][response]', '0', $question['check_no'], ['class' => 'styled']) !!}
-                                            No
-                                        </label>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix">&nbsp;</div>
-                    <div class="panel-body form-horizontal">
-                        <div class="col-xs-12 col-md-6">
-                            {{--<div class="form-group">
-                                <label class="col-lg-3 control-label label_required">Mano utilizada para escribir y/o firmar: </label>
-                                <div class="col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="icon-user"></i></span>
-                                        {!! SelectField::input('hand', $data['hands']->toArray(), [
-                                            'class' => 'select-search'],
-                                            old('hand', $detail->client->hand))
-                                        !!}
-                                    </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('hand') }}</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label ">Avenida o Calle: </label>
-                                <div class="col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="icon-user"></i></span>
-                                        {!! SelectField::input('avenue_street', $data['avenue_street']->toArray(), [
-                                            'class' => 'select-search'],
-                                            old('avenue_street', $detail->client->avenue_street))
-                                        !!}
-                                    </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('avenue_street') }}</label>
-                                </div>
-                            </div>--}}
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label label_required">Forma de Pago: </label>
-                                <div class="col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
-                                        {!! SelectField::input('payment_method', $data['payment_methods']->toArray(), [
-                                            'class' => 'select-search'],
-                                            old('payment_method'))
-                                        !!}
-                                    </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('payment_method') }}</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label label_required">Periodicidad: </label>
-                                <div class="col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
-                                        {!! SelectField::input('period', $data['periods']->toArray(), [
-                                            'class' => 'select-search'],
-                                            old('period'))
-                                        !!}
-                                    </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('period') }}</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label label_required">Número de Cuenta: </label>
-                                <div class="col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Nro</span>
-                                        {!! Form::text('account_number', old('account_number'), [
-                                            'class' => 'form-control ui-wizard-content',
-                                            'autocomplete' => 'off',
-                                            'placeholder' => 'Número de Cuenta'])
-                                        !!}
-                                    </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('account_number') }}</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">Tarjeta de Crédito: </label>
-                                <div class="col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
-                                        {!! Form::text('credit_card', old('credit_card'), [
-                                            'class' => 'form-control ui-wizard-content',
-                                            'autocomplete' => 'off',
-                                            'placeholder' => 'Tarjeta de Crédito'])
-                                        !!}
-                                    </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('credit_card') }}</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label label_required">Plan: </label>
-                                <div class="col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
-                                        {!! SelectField::input('plan', $data['plans']->toArray(), [
-                                            'class' => 'select-search'],
-                                            old('plan'))
-                                        !!}
-                                    </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('plan') }}</label>
-                                </div>
-                            </div>
-                            <div class="modal-header bg-primary title">
-                                <div class="panel-heading">
-                                    <h6 class="modal-title">Datos del Tomador</h6>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">Nombre: </label>
-                                <div class="col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
-                                        {!! Form::text('taker_name', old('taker_name', $detail->client->full_name), [
-                                            'class' => 'form-control ui-wizard-content',
-                                            'autocomplete' => 'off',
-                                            'placeholder' => 'Nombre del Tomador'])
-                                        !!}
-                                    </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('taker_name') }}</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">CI/NIT: </label>
-                                <div class="col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
-                                        {!! Form::text('taker_dni', old('taker_dni', $detail->client->dni), [
-                                            'class' => 'form-control ui-wizard-content',
-                                            'autocomplete' => 'off',
-                                            'placeholder' => 'CI/NIT del Tomador'])
-                                        !!}
-                                    </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('taker_dni') }}</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-lg-3">Número de domicilio: </label>
-                                <div class="col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Nro.</span>
-                                        {!! Form::text('home_number', old('home_number', $detail->client->home_number), [
-                                            'class' => 'form-control ui-wizard-content',
-                                            'autocomplete' => 'off',
-                                            'placeholder' => 'Número de domicilio'])
-                                        !!}
-                                    </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('home_number') }}</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-3">Dirección laboral: </label>
-                                <div class="col-lg-9">
-                                    {!! Form::textarea('business_address', old('business_address', $detail->client->business_address), [
-                                        'size' => '4x4',
-                                        'class' => 'form-control',
-                                        'placeholder' => 'Dirección laboral',
-                                        'autocomplete' => 'off'])
-                                    !!}
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('business_address') }}</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <a href="{{ route('de.vi.sp.list', ['rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+                  {!! Form::hidden('detail_id', encode($detail->id)) !!}
 
-                            {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', [
-                                'type' => 'submit',
-                                'class' => 'btn btn-primary'])
-                            !!}
-                        </div>
-                        <hr />
-                        <div class="col-xs-12 col-md-6">
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="modal-header bg-success">
-                                    <h6 class="modal-title">Plan - D </h6>
-                                </div>
-                                <div class="panel panel-body border-top-primary text-center">
-                                    <p class="text-muted content-group-sm">
-                                        Muerte por cualquier causa Bs. 69,000<br>
-                                        Invalidez Total y Permanente por enfermedad o accidente Bs. 69,000<br>
+                  <div class="col-md-10 col-md-offset-1">
+                      <div class="modal-header bg-primary title">
+                          <div class="panel-heading">
+                              <h6 class="modal-title">Cuestionario de Salud</h6>
+                          </div>
+                      </div>
+                      <div class="panel panel-body border-top-success">
+                          <!--
+                          <div class="panel-heading modal-header bg-success">
+                              <h5 class="panel-title">Cuestionario de Salud</h5>
+                              <div class="heading-elements">
+                                  <ul class="icons-list">
+                                      <li><a data-action="collapse"></a></li>
+                                      <li><a data-action="reload"></a></li>
+                                      <li><a data-action="close"></a></li>
+                                  </ul>
+                              </div>
+                          </div>
+                          <hr>
+                          -->
+                          <div class="panel-heading">
+                              <div class="heading-elements">
+                                  <ul class="icons-list">
+                                      <!--<li><a data-action="collapse"></a></li>
+                                      <li><a data-action="reload"></a></li>
+                                      <li><a data-action="close"></a></li>-->
+                                  </ul>
+                              </div>
+                          </div>
 
-                                    </p>
-                                    <div class="col-md-12">
-                                        <p>Sepelio Bs 3,500<br>
-                                            Prima Anual Bs. 1.032,00<br>
-                                            Prima Mensual Bs. 86,00 <br></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                          <div class="col-xs-12 col-md-12">
+                              @foreach($data['questions'] as $question)
+                                  <div class="form-group">
+                                      <div class="col-xs-12 col-md-10">
+                                          <label class="radio-inline text-semibold">
+                                              <strong>{{ $question['order'] }}</strong>.
+                                              {{ $question['question'] }}
+                                          </label>
+                                      </div>
+                                      <div class="col-xs-12 col-md-2">
+                                          {!! Form::hidden('qs[' . $question['order'] . '][id]', $question['id']) !!}
+                                          {!! Form::hidden('qs[' . $question['order'] . '][question]', $question['question']) !!}
+                                          <label class="radio-inline radio-right">
+                                              {!! Form::radio('qs[' . $question['order'] . '][response]', '1', $question['check_yes'], ['class' => 'styled']) !!}
+                                              Si
+                                          </label>
+                                          <label class="radio-inline radio-right">
+                                              {!! Form::radio('qs[' . $question['order'] . '][response]', '0', $question['check_no'], ['class' => 'styled']) !!}
+                                              No
+                                          </label>
+                                      </div>
+                                  </div>
+                              @endforeach
+                          </div>
+                      </div>
+                  </div>
+                  <div class="clearfix">&nbsp;</div>
+                      <div class="panel-body form-horizontal">
+                          <div class="col-xs-12 col-md-6">
+                              {{--<div class="form-group">
+                                  <label class="col-lg-3 control-label label_required">Mano utilizada para escribir y/o firmar: </label>
+                                  <div class="col-lg-9">
+                                      <div class="input-group">
+                                          <span class="input-group-addon"><i class="icon-user"></i></span>
+                                          {!! SelectField::input('hand', $data['hands']->toArray(), [
+                                              'class' => 'select-search'],
+                                              old('hand', $detail->client->hand))
+                                          !!}
+                                      </div>
+                                      <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('hand') }}</label>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="col-lg-3 control-label ">Avenida o Calle: </label>
+                                  <div class="col-lg-9">
+                                      <div class="input-group">
+                                          <span class="input-group-addon"><i class="icon-user"></i></span>
+                                          {!! SelectField::input('avenue_street', $data['avenue_street']->toArray(), [
+                                              'class' => 'select-search'],
+                                              old('avenue_street', $detail->client->avenue_street))
+                                          !!}
+                                      </div>
+                                      <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('avenue_street') }}</label>
+                                  </div>
+                              </div>--}}
+                              <div class="form-group">
+                                  <label class="col-lg-3 control-label label_required">Forma de Pago: </label>
+                                  <div class="col-lg-9">
+                                      <div class="input-group">
+                                          <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
+                                          {!! SelectField::input('payment_method', $data['payment_methods']->toArray(), [
+                                              'class' => 'select-search'],
+                                              old('payment_method'))
+                                          !!}
+                                      </div>
+                                      <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('payment_method') }}</label>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="col-lg-3 control-label label_required">Periodicidad: </label>
+                                  <div class="col-lg-9">
+                                      <div class="input-group">
+                                          <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
+                                          {!! SelectField::input('period', $data['periods']->toArray(), [
+                                              'class' => 'select-search'],
+                                              old('period'))
+                                          !!}
+                                      </div>
+                                      <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('period') }}</label>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="col-lg-3 control-label label_required">Número de Cuenta: </label>
+                                  <div class="col-lg-9">
+                                      <div class="input-group">
+                                          <span class="input-group-addon">Nro</span>
+                                          {!! Form::text('account_number', old('account_number'), [
+                                              'class' => 'form-control ui-wizard-content',
+                                              'autocomplete' => 'off',
+                                              'placeholder' => 'Número de Cuenta'])
+                                          !!}
+                                      </div>
+                                      <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('account_number') }}</label>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="col-lg-3 control-label">Tarjeta de Crédito: </label>
+                                  <div class="col-lg-9">
+                                      <div class="input-group">
+                                          <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
+                                          {!! Form::text('credit_card', old('credit_card'), [
+                                              'class' => 'form-control ui-wizard-content',
+                                              'autocomplete' => 'off',
+                                              'placeholder' => 'Tarjeta de Crédito'])
+                                          !!}
+                                      </div>
+                                      <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('credit_card') }}</label>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="col-lg-3 control-label label_required">Plan: </label>
+                                  <div class="col-lg-9">
+                                      <div class="input-group">
+                                          <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
+                                          {!! SelectField::input('plan', $data['plans']->toArray(), [
+                                              'class'     => 'select-search',
+                                              'id'        => 'plans',
+                                            ],
+                                              old('plan'))
+                                          !!}
+                                      </div>
+                                      <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('plan') }}</label>
+                                  </div>
+                              </div>
+                              <div class="modal-header bg-primary title">
+                                  <div class="panel-heading">
+                                      <h6 class="modal-title">Datos del Tomador</h6>
+                                  </div>
+                              </div>
+                              <br>
+                              <div class="form-group">
+                                  <label class="col-lg-3 control-label">Nombre: </label>
+                                  <div class="col-lg-9">
+                                      <div class="input-group">
+                                          <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
+                                          {!! Form::text('taker_name', old('taker_name', $detail->client->full_name), [
+                                              'class' => 'form-control ui-wizard-content',
+                                              'autocomplete' => 'off',
+                                              'placeholder' => 'Nombre del Tomador'])
+                                          !!}
+                                      </div>
+                                      <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('taker_name') }}</label>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="col-lg-3 control-label">CI/NIT: </label>
+                                  <div class="col-lg-9">
+                                      <div class="input-group">
+                                          <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
+                                          {!! Form::text('taker_dni', old('taker_dni', $detail->client->dni), [
+                                              'class' => 'form-control ui-wizard-content',
+                                              'autocomplete' => 'off',
+                                              'placeholder' => 'CI/NIT del Tomador'])
+                                          !!}
+                                      </div>
+                                      <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('taker_dni') }}</label>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-xs-12 col-md-6">
+                              <div class="form-group">
+                                  <label class="control-label col-lg-3">Número de domicilio: </label>
+                                  <div class="col-lg-9">
+                                      <div class="input-group">
+                                          <span class="input-group-addon">Nro.</span>
+                                          {!! Form::text('home_number', old('home_number', $detail->client->home_number), [
+                                              'class' => 'form-control ui-wizard-content',
+                                              'autocomplete' => 'off',
+                                              'placeholder' => 'Número de domicilio'])
+                                          !!}
+                                      </div>
+                                      <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('home_number') }}</label>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-lg-3">Dirección laboral: </label>
+                                  <div class="col-lg-9">
+                                      {!! Form::textarea('business_address', old('business_address', $detail->client->business_address), [
+                                          'size' => '4x4',
+                                          'class' => 'form-control',
+                                          'placeholder' => 'Dirección laboral',
+                                          'autocomplete' => 'off'])
+                                      !!}
+                                      <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('business_address') }}</label>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="text-right">
+                              <a href="{{ route('de.vi.sp.list', ['rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+
+                              {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', [
+                                  'type' => 'submit',
+                                  'class' => 'btn btn-primary'])
+                              !!}
+                          </div>
+                          <hr />
+                          <div class="col-xs-12 col-md-6" ng-if="plan">
+                              <div class="col-md-10 col-md-offset-1">
+                                  <div class="modal-header bg-success">
+                                      <h6 class="modal-title">@{{ plan.name }} </h6>
+                                  </div>
+                                  <div class="panel panel-body border-top-primary text-center">
+                                      <p class="text-muted content-group-sm">
+                                        <span ng-repeat="p in plan.plan">
+                                          @{{ p.cov }} @{{ p.rank | currency: 'Bs. ' }} <br>
+                                        </span>
+                                      </p>
+                                      <div class="col-md-12">
+                                          <p>
+                                            Prima Anual Bs. @{{ plan.annual_premium | currency: 'Bs. ' }}<br>
+                                            Prima Mensual Bs. @{{ plan.monthly_premium | currency: 'Bs. ' }} <br>
+                                          </p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                  <input type="hidden" id="rp-plans" value="{{ route('rp.plans', ['rp_id' => $sp_id]) }}">
                 {!! Form::close() !!}
             </div>
             <!-- /horizotal form -->

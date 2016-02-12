@@ -175,4 +175,13 @@ Route::group(['prefix' => '{rp_id}'], function() {
         'uses'  => 'De\MedicalCertificateController@store'
     ]);
 
+    /*
+     * Plans
+     */
+
+    Route::get('plans', [
+        'as'    => 'rp.plans',
+        'uses'  => 'Retailer\PlanController@index'
+    ]);
+
 });

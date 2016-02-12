@@ -2,7 +2,7 @@
     <aside class="sm-side">
         <div class="m-title">
             <h3>Mis casos facultativos</h3>
-            <span>4 Casos no atendidos</span>
+            {{-- <span>4 Casos no atendidos</span> --}}
         </div>
         <div id="accordion" class="panel-group" aria-multiselectable="true" role="tablist">
             @foreach ($data['products'] as $index => $product)
@@ -137,148 +137,149 @@
                     </tr>
                 </thead>
                 <tbody>
+                  @if (count($data['products']) > 0)
                     @foreach ($data['products'][0]->records['all'] as $key => $record)
-                        {{-- <tr class="{{ ! $record->read ? 'unread' : '' }}"> --}}
-                        <tr ng-init="record[{{ $key }}].unread = readToBoolean({{ (int) $record->read }})" ng-class="{ unread: !record[{{ $key }}].unread }">
-                            <td class="inbox-small-cells te">
-                                <label class="chek_inbox">
-                                    <input type="checkbox" class="styled"
-                                        ng-model="record[{{ $key }}].unread"
-                                        ng-click="readEdit($event, record[{{ $key }}].unread)"
-                                        data-record="{{ encode($record->id) }}"
-                                        data-rp-id="{{ encode($data['products'][0]->rp->id) }}"
-                                        {{ $record->read ? 'checked' : '' }}>
-                                </label>
-                            </td>
-                            <td class="view-message">
-                                {{ $record->detail->header->certificate_number }}
-                            </td>
-                            <td class="inbox-small-cells">
-                                <a href="#" class="avatar">
-                                    <span class="{{ $record->process_days <= 2 ? 'bg-success' : ($record->process_days <= 10 ? 'bg-warning' : 'bg-danger') }}">
-                                        {{ $record->process_days }}
-                                    </span>
+                      {{-- <tr class="{{ ! $record->read ? 'unread' : '' }}"> --}}
+                      <tr ng-init="record[{{ $key }}].unread = readToBoolean({{ (int) $record->read }})" ng-class="{ unread: !record[{{ $key }}].unread }">
+                        <td class="inbox-small-cells te">
+                          <label class="chek_inbox">
+                            <input type="checkbox" class="styled"
+                            ng-model="record[{{ $key }}].unread"
+                            ng-click="readEdit($event, record[{{ $key }}].unread)"
+                            data-record="{{ encode($record->id) }}"
+                            data-rp-id="{{ encode($data['products'][0]->rp->id) }}"
+                            {{ $record->read ? 'checked' : '' }}>
+                          </label>
+                        </td>
+                        <td class="view-message">
+                          {{ $record->detail->header->certificate_number }}
+                        </td>
+                        <td class="inbox-small-cells">
+                          <a href="#" class="avatar">
+                            <span class="{{ $record->process_days <= 2 ? 'bg-success' : ($record->process_days <= 10 ? 'bg-warning' : 'bg-danger') }}">
+                              {{ $record->process_days }}
+                            </span>
+                          </a>
+                        </td>
+                        <td class="view-message  dont-show">
+                          {{ $record->detail->client->full_name }}
+                          <span class="label label-primary pull-right">{{ config('base.company_state.' . $record->company_state) }}</span></td>
+                          <td class="view-message ">
+                            {{ $record->detail->client->dni }} {{ $record->detail->client->extension }}
+                          </td>
+                          <td class="view-message ">{{ $record->date_admission }}</td>
+                          {{-- <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td> --}}
+                          <td class="view-message  text-right" style="z-index:34;">
+                            <ul class="icons-list">
+                              <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                  <i class="icon-menu9"></i>
                                 </a>
-                            </td>
-                            <td class="view-message  dont-show">
-                                {{ $record->detail->client->full_name }}
-                                <span class="label label-primary pull-right">{{ config('base.company_state.' . $record->company_state) }}</span></td>
-                            <td class="view-message ">
-                                {{ $record->detail->client->dni }} {{ $record->detail->client->extension }}
-                            </td>
-                            <td class="view-message ">{{ $record->date_admission }}</td>
-                            {{-- <td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td> --}}
-                            <td class="view-message  text-right" style="z-index:34;">
-                                <ul class="icons-list">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            <i class="icon-menu9"></i>
+                                <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
+                                  @if ($user->profile->first()->slug === 'SEP')
+                                    @if ($record->company_state === 'A' || $record->company_state === 'R')
+                                      <li>
+                                        <a href="{{ route('de.fa.observation.process', [
+                                          'rp_id'     => encode($data['products'][0]->rp->id),
+                                          'id' => encode($record->id),
+                                          ]) }}" ng-click="observation($event)">
+                                          <i class="icon-plus2"></i>
+                                          Respuesta ({{ config('base.company_state.' . $record->company_state) }})
                                         </a>
-                                        <ul class="dropdown-menu dropdown-menu-right" style="z-index:100;">
-                                            @if ($user->profile->first()->slug === 'SEP')
-                                                @if ($record->company_state === 'A' || $record->company_state === 'R')
-                                                    <li>
-                                                        <a href="{{ route('de.fa.observation.process', [
-                                                            'rp_id'     => encode($data['products'][0]->rp->id),
-                                                            'id' => encode($record->id),
-                                                            ]) }}" ng-click="observation($event)">
-                                                            <i class="icon-plus2"></i>
-                                                            Respuesta ({{ config('base.company_state.' . $record->company_state) }})
-                                                        </a>
-                                                    </li>
+                                      </li>
 
-                                                    @if ($record->company_state === 'A' && $record->detail->header->approved)
-                                                        <li>
-                                                            <a href="{{ route('de.issue', [
-                                                                'rp_id'     => encode($data['products'][0]->rp->id),
-                                                                'header_id' => encode($record->detail->header->id)
-                                                                ]) }}">
-                                                                <i class="icon-plus2"></i> Emitir Póliza
-                                                            </a>
-                                                        </li>
-                                                    @endif
-                                                @endif
-                                            @elseif ($user->profile->first()->slug === 'COP')
-                                                <li>
-                                                    <a href="{{ route('de.fa.edit', [
-                                                        'rp_id' => encode($data['products'][0]->rp->id),
-                                                        'id'    => encode($record->id)
-                                                        ]) }}" ng-click="process($event)">
-                                                        <i class="icon-plus2"></i> Procesar
-                                                    </a>
-                                                </li>
-                                            @endif
+                                      @if ($record->company_state === 'A' && $record->detail->header->approved)
+                                        <li>
+                                          <a href="{{ route('de.issue', [
+                                          'rp_id'     => encode($data['products'][0]->rp->id),
+                                          'header_id' => encode($record->detail->header->id)
+                                          ]) }}">
+                                          <i class="icon-plus2"></i> Emitir Póliza
+                                        </a>
+                                      </li>
+                                    @endif
+                                  @endif
+                                @elseif ($user->profile->first()->slug === 'COP')
+                                  <li>
+                                    <a href="{{ route('de.fa.edit', [
+                                    'rp_id' => encode($data['products'][0]->rp->id),
+                                    'id'    => encode($record->id)
+                                    ]) }}" ng-click="process($event)">
+                                    <i class="icon-plus2"></i> Procesar
+                                  </a>
+                                </li>
+                              @endif
 
-                                            @if ($record->company_state === 'O' || $record->company_state === 'C')
-                                                <li>
-                                                    @if ($record->observations->last()->state->slug === 'me')
-                                                        <a href="{{ route('de.fa.mc.show', [
-                                                            'rp_id' => encode($data['products'][0]->rp->id),
-                                                            'id'    => encode($record->id)
-                                                            ]) }}" target="_blank">
-                                                            <i class="icon-plus2"></i> Observación ({{ $record->observations->last()->state->state }})
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('de.fa.observation', [
-                                                            'rp_id' => encode($data['products'][0]->rp->id),
-                                                            'id'    => encode($record->id)
-                                                            ]) }}" ng-click="observation($event)">
-                                                            <i class="icon-plus2"></i> Observación ({{ $record->observations->last()->state->state }})
-                                                        </a>
-                                                    @endif
-                                                </li>
+                              @if ($record->company_state === 'O' || $record->company_state === 'C')
+                                <li>
+                                  @if ($record->observations->last()->state->slug === 'me')
+                                    <a href="{{ route('de.fa.mc.show', [
+                                    'rp_id' => encode($data['products'][0]->rp->id),
+                                    'id'    => encode($record->id)
+                                    ]) }}" target="_blank">
+                                    <i class="icon-plus2"></i> Observación ({{ $record->observations->last()->state->state }})
+                                  </a>
+                                @else
+                                  <a href="{{ route('de.fa.observation', [
+                                  'rp_id' => encode($data['products'][0]->rp->id),
+                                  'id'    => encode($record->id)
+                                  ]) }}" ng-click="observation($event)">
+                                  <i class="icon-plus2"></i> Observación ({{ $record->observations->last()->state->state }})
+                                </a>
+                              @endif
+                            </li>
 
-                                                @if ($user->profile->first()->slug === 'SEP'
-                                                    && $record->company_state === 'O'
-                                                    && $record->observations->last()->state->slug === 'cl'
-                                                    && ! $record->observations->last()->response)
-                                                    <li>
-                                                        <a href="{{ route('de.fa.create.answer', [
-                                                            'rp_id'          => encode($data['products'][0]->rp->id),
-                                                            'id'             => encode($record->id),
-                                                            'id_observation' => encode($record->observations->last()->id)
-                                                            ]) }}" ng-click="observation($event)">
-                                                            <i class="icon-plus2"></i> Responder
-                                                        </a>
-                                                    </li>
-                                                @endif
+                            @if ($user->profile->first()->slug === 'SEP'
+                              && $record->company_state === 'O'
+                              && $record->observations->last()->state->slug === 'cl'
+                              && ! $record->observations->last()->response)
+                              <li>
+                                <a href="{{ route('de.fa.create.answer', [
+                                'rp_id'          => encode($data['products'][0]->rp->id),
+                                'id'             => encode($record->id),
+                                'id_observation' => encode($record->observations->last()->id)
+                                ]) }}" ng-click="observation($event)">
+                                <i class="icon-plus2"></i> Responder
+                              </a>
+                            </li>
+                          @endif
 
-                                                @if ($user->profile->first()->slug === 'SEP' && $record->observations->last()->state->slug === 'de')
-                                                    <li>
-                                                        <a href="{{ route('de.edit', [
-                                                            'rp_id'     => encode($data['products'][0]->rp->id),
-                                                            'header_id' => encode($record->detail->header->id),
-                                                            'idf'       => encode($record->id)
-                                                            ]) }}">
-                                                            <i class="icon-plus2"></i> Editar Póliza
-                                                        </a>
-                                                    </li>
-                                                @endif
+                          @if ($user->profile->first()->slug === 'SEP' && $record->observations->last()->state->slug === 'de')
+                            <li>
+                              <a href="{{ route('de.edit', [
+                              'rp_id'     => encode($data['products'][0]->rp->id),
+                              'header_id' => encode($record->detail->header->id),
+                              'idf'       => encode($record->id)
+                              ]) }}">
+                              <i class="icon-plus2"></i> Editar Póliza
+                            </a>
+                          </li>
+                        @endif
 
-                                            @endif
+                      @endif
 
-                                            @if ($record->company_state === 'C' && $record->observations->last()->response)
-                                                <li>
-                                                    <a href="{{ route('de.fa.response', [
-                                                        'rp_id'          => encode($data['products'][0]->rp->id),
-                                                        'id'             => encode($record->id),
-                                                        'id_observation' => encode($record->observations->last()->id)
-                                                        ]) }}" ng-click="observation($event)">
-                                                        <i class="icon-plus2"></i> Respuesta ({{ $record->observations->last()->state->state }})
-                                                    </a>
-                                                </li>
-                                            @endif
+                      @if ($record->company_state === 'C' && $record->observations->last()->response)
+                        <li>
+                          <a href="{{ route('de.fa.response', [
+                          'rp_id'          => encode($data['products'][0]->rp->id),
+                          'id'             => encode($record->id),
+                          'id_observation' => encode($record->observations->last()->id)
+                          ]) }}" ng-click="observation($event)">
+                          <i class="icon-plus2"></i> Respuesta ({{ $record->observations->last()->state->state }})
+                        </a>
+                      </li>
+                    @endif
 
-                                            <li>
-                                                <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
+                    <li>
+                      <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </td>
+          </tr>
                     @endforeach
-
+                  @endif
                 </tbody>
             </table>
 
