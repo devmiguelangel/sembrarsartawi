@@ -13,7 +13,7 @@
                 No de Certificado:{{ $cli->policy_number }}
             </div>
         </div>
-        @var $i=1 
+        @var $i=1
         @foreach($cli->details as $titular)
             <div class="wrap">
                 <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
@@ -79,7 +79,7 @@
                     </tr>
                 </table>
             </div>
-            @var $i++ 
+            @var $i++
         @endforeach
         @if($i == 1)
             <div class="wrap">
@@ -125,9 +125,9 @@
                         <td style="width: 92%;  border-bottom: 1px solid #080808; text-align: left;"></td>
                     </tr>
                 </table>
-            </div>    
+            </div>
         @endif
-        
+
         <div class="wrap">
             <h2 style="width: auto;	height: auto; text-align: left; padding: 0;
                 font-weight: bold; font-size: 75%;">DEL CRÉDITO SOLICITADO:</h2>
@@ -175,7 +175,7 @@
                 </tr>
             </table>
         </div>
-        
+
         <div class="wrap">
             <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
                 font-weight: bold; font-size: 80%;">Cuestionario</h2>
@@ -183,13 +183,13 @@
                 <tr>
                     <td style="width: 5%;"></td>
                     <td style="width: 71%;"></td>
-                    @var $sum=1 
+                    @var $sum=1
                     @foreach($cli->details as $titular)
                         <td style="width: 12%;" align="right">Titular {{ $sum }}</td>
                         @var $sum++
                     @endforeach
                 </tr>
-                @var $sum=1 
+                @var $sum=1
                 @foreach($question as $key2 => $value)
                     <tr>
                         <td valign="top" style="width: 5%; text-align: center;">{{ $sum }}. </td>
@@ -198,7 +198,7 @@
                             <td style="width: 12%;">
                                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
                                     <tr>
-                                        <td style="width: 80%;" align="right"> 
+                                        <td style="width: 80%;" align="right">
                                             {{ $result == 1 ? 'SI':'NO'}}
                                         </td>
                                         <td style="width: 20%; padding-left: 3px;">
@@ -216,7 +216,7 @@
                 font-weight: bold; font-size: 75%;">
                 SI ALGUNA DE SUS RESPUESTAS ES AFIRMATIVA, SÍRVASE BRINDAR DETALLES:
             </h2>
-            @var $sum=1 
+            @var $sum=1
             @foreach($cli->details as $titular)
                 <td style="width: 12%;" align="right">Titular </td>
                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
@@ -255,7 +255,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="width: 34%;"></td>
-                    @var $sum=1 
+                    @var $sum=1
                     @foreach($cli->details as $titular)
                         <td style="width: 5%;"></td>
                         <td style="width: 28%; text-align: center;">TITULAR {{ $sum }}</td>
@@ -302,7 +302,7 @@
                 COD. 207-934901-1999 11 003-3002
             </h4>
             <br><br><br>
-            @var $sum=1 
+            @var $sum=1
             @foreach($cli->details as $titular)
                 <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
                     font-weight: bold; font-size: 80%;">DATOS PERSONALES:</h2>
@@ -332,7 +332,7 @@
                 </table><br><br>
                 @var $sum++
             @endforeach
-            
+
             <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: 80%; margin: 0;">
                 BENEFICIARIOS PARA GASTOS DE SEPELIO COBERTURA COMPLEMENTARIA A LA<br />
                 PÓLIZA DE SEGURO DE DESGRAVAMEN HIPOTECARIO ANUAL RENOVABLE :
@@ -341,12 +341,12 @@
                 El asegurado de asignar como beneficiario para la cobertura adicional de sepelio a la persona<br />
                 que a su fallecimiento recibirá el Capital que la Compañia otorga en esta cobertura.
             </p>
-            
-            
-            
+
+
+
             <table cellpadding="0" cellspacing="0" border="0" class="table-borde12"
                    style="width: 100%; height: auto; font-size: 90%; font-family: Arial;">
-                @var $sum=1 
+                @var $sum=1
                 @foreach($cli->details as $titular)
                     <tr>
                         <td style="width: 20%;">
@@ -412,7 +412,7 @@
                     <td style="width: 4%;"></td>
                 </tr>
                 <tr>
-                    @var $sum=1 
+                    @var $sum=1
                     @foreach($cli->details as $titular)
                         <td style="width: 4%;"></td>
                         <td align="center" style="width: 30%;">FIRMA TITULAR {{ $sum }}</td>
@@ -545,11 +545,11 @@
                 <tr>
                     <td style="width: 15%;"></td>
                     <td style="width: 30%;" align="center">
-                        <img src="{{ asset('images/firma-1.jpg') }}" height="60">
+                        {{-- <img src="{{ asset('images/firma-1.jpg') }}" height="60"> --}}
                     </td>
                     <td style="width: 10%;"></td>
                     <td style="width: 30%;" align="center">
-                        <img src="{{ asset('images/firma-2.jpg') }}" height="60">
+                        {{-- <img src="{{ asset('images/firma-2.jpg') }}" height="60"> --}}
                     </td>
                     <td style="width: 15%;"></td>
                 </tr>
@@ -851,7 +851,7 @@
 
     </div>
 </div>
-@if($flag > 0)
+@if($flag > 0 && ! is_null($viDetail))
 <hr />
 <div class="container" style="width: 770px;">
     <div class="main">
@@ -1010,7 +1010,7 @@
                         <td style="width: 15%;"></td>
                     </tr>
                 @endforeach
-                
+
             </table>
         </div>
         <div class="wrap">
@@ -1018,7 +1018,7 @@
                  font-weight: bold; font-size: 70%;">III. BENEFICIARIO</div>
             <div style="font-size: 75%; text-align: left; margin: 2px 0;">Beneficiarios:</div>
             <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
-               
+
                 <tr>
                     <td style="width: 10%;"></td>
                     <td style="width: 10%; background: #000; color: #fff; text-align: center;
@@ -1047,27 +1047,27 @@
                     <td style="width: 10%;"></td>
                     <td style="width: 10%; background: #000; color: #fff; text-align: center;
                         height: 10px; padding-top: 2px; border: 1px solid #000;" >
-                        
+
                     </td>
                     <td style="width: 35%; border: 1px solid #000; text-align: center;
                         padding-top: 2px;" >
-                        
+
                     </td>
                     <td style="width: 10%; border: 1px solid #000; text-align: center;
                         padding-top: 2px;" >
-                        
+
                     </td>
                     <td style="width: 15%; border: 1px solid #000; text-align: center;
                         padding-top: 2px;" >
-                        
+
                     </td>
                     <td style="width: 10%; border: 1px solid #000; text-align: center;
                         padding-top: 2px;" >
-                        
+
                     </td>
                     <td style="width: 10%;"></td>
                 </tr>
-                
+
             </table>
         </div>
         <div class="wrap">
@@ -1231,7 +1231,7 @@
                         Fecha:
                     </td>
                     <td style="width: 35%; height: 5px; border-bottom: 1px solid #080808;" >&nbsp;
-                       {{ date('d-m-Y', strtotime($viHeader->date_issue)) }} 
+                       {{ date('d-m-Y', strtotime($viHeader->date_issue)) }}
                     </td>
                     <td style="width: 5%;" >
                         Firma:
@@ -1322,7 +1322,7 @@
                                     Nombre Completo:
                                 </td>
                                 <td style="width: 73%; border-bottom: 1px solid #080808; text-align: left;">
-                                    {{ $viDetail->client->full_name }} 
+                                    {{ $viDetail->client->full_name }}
                                 </td>
                             </tr>
                             <tr>
@@ -1628,19 +1628,19 @@
                             <tr>
                                 <td style="width: 15%; text-align: center; background: #000;
                                     color: #FFF; border: 1px solid #000; height: 10px;">
-                                 
+
                                 </td>
                                 <td style="width: 35%; text-align: center; border: 1px solid #000;">
-                                    
+
                                 </td>
                                 <td style="width: 15%; text-align: center; border: 1px solid #000;">
-                                   
+
                                 </td>
                                 <td style="width: 20%; text-align: center; border: 1px solid #000;">
-                                    
+
                                 </td>
                                 <td style="width: 15%; text-align: center; border: 1px solid #000;">
-                                    
+
                                 </td>
                             </tr>
                             <tr>
@@ -1649,16 +1649,16 @@
                                     Beneficiario 2
                                 </td>
                                 <td style="width: 35%; text-align: center; border: 1px solid #000;">
-                                   
+
                                 </td>
                                 <td style="width: 15%; text-align: center; border: 1px solid #000;">
-                                   
+
                                 </td>
                                 <td style="width: 20%; text-align: center; border: 1px solid #000;">
-                                   
+
                                 </td>
                                 <td style="width: 15%; text-align: center; border: 1px solid #000;">
-                                 
+
                                 </td>
                             </tr>
                             <tr>

@@ -65,10 +65,10 @@
                     </div>
                         <button style="float: right;" type="button" class="btn btn-rounded btn-default text-right" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
                             <i class="icon-question7"></i> Producto
-                        </button>        
+                        </button>
                 </div>
                 <div class="clearfix"></div>
-                
+
                 @if(session('error_header'))
                     <div class="alert bg-danger alert-styled-right">
                         <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
@@ -85,7 +85,7 @@
                                         <div class="col-md-4 ">
                                             <div class="panel panel-body border-top-primary text-center">
                                                 <div class="form-group">
-                                                    {!! Html::image('images/' . $retailerProduct->companyProduct->company->image) !!}
+                                                    {!! Html::image($retailerProduct->companyProduct->company->image) !!}
                                                 </div>
                                                 <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
                                                 <p class="text-muted content-group-sm">{{ $retailerProduct->rates->first()->rate_final }}%</p>

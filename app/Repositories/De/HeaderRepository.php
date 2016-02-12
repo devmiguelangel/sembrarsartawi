@@ -149,7 +149,11 @@ class HeaderRepository extends BaseRepository
      */
     public function getHeaderById($header_id)
     {
-        $this->model = Header::with('details.client', 'details.beneficiary', 'details.facultative', 'user.city')
+        $this->model = Header::with([
+            'details.client.detailsVi',
+            'details.beneficiary',
+            'details.facultative', 'user.city'
+        ])
             ->where('id', '=', $header_id)
             ->get();
 

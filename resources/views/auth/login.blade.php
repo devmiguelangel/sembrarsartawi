@@ -10,7 +10,7 @@
     {!! Form::open(['route' => 'auth.login.post', 'method' => 'post']) !!}
     <div class="panel panel-body login-form">
         <div class="text-center">
-            {!! Html::image('images/logo.jpg', '', ['width' => '120']) !!}
+            {{-- {!! Html::image('images/logo.jpg', '', ['width' => '120']) !!} --}}
             <h5 class="content-group">Acceda a su cuenta <small class="display-block">Sus credenciales</small></h5>
 
         </div>
