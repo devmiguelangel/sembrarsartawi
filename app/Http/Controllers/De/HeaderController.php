@@ -57,6 +57,8 @@ class HeaderController extends Controller
         $this->retailerProductRepository = $retailerProductRepository;
         $this->policyRepository          = $policyRepository;
         $this->facultativeRepository     = $facultativeRepository;
+
+        $this->rate = null;
     }
 
     /**
@@ -86,11 +88,21 @@ class HeaderController extends Controller
     {
         $header = null;
 
-        if ($this->repository->getHeaderById(decode($header_id))) {
-            $header = $this->repository->getModel();
+        if ($this->repository->getHeaderById(decode($header_id))
+                && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+            $header          = $this->repository->getModel();
+            $retailerProduct = $this->retailerProductRepository->getModel();
+
+            $coverage_detail = 0;
+
+            foreach ($retailerProduct->coverages as $coverage) {
+                if ($coverage->id === $header->ad_coverage_id) {
+                    $coverage_detail = $coverage->pivot->detail;
+                }
+            }
         }
 
-        return view('de.list', compact('rp_id', 'header_id', 'header'));
+        return view('de.list', compact('rp_id', 'header_id', 'header', 'coverage_detail'));
     }
 
     /**
@@ -195,9 +207,15 @@ class HeaderController extends Controller
      */
     public function result($rp_id, $header_id)
     {
-        $retailer = request()->user()->retailer->first();
+        if ($this->repository->getHeaderById(decode($header_id))
+                && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+            $header          = $this->repository->getModel();
+            $retailerProduct = $this->retailerProductRepository->getModel();
 
-        return view('de.result', compact('rp_id', 'header_id', 'retailer'));
+            return view('de.result', compact('rp_id', 'header_id', 'header', 'retailerProduct'));
+        }
+
+        return redirect()->back()->with(['error_header' => 'La tasa no pudo ser registrada']);
     }
 
     /**
@@ -208,14 +226,20 @@ class HeaderController extends Controller
      */
     public function storeResult(HeaderResultFormRequest $request, $rp_id, $header_id)
     {
-        $this->rate      = Rate::where('id', $request->get('rate_id'))->first();
-        $request['rate'] = $this->rate;
+        if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+            $retailerProduct = $this->retailerProductRepository->getModel();
+            $this->rate      = $retailerProduct->rates()->where('id', $request->get('rate_id'))->first();
+        }
 
-        if ($this->repository->storeResult($request, decode($header_id))) {
-            return redirect()->route('de.edit', [
-                'rp_id'     => $rp_id,
-                'header_id' => $header_id,
-            ])->with(['success_header' => 'La tasa fue registrada correctamente']);
+        if ($this->rate instanceof Rate) {
+            $request['rate'] = $this->rate;
+
+            if ($this->repository->storeResult($request, decode($header_id))) {
+                return redirect()->route('de.edit', [
+                    'rp_id'     => $rp_id,
+                    'header_id' => $header_id,
+                ])->with(['success_header' => 'La tasa fue registrada correctamente']);
+            }
         }
 
         return redirect()->back()->with(['error_header' => 'La tasa no pudo ser registrada']);

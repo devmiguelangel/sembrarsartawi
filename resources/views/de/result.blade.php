@@ -77,35 +77,33 @@
                 @endif
 
                 <div class="panel-body ">
-                    <div class="col-xs-12 col-md-12">
-                        @foreach($retailer->retailerProducts as $retailerProduct)
-                            @if($retailerProduct->first()->id == decode($rp_id))
-                                @if($retailerProduct->companyProduct->product->code == 'de' && $retailerProduct->type == 'MP')
-                                    @if($retailerProduct->rates->count() == 1)
-                                        <div class="col-md-4 ">
-                                            <div class="panel panel-body border-top-primary text-center">
-                                                <div class="form-group">
-                                                    {!! Html::image($retailerProduct->companyProduct->company->image) !!}
-                                                </div>
-                                                <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
-                                                <p class="text-muted content-group-sm">{{ $retailerProduct->rates->first()->rate_final }}%</p>
-                                                <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion')" data-toggle="modal" data-target="#modal_general" class="btn btn-success">
-                                                    <i class="icon-file-check position-left"></i>  Ver Cotización
-                                                </a>
-                                                <hr>
-                                                {!! Form::open(['route' => ['de.store.result',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
-                                                    {!! Form::hidden('rate_id', encrypt($retailerProduct->rates->first()->id)) !!}
+                  <div class="col-xs-12 col-md-12">
+                    @if($retailerProduct->companyProduct->product->code == 'de' && $retailerProduct->type == 'MP')
+                      @foreach ($retailerProduct->rates as $rate)
+                        @if ($rate->ad_coverage_id === $header->ad_coverage_id)
+                          <div class="col-md-4 ">
+                            <div class="panel panel-body border-top-primary text-center">
+                              <div class="form-group">
+                                {!! Html::image($retailerProduct->companyProduct->company->image) !!}
+                              </div>
+                              <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
+                              <p class="text-muted content-group-sm">{{ $rate->rate_final }}%</p>
+                              <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion')" data-toggle="modal" data-target="#modal_general" class="btn btn-success">
+                                <i class="icon-file-check position-left"></i>  Ver Cotización
+                              </a>
+                              <hr>
+                              {!! Form::open(['route' => ['de.store.result',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                              {!! Form::hidden('rate_id', encrypt($rate->id)) !!}
 
-                                                    {!! Form::button('<i class="icon-arrow-right14 position-left"></i> Emitir', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+                              {!! Form::button('<i class="icon-arrow-right14 position-left"></i> Emitir', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
 
-                                                {!! Form::close() !!}
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endif
-                            @endif
-                        @endforeach
-                    </div>
+                              {!! Form::close() !!}
+                            </div>
+                          </div>
+                        @endif
+                      @endforeach
+                    @endif
+                  </div>
                 </div>
 
                 <!-- /horizotal form -->
