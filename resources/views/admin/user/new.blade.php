@@ -27,8 +27,8 @@
             </div>
         </div>
         @if (session('error'))
-            <div class="alert alert-success">
-                {{ session('error') }}
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
             </div>
         @endif
         <div class="panel-body">
@@ -250,12 +250,50 @@
                         console.log(data);
                         if(data.length>0){
                             $('#msg_usuario').html('el usuario '+usuario+' ya existe');
+                            $('#txtIdusuario').focus();
+                            $('button[type="submit"]').prop('disabled', true);
                         }else{
                             $('#msg_usuario').html('');
+                            $('button[type="submit"]').prop('disabled', false);
                         }
                     });
                 }else{
                     $("#txtIdusuario").prop('value','');
+                }
+            });
+
+            //CONFIRMAR SI EXISTE CORREO ELECTRONICO
+            $('#txtEmail').keyup(function(){
+                var email = $(this).prop('value');
+                var regex = /^([a-z]+[a-z0-9._-]*)@{1}([a-z0-9\.]{2,})\.([a-z]{2,3})$/;
+                if(regex.test(email)){
+                    /*
+
+                    */
+                    $.get( "{{url('/')}}/admin/user/find_email_ajax/"+email, function( data ) {
+                        console.log(data);
+                        if(data==0){
+                            if($("#txtEmail + .validation-error-label").length) {
+                                $("#txtEmail + .validation-error-label").remove();
+                            }
+                            $('button[type="submit"]').prop('disabled', false);
+                        }else{
+                            if($("#txtEmail + .validation-error-label").length) {
+                                $("#txtEmail + .validation-error-label").remove();
+                            }
+                            if(!$("#txtEmail + .validation-error-label").length) {
+                                $("#txtEmail:last").after('<span class="validation-error-label">El email ya existe, ingrese otro</span>');
+                            }
+                        }
+                    });
+                }else{
+                    if($("#txtEmail + .validation-error-label").length) {
+                        $("#txtEmail + .validation-error-label").remove();
+                    }
+                    $('button[type="submit"]').prop('disabled', true);
+                    if(!$("#txtEmail + .validation-error-label").length) {
+                        $("#txtEmail:last").after('<span class="validation-error-label">Email invalido</span>');
+                    }
                 }
             });
 

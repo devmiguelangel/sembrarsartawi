@@ -57,6 +57,9 @@ Route::get('admin/user/pass_now_ajax/{id_user}/{contrasenia_actual}', 'Admin\Use
 Route::get('admin/user/active_ajax/{id_user}/{text}', 'Admin\UserAdminController@ajax_active_inactive');
 Route::get('admin/user/profiles_ajax/{tipo_usuario}', 'Admin\UserAdminController@ajax_user_profiles');
 Route::get('admin/user/disabled_ajax/{id_user}', 'Admin\UserAdminController@ajax_disabled_permissions');
+Route::get('admin/user/find_email_ajax/{email}', 'Admin\UserAdminController@ajax_find_email');
+Route::get('admin/user/find_email_edit_ajax/{email}/{id_usuario}', 'Admin\UserAdminController@ajax_find_email_edit');
+
 
 require "admin.company.php";
 require "admin.exchange.php";

@@ -74,68 +74,72 @@ class UserAdminController extends BaseController
      */
     public function store(Request $request)
     {
-        $array = explode('|',$request->input('tipo_usuario'));
-        $arrCity = explode('|', $request->input('depto'));
-        $user_new = new User();
-        $user_new->id=date('U');
-        $user_new->username=$request->input('txtIdusuario');
-        $user_new->password=Hash::make($request->input('contrasenia'));
-        $user_new->full_name=$request->input('txtNombre');
-        $user_new->email=$request->input('txtEmail');
-        $user_new->phone_number=$request->input('txtTelefono');
-        $user_new->ad_city_id=$arrCity[1];
-        $user_new->ad_agency_id=$request->input('agencia');
-        $user_new->ad_user_type_id=$array[0];
-        $user_new->active=true;
-        if($user_new->save()) {
-            $query_retailer_user = \DB::table('ad_retailer_users')
-                                        ->insert(
-                                            [
-                                                'ad_retailer_id'=>$request->input('id_retailer'),
-                                                'ad_user_id'=>$user_new->id,
-                                                'active' => true,
-                                                'created_at'=>date("Y-m-d H:i:s"),
-                                                'updated_at'=>date("Y-m-d H:i:s")
-                                            ]
-                                        );
-            if($query_retailer_user){
-                if($array[1]=='UST'){
-                    try {
-                        $query_insert = \DB::table('ad_user_profiles')->insert(
-                            [
-                                'ad_user_id'=>$user_new->id,
-                                'ad_profile_id'=>$request->input('id_profile'),
-                                'active'=>true,
-                                'created_at'=>date("Y-m-d H:i:s"),
-                                'updated_at'=>date("Y-m-d H:i:s")
-                            ]
-                        );
+        try{
+            $array = explode('|',$request->input('tipo_usuario'));
+            $arrCity = explode('|', $request->input('depto'));
+            $user_new = new User();
+            $user_new->id=date('U');
+            $user_new->username=$request->input('txtIdusuario');
+            $user_new->password=Hash::make($request->input('contrasenia'));
+            $user_new->full_name=$request->input('txtNombre');
+            $user_new->email=$request->input('txtEmail');
+            $user_new->phone_number=$request->input('txtTelefono');
+            $user_new->ad_city_id=$arrCity[1];
+            $user_new->ad_agency_id=$request->input('agencia');
+            $user_new->ad_user_type_id=$array[0];
+            $user_new->active=true;
+            if($user_new->save()) {
+                $query_retailer_user = \DB::table('ad_retailer_users')
+                    ->insert(
+                        [
+                            'ad_retailer_id'=>$request->input('id_retailer'),
+                            'ad_user_id'=>$user_new->id,
+                            'active' => true,
+                            'created_at'=>date("Y-m-d H:i:s"),
+                            'updated_at'=>date("Y-m-d H:i:s")
+                        ]
+                    );
+                if($query_retailer_user){
+                    if($array[1]=='UST'){
+                        try {
+                            $query_insert = \DB::table('ad_user_profiles')->insert(
+                                [
+                                    'ad_user_id'=>$user_new->id,
+                                    'ad_profile_id'=>$request->input('id_profile'),
+                                    'active'=>true,
+                                    'created_at'=>date("Y-m-d H:i:s"),
+                                    'updated_at'=>date("Y-m-d H:i:s")
+                                ]
+                            );
 
-                        if(count($request->get('permiso'))>0){
-                            foreach ($request->get('permiso') as $key => $value) {
-                                $query_permissions = \DB::table('ad_user_permissions')->insert(
-                                    [
-                                        'ad_user_id' => $user_new->id,
-                                        'ad_permission_id' => $value,
-                                        'active' => true,
-                                        'created_at'=>date("Y-m-d H:i:s"),
-                                        'updated_at'=>date("Y-m-d H:i:s")
-                                    ]
-                                );
+                            if(count($request->get('permiso'))>0){
+                                foreach ($request->get('permiso') as $key => $value) {
+                                    $query_permissions = \DB::table('ad_user_permissions')->insert(
+                                        [
+                                            'ad_user_id' => $user_new->id,
+                                            'ad_permission_id' => $value,
+                                            'active' => true,
+                                            'created_at'=>date("Y-m-d H:i:s"),
+                                            'updated_at'=>date("Y-m-d H:i:s")
+                                        ]
+                                    );
+                                }
                             }
+
+                            return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+
+                        } catch(QueryException $e) {
+                            return redirect()->back()->with(array('error'=>$e->getMessage()));
                         }
 
+                    }else{
                         return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
-
-                    } catch(QueryException $e) {
-                        return redirect()->back()->with(array('error'=>$e->getMessage()));
                     }
-
-                }else{
-                    return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
                 }
-            }
 
+            }
+        }catch(QueryException $e) {
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
         //dd($request->all());
     }
@@ -397,6 +401,29 @@ class UserAdminController extends BaseController
         //dd($query);
         if($query){
             return response()->json($query);
+        }
+    }
+
+    public function ajax_find_email($email){
+        $query = \DB::table('ad_users')
+                        ->where('email', '=', $email)
+                        ->first();
+        if(count($query)>0){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    public function ajax_find_email_edit($email, $id_usuario){
+        $query = \DB::table('ad_users')
+            ->where('email', '=', $email)
+            ->where('id', '<>', $id_usuario)
+            ->first();
+        if(count($query)>0){
+            return 1;
+        }else{
+            return 0;
         }
     }
 }
