@@ -75,7 +75,7 @@
                         $(function(){messageAction('succes',"{{ session('success_header') }}");});
                     </script>
                 @endif
-                
+
                 @if(session('error_client'))
                     <script>
                         $(function(){messageAction('info',"{{ session('error_client') }}");});
@@ -91,7 +91,7 @@
 
                 @if(session('success_question'))
                     <script>
-                        
+
                         $(function(){messageAction('succes',"{{ session('success_question') }}");});
                     </script>
                 @endif
@@ -138,10 +138,15 @@
                     </div>
                     <div class="col-xs-12">
                         <div class="text-right">
-                            <a class="btn btn-primary" href="{{ route('de.detail.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" title="Nuevo Cliente">Nuevo Cliente <i class="icon-plus2 position-right"></i></a>
-                            @if($header->details->count() > 0)
-                                <a class="btn btn-primary" href="{{ route('de.result', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Continuar <i class="icon-arrow-right14 position-right"></i></a>
-                            @endif
+                          @if ($header->details->count() < $coverage_detail)
+                            <a class="btn btn-primary" href="{{ route('de.detail.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" title="Nuevo Cliente">
+                              Nuevo Cliente <i class="icon-plus2 position-right"></i>
+                            </a>
+                          @endif
+
+                          @if($header->details->count() > 0)
+                              <a class="btn btn-primary" href="{{ route('de.result', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Continuar <i class="icon-arrow-right14 position-right"></i></a>
+                          @endif
                         </div>
                         <br>
                     </div>
@@ -204,4 +209,3 @@
         </div>
     </div>
 @endsection
-

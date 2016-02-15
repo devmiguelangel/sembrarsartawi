@@ -3,6 +3,7 @@
 namespace Sibas\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Sibas\Entities\De\Coverage;
 
 class RetailerProduct extends Model
 {
@@ -70,6 +71,15 @@ class RetailerProduct extends Model
     public function content()
     {
         return $this->hasOne(Content::class, 'ad_retailer_product_id', 'id');
+    }
+
+    public function coverages()
+    {
+        return $this->belongsToMany(Coverage::class,
+            'ad_retailer_product_coverages',
+            'ad_retailer_product_id',
+            'ad_coverage_id')
+        ->withPivot('detail');
     }
 
 }
