@@ -438,6 +438,14 @@
                 <li><a href="{{ route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list']) }}">Tasas</a></li>
                 <li class="active">Formulario</li>
             @endif
+        @elseif($nav=='state')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Lista estados</li>
+            @elseif($action=='new')
+                <li><a href="{{ route('admin.estados.list', ['nav'=>'state', 'action'=>'list']) }}">Estados</a></li>
+                <li class="active">Formulario</li>
+            @endif
         @endif
     </ul>
     <!--

@@ -249,6 +249,18 @@
                     <i class="icon-folder"></i> Administrar tasas
                 </a>
             </li>
+            @if($nav=='state')
+                @if($action=='list' || $action=='new' || $action=='edit')
+                    @var $data_state='active'
+                @endif
+            @else
+                @var $data_state=''
+            @endif
+            <li class="{{$data_state}}">
+                <a href="{{route('admin.estados.list',['nav'=>'state', 'action'=>'list'])}}" title='Administrar estados'>
+                    <i class="icon-folder"></i> Administrar estados
+                </a>
+            </li>
                            
             @if($nav=='mcCertificate')
                 @if($action=='list' || $action=='edit' || $action=='new' || $action=='asign')

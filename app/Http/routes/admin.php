@@ -81,6 +81,7 @@ require "admin.content.php";
 require "admin.subproduct.php";
 require "admin.coverage.php";
 require "admin.tasas.php";
+require "admin.state.php";
 
 Route::get('admin/ad_activities/list',[
     'as' => 'adActivities',
