@@ -60,7 +60,7 @@
                         <label class="control-label col-lg-2">Agregar Pregunta <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             @if(count($question)>0)
-                                <select multiple="multiple" name="addquestion[]" id="id_question" class="form-control required">
+                                <select multiple="multiple" name="addquestion[]" id="id_question" class="form-control required" data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
                                     @foreach($question as $data)
                                         <option value="{{$data->id}}">{{$data->question}}</option>
                                     @endforeach

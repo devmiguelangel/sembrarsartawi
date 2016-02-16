@@ -40,7 +40,7 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2 label_required">Multiple select</label>
                         <div class="col-lg-5">
-                            <select class="form-control" multiple="multiple" id="adActivities" name="adActivities[]" required="required">
+                            <select class="form-control" multiple="multiple" id="adActivities" name="adActivities[]" required="required" data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
                                 @foreach($activities as $activity)
                                     <option value="{{ $activity->id }}">{{ $activity->occupation }}</option>      
                                 @endforeach

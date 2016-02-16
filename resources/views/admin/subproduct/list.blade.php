@@ -31,6 +31,12 @@
                 -->
             </div>
         </div>
+        @if (session('ok'))
+            <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
+                <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+                <span class="text-semibold">Well done!</span> {{ session('ok')}}
+            </div>
+        @endif
         @if($id_retailer_product_select>0)
             @var $disabled=''
         @else
@@ -82,7 +88,7 @@
                                 <div class="panel-body">
                                     <div class="form-group">
                                         @if(count($subproduct)>0)
-                                            <select multiple="multiple" class="form-control required" name="subproduct[]" id="subproduct" {{$disabled}}>
+                                            <select multiple="multiple" class="form-control required" name="subproduct[]" id="subproduct" {{$disabled}} data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
                                             @foreach($subproduct as $value_sp)
                                                 @var $vec = explode('|',$value_sp)
                                                 @var $id_company_product = $vec[0]

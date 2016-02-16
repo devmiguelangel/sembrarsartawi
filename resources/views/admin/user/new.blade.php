@@ -78,7 +78,7 @@
                     <div class="form-group" style="display: none;" id="content-permissions">
                         <label class="control-label col-lg-2">Permisos </label>
                         <div class="col-lg-10">
-                            <select multiple="multiple" class="" name="permiso[]" id="permiso">
+                            <select multiple="multiple" class="" name="permiso[]" id="permiso" data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
                                 @foreach($permissions as $dat_per)
                                     <option value="{{$dat_per->id}}">{{$dat_per->name}}</option>
                                 @endforeach

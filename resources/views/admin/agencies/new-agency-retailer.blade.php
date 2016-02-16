@@ -41,7 +41,7 @@
                     <label class="control-label col-lg-2">Retailer</label>
                     <div class="col-lg-10">
                         @if(count($agency)>0)
-                            <select name="id_retailer" id="id_retailer" class="form-control">
+                            <select name="id_retailer" id="id_retailer" class="form-control required">
                                 <option value="0">Seleccione</option>
                                 @foreach($retailer as $dat_ret)
                                     <option value="{{$dat_ret->id_retailer}}">{{$dat_ret->retailer}}</option>
@@ -49,7 +49,7 @@
                             </select>
                         @else
                             <div class="alert alert-warning alert-styled-left">
-                                <span class="text-semibold"></span> Lista de Retailer desabilitada, no existe agencias registradas.
+                                <span class="text-semibold"></span> Lista de Retailer desabilitada o no existe agencias registradas.
                             </div>
                         @endif
                     </div>
@@ -58,7 +58,7 @@
                 <div class="form-group">
                     <label class="control-label col-lg-2">Departamento</label>
                     <div class="col-lg-10">
-                        <select name="id_retailer_cities" id="id_retailer_cities" class="form-control" disabled>
+                        <select name="id_retailer_cities" id="id_retailer_cities" class="form-control required" disabled>
                             <option value="0">Seleccione</option>
                         </select>
                         <div id="msg_city"></div>
@@ -69,7 +69,7 @@
                     <label class="control-label col-lg-2">Agencias</label>
                     <div class="col-lg-10">
                         @if(count($agency)>0)
-                            <select multiple="multiple" name="agencies[]" id="id_agency" class="form-control" disabled>
+                            <select multiple="multiple" name="agencies[]" id="id_agency" class="form-control required" disabled data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
                                 @foreach($agency as $dat_agency)
                                     <option value="{{$dat_agency->id_agency}}">{{$dat_agency->agency}}</option>
                                 @endforeach
@@ -178,6 +178,96 @@
                 }
 
             });
+
+            //VERIFICAMOS EL FORMULARIO
+            $('#CreateForm').submit(function(e){
+                var sw = true;
+                var err = 'Esta informacion es obligatoria';
+                $(this).find('.required, .not-required').each(function(index, element) {
+                    //alert(element.type+'='+element.value);
+                    if($(this).hasClass('required') === true){
+                        if(validateElement(element,err) === false){
+                            sw = false;
+                        }else if(validateElementType(element,err) === false){
+                            sw = false;
+                        }
+                    }else if($(this).hasClass('not-required') === true){
+                        removeClassE(element);
+                        if(validateElementType(element,err) === false){
+                            sw = false;
+                        }
+                    }
+                });
+                if(sw==true){
+                    $('button[type="submit"]').prop('disabled', true);
+                }else{
+                    e.preventDefault();
+                }
+            });
+
+            //VALIDAMOS ELEMENTO
+            function validateElement(element,err){
+                var _value = $(element).prop('value');
+                var _type = $(element).prop('type');
+                if(_type=='select-one'){
+                    if(_value==0){
+                        addClassE(element,err);
+                        return false;
+                    }else{
+                        removeClassE(element,err);
+                        return true;
+                    }
+                }else{
+                    if(_value==''){
+                        addClassE(element,err);
+                        return false;
+                    }else{
+                        removeClassE(element,err);
+                        return true;
+                    }
+                }
+            }
+            //ADICIONAMOS CLASE
+            function addClassE(element,err){
+                var _id = $(element).prop('id');
+                //$(element).addClass('error-text');
+                if(!$("#"+_id+" + .validation-error-label").length) {
+                    $("#"+_id+":last").after('<label class="validation-error-label">'+err+'</label>');
+                }
+            }
+            //REMOVEMOS CLASE
+            function removeClassE(element){
+                var _id = $(element).prop('id');
+                //$(element).removeClass('error-text');
+                if($("#"+_id+" + .validation-error-label").length) {
+                    $("#"+_id+" + .validation-error-label").remove();
+                }
+            }
+            //VALIDAR TIPO DE ELEMENTO
+            function validateElementType(element,err){
+                var _value = $(element).prop('value');
+                var regex = null;
+                if($(element).hasClass('text') === true){
+                    regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s]*$/;
+                    err = 'Ingrese solo texto';
+                }else if($(element).hasClass('dominio') === true){
+                    regex = /^([a-z])*$/;
+                    err = 'Ingrese solo letras minusculas';
+                }
+
+                if(regex !== null){
+                    if(!(regex.test(_value)) && _value.length !== 0){
+                        addClassE(element,err);
+                        $(element).prop('value', '');
+                        return false;
+                    }else{
+                        removeClassE(element,err);
+                        return true;
+                    }
+                }else{
+                    return true;
+                }
+            }
 
         });
     </script>

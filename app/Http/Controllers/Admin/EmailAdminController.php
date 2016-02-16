@@ -66,7 +66,7 @@ class EmailAdminController extends BaseController
             [
                 'ad_retailer_product_id'=>$request->input('id_product_retail'),
                 'ad_email_id'=>$request->input('id_email'),
-                'active'=>false,
+                'active'=>true,
                 'created_at'=>date("Y-m-d H:i:s"),
                 'updated_at'=>date("Y-m-d H:i:s")
             ]

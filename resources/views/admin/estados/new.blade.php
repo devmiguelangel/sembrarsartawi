@@ -65,7 +65,7 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2">Estados</label>
                         <div class="col-lg-10">
-                            <select multiple="multiple" name="estados[]" id="id_estados" class="form-control required" disabled>
+                            <select multiple="multiple" name="estados[]" id="id_estados" class="form-control required" disabled data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
                                 @foreach($states as $data_state)
                                 <option value="{{$data_state->id}}">{{$data_state->state}}</option>
                                 @endforeach
@@ -192,7 +192,7 @@
                     }
                 });
                 if(sw==true){
-
+                    $('button[type="submit"]').prop('disabled', true);
                 }else{
                     e.preventDefault();
                 }

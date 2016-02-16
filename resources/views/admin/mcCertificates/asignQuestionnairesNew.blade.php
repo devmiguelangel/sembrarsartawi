@@ -25,7 +25,7 @@
             <div class="form-group">
                 <label class="control-label col-lg-2 label_required">Questionario</label>
                 <div class="col-lg-5">
-                    <select class="form-control" multiple="multiple" id="mc_questionnaire_id" name="mc_questionnaire_id[]" required="required">
+                    <select class="form-control" multiple="multiple" id="mc_questionnaire_id" name="mc_questionnaire_id[]" required="required" data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
                         @foreach($mcQuestionnaires as $questionnaries)
                         <option value="{{ $questionnaries->id }}">{{ $questionnaries->title }}</option>      
                         @endforeach
