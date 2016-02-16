@@ -15,7 +15,7 @@ class PolicyAdminController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($nav, $action, $id_retailer_products, $id_company, $code_product)
+    public function index($nav, $action, $id_retailer_products, $code_product)
     {
         $main_menu = $this->menu_principal();
         if($action=='list'){
@@ -30,7 +30,7 @@ class PolicyAdminController extends BaseController
                 ->where('arp.id',$id_retailer_products)
                 ->first();
             //dd($query);
-            return view('admin.policy.list', compact('nav', 'action', 'id_company', 'main_menu', 'query', 'id_retailer_products', 'query_prod', 'code_product'));
+            return view('admin.policy.list', compact('nav', 'action', 'main_menu', 'query', 'id_retailer_products', 'query_prod', 'code_product'));
         }elseif($action=='new'){
             $query_prod = \DB::table('ad_retailer_products as arp')
                 ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
@@ -39,9 +39,21 @@ class PolicyAdminController extends BaseController
                 ->where('arp.id',$id_retailer_products)
                 ->first();
             //dd($id_retailer_products);
-            return view('admin.policy.new', compact('nav', 'action', 'id_company', 'main_menu', 'id_retailer_products', 'query_prod', 'code_product'));
+            return view('admin.policy.new', compact('nav', 'action', 'main_menu', 'id_retailer_products', 'query_prod', 'code_product'));
         }
 
+    }
+
+    public function index_product_retailer($nav, $action){
+        $main_menu = $this->menu_principal();
+        $query = \DB::table('ad_retailer_products as arp')
+            ->join('ad_retailers as ar', 'ar.id', '=', 'arp.ad_retailer_id')
+            ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
+            ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
+            ->select('arp.id as id_retailer_products', 'ar.name as retailer', 'ap.name as product', 'arp.type', 'arp.active', 'ap.code')
+            ->get();
+        $parameter = config('base.retailer_product_types');
+        return view('admin.policy.list-product-retailer', compact('nav', 'action', 'query', 'main_menu', 'parameter'));
     }
 
     /**
@@ -79,11 +91,11 @@ class PolicyAdminController extends BaseController
                  'created_at' => date("Y-m-d H:i:s"),
                  'updated_at' => date("Y-m-d H:i:s"),
                  'auto_increment' => $auto_increment,
-                 'active' => false
+                 'active' => true
             ]
         );
         if($query_insert){
-            return redirect()->route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_company'=>$request->input('id_company'), 'id_retailer_products'=>$request->input('id_retailer_products'), 'code_product'=>$request->input('code_product')]);
+            return redirect()->route('admin.policy.list', ['nav'=>'policy', 'action'=>'list', 'id_retailer_products'=>$request->input('id_retailer_products'), 'code_product'=>$request->get('code_product')]);
         }
     }
 
@@ -104,7 +116,7 @@ class PolicyAdminController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($nav, $action, $id_policies, $id_company, $id_retailer_products, $code_product)
+    public function edit($nav, $action, $id_policies, $id_retailer_products, $code_product)
     {
         $main_menu = $this->menu_principal();
         $query_policy = \DB::table('ad_policies')
@@ -118,7 +130,7 @@ class PolicyAdminController extends BaseController
                         ->select('ap.name as product')
                         ->where('arp.id',$id_retailer_products)
                         ->first();
-        return view('admin.policy.edit', compact('nav', 'action', 'id_company', 'main_menu', 'query_policy', 'id_retailer_products', 'query_prod', 'id_policies', 'code_product'));
+        return view('admin.policy.edit', compact('nav', 'action', 'main_menu', 'query_policy', 'id_retailer_products', 'query_prod', 'id_policies', 'code_product'));
     }
 
     /**

@@ -73,11 +73,6 @@
                                             <i class="icon-cross2"></i> Desactivar
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="{{route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_retailer_products'=>$data->id_retailer_products, 'id_company'=>$id_company, 'code_product'=>$data->code])}}">
-                                            <i class="icon-pencil7"></i> Administrar numero póliza
-                                        </a>
-                                    </li>
                                 @else
                                     <li>
                                         <a href="#" id="{{$data->id_retailer_products}}|active|activar" class="confirm_active">

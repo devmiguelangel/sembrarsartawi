@@ -2,21 +2,25 @@
 /**
  * PROCESOS GET
  **/
-Route::get('admin/policy/list/{nav}/{action}/{id_retailer_products}/{id_company}/{code_product}', [
+Route::get('admin/policy/list/{nav}/{action}/{id_retailer_products}/{code_product}', [
     'as' => 'admin.policy.list',
     'uses' => 'Admin\PolicyAdminController@index'
 ]);
 
-Route::get('admin/policy/edit/{nav}/{action}/{id_policies}/{id_company}/{id_retailer_products}/{code_product}', [
+Route::get('admin/policy/edit/{nav}/{action}/{id_policies}/{id_retailer_products}/{code_product}', [
     'as' => 'admin.policy.edit',
     'uses' => 'Admin\PolicyAdminController@edit'
 ]);
 
-Route::get('admin/policy/new/{nav}/{action}/{id_retailer_products}/{id_company}/{code_product}', [
+Route::get('admin/policy/new/{nav}/{action}/{id_retailer_products}/{code_product}', [
     'as' => 'admin.policy.new',
     'uses' => 'Admin\PolicyAdminController@index'
 ]);
 
+Route::get('admin/policy/list-product-retailer/{nav}/{action}', [
+    'as' => 'admin.policy.list-product-retailer',
+    'uses' => 'Admin\PolicyAdminController@index_product_retailer'
+]);
 /**
  * PROCESOS POST
  **/

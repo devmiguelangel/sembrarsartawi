@@ -338,23 +338,21 @@
                 <li><a href="{{ route('admin.addtoretailer.list', ['nav'=>'addtoretailer', 'action'=>'list', 'id_company'=>$id_company]) }}">Productos agregados a Retailer</a></li>
                 <li class="active">Nuevo registro</li>
             @endif
-        @elseif($nav=='policynumber')
+        @elseif($nav=='policy')
             <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
             @if($action=='list')
-                <li><a href="{{ route('admin.company.list', ['nav'=>'company', 'action'=>'list']) }}">Listado compañias</a></li>
-                <li><a href="{{ route('admin.addproductcompany.list', ['nav'=>'addprocom', 'action'=>'list', 'id_company'=>$id_company]) }}">Productos agregados a Compañia</a></li>
-                <li><a href="{{ route('admin.addtoretailer.list', ['nav'=>'addtoretailer', 'action'=>'list', 'id_company'=>$id_company]) }}">Productos agregados a Retailer</a></li>
+                <li><a href="{{ route('admin.policy.list-product-retailer', ['nav'=>'policy', 'action'=>'list_product_retailer']) }}">Productos agregados a Retailer</a></li>
                 <li class="active">Numero de Polizas</li>
             @elseif($action=='edit' || $action=='new')
-                <li><a href="{{ route('admin.company.list', ['nav'=>'company', 'action'=>'list']) }}">Listado compañias</a></li>
-                <li><a href="{{ route('admin.addproductcompany.list', ['nav'=>'addprocom', 'action'=>'list', 'id_company'=>$id_company]) }}">Productos agregados a Compañia</a></li>
-                <li><a href="{{ route('admin.addtoretailer.list', ['nav'=>'addtoretailer', 'action'=>'list', 'id_company'=>$id_company, 'code_product'=>$code_product]) }}">Productos agregados a Retailer</a></li>
-                <li><a href="{{ route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_company'=>$id_company, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product]) }}">Listado de pólizas</a></li>
+                <li><a href="{{ route('admin.policy.list-product-retailer', ['nav'=>'policy', 'action'=>'list_product_retailer']) }}">Productos agregados a Retailer</a></li>
+                <li><a href="{{ route('admin.policy.list', ['nav'=>'policy', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product]) }}">Lista de Pólizas</a></li>
                 @if($action=='edit')
-                    <li class="active">Editar registro</li>
+                    <li class="active">Editar póliza</li>
                 @elseif($action=='new')
-                    <li class="active">Nuevo registro</li>
+                    <li class="active">Nueva póliza</li>
                 @endif
+            @elseif($action=='list_product_retailer')
+                <li class="active">Productos Retailer</li>
             @endif
         @elseif($nav=='vi')
             <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>

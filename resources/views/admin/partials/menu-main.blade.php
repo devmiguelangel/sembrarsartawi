@@ -61,6 +61,18 @@
                     <i class="icon-stack2"></i> <span>Subproductos/Productos (Retailer)</span>
                 </a>
             </li>
+            @if($nav=='policy')
+                @if($action=='list' || $action=='new' || $action=='edit' || $action=='list_product_retailer')
+                    @var $data_policy='active'
+                @endif
+            @else
+                @var $data_policy=''
+            @endif
+            <li class="{{$data_policy}}">
+                <a href="{{route('admin.policy.list-product-retailer',['nav'=>'policy', 'action'=>'list_product_retailer'])}}" title='Administrar polizas'>
+                    <i class="icon-folder"></i> Administrar polizas
+                </a>
+            </li>
             @if($nav=='coverage')
                 @if($action=='list' || $action=='new' || $action=='edit')
                     @var $data_cov='active'

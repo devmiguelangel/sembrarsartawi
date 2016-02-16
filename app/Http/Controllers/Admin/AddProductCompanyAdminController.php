@@ -58,9 +58,12 @@ class AddProductCompanyAdminController extends BaseController
      */
     public function store(Request $request)
     {
-        $query_insert = \DB::table('ad_company_products')->insert(
-            ['ad_company_id'=>$request->input('id_company'), 'ad_product_id'=>$request->input('id_product'), 'active'=>false]
-        );
+        $query_insert = \DB::table('ad_company_products')
+                            ->insert([
+                                        'ad_company_id'=>$request->input('id_company'),
+                                        'ad_product_id'=>$request->input('id_product'),
+                                        'active'=>true
+                                    ]);
         if($query_insert){
             return redirect()->route('admin.addproductcompany.list', ['nav'=>'addprocom', 'action'=>'list', 'id_company'=>$request->input('id_company')]);
         }

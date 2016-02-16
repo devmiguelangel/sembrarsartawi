@@ -60,9 +60,16 @@ class CompanyProductToRetailerAdminController extends BaseController
      */
     public function store(Request $request)
     {
-        $query_insert = \DB::table('ad_retailer_products')->insert(
-            ['id'=>date('U'), 'ad_retailer_id'=>$request->input('id_retailer'), 'ad_company_product_id'=>$request->input('id_company_products'), 'type'=>$request->input('tipo_prod'), 'active'=>false, 'created_at'=>date("Y-m-d H:i:s"), 'updated_at'=>date("Y-m-d H:i:s")]
-        );
+        $query_insert = \DB::table('ad_retailer_products')
+            ->insert([
+                        'id'=>date('U'),
+                        'ad_retailer_id'=>$request->input('id_retailer'),
+                        'ad_company_product_id'=>$request->input('id_company_products'),
+                        'type'=>$request->input('tipo_prod'),
+                        'active'=>true,
+                        'created_at'=>date("Y-m-d H:i:s"),
+                        'updated_at'=>date("Y-m-d H:i:s")
+                    ]);
         if($query_insert){
             return redirect()->route('admin.addtoretailer.list', ['nav'=>'addtoretailer', 'action'=>'list', 'id_company'=>$request->input('id_company')]);
         }

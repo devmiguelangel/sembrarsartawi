@@ -23,7 +23,7 @@
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li>
-                        <a href="{{route('admin.policy.new', ['nav'=>'policynumber', 'action'=>'new', 'id_retailer_products'=>$id_retailer_products, 'id_company'=>$id_company, 'code_product'=>$code_product])}}" class="btn btn-link btn-float has-text">
+                        <a href="{{route('admin.policy.new', ['nav'=>'policy', 'action'=>'new', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
                             <span>Agregar numero poliza</span>
                         </a>
@@ -81,7 +81,7 @@
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="{{route('admin.policy.edit', ['nav'=>'policynumber', 'action'=>'edit', 'id_policies'=>$data->id, 'id_company'=>$id_company, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}"><i class="icon-pencil3"></i> Editar</a></li>
+                                <li><a href="{{route('admin.policy.edit', ['nav'=>'policy', 'action'=>'edit', 'id_policies'=>$data->id, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}"><i class="icon-pencil3"></i> Editar</a></li>
                                 <li>
                                     @if((boolean)$data->active==true)
                                         <a href="#" id="{{$data->id}}|inactive|desactivar" class="confirm_active">
@@ -103,7 +103,7 @@
         </table>
         @else
             <div class="alert alert-warning alert-styled-left">
-                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+                <span class="text-semibold"></span> No existe ninguna póliza registrada.
             </div>
         @endif
     </div>

@@ -104,10 +104,9 @@
                 <button type="submit" class="btn btn-primary">
                     Guardar <i class="icon-floppy-disk position-right"></i>
                 </button>
-                <a href="{{route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_company'=>$id_company, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}" class="btn btn-primary">
+                <a href="{{route('admin.policy.list', ['nav'=>'policy', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products])}}" class="btn btn-primary">
                     Cancelar <i class="icon-arrow-right14 position-right"></i>
                 </a>
-                <input type="hidden" name="id_company" id="id_company" value="{{$id_company}}">
                 <input type="hidden" name="id_retailer_products" id="id_retailer_products", value="{{$id_retailer_products}}">
                 <input type="hidden" name="code_product" value="{{$code_product}}">
             </div>
@@ -136,7 +135,7 @@
                     }
                 });
                 if(sw==true){
-
+                    $('button[type="submit"]').prop('disabled', true);
                 }else{
                     e.preventDefault();
                 }

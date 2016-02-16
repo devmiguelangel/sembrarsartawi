@@ -71,6 +71,7 @@ class CompanyAdminController extends BaseController
         $query_update->name=$request->input('txtCompany');
         $query_update->image=$field_image;
         $query_update->slug=$slug;
+        $query_update->active=true;
         if($query_update->save()){
             return redirect()->route('admin.company.list', ['nav'=>'company', 'action'=>'list']);
         }

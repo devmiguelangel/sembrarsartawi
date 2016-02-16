@@ -68,6 +68,7 @@ class RetailerAdminController extends BaseController
         $query_update->image=$field_image;
         $query_update->domain=$request->input('txtDominio');
         $query_update->slug=strtolower($slug);
+        $query_update->active=true;
         if($query_update->save()){
             return redirect()->route('admin.retailer.list', ['nav'=>'retailer', 'action'=>'list']);
         }
