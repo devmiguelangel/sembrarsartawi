@@ -79,12 +79,12 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('admin.user.change-password', ['nav'=>'user', 'action'=>'changepass', 'id_user'=>$data->id_user]) }}">
+                                    <a href="{{ route('admin.user.change-password', ['nav'=>'user', 'action'=>'changepass', 'id_user'=>$data->id_user, 'id_retailer'=>$data->ad_retailer_id]) }}">
                                         <i class="icon-key"></i> Cambiar contraseña
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('admin.user.reset-password', ['nav'=>'user', 'action'=>'resetpass', 'id_user'=>$data->id_user]) }}">
+                                    <a href="{{ route('admin.user.reset-password', ['nav'=>'user', 'action'=>'resetpass', 'id_user'=>$data->id_user, 'id_retailer'=>$data->ad_retailer_id]) }}">
                                         <i class="icon-spinner11"></i> Resetear contraseña
                                     </a>
                                 </li>

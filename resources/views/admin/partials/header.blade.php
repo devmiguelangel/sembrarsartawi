@@ -219,10 +219,14 @@
             @if($action=='list')
                 <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
                 <li class="active">Listado de Preguntas</li>
-            @elseif($action=='new')
+            @elseif($action=='new' || $action=='edit')
                 <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
                 <li><a href="{{ route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Listado de Preguntas</a></li>
-                <li class="active">Agregar pregunta</li>
+                @if($action=='new')
+                    <li class="active">Agregar pregunta</li>
+                @elseif($action=='edit')
+                    <li class="active">Editar respuesta</li>
+                @endif
             @endif
         @elseif($nav=='retailer')
             @if($action=='list')
@@ -384,9 +388,13 @@
             <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
             @if($action=='list')
                 <li class="active">Preguntas</li>
-            @elseif($action=='new')
+            @elseif($action=='new' || $action=='edit')
                 <li><a href="{{ route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">listado preguntas</a></li>
-                <li class="active">Formulario</li>
+                @if($action=='new')
+                    <li class="active">Agregar preguntas</li>
+                @elseif($action=='edit')
+                    <li class="active">Editar respuesta</li>
+                @endif
             @endif
         @elseif($nav=='contentvi')
             <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>

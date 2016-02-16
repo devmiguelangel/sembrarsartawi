@@ -32,7 +32,11 @@
                 -->
             </div>
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'create_add_question', 'name' => 'CreateForm', 'id' => 'CreateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -53,11 +57,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Pregunta <span class="text-danger">*</span></label>
+                        <label class="control-label col-lg-2">Agregar Pregunta <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             @if(count($question)>0)
-                                <select name="id_question" id="id_question" class="form-control required">
-                                    <option value="0">Seleccione</option>
+                                <select multiple="multiple" name="addquestion[]" id="id_question" class="form-control required">
                                     @foreach($question as $data)
                                         <option value="{{$data->id}}">{{$data->question}}</option>
                                     @endforeach
@@ -70,13 +73,13 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="display: none;">
                         <label class="control-label col-lg-2">Respuesta esperada <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <select name="response" id="response" class="form-control required">
+                            <select name="response" id="response" class="form-control">
                                 <option value="0">Seleccione</option>
                                 <option value="1">SI</option>
-                                <option value="2">NO</option>
+                                <option value="2" selected>NO</option>
                             </select>
                         </div>
                     </div>
@@ -128,7 +131,7 @@
                     }
                 });
                 if(sw==true){
-
+                    $('button[type="submit"]').prop('disabled', true);
                 }else{
                     e.preventDefault();
                 }

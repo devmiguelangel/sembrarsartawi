@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use Sibas\Http\Requests;
@@ -122,44 +123,60 @@ class AddQuestionAdminController extends BaseController
      */
     public function store(Request $request)
     {
-        $order_question = \DB::table('ad_retailer_product_questions')
-                                ->where('ad_retailer_product_id', '=', $request->input('id_retailer_product'))
-                                ->get();
-        //dd(count($order_question));
-        $num = count($order_question)+1;
-        if($request->input('response')==1){
-            $response = true;
-        }elseif($request->input('response')==2){
-            $response = false;
-        }
-        $query_insert = \DB::table('ad_retailer_product_questions')
-                            ->insert(
-                                    [
-                                        'ad_retailer_product_id'=>$request->input('id_retailer_product'),
-                                        'ad_question_id'=>$request->input('id_question'),
-                                        'order'=> $num,
-                                        'response' => $response,
-                                        'active'=>false
-                                    ]
-                            );
+        try{
+            $num = 0;
+            foreach ($request->get('addquestion') as $key => $value) {
+                $num = $num+1;
+                if ($request->input('response') == 1) {
+                    $response = true;
+                } elseif ($request->input('response') == 2) {
+                    $response = false;
+                }
 
-        return redirect()->route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+                $query_insert = \DB::table('ad_retailer_product_questions')
+                    ->insert(
+                        [
+                            'ad_retailer_product_id' => $request->input('id_retailer_product'),
+                            'ad_question_id' => $value,
+                            'order' => $num,
+                            'response' => $response,
+                            'active' => true
+                        ]
+                    );
+            }
+            return redirect()->route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
+        }
     }
 
 
     public function store_vi(Request $request)
     {
-        $order_question = \DB::table('ad_retailer_product_questions')
-            ->where('ad_retailer_product_id', '=', $request->input('id_retailer_product'))
-            ->get();
-        //dd(count($order_question));
-        $num = count($order_question)+1;
+        try{
+            $num = 0;
+            foreach ($request->get('addquestion') as $key => $value) {
+                $num = $num+1;
+                if ($request->input('response') == 1) {
+                    $response = true;
+                } elseif ($request->input('response') == 2) {
+                    $response = false;
+                }
 
-        $query_insert = \DB::table('ad_retailer_product_questions')->insert(
-            ['ad_retailer_product_id'=>$request->input('id_retailer_product'), 'ad_question_id'=>$request->input('id_question'), 'order'=>$num, 'active'=>false, 'created_at'=>date("Y-m-d H:i:s"), 'updated_at'=>date("Y-m-d H:i:s")]
-        );
-        if($query_insert){
+                $query_insert = \DB::table('ad_retailer_product_questions')
+                    ->insert(
+                        [
+                            'ad_retailer_product_id' => $request->input('id_retailer_product'),
+                            'ad_question_id' => $value,
+                            'order' => $num,
+                            'response' => $response,
+                            'active' => true
+                        ]
+                    );
+            }
             return redirect()->route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -180,9 +197,51 @@ class AddQuestionAdminController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($nav, $action, $id_retailer_product_question, $id_retailer_product)
     {
-        //
+        $main_menu = $this->menu_principal();
+
+        $retailer = \DB::table('ad_retailer_products as arp')
+                        ->join('ad_retailers as ar', 'ar.id', '=', 'arp.ad_retailer_id')
+                        ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
+                        ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
+                        ->select('ar.name as retailer', 'ap.name as product')
+                        ->where('arp.id',$id_retailer_product)
+                        ->where('arp.active',true)
+                        ->first();
+
+        $query = \DB::table('ad_retailer_product_questions as arpq')
+                    ->join('ad_questions as aq', 'aq.id', '=', 'arpq.ad_question_id')
+                    ->select('aq.question', 'arpq.response')
+                    ->where('arpq.ad_retailer_product_id',$id_retailer_product)
+                    ->where('arpq.id',$id_retailer_product_question)
+                    ->first();
+        //dd($query);
+        return view('admin.de.addquestion.edit', compact('nav', 'action', 'id_retailer_product_question', 'id_retailer_product', 'query', 'retailer', 'main_menu'));
+    }
+
+
+    public function edit_vi($nav, $action, $id_retailer_product_question, $id_retailer_product)
+    {
+        $main_menu = $this->menu_principal();
+
+        $retailer = \DB::table('ad_retailer_products as arp')
+            ->join('ad_retailers as ar', 'ar.id', '=', 'arp.ad_retailer_id')
+            ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
+            ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
+            ->select('ar.name as retailer', 'ap.name as product')
+            ->where('arp.id',$id_retailer_product)
+            ->where('arp.active',true)
+            ->first();
+
+        $query = \DB::table('ad_retailer_product_questions as arpq')
+            ->join('ad_questions as aq', 'aq.id', '=', 'arpq.ad_question_id')
+            ->select('aq.question', 'arpq.response')
+            ->where('arpq.ad_retailer_product_id',$id_retailer_product)
+            ->where('arpq.id',$id_retailer_product_question)
+            ->first();
+        //dd($query);
+        return view('admin.vi.addquestion.edit', compact('nav', 'action', 'id_retailer_product_question', 'id_retailer_product', 'query', 'retailer', 'main_menu'));
     }
 
     /**
@@ -192,9 +251,40 @@ class AddQuestionAdminController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        if ($request->get('response') == 1) {
+            $response = true;
+        } elseif ($request->get('response') == 2) {
+            $response = false;
+        }
+        try {
+            $query_update = \DB::table('ad_retailer_product_questions')
+                ->where('id', $request->get('id_retailer_product_question'))
+                ->where('ad_retailer_product_id', $request->get('id_retailer_product'))
+                ->update(['response' => $response]);
+            return redirect()->route('admin.de.addquestion.list', ['nav' => 'addquestion', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')]);
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
+        }
+    }
+
+    public function update_vi(Request $request)
+    {
+        if ($request->get('response') == 1) {
+            $response = true;
+        } elseif ($request->get('response') == 2) {
+            $response = false;
+        }
+        try {
+            $query_update = \DB::table('ad_retailer_product_questions')
+                ->where('id', $request->get('id_retailer_product_question'))
+                ->where('ad_retailer_product_id', $request->get('id_retailer_product'))
+                ->update(['response' => $response]);
+            return redirect()->route('admin.vi.addquestion.list', ['nav' => 'addquestion', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')]);
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
+        }
     }
 
     /**

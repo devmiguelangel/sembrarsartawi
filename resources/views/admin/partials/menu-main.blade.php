@@ -226,7 +226,7 @@
                                     @var $data_content=''
                                 @endif
                             @elseif($nav=='addquestion')
-                                @if($action=='list' || $action=='new')
+                                @if($action=='list' || $action=='new' || $action=='edit')
                                     @var $data_ap='active'
                                     @var $data_pp=''
                                     @var $data_ap2=''
@@ -285,7 +285,7 @@
                                     @var $data_contvi=''
                                 @endif
                             @elseif($nav=='addquestionvi')
-                                @if($action=='list' || $action=='new')
+                                @if($action=='list' || $action=='new' || $action=='edit')
                                     @var $data_cm='active'
                                     @var $data_vpp=''
                                     @var $data_pl=''

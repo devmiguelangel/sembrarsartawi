@@ -20,12 +20,12 @@ Route::get('admin/user/edit/{nav}/{action}/{id_user}/{id_retailer}', [
     'uses' => 'Admin\UserAdminController@edit'
 ]);
 
-Route::get('admin/user/change-password/{nav}/{action}/{id_user}', [
+Route::get('admin/user/change-password/{nav}/{action}/{id_user}/{id_retailer}', [
     'as' => 'admin.user.change-password',
     'uses' => 'Admin\UserAdminController@edit'
 ]);
 
-Route::get('admin/user/reset-password/{nav}/{action}/{id_user}', [
+Route::get('admin/user/reset-password/{nav}/{action}/{id_user}/{id_retailer}', [
     'as' => 'admin.user.reset-password',
     'uses' => 'Admin\UserAdminController@edit'
 ]);

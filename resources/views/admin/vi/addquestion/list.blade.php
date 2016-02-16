@@ -75,6 +75,7 @@
                                 </a>
 
                                 <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="{{route('admin.vi.addquestion.edit', ['nav'=>'addquestionvi', 'action'=>'edit', 'id_retailer_product_question'=>$data->id, 'id_retailer_product'=>$id_retailer_product])}}"><i class="icon-pencil3"></i> Editar</a></li>
                                     @if((boolean)$data->active==true)
                                         <li>
                                             <a href="#" id="{{$data->id}}|inactive|desactivar|{{$data->order}}" class="confirm_active">

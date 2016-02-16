@@ -150,7 +150,7 @@
                     }
                 });
                 if(sw==true){
-
+                    $('button[type="submit"]').prop('disabled', true);
                 }else{
                     e.preventDefault();
                 }

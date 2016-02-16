@@ -17,7 +17,7 @@
         <div class="panel-heading">
             <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
                 <span class="form-wizard-count">
-                    <i class="icon-pencil7"></i>
+                    <i class="icon-pencil6"></i>
                 </span>
                 Formulario
                 <small class="display-block">Nuevo registro </small>
@@ -35,7 +35,7 @@
 
         <div class="panel-body">
 
-            {!! Form::open(array('route' => 'new_add_question', 'name' => 'CreateForm', 'id' => 'CreateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
+            {!! Form::open(array('route' => 'new_add_question_vi', 'name' => 'CreateForm', 'id' => 'CreateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
             <fieldset class="content-group">
 
                 <div class="form-group">
@@ -53,11 +53,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-lg-2">Pregunta <span class="text-danger">*</span></label>
+                    <label class="control-label col-lg-2">Agregar pregunta <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
                         @if(count($question)>0)
-                            <select name="id_question" id="id_question" class="form-control required">
-                                <option value="0">Seleccione</option>
+                            <select multiple="multiple" name="addquestion[]" id="id_question" class="form-control required">
                                 @foreach($question as $data)
                                     <option value="{{$data->id}}">{{$data->question}}</option>
                                 @endforeach
@@ -70,13 +69,13 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                     <label class="control-label col-lg-2">Respuesta esperada <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <select name="response" id="response" class="form-control required">
+                        <select name="response" id="response" class="form-control">
                             <option value="0">Seleccione</option>
                             <option value="1">SI</option>
-                            <option value="2">NO</option>
+                            <option value="2" selected>NO</option>
                         </select>
                     </div>
                 </div>
@@ -128,7 +127,7 @@
                     }
                 });
                 if(sw==true){
-
+                    $('button[type="submit"]').prop('disabled', true);
                 }else{
                     e.preventDefault();
                 }
