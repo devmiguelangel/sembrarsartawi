@@ -84,7 +84,7 @@ class AgencyAdminController extends BaseController
             $query_int->slug = $slug;
             if ($query_int->save()) {
 
-                return redirect()->route('admin.agencies.list', ['nav' => 'city', 'action' => 'list']);
+                return redirect()->route('admin.agencies.list', ['nav' => 'city', 'action' => 'list'])->with(array('ok'=>'Se agrego correctamente los datos del formulario'));
             }
         }catch (QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
@@ -114,7 +114,7 @@ class AgencyAdminController extends BaseController
                     ]
                 );
             }
-            return redirect()->route('admin.agencies.list-agency-retailer', ['nav' => 'agency', 'action' => 'list_agency_retailer']);
+            return redirect()->route('admin.agencies.list-agency-retailer', ['nav' => 'agency', 'action' => 'list_agency_retailer'])->with(array('ok'=>'Se agrego correctamente los datos del formulario'));
 
         } catch(QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));

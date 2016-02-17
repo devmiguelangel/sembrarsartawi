@@ -27,6 +27,12 @@
                 </a>
             </div>
         </div>
+        @if(session('ok'))
+            <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
+                <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+                <span class="text-semibold">Well done!</span> {{session('ok')}}
+            </div>
+        @endif
         @if(count($query)>0)
             <table class="table datatable-basic table-bordered">
             <thead>

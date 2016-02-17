@@ -33,13 +33,19 @@
         </div>
 
         <div class="panel-body">
-
+            @if(session('ok'))
+                <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
+                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+                    <span class="text-semibold">Well done!</span> {{session('ok')}}
+                </div>
+            @endif
         </div>
         @if(count($query)>0)
             <table class="table datatable-basic table-bordered">
             <thead>
             <tr>
                 <th style="text-align: left;">Agencias</th>
+                <th>Código</th>
                 <th class="text-center">Accion</th>
             </tr>
             </thead>
@@ -47,6 +53,7 @@
             @foreach($query as $data)
                 <tr>
                     <td style="text-align: left">{{$data->name}}</td>
+                    <td>{{$data->code}}</td>
                     <td class="text-center">
                         <ul class="icons-list">
                             <li class="dropdown">

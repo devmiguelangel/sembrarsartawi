@@ -121,7 +121,7 @@ class CityAdminController extends BaseController
                     );
                 }
             }
-            return redirect()->route('admin.cities.list-city-retailer', ['nav' => 'city', 'action' => 'list_city_retailer']);
+            return redirect()->route('admin.cities.list-city-retailer', ['nav' => 'city', 'action' => 'list_city_retailer'])->with(array('ok'=>'Se agrego correctamente los datos del formulario'));
 
         } catch(QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));

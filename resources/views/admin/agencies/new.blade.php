@@ -139,7 +139,7 @@
             var _value = $(element).prop('value');
             var regex = null;
             if($(element).hasClass('text') === true){
-                regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s\.\()]*$/;
+                regex = /^[0-9a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s\.\()]*$/;
                 err = 'Ingrese solo texto';
             }else if($(element).hasClass('email') === true){
                 regex = /^([a-z]+[a-z0-9._-]*)@{1}([a-z0-9\.]{2,})\.([a-z]{2,3})$/;

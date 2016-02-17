@@ -165,6 +165,7 @@ jQuery(document).ready(function () {
                     if ($verdict.length === 0) {
                         $verdict = $('<span class="password-verdict"></span>');
                         $verdict.insertAfter($el);
+                        //$('#my_data').find('td').append('<td>hola</td>');
                     }
                 }
             }
@@ -232,7 +233,7 @@ jQuery(document).ready(function () {
         },
 
         progressWidget = function () {
-            return '<div class="progress"><div class="bar"></div></div>';
+            return '<table border="0" cellspacing="0" cellpadding="0" style="width: 25%" id="my_data"><tr><td><div class="progress"><div class="bar"></div></div></td></tr></table>';
         },
 
         methods = {
