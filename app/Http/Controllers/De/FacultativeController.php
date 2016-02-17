@@ -94,7 +94,7 @@ class FacultativeController extends Controller
 
                     $this->repository->approved = (int) $request->get('approved');
 
-                    if ($this->repository->approved === 1 || $this->repository->approved === 2) {
+                    if ($this->repository->approved === 1 || $this->repository->approved === 0) {
                         $this->headerRepository->setApproved($header);
                     }
 

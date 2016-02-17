@@ -39,6 +39,15 @@ class User extends Model implements AuthenticatableContract,
 
     public $incrementing = false;
 
+    protected $with = [
+        'retailer',
+        'type',
+        'profile',
+        'city',
+        'agency',
+        'permissions',
+    ];
+
     public function retailer()
     {
         return $this->belongsToMany(Retailer::class, 'ad_retailer_users', 'ad_user_id', 'ad_retailer_id');

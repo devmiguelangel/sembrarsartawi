@@ -68,7 +68,7 @@
                     <div class="col-lg-6 col-md-offset-3">
                         <div class="input-group">
                             <h6 class="no-margin text-semibold">Monto Actual Acumulado</h6>
-                            <p class="text-muted content-group-sm">@{{ formData.cumulus }} Bs. </p>
+                            <p class="text-muted content-group-sm">@{{ formData.cumulus | currency : 'Bs. ' }} </p>
                         </div>
                     </div>
                 </div>
