@@ -14,7 +14,7 @@
                     <i class="icon-home4"></i><span>Inicio</span>
                 </a>
             </li>
-            <li class="navigation-header"><span>Retailers/Productos/Compañías</span> <i class="icon-menu" title="Forms"></i></li>
+            <li class="navigation-header"><span>Modulos de Administración</span> <i class="icon-menu" title="Forms"></i></li>
             @if($nav=='retailer')
                 @var $link_ar='active'
                 @var $link_acs=''
@@ -58,12 +58,130 @@
             </li>
             <li class="{{$link_spd}}">
                 <a href="{{ route('admin.subproduct.list', ['nav'=>'subproduct', 'action'=>'list', 'id_retailer_product_select'=>0]) }}">
-                    <i class="icon-stack2"></i> <span>Administrar Subproductos</span>
+                    <i class="icon-stack2"></i> <span>Subproductos/Productos (Retailer)</span>
                 </a>
             </li>
-
-            <li class="navigation-header">
-                <span>Usuarios</span> <i class="icon-menu" title="Forms"></i>
+            @if($nav=='coverage')
+                @if($action=='list' || $action=='new' || $action=='edit')
+                    @var $data_cov='active'
+                @endif
+            @else
+                @var $data_cov=''
+            @endif
+            <li class="{{$data_cov}}">
+                <a href="{{route('admin.cobertura.list',['nav'=>'coverage', 'action'=>'list'])}}" title='Administrar cobertura'>
+                    <i class="icon-folder"></i> Administrar coberturas
+                </a>
+            </li>
+            @if($nav=='rate')
+                @if($action=='list' || $action=='new' || $action=='edit')
+                    @var $data_rate='active'
+                @endif
+            @else
+                @var $data_rate=''
+            @endif
+            <li class="{{$data_rate}}">
+                <a href="{{route('admin.tasas.list',['nav'=>'rate', 'action'=>'list'])}}" title='Administrar tasas'>
+                    <i class="icon-folder"></i> Administrar tasas
+                </a>
+            </li>
+            @if($nav=='adRetailerProductActivities')
+                @if($action=='list' || $action=='new' || $action=='edit')
+                    @var $data_sel='active'
+                @endif
+            @else
+                @var $data_sel=''
+            @endif
+            <li class="{{ $data_sel }}">
+                <a href="{{route('adRetailerProductActivities')}}" title='Administrar ocupación'>
+                    <i class="icon-briefcase3"></i> Administrar ocupación
+                </a>
+            </li>
+            @if($nav=='question')
+                @if($action=='list' || $action=='edit' || $action=='new')
+                    @var $data_pp='active'
+                @endif
+            @elseif($nav=='mcQuestionnaries')
+                @if($action=='list' || $action=='edit' || $action=='new')
+                    @var $data_pp2='active'
+                    @var $data_pp3=''
+                @endif
+            @else
+                @var $data_pp=''
+                @var $data_pp2=''
+                @var $data_pp3=''
+            @endif
+            <li class="{{$data_pp}}">
+                <a href="{{route('admin.questions.list', ['nav'=>'question', 'action'=>'list'])}}"><i class="icon-clipboard3"></i> <span>Administrar preguntas (Cuestionario de Salud)</span></a>
+            </li>
+            @if($nav=='mcCertificate')
+                @if($action=='list' || $action=='edit' || $action=='new' || $action=='asign')
+                    @var $data_pp2='active'
+                @endif
+            @else
+                @var $data_pp2=''
+            @endif
+            <li class="{{$data_pp2}}">
+                <a href="{{ route('mcCertificatesList') }}">
+                    <i class="icon-paste"></i> <span>Administrar Certificado Médico</span>
+                </a>
+            </li>
+            @if($nav=='exchange')
+                @var $data='active'
+            @else
+                @var $data=''
+            @endif
+            <li class="{{$data}}">
+                <a href="{{ route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list']) }}">
+                    <i class="icon-cash3"></i> <span>Tipo de Cambio</span>
+                </a>
+            </li>
+            @if($nav=='state')
+                @if($action=='list' || $action=='new' || $action=='edit')
+                    @var $data_state='active'
+                @endif
+            @else
+                @var $data_state=''
+            @endif
+            <li class="{{$data_state}}">
+                <a href="{{route('admin.estados.list',['nav'=>'state', 'action'=>'list'])}}" title='Administrar estados'>
+                    <i class="icon-folder"></i> Administrar estados
+                </a>
+            </li>
+            @if($nav=='email')
+                @var $data_em='active'
+            @else
+                @var $data_em=''
+            @endif
+            <li class="{{$data_em}}">
+                <a href="{{route('admin.email.list-email-product-retailer', ['nav'=>'email', 'action'=>'list_epr'])}}">
+                    <i class="icon-mail5"></i> <span>Correos Electronicos</span>
+                </a>
+            </li>
+            @if($nav=='city')
+                @if($action=='list' || $action=='edit' || $action=='new' || $action=='list_city_retailer' || $action=='new_city_retailer')
+                    @var $data_dpt='active'
+                    @var $data_age=''
+                @endif
+            @elseif($nav=='agency')
+                @if($action=='list' || $action=='edit' || $action=='new' || $action=='list_agency_retailer'|| $action=='new_agency_retailer')
+                    @var $data_age='active'
+                    @var $data_dpt=''
+                @endif
+            @else
+                @var $data_dpt=''
+                @var $data_age=''
+            @endif
+            <li>
+                <a href="#"><i class="icon-city"></i> <span>Departamento/Agencias</span></a>
+                <ul>
+                    <li class="{{$data_dpt}}">
+                        <a href="{{route('admin.cities.list-city-retailer', ['nav'=>'city', 'action'=>'list_city_retailer'])}}">Departamentos</a>
+                    </li>
+                    <li class="{{$data_age}}">
+                        <a href="{{route('admin.agencies.list-agency-retailer', ['nav'=>'agency', 'action'=>'list_agency_retailer'])}}">Agencias</a>
+                    </li>
+                </ul>
             </li>
             @if($nav=='user')
                 @var $data='active'
@@ -209,126 +327,14 @@
                     <span class="text-semibold"></span> No existe ningun producto registrado a un Retailer.
                 </div>
             @endif
-            <li class="navigation-header">
-                <span>kits de Página</span> <i class="icon-menu" title="Forms"></i>
-            </li>
-            @if($nav=='adRetailerProductActivities')
-                @if($action=='list' || $action=='new' || $action=='edit')
-                    @var $data_sel='active'
-                @endif
-            @else
-                @var $data_sel=''
-            @endif
-           
-            <li class="{{ $data_sel }}">
-                <a href="{{route('adRetailerProductActivities')}}" title='Administrar ocupación'>
-                    <i class="icon-briefcase3"></i> Administrar ocupación
-                </a>
-            </li>
-            @if($nav=='coverage')
-                @if($action=='list' || $action=='new' || $action=='edit')
-                    @var $data_cov='active'
-                @endif
-            @else
-                @var $data_cov=''
-            @endif
-            <li class="{{$data_cov}}">
-                <a href="{{route('admin.cobertura.list',['nav'=>'coverage', 'action'=>'list'])}}" title='Administrar cobertura'>
-                    <i class="icon-folder"></i> Administrar coberturas
-                </a>
-            </li>
-            @if($nav=='rate')
-                @if($action=='list' || $action=='new' || $action=='edit')
-                    @var $data_rate='active'
-                @endif
-            @else
-                @var $data_rate=''
-            @endif
-            <li class="{{$data_rate}}">
-                <a href="{{route('admin.tasas.list',['nav'=>'rate', 'action'=>'list'])}}" title='Administrar tasas'>
-                    <i class="icon-folder"></i> Administrar tasas
-                </a>
-            </li>
-                           
-            @if($nav=='mcCertificate')
-                @if($action=='list' || $action=='edit' || $action=='new' || $action=='asign')
-                    @var $data_pp2='active'                    
-                @endif
-             @else   
-                @var $data_pp2=''                    
-             @endif   
-             <li class="{{$data_pp2}}">
-                <a href="{{ route('mcCertificatesList') }}">
-                    <i class="icon-paste"></i> <span>Administrar Certificado Médico</span>
-                </a>
-            </li>
-            @if($nav=='exchange')
-                @var $data='active'
-            @else
-                @var $data=''
-            @endif
-            <li class="{{$data}}">
-                <a href="{{ route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list']) }}">
-                    <i class="icon-cash3"></i> <span>Tipo de Cambio</span>
-                </a>
-            </li>
-            @if($nav=='email')
-                @var $data_em='active'
-            @else
-                @var $data_em=''
-            @endif
-            <li class="{{$data_em}}">
-                <a href="{{route('admin.email.list-email-product-retailer', ['nav'=>'email', 'action'=>'list_epr'])}}">
-                    <i class="icon-mail5"></i> <span>Correos Electronicos</span>
-                </a>
-            </li>
-            @if($nav=='city')
-                @if($action=='list' || $action=='edit' || $action=='new' || $action=='list_city_retailer' || $action=='new_city_retailer')
-                    @var $data_dpt='active'
-                    @var $data_age=''
-                @endif
-            @elseif($nav=='agency')
-                @if($action=='list' || $action=='edit' || $action=='new' || $action=='list_agency_retailer'|| $action=='new_agency_retailer')
-                    @var $data_age='active'
-                    @var $data_dpt=''
-                @endif
-            @else
-                @var $data_dpt=''
-                @var $data_age=''
-            @endif
-            <li>
-                <a href="#"><i class="icon-city"></i> <span>Departamento/Agencias</span></a>
-                <ul>
-                    <li class="{{$data_dpt}}">
-                        <a href="{{route('admin.cities.list-city-retailer', ['nav'=>'city', 'action'=>'list_city_retailer'])}}">Departamentos</a>
-                    </li>
-                    <li class="{{$data_age}}">
-                        <a href="{{route('admin.agencies.list-agency-retailer', ['nav'=>'agency', 'action'=>'list_agency_retailer'])}}">Agencias</a>
-                    </li>
-                </ul>
-            </li>
+
+
             <!--
             <li>
                 <a href="#"><i class="icon-stack2"></i> <span>Administrar archivos</span></a>
             </li>
             -->
-            @if($nav=='question')
-                @if($action=='list' || $action=='edit' || $action=='new')
-                    @var $data_pp='active'
-                @endif
-            @elseif($nav=='mcQuestionnaries')
-                @if($action=='list' || $action=='edit' || $action=='new')
-                    @var $data_pp2='active'
-                    @var $data_pp3=''
-                @endif
-            @else
-                @var $data_pp=''
-                @var $data_pp2=''
-                @var $data_pp3=''
-            @endif
-            <li class="{{$data_pp}}">
-                <a href="{{route('admin.questions.list', ['nav'=>'question', 'action'=>'list'])}}"><i class="icon-clipboard3"></i> <span>Administrar preguntas (Cuestionario de Salud)</span></a>
-            </li>
+
             
         </ul>
     </div>
