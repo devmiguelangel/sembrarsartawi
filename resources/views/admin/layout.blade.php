@@ -76,6 +76,7 @@
     {!! Html::script('assets/js/plugins/notifications/noty.min.js') !!}
     {!! Html::script('assets/js/plugins/notifications/jgrowl.min.js') !!}
     {!! Html::script('assets/js/pages/components_notifications_other.js') !!}
+    {!! Html::script('assets/js/plugins/notifications/sweet_alert.min.js') !!}
 
 </head>
 

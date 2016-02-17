@@ -168,4 +168,15 @@ class TasasAdminController extends BaseController
         //dd($coverage);
         return response()->json($coverage);
     }
+
+    public function ajax_delete($id_rates)
+    {
+        try{
+            $query_del = \DB::table('ad_rates')
+                ->where('id', $id_rates)->delete();
+            return '1|Se elimino correctamente el registro';
+        }catch (QueryException $e){
+            return '0|'.$e->getMessage();
+        }
+    }
 }

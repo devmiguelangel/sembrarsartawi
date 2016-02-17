@@ -31,6 +31,16 @@
                 </ul>
             </div>
         </div>
+        @if (session('error'))
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
+            </div>
+        @elseif(session('ok'))
+            <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
+                <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+                <span class="text-semibold">Well done!</span> {{session('ok')}}
+            </div>
+        @endif
         @if(count($query)>0)
             <table class="table datatable-basic table-bordered">
                 <thead>
@@ -66,6 +76,11 @@
                                             <i class="icon-pencil3"></i> Editar
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="#" class="confirm_delete" id="{{$data->id_rates}}">
+                                            <i class="icon-trash"></i> Eliminar
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
@@ -80,4 +95,34 @@
             </div>
         @endif
     </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('a[href].confirm_delete').click(function(e){
+
+                var id_rates = $(this).prop('id');
+
+                bootbox.confirm("Esta seguro de eliminar la tasa ?", function(result) {
+                    if(result){
+                        $.get( "{{url('/')}}/admin/tasas/delete_ajax/"+id_rates, function( data ) {
+                            console.log(data);
+                            var arr = data.split('|');
+                            if(arr[0]==1){
+                                swal({
+                                    title: arr[1],
+                                    confirmButtonColor: "#2196F3"
+                                });
+                                window.setTimeout('location.reload()', 2000);
+                            }else if(arr[0]==0){
+                                swal({
+                                    title: "Error!! "+arr[1],
+                                    confirmButtonColor: "#2196F3"
+                                });
+                            }
+                        });
+                    }
+                });
+
+            });
+        });
+    </script>
 @endsection
