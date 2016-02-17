@@ -177,7 +177,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="checkbox-inline checkbox-right">
-                                                <strong>Pendiente:</strong> &nbsp;
+                                                <strong>Estado:</strong> &nbsp;
                                             </label>
                                             <label class="checkbox-inline checkbox-left">
                                                 <input type="checkbox" class="styled" name="pendiente" value="1" id="pendiente" @if($valueForm['pendiente']==1) checked @endif>     
@@ -269,17 +269,34 @@
                             <table class="table datatable-fixed-left table-striped" width="100%">
                                 <thead>
                                     <tr style="background-color: #337ab7" class="text-white">
-                                        <th>Nro. Póliza</th>
-                                        <th>Producto</th>
-                                        <th>Nro. de Operación</th>
-                                        <th>Importe Solicitado</th>
-                                        <th>Moneda</th>
-                                        <th>Tiempo</th>
-                                        <th>Tasa total</th>
-                                        <!--<th>Prima total</th>-->
-                                        <th>Fecha de emisión</th>
-                                        <th>Usuario</th>
-                                        <!--<th>Rol</th>-->
+                                        <th>Número de Póliza</th>
+                                        <th>Cobertura</th>
+                                        <th>Cliente</th>
+                                        <th>CI</th>
+                                        <th>Género</th>
+                                        <th>Edad</th>
+                                        <th>Ciudad</th>
+                                        <th>Tel&eacute;fono</th>
+                                        <th>Monto Solicitado - Moneda</th>
+                                        <th>Saldo Deudor</th>
+                                        <th>Total Monto Acumulado</th>
+                                        <th>Plazo del Credito - Tipo del Plazo</th>
+                                        <th>Estatura (cm)</th>
+                                        <th>Peso (kg)</th>
+                                        <th>Particpaci&oacute;n</th>
+                                        <th>Titular</th>
+                                        <th>Creado por</th>
+                                        <th>Sucursal / Regional</th>
+                                        <th>Fecha de Ingreso</th>
+                                        <th>Certificado Emitido</th>
+                                        <th>Fecha Emisión</th>
+                                        <th>Estado Compañia</th>
+                                        <th>Motivo Estado Compañia</th>
+                                        <th>Porcentaje Extraprima</th>
+                                        <th>Fecha Respuesta Final Compañia</th>
+                                        <th>Días en Proceso</th>
+                                        <th>Duracion Total del Caso</th>
+                                        
                                         <th>Accion</th>
                                     </tr>
                                 </thead>
@@ -289,14 +306,33 @@
                                     
                                     <tr>
                                         <td>{{ $entities->policy_number }}</td>
-                                        <td>{{ $entities->name }}</td>
-                                        <td>{{ $entities->operation_number }}</td>
-                                        <td>{{ $entities->amount_requested }}</td>
-                                        <td>{{ $entities->currency }}</td>
-                                        <td>{{ $entities->term }} @if($entities->type_term == 'M')Meses @elseif($entities->type_term == 'Y')Años @elseif($entities->type_term == 'W')Semanas @elseif($entities->type_term == 'D')DIas @endif </td>
-                                        <td>{{ $entities->total_rate }}</td>
-                                        <td>{{ $entities->date_issue != ''?$entities->date_issue:'' }}</td>
-                                        <td>{{ $entities->full_name }}</td>
+                                        <td>{{ $entities->name_coverage }}</td>
+                                        <td>{{ $entities->client }}</td>
+                                        <td>{{ $entities->ci_client }}</td>
+                                        <td>{{ $entities->gender == 'M'?'Masculino':'Femenino' }}</td>
+                                        <td>{{ $entities->age }}</td>
+                                        <td>{{ str_replace('_', ' ', $entities->place_residence) }}</td>
+                                        <td>{{ $entities->phone_number_home }}</td>
+                                        <td>{{ $entities->amount_currency }}</td>
+                                        <td>{{ $entities->balance }}</td>
+                                        <td>{{ $entities->cumulus }}</td>
+                                        <td>{{ $entities->plazo }}</td>
+                                        <td>{{ $entities->estatura }}</td>
+                                        <td>{{ $entities->peso }}</td>
+                                        <td>{{ $entities->participacion }}</td>
+                                        <td>{{ $entities->titular }}</td>
+                                        <td>{{ $entities->creado_por }}</td>
+                                        <td>{{ $entities->sucursal_regional }}</td>
+                                        <td>{{ $entities->fecha_de_ingreso }}</td>
+                                        <td>{{ $entities->certificado_emitido }}</td>
+                                        <td>{{ $entities->fecha_emision }}</td>
+                                        <td>{{ $entities->estado_compania }}</td>
+                                        <td>{{ $entities->motivo_estado_compania }}</td>
+                                        <td>{{ $entities->porcentaje_extraprima }}</td>
+                                        <td>{{ $entities->fecha_respuesta_final_compania }}</td>
+                                        <td>{{ $entities->dias_en_proceso }}</td>
+                                        <td>{{ $entities->duracion_total_del_caso }}</td>
+                                      
                                         <td class="text-center">
                                             <ul class="icons-list">
                                                     <li class="dropdown">
