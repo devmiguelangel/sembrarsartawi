@@ -17,14 +17,14 @@
                     <div aria-labelledby="headingOne" role="tabpanel" class="panel-collapse collapse in" id="collapse-{{ $index }}" aria-expanded="true" style="">
                         <ul class="inbox-nav inbox-divider">
                             <li class="active">
-                                <a href="#">
+                                <a href="{{ route('home', ['arp' => encode($product->rp->id), 'inbox' => 'all']) }}">
                                     <i class="icon-inbox"></i> Bandeja de entrada
-                                    <span class="label label-info pull-right">{{ $product->records['all-unread']->count() }}</span>
+                                    <span class="label label-info pull-right">{{ $product->records['all']->count() }}</span>
                                 </a>
                             </li>
                             @if ($user->profile->first()->slug === 'SEP')
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ route('home', ['arp' => encode($product->rp->id), 'inbox' => 'approved']) }}">
                                         <i class="icon-check"></i> Aprobados
                                         <span class="label label-primary pull-right">
                                             {{ $product->records['approved']->count() }}
@@ -32,7 +32,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ route('home', ['arp' => encode($product->rp->id), 'inbox' => 'observed']) }}">
                                         <i class="fa fa-clock-o"></i> Observados
                                         <span class="label label-primary pull-right">
                                             {{ $product->records['observed']->count() }}
@@ -40,7 +40,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ route('home', ['arp' => encode($product->rp->id), 'inbox' => 'rejected']) }}">
                                         <i class="icon-trash"></i> Rechazados
                                         <span class="label label-primary pull-right">
                                             {{ $product->records['rejected']->count() }}
@@ -84,7 +84,7 @@
             </div> --}}
         </div>
 
-        <div class="inbox-body text-center">
+        {{-- <div class="inbox-body text-center">
             <div class="btn-group">
                 <a href="javascript:;" class="btn btn-default">
                     <i class="icon-switch"></i>
@@ -93,33 +93,36 @@
                     <i class="icon-cog3"></i>
                 </a>
             </div>
-        </div>
+        </div> --}}
     </aside>
 
     <aside class="lg-side" style="height: 1200px">
         <div class="inbox-head">
             <div class="mail-option">
                 <div class="btn-group">
-                    <a class="btn mini tooltips" href="#"  data-popup="tooltip" data-original-title="Actualizar">
+                    <a class="btn mini tooltips" href="{{ request()->fullUrl() }}"  data-popup="tooltip" data-original-title="Actualizar">
                         <i class=" icon-loop3"></i>
                     </a>
                 </div>
-                <div class="btn-group">
-                    <a class="btn" href="#" data-popup="tooltip" data-original-title="Aprobados">
+                
+                @if ($user->profile->first()->slug === 'SEP')
+                  <div class="btn-group">
+                    <a class="btn" href="{{ route('home', ['arp' => encode($product->rp->id), 'inbox' => 'approved']) }}" data-popup="tooltip" data-original-title="Aprobados">
                         <i class="icon-check"></i>
                     </a>
-                    <a class="btn" href="#" data-popup="tooltip" data-original-title="Rechazados">
-                        <i class="icon-trash"></i>
-                    </a>
-                    <a class="btn" href="#" data-popup="tooltip" data-original-title="Observados">
+                    <a class="btn" href="{{ route('home', ['arp' => encode($product->rp->id), 'inbox' => 'observed']) }}" data-popup="tooltip" data-original-title="Observados">
                         <i class="fa fa-clock-o"></i>
                     </a>
-                </div>
+                    <a class="btn" href="{{ route('home', ['arp' => encode($product->rp->id), 'inbox' => 'rejected']) }}" data-popup="tooltip" data-original-title="Rechazados">
+                        <i class="icon-trash"></i>
+                    </a>
+                  </div>
+                @endif
 
                 <ul class="unstyled inbox-pagination">
-                    <li><span class="label label-danger pull-right">&nbsp;</span><span>Mayor a 10 días </span></li>
-                    <li><span class="label label-warning pull-right">&nbsp;</span><span>3 a 10 días </span></li>
-                    <li><span class="label label-success pull-right">&nbsp;</span><span>0 a 2 días </span></li>
+                  <li><span class="label label-danger pull-right">&nbsp;</span><span>Mayor a 10 días </span></li>
+                  <li><span class="label label-warning pull-right">&nbsp;</span><span>3 a 10 días </span></li>
+                  <li><span class="label label-success pull-right">&nbsp;</span><span>0 a 2 días </span></li>
                 </ul>
             </div>
         </div>
@@ -138,7 +141,7 @@
                 </thead>
                 <tbody>
                   @if (count($data['products']) > 0)
-                    @foreach ($data['products'][0]->records['all'] as $key => $record)
+                    @foreach ($data['products'][0]->records['inbox'] as $key => $record)
                       {{-- <tr class="{{ ! $record->read ? 'unread' : '' }}"> --}}
                       <tr ng-init="record[{{ $key }}].unread = readToBoolean({{ (int) $record->read }})" ng-class="{ unread: !record[{{ $key }}].unread }">
                         <td class="inbox-small-cells te">
@@ -187,7 +190,7 @@
                                           Respuesta ({{ config('base.company_state.' . $record->company_state) }})
                                         </a>
                                       </li>
-
+                                      
                                       @if ($record->company_state === 'A' && $record->detail->header->approved)
                                         <li>
                                           <a href="{{ route('de.issue', [

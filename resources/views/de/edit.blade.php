@@ -135,6 +135,10 @@
                                     {!! $detail->facultative->reason !!}
                                 @endif
                             @endforeach
+                            <span class="text-semibold">
+                                <br>
+                                Por lo tanto debe solicitar aprobación de la Compañia de Seguros
+                            </span>
                         </div>
                     @endif
 
