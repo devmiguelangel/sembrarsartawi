@@ -245,9 +245,10 @@ $(function() {
 
     // Dropdown selectors forato de fecha
     $('.pickadate-cobodate').pickadate({
+        format: 'dd/mm/yyyy',
         selectYears: true,
         selectMonths: true,
-        format:"dd/mm/yyyy"
+        selectYears: 75,
     });
 
     // Year selector

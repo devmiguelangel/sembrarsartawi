@@ -107,7 +107,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-lg-3 label_required">Fecha de nacimiento: </label>
+        <label class="control-label col-lg-3 label_required">Fecha de nacimientooo: </label>
         <div class="col-lg-9">
             <div class="input-group">
                 <span class="input-group-addon"><i class="icon-calendar22"></i></span>
