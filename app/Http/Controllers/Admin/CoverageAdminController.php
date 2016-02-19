@@ -68,7 +68,7 @@ class CoverageAdminController extends BaseController
                     'updated_at'=>date("Y-m-d H:i:s")
                 ]
             );
-            return redirect()->route('admin.cobertura.list', ['nav' => 'coverage', 'action' => 'list']);
+            return redirect()->route('admin.cobertura.list', ['nav' => 'coverage', 'action' => 'list'])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
         }catch(QueryException $e) {
             return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
@@ -125,7 +125,7 @@ class CoverageAdminController extends BaseController
                         'updated_at' => date("Y-m-d H:i:s")
                     ]
                 );
-            return redirect()->route('admin.cobertura.list', ['nav' => 'coverage', 'action' => 'list']);
+            return redirect()->route('admin.cobertura.list', ['nav' => 'coverage', 'action' => 'list'])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
         }catch (QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
         }

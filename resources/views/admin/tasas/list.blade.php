@@ -36,9 +36,9 @@
                 <span class="text-semibold">Error!</span> {{ session('error') }}
             </div>
         @elseif(session('ok'))
-            <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
+            <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
                 <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-                <span class="text-semibold">Well done!</span> {{session('ok')}}
+                <span class="text-semibold"></span> {{session('ok')}}
             </div>
         @endif
         @if(count($query)>0)
@@ -97,6 +97,10 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
+            setTimeout(function() {
+                $('#message-session').fadeOut();
+            }, 3000);
+
             $('a[href].confirm_delete').click(function(e){
 
                 var id_rates = $(this).prop('id');

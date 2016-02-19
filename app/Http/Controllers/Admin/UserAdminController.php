@@ -74,6 +74,11 @@ class UserAdminController extends BaseController
      */
     public function store(Request $request)
     {
+        if($request->get('agencia')!=0){
+            $agency = $request->get('agencia');
+        }else{
+            $agency = null;
+        }
         try{
             $array = explode('|',$request->input('tipo_usuario'));
             $arrCity = explode('|', $request->input('depto'));
@@ -85,7 +90,7 @@ class UserAdminController extends BaseController
             $user_new->email=$request->input('txtEmail');
             $user_new->phone_number=$request->input('txtTelefono');
             $user_new->ad_city_id=$arrCity[1];
-            $user_new->ad_agency_id=$request->input('agencia');
+            $user_new->ad_agency_id=$agency;
             $user_new->ad_user_type_id=$array[0];
             $user_new->active=true;
             if($user_new->save()) {
@@ -126,14 +131,14 @@ class UserAdminController extends BaseController
                                 }
                             }
 
-                            return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+                            return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list'])->with(array('ok'=>'Se agrego correctamente los datos del formulario'));
 
                         } catch(QueryException $e) {
                             return redirect()->back()->with(array('error'=>$e->getMessage()));
                         }
 
                     }else{
-                        return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+                        return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list'])->with(array('ok'=>'Se agrego correctamente los datos del formulario'));
                     }
                 }
 
@@ -165,57 +170,60 @@ class UserAdminController extends BaseController
     {
         $main_menu = $this->menu_principal();
         if($action=='edit'){
-            $user_find = \DB::table('ad_users as au')
-                            ->join('ad_user_types as aut', 'aut.id', '=', 'au.ad_user_type_id')
-                            ->select('au.id as id_user', 'au.ad_user_type_id', 'aut.code', 'au.ad_city_id', 'au.ad_agency_id', 'au.username', 'au.full_name', 'au.phone_number', 'au.email')
-                            ->where('au.id', '=', $id_user)
-                            ->first();
-
-            $user_permission = \DB::table('ad_user_permissions')
-                                    ->where('ad_user_id', $user_find->id_user)
-                                    ->get();
-            //dd($user_permission);
-            $profile_find = \DB::table('ad_user_profiles')
-                            ->where('ad_user_id', '=', $user_find->id_user)
-                            ->first();
-
-            $query_prof = \DB::table('ad_profiles')
-                               ->get();
-
-            $cities = \DB::table('ad_retailer_cities')
-                ->join('ad_cities','ad_retailer_cities.ad_city_id', '=', 'ad_cities.id')
-                ->select('ad_retailer_cities.id as id_retailer_city', 'ad_cities.name', 'ad_cities.abbreviation', 'ad_cities.id as id_city')
-                ->where('ad_retailer_cities.active', '=', 1)
-                ->get();
-            //dd($cities);
-
-            $retailer = \DB::table('ad_retailers')
-                ->where('active', true)
-                ->where('id', $id_retailer)
-                ->first();
-
-            //dd($user_find->ad_city_id);
-            if(!empty($user_find->ad_city_id)){
-                $query_find_city = \DB::table('ad_retailer_cities')
-                    ->where('ad_city_id',$user_find->ad_city_id)
+            try {
+                $user_find = \DB::table('ad_users as au')
+                    ->join('ad_user_types as aut', 'aut.id', '=', 'au.ad_user_type_id')
+                    ->select('au.id as id_user', 'au.ad_user_type_id', 'aut.code', 'au.ad_city_id', 'au.ad_agency_id', 'au.username', 'au.full_name', 'au.phone_number', 'au.email')
+                    ->where('au.id', '=', $id_user)
                     ->first();
 
-                $agencies = \DB::table('ad_retailer_city_agencies')
-                    ->join('ad_agencies', 'ad_retailer_city_agencies.ad_agency_id', '=', 'ad_agencies.id')
-                    ->select('ad_agencies.id', 'ad_agencies.name')
-                    ->where('ad_retailer_city_agencies.ad_retailer_city_id', '=', $query_find_city->id)
+                $user_permission = \DB::table('ad_user_permissions')
+                    ->where('ad_user_id', $user_find->id_user)
                     ->get();
-                //dd($agencies);
-            }else{
-                $agencies = null;
+                //dd($user_permission);
+                $profile_find = \DB::table('ad_user_profiles')
+                    ->where('ad_user_id', '=', $user_find->id_user)
+                    ->first();
+
+                $query_prof = \DB::table('ad_profiles')
+                    ->get();
+
+                $cities = \DB::table('ad_retailer_cities')
+                    ->join('ad_cities', 'ad_retailer_cities.ad_city_id', '=', 'ad_cities.id')
+                    ->select('ad_retailer_cities.id as id_retailer_city', 'ad_cities.name', 'ad_cities.abbreviation', 'ad_cities.id as id_city')
+                    ->where('ad_retailer_cities.active', '=', 1)
+                    ->get();
+                //dd($cities);
+
+                $retailer = \DB::table('ad_retailers')
+                    ->where('active', true)
+                    ->where('id', $id_retailer)
+                    ->first();
+
+                //dd($user_find->ad_city_id);
+                if (!empty($user_find->ad_city_id)) {
+                    $query_find_city = \DB::table('ad_retailer_cities')
+                        ->where('ad_city_id', $user_find->ad_city_id)
+                        ->first();
+
+                    $agencies = \DB::table('ad_retailer_city_agencies')
+                        ->join('ad_agencies', 'ad_retailer_city_agencies.ad_agency_id', '=', 'ad_agencies.id')
+                        ->select('ad_agencies.id', 'ad_agencies.name')
+                        ->where('ad_retailer_city_agencies.ad_retailer_city_id', '=', $query_find_city->id)
+                        ->get();
+                    //dd($agencies);
+                } else {
+                    $agencies = null;
+                }
+
+                $query_type_user = \DB::table('ad_user_types')->get();
+
+                $permissions = \DB::table('ad_permissions')->get();
+                //dd($permissions);
+                return view('admin.user.edit', compact('nav', 'action', 'user_find', 'cities', 'agencies', 'main_menu', 'query_type_user', 'profile_find', 'query_prof', 'retailer', 'permissions', 'user_permission'));
+            }catch(QueryException $e){
+                return redirect()->back()->with(array('error'=>$e->getMessage()));
             }
-
-            $query_type_user = \DB::table('ad_user_types')->get();
-
-            $permissions = \DB::table('ad_permissions')
-                                ->get();
-            //dd($permissions);
-            return view('admin.user.edit', compact('nav', 'action', 'user_find', 'cities', 'agencies', 'main_menu', 'query_type_user', 'profile_find', 'query_prof', 'retailer', 'permissions', 'user_permission'));
         }elseif($action=='changepass'){
             $user_find = \DB::table('ad_users')
                             ->where('id', '=', $id_user)
@@ -251,6 +259,12 @@ class UserAdminController extends BaseController
      */
     public function update(Request $request)
     {
+        if($request->get('agencia')!=0){
+            $agency = $request->get('agencia');
+        }else{
+            $agency = null;
+        }
+
         $array = explode('|',$request->input('tipo_usuario'));
         $array_city = explode('|', $request->input('depto'));
         $user_update = User::where('id', $request->input('id_user'))->first();
@@ -258,14 +272,29 @@ class UserAdminController extends BaseController
         $user_update->email=$request->input('txtEmail');
         $user_update->phone_number=$request->input('txtTelefono');
         $user_update->ad_city_id=$array_city[1];
-        $user_update->ad_agency_id=$request->input('agencia');
+        $user_update->ad_agency_id=$agency;
         $user_update->ad_user_type_id=$array[0];
         if($user_update->save()) {
             if($array[1]=='UST'){
                 try{
-                    $query_update_profile = \DB::table('ad_user_profiles')
-                        ->where('ad_user_id', $request->input('id_user'))
-                        ->update(['ad_profile_id' => $request->input('id_profile'), 'updated_at'=>date("Y-m-d H:i:s"), 'active'=>true]);
+                    $quest_user_profile = \DB::table('ad_user_profiles')
+                                            ->where('ad_user_id',$request->input('id_user'))
+                                            ->first();
+                    if(count($quest_user_profile)>0){
+                        $query_update_profile = \DB::table('ad_user_profiles')
+                            ->where('ad_user_id', $request->input('id_user'))
+                            ->update(['ad_profile_id' => $request->input('id_profile'), 'updated_at'=>date("Y-m-d H:i:s"), 'active'=>true]);
+                    }else{
+                        $query_insert = \DB::table('ad_user_profiles')->insert(
+                            [
+                                'ad_user_id'=>$request->input('id_user'),
+                                'ad_profile_id'=>$request->input('id_profile'),
+                                'active'=>true,
+                                'created_at'=>date("Y-m-d H:i:s"),
+                                'updated_at'=>date("Y-m-d H:i:s")
+                            ]
+                        );
+                    }
 
                     $query_del = \DB::table('ad_user_permissions')
                                     ->where('ad_user_id', $request->input('id_user'))->delete();
@@ -284,18 +313,21 @@ class UserAdminController extends BaseController
                         }
                     }
 
-                    return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+                    return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list'])->with(array('ok'=>'Se edito correctamente los datos del formulario'));
 
                 } catch(QueryException $e){
                     return redirect()->back()->with(array('error'=>$e->getMessage()));
                 }
             }else{
+
                 try{
                     $query_update_profile = \DB::table('ad_user_profiles')
                         ->where('ad_user_id', $request->input('id_user'))
                         ->update(['active'=>false]);
-                    if($query_update_profile){
-                        return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
+                    if(count($query_update_profile)>0){
+                        return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list'])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
+                    }else{
+                        return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list'])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
                     }
                 } catch(QueryException $e){
                     return redirect()->back()->with(array('error'=>$e->getMessage()));

@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use Sibas\Entities\Product;
@@ -49,13 +50,18 @@ class ProductAdminController extends BaseController
      */
     public function store(Request $request)
     {
-        $query_int = new Product();
-        $query_int->type=$request->input('id_tipo');
-        $query_int->name=$request->input('txtProducto');
-        $query_int->slug=strtolower($request->input('txtProducto'));
-        $query_int->code=strtolower($request->input('txtCodigo'));
-        if($query_int->save()) {
-            return redirect()->route('admin.product.list', ['nav'=>'product', 'action'=>'list']);
+        try {
+            $query_int = new Product();
+            $query_int->type = $request->input('id_tipo');
+            $query_int->name = $request->input('txtProducto');
+            $query_int->slug = strtolower($request->input('txtProducto'));
+            $query_int->code = strtolower($request->input('txtCodigo'));
+            if($query_int->save()) {
+                return redirect()->route('admin.product.list', ['nav' => 'product', 'action' => 'list'])->with(array('ok' => 'Se creo correctamente los datos del formulario'));
+            }
+
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -94,13 +100,18 @@ class ProductAdminController extends BaseController
      */
     public function update(Request $request)
     {
-        $query_update = Product::where('id', $request->input('id_product'))->first();
-        $query_update->name=$request->input('txtProducto');
-        $query_update->code=$request->input('txtCodigo');
-        $query_update->type=$request->input('id_tipo');
-        $query_update->slug=strtolower($request->input('txtProducto'));
-        if($query_update->save()) {
-            return redirect()->route('admin.product.list', ['nav'=>'product', 'action'=>'list']);
+        try {
+            $query_update = Product::where('id', $request->input('id_product'))->first();
+            $query_update->name = $request->input('txtProducto');
+            $query_update->code = $request->input('txtCodigo');
+            $query_update->type = $request->input('id_tipo');
+            $query_update->slug = strtolower($request->input('txtProducto'));
+            if($query_update->save()) {
+                return redirect()->route('admin.product.list', ['nav' => 'product', 'action' => 'list'])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
+            }
+
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 

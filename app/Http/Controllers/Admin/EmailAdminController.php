@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use Sibas\Entities\Email;
@@ -62,17 +63,32 @@ class EmailAdminController extends BaseController
      */
     public function store(Request $request)
     {
-        $query_insert = \DB::table('ad_retailer_product_emails')->insert(
-            [
-                'ad_retailer_product_id'=>$request->input('id_product_retail'),
-                'ad_email_id'=>$request->input('id_email'),
-                'active'=>true,
-                'created_at'=>date("Y-m-d H:i:s"),
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]
-        );
-        if($query_insert){
-            return redirect()->route('admin.email.list-email-product-retailer', ['nav'=>'email', 'action'=>'list_epr']);
+        try {
+            $quest = \DB::table('ad_retailer_product_emails')
+                ->where('ad_retailer_product_id', $request->input('id_product_retail'))
+                ->get();
+
+            if(count($quest)>0){
+                $query_del = \DB::table('ad_retailer_product_emails')
+                    ->where('ad_retailer_product_id', $request->input('id_product_retail'))->delete();
+            }
+
+            foreach ($request->get('email') as $key => $value) {
+                $query_insert = \DB::table('ad_retailer_product_emails')->insert(
+                    [
+                        'ad_retailer_product_id' => $request->input('id_product_retail'),
+                        'ad_email_id' => $value,
+                        'active' => true,
+                        'created_at' => date("Y-m-d H:i:s"),
+                        'updated_at' => date("Y-m-d H:i:s")
+                    ]
+                );
+            }
+
+            return redirect()->route('admin.email.list-email-product-retailer', ['nav' => 'email', 'action' => 'list_epr'])->with(array('ok'=>'Se agrego correctamente los datos del formulario'));
+
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -202,5 +218,22 @@ class EmailAdminController extends BaseController
         }else{
             return 0;
         }
+    }
+
+    public function ajax_email_retailer_product($id_product_retailer)
+    {
+        $email_retailer = \DB::table('ad_retailer_product_emails as arpe')
+                    ->select('arpe.id as id_retailer_product_email', 'arpe.ad_email_id')
+                    ->where('arpe.ad_retailer_product_id', $id_product_retailer)
+                    ->get();
+
+        $email = \DB::table('ad_emails as ae')
+                        ->select('ae.id as id_email', 'ae.email as correo', 'ae.name')
+                        ->get();
+        //dd($retailer_city_agencies);
+        $arr = array();
+        $arr['retaileremail'] = $email_retailer;
+        $arr['email'] = $email;
+        return response()->json($arr);
     }
 }

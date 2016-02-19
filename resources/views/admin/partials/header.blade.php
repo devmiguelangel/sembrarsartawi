@@ -371,10 +371,14 @@
             @elseif($action=='list_parameter_additional')
                 <li><a href="{{ route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Listado parametros</a></li>
                 <li class="active">Parametros adicionales</li>
-            @elseif($action=='new_parameter_additional')
+            @elseif($action=='new_parameter_additional' || $action=='edit_parameter_additional')
                 <li><a href="{{ route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">parametros</a></li>
                 <li><a href="{{ route('admin.vi.parameters.list-parameter-additional', ['nav'=>'vi', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product]) }}">parametros adicionales</a></li>
+                @if($action=='new_parameter_additional')
                 <li class="active">Nuevo registro</li>
+                @elseif($action=='edit_parameter_additional')
+                    <li class="active">Editar registro</li>
+                @endif
             @endif
         @elseif($nav=='listplansvi')
             <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>

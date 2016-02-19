@@ -32,7 +32,11 @@
             </div>
             -->
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'new_company', 'name' => 'NewCompanyForm', 'id' => 'NewCompanyForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
@@ -41,7 +45,7 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2">Compañía Aseguradora <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control required text" name="txtCompany" id="txtCompany">
+                            <input type="text" class="form-control required text" name="txtCompany" id="txtCompany" autocomplete="off">
                         </div>
                     </div>
 
@@ -61,7 +65,7 @@
 
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">
-                        Guardar <i class="icon-arrow-right14 position-right"></i>
+                        Guardar <i class="icon-floppy-disk position-right"></i>
                     </button>
 
                     <a href="{{route('admin.company.list', ['nav'=>'company', 'action'=>'list'])}}" class="btn btn-primary">
@@ -142,7 +146,7 @@
                 var _value = $(element).prop('value');
                 var regex = null;
                 if($(element).hasClass('text') === true){
-                    regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s]*$/;
+                    regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s\.\-\()]*$/;
                     err = 'Ingrese solo texto';
                 }else if($(element).hasClass('number') === true){
                     regex = /^([0-9])*$/;

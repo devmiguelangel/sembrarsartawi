@@ -35,7 +35,12 @@
         </div>
 
         <div class="panel-body">
-
+            @if(session('ok'))
+                <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
+                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+                    <span class="text-semibold"></span> {{session('ok')}}
+                </div>
+            @endif
         </div>
         @if(count($query)>0)
             <table class="table datatable-basic">
@@ -84,8 +89,15 @@
         </table>
         @else
             <div class="alert alert-warning alert-styled-left">
-                <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
+                <span class="text-semibold"></span> No existe ningun registro, ingrese un nuevo registro.
             </div>
         @endif
     </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            setTimeout(function() {
+                $('#message-session').fadeOut();
+            }, 3000);
+        });
+    </script>
 @endsection

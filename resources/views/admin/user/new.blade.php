@@ -191,23 +191,56 @@
                 var  _data= $(this).prop('value');
                 var array = _data.split('|');
                 var id_retailer_city = array[0];
-                //alert(id_retailer_city);
-                $.get( "{{url('/')}}/admin/user/agency_ajax/"+id_retailer_city, function( data ) {
-                    console.log(data);
-                    $('#content-agency').fadeIn('slow');
-                    $('#agencia option').remove();
-                    $('#agencia').append('<option value="0">Seleccione</option>');
-                    if(data.length>0) {
-                        $('#msg_agencia').html('');
-                        $.each(data, function () {
-                            console.log("ID: " + this.id);
-                            console.log("First Name: " + this.name);
-                            $('#agencia').append('<option value="'+this.id+'">'+this.name+'</option>');
-                        });
+                var _datatu = $('#tipo_usuario option:selected').prop('value');
+                var vec = _datatu.split('|');
+                //alert(type_user);
+                if(id_retailer_city!=0){
+                    if(vec[1]=='UST'){
+                        var id_profile = $('#id_profile option:selected').prop('value');
+                        if(id_profile!=4){
+                            $.get( "{{url('/')}}/admin/user/agency_ajax/"+id_retailer_city, function( data ) {
+                                console.log(data);
+                                $('#content-agency').fadeIn('slow');
+                                $('#agencia option').remove();
+                                $('#agencia').addClass('form-control required');
+                                $('#agencia').append('<option value="0">Seleccione</option>');
+                                if(data.length>0) {
+                                    $('#msg_agencia').html('');
+                                    $.each(data, function () {
+                                        console.log("ID: " + this.id);
+                                        console.log("First Name: " + this.name);
+                                        $('#agencia').append('<option value="'+this.id+'">'+this.name+'</option>');
+                                    });
+                                }else{
+                                    $('#msg_agencia').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span> No existen agencias agregadas al departamento.<br><a href="{{route('admin.agencies.list-agency-retailer', ['nav'=>'agency', 'action'=>'list_agency_retailer'])}}">Ingresar agencias a departamento</a></div>');
+                                }
+                            });
+                        }else{
+                            $('#content-agency').fadeOut('fast');
+                            $('#agencia').removeClass('form-control required');
+                        }
                     }else{
-                        $('#msg_agencia').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span> No existen agencias agregadas al departamento.<br><a href="{{route('admin.agencies.list-agency-retailer', ['nav'=>'agency', 'action'=>'list_agency_retailer'])}}">Ingresar agencias a departamento</a></div>');
+                        $.get( "{{url('/')}}/admin/user/agency_ajax/"+id_retailer_city, function( data ) {
+                            console.log(data);
+                            $('#content-agency').fadeIn('slow');
+                            $('#agencia option').remove();
+                            $('#agencia').append('<option value="0">Seleccione</option>');
+                            if(data.length>0) {
+                                $('#msg_agencia').html('');
+                                $.each(data, function () {
+                                    console.log("ID: " + this.id);
+                                    console.log("First Name: " + this.name);
+                                    $('#agencia').append('<option value="'+this.id+'">'+this.name+'</option>');
+                                });
+                            }else{
+                                $('#msg_agencia').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span> No existen agencias agregadas al departamento.<br><a href="{{route('admin.agencies.list-agency-retailer', ['nav'=>'agency', 'action'=>'list_agency_retailer'])}}">Ingresar agencias a departamento</a></div>');
+                            }
+                        });
                     }
-                });
+                }else{
+                    $('#agencia option[value="0"]').prop('selected',true);
+                    $('#content-agency').fadeOut('fast');
+                }
             });
 
             //OBTENER EL LISTA DE PERFILES DE USUARIO
@@ -217,6 +250,9 @@
                 var tipo_usuario = arr[0];
                 if(arr[1]=='UST'){
                     //alert(tipo_usuario);
+                    $('#depto option[value="0"]').prop('selected',true);
+                    $('#agencia option[value="0"]').prop('selected',true);
+                    $('#content-agency').fadeOut('fast');
                     $.get( "{{url('/')}}/admin/user/profiles_ajax/"+tipo_usuario, function( data ) {
                         $('#permiso').addClass('form-control');
                         $('#content-permissions').fadeIn('fast');
@@ -238,7 +274,16 @@
                     $('#content-user-profiles').fadeOut('fast');
                     $('#permiso').removeClass('form-control');
                     $('#content-permissions').fadeOut('fast');
+                    $('#depto option[value="0"]').prop('selected',true);
+                    $('#agencia option[value="0"]').prop('selected',true);
+                    $('#content-agency').fadeOut('fast');
                 }
+            });
+
+            $('#id_profile').change(function(){
+                $('#depto option[value="0"]').prop('selected',true);
+                $('#agencia option[value="0"]').prop('selected',true);
+                $('#content-agency').fadeOut('fast');
             });
 
             //VERIFICAMOS SI EL USUARIO EXISTE

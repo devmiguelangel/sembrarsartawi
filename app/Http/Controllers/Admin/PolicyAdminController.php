@@ -3,6 +3,7 @@
 namespace Sibas\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use Sibas\Http\Requests;
@@ -81,21 +82,25 @@ class PolicyAdminController extends BaseController
             $auto_increment = $request->input('auto_inc');
         }
 
-        $query_insert = \DB::table('ad_policies')->insert(
-            [
-                 'ad_retailer_product_id'=>$request->input('id_retailer_products'),
-                 'number'=> $request->input('txtNumPoliza'),
-                 'end_policy' => $end_policy,
-                 'date_begin' => new Carbon(str_replace('/','-',$request->input('fechaini'))),
-                 'date_end' => new Carbon(str_replace('/','-',$request->input('fechafin'))),
-                 'created_at' => date("Y-m-d H:i:s"),
-                 'updated_at' => date("Y-m-d H:i:s"),
-                 'auto_increment' => $auto_increment,
-                 'active' => true
-            ]
-        );
-        if($query_insert){
-            return redirect()->route('admin.policy.list', ['nav'=>'policy', 'action'=>'list', 'id_retailer_products'=>$request->input('id_retailer_products'), 'code_product'=>$request->get('code_product')]);
+        try {
+            $query_insert = \DB::table('ad_policies')->insert(
+                [
+                    'ad_retailer_product_id' => $request->input('id_retailer_products'),
+                    'number' => $request->input('txtNumPoliza'),
+                    'end_policy' => $end_policy,
+                    'date_begin' => new Carbon(str_replace('/', '-', $request->input('fechaini'))),
+                    'date_end' => new Carbon(str_replace('/', '-', $request->input('fechafin'))),
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s"),
+                    'auto_increment' => $auto_increment,
+                    'active' => true
+                ]
+            );
+
+            return redirect()->route('admin.policy.list', ['nav' => 'policy', 'action' => 'list', 'id_retailer_products' => $request->input('id_retailer_products'), 'code_product' => $request->get('code_product')])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
+
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -148,18 +153,22 @@ class PolicyAdminController extends BaseController
             $end_policy = $request->input('txtEndPoliza');
             $auto_increment = $request->input('auto_inc');
         }
-        $query_update = \DB::table('ad_policies')
-            ->where('id', $request->input('id_policies'))
-            ->update([
-                'number' => $request->input('txtNumPoliza'),
-                'end_policy' => $end_policy,
-                'auto_increment' => $auto_increment,
-                'date_begin'=>new Carbon(str_replace('/','-',$request->input('fechaini'))),
-                'date_end'=>new Carbon(str_replace('/','-',$request->input('fechafin')))
+        try {
+            $query_update = \DB::table('ad_policies')
+                ->where('id', $request->input('id_policies'))
+                ->update([
+                    'number' => $request->input('txtNumPoliza'),
+                    'end_policy' => $end_policy,
+                    'auto_increment' => $auto_increment,
+                    'date_begin' => new Carbon(str_replace('/', '-', $request->input('fechaini'))),
+                    'date_end' => new Carbon(str_replace('/', '-', $request->input('fechafin')))
                 ]);
-        //dd($query_update);
-        if($query_update) {
-            return redirect()->route('admin.policy.list', ['nav'=>'policynumber', 'action'=>'list', 'id_company'=>$request->input('id_company'), 'id_retailer_products'=>$request->input('id_retailer_products'), 'code_product'=>$request->input('code_product')]);
+            //dd($query_update);
+
+            return redirect()->route('admin.policy.list', ['nav' => 'policynumber', 'action' => 'list', 'id_company' => $request->input('id_company'), 'id_retailer_products' => $request->input('id_retailer_products'), 'code_product' => $request->input('code_product')])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
+
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 

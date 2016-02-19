@@ -32,7 +32,7 @@
             </div>
         </div>
         @if (session('ok'))
-            <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
+            <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
                 <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
                 <span class="text-semibold">Well done!</span> {{ session('ok')}}
             </div>
@@ -134,6 +134,10 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
+            setTimeout(function() {
+                $('#message-session').fadeOut();
+            }, 4000);
+
             //VISUALIZAR SUBPRODUCTOS Y FERIFICAR SI ESTAN ADICIONADOS A UN PRODUCTO
             $('#id_retailer_product').change(function(e){
                 var id_retailer_product = $(this).prop('value');

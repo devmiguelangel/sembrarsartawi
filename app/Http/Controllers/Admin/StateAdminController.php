@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use Sibas\Http\Requests;
@@ -76,7 +77,7 @@ class StateAdminController extends BaseController
                     ]
                 );
             }
-            return redirect()->route('admin.estados.list', ['nav' => 'state', 'action' => 'list']);
+            return redirect()->route('admin.estados.list', ['nav' => 'state', 'action' => 'list'])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
         }catch(QueryException $e) {
             return redirect()->back()->with(array('error'=>$e->getMessage()));
         }

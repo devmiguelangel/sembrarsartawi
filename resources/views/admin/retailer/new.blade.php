@@ -32,7 +32,11 @@
             </div>
             -->
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'new_retailer', 'name' => 'NewRetailerForm', 'id' => 'NewRetailerForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
@@ -41,14 +45,14 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control required text" name="txtRetailer" id="txtRetailer">
+                            <input type="text" class="form-control required text" name="txtRetailer" id="txtRetailer" autocomplete="off">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-lg-2">Dominio <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control required dominio" name="txtDominio" id="txtDominio">
+                            <input type="text" class="form-control required dominio" name="txtDominio" id="txtDominio" autocomplete="off">
                         </div>
                     </div>
 
@@ -148,7 +152,7 @@
                 var _value = $(element).prop('value');
                 var regex = null;
                 if($(element).hasClass('text') === true){
-                    regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s]*$/;
+                    regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s\.\-\()]*$/;
                     err = 'Ingrese solo texto';
                 }else if($(element).hasClass('dominio') === true){
                     regex = /^([a-z])*$/;

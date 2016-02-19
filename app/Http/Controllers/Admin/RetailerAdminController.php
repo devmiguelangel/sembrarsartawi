@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 
@@ -63,14 +64,19 @@ class RetailerAdminController extends BaseController
         $field_image = $destination_path . $filename;
 
         // save image data into database //
-        $query_update = new Retailer();
-        $query_update->name=$request->input('txtRetailer');
-        $query_update->image=$field_image;
-        $query_update->domain=$request->input('txtDominio');
-        $query_update->slug=strtolower($slug);
-        $query_update->active=true;
-        if($query_update->save()){
-            return redirect()->route('admin.retailer.list', ['nav'=>'retailer', 'action'=>'list']);
+        try {
+            $query_update = new Retailer();
+            $query_update->name = $request->input('txtRetailer');
+            $query_update->image = $field_image;
+            $query_update->domain = $request->input('txtDominio');
+            $query_update->slug = strtolower($slug);
+            $query_update->active = true;
+            if($query_update->save()) {
+                return redirect()->route('admin.retailer.list', ['nav' => 'retailer', 'action' => 'list'])->with(array('ok' => 'Se agrego correctamente los datos del formulario'));
+            }
+
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -126,14 +132,20 @@ class RetailerAdminController extends BaseController
             $field_image = $request->input('aux_file');
         }
 
-        // save image data into database //
-        $query_update = Retailer::where('id', $request->input('id_retailer'))->first();
-        $query_update->name=$request->input('txtRetailer');
-        $query_update->image=$field_image;
-        $query_update->domain=$request->input('txtDominio');
-        if($query_update->save()){
-            return redirect()->route('admin.retailer.list', ['nav'=>'retailer', 'action'=>'list']);
+        try{
+            // save image data into database //
+            $query_update = Retailer::where('id', $request->input('id_retailer'))->first();
+            $query_update->name=$request->input('txtRetailer');
+            $query_update->image=$field_image;
+            $query_update->domain=$request->input('txtDominio');
+            if($query_update->save()) {
+                return redirect()->route('admin.retailer.list', ['nav' => 'retailer', 'action' => 'list'])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
+            }
+
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
+
     }
 
     /**

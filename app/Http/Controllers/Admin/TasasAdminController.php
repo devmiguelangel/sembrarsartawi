@@ -66,7 +66,7 @@ class TasasAdminController extends BaseController
                     'updated_at'=>date("Y-m-d H:i:s")
                 ]
             );
-            return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list']);
+            return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list'])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
         }catch(QueryException $e) {
             return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
@@ -124,7 +124,7 @@ class TasasAdminController extends BaseController
                         'updated_at' => date("Y-m-d H:i:s")
                     ]
                 );
-            return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list']);
+            return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list'])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
         }catch (QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
         }

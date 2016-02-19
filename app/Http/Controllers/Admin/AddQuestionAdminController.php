@@ -144,7 +144,7 @@ class AddQuestionAdminController extends BaseController
                         ]
                     );
             }
-            return redirect()->route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+            return redirect()->route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$request->input('id_retailer_product')])->with(array('ok'=>'Se agrego correctamente los datos del formulario'));
         }catch(QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
@@ -174,7 +174,7 @@ class AddQuestionAdminController extends BaseController
                         ]
                     );
             }
-            return redirect()->route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+            return redirect()->route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$request->input('id_retailer_product')])->with(array('ok'=>'Se registro correctamente los datos del formulario'));
         }catch(QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
@@ -263,7 +263,7 @@ class AddQuestionAdminController extends BaseController
                 ->where('id', $request->get('id_retailer_product_question'))
                 ->where('ad_retailer_product_id', $request->get('id_retailer_product'))
                 ->update(['response' => $response]);
-            return redirect()->route('admin.de.addquestion.list', ['nav' => 'addquestion', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')]);
+            return redirect()->route('admin.de.addquestion.list', ['nav' => 'addquestion', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
         }catch(QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
@@ -281,7 +281,7 @@ class AddQuestionAdminController extends BaseController
                 ->where('id', $request->get('id_retailer_product_question'))
                 ->where('ad_retailer_product_id', $request->get('id_retailer_product'))
                 ->update(['response' => $response]);
-            return redirect()->route('admin.vi.addquestion.list', ['nav' => 'addquestion', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')]);
+            return redirect()->route('admin.vi.addquestion.list', ['nav' => 'addquestionvi', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
         }catch(QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
         }

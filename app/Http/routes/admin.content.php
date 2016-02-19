@@ -10,6 +10,11 @@ Route::get('admin/vi/content/edit/{nav}/{action}/{id_retailer_product}/{id_conte
     'uses' => 'Admin\ContentAdminController@edit_vi'
 ]);
 
+Route::get('admin/vi/content/new/{nav}/{action}/{id_retailer_product}', [
+    'as' => 'admin.vi.content.new',
+    'uses' => 'Admin\ContentAdminController@index_vi'
+]);
+
 Route::post('admin/vi/content/edit', [
     'as' => 'update_content_vi',
     'uses' => 'Admin\ContentAdminController@update_vi'

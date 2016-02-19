@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use Sibas\Entities\RetailerProduct;
@@ -97,18 +98,22 @@ class ContentAdminController extends BaseController
         $file->move($destination_path, $filename);
         $field_image = $destination_path . $filename;
 
-        $query_insert = \DB::table('ad_contents')->insert(
-            [
-                'ad_retailer_product_id' => $request->input('id_retailer_product'),
-                'title' => $request->input('txtTitulo'),
-                'content' => $request->input('txtContenido'),
-                'file' => $field_image,
-                'created_at'=>date("Y-m-d H:i:s"),
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]
-        );
-        if($query_insert){
-            return redirect()->route('admin.de.content.list', ['nav' => 'contentde', 'action' => 'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+        try {
+            $query_insert = \DB::table('ad_contents')->insert(
+                [
+                    'ad_retailer_product_id' => $request->input('id_retailer_product'),
+                    'title' => $request->input('txtTitulo'),
+                    'content' => $request->input('txtContenido'),
+                    'file' => $field_image,
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]
+            );
+
+            return redirect()->route('admin.de.content.list', ['nav' => 'contentde', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se registro correctamente los datos del formulario'));
+
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -128,18 +133,22 @@ class ContentAdminController extends BaseController
         $file->move($destination_path, $filename);
         $field_image = $destination_path . $filename;
 
-        $query_insert = \DB::table('ad_contents')->insert(
-            [
-                'ad_retailer_product_id' => $request->input('id_retailer_product'),
-                'title' => $request->input('txtTitulo'),
-                'content' => $request->input('txtContenido'),
-                'file' => $field_image,
-                'created_at'=>date("Y-m-d H:i:s"),
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]
-        );
-        if($query_insert){
-            return redirect()->route('admin.vi.content.list', ['nav' => 'contentvi', 'action' => 'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+        try {
+            $query_insert = \DB::table('ad_contents')->insert(
+                [
+                    'ad_retailer_product_id' => $request->input('id_retailer_product'),
+                    'title' => $request->input('txtTitulo'),
+                    'content' => $request->input('txtContenido'),
+                    'file' => $field_image,
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]
+            );
+
+            return redirect()->route('admin.vi.content.list', ['nav' => 'contentvi', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se registro correctamente los datos del formulario'));
+
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -227,18 +236,22 @@ class ContentAdminController extends BaseController
             $field_image = $request->input('aux_file');
         }
 
-        // save image data into database //
-        $query_update = \DB::table('ad_contents')
-            ->where('id', $request->input('id_content'))
-            ->where('ad_retailer_product_id', $request->input('id_retailer_product'))
-            ->update([
-                'title' => $request->input('txtTitulo'),
-                'content' => $request->input('txtContenido'),
-                'file' => $field_image,
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]);
-        if($query_update){
-            return redirect()->route('admin.de.content.list', ['nav' => 'contentde', 'action' => 'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+        try {
+            // save image data into database //
+            $query_update = \DB::table('ad_contents')
+                ->where('id', $request->input('id_content'))
+                ->where('ad_retailer_product_id', $request->input('id_retailer_product'))
+                ->update([
+                    'title' => $request->input('txtTitulo'),
+                    'content' => $request->input('txtContenido'),
+                    'file' => $field_image,
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]);
+            if ($query_update) {
+                return redirect()->route('admin.de.content.list', ['nav' => 'contentde', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
+            }
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -269,18 +282,22 @@ class ContentAdminController extends BaseController
             $field_image = $request->input('aux_file');
         }
 
-        // save image data into database //
-        $query_update = \DB::table('ad_contents')
-            ->where('id', $request->input('id_content'))
-            ->where('ad_retailer_product_id', $request->input('id_retailer_product'))
-            ->update([
-                'title' => $request->input('txtTitulo'),
-                'content' => $request->input('txtContenido'),
-                'file' => $field_image,
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]);
-        if($query_update){
-            return redirect()->route('admin.vi.content.list', ['nav' => 'contentvi', 'action' => 'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+        try {
+            // save image data into database //
+            $query_update = \DB::table('ad_contents')
+                ->where('id', $request->input('id_content'))
+                ->where('ad_retailer_product_id', $request->input('id_retailer_product'))
+                ->update([
+                    'title' => $request->input('txtTitulo'),
+                    'content' => $request->input('txtContenido'),
+                    'file' => $field_image,
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]);
+
+            return redirect()->route('admin.vi.content.list', ['nav' => 'contentvi', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
+
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 

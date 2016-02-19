@@ -23,8 +23,8 @@
             </div>
         </div>
         @if (session('error'))
-            <div class="alert alert-success">
-                {{ session('error') }}
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
             </div>
         @endif
         <div class="panel-body">
@@ -36,6 +36,26 @@
                         @var $style = ''
                     @else
                         @var $style = 'display: none;'
+                    @endif
+
+                    @if($user_find->code=='UST')
+                        @if(!empty($profile_find->ad_profile_id))
+                            @if($profile_find->ad_profile_id==4)
+                                @if(empty($user_find->ad_agency_id))
+                                    @var $style = 'display: none;'
+                                    @var $class = ''
+                                @endif
+                            @else
+                                @var $style_agency = ''
+                                @var $class = 'form-control required'
+                            @endif
+                        @else
+                            @var $style_agency = ''
+                            @var $class = 'form-control required'
+                        @endif
+                    @else
+                        @var $style = ''
+                        @var $class = 'form-control required'
                     @endif
 
                         <fieldset class="content-group">
@@ -70,8 +90,12 @@
                                         <select id="id_profile" name="id_profile" class="form-control required">
                                             <option value="0">Seleccione</option>
                                             @foreach($query_prof as $dat_prof)
-                                                @if($profile_find->ad_profile_id==$dat_prof->id)
-                                                    <option value="{{$dat_prof->id}}" selected>{{$dat_prof->name}}</option>
+                                                @if(!empty($profile_find->ad_profile_id))
+                                                    @if($profile_find->ad_profile_id==$dat_prof->id)
+                                                        <option value="{{$dat_prof->id}}" selected>{{$dat_prof->name}}</option>
+                                                    @else
+                                                        <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
+                                                    @endif
                                                 @else
                                                     <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
                                                 @endif
@@ -150,7 +174,7 @@
                             <div class="form-group" style="{{$style}}" id="content-agency">
                                 <label class="control-label col-lg-2">Agencia <span class="text-danger">*</span></label>
                                 <div class="col-lg-10">
-                                    <select id="agencia" name="agencia" class="form-control required">
+                                    <select id="agencia" name="agencia" class="{{$class}}">
                                         <option value="0">Seleccione</option>
                                         @if(count($agencies)>0)
                                             @foreach($agencies as $arragency)
@@ -223,32 +247,66 @@
                 var  _data= $(this).prop('value');
                 var array = _data.split('|');
                 var id_retailer_city = array[0];
+                var _datatu = $('#tipo_usuario option:selected').prop('value');
+                var vec = _datatu.split('|');
                 //alert(id_retailer_city);
-                $.get( "{{url('/')}}/admin/user/agency_ajax/"+id_retailer_city, function( data ) {
-                    console.log(data);
-                    $('#content-agency').fadeIn('slow');
-                    $('#agencia option').remove();
-                    $('#agencia').append('<option value="0">Seleccione</option>');
-                    if(data.length>0) {
-                        $('#msg_agencia').html('');
-                        $.each(data, function () {
-                            console.log("ID: " + this.id);
-                            console.log("First Name: " + this.name);
-                            $('#agencia').append('<option value="'+this.id+'">'+this.name+'</option>');
-                        });
+                if(id_retailer_city!=0){
+                    if(vec[1]=='UST') {
+                        var id_profile = $('#id_profile option:selected').prop('value');
+                        if(id_profile!=4){
+                            $.get("{{url('/')}}/admin/user/agency_ajax/" + id_retailer_city, function (data) {
+                                console.log(data);
+                                $('#content-agency').fadeIn('slow');
+                                $('#agencia option').remove();
+                                $('#agencia').addClass('form-control required');
+                                $('#agencia').append('<option value="0">Seleccione</option>');
+                                if (data.length > 0) {
+                                    $('#msg_agencia').html('');
+                                    $.each(data, function () {
+                                        console.log("ID: " + this.id);
+                                        console.log("First Name: " + this.name);
+                                        $('#agencia').append('<option value="' + this.id + '">' + this.name + '</option>');
+                                    });
+                                } else {
+                                    $('#msg_agencia').html('No existe ningun registro');
+                                }
+                            });
+                        }else{
+                            $('#content-agency').fadeOut('fast');
+                            $('#agencia').removeClass('form-control required');
+                        }
                     }else{
-                        $('#msg_agencia').html('No existe ningun registro');
+                        $.get("{{url('/')}}/admin/user/agency_ajax/" + id_retailer_city, function (data) {
+                            console.log(data);
+                            $('#content-agency').fadeIn('slow');
+                            $('#agencia option').remove();
+                            $('#agencia').append('<option value="0">Seleccione</option>');
+                            if (data.length > 0) {
+                                $('#msg_agencia').html('');
+                                $.each(data, function () {
+                                    console.log("ID: " + this.id);
+                                    console.log("First Name: " + this.name);
+                                    $('#agencia').append('<option value="' + this.id + '">' + this.name + '</option>');
+                                });
+                            } else {
+                                $('#msg_agencia').html('No existe ningun registro');
+                            }
+                        });
                     }
-                });
+                }else{
+                    $('#agencia option[value="0"]').prop('selected',true);
+                    $('#content-agency').fadeOut('fast');
+                }
             });
 
             //HABILITAR SELECT PROFILE
             $('#tipo_usuario').change(function(){
                 var _id = $(this).prop('value');
+                //alert(_id);
                 var arr = _id.split("|");
                 var _code_db = $('#code').prop('value');
                 var id_user = $('#id_user').prop('value');
-                //alert('_code_db: '+_code_db+ 'arr: '+arr[1]);
+                alert('_code_db: '+_code_db+ 'arr: '+arr[1]);
                 if(_code_db=='UST'){
                     if(arr[1]=='UST'){
                         $('#content-user-profiles-edit').fadeIn('fast');
@@ -272,11 +330,26 @@
                         $( "#id_profile" ).addClass("form-control required");
                         $('#content-permissions').fadeIn('fast');
                         $('#permiso').addClass('form-control');
+
+                        $('#depto option[value="0"]').prop('selected',true);
+                        $('#agencia option[value="0"]').prop('selected',true);
+                        $('#content-agency').fadeOut('fast');
                     }else{
                         $('#content-user-profiles-new').fadeOut('fast');
                         $( "#id_profile" ).removeClass("form-control required");
+
+                        $('#depto option[value="0"]').prop('selected',true);
+                        $('#agencia option[value="0"]').prop('selected',true);
+                        $('#content-agency').fadeOut('fast');
                     }
                 }
+            });
+
+            //CAMBIOS DE PERFILES
+            $('#id_profile').change(function(){
+                $('#depto option[value="0"]').prop('selected',true);
+                $('#agencia option[value="0"]').prop('selected',true);
+                $('#content-agency').fadeOut('fast');
             });
 
             //CONFIRMAR SI EXISTE CORREO ELECTRONICO

@@ -32,7 +32,11 @@
                 -->
             </div>
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'create_plans_vi', 'name' => 'CreateForm', 'id' => 'CreateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}

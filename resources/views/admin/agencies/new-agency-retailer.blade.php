@@ -97,7 +97,7 @@
                     Cancelar <i class="icon-cross position-right"></i>
                 </a>
                 <a href="{{route('admin.agencies.list', ['nav'=>'agency', 'action'=>'list'])}}" class="btn btn-primary">
-                    Administrar Agencias  <i class="icon-arrow-right7 position-right"></i>
+                    Crear nuevas Agencias  <i class="icon-arrow-right7 position-right"></i>
                 </a>
             </div>
             {!!Form::close()!!}

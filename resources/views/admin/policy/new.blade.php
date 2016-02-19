@@ -32,6 +32,11 @@
                 -->
             </div>
         </div>
+        @if (session('error'))
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
+            </div>
+        @endif
         @if($code_product=='vi')
             @var $class_input='form-control required number'
             @var $class_radio = 'styled required'

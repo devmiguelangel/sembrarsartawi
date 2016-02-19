@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use Sibas\Entities\Question;
@@ -48,20 +49,24 @@ class QuestionAdminController extends BaseController
      */
     public function store(Request $request)
     {
-        $query = new Question();
-        $query->question=$request->input('txtQuestion');
-        if($query->save()) {
-            if($request->input('id_retailer_product')!=0){
-                if($request->input('code_product')=='de'){
-                    return redirect()->route('admin.de.addquestion.new', ['nav'=>'addquestion', 'action'=>'new', 'id_retailer_product'=>$request->input('id_retailer_product')]);
-                }elseif($request->input('code_product')=='vi'){
-                    return redirect()->route('admin.vi.addquestion.new', ['nav'=>'addquestionvi', 'action'=>'new', 'id_retailer_product'=>$request->input('id_retailer_product')]);
-                }else{
-                    return redirect()->route('admin.questions.list', ['nav'=>'question', 'action'=>'list']);
+        try {
+            $query = new Question();
+            $query->question = $request->input('txtQuestion');
+            if ($query->save()) {
+                if ($request->input('id_retailer_product') != 0) {
+                    if ($request->input('code_product') == 'de') {
+                        return redirect()->route('admin.de.addquestion.new', ['nav' => 'addquestion', 'action' => 'new', 'id_retailer_product' => $request->input('id_retailer_product')]);
+                    } elseif ($request->input('code_product') == 'vi') {
+                        return redirect()->route('admin.vi.addquestion.new', ['nav' => 'addquestionvi', 'action' => 'new', 'id_retailer_product' => $request->input('id_retailer_product')]);
+                    } else {
+                        return redirect()->route('admin.questions.list', ['nav' => 'question', 'action' => 'list'])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
+                    }
+                } else {
+                    return redirect()->route('admin.questions.list', ['nav' => 'question', 'action' => 'list'])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
                 }
-            }else{
-                return redirect()->route('admin.questions.list', ['nav'=>'question', 'action'=>'list']);
             }
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -100,10 +105,14 @@ class QuestionAdminController extends BaseController
      */
     public function update(Request $request)
     {
-        $query_update = Question::where('id', $request->input('id_question'))->first();
-        $query_update->question=$request->input('txtQuestion');
-        if($query_update->save()){
-            return redirect()->route('admin.questions.list', ['nav'=>'question', 'action'=>'list']);
+        try {
+            $query_update = Question::where('id', $request->input('id_question'))->first();
+            $query_update->question = $request->input('txtQuestion');
+            if ($query_update->save()) {
+                return redirect()->route('admin.questions.list', ['nav' => 'question', 'action' => 'list'])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
+            }
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 

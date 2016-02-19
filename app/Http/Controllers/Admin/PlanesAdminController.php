@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use Sibas\Entities\RetailerProduct;
@@ -55,22 +56,26 @@ class PlanesAdminController extends BaseController
     {
         $plan = array(0=>array('cov'=>$request->input('txtOp1'), 'rank'=>$request->input('txtBs1')), 1=>array('cov'=>$request->input('txtOp2'), 'rank'=>$request->input('txtBs2')), 2=>array('cov'=>$request->input('txtOp3'), 'rank'=>$request->input('txtBs3')));
         //dd($plan);
-        $query_insert = \DB::table('ad_plans')->insert(
-            [
-                'ad_retailer_product_id' => $request->input('id_retailer_product'),
-                'name' => $request->input('txtName'),
-                'description' => $request->input('txtDesc'),
-                'monthly_premium' => $request->input('txtPrimaM'),
-                'annual_premium' => $request->input('txtPrimaA'),
-                'plan' => json_encode($plan),
-                'minimum_age' => $request->input('edad_min'),
-                'maximum_age' => $request->input('edad_max'),
-                'created_at'=>date("Y-m-d H:i:s"),
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]
-        );
-        if($query_insert){
-            return redirect()->route('admin.vi.planes.list', ['nav' => 'listplansvi', 'action' => 'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+        try {
+            $query_insert = \DB::table('ad_plans')->insert(
+                [
+                    'ad_retailer_product_id' => $request->input('id_retailer_product'),
+                    'name' => $request->input('txtName'),
+                    'description' => $request->input('txtDesc'),
+                    'monthly_premium' => $request->input('txtPrimaM'),
+                    'annual_premium' => $request->input('txtPrimaA'),
+                    'plan' => json_encode($plan),
+                    'minimum_age' => $request->input('edad_min'),
+                    'maximum_age' => $request->input('edad_max'),
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]
+            );
+
+            return redirect()->route('admin.vi.planes.list', ['nav' => 'listplansvi', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se registro correctamente los datos del formulario'));
+
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -119,21 +124,25 @@ class PlanesAdminController extends BaseController
 
         $plan = array(0=>array('cov'=>$request->input('txtOp1'), 'rank'=>$request->input('txtBs1')), 1=>array('cov'=>$request->input('txtOp2'), 'rank'=>$request->input('txtBs2')), 2=>array('cov'=>$request->input('txtOp3'), 'rank'=>$request->input('txtBs3')));
         //dd($plan);
-        $query_update = \DB::table('ad_plans')
-            ->where('id', $request->input('id_planes'))
-            ->where('ad_retailer_product_id', $request->input('id_retailer_product'))
-            ->update([
-                'name' => $request->input('txtName'),
-                'description' => $request->input('txtDesc'),
-                'monthly_premium' => $request->input('txtPrimaM'),
-                'annual_premium' => $request->input('txtPrimaA'),
-                'plan' => json_encode($plan),
-                'minimum_age' => $request->input('edad_min'),
-                'maximum_age' => $request->input('edad_max'),
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]);
-        if($query_update){
-            return redirect()->route('admin.vi.planes.list', ['nav' => 'listplansvi', 'action' => 'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+        try {
+            $query_update = \DB::table('ad_plans')
+                ->where('id', $request->input('id_planes'))
+                ->where('ad_retailer_product_id', $request->input('id_retailer_product'))
+                ->update([
+                    'name' => $request->input('txtName'),
+                    'description' => $request->input('txtDesc'),
+                    'monthly_premium' => $request->input('txtPrimaM'),
+                    'annual_premium' => $request->input('txtPrimaA'),
+                    'plan' => json_encode($plan),
+                    'minimum_age' => $request->input('edad_min'),
+                    'maximum_age' => $request->input('edad_max'),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]);
+
+            return redirect()->route('admin.vi.planes.list', ['nav' => 'listplansvi', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
+
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
 
         //dd($escape);

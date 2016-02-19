@@ -27,13 +27,17 @@
                     <li>
                         <a href="{{route('admin.email.new-email', ['nav'=>'email', 'action'=>'new_email'])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
-                            <span>Crear correo</span>
+                            <span>Crear nuevo correo</span>
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'new_add_email', 'name' => 'NewForm', 'id' => 'NewForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -55,8 +59,7 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2">Correos electronicos <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <select name="id_email" id="id_email" class="form-control" disabled>
-                                <option value="0">Seleccione</option>
+                            <select multiple="multiple" class="form-control" name="email[]" id="id_email" disabled data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
                                 @foreach($query_email as $data_email)
                                     <option value="{{$data_email->id}}">{{$data_email->name}} - {{$data_email->email}}</option>
                                 @endforeach
@@ -79,14 +82,47 @@
         $(document).ready(function(){
             //HABILITAR/DESABILITAR CAMPOS
             $('#id_product_retail').change(function(){
-                var _id = $(this).prop('value');
-                if(_id!=0){
+                var id_product_retailer = $(this).prop('value');
+                //alert(id_product_retailer);
+                if(id_product_retailer!=0){
                     $('#id_email').prop('disabled', false);
                     $('button[type="submit"]').prop('disabled', false);
                     if($("#id_email + .validation-error-label").length) {
                         $("#id_email + .validation-error-label").remove();
                     }
-                    $('#id_email option[value="0"]').prop('selected',true);
+                    var emails;
+                    var retailer_email;
+                    var sw=0;
+                    $.get( "{{url('/')}}/admin/email/email_retailer_product_ajax/"+id_product_retailer, function( json ) {
+                        console.log(json)
+                        $('#id_email option').remove();
+                        $.each(json, function (key, data) {
+                            console.log(key)
+                            if(key=='retaileremail'){
+                                retailer_email = data;
+                            }else if(key=='email'){
+                                emails = data;
+                            }
+                        });
+                        $.each(emails, function () {
+                            console.log("ID: " + this.id_email);
+                            console.log("Profiles: " + this.correo);
+                            console.log("name: " + this.name);
+                            var id_email = this.id_email;
+                            var correos = this.correo;
+                            var nombres = this.name;
+                            $.each(retailer_email, function () {
+                                var ad_email_id = this.ad_email_id;
+                                if(id_email==ad_email_id){
+                                    $('#id_email').append('<option value="'+id_email+'" selected>'+nombres+' - '+correos+'</option>');
+                                    sw=id_email;
+                                }
+                            });
+                            if(id_email!=sw){
+                                $('#id_email').append('<option value="'+id_email+'">'+nombres+' - '+correos+'</option>');
+                            }
+                        });
+                    });
                 }else{
                     $('#id_email').prop('disabled', true);
                     $('button[type="submit"]').prop('disabled', true);
@@ -94,36 +130,6 @@
                 }
             });
 
-            //BUSQUEDA AJAX
-            $('#id_email').change(function(e){
-                var id_email = $(this).prop('value');
-                var id_product_retailer = $('#id_product_retail option:selected').prop('value');
-                if(id_product_retailer!=0){
-                    $.get( "{{url('/')}}/admin/email/quest_ajax/"+id_email+"/"+id_product_retailer, function( data ) {
-                        console.log(data);
-                        if(data==1){
-                            if($("#id_email + .validation-error-label").length) {
-                                $("#id_email + .validation-error-label").remove();
-                            }
-                            $('button[type="submit"]').prop('disabled', true);
-                            if(!$("#id_email + .validation-error-label").length) {
-                                $("#id_email:last").after('<span class="validation-error-label">El correo ya esta agregado al producto, seleccione otro correo u otro producto caso contrario adicione un nuevo correo</span>');
-                            }
-                        }else if(data==0){
-                            if($("#id_email + .validation-error-label").length) {
-                                $("#id_email + .validation-error-label").remove();
-                            }
-                            $('button[type="submit"]').prop('disabled', false);
-                        }
-                    });
-                }else{
-                    if($("#id_email + .validation-error-label").length) {
-                        $("#id_email + .validation-error-label").remove();
-                    }
-                    $('button[type="submit"]').prop('disabled', false);
-                }
-
-            });
         });
     </script>
 @endsection

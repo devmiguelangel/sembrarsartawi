@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\Company;
 use Sibas\Http\Requests;
@@ -66,14 +67,18 @@ class CompanyAdminController extends BaseController
         $field_image = $destination_path . $filename;
 
 
-        // save image data into database //
-        $query_update = new Company();
-        $query_update->name=$request->input('txtCompany');
-        $query_update->image=$field_image;
-        $query_update->slug=$slug;
-        $query_update->active=true;
-        if($query_update->save()){
-            return redirect()->route('admin.company.list', ['nav'=>'company', 'action'=>'list']);
+        try {
+            // save image data into database //
+            $query_update = new Company();
+            $query_update->name = $request->input('txtCompany');
+            $query_update->image = $field_image;
+            $query_update->slug = $slug;
+            $query_update->active = true;
+            if ($query_update->save()) {
+                return redirect()->route('admin.company.list', ['nav' => 'company', 'action' => 'list'])->with(array('ok' => 'Se creo correctamente el registro'));
+            }
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -128,13 +133,16 @@ class CompanyAdminController extends BaseController
         }else{
             $field_image = $request->input('aux_file');
         }
-
-        // save image data into database //
-        $query_update = Company::where('id', $request->input('id_company'))->first();
-        $query_update->name=$request->input('txtCompany');
-        $query_update->image=$field_image;
-        if($query_update->save()){
-            return redirect()->route('admin.company.list', ['nav'=>'company', 'action'=>'list']);
+        try {
+            // save image data into database //
+            $query_update = Company::where('id', $request->input('id_company'))->first();
+            $query_update->name = $request->input('txtCompany');
+            $query_update->image = $field_image;
+            if ($query_update->save()) {
+                return redirect()->route('admin.company.list', ['nav' => 'company', 'action' => 'list'])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
+            }
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 

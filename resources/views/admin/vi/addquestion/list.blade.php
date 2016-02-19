@@ -35,7 +35,12 @@
         </div>
 
         <div class="panel-body">
-
+            @if(session('ok'))
+                <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
+                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+                    <span class="text-semibold"></span> {{session('ok')}}
+                </div>
+            @endif
         </div>
         @if(count($query_question)>0)
             <table class="table datatable-basic">
@@ -105,6 +110,10 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
+            setTimeout(function() {
+                $('#message-session').fadeOut();
+            }, 3000);
+
             $('a[href].confirm_active').click(function(e){
 
                 var _id = $(this).prop('id');

@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use Sibas\Entities\ProductParameter;
@@ -58,21 +59,25 @@ class ViAdminController extends BaseController
      */
     public function store(Request $request)
     {
-        $parameter = config('base.product_parameters');
-        $name = $parameter[$request->input('prod_param')];
-        $id_retailer_product=$request->input('id_retailer_product');
-        $query_int = new ProductParameter();
-        $query_int->ad_retailer_product_id=$id_retailer_product;
-        $query_int->name=$name;
-        $query_int->slug=$request->input('prod_param');
-        $query_int->age_min=$request->input('edad_min');
-        $query_int->age_max=$request->input('edad_max');
-        $query_int->amount_min=$request->input('monto_min');
-        $query_int->amount_max=$request->input('monto_max');
-        $query_int->expiration=$request->input('caduc');
-        $query_int->detail=$request->input('num_titu');
-        if($query_int->save()) {
-            return redirect()->route('admin.vi.parameters.list-parameter-additional', ['nav' => 'vi', 'action' => 'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product]);
+        try {
+            $parameter = config('base.product_parameters');
+            $name = $parameter[$request->input('prod_param')];
+            $id_retailer_product = $request->input('id_retailer_product');
+            $query_int = new ProductParameter();
+            $query_int->ad_retailer_product_id = $id_retailer_product;
+            $query_int->name = $name;
+            $query_int->slug = $request->input('prod_param');
+            $query_int->age_min = $request->input('edad_min');
+            $query_int->age_max = $request->input('edad_max');
+            $query_int->amount_min = $request->input('monto_min');
+            $query_int->amount_max = $request->input('monto_max');
+            $query_int->expiration = $request->input('caduc');
+            $query_int->detail = $request->input('num_titu');
+            if ($query_int->save()) {
+                return redirect()->route('admin.vi.parameters.list-parameter-additional', ['nav' => 'vi', 'action' => 'list_parameter_additional', 'id_retailer_product' => $id_retailer_product])->with(array('ok'=>'Se agrego correctamente los datos del formulario'));
+            }
+        }catch (QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -125,14 +130,18 @@ class ViAdminController extends BaseController
      */
     public function update(Request $request)
     {
-        $retailer_update = RetailerProduct::where('id',$request->input('id_retailer_product'))->first();
-        $retailer_update->billing=$request->input('fact');
-        $retailer_update->provisional_certificate=$request->input('cert');
-        $retailer_update->modality=$request->input('moda');
-        $retailer_update->facultative=$request->input('facu');
-        $retailer_update->ws=$request->input('webs');
-        if($retailer_update->save()) {
-            return redirect()->route('admin.vi.parameters.list', ['nav' => 'vi', 'action' => 'list', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+        try {
+            $retailer_update = RetailerProduct::where('id', $request->input('id_retailer_product'))->first();
+            $retailer_update->billing = $request->input('fact');
+            $retailer_update->provisional_certificate = $request->input('cert');
+            $retailer_update->modality = $request->input('moda');
+            $retailer_update->facultative = $request->input('facu');
+            $retailer_update->ws = $request->input('webs');
+            if ($retailer_update->save()) {
+                return redirect()->route('admin.vi.parameters.list', ['nav' => 'vi', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
+            }
+        }catch (QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -153,7 +162,7 @@ class ViAdminController extends BaseController
             $query_update->expiration=$request->input('caduc');
             $query_update->detail=$request->input('num_titu');
             if($query_update->save()){
-                return redirect()->route('admin.vi.parameters.list-parameter-additional', ['nav'=>'vi', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$request->input('id_retailer_product')]);
+                return redirect()->route('admin.vi.parameters.list-parameter-additional', ['nav'=>'vi', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$request->input('id_retailer_product')])->with(array('ok'=>'Se edito correctamente los datos del formulario'));
             }
         }else{
             return redirect()->back()->with(array('error'=>'error de consulta'));

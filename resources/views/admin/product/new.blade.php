@@ -32,7 +32,11 @@
             </div>
             -->
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold">Error!</span> {{ session('error') }}
+            </div>
+        @endif
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'create_product', 'name' => 'ProductCreateForm', 'id' => 'ProductCreateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -41,14 +45,14 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2">Producto <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control required text" name="txtProducto" id="txtProducto">
+                            <input type="text" class="form-control required text" name="txtProducto" id="txtProducto" autocomplete="off">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-lg-2">Codigo <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control required code" name="txtCodigo" id="txtCodigo" maxlength="3">
+                            <input type="text" class="form-control required code" name="txtCodigo" id="txtCodigo" maxlength="3" autocomplete="off">
                         </div>
                     </div>
 

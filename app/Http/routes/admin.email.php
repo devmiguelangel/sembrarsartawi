@@ -51,3 +51,4 @@ Route::post('admin/email/edit-email', [
 Route::get('admin/email/active_ajax/{id_retailer_product_email}/{text}', 'Admin\EmailAdminController@ajax_active_inactive');
 Route::get('admin/email/quest_ajax/{id_email}/{id_product_retailer}', 'Admin\EmailAdminController@ajax_quest_data');
 Route::get('admin/email/quest_email/{email}', 'Admin\EmailAdminController@ajax_quest_email');
+Route::get('admin/email/email_retailer_product_ajax/{id_product_retailer}', 'Admin\EmailAdminController@ajax_email_retailer_product');

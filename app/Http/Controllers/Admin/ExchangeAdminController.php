@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\ExchangeRate;
 use Sibas\Entities\Retailer;
@@ -50,12 +51,16 @@ class ExchangeAdminController extends BaseController
      */
     public function store(Request $request)
     {
-        $exchange_new = new ExchangeRate();
-        $exchange_new->ad_retailer_id=$request->input('id_retailer');
-        $exchange_new->usd_value=$request->input('valor_usd');
-        $exchange_new->bs_value=$request->input('valor_bs');
-        if($exchange_new->save()){
-            return redirect()->route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list']);
+        try {
+            $exchange_new = new ExchangeRate();
+            $exchange_new->ad_retailer_id = $request->input('id_retailer');
+            $exchange_new->usd_value = $request->input('valor_usd');
+            $exchange_new->bs_value = $request->input('valor_bs');
+            if ($exchange_new->save()) {
+                return redirect()->route('admin.exchange.list', ['nav' => 'exchange', 'action' => 'list'])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
+            }
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 
@@ -96,11 +101,15 @@ class ExchangeAdminController extends BaseController
      */
     public function update(Request $request)
     {
-        $query_update = \DB::table('ad_exchange_rates')
-            ->where('id', $request->input('id_exchange'))
-            ->update(['bs_value' => $request->input('valor_bs')]);
-        if($query_update){
-            return redirect()->route('admin.exchange.list', ['nav'=>'exchange', 'action'=>'list']);
+        try {
+            $query_update = \DB::table('ad_exchange_rates')
+                ->where('id', $request->input('id_exchange'))
+                ->update(['bs_value' => $request->input('valor_bs')]);
+            if ($query_update) {
+                return redirect()->route('admin.exchange.list', ['nav' => 'exchange', 'action' => 'list'])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
+            }
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 

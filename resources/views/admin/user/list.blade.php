@@ -33,7 +33,16 @@
         </div>
 
         <div class="panel-body">
-
+            @if(session('ok'))
+                <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
+                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+                    <span class="text-semibold">Well done!</span> {{session('ok')}}
+                </div>
+            @elseif (session('error'))
+                <div class="alert alert-danger alert-styled-left alert-bordered">
+                    <span class="text-semibold">Error!</span> {{ session('error') }}
+                </div>
+            @endif
         </div>
         @if(count($users)>0)
             <table class="table datatable-basic">

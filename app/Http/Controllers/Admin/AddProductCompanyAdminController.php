@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\Company;
 use Sibas\Http\Requests;
@@ -58,14 +59,18 @@ class AddProductCompanyAdminController extends BaseController
      */
     public function store(Request $request)
     {
-        $query_insert = \DB::table('ad_company_products')
-                            ->insert([
-                                        'ad_company_id'=>$request->input('id_company'),
-                                        'ad_product_id'=>$request->input('id_product'),
-                                        'active'=>true
-                                    ]);
-        if($query_insert){
-            return redirect()->route('admin.addproductcompany.list', ['nav'=>'addprocom', 'action'=>'list', 'id_company'=>$request->input('id_company')]);
+        try {
+            $query_insert = \DB::table('ad_company_products')
+                ->insert([
+                    'ad_company_id' => $request->input('id_company'),
+                    'ad_product_id' => $request->input('id_product'),
+                    'active' => true
+                ]);
+            if ($query_insert) {
+                return redirect()->route('admin.addproductcompany.list', ['nav' => 'addprocom', 'action' => 'list', 'id_company' => $request->input('id_company')])->with(array('ok' => 'Se creo correctamente los datos del formulario'));
+            }
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
     }
 

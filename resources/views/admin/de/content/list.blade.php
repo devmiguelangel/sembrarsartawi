@@ -33,6 +33,12 @@
                 @endif
             </div>
         </div>
+        @if(session('ok'))
+            <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
+                <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+                <span class="text-semibold"></span> {{session('ok')}}
+            </div>
+        @endif
         @if(count($query)>0)
             <table class="table datatable-basic table-bordered">
             <thead>
@@ -74,4 +80,11 @@
             </div>
         @endif
     </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            setTimeout(function() {
+                $('#message-session').fadeOut();
+            }, 3000);
+        });
+    </script>
 @endsection
