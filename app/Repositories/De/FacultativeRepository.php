@@ -31,9 +31,11 @@ class FacultativeRepository extends BaseRepository
 
     /**
      * @param $user
+     * @param string $inbox
+     * @param int $header_id
      * @return mixed
      */
-    public function getRecords($user)
+    public function getRecords($user, $inbox, $header_id = null)
     {
         $user_type = $user->profile->first()->slug;
 
@@ -46,20 +48,24 @@ class FacultativeRepository extends BaseRepository
         switch ($user_type) {
             case 'SEP':
                 $fa->whereHas('detail.header', function ($query) use ($user) {
-                        $query->where('ad_user_id', $user->id);
-                        $query->where('type', 'I')
-                            ->where('issued', false);
+                        $query->where('ad_user_id', $user->id)
+                            ->where('type', 'I');
                     });
                 break;
             case 'COP':
-                $fa->whereHas('detail.header', function ($query) use ($user) {
+                $fa->whereHas('detail.header', function ($query) use ($user, $header_id) {
                         $query->where('type', 'I');
+
+                        if (! is_null($header_id)) {
+                            $query->where('id', $header_id);
+                        }
                     })
                     ->where('state', 'PE');
                 break;
         }
 
         $fa = $fa->orderBy('created_at', 'desc')->get();
+
         $this->records['all'] = $fa;
 
         $fa->each(function ($item, $key) use ($user_type) {
@@ -105,6 +111,8 @@ class FacultativeRepository extends BaseRepository
                 return true;
             }
         });
+
+        $this->records['inbox'] = $this->records[$inbox];
 
         return $this->records;
     }

@@ -53,8 +53,8 @@ return [
     ],
 
     'product_types' => [
-        'PH' => 'Producto Humanitario',
-        'PG' => 'Producto General',
+        'PH' => 'Ramo Humano',
+        'PG' => 'Ramo General',
     ],
 
     'retailer_product_types' => [
@@ -176,5 +176,7 @@ return [
         'RA' => 'Reporte Agencia',
         'RU' => 'Reporte Usuario',
     ],
+
+    'inbox' => [ 'all', 'approved', 'observed', 'rejected', ],
 
 ];

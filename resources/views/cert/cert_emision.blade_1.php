@@ -1,13 +1,13 @@
 @include('partials.tools_modal',array('type'=>$type,'idHeader'=>encode($idHeader)))
-<div class="container" style="width: 100%;font-size: 70%;">
+<div class="container" style="width: 770px;">
     <div class="main">
 
         <div class="header">
-            <div style="font-size: 95%; width: auto; height: auto; font-weight: bold;">
+            <div style="font-size: 90%; width: auto; height: auto; font-weight: bold;">
                 DECLARACIÓN JURADA DE SALUD<br />
                 SOLICITUD DE SEGURO DE DESGRAVAMEN HIPOTECARIO
             </div>
-            <div style="font-size: 95%; width: auto; height: auto; font-weight: bold; margin-top: 3px;">
+            <div style="font-size: 75%; width: auto; height: auto; font-weight: bold; margin-top: 3px;">
                 Aprobada por R. A.- Nº 438 del 26 de Noviembre de 2009<br />
                 COD. 207-934901-1999 11 003-3013<br />
                 No de Certificado:{{ $cli->policy_number }}
@@ -17,7 +17,7 @@
         @foreach($cli->details as $titular)
             <div class="wrap">
                 <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
-                    font-weight: bold; font-size: 95%;">DATOS PERSONALES: (TITULAR {{ $i }})</h2>
+                    font-weight: bold; font-size: 75%;">DATOS PERSONALES: (TITULAR {{ $i }})</h2>
                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                     <tr>
                         <td style="width: 13%; text-align: left;">Nombre Completo: </td>
@@ -84,7 +84,7 @@
         @if($i == 1)
             <div class="wrap">
                 <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
-                    font-weight: bold; font-size: 95%;">DATOS PERSONALES: (TITULAR 2)</h2>
+                    font-weight: bold; font-size: 75%;">DATOS PERSONALES: (TITULAR 2)</h2>
                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                     <tr>
                         <td style="width: 14%; text-align: left;">Nombre Completo: </td>
@@ -127,10 +127,10 @@
                 </table>
             </div>
         @endif
-        
+
         <div class="wrap">
             <h2 style="width: auto;	height: auto; text-align: left; padding: 0;
-                font-weight: bold; font-size: 95%;">DEL CRÉDITO SOLICITADO:</h2>
+                font-weight: bold; font-size: 75%;">DEL CRÉDITO SOLICITADO:</h2>
             <h1 style="font-size: 80%; text-align: left;">Usted(es) solicita(n) el Seguro de tipo:</h1>
             <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                 <tr>
@@ -213,12 +213,12 @@
                 @endforeach
             </table>
             <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
-                font-weight: bold; font-size: 95%;">
+                font-weight: bold; font-size: 75%;">
                 SI ALGUNA DE SUS RESPUESTAS ES AFIRMATIVA, SÍRVASE BRINDAR DETALLES:
             </h2>
             @var $sum=1
             @foreach($cli->details as $titular)
-                <div style="width: 12%;" align="right">Titular </div>
+                <td style="width: 12%;" align="right">Titular </td>
                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                     <tr>
                         <td style="width: 10%;">TITULAR {{ $sum }}: </td>
@@ -230,7 +230,7 @@
                 @var $sum++
             @endforeach
         </div>
-        <div style="width: 100%; border: 0px solid #FFFF00; text-align:justify; font-size: 70%; margin-top: 4px;">
+        <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify; font-size: 80%; margin-top: 4px;">
             Declaro haber contestado con total veracidad, máxima buena fe a todas las preguntas del
             presente cuestionario y no haber omitido u ocultado hechos y/o circunstancias que hubieran
             podido influir en la celebración del Contrato de Seguro. Relevo expresamente del secreto
@@ -283,7 +283,7 @@
                 </tr>
             </table>
         </div>
-        <div style="width: 100%; border: 0px solid #FFFF00; text-align:center; font-size: 80%;">
+        <div style="width: 770px; border: 0px solid #FFFF00; text-align:center; font-size: 80%;">
             ALIANZA VIDA, SEGUROS Y REASEGUROS S.A., LA PAZ: calle Juana Parada Nª 683 Esq. Calle 6
             (Zona Achumani) - Telf: (591 - 2)2793232, Fax: (591 - 2)2799191 <br />
             SANTA CRUZ: Av. Viedma N°19 Esq. Melchor Pinto - Telf: (591 - 3)3375656, Fax: (591 - 3)3375666
@@ -291,8 +291,8 @@
 
         <page><div style="page-break-before: always;">&nbsp;</div></page>
 
-        <div style="width: 100%; border: 0px solid #FFFF00; text-align:center;">
-            <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: 95%; margin: 0px;">
+        <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
+            <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: 90%; margin: 0px;">
                 NOMINACIÓN DE BENEFICIARIOS PARA GASTOS DE SEPELIO<br />
                 COBERTURA COMPLEMENTARIA A LA PÓLIZA DE<br />
                 SEGURO DE DESGRAVAMEN HIPOTECARIO ANUAL RENOVABLE
@@ -310,7 +310,7 @@
                     TITULAR {{ $sum }}
                 </h4>
                 <table cellpadding="0" cellspacing="0" border="0" class="table-borde12"
-                       style="width: 100%; height: auto; font-size: 95%; font-family: Arial;">
+                       style="width: 100%; height: auto; font-size: 90%; font-family: Arial;">
                     <tr>
                         <td colspan="2" style="width: 100%; text-align: left;">
                             Nombres y Apellidos: {{ $titular->client->full_name }}
@@ -337,7 +337,7 @@
                 BENEFICIARIOS PARA GASTOS DE SEPELIO COBERTURA COMPLEMENTARIA A LA<br />
                 PÓLIZA DE SEGURO DE DESGRAVAMEN HIPOTECARIO ANUAL RENOVABLE :
             </h1>
-            <p style="text-align: center; font-size: 95%; font-weight: normal;">
+            <p style="text-align: center; font-size: 90%; font-weight: normal;">
                 El asegurado de asignar como beneficiario para la cobertura adicional de sepelio a la persona<br />
                 que a su fallecimiento recibirá el Capital que la Compañia otorga en esta cobertura.
             </p>
@@ -345,7 +345,7 @@
 
 
             <table cellpadding="0" cellspacing="0" border="0" class="table-borde12"
-                   style="width: 100%; height: auto; font-size: 95%; font-family: Arial;">
+                   style="width: 100%; height: auto; font-size: 90%; font-family: Arial;">
                 @var $sum=1
                 @foreach($cli->details as $titular)
                     <tr>
@@ -456,15 +456,15 @@
 
         <page><div style="page-break-before: always;">&nbsp;</div></page>
 
-        <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: 95%; margin: 0;">
+        <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: 100%; margin: 0;">
             CERTIFICADO DE COBERTURA AL CONTRATO DE SEGURO<br> DE DESGRAVAMEN
             HIPOTECARIO ANUAL RENOVABLE II
         </h1>
-        <h4 style="width: auto;	text-align: center; font-weight: bold; font-size: 95%; margin: 0;">
+        <h4 style="width: auto;	text-align: center; font-weight: bold; font-size: 80%; margin: 0;">
             Aprobada por R.A.- ASFI No. 424 del 28 de Mayo de 2010 <br>
             COD. 207 - 934901 - 1999 11 003 - 4001
         </h4>
-        <div align="right" style="padding-right: 50px; text-align: right; font-size: 95%;">DE-8850</div>
+        <div align="right" style="padding-right: 50px; text-align: right; font-size: 80%;">DE-8850</div>
         <div class="wrap">
             <br>
             <p style="text-align: left;">
@@ -578,13 +578,14 @@
 
         <page><div style="page-break-before: always;">&nbsp;</div></page>
 
-        <div style="width: 100%; border: 0px solid #FFFF00; text-align:center;">
-            <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: 95%; margin: 0;">
+        <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
+            <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: 90%; margin: 0;">
                 REGLAS DEL CONTRATO DEL SEGURO DE DESGRAVAMEN HIPOTECARIO ANUAL RENOVABLE
             </h1>
             <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                 <tr>
-                    <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;">
+                    <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;"
+                        valign="top">
 
                         <span class="font-bold">Regla I.</span>
                         <span class="title-regla">DEFINICIONES</span><br />
@@ -643,12 +644,9 @@
                         colectivo, a partir de la fecha de inicio de vigencia, debe rellenar un formulario de
                         declaración jurada de salud y la nominación de beneficiarios para la cobertura de
                         Sepelio.
-                    </td>
-                </tr>
-            </table>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
-                <tr>
-                    <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;"><span class="font-bold">Regla IV.</span>
+                        <br>
+
+                        <span class="font-bold">Regla IV.</span>
                         <span class="title-regla">INICIO DE VIGENCIA DE LA COBERTURA PARA CADA ASEGURADO</span>
                         <br>
                         <span class="font-bold">4.01</span>  Operaciones de Crédito por Préstamos de dinero:
@@ -689,12 +687,10 @@
                         <span class="font-bold">Regla VIII.</span>
                         <span class="title-regla">RESTRICCIONES Y EXCLUSIONES</span><br>
                         Este Seguro no será aplicable en ninguna de las siguientes circunstancias:
+                        <!---->
                     </td>
-                </tr>
-            </table>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
-                <tr>
-                    <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;">
+                    <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;"
+                        valign="top">
 
                         <span class="font-bold">8.01</span>   Si  el  Asegurado  participa  como  conductor
                         o  acompañante  en  competencias  de automóviles, motocicletas, lanchas a motor,
@@ -735,12 +731,8 @@
                         En caso de siniestros contemplados bajo el presente contrato, el asegurado debe
                         presentar:<br>
                         <span class="font-bold">Para siniestros hasta $us. 5.000,00.-</span>
-                    </td>
-                </tr>
-            </table>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
-                <tr>
-                    <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;"><table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
+                        <br>
+                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
                             <tr>
                                 <td style="width: 10%; text-align: center;" valign="top">(a)</td>
                                 <td style="width: 90%; text-align: justify;">
@@ -845,6 +837,7 @@
                                 </td>
                             </tr>
                         </table>
+                        <!---->
                     </td>
                 </tr>
             </table>

@@ -1,7 +1,7 @@
-@include('partials.tools_modal')
-<div style="width: 770px; font-weight: normal; font-size: 12px; font-family: Arial, Helvetica, sans-serif;
+@include('partials.tools_modal',array('type'=>$type,'idHeader'=>encode($idHeader)))
+<div style="width: 100%; font-weight: normal; font-size: 12px; font-family: Arial, Helvetica, sans-serif;
      color: #000000; ">
-    <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
+    <div style="width: 100%; border: 0px solid #FFFF00; text-align:center;">
         <table cellpadding="0" cellspacing="0" border="0"
                style="width: 100%; height: auto; font-size: 80%; font-family: Arial;">
             <tr>
@@ -17,7 +17,7 @@
             </tr>
         </table>
     </div>
-    <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
+    <div style="width: 100%; border: 0px solid #FFFF00; text-align:center;">
         <table cellpadding="0" cellspacing="0" border="0"
                style="width: 100%; height: auto; font-size: 80%; font-family: Arial;">
             <tr>
@@ -53,7 +53,7 @@
 
     @var $sum=1
     @foreach($cli->details as $titular)
-    <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
+    <div style="width: 100%; border: 0px solid #FFFF00; text-align:center;">
         <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
             font-weight: bold; font-size: 80%;">Titular {{ $sum }}</h2>
         <table cellpadding="0" cellspacing="0" border="0"
@@ -194,7 +194,7 @@
     @endforeach
 
 
-    <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify; font-size: 80%;">
+    <div style="width: 100%; border: 0px solid #FFFF00; text-align:justify; font-size: 80%;">
         Declaro haber contestado con total veracidad, m&aacute;xima buena fe a todas las preguntas del
         presente cuestionario y no haber omitido u ocultado hechos y/o circunstancias que hubieran
         podido influir en la celebracion del Contrato de Seguro. Relevo expresamente del

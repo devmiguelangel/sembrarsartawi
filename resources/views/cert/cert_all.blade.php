@@ -1,4 +1,4 @@
-@include('partials.tools_modal')
+@include('partials.tools_modal',array('type'=>$type,'idHeader'=>encode($idHeader)))
 <div class="container" style="width: 770px;">
     <div class="main">
 

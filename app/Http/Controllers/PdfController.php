@@ -2,7 +2,6 @@
 
 namespace Sibas\Http\Controllers;
 
-use Illuminate\Support\Facades\App;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 

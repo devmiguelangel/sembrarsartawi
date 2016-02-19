@@ -7,17 +7,35 @@ use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Repositories\De\FacultativeRepository;
+use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class HomeController extends Controller
 {
     /**
+     * @var string
+     */
+    protected $inbox;
+    /**
+     * @var int
+     */
+    protected $header_id;
+    /**
      * @var FacultativeRepository
      */
     protected $facultativeDeRepository;
+    /**
+     * @var RetailerProductRepository
+     */
+    protected $retailerProductRepository;
 
-    public function __construct(FacultativeRepository $facultativeDeRepository)
+    public function __construct(FacultativeRepository $facultativeDeRepository,
+                                RetailerProductRepository $retailerProductRepository)
     {
-        $this->facultativeDeRepository = $facultativeDeRepository;
+        $this->facultativeDeRepository   = $facultativeDeRepository;
+        $this->retailerProductRepository = $retailerProductRepository;
+
+        $this->inbox     = 'all';
+        $this->header_id = null;
     }
 
     /**
@@ -28,6 +46,20 @@ class HomeController extends Controller
      */
     public function index(Guard $auth)
     {
+        $arp_id = null;
+
+        if (request()->has('inbox') && in_array(request()->get('inbox'), config('base.inbox'))) {
+            $this->inbox = request()->get('inbox');
+        }
+
+        if (request()->has('arp')) {
+            $arp_id = decode(request()->get('arp'));
+        }
+
+        if (request()->has('odh')) {
+            $this->header_id = decode(request()->get('odh'));
+        }
+
         $user = $auth->user();
 
         $data = [
@@ -35,21 +67,34 @@ class HomeController extends Controller
         ];
 
         if ($user->profile->first()->slug === 'SEP' || $user->profile->first()->slug === 'COP') {
-            foreach ($user->retailer->first()->retailerProducts as $retailerProduct) {
-                if ($retailerProduct->type === 'MP' && $retailerProduct->facultative) {
-                    $product     = $retailerProduct->companyProduct->product;
-                    $product->rp = $retailerProduct;
+            if (! is_null($arp_id)) {
+                if ($this->retailerProductRepository->getRetailerProductById($arp_id)) {
+                    $retailerProduct = $this->retailerProductRepository->getModel();
 
-                    if ($product->code === 'de') {
-                        $product->records = $this->facultativeDeRepository->getRecords($user);
-                    }
-
-                    array_push($data['products'], $product);
+                    $this->setData($retailerProduct, $user, $data);
+                }
+            } else {
+                foreach ($user->retailer->first()->retailerProducts as $retailerProduct) {
+                    $this->setData($retailerProduct, $user, $data);
                 }
             }
         }
 
         return view('home', compact('user', 'data'));
+    }
+
+    private function setData($retailerProduct, $user, &$data)
+    {
+        if ($retailerProduct->type === 'MP' && $retailerProduct->facultative) {
+            $product     = $retailerProduct->companyProduct->product;
+            $product->rp = $retailerProduct;
+
+            if ($product->code === 'de') {
+                $product->records = $this->facultativeDeRepository->getRecords($user, $this->inbox, $this->header_id);
+            }
+
+            array_push($data['products'], $product);
+        }
     }
 
     /**

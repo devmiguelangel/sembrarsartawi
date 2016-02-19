@@ -152,7 +152,8 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Styde\Html\HtmlServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
-        Barryvdh\Snappy\ServiceProvider::class,
+        // Barryvdh\Snappy\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Custom
@@ -216,8 +217,9 @@ return [
          */
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Hashids'  => Vinkla\Hashids\Facades\Hashids::class,
-        'PDF'      => Barryvdh\Snappy\Facades\SnappyPdf::class,
-        'Image'    => Barryvdh\Snappy\Facades\SnappyImage::class,
+        // 'PDF'      => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        // 'Image'    => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'PDF'      => Barryvdh\DomPDF\Facade::class,
 
         /*
          * Custom
