@@ -45,6 +45,8 @@ Route::group(['middleware' => 'auth'], function() {
         require 'routes/certificate.php';
 
         require 'routes/report.php';
+        
+        require 'routes/pdfSleep.php';
     });
 
     /*
