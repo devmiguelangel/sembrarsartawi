@@ -134,8 +134,8 @@ class ReportController extends Controller {
                                 if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is not null,'Observado',
                                 ''))))) as estado_compania"),
                         # motivo estado compañia
-                        DB::raw("if(op_de_headers.issued=TRUE and op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=TRUE,'Aprobado',
-                                if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=false,'Rechazado',
+                        DB::raw("if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=TRUE,'Aprobado',
+                                if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=false,'Rechazado',
                                 if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is not null,
                                  (
                                  SELECT t6.state
@@ -146,7 +146,7 @@ class ReportController extends Controller {
                                     LIMIT 0, 1),
                                 ''))) as motivo_estado_compania"),
                         # porcentaje extra prima
-                        DB::raw("if(op_de_headers.issued=TRUE and op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=TRUE and op_de_facultatives.surcharge=true,op_de_facultatives.percentage,'') as porcentaje_extraprima"),
+                        DB::raw("if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=TRUE and op_de_facultatives.surcharge=true,op_de_facultatives.percentage,'') as porcentaje_extraprima"),
                         # fecha respuesta final compañia
                         DB::raw("if(op_de_headers.issued=TRUE and op_de_headers.facultative=true and op_de_facultatives.state='PR' ,DATE_FORMAT(op_de_facultatives.updated_at,'%d/%m/%Y %h:%i'),
                                 if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE'  and op_de_observations.id is not null ,DATE_FORMAT(op_de_observations.created_at,'%d/%m/%Y %h:%i'),'')) as fecha_respuesta_final_compania"),
@@ -430,13 +430,13 @@ class ReportController extends Controller {
 
                     if (in_array('cl', $consult)) {
                         if(isset($observation['1453731639']) && $states[$observation['1453731639']->ad_state_id]->slug == 'cl'){
-                            $ress[$key] = $value;
                         }
+                        $ress[$key] = $value;
                     } else {
                         #solo si existe
                         if(isset($observation['1453731639'])){
-                            $ress[$key] = $value;
                         }
+                        $ress[$key] = $value;
                     }
 
                 }
