@@ -77,7 +77,7 @@ class SubProductAdminController extends BaseController
                     ]
                 );
             }
-            return redirect()->route('admin.subproduct.list', ['nav' => 'user', 'action' => 'list', 'id_retailer_product_select'=>$request->input('id_retailer_product')])->with(array('ok'=>'Se agrego correctamente los datos al producto'));
+            return redirect()->route('admin.subproduct.list', ['nav' => 'subproduct', 'action' => 'list', 'id_retailer_product_select'=>$request->input('id_retailer_product')])->with(array('ok'=>'Se agrego correctamente los datos al producto'));
 
         } catch(QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));

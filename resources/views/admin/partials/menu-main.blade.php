@@ -160,6 +160,18 @@
                     <i class="icon-folder"></i> Administrar estados
                 </a>
             </li>
+            @if($nav=='form')
+                @if($action=='list' || $action=='new' || $action=='edit' || $action=='list_product_retailer')
+                    @var $data_form='active'
+                @endif
+            @else
+                @var $data_form=''
+            @endif
+            <li class="{{$data_form}}">
+                <a href="{{route('admin.formulario.list-product-retailer',['nav'=>'form', 'action'=>'list_product_retailer'])}}" title='Administrar formularios'>
+                    <i class="icon-folder"></i> Administrar formularios
+                </a>
+            </li>
             @if($nav=='email')
                 @var $data_em='active'
             @else

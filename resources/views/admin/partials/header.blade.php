@@ -456,6 +456,22 @@
                 <li><a href="{{ route('admin.estados.list', ['nav'=>'state', 'action'=>'list']) }}">Estados</a></li>
                 <li class="active">Formulario</li>
             @endif
+        @elseif($nav=='form')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list_product_retailer')
+                <li class="active">Productos agregados a Retailer</li>
+            @elseif($action=='list')
+                <li><a href="{{ route('admin.formulario.list-product-retailer', ['nav'=>'form', 'action'=>'list_product_retailer']) }}">Productos agregados a Retailer</a></li>
+                <li class="active">Lista de formularios</li>
+            @elseif($action=='new' || $action=='edit')
+                <li><a href="{{ route('admin.formulario.list-product-retailer', ['nav'=>'form', 'action'=>'list_product_retailer']) }}">Productos agregados a Retailer</a></li>
+                <li><a href="{{ route('admin.formulario.list', ['nav'=>'form', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product]) }}">Lista de formularios</a></li>
+                @if($action=='new')
+                    <li class="active">Nuevo Registro</li>
+                @elseif($action=='edit')
+                    <li class="active">Editar Registro</li>
+                @endif
+            @endif
         @endif
     </ul>
     <!--

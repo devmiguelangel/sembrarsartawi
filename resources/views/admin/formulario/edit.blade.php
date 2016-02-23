@@ -20,86 +20,46 @@
                     <i class="icon-pencil6"></i>
                 </span>
                 Formulario
-                <small class="display-block">Nuevo registro</small>
+                <small class="display-block">Editar registro</small>
             </h5>
+            <!--
             <div class="heading-elements">
-                <!--
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
                     <li><a data-action="reload"></a></li>
                     <li><a data-action="close"></a></li>
                 </ul>
-                -->
             </div>
+            -->
         </div>
         @if (session('error'))
             <div class="alert alert-danger alert-styled-left alert-bordered">
                 <span class="text-semibold">Error!</span> {{ session('error') }}
             </div>
         @endif
-        @if($code_product=='vi')
-            @var $class_input='form-control required number'
-            @var $class_radio = 'styled required'
-            @var $hide = ''
-        @else
-            @var $class_input=''
-            @var $class_radio=''
-            @var $hide = 'display: none;'
-        @endif
         <div class="panel-body">
 
-            {!! Form::open(array('route' => 'create_policy', 'name' => 'CreateForm', 'id' => 'CreateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
+            {!! Form::open(array('route' => 'update_file_form', 'name' => 'UpdateForm', 'id' => 'UpdateForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
             <fieldset class="content-group">
 
                 <div class="form-group">
-                    <label class="control-label col-lg-2">Producto</label>
+                    <label class="control-label col-lg-2">Titulo <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <strong>{{$query_prod->product}}</strong>
+                        <input type="text" class="form-control required text" name="txtTitulo" id="txtTitulo" autocomplete="off" value="{{$query_form->title}}">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-lg-2">Numero de Póliza <span class="text-danger">*</span></label>
+                    <label class="control-label col-lg-2">Archivo <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input type="text" name="txtNumPoliza" id="txtNumPoliza" value="" class="form-control required number">
+                        <input type="file" class="file-styled" name="txtFile" id="txtFile">
+                        El tamaño máximo del archivo es de 2Mb, el formato del archivo a subir debe ser [PDF].<br>
+                        Archivo: <strong>{{$query_form->file}}</strong>
                     </div>
-                </div>
-
-                <div class="form-group" style="{{$hide}}">
-                    <label class="control-label col-lg-2">Póliza Final <span class="text-danger">*</span></label>
-                    <div class="col-lg-10">
-                        <input type="text" name="txtEndPoliza" id="txtEndPoliza" value="" class="{{$class_input}}">
-                    </div>
-                </div>
-
-                <div class="form-group" style="{{$hide}}">
-                    <label class="control-label col-lg-2">Auto Incremento <span class="text-danger">*</span></label>
-                    <label class="radio-inline">
-                        <input type="radio" name="auto_inc" id="auto_inc" class="{{$class_radio}}" value="1">SI
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="auto_inc" id="auto_inc" class="{{$class_radio}}" value="0">NO
-                    </label>
-                    <div class="validation-error-label col-lg-10" id="error-increment"></div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Fecha Inicial <span class="text-danger">*</span></label>
-                    <div class="col-lg-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                            <input type="text" class="form-control pickadate-cobodate required" name="fechaini" id="fechaini" value="">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Fecha Final <span class="text-danger">*</span></label>
-                    <div class="col-lg-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                            <input type="text" class="form-control pickadate-cobodate required" name="fechafin" id="fechafin" value="">
-                        </div>
+                    <div>
+                        @if($errors)
+                            {{ $errors->first('txtFile')}}
+                        @endif
                     </div>
                 </div>
 
@@ -109,19 +69,39 @@
                 <button type="submit" class="btn btn-primary">
                     Guardar <i class="icon-floppy-disk position-right"></i>
                 </button>
-                <a href="{{route('admin.policy.list', ['nav'=>'policy', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}" class="btn btn-primary">
+
+                <a href="{{route('admin.formulario.list', ['nav'=>'form', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}" class="btn btn-primary">
                     Cancelar <i class="icon-arrow-right14 position-right"></i>
                 </a>
-                <input type="hidden" name="id_retailer_products" id="id_retailer_products", value="{{$id_retailer_products}}">
+                <input type="hidden" name="id_retailer_products" value="{{$id_retailer_products}}">
                 <input type="hidden" name="code_product" value="{{$code_product}}">
+                <input type="hidden" name="auxFile" value="{{$query_form->file}}">
+                <input type="hidden" name="id_forms" value="{{$id_forms}}">
             </div>
             {!!Form::close()!!}
         </div>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
+            $("#txtFile").change(function() {
+                var file = this.files[0];
+                var type_file = file.type;
+                var size_file = file.size;
+                if(size_file<=2097152){
+                    if($("#txtFile + .validation-error-label").length) {
+                        $("#txtFile + .validation-error-label").remove();
+                    }
+                    $('button[type="submit"]').prop('disabled', false);
+                }else{
+                    if(!$("#txtFile + .validation-error-label").length) {
+                        $("#txtFile:last").after('<label class="validation-error-label">El tamaño del archivo sobrepasa los 2Mb</label>');
+                    }
+                    $('button[type="submit"]').prop('disabled', true);
+                }
+            });
+
             //VERIFICAMOS EL FORMULARIO
-            $('#CreateForm').submit(function(e){
+            $('#UpdateForm').submit(function(e){
                 var sw = true;
                 var err = 'Esta informacion es obligatoria';
                 $(this).find('.required, .not-required').each(function(index, element) {
@@ -150,24 +130,12 @@
             function validateElement(element,err){
                 var _value = $(element).prop('value');
                 var _type = $(element).prop('type');
-                var _name = $(element).prop('name');
-                //alert(_name);
                 if(_type=='select-one'){
                     if(_value==0){
                         addClassE(element,err);
                         return false;
                     }else{
                         removeClassE(element,err);
-                        return true;
-                    }
-                }else if(_type=='radio'){
-                    var rd_val = $("input[name=" + _name + "]:radio").is(':checked');
-                    //alert(rd_val);
-                    if(rd_val === false){
-                        $('#error-increment').html(err);
-                        return false;
-                    }else{
-                        $('#error-increment').html('');
                         return true;
                     }
                 }else{
@@ -201,7 +169,7 @@
                 var _value = $(element).prop('value');
                 var regex = null;
                 if($(element).hasClass('text') === true){
-                    regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s]*$/;
+                    regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s\.\-\()]*$/;
                     err = 'Ingrese solo texto';
                 }else if($(element).hasClass('number') === true){
                     regex = /^([0-9])*$/;

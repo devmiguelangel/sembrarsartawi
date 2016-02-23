@@ -77,7 +77,7 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2">Numero de Titulares</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control required number" name="num_titulares" id="num_titulares" maxlength="3">
+                            <input type="text" class="form-control required number" name="num_titulares" id="num_titulares" maxlength="3" autocomplete="off">
                         </div>
                     </div>
 

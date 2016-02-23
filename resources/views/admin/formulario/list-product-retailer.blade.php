@@ -17,49 +17,34 @@
         <div class="panel-heading">
             <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
                 <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
-                Retailers
+                Productos agregados a Retailer
                 <small class="display-block">Listado de registros</small>
             </h5>
             <div class="heading-elements">
-                @if(count($query)==0)
-                    <ul class="icons-list">
-                        <li>
-                            <a href="{{route('admin.retailer.new', ['nav'=>'retailer', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
-                                <i class="icon-file-plus text-primary"></i>
-                                <span>Agregar Retailer</span>
-                            </a>
-                        </li>
-                    </ul>
-                @endif
+
             </div>
         </div>
 
         <div class="panel-body">
-            @if(session('ok'))
-                <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
-                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-                    <span class="text-semibold"></span> {{session('ok')}}
-                </div>
-            @endif
-        </div>
 
+        </div>
         @if(count($query)>0)
             <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Retailer</th>
-                <th>Dominio</th>
-                <th>Imagen</th>
-                <th>Estado</th>
-                <th class="text-center">Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
+                <thead>
+                <tr>
+                    <th>Retailer</th>
+                    <th>Producto</th>
+                    <th>Tipo Producto</th>
+                    <th>Estado</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
                 @foreach($query as $data)
                     <tr>
-                        <td>{{$data->name}}</td>
-                        <td>{{$data->domain}}</td>
-                        <td><img src="{{ asset($data->image) }}" height="60"></td>
+                        <td>{{$data->retailer}}</td>
+                        <td>{{$data->product}}</td>
+                        <td>{{$parameter[$data->type]}}</td>
                         <td>
                             @if((boolean)$data->active==true)
                                 <span class="label label-success">Activo</span>
@@ -73,53 +58,52 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="icon-menu9"></i>
                                     </a>
+
                                     <ul class="dropdown-menu dropdown-menu-right">
-                                        <li>
-                                            <a href="{{route('admin.retailer.edit', ['nav'=>'retailer', 'action'=>'edit', 'id_retailer'=>$data->id])}}">
-                                                <i class="icon-pencil3"></i> Editar
-                                            </a>
-                                        </li>
-                                        <li>
-                                            @if((boolean)$data->active==true)
-                                                <a href="#" id="{{$data->id}}|inactive|desactivar" class="confirm_active">
-                                                    <i class="icon-cross"></i> Desactivar
+                                        @if((boolean)$data->active==true)
+                                            <li>
+                                                <a href="#" id="{{$data->id_retailer_products}}|inactive|desactivar" class="confirm_active">
+                                                    <i class="icon-cross2"></i> Desactivar
                                                 </a>
-                                            @else
-                                                <a href="#" id="{{$data->id}}|active|activar" class="confirm_active">
+                                            </li>
+                                            <li>
+                                                <a href="{{route('admin.formulario.list', ['nav'=>'form', 'action'=>'list', 'id_retailer_products'=>$data->id_retailer_products, 'code_product'=>$data->code])}}">
+                                                    <i class="icon-file-pdf"></i> Agregar formulario
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <a href="#" id="{{$data->id_retailer_products}}|active|activar" class="confirm_active">
                                                     <i class="icon-checkmark4"></i> Activar
                                                 </a>
-                                            @endif
-                                        </li>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </li>
                             </ul>
                         </td>
                     </tr>
                 @endforeach
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         @else
             <div class="alert alert-warning alert-styled-left">
-                <span class="text-semibold"></span> No existe ningun Retailer registrado.
+                <span class="text-semibold"></span> No existe productos registrados a un Retailer<br>
             </div>
         @endif
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
-            setTimeout(function() {
-                $('#message-session').fadeOut();
-            }, 3000);
-
             $('a[href].confirm_active').click(function(e){
 
                 var _id = $(this).prop('id');
                 var arr = _id.split("|");
-                var id_retailer = arr[0];
+                var id_retailer_products = arr[0];
                 var text = arr[1];
-                bootbox.confirm("Esta seguro de "+arr[2]+" la pregunta ?.", function(result) {
+                bootbox.confirm("Esta seguro de "+arr[2]+" el producto ?.", function(result) {
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
-                        $.get( "{{url('/')}}/admin/retailer/active_ajax/"+id_retailer+"/"+text, function( data ) {
+                        $.get( "{{url('/')}}/admin/addtoretailer/active_ajax/"+id_retailer_products+"/"+text, function( data ) {
                             console.log(data);
                             if(data==1){
                                 window.setTimeout('location.reload()', 1000);
