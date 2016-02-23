@@ -326,6 +326,12 @@ class McCertificatesController extends BaseController {
     public function asignQuestionnairesUpdate(Request $request) {
         
         if (count($request->get('mc_questionnaire_id')) > 0) {
+            $mcCertQuest = DB::table('mc_certificate_questionnaires')->where('mc_certificate_id', $request->get('mc_certificate_id'))->get();
+            # validacion elimina relacion de preguntas asignadas a questionario
+            foreach ($mcCertQuest as $key => $value) {
+                \Sibas\Entities\McCertificateQuestionnaireQuestions::where('mc_certificate_questionnaire_id', $value->id)->delete();
+            }
+            # validacion elimina relacion de questionario asignado a certificado
             \Sibas\Entities\McCertificateQuestionnaires::where('mc_certificate_id', $request->get('mc_certificate_id'))->delete();
             foreach ($request->get('mc_questionnaire_id') as $key => $value) {
                 $mcCertificateQuestionnaires = DB::table('mc_certificate_questionnaires')->insert(
@@ -398,7 +404,15 @@ class McCertificatesController extends BaseController {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
+        $mcCertQuest = DB::table('mc_certificate_questionnaires')->where('mc_certificate_id', $id)->get();
+            # validacion elimina relacion de preguntas asignadas a questionario
+            foreach ($mcCertQuest as $key => $value) {
+                \Sibas\Entities\McCertificateQuestionnaireQuestions::where('mc_certificate_questionnaire_id', $value->id)->delete();
+            }
+        # validacion elimina relacion de questionario asignado a certificado
         \Sibas\Entities\McCertificateQuestionnaires::where('mc_certificate_id', $id)->delete();
+        
+        # validacion elimina certificado
         \Sibas\Entities\McCertificates::where('id', $id)->delete();
         return redirect()->route('mcCertificatesList')->with('delete', 'message');
     }
