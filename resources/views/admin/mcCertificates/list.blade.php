@@ -68,7 +68,7 @@
                                 @if($entity->questionnaire == 0)
                                     <a href="{{ route('mcCertificatesMcCuestionariesForm',['id'=>$entity->id]) }}"><span class="label label-success"><i class="icon-plus2"></i> Asignar</span></a>
                                 @else
-                                    <a href="{{ route('mcCertificatesMcCuestionariesFormEdit',['id'=>$entity->id]) }}"><span class="label label-info"><i class="icon-pencil"></i> Editar</span></a>
+                                    <a onclick="FormGralF.deleteElement('{{ route('mcCertificatesMcCuestionariesFormEdit',['id'=>$entity->id]) }}','Si Modifica la asignacion de QUESTIONARIOS se debe reasignar las preguntas a dichos questionarios.')" ><span class="label label-info"><i class="icon-pencil"></i> Editar</span></a>
                                 @endif
                             @endif
                         </td>

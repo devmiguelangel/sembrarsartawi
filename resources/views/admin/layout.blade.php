@@ -183,14 +183,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Eliminar registro</h3>
+                <h3 id="info_alert">Eliminar registro</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <hr />
             <div class="modal-body">
                 <div class="text-center">
                     <div class="i-circle primary"><i class="fa fa-info"></i></div>
-                    <h4>Esta seguro que desea eliminar el registro?</h4>
+                    <h4 id="title_alert">Esta seguro que desea eliminar el registro?</h4>
                 </div>
             </div>
             <div class="modal-footer">

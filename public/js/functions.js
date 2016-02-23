@@ -92,8 +92,18 @@ var FormGralF = {
     textDelConfirmDef: '¿Esta seguro de eliminar el registro?',
     deleteElement: function (url, text) {
         "use strict";
-        text = (text == '') ? this.textDelConfirmDef : text;
+        var title;
+        
+        if(text.length > 0){
+            text =  text;            
+            title =  'Informaci&oacute;n';            
+        }else{
+            text =  this.textDelConfirmDef;
+            title =  'Eliminar registro';            
+        }
         $('#md-colored .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" onclick="window.location = \''+url+'\'" data-dismiss="modal">Aceptar</button>')
+        $('#md-colored .modal-body #title_alert').html(text);
+        $('#md-colored .modal-header #info_alert').html(title);
         $('#md-colored').modal();
     },
 };
