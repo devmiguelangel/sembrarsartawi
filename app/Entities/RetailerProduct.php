@@ -13,6 +13,7 @@ class RetailerProduct extends Model
 
     protected $casts = [
         'facultative' => 'boolean',
+        'ws'          => 'boolean',
     ];
 
     public function productQuestions()
