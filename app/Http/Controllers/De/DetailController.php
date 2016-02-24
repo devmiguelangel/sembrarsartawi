@@ -5,19 +5,16 @@ namespace Sibas\Http\Controllers\De;
 use Illuminate\Http\Response;
 use Sibas\Entities\Client;
 use Sibas\Entities\De\Detail;
+use Sibas\Http\Controllers\DataTrait;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Client\ClientComplementFormRequest;
 use Sibas\Http\Requests\Client\ClientCreateFormRequest;
 use Sibas\Http\Requests\De\BalanceFormRequest;
-use Sibas\Repositories\Client\ActivityRepository;
 use Sibas\Repositories\Client\ClientRepository;
-use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\DetailRepository;
 use Sibas\Repositories\De\FacultativeRepository;
 use Sibas\Repositories\De\HeaderRepository;
-use Sibas\Repositories\Retailer\CityRepository;
-use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class DetailController extends Controller
 {
@@ -37,39 +34,23 @@ class DetailController extends Controller
      * @var FacultativeRepository
      */
     protected $facultativeRepository;
-    /**
-     * @var DataRepository
-     */
-    protected $dataRepository;
-    /**
-     * @var CityRepository
-     */
-    protected $cityRepository;
-    /**
-     * @var ActivityRepository
-     */
-    protected $activityRepository;
 
     protected $reference;
 
     public function __construct(DetailRepository $repository,
                                 HeaderRepository $headerRepository,
                                 ClientRepository $clientRepository,
-                                DataRepository $dataRepository,
-                                CityRepository $cityRepository,
-                                ActivityRepository $activityRepository,
                                 FacultativeRepository $facultativeRepository)
     {
         $this->repository                = $repository;
         $this->headerRepository          = $headerRepository;
         $this->clientRepository          = $clientRepository;
-        $this->dataRepository            = $dataRepository;
-        $this->cityRepository            = $cityRepository;
-        $this->activityRepository        = $activityRepository;
         $this->facultativeRepository     = $facultativeRepository;
 
         $this->reference = ['ISE', 'ISU'];
     }
+
+    use DataTrait;
 
     /**
      * Display a listing of the resource.
@@ -79,24 +60,6 @@ class DetailController extends Controller
     public function index()
     {
         //
-    }
-
-    /**
-     * Returns Data for Client register
-     * @param string $rp_id
-     * @return array
-     */
-    public function getData($rp_id)
-    {
-        return [
-            'civil_status'  => $this->dataRepository->getCivilStatus(),
-            'document_type' => $this->dataRepository->getDocumentType(),
-            'gender'        => $this->dataRepository->getGender(),
-            'cities'        => $this->cityRepository->getCitiesByType(),
-            'activities'    => $this->activityRepository->getActivitiesByProduct(decode($rp_id)),
-            'hands'         => $this->dataRepository->getHand(),
-            'avenue_street' => $this->dataRepository->getAvenueStreet(),
-        ];
     }
 
     /**
@@ -112,7 +75,9 @@ class DetailController extends Controller
         $data   = $this->getData($rp_id);
         $client = new Client();
 
-        if (! is_null($client_id) && $this->clientRepository->getClientById(decode($client_id))) {
+        if (session('client') && session('client') instanceof Client) {
+            $client = session('client');
+        } elseif (! is_null($client_id) && $this->clientRepository->getClientById(decode($client_id))) {
             $client = $this->clientRepository->getModel();
         }
 

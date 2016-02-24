@@ -6,7 +6,9 @@ use Artisaninweb\SoapWrapper\Facades\SoapWrapper;
 
 class WsRepository
 {
-    public function getCustomer($dni)
+    public $result;
+
+    private function init()
     {
         SoapWrapper::add(function($service) {
             $service
@@ -21,6 +23,13 @@ class WsRepository
                 ->cache(WSDL_CACHE_NONE)               // Optional: Set the WSDL cache
                 ->options(['wPwd' => 't874j563bk580fghu']);   // Optional: Set some extra options
         });
+    }
+
+    public function getCustomer($dni)
+    {
+        $this->init();
+
+        $this->result = null;
 
         $data = [
             'wPwd'   => 't874j563bk580fghu',
@@ -30,7 +39,13 @@ class WsRepository
         SoapWrapper::service('customer', function ($service) use ($data) {
             $response = $service->call('su_PersonaGetByDocId', [$data]);
 
-            dd(explode('|', $response->su_PersonaGetByDocIdResult));
+            $this->result = explode('|', $response->su_PersonaGetByDocIdResult);
         });
+
+        if (count($this->result) > 1) {
+            return true;
+        }
+
+        return false;
     }
 }
