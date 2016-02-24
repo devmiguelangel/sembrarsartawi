@@ -27,7 +27,7 @@ class ActivityRepository extends BaseRepository
 
         $rp = RetailerProduct::with([
             'activities' => function ($query) {
-                $query->addSelect(['ad_activities.id', 'category', 'occupation']);
+                $query->addSelect(['ad_activities.id', 'category', 'occupation', 'code']);
             }
         ])
             ->where('id', $rp_id)->first();
