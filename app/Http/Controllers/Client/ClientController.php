@@ -7,6 +7,8 @@ use Illuminate\Http\Response;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Repositories\Client\ClientRepository;
+use Sibas\Repositories\Retailer\RetailerProductRepository;
+use Sibas\Repositories\WsRepository;
 
 class ClientController extends Controller
 {
@@ -14,10 +16,22 @@ class ClientController extends Controller
      * @var ClientRepository
      */
     protected $repository;
+    /**
+     * @var RetailerProductRepository
+     */
+    protected $retailerProductRepository;
+    /**
+     * @var WsRepository
+     */
+    protected $ws;
 
-    public function __construct(ClientRepository $repository)
+    public function __construct(ClientRepository $repository,
+                                RetailerProductRepository $retailerProductRepository,
+                                WsRepository $ws)
     {
-        $this->repository = $repository;
+        $this->repository                = $repository;
+        $this->retailerProductRepository = $retailerProductRepository;
+        $this->ws = $ws;
     }
 
     /**
@@ -49,11 +63,23 @@ class ClientController extends Controller
      */
     public function search(Request $request, $rp_id, $header_id)
     {
-        if ($this->repository->getClientByDni($request->get('dni'))) {
-            $client    = $this->repository->getModel();
-            $client_id = encode($client->id);
+        $ws = false;
 
-            return redirect()->route('de.detail.create', compact('rp_id', 'header_id', 'client_id'));
+        if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+            $retailerProduct = $this->retailerProductRepository->getModel();
+
+            $ws = $retailerProduct->ws;
+        }
+
+        if ($ws) {
+
+        } else {
+            if ($this->repository->getClientByDni($request->get('dni'))) {
+                $client    = $this->repository->getModel();
+                $client_id = encode($client->id);
+
+                return redirect()->route('de.detail.create', compact('rp_id', 'header_id', 'client_id'));
+            }
         }
 
         return redirect()->back()

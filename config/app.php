@@ -154,6 +154,7 @@ return [
         Vinkla\Hashids\HashidsServiceProvider::class,
         // Barryvdh\Snappy\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Artisaninweb\SoapWrapper\ServiceProvider::class,
 
         /*
          * Custom
@@ -220,6 +221,7 @@ return [
         // 'PDF'      => Barryvdh\Snappy\Facades\SnappyPdf::class,
         // 'Image'    => Barryvdh\Snappy\Facades\SnappyImage::class,
         'PDF'      => Barryvdh\DomPDF\Facade::class,
+        'SoapWrapper' => Artisaninweb\SoapWrapper\Facades\SoapWrapper::class,
 
         /*
          * Custom
