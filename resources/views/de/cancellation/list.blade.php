@@ -83,7 +83,8 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#" onclick="cargaModal({{ $header->id }},'{{ Session::token() }}', 'slip', 'POST', 'emision')" data-toggle="modal" data-target="#modal_general">
+                                                    <a href="#" onclick="cargaModal({{ $header->id }},'{{ Session::token() }}', '{{ encode($header->id) . '/slip' }}', 'POST', 'emision')" 
+                                                      data-toggle="modal" data-target="#modal_general">
                                                         <i class="icon-plus2"></i> Ver Certificado de Desgravamen
                                                     </a>
                                                 </li>
@@ -102,5 +103,9 @@
             <!-- /horizotal form -->
         </div>
     </div>
+
+<!-- modal -->
+@include('partials.modal')
+<!-- /modal -->
 
 @endsection
