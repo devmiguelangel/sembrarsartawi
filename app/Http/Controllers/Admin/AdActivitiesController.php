@@ -2,8 +2,11 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Input;
+use Maatwebsite\Excel\Facades\Excel;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use DB;
@@ -109,6 +112,72 @@ class AdActivitiesController extends BaseController {
     public function destroy($id) {
         \Sibas\Entities\Activity::where('id', $id)->delete();
         return redirect()->route('adActivitiesList')->with('delete','message');
+    }
+
+    /**
+     * Import file.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function import_file()
+    {
+        $nav = 'adActivitiesList';
+        $action = 'import';
+        $main_menu = $this->menu_principal();
+        return view('admin.adActivities.import-file', compact('nav', 'action', 'main_menu'));
+    }
+
+    /**
+     * Upload file.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function upload_files(Request $request)
+    {
+
+        //dd($request->file('FileInput'));
+
+        if (Input::hasFile('FileInput')){
+            $file = $request->file('FileInput');
+
+            $destinationPath = 'assets/files/'; // upload path
+            $name = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension(); // getting image extension
+            $fileName = rand(11111,99999).'_'.$name; // renameing image
+            $file->move($destinationPath, $fileName); // loading file to given path
+            echo '¡Éxito! Archivo subido.'; echo'<br>';
+
+            Excel::load('assets/files/'.$fileName, function($reader) {
+
+                // Getting all results
+                $results = $reader->get();
+                //dd($results);
+                foreach($results as $data){
+                    //var_dump($data->caedec);
+                    try {
+                        $query_insert = \DB::table('ad_activities')->insert(
+                            [
+                                'occupation' => $data->ocupacion,
+                                'code' => $data->caedec,
+                                'created_at'=>date("Y-m-d H:i:s"),
+                                'updated_at'=>date("Y-m-d H:i:s")
+                            ]
+                        );
+
+                    }catch(QueryException $e){
+                        echo $e->getMessage();
+                    }
+                }
+
+                echo 'Se importo correctamente los datos del archivo';
+            });
+            unlink('assets/files/'.$fileName);
+        }else{
+            return redirect()->back()->with(array('error'=>'Error no se subio correctamente el archivo, intente otra vez'));
+        }
+
     }
 
 }

@@ -246,7 +246,7 @@
                                     @var $data_content=''
                                 @endif
                             @elseif($nav=='adActivitiesList')
-                                @if($action=='list' || $action=='new'|| $action=='edit')
+                                @if($action=='list' || $action=='new'|| $action=='edit' || $action=='import')
                                     @var $data_ap3='active'
                                     @var $data_ap2=''
                                     @var $data_ap=''

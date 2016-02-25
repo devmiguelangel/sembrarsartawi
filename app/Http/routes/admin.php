@@ -137,6 +137,12 @@ Route::get('admin/ad_activities/destroy/{id}',[
     'as' => 'adActivitiesFormDestroy',
     'uses' => 'Admin\AdActivitiesController@destroy'
 ]);
+
+Route::get('admin/adActivities/import-file', [
+    'as' => 'import_activities',
+    'uses' => 'Admin\AdActivitiesController@import_file'
+]);
+
 # registro y edicion
 Route::post('admin/ad_activities/new', [
     'as' => 'create_ad_activities',
@@ -145,4 +151,8 @@ Route::post('admin/ad_activities/new', [
 Route::post('admin/ad_activities/edit/{id}', [
     'as' => 'update_ad_activities',
     'uses' => 'Admin\AdActivitiesController@update'
+]);
+Route::post('admin/adActivities', [
+    'as' => 'process_upload_form',
+    'uses' => 'Admin\AdActivitiesController@upload_files'
 ]);

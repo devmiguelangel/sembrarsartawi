@@ -166,7 +166,7 @@
                 var _value = $(element).prop('value');
                 var regex = null;
                 if($(element).hasClass('text') === true){
-                    regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s\.\-\()]*$/;
+                    regex = /^[0-9a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s\.\-\()]*$/;
                     err = 'Ingrese solo texto';
                 }else if($(element).hasClass('number') === true){
                     regex = /^([0-9])*$/;

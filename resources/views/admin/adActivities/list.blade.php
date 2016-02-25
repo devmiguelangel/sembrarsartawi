@@ -22,7 +22,13 @@
                     <li>
                         <a href="{{route('adActivitiesFormNew')}}" class="btn btn-link btn-float has-text">
                             <i class="icon-plus2"></i>
-                            <span>Nueva Actividad</span>
+                            <span>Nueva ocupación</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('import_activities')}}" class="btn btn-link btn-float has-text">
+                            <i class="icon-file-download2"></i>
+                            <span>Importar archivo</span>
                         </a>
                     </li>
                 </ul>
