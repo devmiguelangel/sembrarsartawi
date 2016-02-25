@@ -84,7 +84,7 @@
                           <div class="col-md-4 ">
                             <div class="panel panel-body border-top-primary text-center">
                               <div class="form-group">
-                                {!! Html::image($retailerProduct->companyProduct->company->image) !!}
+                                {!! Html::image($retailerProduct->companyProduct->company->image, null, ['style' => 'max-height: 130px;']) !!}
                               </div>
                               <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
                               <p class="text-muted content-group-sm">{{ $rate->rate_final }}%</p>

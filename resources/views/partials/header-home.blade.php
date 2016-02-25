@@ -11,8 +11,8 @@
 
               @foreach (auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
                 @if ($company_id !== $retailerProduct->companyProduct->company->id)
-                  <li><a href="{{ route('home') }}" >
-                    {!! Html::image($retailerProduct->companyProduct->company->image, '', ['height' => '44']) !!}
+                  <li><a href="{{ route('home') }}" style="padding: 0;">
+                    {!! Html::image($retailerProduct->companyProduct->company->image, '', ['height' => '65']) !!}
                   </a></li>
 
                   @var $company_id = $retailerProduct->companyProduct->company->id
