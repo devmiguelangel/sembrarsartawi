@@ -48,6 +48,8 @@
     {!! Html::script('assets/js/pages/form_validation.js') !!}
     {!! Html::script('js/functions.js') !!}
     {!! Html::script('summernote/dist/summernote.min.js') !!}
+    {!! Html::script('assets/js/plugins/uploaders/fileinput.min.js') !!}
+    {!! Html::script('assets/js/pages/uploader_bootstrap.js') !!}
     <!-- /theme JS files -->
 
     <!--picker date-->

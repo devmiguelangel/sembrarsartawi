@@ -242,17 +242,19 @@
                 @endif
             @endif
         @elseif($nav=='adActivitiesList')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
             @if($action=='list')
-                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
                 <li class="active">Lista de Actividades</li>
             @elseif($action=='new' || $action=='edit')
-                <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
-                <li><a href="{{ route('adActivitiesList') }}">Lista de Actividades</a></li>
+                <li><a href="{{ route('adActivitiesList') }}">Lista de Ocupaciones</a></li>
                 @if($action=='new')
                     <li class="active">Nuevo registro</li>
                 @elseif($action=='edit')
                     <li class="active">Editar registro</li>
                 @endif
+            @elseif($action=='import')
+                <li><a href="{{ route('adActivitiesList') }}">Lista de Ocupaciones</a></li>
+                <li class="active">Importar archivo</li>
             @endif
         @elseif($nav=='adRetailerProductActivities')
             @if($action=='list')
