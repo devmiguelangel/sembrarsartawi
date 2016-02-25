@@ -111,6 +111,7 @@ class ClientRepository extends BaseRepository
     {
         $date = $this->carbon->createFromTimestamp(strtotime(str_replace('/', '-', $this->data['birthdate'])));
 
+        $this->model->code           = $this->data['code'];
         $this->model->type           = 'N';
         $this->model->first_name     = $this->data['first_name'];
         $this->model->last_name      = $this->data['last_name'];

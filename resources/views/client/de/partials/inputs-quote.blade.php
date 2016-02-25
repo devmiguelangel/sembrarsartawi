@@ -1,4 +1,6 @@
 <div class="col-xs-12 col-md-6">
+    <input type="hidden" value="{{ old('code', $client->code) }}" name="code">
+
     <div class="form-group">
         <label class="control-label col-lg-3 label_required">Nombres: </label>
         <div class="col-lg-9">

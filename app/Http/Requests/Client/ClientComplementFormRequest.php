@@ -34,7 +34,7 @@ class ClientComplementFormRequest extends Request
             'married_name'      => 'alpha_space',
             'civil_status'      => 'required|in:' . $civil_status,
             'country'           => 'required|alpha_space',
-            'birthdate'         => 'required|date',
+            'birthdate'         => 'required|date_format:d/m/Y',
             'birth_place'       => 'required|alpha_dash_space',
             'place_residence'   => 'required|exists:ad_cities,slug',
             'locality'          => 'required|alpha_dash_space',
