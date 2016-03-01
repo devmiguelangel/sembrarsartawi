@@ -51,14 +51,6 @@
                     </script>
                 @endif
 
-                <div class="col-md-4">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" class="styled" checked="checked">
-                            Seleccionar todo
-                        </label>
-                    </div>
-                </div>
                 {!! Form::open(['route' => ['de.vi.sp.list.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id], 'method' => 'post', 'class' => '']) !!}
                     {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
                     {!! Form::hidden('header_id', $header_id) !!}
@@ -73,7 +65,7 @@
                             <th>Fecha Nacimiento</th>
                             <th>Departamento</th>
                             <th>% Credito</th>
-                            <th>Status</th>
+                            {{--<th>Status</th>--}}
                             {{--<th class="text-center">Accion</th>--}}
                         </tr>
                         </thead>
@@ -93,7 +85,7 @@
                             <td>{{ dateToFormat($detail->client->birthdate) }}</td>
                             <td>{{ $detail->client->birth_place }}</td>
                             <td>{{ $detail->percentage_credit }} %</td>
-                            <td><span class="label label-success">Completado</span></td>
+                            {{--<td><span class="label label-success">Completado</span></td>--}}
                             {{--<td class="text-center">
                                 <ul class="icons-list">
                                     <li class="dropdown">

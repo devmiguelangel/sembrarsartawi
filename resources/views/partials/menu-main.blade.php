@@ -153,10 +153,10 @@
                         <i class="caret"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a href="#"><i class="icon-user-plus"></i> Perfil</a></li>
-                        <li><a href="#"><i class="icon-lock5"></i> Cambiar clave</a></li>
+                        {{--<li><a href="#"><i class="icon-user-plus"></i> Perfil</a></li>--}}
+                        {{--<li><a href="#"><i class="icon-lock5"></i> Cambiar clave</a></li>--}}
                         <li class="divider"></li>
-                        <li><a href="#"><i class="icon-phone"></i> Telefono Agencia</a></li>
+                        {{--<li><a href="#"><i class="icon-phone"></i> Telefono Agencia</a></li>--}}
                         <li><a href="{{ route('auth.logout') }}"><i class="icon-switch2"></i> Salir</a></li>
                     </ul>
                 </li>

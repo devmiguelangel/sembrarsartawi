@@ -309,10 +309,11 @@
                 <div class="input-group">
                     <span class="input-group-addon">(Kg)</span>
                     {!! Form::text('weight', old('weight', $client->weight), [
-                        'class' => 'form-control ui-wizard-content',
-                        'placeholder' => 'Peso',
-                        'autocomplete' => 'off'])
-                    !!}
+                      'id'           => 'weight',
+                      'class'        => 'form-control ui-wizard-content',
+                      'placeholder'  => 'Peso',
+                      'autocomplete' => 'off'
+                    ]) !!}
                 </div>
                 <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('weight') }}</label>
             </div>
@@ -323,10 +324,11 @@
                 <div class="input-group">
                     <span class="input-group-addon">(cm)</span>
                     {!! Form::text('height', old('height', $client->height), [
-                        'class' => 'form-control ui-wizard-content',
-                        'placeholder' => 'Estatura',
-                        'autocomplete' => 'off'])
-                    !!}
+                      'id'           => 'height',
+                      'class'        => 'form-control ui-wizard-content',
+                      'placeholder'  => 'Estatura',
+                      'autocomplete' => 'off'
+                    ]) !!}
                 </div>
                 <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('height') }}</label>
             </div>

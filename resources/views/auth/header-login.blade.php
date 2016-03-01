@@ -2,9 +2,11 @@
     <div class="navbar-boxed">
         <div class="navbar-collapse collapse" id="navbar-mobile">
             <ul class="nav navbar-nav">
-                <li><a href="#">
+                <li>
+                    <a href="http://abrenet.com" target="_blank">
                         {!! Html::image('images/assets/abrenet-logo.png', '', ['width' => '160']) !!}
-                    </a></li>
+                    </a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {{--<li><a href="#" >

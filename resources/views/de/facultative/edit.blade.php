@@ -130,6 +130,7 @@
                                     'placeholder'      => 'Tasa Final',
                                     'autocomplete'     => 'off',
                                     'ng-model'         => 'formData.final_rate',
+                                    'readonly'         => true
                                 ]) !!}
                             </div>
                             <label id="location-error" class="validation-error-label" for="location" ng-show="errors.final_rate">

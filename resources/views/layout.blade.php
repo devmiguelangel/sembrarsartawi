@@ -71,6 +71,7 @@
     {!! Html::script('assets/js/plugins/notifications/pnotify.min.js') !!}
     {!! Html::script('assets/js/plugins/notifications/noty.min.js') !!}
     {!! Html::script('assets/js/plugins/notifications/jgrowl.min.js') !!}
+    {!! Html::script('assets/js/plugins/notifications/bootbox.min.js') !!}
     {!! Html::script('assets/js/pages/components_notifications_other.js') !!}
     
     <!--fin notificacion-->
@@ -109,7 +110,7 @@
     <!-- /main content -->
     <!-- Footer -->
     <div class="footer text-muted">
-        &copy; 2016. <a href="#">Powered by Abrenet</a> © 2016 | <a href="#">Política de privacidad</a>
+        &copy; 2016. <a href="http://abrenet.com" target="_blank">Powered by Abrenet</a> © 2016
     </div>
     <!-- /footer -->
 </div>
