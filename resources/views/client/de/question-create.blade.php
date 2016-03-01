@@ -118,14 +118,17 @@
                                 <hr />
 
                                 <div class="panel-body">
-                                    {!! Form::open(['route' => ['de.question.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => $detail_id], 'method' => 'post', 'class' => '']) !!}
-
+                                  {!! Form::open(['route' => ['de.question.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => $detail_id], 
+                                    'method'        => 'post', 
+                                    'class'         => ''
+                                  ]) !!}
+                                  
                                     @include('client.de.partials.questions')
 
                                     <div class="text-right">
                                         {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                                     </div>
-                                    {!! Form::close() !!}
+                                  {!! Form::close() !!}
                                 </div>
                             </div>
                         </div>

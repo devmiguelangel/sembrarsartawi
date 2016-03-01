@@ -213,7 +213,7 @@ class ReportController extends Controller {
             
             # numero poliza
             if ($request->get('numero_poliza'))
-                $query->where('op_de_headers.policy_number', $request->get('numero_poliza'));
+                $query->where('op_de_headers.issue_number', $request->get('numero_poliza'));
 
             # usuario vendedor
             if ($request->get('usuario'))

@@ -111,6 +111,7 @@ return [
     'payment_methods' => [
         'CO' => 'Al Contado',
         'DA' => 'Débito Automático',
+        'PT' => 'Prima Total',
     ],
 
     'account_types' => [
@@ -142,6 +143,7 @@ return [
         'me' => 'Exámenes Médicos y/o Requisitos',
         'de' => 'Error en Datos',
         're' => 'Reaseguro',
+        'in' => 'Inspección',
     ],
 
     'company_state' => [
@@ -178,5 +180,26 @@ return [
     ],
 
     'inbox' => [ 'all', 'approved', 'observed', 'rejected', ],
+
+    'vehicle_category' => [
+        'RC' => 'Rent A Car',
+        'OT' => 'Otros',
+    ],
+
+    'vehicle_use' => [
+        'PU' => 'Público',
+        'PR' => 'Privado',
+    ],
+
+    'property_uses' => [
+        'OT' => 'Otro',
+        'IP' => 'Inmueble Industrial',
+    ],
+
+    'property_states' => [
+        'F' => 'Terminado',
+        'C' => 'En construcción',
+        'P' => 'En proceso de remodelación, ampliación o refacción',
+    ],
 
 ];

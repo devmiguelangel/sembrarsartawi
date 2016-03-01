@@ -33,5 +33,8 @@
         'placeholder' => 'Observación',
         'autocomplete' => 'off'])
     !!}
+
+    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('qs_observation') }}</label>
+    
     {!! Form::hidden('qs_number', count($data['questions'])) !!}
 </div>
