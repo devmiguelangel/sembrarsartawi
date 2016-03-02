@@ -430,7 +430,9 @@
                                       <div class="input-group">
                                           <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
                                           {!! SelectField::input('payment_method', $data['payment_methods']->toArray(), [
-                                              'class' => 'select-search'],
+                                              'class' => 'select-search',
+                                              'id'    => 'payment_method',
+                                            ],
                                               old('payment_method'))
                                           !!}
                                       </div>
@@ -443,7 +445,9 @@
                                       <div class="input-group">
                                           <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
                                           {!! SelectField::input('period', $data['periods']->toArray(), [
-                                              'class' => 'select-search'],
+                                              'class' => 'select-search',
+                                              'id'    => 'period',
+                                            ],
                                               old('period'))
                                           !!}
                                       </div>
@@ -456,10 +460,11 @@
                                       <div class="input-group">
                                           <span class="input-group-addon">Nro</span>
                                           {!! Form::text('account_number', old('account_number'), [
-                                              'class' => 'form-control ui-wizard-content',
+                                              'class'        => 'form-control ui-wizard-content',
                                               'autocomplete' => 'off',
-                                              'placeholder' => 'Número de Cuenta'])
-                                          !!}
+                                              'placeholder'  => 'Número de Cuenta',
+                                              'id'           => 'account_number'
+                                          ]) !!}
                                       </div>
                                       <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('account_number') }}</label>
                                   </div>

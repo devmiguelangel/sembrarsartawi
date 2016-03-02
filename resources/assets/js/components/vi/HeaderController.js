@@ -40,6 +40,22 @@ var header = function ($scope, $http) {
     $scope.$apply();
   });
 
+  $('#payment_method').change(function () {
+    var payment_method = this.value;
+
+    if (payment_method == 'CO') {
+      $('#period option[value="Y"]').prop('selected', true);
+      $('#period option:not(:selected)').prop('disabled', true);
+      $('#account_number').prop('value', 0).prop('readonly', true);
+      $('#period').trigger('change');
+    } else {
+      $('#period option[value=""]').prop('selected', true);
+      $('#period option').prop('disabled', false);
+      $('#account_number').prop('value', '').prop('readonly', false);
+      $('#period').trigger('change');
+    }
+  });
+
 };
 
 module.exports.header = header;
