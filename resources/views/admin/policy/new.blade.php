@@ -61,7 +61,7 @@
                 <div class="form-group">
                     <label class="control-label col-lg-2">Numero de Póliza <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input type="text" name="txtNumPoliza" id="txtNumPoliza" value="" class="form-control required number">
+                        <input type="text" name="txtNumPoliza" id="txtNumPoliza" value="" class="form-control required alphanumeric">
                     </div>
                 </div>
 
@@ -120,6 +120,10 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
+            $('#txtNumPoliza').keyup(function() {
+                $(this).val($(this).val().toUpperCase());
+            });
+
             //VERIFICAMOS EL FORMULARIO
             $('#CreateForm').submit(function(e){
                 var sw = true;
@@ -203,9 +207,9 @@
                 if($(element).hasClass('text') === true){
                     regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s]*$/;
                     err = 'Ingrese solo texto';
-                }else if($(element).hasClass('number') === true){
-                    regex = /^([0-9])*$/;
-                    err = 'Ingrese solo numeros';
+                }else if($(element).hasClass('alphanumeric') === true){
+                    regex = /^([0-9A-Z\-])*$/;
+                    err = 'Ingrese numeros y letras';
                 }
 
                 if(regex !== null){

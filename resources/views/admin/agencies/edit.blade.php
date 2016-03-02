@@ -50,9 +50,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Codigo <span class="text-danger">*</span></label>
+                        <label class="control-label col-lg-2">Codigo </label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control required" id="txtCodigo" name="txtCodigo", value="{{$query_ag->code}}">
+                            <input type="text" class="form-control" id="txtCodigo" name="txtCodigo", value="{{$query_ag->code}}">
                         </div>
                     </div>
 

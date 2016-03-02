@@ -28,15 +28,21 @@
                             <span>Crear nuevo usuario</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{route('admin.user.import-file', ['nav'=>$nav, 'action'=>'import'])}}" class="btn btn-link btn-float has-text">
+                            <i class="icon-file-download2"></i>
+                            <span>Importar archivo</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
 
         <div class="panel-body">
             @if(session('ok'))
-                <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
+                <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
                     <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-                    <span class="text-semibold">Well done!</span> {{session('ok')}}
+                    <span class="text-semibold">Ok!</span> {{session('ok')}}
                 </div>
             @elseif (session('error'))
                 <div class="alert alert-danger alert-styled-left alert-bordered">
@@ -125,6 +131,10 @@
     <script type="text/javascript">
         // Confirmation dialog
         $(document).ready(function(){
+            setTimeout(function() {
+                $('#message-session').fadeOut();
+            }, 3000);
+
             //$('.confirm_active').on('click', function() {
             $('a[href].confirm_active').click(function(e){
 

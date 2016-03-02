@@ -38,15 +38,15 @@
 
         </div>
         @if($query->count()>0)
-            <table class="table datatable-basic table-bordered">
+            <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th>Departamento</th>
-                    <th style="text-align: center;">Codigo</th>
+                    <th style="text-align: center;">Abreviación</th>
                     <th style="text-align: center;">Tipo CI</th>
                     <th style="text-align: center;">Tipo Regional</th>
                     <th style="text-align: center;">Tipo Departamento</th>
-                    <th class="text-center">Actions</th>
+                    <th class="text-center">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>

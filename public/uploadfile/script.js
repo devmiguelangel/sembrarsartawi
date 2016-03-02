@@ -28,8 +28,24 @@ $(document).ready(function() {
 //function to check file size before uploading.
     function beforeSubmit(){
         //check whether browser fully supports all File API
+        var data_admin = $('#admin').prop('value');
+        var city = $('#id_retailer_city option:selected').prop('value');
+        var id_retailer = $('#id_retailer option:selected').prop('value');
+
         if (window.File && window.FileReader && window.FileList && window.Blob)
         {
+
+            if(data_admin=='user'){
+                if(id_retailer==0){
+                    $("#output_select_retailer").html("Seleccione el retailer");
+                    return false
+                }
+
+                if(city==0){
+                    $("#output_select").html("Seleccione un region/departamento");
+                    return false
+                }
+            }
 
             if( !$('#FileInput').prop('value')) //check empty input filed
             {
@@ -62,6 +78,7 @@ $(document).ready(function() {
             $('#submit-btn').hide(); //hide submit button
             $('#loading-img').show(); //hide submit button
             $("#output").html("");
+            $("#output_select").html("");
         }
         else
         {

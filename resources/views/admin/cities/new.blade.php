@@ -49,9 +49,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-lg-2">Código <span class="text-danger">*</span></label>
+                    <label class="control-label col-lg-2">Abreviación <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control required" id="txtCodigo" name="txtCodigo" value="" maxlength="3">
+                        <input type="text" class="form-control abbreviation required" id="txtCodigo" name="txtCodigo" value="" maxlength="2">
                     </div>
                 </div>
 
@@ -143,11 +143,14 @@
                 var _value = $(element).prop('value');
                 var regex = null;
                 if($(element).hasClass('text') === true){
-                    regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s]*$/;
+                    regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s\-]*$/;
                     err = 'Ingrese solo texto';
                 }else if($(element).hasClass('email') === true){
                     regex = /^([a-z]+[a-z0-9._-]*)@{1}([a-z0-9\.]{2,})\.([a-z]{2,3})$/;
                     err = 'Email invalido';
+                }else if($(element).hasClass('abbreviation') === true){
+                    regex = /^[0-9A-Z]*$/;
+                    err = 'Ingrese solo texto y numeros';
                 }
 
                 if(regex !== null){
