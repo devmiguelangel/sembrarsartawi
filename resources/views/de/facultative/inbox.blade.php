@@ -274,7 +274,10 @@
                     @endif
 
                     <li>
-                      <a href="#"><i class="icon-plus2"></i> Ver Certificado de desgravamen</a>
+                      <a href="#" onclick="cargaModal({{ $record->detail->header->id }}, '{{ Session::token() }}', '{{ 'de/' . encode($data['products'][0]->rp->id) . '/' . encode($record->detail->header->id) . '/slip' }}', 'POST', 'emision')" 
+                        data-toggle="modal" data-target="#modal_general">
+                        <i class="icon-plus2"></i> Ver Certificado de desgravamen
+                      </a>
                     </li>
                   </ul>
                 </li>
@@ -296,3 +299,7 @@
         $(function(){messageAction('succes',"{{ session('success_header') }}");});
     </script>
 @endif
+
+<!-- modal -->
+@include('partials.modal')
+<!-- /modal -->

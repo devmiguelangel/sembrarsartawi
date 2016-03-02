@@ -11,6 +11,8 @@ var FacultativeController  = require('./components/de/FacultativeController');
 var CancellationController = require('./components/de/CancellationController');
 var HeaderViController     = require('./components/vi/HeaderController');
 
+var ClientController       = require('./components/ClientController');
+
 var app = angular.module('sibas', ['ngAnimate']);
 
 app.config(['$httpProvider', function ($httpProvider) {
@@ -93,3 +95,5 @@ app.controller('FacultativeController', ['$rootScope', '$scope', '$http', '$comp
 app.controller('CancellationController', ['$scope', '$http', CancellationController.cancellation]);
 
 app.controller('HeaderViController', ['$scope', '$http', HeaderViController.header]);
+
+app.controller('ClientController', ['$scope', ClientController.client]);

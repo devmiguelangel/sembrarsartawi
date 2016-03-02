@@ -28,8 +28,15 @@ class QuestionFormRequest extends Request
             'qs_number' => 'required|numeric|min:0'
         ];
 
-        foreach ($this->request->get('qs') as $key => $items) {
+        $data = $this->request->all();
+
+        foreach ($data['qs'] as $key => $items) {
             $rules['qs.' . $key . '.response'] = 'required|in:1,0';
+
+            if ($items['expected'] != $items['response']) {
+                $rules['qs_observation'] = 'required';
+            }
+
         }
 
         return $rules;

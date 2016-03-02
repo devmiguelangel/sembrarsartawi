@@ -85,7 +85,13 @@
                     </div>
                 @endif
 
-                {!! Form::open(['route' => ['de.detail.store', 'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                {!! Form::open(['route' => ['de.detail.store', 'rp_id' => $rp_id, 'header_id' => $header_id], 
+                  'method'        => 'post', 
+                  'class'         => 'form-horizontal',
+                  'id'            => 'client-form',
+                  'ng-controller' => 'ClientController',
+                  'ng-submit'     => 'submitDe($event)'
+                ]) !!}
                     <div class="panel-body ">
                         @include('client.de.partials.inputs-quote')
 

@@ -145,12 +145,6 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-question7"></i> Preguntas frecuentes</a>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-mail5"></i> Contacto</a>
-                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown dropdown-user">
@@ -159,10 +153,10 @@
                         <i class="caret"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a href="#"><i class="icon-user-plus"></i> Perfil</a></li>
-                        <li><a href="#"><i class="icon-lock5"></i> Cambiar clave</a></li>
+                        {{--<li><a href="#"><i class="icon-user-plus"></i> Perfil</a></li>--}}
+                        {{--<li><a href="#"><i class="icon-lock5"></i> Cambiar clave</a></li>--}}
                         <li class="divider"></li>
-                        <li><a href="#"><i class="icon-phone"></i> Telefono Agencia</a></li>
+                        {{--<li><a href="#"><i class="icon-phone"></i> Telefono Agencia</a></li>--}}
                         <li><a href="{{ route('auth.logout') }}"><i class="icon-switch2"></i> Salir</a></li>
                     </ul>
                 </li>

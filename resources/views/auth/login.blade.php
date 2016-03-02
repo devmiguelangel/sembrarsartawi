@@ -39,14 +39,14 @@
                     </label>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a href="login_password_recover.html">Se te olvidó tu contraseña?</a>
+                    {{-- <a href="login_password_recover.html">Se te olvidó tu contraseña?</a> --}}
                 </div>
             </div>
         </div>
         <div class="form-group">
             {!! Form::button('Iniciar sesión <i class="icon-arrow-right14 position-right"></i>', ['type' => 'submit', 'class' => 'btn bg-blue btn-block']) !!}
         </div>
-        <span class="help-block text-center no-margin">Al continuar , usted confirma que ha leído nuestros <a href="#">Terminos &amp; Condiciones</a> </span>
+        <span class="help-block text-center no-margin">Al continuar , usted confirma que ha leído nuestros Terminos &amp; Condiciones</span>
     </div>
     {!! Form::close() !!}
 @endsection
