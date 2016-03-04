@@ -53,6 +53,7 @@
                     <a href="{{route('adActivitiesList')}}" class="btn btn-primary">
                         Ir a la lista de ocupaciones <i class="icon-arrow-right14 position-right"></i>
                     </a>
+                    <input type="hidden" id="admin" value="occupation">
                 </div>
                 <div class="col-lg-3"></div>
 

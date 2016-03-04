@@ -5,6 +5,9 @@ namespace Sibas\Http\Controllers\Admin;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 use Sibas\Entities\User;
 use Sibas\Http\Requests;
 
@@ -351,6 +354,22 @@ class UserAdminController extends BaseController
             return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list']);
         }
     }
+
+    public function upload_file($nav, $action)
+    {
+        $main_menu = $this->menu_principal();
+        $query_city = \DB::table('ad_retailer_cities as arc')
+                    ->join('ad_cities as ac', 'ac.id', '=', 'arc.ad_city_id')
+                    ->select('arc.id as id_retailer_city', 'ac.name as city', 'ac.id as id_city')
+                    ->where('arc.active',true)
+                    ->get();
+
+        $retailer = \DB::table('ad_retailers')
+            ->where('active', true)
+            ->get();
+        return view('admin.user.import-file', compact('nav', 'action', 'main_menu', 'query_city', 'retailer'));
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -362,6 +381,152 @@ class UserAdminController extends BaseController
         //
     }
 
+    /**
+     * Upload file.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function upload_file_data_user(Request $request)
+    {
+        //dd($request->file('FileInput'));
+
+        if (Input::hasFile('FileInput')){
+            $file = $request->file('FileInput');
+
+            $destinationPath = 'assets/files/'; // upload path
+            $name = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension(); // getting image extension
+            $fileName = rand(11111,99999).'_'.$name; // renameing image
+            $file->move($destinationPath, $fileName); // loading file to given path
+            echo '¡Éxito! Archivo subido.'; echo'<br>';
+            $dat_select = $request->get('id_retailer_city');
+            $arr = explode('|',$dat_select);
+            $aux_agency='';
+            $id_retailer = $request->get('id_retailer');
+
+            Excel::load('assets/files/'.$fileName, function($reader) use ($arr,$aux_agency,$id_retailer) {
+                // Getting all results
+                $results = $reader->get();
+                $list = array();
+                $id_agency = 0;
+                //dd('['+$id_retailer+'] ['+$aux_agency+']');
+
+                foreach($results as $data){
+                    if($data->agencia==$aux_agency){
+
+                    }else{
+                        try {
+                            $quest_agency=\DB::table('ad_agencies')
+                                             ->where('name',$data->agencia)
+                                             ->first();
+                            if(count($quest_agency)==0){
+                                $id_agency = \DB::table('ad_agencies')->insertGetId(
+                                    [
+                                        'name' => $data->agencia,
+                                        'slug' => Str::slug($data->agencia),
+                                        'created_at' => date("Y-m-d H:i:s"),
+                                        'updated_at' => date("Y-m-d H:i:s")
+                                    ]
+                                );
+                            }else{
+                                $id_agency=$quest_agency->id;
+                            }
+                            $aux_agency = $data->agencia;
+                        }catch(QueryException $e){
+                            echo$e->getMessage();
+                        }
+                    }
+
+                    $list[]=array(
+                        'usuario'=>$data->usuario,
+                        'nombre'=>$data->nombre,
+                        'email'=>$data->email,
+                        'ad_agency_id'=>$id_agency,
+                        'ad_city_id' => $arr[1],
+                        'password' => Hash::make('Sartawi123'),
+                        'ad_user_type_id' => 2
+                    );
+                }
+                //dd($list);
+                $id_user=date('U');
+                $i=0;
+                $repeated = array();
+                foreach($list as $key => $val){
+                    //BUSQUEDA DE USUARIOS REPETIDOS
+                    $quest_user=\DB::table('ad_users')
+                                    ->where('username',$val['usuario'])
+                                    ->orwhere('email',$val['email'])
+                                    ->get();
+                    //dd($query_quest);
+                    if(count($quest_user)==0){
+                        $i=$i+1;
+                        $id_user=$id_user+$i;
+                        try {
+                            $user_new = new User();
+                            $user_new->id=$id_user;
+                            $user_new->username=$val['usuario'];
+                            $user_new->password=$val['password'];
+                            $user_new->full_name=$val['nombre'];
+                            $user_new->email=$val['email'];
+                            $user_new->ad_city_id=$val['ad_city_id'];
+                            $user_new->ad_agency_id=$val['ad_agency_id'];
+                            $user_new->ad_user_type_id=$val['ad_user_type_id'];
+                            $user_new->active=true;
+                            //dd($user_new);
+                            if($user_new->save()) {
+                                $query_retailer_user = \DB::table('ad_retailer_users')
+                                    ->insert(
+                                        [
+                                            'ad_retailer_id'=>$id_retailer,
+                                            'ad_user_id'=>$user_new->id,
+                                            'active' => true,
+                                            'created_at'=>date("Y-m-d H:i:s"),
+                                            'updated_at'=>date("Y-m-d H:i:s")
+                                        ]
+                                    );
+                                $query_insert = \DB::table('ad_user_profiles')->insert(
+                                    [
+                                        'ad_user_id'=>$user_new->id,
+                                        'ad_profile_id'=>3,
+                                        'active'=>true,
+                                        'created_at'=>date("Y-m-d H:i:s"),
+                                        'updated_at'=>date("Y-m-d H:i:s")
+                                    ]
+                                );
+                            }
+
+                        }catch(QueryException $e){
+                            echo $e->getMessage();
+                        }
+                    }else{
+                        $repeated[]=array(
+                            'usuario'=>$val['usuario'],
+                            'nombre'=>$val['nombre'],
+                            'email'=>$val['email']
+                        );
+
+                    }
+                }
+
+                echo 'Se importo correctamente los datos del archivo';
+                if(count($repeated)>0){
+                    echo'<br>';
+                    echo'<strong>En la importacion del archivo se encontro usuarios/emails repetidos:</strong>';
+                    echo'<br>';
+                    foreach($repeated as $ind => $data){
+                        echo $data['usuario'].' '.$data['nombre'].' '.$data['email'];echo'<br>';
+                    }
+                }
+
+
+            });
+            unlink('assets/files/'.$fileName);
+
+        }else{
+            return redirect()->back()->with(array('error'=>'Error no se subio correctamente el archivo, intente otra vez'));
+        }
+    }
 
     //FUNCIONES AJAX
     public function ajax_agency($id_retailer_city)

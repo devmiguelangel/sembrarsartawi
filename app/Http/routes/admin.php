@@ -30,6 +30,11 @@ Route::get('admin/user/reset-password/{nav}/{action}/{id_user}/{id_retailer}', [
     'uses' => 'Admin\UserAdminController@edit'
 ]);
 
+Route::get('admin/user/import-file/{nav}/{action}', [
+    'as' => 'admin.user.import-file',
+    'uses' => 'Admin\UserAdminController@upload_file'
+]);
+
 Route::post('admin/user/new', [
     'as' => 'create_user',
     'uses' => 'Admin\UserAdminController@store'
@@ -48,6 +53,11 @@ Route::post('admin/user/change', [
 Route::post('admin/user/reset', [
     'as' => 'reset_pass',
     'uses' => 'Admin\UserAdminController@reset'
+]);
+
+Route::post('admin/user/import-file', [
+    'as' => 'upload_data_users',
+    'uses' => 'Admin\UserAdminController@upload_file_data_user'
 ]);
 
 //procesos ajax
