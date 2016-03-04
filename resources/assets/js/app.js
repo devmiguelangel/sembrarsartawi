@@ -94,6 +94,6 @@ app.controller('FacultativeController', ['$rootScope', '$scope', '$http', '$comp
 
 app.controller('CancellationController', ['$scope', '$http', CancellationController.cancellation]);
 
-app.controller('HeaderViController', ['$scope', '$http', HeaderViController.header]);
+app.controller('HeaderViController', ['$scope', '$http', '$compile', HeaderViController.header]);
 
 app.controller('ClientController', ['$scope', ClientController.client]);
