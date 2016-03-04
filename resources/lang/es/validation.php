@@ -156,6 +156,9 @@ return [
         'contact_person'   => 'Persona de Contacto',
         'answers'          => 'Cuestionario Médico',
         'observation_response' => 'Respuesta',
+        'qs'               => 'Cuestionario de Salud',
+        'numberBN'         => 'Número de Beneficiarios',
+        'beneficiaries'    => 'Beneficiarios',
         '' => '',
     ],
 
