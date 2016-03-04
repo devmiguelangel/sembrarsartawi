@@ -202,4 +202,9 @@ return [
         'P' => 'En proceso de remodelación, ampliación o refacción',
     ],
 
+    'sp_modalities' => [
+        'MS' => 'Modalidad Valor Estático',
+        'MV' => 'Modalidad Valor Asegurado',
+    ],
+
 ];
