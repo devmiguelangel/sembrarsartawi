@@ -24,6 +24,7 @@ class McCertificatesController extends BaseController {
         $nav = $this->nav;
         $action = 'list';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         
         $entities = DB::table('mc_certificates')
                 ->join('ad_retailer_products','mc_certificates.ad_retailer_product_id','=','ad_retailer_products.id')
@@ -47,7 +48,7 @@ class McCertificatesController extends BaseController {
         
         $type = config('base.medical_certificate_types');
         
-        return view('admin.mcCertificates.list', compact('nav', 'action', 'entities', 'main_menu', 'type'));
+        return view('admin.mcCertificates.list', compact('nav', 'action', 'entities', 'main_menu', 'type', 'array_data'));
     }
 
     /**
@@ -59,6 +60,7 @@ class McCertificatesController extends BaseController {
         $nav = $this->nav;
         $action = 'new';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $type = config('base.medical_certificate_types');
         $array = array();
         $i = 0;
@@ -75,7 +77,7 @@ class McCertificatesController extends BaseController {
                 ->select('ad_retailer_products.*','ad_products.name as name_product')
                 ->get();
         
-        return view('admin.mcCertificates.new', compact('nav', 'action', 'main_menu', 'type', 'retailerProd'));
+        return view('admin.mcCertificates.new', compact('nav', 'action', 'main_menu', 'type', 'retailerProd', 'array_data'));
     }
 
     /**
@@ -117,6 +119,7 @@ class McCertificatesController extends BaseController {
         $nav = $this->nav;
         $action = 'asign';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $mcCertificateQuestionnaires = DB::table('mc_certificate_questionnaires')
                 ->join('mc_questionnaires','mc_certificate_questionnaires.mc_questionnaire_id','=','mc_questionnaires.id')
                 ->where('mc_certificate_questionnaires.mc_certificate_id',$id_cert)
@@ -137,7 +140,7 @@ class McCertificatesController extends BaseController {
         $mcCertificates = DB::table('mc_certificates')->where('id', $id_cert)->get();
         $mcCertificates = $mcCertificates[0];
 
-        return view('admin.mcCertificates.asignQuestionList', compact('nav', 'action', 'main_menu', 'mcCertificateQuestionnaires', 'mcCertificates'));
+        return view('admin.mcCertificates.asignQuestionList', compact('nav', 'action', 'main_menu', 'mcCertificateQuestionnaires', 'mcCertificates', 'array_data'));
     }
     /**
      * Formualario de asignacion de preguras nuevo.
@@ -152,12 +155,13 @@ class McCertificatesController extends BaseController {
         $nav = $this->nav;
         $action = 'asign';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $mcQuestionnaires = DB::table('mc_questionnaires')->where('id',$id_questionnaire)->get();
         $mcQuestionnaires = $mcQuestionnaires[0];
         
         $mcQuestions = DB::table('mc_questions')->get();
         
-        return view('admin.mcCertificates.asignQuestionNew', compact('nav', 'action', 'main_menu', 'mcQuestionnaires', 'mcQuestions', 'id_cert', 'id_cert_quest'));
+        return view('admin.mcCertificates.asignQuestionNew', compact('nav', 'action', 'main_menu', 'mcQuestionnaires', 'mcQuestions', 'id_cert', 'id_cert_quest', 'array_data'));
     }
       
     /**
@@ -194,6 +198,7 @@ class McCertificatesController extends BaseController {
         $nav = $this->nav;
         $action = 'asign';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $mcQuestionnaires = DB::table('mc_questionnaires')->where('id',$id_questionnaire)->get();
         $mcQuestionnaires = $mcQuestionnaires[0];
 
@@ -217,7 +222,7 @@ class McCertificatesController extends BaseController {
         
         
         
-        return view('admin.mcCertificates.asignQuestionEdit', compact('nav', 'action', 'main_menu', 'mcQuestionnaires', 'mcQuestions', 'id_cert', 'id_cert_quest', 'selectActive'));
+        return view('admin.mcCertificates.asignQuestionEdit', compact('nav', 'action', 'main_menu', 'mcQuestionnaires', 'mcQuestions', 'id_cert', 'id_cert_quest', 'selectActive', 'array_data'));
     }
     /**
      * Store a newly created resource in storage.
@@ -252,12 +257,13 @@ class McCertificatesController extends BaseController {
         $nav = $this->nav;
         $action = 'asign';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $mcQuestionnaires = DB::table('mc_questionnaires')->get();
         
         $mcCertificates = DB::table('mc_certificates')->where('id', $id)->get();
         $mcCertificates = $mcCertificates[0];
 
-        return view('admin.mcCertificates.asignQuestionnairesNew', compact('nav', 'action', 'main_menu', 'mcQuestionnaires', 'mcCertificates'));
+        return view('admin.mcCertificates.asignQuestionnairesNew', compact('nav', 'action', 'main_menu', 'mcQuestionnaires', 'mcCertificates', 'array_data'));
     }
     
     /**
@@ -271,6 +277,7 @@ class McCertificatesController extends BaseController {
         $nav = $this->nav;
         $action = 'asign';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $mcQuestionnaires = DB::table('mc_questionnaires')->get();
         
         $mcCertificateQuestionnaires = DB::table('mc_certificate_questionnaires')->where('mc_certificate_id', $id)->get();
@@ -292,7 +299,7 @@ class McCertificatesController extends BaseController {
         $mcCertificates = DB::table('mc_certificates')->where('id', $id)->get();
         $mcCertificates = $mcCertificates[0];
 
-        return view('admin.mcCertificates.asignQuestionnairesEdit', compact('nav', 'action', 'main_menu', 'mcQuestionnaires', 'mcCertificates'));
+        return view('admin.mcCertificates.asignQuestionnairesEdit', compact('nav', 'action', 'main_menu', 'mcQuestionnaires', 'mcCertificates', 'array_data'));
     }
 
     /**
@@ -357,6 +364,7 @@ class McCertificatesController extends BaseController {
         $nav = $this->nav;
         $action = 'edit';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
 
         $type = config('base.medical_certificate_types');
         $array = array();
@@ -376,7 +384,7 @@ class McCertificatesController extends BaseController {
         $entity = DB::table('mc_certificates')->where('id', $id)->get();
         $entity = $entity[0];
 
-        return view('admin.mcCertificates.edit', compact('nav', 'action', 'entity', 'main_menu', 'id', 'type', 'retailerProd'));
+        return view('admin.mcCertificates.edit', compact('nav', 'action', 'entity', 'main_menu', 'id', 'type', 'retailerProd', 'array_data'));
     }
 
     /**

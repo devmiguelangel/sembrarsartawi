@@ -21,13 +21,14 @@ class AgencyAdminController extends BaseController
     public function index($nav, $action)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             //dd($id_retailer);
             $query = Agency::get();
-            return view('admin.agencies.list', compact('nav','action', 'query', 'main_menu'));
+            return view('admin.agencies.list', compact('nav','action', 'query', 'main_menu', 'array_data'));
         }elseif($action=='new'){
 
-            return view('admin.agencies.new', compact('nav', 'action', 'main_menu'));
+            return view('admin.agencies.new', compact('nav', 'action', 'main_menu', 'array_data'));
         }
 
     }
@@ -36,6 +37,7 @@ class AgencyAdminController extends BaseController
     public function index_agency_retailer($nav, $action)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list_agency_retailer'){
             $query = \DB::table('ad_retailer_city_agencies as arca')
                 ->join('ad_agencies as aa', 'aa.id', '=', 'arca.ad_agency_id')
@@ -45,7 +47,7 @@ class AgencyAdminController extends BaseController
                 ->select('arca.id as id_retailer_city_agency', 'aa.name as agency', 'ac.name as city', 'arca.active', 'ar.name as retailer')
                 ->get();
             //dd($query);
-            return view('admin.agencies.list-agency-retailer', compact('nav', 'action', 'main_menu', 'query'));
+            return view('admin.agencies.list-agency-retailer', compact('nav', 'action', 'main_menu', 'query', 'array_data'));
         }elseif($action=='new_agency_retailer'){
             $agency = \DB::table('ad_agencies as aa')
                             ->select('aa.id as id_agency', 'aa.name as agency')
@@ -55,7 +57,7 @@ class AgencyAdminController extends BaseController
                             ->select('ar.id as id_retailer', 'ar.name as retailer')
                             ->get();
 
-            return view('admin.agencies.new-agency-retailer', compact('nav', 'action', 'main_menu', 'agency', 'retailer'));
+            return view('admin.agencies.new-agency-retailer', compact('nav', 'action', 'main_menu', 'agency', 'retailer', 'array_data'));
         }
     }
     /**
@@ -140,11 +142,11 @@ class AgencyAdminController extends BaseController
     public function edit($nav, $action, $id_agency)
     {
         $main_menu = $this->menu_principal();
-
+        $array_data = $this->array_data();
         $query_ag = Agency::where('id', $id_agency)->first();
 
         //dd($city_agency);
-        return view('admin.agencies.edit', compact('nav', 'action', 'query_ag', 'main_menu'));
+        return view('admin.agencies.edit', compact('nav', 'action', 'query_ag', 'main_menu', 'array_data'));
     }
 
     /**

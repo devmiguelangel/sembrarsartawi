@@ -46,34 +46,42 @@
                         <strong>{{$query->product}}</strong>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Coberturas </label>
-                    <div class="col-lg-10">
-                        <strong>{{$query->coverage}}</strong>
+                @if($query->code_product=='de')
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Coberturas </label>
+                        <div class="col-lg-10">
+                            <strong>{{$query->coverage}}</strong>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Tasa Compañía <span class="text-danger">*</span></label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control required decimal" name="rate_company" id="rate_company" value="{{$query->rate_company}}" autocomplete="off">
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Tasa Compañía <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control required decimal" name="rate_company" id="rate_company" value="{{$query->rate_company}}" autocomplete="off">
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Tasa Banco <span class="text-danger">*</span></label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control required decimal" name="rate_bank" id="rate_bank" value="{{$query->rate_bank}}" autocomplete="off">
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Tasa Banco <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control required decimal" name="rate_bank" id="rate_bank" value="{{$query->rate_bank}}" autocomplete="off">
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Tasa Final</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" readonly value="{{$query->rate_final}}">
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Tasa Final</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" readonly value="{{$query->rate_final}}">
+                        </div>
                     </div>
-                </div>
+                @else
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Tasa Final</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" value="{{$query->rate_final}}" autocomplete="off">
+                        </div>
+                    </div>
+                @endif
 
             </fieldset>
 
@@ -85,6 +93,7 @@
                     Cancelar <i class="icon-arrow-right14 position-right"></i>
                 </a>
                 <input type="hidden" name="id_rates" value="{{$id_rates}}">
+                <input type="hidden" name="code_product" value="{{$query->code_product}}">
             </div>
             {!!Form::close()!!}
         </div>

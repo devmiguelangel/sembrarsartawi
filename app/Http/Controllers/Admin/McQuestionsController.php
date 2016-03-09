@@ -26,10 +26,11 @@ class McQuestionsController extends BaseController {
         $nav = $this->nav;
         $action = 'list';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $entities = DB::table('mc_questions')->get();
         $tipoCampo = config('base.mc_question_types');
         
-        return view('admin.mcQuestions.list', compact('nav', 'action', 'entities', 'main_menu', 'tipoCampo'));
+        return view('admin.mcQuestions.list', compact('nav', 'action', 'entities', 'main_menu', 'tipoCampo', 'array_data'));
     }
 
     /**
@@ -41,6 +42,7 @@ class McQuestionsController extends BaseController {
         $nav = $this->nav;
         $action = 'new';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $type = config('base.mc_question_types');
         $array = array();
         $i = 0;
@@ -51,7 +53,7 @@ class McQuestionsController extends BaseController {
         }
         $type = $array;
         
-        return view('admin.mcQuestions.new', compact('nav', 'action', 'main_menu','type'));
+        return view('admin.mcQuestions.new', compact('nav', 'action', 'main_menu','type', 'array_data'));
     }
 
     /**
@@ -87,7 +89,7 @@ class McQuestionsController extends BaseController {
         $nav = $this->nav;
         $action = 'edit';
         $main_menu = $this->menu_principal();
-        
+        $array_data = $this->array_data();
         $type = config('base.mc_question_types');
         $array = array();
         $i = 0;
@@ -101,7 +103,7 @@ class McQuestionsController extends BaseController {
         $entity = DB::table('mc_questions')->where('id', $id)->get();
         $entity = $entity[0];
 
-        return view('admin.mcQuestions.edit', compact('nav', 'action', 'entity', 'main_menu', 'id', 'type'));
+        return view('admin.mcQuestions.edit', compact('nav', 'action', 'entity', 'main_menu', 'id', 'type', 'array_data'));
     }
 
     /**

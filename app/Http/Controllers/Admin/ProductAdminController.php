@@ -19,15 +19,16 @@ class ProductAdminController extends BaseController
     public function index($nav, $action)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = Product::get();
             //dd($query);
             $parameter = config('base.product_types');
 
-            return view('admin.product.list', compact('nav', 'action', 'query', 'main_menu', 'parameter'));
+            return view('admin.product.list', compact('nav', 'action', 'query', 'main_menu', 'parameter', 'array_data'));
         }elseif($action=='new'){
             //dd($parameter);
-            return view('admin.product.new', compact('nav', 'action', 'main_menu'));
+            return view('admin.product.new', compact('nav', 'action', 'main_menu', 'array_data'));
         }
         //
     }
@@ -85,10 +86,11 @@ class ProductAdminController extends BaseController
     public function edit($nav, $action, $id_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = Product::where('id', $id_product)
                         ->first();
         //dd($query);
-        return view('admin.product.edit', compact('nav', 'action', 'query', 'main_menu'));
+        return view('admin.product.edit', compact('nav', 'action', 'query', 'main_menu', 'array_data'));
     }
 
     /**

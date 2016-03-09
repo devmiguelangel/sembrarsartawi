@@ -18,6 +18,7 @@ class StateAdminController extends BaseController
     public function index($nav, $action)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = \DB::table('ad_retailer_product_states as arps')
                         ->join('ad_retailer_products as arp', 'arp.id', '=', 'arps.ad_retailer_product_id')
@@ -28,13 +29,13 @@ class StateAdminController extends BaseController
                         ->select('arps.id as id_retailer_product_states', 'sta.state', 'ap.name as product', 'ar.name as retailer', 'arps.active')
                         ->get();
 
-            return view('admin.estados.list', compact('nav', 'action', 'main_menu', 'query'));
+            return view('admin.estados.list', compact('nav', 'action', 'main_menu', 'query', 'array_data'));
         }elseif($action=='new'){
             $retailer = \DB::table('ad_retailers')
                 ->get();
             $states = \DB::table('ad_states')
                             ->get();
-            return view('admin.estados.new', compact('nav', 'action', 'main_menu', 'query', 'retailer', 'states'));
+            return view('admin.estados.new', compact('nav', 'action', 'main_menu', 'query', 'retailer', 'states', 'array_data'));
         }
     }
 
@@ -166,7 +167,7 @@ class StateAdminController extends BaseController
     }
 
     public function ajax_active_inactive($id_retailer_product_states, $text){
-        //dd($id_company);
+        //dd($id_retailer_product_states);
         if($text=='inactive'){
             $query_update = \DB::table('ad_retailer_product_states')
                 ->where('id', $id_retailer_product_states)

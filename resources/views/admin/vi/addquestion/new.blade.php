@@ -92,7 +92,7 @@
                         Guardar <i class="icon-floppy-disk position-right"></i>
                     </button>
                 @endif
-                <a href="{{route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-primary">
+                <a href="{{route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-primary">
                     Cancelar <i class="icon-cross position-right"></i>
                 </a>
                 @if(count($question)==0)

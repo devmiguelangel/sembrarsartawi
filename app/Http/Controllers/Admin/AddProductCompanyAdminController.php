@@ -18,6 +18,7 @@ class AddProductCompanyAdminController extends BaseController
     public function index($nav, $action, $id_company)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
            $query = \DB::table('ad_company_products as acp')
                         ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
@@ -26,7 +27,7 @@ class AddProductCompanyAdminController extends BaseController
                         ->where('acp.ad_company_id', '=', $id_company)
                         ->get();
 
-           return view('admin.addproductcompany.list', compact('nav', 'action', 'main_menu', 'query', 'id_company'));
+           return view('admin.addproductcompany.list', compact('nav', 'action', 'main_menu', 'query', 'id_company', 'array_data'));
         }elseif($action=='new'){
             $query_cia = Company::where('id', $id_company)->first();
             $query_prod = \DB::table('ad_products as ap')
@@ -37,7 +38,7 @@ class AddProductCompanyAdminController extends BaseController
                                         ->whereRaw('acp.ad_company_id ='.$id_company);
                                 })->get();
             //dd($query_prod);
-            return view('admin.addproductcompany.new', compact('nav', 'action', 'main_menu', 'id_company', 'query_cia', 'query_prod'));
+            return view('admin.addproductcompany.new', compact('nav', 'action', 'main_menu', 'id_company', 'query_cia', 'query_prod', 'array_data'));
         }
     }
 

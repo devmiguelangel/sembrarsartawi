@@ -19,16 +19,17 @@ class ExchangeAdminController extends BaseController
     public function index($nav, $action)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $exchange = ExchangeRate::join('ad_retailers', 'ad_exchange_rates.ad_retailer_id', '=', 'ad_retailers.id')
                 ->select('ad_retailers.name as entidad', 'ad_exchange_rates.usd_value', 'ad_exchange_rates.bs_value', 'ad_exchange_rates.created_at as creation_date', 'ad_exchange_rates.id')
                 ->where('ad_retailers.active', '=', 1)->get();
             //dd($exchange);
-            return view('admin.exchange.list', compact('nav', 'action', 'exchange', 'main_menu'));
+            return view('admin.exchange.list', compact('nav', 'action', 'exchange', 'main_menu', 'array_data'));
         }elseif($action=='new'){
             $retailer = Retailer::get();
             //dd($retailer);
-            return view('admin.exchange.new', compact('nav', 'action', 'retailer', 'main_menu'));
+            return view('admin.exchange.new', compact('nav', 'action', 'retailer', 'main_menu', 'array_data'));
         }
 
     }
@@ -84,12 +85,13 @@ class ExchangeAdminController extends BaseController
     public function edit($nav, $action, $id_exchange)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $retailer = Retailer::where('active', 1)->first();
         $query_exchange = \DB::table('ad_exchange_rates')
                                 ->where('id', $id_exchange)
                                 ->where('ad_retailer_id',$retailer->id)
                                 ->first();
-        return view('admin.exchange.edit', compact('nav', 'action', 'retailer', 'main_menu', 'query_exchange', 'id_exchange'));
+        return view('admin.exchange.edit', compact('nav', 'action', 'retailer', 'main_menu', 'query_exchange', 'id_exchange', 'array_data'));
     }
 
     /**

@@ -61,7 +61,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="content-coverage">
                         <label class="control-label col-lg-2">Coberturas <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <select name="id_coverage" id="id_coverage" class="form-control required" disabled>
@@ -70,14 +70,14 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="content-rate-company">
                         <label class="control-label col-lg-2">Tasa Compañía <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <input type="text" class="form-control required decimal" name="rate_company" id="rate_company" value="0" autocomplete="off">
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="content-rate-bank">
                         <label class="control-label col-lg-2">Tasa Banco <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <input type="text" class="form-control required decimal" name="rate_bank" id="rate_bank" value="0" autocomplete="off">
@@ -87,7 +87,7 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2">Tasa Final <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" readonly value="0">
+                            <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" readonly value="0" autocomplete="off">
                         </div>
                     </div>
 
@@ -121,7 +121,8 @@
                         $.each(data, function () {
                             console.log("ID: " + this.id_retailer_product);
                             console.log("First Name: " + this.product);
-                            $('#id_producto_retailer').append('<option value="'+this.id_retailer_product+'">'+this.product+'</option>');
+                            console.log("code: "+ this.code);
+                            $('#id_producto_retailer').append('<option value="'+this.id_retailer_product+'|'+this.code+'">'+this.product+'</option>');
                         });
                     }else{
                         $('#id_retailer option[value="0"]').prop('selected',true);
@@ -133,31 +134,63 @@
 
             //VERIFICAMOS LAS COBERTURAS EXISTENTES
             $('#id_producto_retailer').change(function(e){
-                var id_retailer_product = $(this).prop('value');
+                var _id = $(this).prop('value');
+                var arr = _id.split('|');
+                var id_retailer_product = arr[0];
+                var code = arr[1];
                 //alert(id_retailer_product);
                 if(id_retailer_product!=0){
-                    $.get( "{{url('/')}}/admin/tasas/cobertura_ajax/"+id_retailer_product, function( data ) {
-                        console.log(data);
+                    if(code=='de'){
+                        $('#content-coverage').fadeIn('fast');
+                        $('#id_coverage').addClass('form-control required');
+                        $('#content-rate-company').fadeIn('fast');
+                        $('#rate_company').addClass('form-control required decimal');
+                        $('#content-rate-bank').fadeIn('fast');
+                        $('#rate_bank').addClass('form-control required decimal');
+                        $.get( "{{url('/')}}/admin/tasas/cobertura_ajax/"+id_retailer_product, function( data ) {
+                            console.log(data);
 
-                        if(data.length>0) {
-                            $('button[type="submit"]').prop('disabled', false);
-                            $('#id_coverage').prop('disabled', false);
-                            $('#id_coverage option').remove();
-                            $('#id_coverage').append('<option value="0">Seleccione</option>');
-                            $('#msg_error').html('');
-                            $.each(data, function () {
-                                console.log("ID: " + this.id_coverage);
-                                console.log("First Name: " + this.coverage);
-                                $('#id_coverage').append('<option value="'+this.id_coverage+'">'+this.coverage+'</option>');
-                            });
-                        }else{
-                            $('#id_coverage option').remove();
-                            $('#id_coverage').append('<option value="0">Seleccione</option>');
-                            $('button[type="submit"]').prop('disabled', true);
-                            $('#msg_error').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span>Las coberturas ya tienen registrados las tasas o no existen coberturas registradas a producto</div>');
-                        }
+                            if(data.length>0) {
+                                $('button[type="submit"]').prop('disabled', false);
+                                $('#id_coverage').prop('disabled', false);
+                                $('#id_coverage option').remove();
+                                $('#id_coverage').append('<option value="0">Seleccione</option>');
+                                $('#msg_error').html('');
+                                $.each(data, function () {
+                                    console.log("ID: " + this.id_coverage);
+                                    console.log("First Name: " + this.coverage);
+                                    $('#id_coverage').append('<option value="'+this.id_coverage+'">'+this.coverage+'</option>');
+                                });
+                            }else{
+                                $('#id_coverage option').remove();
+                                $('#id_coverage').append('<option value="0">Seleccione</option>');
+                                $('button[type="submit"]').prop('disabled', true);
+                                $('#msg_error').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span>Las coberturas ya tienen registrados las tasas o no existen coberturas registradas a producto</div>');
+                            }
 
-                    });
+                        });
+                    }else{
+                        $('button[type="submit"]').prop('disabled', false);
+                        $('#content-coverage').fadeOut('fast');
+                        $('#id_coverage').removeClass('form-control required');
+                        $('#content-rate-company').fadeOut('fast');
+                        $('#rate_company').removeClass('form-control required decimal');
+                        $('#content-rate-bank').fadeOut('fast');
+                        $('#rate_bank').removeClass('form-control required decimal');
+                        $('#msg_error').html('');
+                        $('#rate_final').prop('readonly',false);
+                        $.get( "{{url('/')}}/admin/tasas/quest_rate_ajax/"+id_retailer_product, function( data ) {
+                            if(data==1){
+                                $('button[type="submit"]').prop('disabled', true);
+                                $('#rate_final').prop('disabled', true);
+                                $('#msg_error').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span>El producto ya tiene registrado la tasa</div>');
+                            }else{
+                                $('button[type="submit"]').prop('disabled', false);
+                                $('#rate_final').prop('disabled', false);
+                                $('#msg_error').html('');
+                            }
+                        });
+                    }
                 }else{
 
                 }

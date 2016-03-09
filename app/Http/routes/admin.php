@@ -35,6 +35,11 @@ Route::get('admin/user/import-file/{nav}/{action}', [
     'uses' => 'Admin\UserAdminController@upload_file'
 ]);
 
+Route::get('active_inactive_user/{id_user}/{text}', [
+    'as' => 'active_inactive_user',
+    'uses' => 'Admin\UserAdminController@ajax_active_inactive'
+]);
+
 Route::post('admin/user/new', [
     'as' => 'create_user',
     'uses' => 'Admin\UserAdminController@store'
@@ -64,11 +69,13 @@ Route::post('admin/user/import-file', [
 Route::get('admin/user/agency_ajax/{id_retailer_city}', 'Admin\UserAdminController@ajax_agency');
 Route::get('admin/user/finduser_ajax/{usuario}', 'Admin\UserAdminController@ajax_finduser');
 Route::get('admin/user/pass_now_ajax/{id_user}/{contrasenia_actual}', 'Admin\UserAdminController@ajax_current_password');
-Route::get('admin/user/active_ajax/{id_user}/{text}', 'Admin\UserAdminController@ajax_active_inactive');
-Route::get('admin/user/profiles_ajax/{tipo_usuario}', 'Admin\UserAdminController@ajax_user_profiles');
+/*Route::get('admin/user/active_ajax/{id_user}/{text}', 'Admin\UserAdminController@ajax_active_inactive');*/
+Route::get('admin/user/profiles_ajax/{session_type_user}', 'Admin\UserAdminController@ajax_user_profiles');
 Route::get('admin/user/disabled_ajax/{id_user}', 'Admin\UserAdminController@ajax_disabled_permissions');
 Route::get('admin/user/find_email_ajax/{email}', 'Admin\UserAdminController@ajax_find_email');
 Route::get('admin/user/find_email_edit_ajax/{email}/{id_usuario}', 'Admin\UserAdminController@ajax_find_email_edit');
+Route::get('admin/user/city_ajax/{id_retailer}', 'Admin\UserAdminController@ajax_city');
+Route::get('admin/user/permissions_ajax/{user_type}', 'Admin\UserAdminController@ajax_permissions');
 
 
 require "admin.company.php";

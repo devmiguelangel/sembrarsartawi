@@ -32,6 +32,11 @@ Route::get('admin/agencies/new-agency-retailer/{nav}/{action}', [
     'uses' => 'Admin\AgencyAdminController@index_agency_retailer'
 ]);
 
+Route::get('active_inactive_agency/{id_retailer_city_agency}/{text}', [
+    'as' => 'active_inactive_agency',
+    'uses' => 'Admin\AgencyAdminController@ajax_active_inactive'
+]);
+
 /**
 PROCESOS POST
  **/
@@ -53,4 +58,4 @@ Route::post('admin/agencies/new-agency-retailer', [
 /** PROCESOS AJAX **/
 Route::get('admin/agencies/cities_ajax/{id_retailer}', 'Admin\AgencyAdminController@ajax_cities');
 Route::get('admin/agencies/retailer_agencies_ajax/{id_retailer_city}', 'Admin\AgencyAdminController@ajax_agencies_retailer');
-Route::get('admin/cities/active_ajax/{id_retailer_city_agency}/{text}', 'Admin\AgencyAdminController@ajax_active_inactive');
+/*Route::get('admin/cities/active_ajax/{id_retailer_city_agency}/{text}', 'Admin\AgencyAdminController@ajax_active_inactive');*/

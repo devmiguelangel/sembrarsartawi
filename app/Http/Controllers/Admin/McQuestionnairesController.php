@@ -26,9 +26,10 @@ class McQuestionnairesController extends BaseController {
         $nav = $this->nav;
         $action='list';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $entities = DB::table('mc_questionnaires')->get();
         
-        return view('admin.mcQuestionnaries.list', compact('nav', 'action', 'entities', 'main_menu'));
+        return view('admin.mcQuestionnaries.list', compact('nav', 'action', 'entities', 'main_menu', 'array_data'));
     }
 
     /**
@@ -41,8 +42,8 @@ class McQuestionnairesController extends BaseController {
         $nav = $this->nav;
         $action = 'new';
         $main_menu = $this->menu_principal();
-        
-        return view('admin.mcQuestionnaries.new', compact('nav', 'action', 'main_menu'));
+        $array_data = $this->array_data();
+        return view('admin.mcQuestionnaries.new', compact('nav', 'action', 'main_menu', 'permissions', 'array_data'));
     }
 
     /**
@@ -79,11 +80,11 @@ class McQuestionnairesController extends BaseController {
         $nav = $this->nav;
         $action = 'edit';
         $main_menu = $this->menu_principal();
-
+        $array_data = $this->array_data();
         $entity = DB::table('mc_questionnaires')->where('id', $id)->get();
         $entity = $entity[0];
 
-        return view('admin.mcQuestionnaries.edit', compact('nav', 'action', 'entity', 'main_menu', 'id'));
+        return view('admin.mcQuestionnaries.edit', compact('nav', 'action', 'entity', 'main_menu', 'id', 'array_data'));
     }
 
     /**

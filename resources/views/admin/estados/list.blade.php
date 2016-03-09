@@ -109,10 +109,14 @@
                 bootbox.confirm("Esta seguro de "+arr[2]+" el estado ?", function(result) {
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
-                        $.get( "{{url('/')}}/admin/policy/active_ajax/"+id_retailer_product_states+"/"+text, function( data ) {
+                        $.get( "{{url('/')}}/admin/estados/active_ajax/"+id_retailer_product_states+"/"+text, function( data ) {
                             console.log(data);
                             if(data==1){
-                                window.setTimeout('location.reload()', 1000);
+                                swal({
+                                    title: 'Se actualizo correctamente el registro',
+                                    confirmButtonColor: "#2196F3"
+                                });
+                                window.setTimeout('location.reload()', 2000);
                             }else if(data==0){
                                 bootbox.alert("Error!! no se actualizo el dato, vuelva a intentarlo otra vez");
                             }

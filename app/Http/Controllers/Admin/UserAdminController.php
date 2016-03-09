@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -29,16 +30,17 @@ class UserAdminController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($nav, $action)
+    public function index(Guard $auth, $nav, $action)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
-            if($this->repository->listUser()){
+            if($this->repository->listUser($auth->user()->type->code)){
                 $users = $this->repository->getModel() ;
             }else{
                 $users = null;
             }
-            return view('admin.user.list', compact('nav', 'action', 'users', 'main_menu'));
+            return view('admin.user.list', compact('nav', 'action', 'users', 'main_menu', 'array_data'));
         }elseif($action=='new'){
             $retailer = \DB::table('ad_retailers')
                             ->where('active', true)
@@ -50,11 +52,20 @@ class UserAdminController extends BaseController
                         ->where('ad_retailer_cities.active', '=', 1)
                         ->get();
             //dd($cities);
-            $query_type_user = \DB::table('ad_user_types')->get();
+            $query_type_user = \DB::table('ad_user_types')
+                                    ->where('code','<>','ADT')
+                                    ->get();
 
-            $permissions = \DB::table('ad_permissions')
-                ->get();
-            return view('admin.user.new', compact('nav','action', 'cities', 'main_menu', 'query_type_user', 'retailer', 'permissions'));
+            if($auth->user()->type->code=='ADT'){
+                $permissions_list = \DB::table('ad_permissions')
+                    ->get();
+            }else{
+                $permissions_list = \DB::table('ad_permissions')
+                    ->where('slug','like','R%')
+                    ->get();
+            }
+
+            return view('admin.user.new', compact('nav','action', 'cities', 'main_menu', 'query_type_user', 'retailer', 'permissions_list', 'array_data'));
         }
 
     }
@@ -75,8 +86,14 @@ class UserAdminController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Guard $auth, Request $request)
     {
+        if($auth->user()->type->code=='ADT'){
+            $contrasenia = Hash::make($request->input('contrasenia'));
+        }else{
+            $contrasenia = Hash::make('Sartawi123');
+        }
+
         if($request->get('agencia')!=0){
             $agency = $request->get('agencia');
         }else{
@@ -88,7 +105,7 @@ class UserAdminController extends BaseController
             $user_new = new User();
             $user_new->id=date('U');
             $user_new->username=$request->input('txtIdusuario');
-            $user_new->password=Hash::make($request->input('contrasenia'));
+            $user_new->password=$contrasenia;
             $user_new->full_name=$request->input('txtNombre');
             $user_new->email=$request->input('txtEmail');
             $user_new->phone_number=$request->input('txtTelefono');
@@ -108,17 +125,19 @@ class UserAdminController extends BaseController
                         ]
                     );
                 if($query_retailer_user){
-                    if($array[1]=='UST'){
+                    if($array[1]=='UST' || $array[1]=='OPT'){
                         try {
-                            $query_insert = \DB::table('ad_user_profiles')->insert(
-                                [
-                                    'ad_user_id'=>$user_new->id,
-                                    'ad_profile_id'=>$request->input('id_profile'),
-                                    'active'=>true,
-                                    'created_at'=>date("Y-m-d H:i:s"),
-                                    'updated_at'=>date("Y-m-d H:i:s")
-                                ]
-                            );
+                            if($array[1]=='UST'){
+                                $query_insert = \DB::table('ad_user_profiles')->insert(
+                                    [
+                                        'ad_user_id'=>$user_new->id,
+                                        'ad_profile_id'=>$request->input('id_profile'),
+                                        'active'=>true,
+                                        'created_at'=>date("Y-m-d H:i:s"),
+                                        'updated_at'=>date("Y-m-d H:i:s")
+                                    ]
+                                );
+                            }
 
                             if(count($request->get('permiso'))>0){
                                 foreach ($request->get('permiso') as $key => $value) {
@@ -169,9 +188,10 @@ class UserAdminController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($nav, $action, $id_user, $id_retailer)
+    public function edit(Guard $auth, $nav, $action, $id_user, $id_retailer)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='edit'){
             try {
                 $user_find = \DB::table('ad_users as au')
@@ -183,13 +203,22 @@ class UserAdminController extends BaseController
                 $user_permission = \DB::table('ad_user_permissions')
                     ->where('ad_user_id', $user_find->id_user)
                     ->get();
-                //dd($user_permission);
+
                 $profile_find = \DB::table('ad_user_profiles')
                     ->where('ad_user_id', '=', $user_find->id_user)
                     ->first();
 
-                $query_prof = \DB::table('ad_profiles')
-                    ->get();
+                if($auth->user()->type->code=='ADT'){
+                    $query_prof = \DB::table('ad_profiles')
+                        ->get();
+                }else{
+                    $query_prof = \DB::table('ad_profiles')
+                                        ->where('slug','<>','SUP')
+                                        ->where('slug','<>','REP')
+                                        ->where('slug','<>','TEP')
+                                        ->get();
+                }
+
 
                 $cities = \DB::table('ad_retailer_cities')
                     ->join('ad_cities', 'ad_retailer_cities.ad_city_id', '=', 'ad_cities.id')
@@ -219,11 +248,28 @@ class UserAdminController extends BaseController
                     $agencies = null;
                 }
 
-                $query_type_user = \DB::table('ad_user_types')->get();
+                $query_type_user = \DB::table('ad_user_types')
+                                        ->where('code','<>','ADT')
+                                        ->get();
 
-                $permissions = \DB::table('ad_permissions')->get();
+                if($auth->user()->type->code=='ADT'){
+                    if($user_find->code=='UST'){
+                        $permissions_list = \DB::table('ad_permissions')
+                            ->where('slug','like','R%')
+                            ->get();
+                    }elseif($user_find->code=='OPT'){
+                        $permissions_list = \DB::table('ad_permissions')
+                            ->where('slug','like','A%')
+                            ->get();
+                    }
+                }else{
+                    $permissions_list = \DB::table('ad_permissions')
+                        ->where('slug', 'LIKE', 'R%')
+                        ->get();
+                }
+
                 //dd($permissions);
-                return view('admin.user.edit', compact('nav', 'action', 'user_find', 'cities', 'agencies', 'main_menu', 'query_type_user', 'profile_find', 'query_prof', 'retailer', 'permissions', 'user_permission'));
+                return view('admin.user.edit', compact('nav', 'action', 'user_find', 'cities', 'agencies', 'main_menu', 'query_type_user', 'profile_find', 'query_prof', 'retailer', 'permissions_list', 'user_permission', 'array_data'));
             }catch(QueryException $e){
                 return redirect()->back()->with(array('error'=>$e->getMessage()));
             }
@@ -232,12 +278,12 @@ class UserAdminController extends BaseController
                             ->where('id', '=', $id_user)
                             ->first();
 
-            return view('admin.user.change-password', compact('nav', 'action', 'user_find', 'main_menu'));
+            return view('admin.user.change-password', compact('nav', 'action', 'user_find', 'main_menu', 'array_data'));
         }elseif($action=='resetpass'){
             $user_find = \DB::table('ad_users')
                 ->where('id', '=', $id_user)
                 ->first();
-            return view('admin.user.reset-password', compact('nav', 'action', 'user_find', 'main_menu'));
+            return view('admin.user.reset-password', compact('nav', 'action', 'user_find', 'main_menu', 'array_data'));
         }
 
 
@@ -278,25 +324,27 @@ class UserAdminController extends BaseController
         $user_update->ad_agency_id=$agency;
         $user_update->ad_user_type_id=$array[0];
         if($user_update->save()) {
-            if($array[1]=='UST'){
+            if($array[1]=='UST' || $array[1]=='OPT'){
                 try{
-                    $quest_user_profile = \DB::table('ad_user_profiles')
-                                            ->where('ad_user_id',$request->input('id_user'))
-                                            ->first();
-                    if(count($quest_user_profile)>0){
-                        $query_update_profile = \DB::table('ad_user_profiles')
-                            ->where('ad_user_id', $request->input('id_user'))
-                            ->update(['ad_profile_id' => $request->input('id_profile'), 'updated_at'=>date("Y-m-d H:i:s"), 'active'=>true]);
-                    }else{
-                        $query_insert = \DB::table('ad_user_profiles')->insert(
-                            [
-                                'ad_user_id'=>$request->input('id_user'),
-                                'ad_profile_id'=>$request->input('id_profile'),
-                                'active'=>true,
-                                'created_at'=>date("Y-m-d H:i:s"),
-                                'updated_at'=>date("Y-m-d H:i:s")
-                            ]
-                        );
+                    if($array[1]=='UST'){
+                        $quest_user_profile = \DB::table('ad_user_profiles')
+                            ->where('ad_user_id',$request->input('id_user'))
+                            ->first();
+                        if(count($quest_user_profile)>0){
+                            $query_update_profile = \DB::table('ad_user_profiles')
+                                ->where('ad_user_id', $request->input('id_user'))
+                                ->update(['ad_profile_id' => $request->input('id_profile'), 'updated_at'=>date("Y-m-d H:i:s"), 'active'=>true]);
+                        }else{
+                            $query_insert = \DB::table('ad_user_profiles')->insert(
+                                [
+                                    'ad_user_id'=>$request->input('id_user'),
+                                    'ad_profile_id'=>$request->input('id_profile'),
+                                    'active'=>true,
+                                    'created_at'=>date("Y-m-d H:i:s"),
+                                    'updated_at'=>date("Y-m-d H:i:s")
+                                ]
+                            );
+                        }
                     }
 
                     $query_del = \DB::table('ad_user_permissions')
@@ -358,6 +406,7 @@ class UserAdminController extends BaseController
     public function upload_file($nav, $action)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query_city = \DB::table('ad_retailer_cities as arc')
                     ->join('ad_cities as ac', 'ac.id', '=', 'arc.ad_city_id')
                     ->select('arc.id as id_retailer_city', 'ac.name as city', 'ac.id as id_city')
@@ -367,7 +416,7 @@ class UserAdminController extends BaseController
         $retailer = \DB::table('ad_retailers')
             ->where('active', true)
             ->get();
-        return view('admin.user.import-file', compact('nav', 'action', 'main_menu', 'query_city', 'retailer'));
+        return view('admin.user.import-file', compact('nav', 'action', 'main_menu', 'query_city', 'retailer', 'array_data'));
     }
 
     /**
@@ -429,6 +478,16 @@ class UserAdminController extends BaseController
                                         'updated_at' => date("Y-m-d H:i:s")
                                     ]
                                 );
+
+                                $id_retailer_city_agency = \DB::table('ad_retailer_city_agencies')->insert(
+                                    [
+                                        'ad_retailer_city_id' => $arr[0],
+                                        'ad_agency_id' => $id_agency,
+                                        'active' => true,
+                                        'created_at' => date("Y-m-d H:i:s"),
+                                        'updated_at' => date("Y-m-d H:i:s")
+                                    ]
+                                );
                             }else{
                                 $id_agency=$quest_agency->id;
                             }
@@ -453,7 +512,7 @@ class UserAdminController extends BaseController
                 $i=0;
                 $repeated = array();
                 foreach($list as $key => $val){
-                    //BUSQUEDA DE USUARIOS REPETIDOS
+                    //BUSQUEDA DE USUARIOS/EMAILS REPETIDOS
                     $quest_user=\DB::table('ad_users')
                                     ->where('username',$val['usuario'])
                                     ->orwhere('email',$val['email'])
@@ -515,7 +574,7 @@ class UserAdminController extends BaseController
                     echo'<strong>En la importacion del archivo se encontro usuarios/emails repetidos:</strong>';
                     echo'<br>';
                     foreach($repeated as $ind => $data){
-                        echo $data['usuario'].' '.$data['nombre'].' '.$data['email'];echo'<br>';
+                        echo $data['usuario'].' | '.$data['nombre'].' | '.$data['email'];echo'<br>';
                     }
                 }
 
@@ -593,8 +652,16 @@ class UserAdminController extends BaseController
 
     }
 
-    public function ajax_user_profiles($tipo_usuario){
-        $query = \DB::table('ad_profiles')->get();
+    public function ajax_user_profiles(Guard $auth){
+        if($auth->user()->type->code=='OPT'){
+            $query = \DB::table('ad_profiles')
+                            ->where('slug','<>','SUP')
+                            ->where('slug','<>','REP')
+                            ->where('slug','<>','TEP')
+                            ->get();
+        }else{
+            $query = \DB::table('ad_profiles')->get();
+        }
         //dd($query);
         if($query){
             return response()->json($query);
@@ -622,5 +689,29 @@ class UserAdminController extends BaseController
         }else{
             return 0;
         }
+    }
+
+    public function ajax_city($id_retailer){
+        $query_city = \DB::table('ad_retailer_cities as arc')
+            ->join('ad_cities as ac', 'ac.id', '=', 'arc.ad_city_id')
+            ->select('arc.id as id_retailer_city', 'ac.name as city', 'ac.id as id_city')
+            ->where('arc.active',true)
+            ->where('arc.ad_retailer_id',$id_retailer)
+            ->get();
+        return response()->json($query_city);
+    }
+
+    public function ajax_permissions($user_type)
+    {
+        if($user_type=='UST'){
+            $permissions_list = \DB::table('ad_permissions')
+                ->where('slug','like','R%')
+                ->get();
+        }elseif($user_type=='OPT'){
+            $permissions_list = \DB::table('ad_permissions')
+                ->where('slug','like','A%')
+                ->get();
+        }
+        return response()->json($permissions_list);
     }
 }

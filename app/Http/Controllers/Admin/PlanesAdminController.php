@@ -19,19 +19,20 @@ class PlanesAdminController extends BaseController
     public function index($nav, $action, $id_retailer_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = \DB::table('ad_plans')
                 ->where('ad_retailer_product_id', $id_retailer_product)
                 ->get();
             //dd($query);
-            return view('admin.vi.planes.list', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu'));
+            return view('admin.vi.planes.list', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'array_data'));
         }elseif($action=='new'){
             $query_retailer = RetailerProduct::join('ad_company_products as acp', 'acp.id', '=', 'ad_retailer_products.ad_company_product_id')
                 ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
                 ->select('ap.name as product')
                 ->where('ad_retailer_products.id',$id_retailer_product)
                 ->first();
-            return view('admin.vi.planes.new', compact('nav', 'action', 'main_menu', 'query_retailer', 'id_retailer_product'));
+            return view('admin.vi.planes.new', compact('nav', 'action', 'main_menu', 'query_retailer', 'id_retailer_product', 'array_data'));
         }
 
     }
@@ -99,6 +100,7 @@ class PlanesAdminController extends BaseController
     public function edit($nav, $action, $id_retailer_product, $id_planes)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = \DB::table('ad_plans')
                     ->where('id', $id_planes)
                     ->where('ad_retailer_product_id', $id_retailer_product)
@@ -109,7 +111,7 @@ class PlanesAdminController extends BaseController
                                         ->where('ad_retailer_products.id',$id_retailer_product)
                                         ->first();
         //dd($query_retailer);
-        return view('admin.vi.planes.edit', compact('nav', 'action', 'id_retailer_product', 'id_planes', 'main_menu', 'query', 'query_retailer'));
+        return view('admin.vi.planes.edit', compact('nav', 'action', 'id_retailer_product', 'id_planes', 'main_menu', 'query', 'query_retailer', 'array_data'));
     }
 
     /**

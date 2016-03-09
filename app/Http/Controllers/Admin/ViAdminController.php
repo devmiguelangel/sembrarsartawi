@@ -20,6 +20,7 @@ class ViAdminController extends BaseController
     public function index($nav, $action, $id_retailer_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = RetailerProduct::join('ad_company_products', 'ad_company_products.id', '=', 'ad_retailer_products.ad_company_product_id')
                                     ->join('ad_products', 'ad_products.id', '=', 'ad_company_products.ad_product_id')
@@ -27,17 +28,17 @@ class ViAdminController extends BaseController
                                     ->where('ad_retailer_products.id', '=', $id_retailer_product)
                                     ->get();
             //dd($query);
-            return view('admin.vi.parameters.list', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu'));
+            return view('admin.vi.parameters.list', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'array_data'));
         }elseif($action=='list_parameter_additional'){
             $query = \DB::table('ad_product_parameters')
                 ->where('ad_retailer_product_id', '=', $id_retailer_product)
                 ->get();
             //dd($query);
-            return view('admin.vi.parameters.list-parameter-additional', compact('nav', 'action', 'query', 'id_retailer_product', 'main_menu'));
+            return view('admin.vi.parameters.list-parameter-additional', compact('nav', 'action', 'query', 'id_retailer_product', 'main_menu', 'array_data'));
         }elseif($action=='new_parameter_additional'){
-            return view('admin.vi.parameters.new-parameter-additional', compact('nav', 'action', 'id_retailer_product', 'main_menu'));
+            return view('admin.vi.parameters.new-parameter-additional', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'array_data'));
         }elseif($action=='new'){
-            return view('admin.vi.parameters.new', compact('nav','action', 'id_retailer_product', 'main_menu'));
+            return view('admin.vi.parameters.new', compact('nav','action', 'id_retailer_product', 'main_menu', 'array_data'));
         }
     }
 
@@ -101,6 +102,7 @@ class ViAdminController extends BaseController
     public function edit($nav, $action, $id_retailer_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = \DB::table('ad_retailer_products')
                      ->join('ad_company_products', 'ad_company_products.id', '=', 'ad_retailer_products.ad_company_product_id')
                      ->join('ad_products', 'ad_products.id', '=', 'ad_company_products.ad_product_id')
@@ -108,18 +110,19 @@ class ViAdminController extends BaseController
                      ->where('ad_retailer_products.id', '=', $id_retailer_product)
                      ->first();
         //dd($query);
-        return view('admin.vi.parameters.edit', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu'));
+        return view('admin.vi.parameters.edit', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'array_data'));
     }
 
     public function edit_parameter_additional($nav, $action, $id_product_parameters, $id_retailer_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = \DB::table('ad_product_parameters')
                         ->where('id', $id_product_parameters)
                         ->where('ad_retailer_product_id', $id_retailer_product)
                         ->first();
         //dd($query);
-        return view('admin.vi.parameters.edit-parameter-additional', compact('nav', 'action', 'id_product_parameters', 'id_retailer_product', 'query', 'main_menu'));
+        return view('admin.vi.parameters.edit-parameter-additional', compact('nav', 'action', 'id_product_parameters', 'id_retailer_product', 'query', 'main_menu', 'array_data'));
     }
     /**
      * Update the specified resource in storage.

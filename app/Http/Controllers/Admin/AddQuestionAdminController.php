@@ -17,6 +17,7 @@ class AddQuestionAdminController extends BaseController
     public function index($nav, $action, $id_retailer_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = \DB::table('ad_retailer_products')
                 ->where('id', '=', $id_retailer_product)
@@ -37,7 +38,7 @@ class AddQuestionAdminController extends BaseController
                                 ->where('arpq.ad_retailer_product_id', '=', $id_retailer_product)
                                 ->get();
             //dd($query_list_q);
-            return view('admin.de.addquestion.list', compact('nav', 'action', 'query_list_q', 'id_retailer_product', 'main_menu'));
+            return view('admin.de.addquestion.list', compact('nav', 'action', 'query_list_q', 'id_retailer_product', 'main_menu', 'array_data'));
         }elseif($action=='new'){
             //dd($id_retailer_product);
             $query = \DB::table('ad_retailer_products')
@@ -58,7 +59,7 @@ class AddQuestionAdminController extends BaseController
                                             ->whereRaw('arpq.ad_question_id = aq.id');
                             })->get();
             //dd($question);
-            return view('admin.de.addquestion.new', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'question'));
+            return view('admin.de.addquestion.new', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'question', 'array_data'));
         }
 
     }
@@ -66,6 +67,7 @@ class AddQuestionAdminController extends BaseController
     public function index_vi($nav, $action, $id_retailer_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = \DB::table('ad_retailer_products')
                         ->where('id', '=', $id_retailer_product)
@@ -80,7 +82,7 @@ class AddQuestionAdminController extends BaseController
                 ->get();
             //dd($query_question);
 
-            return view('admin.vi.addquestion.list', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'query_question'));
+            return view('admin.vi.addquestion.list', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'query_question', 'array_data'));
         }elseif($action=='new'){
             //dd($id_retailer_product);
             $query = \DB::table('ad_retailer_products')
@@ -101,7 +103,7 @@ class AddQuestionAdminController extends BaseController
                         ->whereRaw('arpq.ad_question_id = aq.id');
                 })->get();
             //dd($question);
-            return view('admin.vi.addquestion.new', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'question'));
+            return view('admin.vi.addquestion.new', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'question', 'array_data'));
         }
     }
 
@@ -200,7 +202,7 @@ class AddQuestionAdminController extends BaseController
     public function edit($nav, $action, $id_retailer_product_question, $id_retailer_product)
     {
         $main_menu = $this->menu_principal();
-
+        $array_data = $this->array_data();
         $retailer = \DB::table('ad_retailer_products as arp')
                         ->join('ad_retailers as ar', 'ar.id', '=', 'arp.ad_retailer_id')
                         ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
@@ -217,14 +219,14 @@ class AddQuestionAdminController extends BaseController
                     ->where('arpq.id',$id_retailer_product_question)
                     ->first();
         //dd($query);
-        return view('admin.de.addquestion.edit', compact('nav', 'action', 'id_retailer_product_question', 'id_retailer_product', 'query', 'retailer', 'main_menu'));
+        return view('admin.de.addquestion.edit', compact('nav', 'action', 'id_retailer_product_question', 'id_retailer_product', 'query', 'retailer', 'main_menu', 'array_data'));
     }
 
 
     public function edit_vi($nav, $action, $id_retailer_product_question, $id_retailer_product)
     {
         $main_menu = $this->menu_principal();
-
+        $array_data = $this->array_data();
         $retailer = \DB::table('ad_retailer_products as arp')
             ->join('ad_retailers as ar', 'ar.id', '=', 'arp.ad_retailer_id')
             ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
@@ -241,7 +243,7 @@ class AddQuestionAdminController extends BaseController
             ->where('arpq.id',$id_retailer_product_question)
             ->first();
         //dd($query);
-        return view('admin.vi.addquestion.edit', compact('nav', 'action', 'id_retailer_product_question', 'id_retailer_product', 'query', 'retailer', 'main_menu'));
+        return view('admin.vi.addquestion.edit', compact('nav', 'action', 'id_retailer_product_question', 'id_retailer_product', 'query', 'retailer', 'main_menu', 'array_data'));
     }
 
     /**

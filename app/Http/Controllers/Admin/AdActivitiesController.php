@@ -23,9 +23,10 @@ class AdActivitiesController extends BaseController {
         $nav='adActivitiesList';
         $action='list';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $entities = DB::table('ad_activities')->get();
         
-        return view('admin.adActivities.list', compact('nav', 'action', 'entities', 'main_menu'));
+        return view('admin.adActivities.list', compact('nav', 'action', 'entities', 'main_menu', 'array_data'));
     }
 
     /**
@@ -37,8 +38,8 @@ class AdActivitiesController extends BaseController {
         $nav = 'adActivitiesList';
         $action = 'new';
         $main_menu = $this->menu_principal();
-        
-        return view('admin.adActivities.new', compact('nav', 'action', 'main_menu'));
+        $array_data = $this->array_data();
+        return view('admin.adActivities.new', compact('nav', 'action', 'main_menu', 'array_data'));
     }
 
     /**
@@ -75,14 +76,14 @@ class AdActivitiesController extends BaseController {
         $nav = 'adActivitiesList';
         $action = 'edit';
         $main_menu = $this->menu_principal();
-        
+        $array_data = $this->array_data();
         
         
         $adActivity = DB::table('ad_activities')->where('id',$id)->get();
         $adActivity = $adActivity[0];
         
         
-        return view('admin.adActivities.edit', compact('nav', 'action', 'adActivity', 'main_menu', 'id'));
+        return view('admin.adActivities.edit', compact('nav', 'action', 'adActivity', 'main_menu', 'id', 'array_data'));
     }
 
     /**
@@ -125,7 +126,8 @@ class AdActivitiesController extends BaseController {
         $nav = 'adActivitiesList';
         $action = 'import';
         $main_menu = $this->menu_principal();
-        return view('admin.adActivities.import-file', compact('nav', 'action', 'main_menu'));
+        $array_data = $this->array_data();
+        return view('admin.adActivities.import-file', compact('nav', 'action', 'main_menu', 'array_data'));
     }
 
     /**

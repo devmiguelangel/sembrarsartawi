@@ -26,7 +26,7 @@ class IsUser
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->user()->type->code !== 'ADT') {
+        if ($this->auth->user()->type->code !== 'ADT' && $this->auth->user()->type->code !== 'OPT') {
             return redirect('home');
         }
 

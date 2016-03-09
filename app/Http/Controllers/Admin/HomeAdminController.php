@@ -16,8 +16,9 @@ class HomeAdminController extends BaseController
     public function index($nav='begin')
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         //dd($main_menu);
-        return view('admin.home', compact('nav', 'main_menu'));
+        return view('admin.home', compact('nav', 'main_menu', 'array_data'));
     }
 
     /**
