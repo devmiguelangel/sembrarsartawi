@@ -56,11 +56,14 @@ $(function() {
             }
         ],
         scrollX: true,
-        //scrollY: '350px',
-        scrollCollapse: true,
+        scrollY: '500px',
+        scrollCollapse: false,
         searching: false,
         lengthChange: false,
         iDisplayLength: 30,
+        
+        
+        //scrollCollapse: true,
         fixedColumns: true,
         oLanguage: {
                     sEmptyTable: "No hay registros disponibles",
@@ -72,7 +75,7 @@ $(function() {
                         sLast: "Última página",
                         sFirst: "Primera",
                         sNext: "Siguiente",
-                        sPrevious: "Anterior"
+                        sPrevious: "Ante    rior"
                     }
                 }
     });

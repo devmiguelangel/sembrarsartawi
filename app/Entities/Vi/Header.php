@@ -14,4 +14,9 @@ class Header extends Model
     public function plan() {
         return $this->belongsTo(Plan::class, 'ad_plan_id', 'id');
     }
+
+    public function details()
+    {
+        return $this->hasMany(Detail::class, 'op_vi_header_id', 'id');
+    }
 }

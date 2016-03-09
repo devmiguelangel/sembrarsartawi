@@ -1,26 +1,35 @@
 @include('partials.tools_modal',array('type'=>$type,'idHeader'=>encode($idHeader)))
-<div class="container" style="width: 770px;">
+
+@var $size = '80%'
+@if($flagPdf == 1)
+    @var $size = '55%'
+@endif
+    
+<meta charset="utf-8">
+@include('partials.logos_modal',array('image1'=>$retailer->image,'images'=>$retailerProduct))
+<div class="container" style="width: 730px; ">
     <div class="main">
         <div class="header">
-            <div style="font-size: 80%; width: auto; height: auto; font-weight: bold; text-align: center;">
+            <div style="font-size: {{ $size }}; width: auto; height: auto; font-weight: bold; text-align: center;">
                 DECLARACIÓN JURADA DE SALUD <br>
                 SOLICITUD DE SEGURO MASIVO VIDA INDIVIDUAL DE CORTO PLAZO
             </div>
-            <div style="font-size: 70%; width: auto; height: auto; margin-top: 3px; text-align: center;">
+            <div style="font-size: {{ $size }}; width: auto; height: auto; margin-top: 3px; text-align: center;">
                 Formato aprobado por la Autoridad de Fiscalización y Control de Pensiones y
                 Seguros – APS  mediante Resolución Administrativa APS/DS/No.687-2013 <br>
                 Código 206-934215-2013 07 035 3001
             </div>
-            <div style="font-size: 70%; width: auto; height: auto; font-weight: bold; margin-top: 3px;
+            <div style="font-size: {{ $size }}; width: auto; height: auto; font-weight: bold; margin-top: 3px;
                  text-align: center;">
                 El interesado solicita  a Nacional Vida Seguros de Personas S.A, un seguro
                 de vida, basado en las declaraciones que siguen a continuación, las mismas
                 que formaran parte integrante e indivisible de la póliza:
             </div>
         </div>
-        <div class="wrap">
+        <br>
+        <div class="wrap" style="font-size: {{ $size }};">
             <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: 70%;">I.	DATOS PERSONALES DEL SOLICITANTE:</div>
+                 font-weight: bold; font-size: {{ $size }};">I.	DATOS PERSONALES DEL SOLICITANTE:</div>
             <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                 <tr>
                     <td style="width: 14%; text-align: left;">Nombre del Tomador: </td>
@@ -118,11 +127,12 @@
                 </tr>
             </table>
         </div>
+        <br>
         <div class="wrap">
             <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: 70%;">II. ELECCION DEL PLAN</div>
+                 font-weight: bold; font-size: {{ $size }};">II. ELECCION DEL PLAN</div>
             <div style="font-size: 75%; text-align: left; margin: 2px 0;">1. Planes del Seguro</div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
                     <td style="width: 10%;"></td>
                     <td style="width: 75%; background: #000; color: #fff; text-align: center;
@@ -159,11 +169,12 @@
                 
             </table>
         </div>
+        <br />
         <div class="wrap">
             <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: 70%;">III. BENEFICIARIO</div>
+                 font-weight: bold; font-size: {{ $size }};">III. BENEFICIARIO</div>
             <div style="font-size: 75%; text-align: left; margin: 2px 0;">Beneficiarios:</div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                
                 <tr>
                     <td style="width: 10%;"></td>
@@ -216,14 +227,15 @@
                 
             </table>
         </div>
+        <br />
         <div class="wrap">
             <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: 70%;">IV. CUESTIONARIO DE SALUD: (Marque con una X si corresponde)
+                 font-weight: bold; font-size: {{ $size }};">IV. CUESTIONARIO DE SALUD: (Marque con una X si corresponde)
             </div>
-            <div style="font-size: 70%; text-align: left; margin: 2px 0;">
+            <div style="font-size: {{ $size }}; text-align: left; margin: 2px 0;">
                 1. ¿Usted padece de alguna de las siguientes enfermedades?
             </div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
                     <td style="width: 10%; "></td>
                     <td style="width: 20%; height: 5px; padding: 5px; text-align: left;">
@@ -277,35 +289,27 @@
                 </tr>
             </table>
         </div>
+        <br />
         <div class="wrap">
             <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: 70%;">V. FORMA DE PAGO </div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+                 font-weight: bold; font-size: {{ $size }};">V. FORMA DE PAGO </div>
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
-                    <td style="width: 10%; "></td>
-                    <td style="width: 20%; height: 5px; padding: 5px; text-align: left;">
+                    <td style="width: 25%; padding: 5px; text-align: left;">
                         {{ $viHeader->payment_method = 'DA'?'Debito Automatico':'Pago al Contado'}}
                     </td>
-                    <td style="width: 5%; padding: 2px 0; " >
-                        <div class="input-check">&nbsp;</div>
-                    </td>
-                    <td style="width: 20%; "></td>
                 </tr>
             </table>
         </div>
+        <br />
         <div class="wrap">
             <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: 70%;">VI. PERIODICIDAD</div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+                 font-weight: bold; font-size: {{ $size }};">VI. PERIODICIDAD</div>
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
-                    <td style="width: 10%; "></td>
                     <td style="width: 20%; height: 5px; padding: 5px; text-align: left;">
                         {{ $viHeader->period = 'Y'?'Pago Anual':'Pago Mensual'}}
                     </td>
-                    <td style="width: 5%; padding: 2px 0; " >
-                        <div class="input-check">&nbsp;</div>
-                    </td>
-                    <td style="width: 20%; "></td>
                 </tr>
             </table>
         </div>
@@ -313,7 +317,7 @@
             <div style="font-size: 75%; text-align: left; margin: 2px 0;">
                 Debito en Cuenta de la Entidad Financiera
             </div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
                     <td style="width: 10%;"></td>
                     <td style="width: 20%; background: #000; color: #fff;
@@ -352,7 +356,8 @@
                 </tr>
             </table>
         </div>
-        <div class="text_contenido">
+        <br />
+        <div class="text_contenido" style="font-size: {{ $size }}; text-align: justify">
             Declaro haber contestado con total veracidad y máxima buena fe a todas las preguntas del presente
             cuestionario y no haber omitido u ocultado hechos y/o circunstancias que hubieran podido influir en la
             celebración del contrato de seguro, las mismas que son completas y verídicas.
@@ -369,9 +374,9 @@
             Autorizo a Médicos, Clínicas e Institutos de Salud para suministrar a Nacional Vida Seguro de Personas
             S.A., todos los datos que requiera sobre mi estado de salud antes o después de mi fallecimiento.
         </div>
-        <br><br>
+        <br>
         <div class="wrap">
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
                     <td style="width: 5%; ">
                         Fecha:
@@ -403,7 +408,7 @@
                 </tr>
             </table>
             <br><br>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
                     <td style="width: 5%; ">
                     </td>
@@ -434,9 +439,7 @@
             </table>
         </div>
 
-        <page><div style="page-break-before: always;">&nbsp;</div></page>
-
-        <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
+        <div style="width: 730px; border: 0px solid #FFFF00; text-align:center; font-size: {{ $size }}">
             <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                 <tr>
                     <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
@@ -496,6 +499,7 @@
                                 </td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             2. COBERTURAS Y CAPITALES ASEGURADOS:
                         </div>
@@ -557,15 +561,15 @@
                                             </td>
                                         </tr>
                                         @foreach(json_decode($viHeader->plan->plan) as $plan)
-                                            <tr>
-                                                <td style="width: 70%; border: 1px solid #000;
+                                        <tr>
+                                            <td style="width: 70%; border: 1px solid #000;
                                                     background: #000; color: #fff;">
-                                                    {{ $plan->cov }}
-                                                </td>
-                                                <td style="width: 30%; padding-left: 5px; border: 1px solid #000;">
-                                                    Hasta Bs. {{number_format($plan->rank, 0, '.', ',')}}
-                                                </td>
-                                            </tr>
+                                                {{ $plan->cov }}
+                                            </td>
+                                            <td style="width: 30%; padding-left: 5px; border: 1px solid #000;">
+                                                Hasta Bs. {{number_format($plan->rank, 0, '.', ',')}}
+                                            </td>
+                                        </tr>
                                         @endforeach
                                     </table>
                                     <br>
@@ -601,6 +605,7 @@
                                 </td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             3. PUNTO DE VENTA:
                         </div>
@@ -624,15 +629,15 @@
                         </table>
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             4. EXCLUSIONES:
-                            <span style="font-weight: normal;">
+                            <span style="font-weight: normal; text-align: justify">
                                 Este seguro de  vida no será aplicable en ninguna de
                                 las siguientes circunstancias:
                             </span><br>
                             Para Cobertura de Muerte por Cualquier Causa:
                         </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
+                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child" style="text-align: justify">
                             <tr>
-                                <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
+                                <td style="width: 5%; font-weight: normal;" valign="top">*</td>
                                 <td style="width: 95%;">
                                     Participación de EL ASEGURADO en actos de guerra, declarada o no, sedición,
                                     rebelión, asonada, conspiración, motín, tumulto, o cualquier acto que tenga
@@ -699,7 +704,7 @@
                                 </td>
                             </tr>
                         </table>
-                    <td>
+                    </td>
                     <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             5. COSTO DE LA COBERTURA:
@@ -746,6 +751,7 @@
                                 <td style="width: 45%;"></td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             6. BENEFICIARIOS:
                         </div>
@@ -814,12 +820,13 @@
                                 </td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             7. PROCEDIMIENTO A SEGUIR EN CASO DE SINIESTRO:
                         </div>
                         <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
                             <tr>
-                                <td style="width: 100%;" colspan="2">
+                                <td style="width: 100%; text-align: justify" colspan="2">
                                     El Asegurado o Beneficiario, tan pronto y a más tardar dentro de los 30 días
                                     de tener conocimiento del siniestro, debe comunicar tal hecho a la aseguradora,
                                     salvo fuerza mayor o impedimiento jurídico.
@@ -832,6 +839,7 @@
                                 </td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             DOCUMENTOS  A PRESENTAR  EN CASO DE  MUERTE POR CUALQUIER CAUSA:
                         </div>
@@ -870,6 +878,7 @@
                                 </td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             DOCUMENTOS  A PRESENTAR  EN CASO DE  INVALIDEZ TOTAL PERMANENTE
                         </div>
@@ -881,6 +890,7 @@
                                 </td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             DOCUMENTOS  A PRESENTAR  EN CASO DE  SEPELIO
                         </div>
@@ -950,6 +960,7 @@
                             </tr>
                         </table>
                         <br>
+                        
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             9. CORREDOR DE SEGUROS
                         </div>
@@ -1010,7 +1021,6 @@
                                 <td style="width: 13%;"></td>
                             </tr>
                         </table>
-                        <br>
                         <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
                             <tr>
                                 <td style="width: 5%;"></td>
@@ -1048,14 +1058,15 @@
                             </tr>
                         </table>
                     </td>
-                <tr>
+                </tr>
             </table>
         </div>
 
         <page><div style="page-break-before: always;">&nbsp;</div></page>
 
-        <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify; font-size: 75%; margin-top: 4px;">
-            <p>
+        <div style="width: 730px; border: 0px solid #FFFF00; text-align:justify; font-size: {{ $size }}">
+            <div style="width:100%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
+                <p>
                 <b>Discrepancias en la Póliza (Art. 1013) </b>"Si el Tomador o ASEGURADO
                 encuentran que la póliza no concuerda con lo convenido o con lo propuesto,
                 pueden pedir rectificación correspondiente por escrito, dentro de los quince
@@ -1119,6 +1130,8 @@
                 siniestro o tan pronto sean llenados los requerimientos señalados en el
                 artículo 1031".
             </p>
+            </div>
+            
         </div>
 
     </div>

@@ -23,12 +23,13 @@ class HeaderSpCreateFormRequest extends Request
      */
     public function rules()
     {
-        $payment_methods = join(',', array_keys(\Config::get('base.payment_methods')));
-        $periods         = join(',', array_keys(\Config::get('base.periods')));
+        $payment_methods = join(',', array_keys(config('base.payment_methods')));
+        $periods         = join(',', array_keys(config('base.periods')));
 
-        return [
-            // 'header_id'        => 'required|exists:op_de_headers,id',
-            // 'detail_id'        => 'required|exists:op_de_details,id',
+        $rules = [
+            'qs'               => 'required|array',
+            // 'numberBN'         => 'required|numeric|min:1',
+            'beneficiaries'    => 'required|array',
             'payment_method'   => 'required|in:' . $payment_methods,
             'period'           => 'required|in:' . $periods,
             'account_number'   => 'required|numeric',
@@ -39,16 +40,21 @@ class HeaderSpCreateFormRequest extends Request
             'taker_name'       => 'required|alpha_space',
             'taker_dni'        => 'required|alpha_dash',
         ];
+
+        if ($this->request->has('beneficiaries')) {
+            $beneficiaries = $this->request->get('beneficiaries');
+
+            foreach ($beneficiaries as $key => $beneficiary) {
+                $rules['beneficiaries.' . $key . '.first_name']       = 'required|alpha_space';
+                $rules['beneficiaries.' . $key . '.last_name']        = 'required|alpha_space';
+                $rules['beneficiaries.' . $key . '.mother_last_name'] = 'alpha_space';
+                $rules['beneficiaries.' . $key . '.relationship']     = 'required|alpha_space';
+                $rules['beneficiaries.' . $key . '.dni']              = 'alpha_dash';
+                $rules['beneficiaries.' . $key . '.participation']    = 'required|numeric|min:1|max:100';
+            }
+        }
+
+        return $rules;
     }
 
-    public function getValidatorInstance()
-    {
-        $input = $this->request->all();
-        // $input['header_id'] = decode($input['header_id']);
-        // $input['detail_id'] = decode($input['detail_id']);
-
-        $this->request->replace($input);
-
-        return parent::getValidatorInstance();
-    }
 }

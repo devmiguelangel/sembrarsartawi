@@ -232,24 +232,26 @@ class HeaderController extends Controller
 
     public function storeSubProduct(HeaderSpCreateFormRequest $request, $rp_id, $header_id, $sp_id)
     {
-        $key            = 'clients_' . $request->get('header_id');
-        $success_header = ['success_header' => 'El Sub-Producto fue asociado correctamente'];
+        $beneficiaries = $request->get('beneficiaries');
+        $participation = 0;
 
-        if ($this->headerDeRepository->getHeaderById(decode($header_id))
-                && $this->detailDeRepository->getDetailById(decode($request->get('detail_id')))) {
-            $headerDe = $this->headerDeRepository->getModel();
-            $detailDe = $this->detailDeRepository->getModel();
+        foreach ($beneficiaries as $beneficiary) {
+            $participation += $beneficiary['participation'];
+        }
 
-            $request['header']   = $headerDe;
-            $request['detail']   = $detailDe;
-            $request['policies'] = $this->policyRepository->getPolicyByProduct(decode($sp_id));
-            $request['plans']    = $this->planRepository->getPlanByProduct(decode($sp_id));
+        if ($participation == 100) {
+            $success_header = ['success_header' => 'El Sub-Producto fue asociado correctamente'];
 
-            if ($this->repository->storeHeaderSubProduct($request)) {
-                $header = $this->repository->getModel();
+            if ($this->headerDeRepository->getHeaderById(decode($header_id))) {
+                $headerDe = $this->headerDeRepository->getModel();
+                $detailDe = $headerDe->details()->where('id', decode($request->get('detail_id')))->first();
 
-                if ($this->detailRepository->storeDetailSubProduct($request, $header->id)
-                        && $this->accountRepository->storeAccount($request)) {
+                $request['detail']   = $detailDe;
+                $request['policies'] = $this->policyRepository->getPolicyByProduct(decode($sp_id));
+                $request['plans']    = $this->planRepository->getPlansByProduct(decode($sp_id));
+
+                if ($this->repository->storeSubProduct($request)
+                    && $this->accountRepository->storeAccount($request)) {
                     if ($this->repository->destroyClientCacheSP(decode($header_id), decode($request->get('detail_id')))) {
                         return redirect()->route('de.vi.sp.create', [
                             'rp_id'     => $rp_id,
@@ -264,6 +266,10 @@ class HeaderController extends Controller
                     }
                 }
             }
+        } else {
+            return redirect()->back()
+                ->with(['error_participation' => 'La suma de porcentajes de Beneficiarios del Titular debe ser del 100%'])
+                ->withInput();
         }
 
         return redirect()->back()

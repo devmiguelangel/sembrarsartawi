@@ -95,8 +95,4 @@ class DetailController extends Controller
         //
     }
 
-    public function storeDetailSubProduct(Request $request, $header_id)
-    {
-        return $this->repository->storeDetailSubProduct($request, $header_id);
-    }
 }

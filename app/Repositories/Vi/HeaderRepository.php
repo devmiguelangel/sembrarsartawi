@@ -2,18 +2,20 @@
 
 namespace Sibas\Repositories\Vi;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\Vi\Header;
 use Sibas\Repositories\BaseRepository;
 
 class HeaderRepository extends BaseRepository
 {
-    public function storeHeaderSubProduct(Request $request)
+    public function storeSubProduct(Request $request)
     {
         $user       = $request->user();
         $this->data = $request->all();
         $policies   = $this->data['policies'];
         $plans      = $this->data['plans'];
+        $detail     = $this->data['detail'];
 
         $plan = $plans->filter(function($item) {
             return $item['id'] == $this->data['plan'];
@@ -45,7 +47,46 @@ class HeaderRepository extends BaseRepository
             $this->model->amount_pledged     = 0;
             $this->model->file               = '';
 
-            return $this->saveModel();
+            if ($this->saveModel()) {
+                try {
+                    $detailVi = $this->model->details()->create([
+                        'id'              => date('U'),
+                        'op_client_id'    => $detail->client->id,
+                        'currency'        => 'BS',
+                        'client_code'     => $detail->client->code,
+                        'taker_name'      => $this->data['taker_name'],
+                        'taker_dni'       => $this->data['taker_dni'],
+                    ]);
+
+                    $detailVi->response()->create([
+                        'id'          => date('U'),
+                        'response'    => json_encode($this->data['qs']),
+                        'observation' => '',
+                    ]);
+
+                    $beneficiaries  = [];
+                    $beneficiary_id = date('U');
+
+                    foreach ($this->data['beneficiaries'] as $key => $beneficiary) {
+                        array_push($beneficiaries, [
+                            'id'               => $beneficiary_id + $key,
+                            'coverage'         => 'VI',
+                            'first_name'       => $beneficiary['first_name'],
+                            'last_name'        => $beneficiary['last_name'],
+                            'mother_last_name' => $beneficiary['mother_last_name'],
+                            'dni'              => $beneficiary['dni'],
+                            'relationship'     => $beneficiary['relationship'],
+                            'participation'    => $beneficiary['participation'],
+                        ]);
+                    }
+
+                    $detailVi->beneficiaries()->createMany($beneficiaries);
+
+                    return true;
+                } catch(QueryException $e) {
+                    $this->errors = $e->getMessage();
+                }
+            }
         }
 
         return false;

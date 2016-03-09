@@ -1,6 +1,9 @@
 @include('partials.tools_modal',array('type'=>$type,'idHeader'=>encode($idHeader)))
 <div style="width: 100%; font-weight: normal; font-size: 12px; font-family: Arial, Helvetica, sans-serif;
      color: #000000; ">
+    
+    @include('partials.logos_modal',array('image1'=>$retailer->image,'images'=>$retailerProduct))
+    
     <div style="width: 100%; border: 0px solid #FFFF00; text-align:center;">
         <table cellpadding="0" cellspacing="0" border="0"
                style="width: 100%; height: auto; font-size: 80%; font-family: Arial;">
@@ -136,10 +139,20 @@
         <table cellpadding="0" cellspacing="0" border="0"
                style="width: 100%; height: auto; font-size: 80%; font-family: Arial;">
             <tr>
-                <td style="width: 100%; border: 1px solid #3B6E22; background: #6AA74F; color:#ffffff;
-                    height: 20px;">
-                    Cumple con las preguntas del cuestionario
-                </td>
+                @if($resQuestion == 1)
+                    <td style="width: 100%; border: 1px solid #3B6E22; background: red; color:#ffffff;
+                        height: 20px; padding: 5px">
+                        No cumple con la(s) pregunta(s) del cuestionario<br />
+                        <strong>Nota: </strong> Al no cumplir con una o mas preguntas del custionario del presente slip, 
+                        la compañ&iacute;a de segurso solicitar&aacute; ex&aacute;menes medicos para la autorizaci&oacute;n de 
+                        aprobaci&oacute;n del seguro o en su defecto podr&aacute; declinar la misma.
+                    </td>
+                @else
+                    <td style="width: 100%; border: 1px solid #3B6E22; background: #6AA74F; color:#ffffff;
+                        height: 20px;">
+                        Cumple con las preguntas del cuestionario
+                    </td>
+                @endif
             </tr>
             <tr>
                 <td style="width: 100%;">
@@ -183,10 +196,19 @@
                 </td>
             </tr>
             <tr>
-                <td style="width: 100%; border: 1px solid #3B6E22; background: #6AA74F; color:#ffffff;
-                    height: 20px;">
-                    Cumple con la estatura y peso adecuado.
-                </td>
+                @if($imc == 1)
+                    <td style="width: 100%; border: 1px solid #3B6E22; background: red; color:#ffffff;
+                        height: 20px; padding: 5px">
+                        <strong>Nota: </strong> Al no cumplir con el peso y la estatura adecuados, la compañ&iacute;a de seguros solicitar&aacute; 
+                        ex&aacute;menes m&eacute;dicos para la autorizaci&oacute;n de aprobaci&oacute;n del seguro o en su defecto podra declinar la misma.
+                    </td>
+                @else
+                    <td style="width: 100%; border: 1px solid #3B6E22; background: #6AA74F; color:#ffffff;
+                        height: 20px;">
+                        Cumple con la estatura y peso adecuado.
+                    </td>
+                @endif
+                
             </tr>
         </table>
     </div><br>
