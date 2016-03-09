@@ -28,12 +28,14 @@
                             <span>Crear nuevo usuario</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{route('admin.user.import-file', ['nav'=>$nav, 'action'=>'import'])}}" class="btn btn-link btn-float has-text">
-                            <i class="icon-file-download2"></i>
-                            <span>Importar archivo</span>
-                        </a>
-                    </li>
+                    @if(auth()->user()->type->code=='ADT')
+                        <li>
+                            <a href="{{route('admin.user.import-file', ['nav'=>$nav, 'action'=>'import'])}}" class="btn btn-link btn-float has-text">
+                                <i class="icon-file-download2"></i>
+                                <span>Importar archivo</span>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>
@@ -105,15 +107,16 @@
                                 </li>
                                 <li>
                                     @if((boolean)$data->active==true)
-                                        <a href="#" class="confirm_active" id="{{$data->id_user}}|inactive|baja|{{$data->full_name}}">
+                                        <a href="{{route('active_inactive_user', ['id_user'=>$data->id_user, 'text'=>'inactive'])}}" class="confirm_active_user" id="baja|{{$data->full_name}}">
                                             <i class="icon-user-cancel"></i>Dar baja
                                         </a>
                                     @elseif((boolean)$data->active==false)
-                                        <a href="#" class="confirm_active" id="{{$data->id_user}}|active|alta|{{$data->full_name}}">
-                                            <i class="icon-user-check"></i>Dar alta
+                                        <a href="{{route('active_inactive_user', ['id_user'=>$data->id_user, 'text'=>'active'])}}" class="confirm_active_user" id="alta|{{$data->full_name}}">
+                                            <i class="icon-user-cancel"></i>Dar alta
                                         </a>
                                     @endif
                                 </li>
+
                             </ul>
                         </li>
                     </ul>
@@ -130,33 +133,10 @@
     </div>
     <script type="text/javascript">
         // Confirmation dialog
-        $(document).ready(function(){
+        $(function(){
             setTimeout(function() {
                 $('#message-session').fadeOut();
             }, 3000);
-
-            //$('.confirm_active').on('click', function() {
-            $('a[href].confirm_active').click(function(e){
-
-                var _id = $(this).prop('id');
-                var arr = _id.split("|");
-                var id_user = arr[0];
-                var text = arr[1];
-                bootbox.confirm("Esta seguro de dar "+arr[2]+" al usuario "+arr[3]+"?.", function(result) {
-                    if(result){
-                        //bootbox.alert("Confirm result: " + result+ "/" +id_user);
-                        $.get( "{{url('/')}}/admin/user/active_ajax/"+id_user+"/"+text, function( data ) {
-                            console.log(data);
-                            if(data==1){
-                                window.setTimeout('location.reload()', 1000);
-                            }else if(data==0){
-                                bootbox.alert("Error no se actualizo el dato.");
-                            }
-                        });
-                    }
-                });
-
-            });
         });
     </script>
 @endsection

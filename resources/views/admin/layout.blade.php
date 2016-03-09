@@ -105,7 +105,7 @@
 
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="{{ asset('images/placeholder.jpg') }}" alt="">
+                    <i class="icon-user"></i>
                     <span>{{auth()->user()->full_name}}</span>
                     <i class="caret"></i>
                 </a>

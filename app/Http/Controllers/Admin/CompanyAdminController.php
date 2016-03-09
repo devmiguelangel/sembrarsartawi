@@ -18,13 +18,13 @@ class CompanyAdminController extends BaseController
     public function index($nav, $action)
     {
         $main_menu = $this->menu_principal();
-
+        $array_data = $this->array_data();
         if($action=='list'){
             $company_new = Company::get();
 
-            return view('admin.company.list', compact('nav', 'action', 'company_new', 'main_menu'));
+            return view('admin.company.list', compact('nav', 'action', 'company_new', 'main_menu', 'array_data'));
         }elseif($action=='new'){
-            return view('admin.company.new', compact('nav', 'action', 'main_menu'));
+            return view('admin.company.new', compact('nav', 'action', 'main_menu', 'array_data'));
         }
 
         //
@@ -102,10 +102,11 @@ class CompanyAdminController extends BaseController
     public function edit($nav, $action, $id_company)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = \DB::table('ad_companies')
                       ->where('id', '=', $id_company)
                       ->first();
-        return view('admin.company.edit', compact('nav', 'action', 'query', 'main_menu'));
+        return view('admin.company.edit', compact('nav', 'action', 'query', 'main_menu', 'array_data'));
     }
 
     /**

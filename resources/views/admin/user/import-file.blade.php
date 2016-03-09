@@ -63,9 +63,6 @@
                     <div class="col-lg-4">
                         <select class="form-control" id="id_retailer_city" name="id_retailer_city">
                             <option value="0">Seleccione</option>
-                            @foreach($query_city as $data)
-                                <option value="{{$data->id_retailer_city}}|{{$data->id_city}}">{{$data->city}}</option>
-                            @endforeach
                         </select>
                         <div id="output_select"></div>
                     </div>
@@ -84,7 +81,11 @@
                 </div>
                 <div class="col-lg-3"></div>
                 <div class="col-lg-6 text-right">
-                    <button type="submit" class="btn bg-teal-400" id="submit-btn"><i class="icon-file-upload position-left"></i> Importar archivo</button>
+                    @if(count($retailer)>0)
+                        <button type="submit" class="btn bg-teal-400" id="submit-btn"><i class="icon-file-upload position-left"></i> Importar archivo</button>
+                    @else
+                        <button type="submit" class="btn bg-teal-400" id="submit-btn" disabled><i class="icon-file-upload position-left"></i> Importar archivo</button>
+                    @endif
                     <a href="{{route('admin.user.list', ['nav'=>'user', 'action'=>'list'])}}" class="btn btn-primary">
                         Ir a la lista de usuarios <i class="icon-arrow-right14 position-right"></i>
                     </a>
@@ -95,4 +96,34 @@
             {!!Form::close()!!}
         </div>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#id_retailer').change(function(e){
+                var id_retailer = $(this).prop('value');
+                //alert(id_retailer);
+                if(id_retailer!=0){
+                    $.get( "{{url('/')}}/admin/user/city_ajax/"+id_retailer, function( data ) {
+                        console.log(data);
+                        $('#output_select').html('');
+                        $('button[type="submit"]').prop('disabled', false);
+                        $('#id_retailer_city option').remove();
+                        $('#id_retailer_city').append('<option value="0">Seleccione</option>');
+                        if(data.length>0) {
+                            $.each(data, function () {
+                                console.log("id_retailer_city: " + this.id_retailer_city);
+                                console.log("Name: " + this.city);
+                                console.log("id_city: " + this.id_city);
+                                $('#id_retailer_city').append('<option value="'+this.id_retailer_city+'|'+this.id_city+'">'+this.city+'</option>');
+                            });
+                        }else{
+                            $('#output_select').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span> No existen region/departamento agregados al Retailer.');
+                            $('button[type="submit"]').prop('disabled', true);
+                        }
+                    });
+                }else{
+                    $('button[type="submit"]').prop('disabled', true);
+                }
+            });
+        });
+    </script>
 @endsection

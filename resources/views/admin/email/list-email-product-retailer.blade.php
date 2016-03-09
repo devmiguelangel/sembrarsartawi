@@ -71,11 +71,11 @@
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             @if((boolean)$data->active==true)
-                                                <a href="#" id="{{$data->id}}|inactive|desactivar" class="confirm_active">
+                                                <a href="{{route('active_inactive_email', ['id_retailer_product_email'=>$data->id, 'text'=>'inactive'])}}" id="desactivar" class="confirm_active_email">
                                                     <i class="icon-cross"></i> Desactivar
                                                 </a>
                                             @elseif((boolean)$data->active==false)
-                                                <a href="#" id="{{$data->id}}|active|activar" class="confirm_active">
+                                                <a href="{{route('active_inactive_email', ['id_retailer_product_email'=>$data->id, 'text'=>'active'])}}" id="activar" class="confirm_active_email">
                                                     <i class="icon-checkmark4"></i> Activar
                                                 </a>
                                             @endif
@@ -108,27 +108,7 @@
                 $('#message-session').fadeOut();
             }, 3000);
 
-            $('a[href].confirm_active').click(function(e){
 
-                var _id = $(this).prop('id');
-                var arr = _id.split("|");
-                var id_retailer_product_email = arr[0];
-                var text = arr[1];
-                bootbox.confirm("Esta seguro de "+arr[2]+" el correo electronico ?", function(result) {
-                    if(result){
-                        //bootbox.alert("Confirm result: " + result+ "/" +id_user);
-                        $.get( "{{url('/')}}/admin/email/active_ajax/"+id_retailer_product_email+"/"+text, function( data ) {
-                            console.log(data);
-                            if(data==1){
-                                window.setTimeout('location.reload()', 1000);
-                            }else if(data==0){
-                                bootbox.alert("Error!! no se actualizo el dato, vuelva a intentarlo otra vez");
-                            }
-                        });
-                    }
-                });
-
-            });
         });
     </script>
 @endsection

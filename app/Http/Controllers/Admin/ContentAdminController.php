@@ -20,6 +20,7 @@ class ContentAdminController extends BaseController
     {
         //dd($id_retailer_product);
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = \DB::table('ad_contents')
                 ->where('ad_retailer_product_id', $id_retailer_product)
@@ -30,14 +31,14 @@ class ContentAdminController extends BaseController
                 ->where('ad_retailer_products.id',$id_retailer_product)
                 ->first();
             //dd($query);
-            return view('admin.de.content.list', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'query_retailer'));
+            return view('admin.de.content.list', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'query_retailer', 'array_data'));
         }elseif($action=='new'){
             $query_retailer = RetailerProduct::join('ad_company_products as acp', 'acp.id', '=', 'ad_retailer_products.ad_company_product_id')
                 ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
                 ->select('ap.name as product')
                 ->where('ad_retailer_products.id',$id_retailer_product)
                 ->first();
-            return view('admin.de.content.new', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'query_retailer'));
+            return view('admin.de.content.new', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'query_retailer', 'array_data'));
         }
     }
 
@@ -45,6 +46,7 @@ class ContentAdminController extends BaseController
     {
         //dd($action);
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = \DB::table('ad_contents')
                 ->where('ad_retailer_product_id', $id_retailer_product)
@@ -55,14 +57,14 @@ class ContentAdminController extends BaseController
                 ->where('ad_retailer_products.id',$id_retailer_product)
                 ->first();
             //dd($query);
-            return view('admin.vi.content.list', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'query_retailer'));
+            return view('admin.vi.content.list', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'query_retailer', 'array_data'));
         }elseif($action=='new'){
             $query_retailer = RetailerProduct::join('ad_company_products as acp', 'acp.id', '=', 'ad_retailer_products.ad_company_product_id')
                 ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
                 ->select('ap.name as product')
                 ->where('ad_retailer_products.id',$id_retailer_product)
                 ->first();
-            return view('admin.vi.content.new', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'query_retailer'));
+            return view('admin.vi.content.new', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'query_retailer', 'array_data'));
         }
     }
 
@@ -173,6 +175,7 @@ class ContentAdminController extends BaseController
     public function edit_de($nav, $action, $id_retailer_product, $id_content)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = \DB::table('ad_contents')
             ->where('id', $id_content)
             ->where('ad_retailer_product_id', $id_retailer_product)
@@ -183,7 +186,7 @@ class ContentAdminController extends BaseController
             ->where('ad_retailer_products.id',$id_retailer_product)
             ->first();
         //dd($query);
-        return view('admin.de.content.edit', compact('nav', 'action', 'main_menu', 'query', 'query_retailer', 'id_retailer_product'));
+        return view('admin.de.content.edit', compact('nav', 'action', 'main_menu', 'query', 'query_retailer', 'id_retailer_product', 'array_data'));
     }
 
     /**
@@ -196,6 +199,7 @@ class ContentAdminController extends BaseController
     public function edit_vi($nav, $action, $id_retailer_product, $id_content)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = \DB::table('ad_contents')
             ->where('id', $id_content)
             ->where('ad_retailer_product_id', $id_retailer_product)
@@ -206,7 +210,7 @@ class ContentAdminController extends BaseController
             ->where('ad_retailer_products.id',$id_retailer_product)
             ->first();
         //dd($query);
-        return view('admin.vi.content.edit', compact('nav', 'action', 'main_menu', 'query', 'query_retailer', 'id_retailer_product'));
+        return view('admin.vi.content.edit', compact('nav', 'action', 'main_menu', 'query', 'query_retailer', 'id_retailer_product', 'array_data'));
     }
 
     /**

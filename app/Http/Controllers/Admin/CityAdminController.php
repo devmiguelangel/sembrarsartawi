@@ -21,14 +21,15 @@ class CityAdminController extends BaseController
     public function index($nav, $action)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = City::get();
             //dd($query);
-            return view('admin.cities.list', compact('nav', 'action', 'query', 'main_menu'));
+            return view('admin.cities.list', compact('nav', 'action', 'query', 'main_menu', 'array_data'));
         }elseif($action=='new'){
             $query_re = Retailer::where('active',1)->get();
             //dd($query_re);
-            return view('admin.cities.new', compact('nav', 'action', 'query_re', 'main_menu'));
+            return view('admin.cities.new', compact('nav', 'action', 'query_re', 'main_menu', 'array_data'));
         }
 
     }
@@ -36,6 +37,7 @@ class CityAdminController extends BaseController
     public function index_city_retailer($nav, $action)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list_city_retailer'){
             $query = \DB::table('ad_retailer_cities as arc')
                 ->join('ad_cities as ac', 'ac.id', '=', 'arc.ad_city_id')
@@ -43,14 +45,14 @@ class CityAdminController extends BaseController
                 ->select('arc.id as id_city_retailer', 'ac.name as cities', 'ar.name as retailer', 'arc.ad_retailer_id', 'arc.active')
                 ->get();
             //dd($query);
-            return view('admin.cities.list-city-retailer', compact('nav', 'action', 'query', 'main_menu'));
+            return view('admin.cities.list-city-retailer', compact('nav', 'action', 'query', 'main_menu', 'array_data'));
         }elseif($action=='new_city_retailer'){
             $retailer = \DB::table('ad_retailers')
                             ->get();
             $city = \DB::table('ad_cities')
                             ->where('abbreviation', '<>', 'PE')
                             ->get();
-            return view('admin.cities.new-city-retailer', compact('nav', 'action', 'main_menu', 'retailer', 'city'));
+            return view('admin.cities.new-city-retailer', compact('nav', 'action', 'main_menu', 'retailer', 'city', 'array_data'));
         }
 
     }
@@ -147,13 +149,14 @@ class CityAdminController extends BaseController
     public function edit($nav, $action, $id_depto)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = City::where('id', $id_depto)->first();
         $query_re = Retailer::where('active',1)->get();
         $query_ret_city = \DB::table('ad_retailer_cities')
                             ->where('ad_city_id', $id_depto)
                             ->get();
         //dd($query_ret_city);
-        return view('admin.cities.edit', compact('nav', 'action', 'query', 'query_re', 'main_menu', 'query_ret_city'));
+        return view('admin.cities.edit', compact('nav', 'action', 'query', 'query_re', 'main_menu', 'query_ret_city', 'array_data'));
     }
 
     /**

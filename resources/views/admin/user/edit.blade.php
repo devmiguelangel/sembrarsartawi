@@ -15,11 +15,15 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Formulario editar usuario</h5>
+            <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
+                <span class="form-wizard-count">
+                    <i class="icon-pencil6"></i>
+                </span>
+                Formulario
+                <small class="display-block">Editar registro</small>
+            </h5>
             <div class="heading-elements">
-                <ul class="icons-list">
-                    <li><a data-action="reload"></a></li>
-                </ul>
+
             </div>
         </div>
         @if (session('error'))
@@ -61,53 +65,54 @@
                         <fieldset class="content-group">
 
                             <div class="form-group">
-                                <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
-                                <div class="col-lg-10">
-                                    <strong>{{$retailer->name}}</strong>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
                                 <label class="control-label col-lg-2">Tipo de usuario <span class="text-danger">*</span></label>
                                 <div class="col-lg-10">
                                     <select name="tipo_usuario" id="tipo_usuario" class="form-control required">
                                         <option value="0">Seleccione</option>
                                         @foreach($query_type_user as $type)
-                                            @if($user_find->ad_user_type_id==$type->id)
-                                                <option value="{{$type->id}}|{{$type->code}}" selected>{{$type->name}}</option>
+                                            @if(auth()->user()->type->code=='ADT')
+                                                @if($user_find->ad_user_type_id==$type->id)
+                                                    <option value="{{$type->id}}|{{$type->code}}" selected>{{$type->name}}</option>
+                                                @else
+                                                    <option value="{{$type->id}}|{{$type->code}}">{{$type->name}}</option>
+                                                @endif
                                             @else
-                                                <option value="{{$type->id}}|{{$type->code}}">{{$type->name}}</option>
+                                                @if($user_find->ad_user_type_id==$type->id)
+                                                    <option value="{{$type->id}}|{{$type->code}}" selected>{{$type->name}}</option>
+                                                @endif
                                             @endif
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            @if($user_find->code=='UST')
+                            @if($user_find->code=='UST' || $user_find->code=='OPT')
                                 @var $dt_var = 0
-                                <div class="form-group" id="content-user-profiles-edit">
-                                    <label class="control-label col-lg-2">Perfiles <span class="text-danger">*</span></label>
-                                    <div class="col-lg-10">
-                                        <select id="id_profile" name="id_profile" class="form-control required">
-                                            <option value="0">Seleccione</option>
-                                            @foreach($query_prof as $dat_prof)
-                                                @if(!empty($profile_find->ad_profile_id))
-                                                    @if($profile_find->ad_profile_id==$dat_prof->id)
-                                                        <option value="{{$dat_prof->id}}" selected>{{$dat_prof->name}}</option>
+                                @if($user_find->code=='UST')
+                                    <div class="form-group" id="content-user-profiles-edit">
+                                        <label class="control-label col-lg-2">Perfiles <span class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <select id="id_profile" name="id_profile" class="form-control required">
+                                                <option value="0">Seleccione</option>
+                                                @foreach($query_prof as $dat_prof)
+                                                    @if(!empty($profile_find->ad_profile_id))
+                                                        @if($profile_find->ad_profile_id==$dat_prof->id)
+                                                            <option value="{{$dat_prof->id}}" selected>{{$dat_prof->name}}</option>
+                                                        @else
+                                                            <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
+                                                        @endif
                                                     @else
                                                         <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
                                                     @endif
-                                                @else
-                                                    <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
-                                                @endif
-                                            @endforeach
-                                        </select>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                                 <div class="form-group" id="content-permissions">
                                     <label class="control-label col-lg-2">Permisos </label>
                                     <div class="col-lg-10">
-                                        <select multiple="multiple" class="form-control" name="permiso[]" id="permiso">
-                                            @foreach($permissions as $dat_per)
+                                        <select multiple="multiple" class="form-control" name="permiso[]" id="permiso" data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
+                                            @foreach($permissions_list as $dat_per)
                                                 @if(count($user_permission)>0)
                                                     @foreach($user_permission as $dat_idp)
                                                         @if($dat_idp->ad_permission_id==$dat_per->id)
@@ -142,13 +147,19 @@
                                     <label class="control-label col-lg-2">Permisos </label>
                                     <div class="col-lg-10">
                                         <select multiple="multiple" class="" name="permiso[]" id="permiso">
-                                            @foreach($permissions as $dat_per)
+                                            @foreach($permissions_list as $dat_per)
                                                 <option value="{{$dat_per->id}}">{{$dat_per->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
                             @endif
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
+                                <div class="col-lg-10">
+                                    <strong>{{$retailer->name}}</strong>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="control-label col-lg-2">Departamento <span class="text-danger">*</span></label>
                                 <div class="col-lg-10">

@@ -11,7 +11,24 @@ abstract class BaseController extends Controller{
             ->join('ad_products as ap', 'ap.id' ,'=', 'acp.ad_product_id')
             ->select('ap.code as product', 'arp.id as id_retailer_product', 'arp.ad_retailer_id', 'arp.active', 'ap.name as name_product')
             ->where('acp.active', '=', true)
+            ->orderBy('arp.id','asc')
             ->get();
         return $query;
+    }
+
+    protected function array_data(){
+        $array_data = array();
+        $query_products = \DB::table('ad_products')
+                            ->orderBy('id','asc')
+                            ->get();
+
+        $query_permissions = \DB::table('ad_permissions')
+                                ->where('slug','like','A%')
+                                ->orderby('id','asc')
+                                ->get();
+
+        $array_data['products']=$query_products;
+        $array_data['permissions']=$query_permissions;
+        return $array_data;
     }
 }

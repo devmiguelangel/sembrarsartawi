@@ -37,30 +37,18 @@
                 <fieldset class="content-group">
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
-                        <div class="col-lg-10">
-                            @if(count($retailer)>0)
-                                <select name="id_retailer" id="id_retailer" class="form-control required">
-                                    <option value="0">Seleccione</option>
-                                    @foreach($retailer as $data_retailer)
-                                        <option value="{{$data_retailer->id}}">{{$data_retailer->name}}</option>
-                                    @endforeach
-                                </select>
-                            @else
-                                <div class="alert alert-warning alert-styled-left">
-                                    <span class="text-semibold"></span> No existe Retailer registrado.<br>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <label class="control-label col-lg-2">Tipo de usuario <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <select name="tipo_usuario" id="tipo_usuario" class="form-control required">
                                 <option value="0">Seleccione</option>
                                 @foreach($query_type_user as $type)
-                                    <option value="{{$type->id}}|{{$type->code}}">{{$type->name}}</option>
+                                    @if(auth()->user()->type->code=='ADT')
+                                        <option value="{{$type->id}}|{{$type->code}}">{{$type->name}}</option>
+                                    @else
+                                        @if($type->code=='UST')
+                                            <option value="{{$type->id}}|{{$type->code}}">{{$type->name}}</option>
+                                        @endif
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -79,10 +67,26 @@
                         <label class="control-label col-lg-2">Permisos </label>
                         <div class="col-lg-10">
                             <select multiple="multiple" class="" name="permiso[]" id="permiso" data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
-                                @foreach($permissions as $dat_per)
-                                    <option value="{{$dat_per->id}}">{{$dat_per->name}}</option>
-                                @endforeach
+                                <option value=""></option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            @if(count($retailer)>0)
+                                <select name="id_retailer" id="id_retailer" class="form-control required">
+                                    <option value="0">Seleccione</option>
+                                    @foreach($retailer as $data_retailer)
+                                        <option value="{{$data_retailer->id}}">{{$data_retailer->name}}</option>
+                                    @endforeach
+                                </select>
+                            @else
+                                <div class="alert alert-warning alert-styled-left">
+                                    <span class="text-semibold"></span> No existe Retailer registrado.<br>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -122,7 +126,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="content-password">
                         <label class="control-label col-lg-2">Contraseña <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <input type="password" class="form-control required" name="contrasenia" id="contrasenia" maxlength="14">
@@ -130,7 +134,7 @@
                         <div id="messages"></div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="content-confirm-password">
                         <label class="control-label col-lg-2">Confirmar Contraseña <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <input type="password" class="form-control required" name="confirmar" id="confirmar" maxlength="14">
@@ -179,12 +183,23 @@
                             Agregar departamentos a Retailer <i class="icon-pencil3 position-right"></i>
                         </a>
                     @endif
+                    <input type="hidden" id="session_type_user" value="{{auth()->user()->type->code}}">
                 </div>
             {!!Form::close()!!}
         </div>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
+            //$("select.readonly option").not(":selected").attr("disabled", "disabled");
+
+            //OCULTAMOS LOS CAMPOS PASSWORD Y CONFIRMAR PASSWORD PUESTO QUE EL TIPO DE USUARIO ES OPT
+            if($('#session_type_user').prop('value')=='OPT'){
+                $('#content-password').fadeOut('fast');
+                $('#content-confirm-password').fadeOut('fast');
+                $('#contrasenia').removeClass('form-control required');
+                $('#confirmar').removeClass('form-control required');
+            }
+
 
             //OBTENER LISTA DE AGENCIAS DE ACUERDO AL DEPARTAMENTO
             $('#depto').change(function(e) {
@@ -195,9 +210,10 @@
                 var vec = _datatu.split('|');
                 //alert(type_user);
                 if(id_retailer_city!=0){
-                    if(vec[1]=='UST'){
+                    if(vec[1]=='UST'){//SI EL TIPO ES USUARIO
                         var id_profile = $('#id_profile option:selected').prop('value');
-                        if(id_profile!=4){
+                        //alert(id_profile);
+                        if(id_profile!=4){//SI EL PROFILE ES DISTINTO DE COMPAÑIA SE HABILITA AGENCIA
                             $.get( "{{url('/')}}/admin/user/agency_ajax/"+id_retailer_city, function( data ) {
                                 console.log(data);
                                 $('#content-agency').fadeIn('slow');
@@ -215,7 +231,7 @@
                                     $('#msg_agencia').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span> No existen agencias agregadas al departamento.<br><a href="{{route('admin.agencies.list-agency-retailer', ['nav'=>'agency', 'action'=>'list_agency_retailer'])}}">Ingresar agencias a departamento</a></div>');
                                 }
                             });
-                        }else{
+                        }else{//SI EL PROFILE ES COMPAÑIA SE DESHABILITA AGENCIA
                             $('#content-agency').fadeOut('fast');
                             $('#agencia').removeClass('form-control required');
                         }
@@ -248,27 +264,48 @@
                 var _id = $(this).prop('value');
                 var arr = _id.split("|");
                 var tipo_usuario = arr[0];
-                if(arr[1]=='UST'){
+                var session_type_user = $('#session_type_user').prop('value');
+                //alert('tipo usuario sesion: '+session_type_user);
+                //alert(arr[1]);
+                if(arr[1]=='UST' || arr[1]=='OPT'){
                     //alert(tipo_usuario);
                     $('#depto option[value="0"]').prop('selected',true);
                     $('#agencia option[value="0"]').prop('selected',true);
                     $('#content-agency').fadeOut('fast');
-                    $.get( "{{url('/')}}/admin/user/profiles_ajax/"+tipo_usuario, function( data ) {
+                    $.get( "{{url('/')}}/admin/user/profiles_ajax/"+session_type_user, function( data ) {
+                        if(arr[1]=='UST'){
+                            $('#id_profile').addClass('form-control required');
+                            $('#content-user-profiles').fadeIn('fast');
+                            $('#id_profile option').remove();
+                            $('#id_profile').append('<option value="0">Seleccione</option>');
+                            if(data.length>0){
+                                $.each(data, function () {
+                                    console.log("ID: " + this.id);
+                                    console.log("Profiles: " + this.name);
+                                    $('#id_profile').append('<option value="'+this.id+'">'+this.name+'</option>');
+                                });
+                            }
+                        }else{
+                            $('#id_profile').removeClass('form-control required');
+                            $('#content-user-profiles').fadeOut('fast');
+                        }
+                    });
+
+                    $.get( "{{url('/')}}/admin/user/permissions_ajax/"+arr[1], function( data ) {
+
                         $('#permiso').addClass('form-control');
                         $('#content-permissions').fadeIn('fast');
-                        $('#id_profile').addClass('form-control required');
-                        $('#content-user-profiles').fadeIn('fast');
-                        $('#id_profile option').remove();
-                        $('#id_profile').append('<option value="0">Seleccione</option>');
+                        $('#permiso option').remove();
                         if(data.length>0){
                             $.each(data, function () {
                                 console.log("ID: " + this.id);
                                 console.log("Profiles: " + this.name);
-                                $('#id_profile').append('<option value="'+this.id+'">'+this.name+'</option>');
+                                $('#permiso').append('<option value="'+this.id+'">'+this.name+'</option>');
                             });
                         }
+
                     });
-                    //$('#content-user-profiles').fadeIn('slow');
+
                 }else{
                     $('#id_profile').removeClass('form-control required');
                     $('#content-user-profiles').fadeOut('fast');

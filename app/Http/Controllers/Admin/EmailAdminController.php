@@ -19,6 +19,7 @@ class EmailAdminController extends BaseController
     public function index($nav, $action)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list_epr'){
             $query = \DB::table('ad_retailer_product_emails as arpe')
                         ->join('ad_emails as am', 'am.id', '=', 'arpe.ad_email_id')
@@ -30,7 +31,7 @@ class EmailAdminController extends BaseController
                         ->where('acp.active', true)
                         ->get();
             //dd($query);
-            return view('admin.email.list-email-product-retailer', compact('nav', 'action', 'main_menu', 'query'));
+            return view('admin.email.list-email-product-retailer', compact('nav', 'action', 'main_menu', 'query', 'array_data'));
         }elseif($action=='new_add_email'){
             $query = \DB::table('ad_retailer_products as arp')
                             ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
@@ -39,9 +40,9 @@ class EmailAdminController extends BaseController
                             ->get();
             $query_email = \DB::table('ad_emails')
                                 ->get();
-            return view('admin.email.new-add-email', compact('nav', 'action', 'main_menu', 'query', 'query_email'));
+            return view('admin.email.new-add-email', compact('nav', 'action', 'main_menu', 'query', 'query_email', 'array_data'));
         }elseif($action=='new_email'){
-            return view('admin.email.new-email', compact('nav', 'action', 'main_menu'));
+            return view('admin.email.new-email', compact('nav', 'action', 'main_menu', 'array_data'));
         }
     }
 
@@ -126,11 +127,12 @@ class EmailAdminController extends BaseController
     public function edit($nav, $action, $ad_email_id)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = \DB::table('ad_emails')
                         ->where('id',$ad_email_id)
                         ->first();
         //dd($query);
-        return view('admin.email.edit-email', compact('nav', 'action', 'query', 'ad_email_id', 'main_menu'));
+        return view('admin.email.edit-email', compact('nav', 'action', 'query', 'ad_email_id', 'main_menu', 'array_data'));
     }
 
     /**

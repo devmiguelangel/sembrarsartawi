@@ -19,6 +19,7 @@ class CompanyProductToRetailerAdminController extends BaseController
     public function index($nav, $action, $id_company)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = \DB::table('ad_retailer_products as arp')
                 ->join('ad_retailers as ar', 'ar.id', '=', 'arp.ad_retailer_id')
@@ -28,7 +29,7 @@ class CompanyProductToRetailerAdminController extends BaseController
                 ->get();
             $parameter = config('base.retailer_product_types');
             //dd($parameter);
-            return view('admin.addtoretailer.list', compact('nav', 'action', 'id_company', 'main_menu', 'query', 'parameter'));
+            return view('admin.addtoretailer.list', compact('nav', 'action', 'id_company', 'main_menu', 'query', 'parameter', 'array_data'));
         }elseif($action=='new'){
             $query_ret = Retailer::where('active', true)->get();
 
@@ -38,7 +39,7 @@ class CompanyProductToRetailerAdminController extends BaseController
                                 ->where('acp.active', true)
                                 ->where('acp.ad_company_id', $id_company)
                                 ->get();
-            return view('admin.addtoretailer.new', compact('nav', 'action', 'id_company', 'main_menu', 'query_ret', 'query_pr_co'));
+            return view('admin.addtoretailer.new', compact('nav', 'action', 'id_company', 'main_menu', 'query_ret', 'query_pr_co', 'array_data'));
         }
 
     }

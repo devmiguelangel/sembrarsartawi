@@ -18,6 +18,7 @@ class SubProductAdminController extends BaseController
     public function index($nav, $action, $id_retailer_product_select)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = \DB::table('ad_retailer_products as arp')
                     ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
                     ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
@@ -41,7 +42,7 @@ class SubProductAdminController extends BaseController
                                     ->where('ad_retailer_product_id', $id_retailer_product_select)
                                     ->get();
 
-        return view('admin.subproduct.list', compact('nav', 'action', 'product', 'subproduct', 'main_menu', 'retailer', 'retailer_subproduct', 'id_retailer_product_select', 'retailer_subproduct'));
+        return view('admin.subproduct.list', compact('nav', 'action', 'product', 'subproduct', 'main_menu', 'retailer', 'retailer_subproduct', 'id_retailer_product_select', 'retailer_subproduct', 'array_data'));
     }
 
     /**

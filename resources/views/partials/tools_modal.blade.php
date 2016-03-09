@@ -7,5 +7,4 @@
         <i class="fa fa-print fa-3x text-success"></i> 
     </a>
 </div>
-<hr />
-<br />
+

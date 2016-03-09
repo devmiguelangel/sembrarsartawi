@@ -18,6 +18,7 @@ class CoverageAdminController extends BaseController
     public function index($nav, $action)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = \DB::table('ad_retailer_product_coverages as arpc')
                         ->join('ad_coverages as ac', 'ac.id', '=', 'arpc.ad_coverage_id')
@@ -28,14 +29,14 @@ class CoverageAdminController extends BaseController
                         ->select('arpc.id as id_retailer_product_coverage', 'ac.name as coverage', 'ap.name as product', 'arpc.detail as num_holder', 'ar.name as retailer', 'arpc.active')
                         ->where('ar.active', true)
                         ->get();
-            return view('admin.cobertura.list', compact('nav', 'action', 'main_menu', 'query'));
+            return view('admin.cobertura.list', compact('nav', 'action', 'main_menu', 'query', 'array_data'));
         }elseif($action=='new'){
             $query = \DB::table('ad_retailers')
                         ->where('active',true)
                         ->get();
             $query_coverage = \DB::table('ad_coverages')
                                 ->get();
-            return view('admin.cobertura.new', compact('nav', 'action', 'query', 'main_menu', 'query_coverage'));
+            return view('admin.cobertura.new', compact('nav', 'action', 'query', 'main_menu', 'query_coverage', 'array_data'));
         }
     }
 
@@ -94,6 +95,7 @@ class CoverageAdminController extends BaseController
     public function edit($nav, $action, $id_retailer_product_coverage)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = \DB::table('ad_retailer_product_coverages as arpc')
             ->join('ad_coverages as ac', 'ac.id', '=', 'arpc.ad_coverage_id')
             ->join('ad_retailer_products as arp', 'arp.id', '=', 'arpc.ad_retailer_product_id')
@@ -104,7 +106,7 @@ class CoverageAdminController extends BaseController
             ->where('ar.active', true)
             ->where('arpc.id', '=', $id_retailer_product_coverage)
             ->first();
-        return view('admin.cobertura.edit', compact('nav', 'action', 'main_menu', 'query', 'id_retailer_product_coverage'));
+        return view('admin.cobertura.edit', compact('nav', 'action', 'main_menu', 'query', 'id_retailer_product_coverage', 'array_data'));
     }
 
     /**
@@ -151,6 +153,7 @@ class CoverageAdminController extends BaseController
             ->select('arp.id as id_retailer_product', 'ap.name as product')
             ->where('arp.ad_retailer_id', '=', $id_retailer)
             ->where('ap.type', '=', 'PH')
+            ->where('ap.code','<>','vi')
             ->get();
         return response()->json($product_retailer);
     }

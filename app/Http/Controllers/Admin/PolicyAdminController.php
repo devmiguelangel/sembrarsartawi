@@ -19,6 +19,7 @@ class PolicyAdminController extends BaseController
     public function index($nav, $action, $id_retailer_products, $code_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = \DB::table('ad_policies')
                 ->where('ad_retailer_product_id', $id_retailer_products)
@@ -31,7 +32,7 @@ class PolicyAdminController extends BaseController
                 ->where('arp.id',$id_retailer_products)
                 ->first();
             //dd($query);
-            return view('admin.policy.list', compact('nav', 'action', 'main_menu', 'query', 'id_retailer_products', 'query_prod', 'code_product'));
+            return view('admin.policy.list', compact('nav', 'action', 'main_menu', 'query', 'id_retailer_products', 'query_prod', 'code_product', 'array_data'));
         }elseif($action=='new'){
             $query_prod = \DB::table('ad_retailer_products as arp')
                 ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
@@ -40,13 +41,14 @@ class PolicyAdminController extends BaseController
                 ->where('arp.id',$id_retailer_products)
                 ->first();
             //dd($id_retailer_products);
-            return view('admin.policy.new', compact('nav', 'action', 'main_menu', 'id_retailer_products', 'query_prod', 'code_product'));
+            return view('admin.policy.new', compact('nav', 'action', 'main_menu', 'id_retailer_products', 'query_prod', 'code_product', 'array_data'));
         }
 
     }
 
     public function index_product_retailer($nav, $action){
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = \DB::table('ad_retailer_products as arp')
             ->join('ad_retailers as ar', 'ar.id', '=', 'arp.ad_retailer_id')
             ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
@@ -54,7 +56,7 @@ class PolicyAdminController extends BaseController
             ->select('arp.id as id_retailer_products', 'ar.name as retailer', 'ap.name as product', 'arp.type', 'arp.active', 'ap.code')
             ->get();
         $parameter = config('base.retailer_product_types');
-        return view('admin.policy.list-product-retailer', compact('nav', 'action', 'query', 'main_menu', 'parameter'));
+        return view('admin.policy.list-product-retailer', compact('nav', 'action', 'query', 'main_menu', 'parameter', 'array_data'));
     }
 
     /**
@@ -124,6 +126,7 @@ class PolicyAdminController extends BaseController
     public function edit($nav, $action, $id_policies, $id_retailer_products, $code_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query_policy = \DB::table('ad_policies')
                     ->where('id', $id_policies)
                     ->where('ad_retailer_product_id', $id_retailer_products)
@@ -135,7 +138,7 @@ class PolicyAdminController extends BaseController
                         ->select('ap.name as product')
                         ->where('arp.id',$id_retailer_products)
                         ->first();
-        return view('admin.policy.edit', compact('nav', 'action', 'main_menu', 'query_policy', 'id_retailer_products', 'query_prod', 'id_policies', 'code_product'));
+        return view('admin.policy.edit', compact('nav', 'action', 'main_menu', 'query_policy', 'id_retailer_products', 'query_prod', 'id_policies', 'code_product', 'permissions'));
     }
 
     /**

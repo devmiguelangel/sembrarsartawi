@@ -19,17 +19,19 @@ class QuestionAdminController extends BaseController
     public function index($nav, $action)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = Question::get();
             //dd($query);
-            return view('admin.questions.list', compact('nav', 'action', 'query','main_menu'));
+            return view('admin.questions.list', compact('nav', 'action', 'query','main_menu','array_data'));
         }
     }
 
     public function index_retailer($nav, $action, $id_retailer_product, $code_product)
     {
         $main_menu = $this->menu_principal();
-        return view('admin.questions.new', compact('nav', 'action', 'main_menu', 'id_retailer_product', 'code_product'));
+        $array_data = $this->array_data();
+        return view('admin.questions.new', compact('nav', 'action', 'main_menu', 'id_retailer_product', 'code_product', 'array_data'));
     }
     /**
      * Show the form for creating a new resource.
@@ -90,9 +92,10 @@ class QuestionAdminController extends BaseController
     public function edit($nav, $action, $id_question)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = Question::where('id', $id_question)->first();
         //dd($query);
-        return view('admin.questions.edit', compact('nav', 'action', 'query', 'main_menu'));
+        return view('admin.questions.edit', compact('nav', 'action', 'query', 'main_menu', 'array_data'));
 
     }
 

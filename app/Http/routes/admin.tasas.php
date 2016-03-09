@@ -36,3 +36,4 @@ Route::post('admin/tasas/edit', [
 Route::get('admin/tasas/product_retailer_ajax/{id_retailer}', 'Admin\TasasAdminController@ajax_product_retailer');
 Route::get('admin/tasas/cobertura_ajax/{id_retailer_product}', 'Admin\TasasAdminController@ajax_cobertura');
 Route::get('admin/tasas/delete_ajax/{id_rates}', 'Admin\TasasAdminController@ajax_delete');
+Route::get('admin/tasas/quest_rate_ajax/{id_retailer_product}', 'Admin\TasasAdminController@ajax_quest_rate');

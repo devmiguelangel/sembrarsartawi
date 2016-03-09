@@ -19,6 +19,7 @@ class FormAdminController extends BaseController
     public function index($nav, $action, $id_retailer_products, $code_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query_form = \DB::table('ad_forms as af')
                 ->select('af.id as id_forms', 'af.title', 'af.file')
@@ -33,14 +34,15 @@ class FormAdminController extends BaseController
                 ->where('arp.active',true)
                 ->where('acp.active',true)
                 ->first();
-            return view('admin.formulario.list', compact('nav', 'action', 'main_menu', 'query_form', 'query_prod', 'id_retailer_products', 'code_product'));
+            return view('admin.formulario.list', compact('nav', 'action', 'main_menu', 'query_form', 'query_prod', 'id_retailer_products', 'code_product', 'array_data'));
         }elseif($action=='new'){
-            return view('admin.formulario.new', compact('nav', 'action', 'main_menu', 'id_retailer_products', 'code_product'));
+            return view('admin.formulario.new', compact('nav', 'action', 'main_menu', 'id_retailer_products', 'code_product', 'array_data'));
         }
     }
 
     public function index_product_retailer($nav, $action){
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = \DB::table('ad_retailer_products as arp')
             ->join('ad_retailers as ar', 'ar.id', '=', 'arp.ad_retailer_id')
             ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
@@ -48,7 +50,7 @@ class FormAdminController extends BaseController
             ->select('arp.id as id_retailer_products', 'ar.name as retailer', 'ap.name as product', 'arp.type', 'arp.active', 'ap.code')
             ->get();
         $parameter = config('base.retailer_product_types');
-        return view('admin.formulario.list-product-retailer', compact('nav', 'action', 'query', 'main_menu', 'parameter'));
+        return view('admin.formulario.list-product-retailer', compact('nav', 'action', 'query', 'main_menu', 'parameter', 'array_data'));
     }
     /**
      * Show the form for creating a new resource.
@@ -127,13 +129,14 @@ class FormAdminController extends BaseController
     public function edit($nav, $action, $id_forms, $id_retailer_products, $code_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query_form = \DB::table('ad_forms as af')
             ->select('af.id as id_forms', 'af.title', 'af.file')
             ->where('af.ad_retailer_product_id', $id_retailer_products)
             ->where('af.id',$id_forms)
             ->first();
 
-        return view('admin.formulario.edit', compact('nav', 'action', 'id_forms', 'id_retailer_products', 'code_product', 'query_form', 'main_menu'));
+        return view('admin.formulario.edit', compact('nav', 'action', 'id_forms', 'id_retailer_products', 'code_product', 'query_form', 'main_menu', 'array_data'));
     }
 
     /**

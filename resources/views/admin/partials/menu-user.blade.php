@@ -1,17 +1,18 @@
 <div class="sidebar-user">
     <div class="category-content">
         <div class="media">
-            <a href="#" class="media-left"><img src="{{asset('images/placeholder.jpg')}}" class="img-circle img-sm" alt=""></a>
+            <span class="form-wizard-count">
+                    <i class="icon-list"></i>
+            </span>
             <div class="media-body">
-                <span class="media-heading text-semibold">Victoria Baker</span>
+                <span class="media-heading text-semibold">
+                    {{auth()->user()->full_name}}<br>
+                    {{auth()->user()->type->name}}
+                </span>
             </div>
 
             <div class="media-right media-middle">
-                <ul class="icons-list">
-                    <li>
-                        <a href="#"><i class="icon-cog3"></i></a>
-                    </li>
-                </ul>
+
             </div>
         </div>
     </div>

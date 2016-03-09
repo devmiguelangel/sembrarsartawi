@@ -19,12 +19,13 @@ class RetailerAdminController extends BaseController
     public function index($nav, $action)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list'){
             $query = \DB::table('ad_retailers')->get();
             //dd($query);
-            return view('admin.retailer.list', compact('nav', 'action', 'query', 'main_menu'));
+            return view('admin.retailer.list', compact('nav', 'action', 'query', 'main_menu', 'array_data'));
         }elseif($action=='new'){
-            return view('admin.retailer.new', compact('nav', 'action', 'main_menu'));
+            return view('admin.retailer.new', compact('nav', 'action', 'main_menu', 'array_data'));
         }
         //
     }
@@ -100,10 +101,11 @@ class RetailerAdminController extends BaseController
     public function edit($nav, $action, $id_retailer)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         $query = \DB::table('ad_retailers')
                     ->where('id', '=', $id_retailer)
                     ->first();
-        return view('admin.retailer.edit', compact('nav', 'action', 'query', 'main_menu'));
+        return view('admin.retailer.edit', compact('nav', 'action', 'query', 'main_menu', 'array_data'));
     }
 
     /**

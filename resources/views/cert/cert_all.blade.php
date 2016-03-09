@@ -1,13 +1,23 @@
 @include('partials.tools_modal',array('type'=>$type,'idHeader'=>encode($idHeader)))
-<div class="container" style="width: 770px;">
+
+@var $size = '80%'
+@var $size2 = '95%'
+@if($flagPdf == 1)
+    @var $size = '55%'
+    @var $size2 = '60%'
+@endif
+    
+<meta charset="utf-8">
+@include('partials.logos_modal',array('image1'=>$retailer->image,'images'=>$retailerProduct))
+<div style="width: 100%;font-size: 70%;">
     <div class="main">
 
         <div class="header">
-            <div style="font-size: 90%; width: auto; height: auto; font-weight: bold;">
+            <div style="font-size: {{ $size2  }}; width: auto; height: auto; font-weight: bold;">
                 DECLARACIÓN JURADA DE SALUD<br />
                 SOLICITUD DE SEGURO DE DESGRAVAMEN HIPOTECARIO
             </div>
-            <div style="font-size: 75%; width: auto; height: auto; font-weight: bold; margin-top: 3px;">
+            <div style="font-size: {{ $size2  }}; width: auto; height: auto; font-weight: bold; margin-top: 3px;">
                 Aprobada por R. A.- Nº 438 del 26 de Noviembre de 2009<br />
                 COD. 207-934901-1999 11 003-3013<br />
                 No de Certificado:{{ $cli->policy_number }}
@@ -17,7 +27,7 @@
         @foreach($cli->details as $titular)
             <div class="wrap">
                 <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
-                    font-weight: bold; font-size: 75%;">DATOS PERSONALES: (TITULAR {{ $i }})</h2>
+                    font-weight: bold; font-size: {{ $size2  }};">DATOS PERSONALES: (TITULAR {{ $i }})</h2>
                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                     <tr>
                         <td style="width: 13%; text-align: left;">Nombre Completo: </td>
@@ -29,7 +39,7 @@
                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                     <tr>
                         <td style="width: 20%; text-align: left;">Lugar y fecha de Nacimiento: </td>
-                        <td style="width: 80%; border-bottom: 1px solid #080808; text-align: left;">
+                        <td style="width: {{ $size  }}; border-bottom: 1px solid #080808; text-align: left;">
                             {{ $titular->client->place_residence }} {{ date('d-m-Y', strtotime($titular->client->birthdate)) }}
                         </td>
                     </tr>
@@ -84,7 +94,7 @@
         @if($i == 1)
             <div class="wrap">
                 <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
-                    font-weight: bold; font-size: 75%;">DATOS PERSONALES: (TITULAR 2)</h2>
+                    font-weight: bold; font-size: {{ $size2  }};">DATOS PERSONALES: (TITULAR 2)</h2>
                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                     <tr>
                         <td style="width: 14%; text-align: left;">Nombre Completo: </td>
@@ -94,7 +104,7 @@
                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                     <tr>
                         <td style="width: 20%; text-align: left;">Lugar y fecha de Nacimiento: </td>
-                        <td style="width: 80%; border-bottom: 1px solid #080808; text-align: left;"></td>
+                        <td style="width: {{ $size  }}; border-bottom: 1px solid #080808; text-align: left;"></td>
                     </tr>
                 </table>
                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
@@ -127,11 +137,11 @@
                 </table>
             </div>
         @endif
-
+        
         <div class="wrap">
             <h2 style="width: auto;	height: auto; text-align: left; padding: 0;
-                font-weight: bold; font-size: 75%;">DEL CRÉDITO SOLICITADO:</h2>
-            <h1 style="font-size: 80%; text-align: left;">Usted(es) solicita(n) el Seguro de tipo:</h1>
+                font-weight: bold; font-size: {{ $size2  }};">DEL CRÉDITO SOLICITADO:</h2>
+            <h1 style="font-size: {{ $size  }}; text-align: left;">Usted(es) solicita(n) el Seguro de tipo:</h1>
             <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                 <tr>
                     <td style="width: 20%; text-align: left;">Individual </td>
@@ -178,7 +188,7 @@
 
         <div class="wrap">
             <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
-                font-weight: bold; font-size: 80%;">Cuestionario</h2>
+                font-weight: bold; font-size: {{ $size  }};">Cuestionario</h2>
             <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                 <tr>
                     <td style="width: 5%;"></td>
@@ -198,7 +208,7 @@
                             <td style="width: 12%;">
                                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
                                     <tr>
-                                        <td style="width: 80%;" align="right">
+                                        <td style="width: {{ $size  }};" align="right">
                                             {{ $result == 1 ? 'SI':'NO'}}
                                         </td>
                                         <td style="width: 20%; padding-left: 3px;">
@@ -213,12 +223,12 @@
                 @endforeach
             </table>
             <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
-                font-weight: bold; font-size: 75%;">
+                font-weight: bold; font-size: {{ $size2  }};">
                 SI ALGUNA DE SUS RESPUESTAS ES AFIRMATIVA, SÍRVASE BRINDAR DETALLES:
             </h2>
             @var $sum=1
             @foreach($cli->details as $titular)
-                <td style="width: 12%;" align="right">Titular </td>
+                <div style="width: 12%;" align="right">Titular </div>
                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                     <tr>
                         <td style="width: 10%;">TITULAR {{ $sum }}: </td>
@@ -230,7 +240,7 @@
                 @var $sum++
             @endforeach
         </div>
-        <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify; font-size: 80%; margin-top: 4px;">
+        <div style="width: 100%; border: 0px solid #FFFF00; text-align:justify; font-size: 70%; margin-top: 4px;">
             Declaro haber contestado con total veracidad, máxima buena fe a todas las preguntas del
             presente cuestionario y no haber omitido u ocultado hechos y/o circunstancias que hubieran
             podido influir en la celebración del Contrato de Seguro. Relevo expresamente del secreto
@@ -283,7 +293,7 @@
                 </tr>
             </table>
         </div>
-        <div style="width: 770px; border: 0px solid #FFFF00; text-align:center; font-size: 80%;">
+        <div style="width: 100%; border: 0px solid #FFFF00; text-align:center; font-size: {{ $size  }};">
             ALIANZA VIDA, SEGUROS Y REASEGUROS S.A., LA PAZ: calle Juana Parada Nª 683 Esq. Calle 6
             (Zona Achumani) - Telf: (591 - 2)2793232, Fax: (591 - 2)2799191 <br />
             SANTA CRUZ: Av. Viedma N°19 Esq. Melchor Pinto - Telf: (591 - 3)3375656, Fax: (591 - 3)3375666
@@ -291,13 +301,13 @@
 
         <page><div style="page-break-before: always;">&nbsp;</div></page>
 
-        <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
-            <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: 90%; margin: 0px;">
+        <div style="width: 100%; border: 0px solid #FFFF00; text-align:center;">
+            <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: {{ $size2  }}; margin: 0px;">
                 NOMINACIÓN DE BENEFICIARIOS PARA GASTOS DE SEPELIO<br />
                 COBERTURA COMPLEMENTARIA A LA PÓLIZA DE<br />
                 SEGURO DE DESGRAVAMEN HIPOTECARIO ANUAL RENOVABLE
             </h1>
-            <h4 style="width: auto;	text-align: center; font-weight: bold; font-size: 80%; margin: 0;">
+            <h4 style="width: auto;	text-align: center; font-weight: bold; font-size: {{ $size  }}; margin: 0;">
                 Aprobada por R. A.- Nº 106 Del 10 de Febrero de 2011<br />
                 COD. 207-934901-1999 11 003-3002
             </h4>
@@ -305,12 +315,12 @@
             @var $sum=1
             @foreach($cli->details as $titular)
                 <h2 style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0;
-                    font-weight: bold; font-size: 80%;">DATOS PERSONALES:</h2>
-                <h4 style="width: auto;	text-align: left; font-weight: bold; font-size: 80%; margin: 0;">
+                    font-weight: bold; font-size: {{ $size  }};">DATOS PERSONALES:</h2>
+                <h4 style="width: auto;	text-align: left; font-weight: bold; font-size: {{ $size  }}; margin: 0;">
                     TITULAR {{ $sum }}
                 </h4>
                 <table cellpadding="0" cellspacing="0" border="0" class="table-borde12"
-                       style="width: 100%; height: auto; font-size: 90%; font-family: Arial;">
+                       style="width: 100%; height: auto; font-size: {{ $size2  }}; font-family: Arial;">
                     <tr>
                         <td colspan="2" style="width: 100%; text-align: left;">
                             Nombres y Apellidos: {{ $titular->client->full_name }}
@@ -333,11 +343,11 @@
                 @var $sum++
             @endforeach
 
-            <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: 80%; margin: 0;">
+            <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: {{ $size  }}; margin: 0;">
                 BENEFICIARIOS PARA GASTOS DE SEPELIO COBERTURA COMPLEMENTARIA A LA<br />
                 PÓLIZA DE SEGURO DE DESGRAVAMEN HIPOTECARIO ANUAL RENOVABLE :
             </h1>
-            <p style="text-align: center; font-size: 90%; font-weight: normal;">
+            <p style="text-align: center; font-size: {{ $size2  }}; font-weight: normal;">
                 El asegurado de asignar como beneficiario para la cobertura adicional de sepelio a la persona<br />
                 que a su fallecimiento recibirá el Capital que la Compañia otorga en esta cobertura.
             </p>
@@ -345,12 +355,12 @@
 
 
             <table cellpadding="0" cellspacing="0" border="0" class="table-borde12"
-                   style="width: 100%; height: auto; font-size: 90%; font-family: Arial;">
+                   style="width: 100%; height: auto; font-size: {{ $size2  }}; font-family: Arial;">
                 @var $sum=1
                 @foreach($cli->details as $titular)
                     <tr>
                         <td style="width: 20%;">
-                            <h3 style="width: auto; height: auto; font-weight: bold; font-size: 80%; margin: 0;">
+                            <h3 style="width: auto; height: auto; font-weight: bold; font-size: {{ $size  }}; margin: 0;">
                                 TITULAR {{ $sum }}.
                             </h3>
                         </td>
@@ -377,11 +387,11 @@
                 @endforeach
             </table><br><br>
             <table cellpadding="0" cellspacing="0" border="0"
-                   style="width: 100%; height: auto; font-size: 80%; font-family: Arial;">
+                   style="width: 100%; height: auto; font-size: {{ $size  }}; font-family: Arial;">
                 <tr>
                     <td style="width: 8%;"></td>
                     <td align="left" style="width: 7%;">
-                        <h3 style="width: auto; height: auto; font-weight: bold; font-size: 80%; margin: 0;">
+                        <h3 style="width: auto; height: auto; font-weight: bold; font-size: {{ $size  }}; margin: 0;">
                             FECHA:
                         </h3>
                     </td>
@@ -453,428 +463,494 @@
                 </tr>
             </table>
         </div>
+        <br />
+        @var $contenido = 'block'
+        @if($cli->facultative == 1)
+            @if($cli->facultative == 1 and $cli->issued == 0)
+                <table border="0" cellpadding="1" cellspacing="0" style="width: 50%; font-size: 8px; border-collapse: collapse;">
+                    <tr>
+                        <td colspan="1" style="width:100%; text-align: center; font-weight: bold; background: #e57474; color: #FFFFFF;">Caso Facultativo</td>
+                    </tr>
+                    <tr>
+                        <td style="width:100%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">Observaciones</td>
+                    </tr>
+                    @var $sum=1
+                    @foreach($cli->details as $titular)
+                        <tr>
+                            <td style="width:100%; text-align: justify; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
+                                El titular {{ $sum }} no cumple con las preguntas
+                            </td>
+                        </tr>
+                        @var $sum++
+                    @endforeach
+                </table>
+                @var $contenido = 'none'
+            @endif
+            
+            @if($cli->facultative == 1 and $cli->issued == 1)
+                <table border="0" cellpadding="1" cellspacing="0" style="width: 100%; font-size: 8px; border-collapse: collapse;">
+                    <tr>
+                        <td colspan="6" style="width:100%; text-align: center; font-weight: bold; background: #e57474; color: #FFFFFF;">Caso Facultativo</td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">Aprobado</td>
+                        <td style="width:12%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">Tasa de Recargo</td>
+                        <td style="width:14%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">Porcentaje de Recargo</td>
+                        <td style="width:12%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">Tasa Actual</td>
+                        <td style="width:12%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">Tasa Final</td>
+                        <td style="width:45%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">Observaciones</td>
+                    </tr>
+                    @foreach($data as $facultatives)
+                    <tr>
+                        <td style="width:5%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">{{ ($facultatives->approved==1)?'Si':'No' }}</td>
+                        <td style="width:12%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">{{ ($facultatives->surchange==1)?'Si':'No' }}</td>
+                        <td style="width:14%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">{{ $facultatives->percentage }} %</td>
+                        <td style="width:12%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">{{ $facultatives->current_rate }} %</td>
+                        <td style="width:12%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">{{ $facultatives->final_rate }} %</td>
+                        <td style="width:45%; text-align: justify; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">{{ $facultatives->observation }}</td>
+                    </tr>
+                    @endforeach
+               </table>
+                @var $contenido = 'block'
+            @endif
+        @else
+            @var $contenido = 'block'
+        @endif
+        <span style="display: {{ $contenido }}">
+            <page><div style="page-break-before: always;">&nbsp;</div></page>
 
-        <page><div style="page-break-before: always;">&nbsp;</div></page>
-
-        <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: 100%; margin: 0;">
-            CERTIFICADO DE COBERTURA AL CONTRATO DE SEGURO<br> DE DESGRAVAMEN
-            HIPOTECARIO ANUAL RENOVABLE II
-        </h1>
-        <h4 style="width: auto;	text-align: center; font-weight: bold; font-size: 80%; margin: 0;">
-            Aprobada por R.A.- ASFI No. 424 del 28 de Mayo de 2010 <br>
-            COD. 207 - 934901 - 1999 11 003 - 4001
-        </h4>
-        <div align="right" style="padding-right: 50px; text-align: right; font-size: 80%;">DE-8850</div>
-        <div class="wrap">
-            <br>
-            <p style="text-align: left;">
-                Se deja expresa constancia mediante el presente certificado, que:
-            </p>
-            <p style="text-align: center; font-weight: bold;">
-                POLICARPIO ARANDA AGUILAR ó PATRICIA SANDRA MAMANI MUÑOZ
-            </p>
-            <p style="text-align: left;">
-                Ha sido admitido como integrante a la póliza Nº {{ $cli->policy_number }}  con efecto desde,
-                {{ date('d-m-Y', strtotime($cli->created_at)) }}  y como prestatario de la FUNDACIÓN SARTAWI tiene derecho a
-                las prestaciones del Contrato según sus reglas y condiciones.
-            </p><br>
-            <p style="font-weight: bold;">COBERTURAS</p>
-            <ul style="list-style: disc; margin: 10px 0 10px 9px; width: 700px; text-align: left;">
-                <li>
-                    Muerte Natural o Accidental (excepto las expresamente  excluidas en
-                    la REGLA VII RESTRICCIONES Y EXCLUSIONES)
-                </li>
-                <li>
-                    Invalidez Total y Permanente por Accidente  y/o  Enfermedad
-                </li>
-                <li>
-                    Gastos de Sepelio (Titular o Cónyuge)
-                </li>
-            </ul>
-            <br>
-            <p style="font-weight: bold; text-align: left;">TASA TOTAL MENSUAL</p>
-            <p style="text-align: left;">
-                Las primas serán canceladas por el “Tomador” cada mes vencido y a su vez el
-                “Tomador” cargará el costo de este seguro por adelantado en las cuotas de
-                amortización de cada prestatario acorde con su cronograma de pago.
-            </p>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
-                <tr>
-                    <td style="width: 25%; text-align: left;">
-                        Tasa para el titular del crédito:
-                    </td>
-                    <td style="width: 25%; text-align: left;">
-                        <span style="font-weight: bold;">Tasa {{ $adRates->rate_final }} %</span> (POR MIL) mensual
-                    </td>
-                    <td style="width: 50%;"></td>
-                </tr>
-                <tr>
-                    <td style="width: 25%; text-align: left">
-                        Tasa  mancomunada del crédito:
-                    </td>
-                    <td style="width: 25%; text-align: left;">
-                        <span style="font-weight: bold;">Tasa 1,25 %</span> (POR MIL) mensual
-                    </td>
-                    <td style="width: 50%;"></td>
-                </tr>
-                <tr>
-                    <td style="width: 25%; text-align: left;">
-                        Tasa  codeudor del crédito:
-                    </td>
-                    <td style="width: 25%; text-align: left;">
-                        <span style="font-weight: bold;">Tasa {{ $adRates->rate_final }} %</span> (POR MIL) mensual
-                    </td>
-                    <td style="width: 50%;"></td>
-                </tr>
-            </table><br>
-            <p style="font-weight: bold; text-align: left;">CAPITAL ASEGURADO </p>
-            <ul style="list-style: disc; text-align: left; margin: 10px 0 10px 10px; width: 700px;">
-                <li>
-                    Muerte Natural o Accidental
-                    <br>Capital declarado según planillas mensuales presentadas por el Contratante
-                </li>
-                <li>
-                    Invalidez Total y Permanente por Accidentes y/o Enfermedad
-                    <br>Capital declarado según planillas mensuales presentadas por el Contratante
-                </li>
-            </ul>
-            <br><br><br>
-            <p style="text-align: center;">ALIANZA VIDA  SEGUROS Y REASEGUROS S.A.</p>
-            <br>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
-                <tr>
-                    <td style="width: 15%;"></td>
-                    <td style="width: 30%;" align="center">
-                        {{-- <img src="{{ asset('images/firma-1.jpg') }}" height="60"> --}}
-                    </td>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 30%;" align="center">
-                        {{-- <img src="{{ asset('images/firma-2.jpg') }}" height="60"> --}}
-                    </td>
-                    <td style="width: 15%;"></td>
-                </tr>
-                <tr>
-                    <td style="width: 15%;"></td>
-                    <td style="width: 30%;" align="center">FIRMAS AUTORIZADAS</td>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 30%;" align="center">FIRMAS AUTORIZADAS</td>
-                    <td style="width: 15%;"></td>
-                </tr>
-            </table><br>
-            <p style="text-align: center;">
-                EN CASO DE SINIESTRO SÍRVASE CONTACTARSE CON  SU OFICIAL DE CREDITO U OFICINA MAS CERCANA
-                DE FUNDACION SARTAWI  O LA COMPAÑÍA
-            </p>
-            <p style="text-align: center;">
-                La adhesión a la presente póliza es de carácter voluntario y puede ser reemplazada por
-                otra de similares características
-            </p>
-            <p style="text-align: center;">
-                LA PAZ: calle Juana Parada Nª 683 Esq. Calle 6 (Zona Achumani) - Telf: (591 - 2)2793232,
-                Fax: (591 - 2)2799191 <br />
-                SANTA CRUZ: Av. Viedma N°19 Esq. Melchor Pinto - Telf: (591 - 3)3375656, Fax: (591 - 3)3375666
-            </p>
-        </div>
-
-        <page><div style="page-break-before: always;">&nbsp;</div></page>
-
-        <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
-            <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: 90%; margin: 0;">
-                REGLAS DEL CONTRATO DEL SEGURO DE DESGRAVAMEN HIPOTECARIO ANUAL RENOVABLE
+            <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: {{ $size2  }}; margin: 0;">
+                CERTIFICADO DE COBERTURA AL CONTRATO DE SEGURO<br> DE DESGRAVAMEN
+                HIPOTECARIO ANUAL RENOVABLE II
             </h1>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
-                <tr>
-                    <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;"
-                        valign="top">
+            <h4 style="width: auto;	text-align: center; font-weight: bold; font-size: {{ $size2  }}; margin: 0;">
+                Aprobada por R.A.- ASFI No. 424 del 28 de Mayo de 2010 <br>
+                COD. 207 - 934901 - 1999 11 003 - 4001
+            </h4>
+            <div align="right" style="padding-right: 50px; text-align: right; font-size: {{ $size2  }};">DE-8850</div>
+            <div class="wrap">
+                <br>
+                <p style="text-align: left;">
+                    Se deja expresa constancia mediante el presente certificado, que:
+                </p>
+                <p style="text-align: center; font-weight: bold;">
+                    POLICARPIO ARANDA AGUILAR ó PATRICIA SANDRA MAMANI MUÑOZ
+                </p>
+                <p style="text-align: left;">
+                    Ha sido admitido como integrante a la póliza Nº {{ $cli->policy_number }}  con efecto desde,
+                    {{ date('d-m-Y', strtotime($cli->created_at)) }}  y como prestatario de la FUNDACIÓN SARTAWI tiene derecho a
+                    las prestaciones del Contrato según sus reglas y condiciones.
+                </p><br>
+                <p style="font-weight: bold;">COBERTURAS</p>
+                <ul style="list-style: disc; margin: 10px 0 10px 9px; width: 700px; text-align: left;">
+                    <li>
+                        Muerte Natural o Accidental (excepto las expresamente  excluidas en
+                        la REGLA VII RESTRICCIONES Y EXCLUSIONES)
+                    </li>
+                    <li>
+                        Invalidez Total y Permanente por Accidente  y/o  Enfermedad
+                    </li>
+                    <li>
+                        Gastos de Sepelio (Titular o Cónyuge)
+                    </li>
+                </ul>
+                <br>
+                <p style="font-weight: bold; text-align: left;">TASA TOTAL MENSUAL</p>
+                <p style="text-align: left;">
+                    Las primas serán canceladas por el “Tomador” cada mes vencido y a su vez el
+                    “Tomador” cargará el costo de este seguro por adelantado en las cuotas de
+                    amortización de cada prestatario acorde con su cronograma de pago.
+                </p>
+                <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+                    <tr>
+                        <td style="width: 25%; text-align: left;">
+                            Tasa para el titular del crédito:
+                        </td>
+                        <td style="width: 25%; text-align: left;">
+                            <span style="font-weight: bold;">Tasa {{ $adRates->rate_final }} %</span> (POR MIL) mensual
+                        </td>
+                        <td style="width: 50%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%; text-align: left">
+                            Tasa  mancomunada del crédito:
+                        </td>
+                        <td style="width: 25%; text-align: left;">
+                            <span style="font-weight: bold;">Tasa 1,25 %</span> (POR MIL) mensual
+                        </td>
+                        <td style="width: 50%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%; text-align: left;">
+                            Tasa  codeudor del crédito:
+                        </td>
+                        <td style="width: 25%; text-align: left;">
+                            <span style="font-weight: bold;">Tasa {{ $adRates->rate_final }} %</span> (POR MIL) mensual
+                        </td>
+                        <td style="width: 50%;"></td>
+                    </tr>
+                </table><br>
+                <p style="font-weight: bold; text-align: left;">CAPITAL ASEGURADO </p>
+                <ul style="list-style: disc; text-align: left; margin: 10px 0 10px 10px; width: 700px;">
+                    <li>
+                        Muerte Natural o Accidental
+                        <br>Capital declarado según planillas mensuales presentadas por el Contratante
+                    </li>
+                    <li>
+                        Invalidez Total y Permanente por Accidentes y/o Enfermedad
+                        <br>Capital declarado según planillas mensuales presentadas por el Contratante
+                    </li>
+                </ul>
+                <br><br><br>
+                <p style="text-align: center;">ALIANZA VIDA  SEGUROS Y REASEGUROS S.A.</p>
+                <br>
+                <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+                    <tr>
+                        <td style="width: 15%;"></td>
+                        <td style="width: 30%;" align="center">
+                            {{-- <img src="{{ asset('images/firma-1.jpg') }}" height="60"> --}}
+                        </td>
+                        <td style="width: 10%;"></td>
+                        <td style="width: 30%;" align="center">
+                            {{-- <img src="{{ asset('images/firma-2.jpg') }}" height="60"> --}}
+                        </td>
+                        <td style="width: 15%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 15%;"></td>
+                        <td style="width: 30%;" align="center">FIRMAS AUTORIZADAS</td>
+                        <td style="width: 10%;"></td>
+                        <td style="width: 30%;" align="center">FIRMAS AUTORIZADAS</td>
+                        <td style="width: 15%;"></td>
+                    </tr>
+                </table><br>
+                <p style="text-align: center;">
+                    EN CASO DE SINIESTRO SÍRVASE CONTACTARSE CON  SU OFICIAL DE CREDITO U OFICINA MAS CERCANA
+                    DE FUNDACION SARTAWI  O LA COMPAÑÍA
+                </p>
+                <p style="text-align: center;">
+                    La adhesión a la presente póliza es de carácter voluntario y puede ser reemplazada por
+                    otra de similares características
+                </p>
+                <p style="text-align: center;">
+                    LA PAZ: calle Juana Parada Nª 683 Esq. Calle 6 (Zona Achumani) - Telf: (591 - 2)2793232,
+                    Fax: (591 - 2)2799191 <br />
+                    SANTA CRUZ: Av. Viedma N°19 Esq. Melchor Pinto - Telf: (591 - 3)3375656, Fax: (591 - 3)3375666
+                </p>
+            </div>
 
-                        <span class="font-bold">Regla I.</span>
-                        <span class="title-regla">DEFINICIONES</span><br />
-                        <span style="text-decoration: underline;">EL ASEGURADOR:</span> Alianza Vida, Seguros
-                        y Reaseguros S.A.<br>
-                        <span style="text-decoration: underline;">TOMADOR DEL SEGURO:</span>
-                        Fundación Sartawi<br>
-                        <span style="text-decoration: underline;">ASEGURADOS:</span>
-                        Prestatarios del “Tomador”, incluyendo a los cónyuges y codeudores, mediante el pago
-                        de prima, que  figuren en los contratos de crédito y hayan sido aceptados por la
-                        Compañía previa declaración jurada de salud.
-                        <br>
-                        <span style="text-decoration: underline;">BENEFICIARIO:</span>
-                        Fundación Sartawi a título oneroso y/o el “Tomador” del seguro.<br />
-                        <span style="text-decoration: underline;">COBERTURA DE MUERTE NATURAL O ACCIDENTAL:
-                        </span> Este seguro cubre el saldo insoluto de la  deuda contraída por el Asegurado
-                        con el “Tomador” mas intereses corrientes e interés punitorios a la muerte del
-                        asegurado, siempre que la causa no haya sido excluida en el presente Contrato y el
-                        Condicionado General.
-                        <br>
-                        <span style="text-decoration: underline;">COBERTURA COMPLEMENTARIA</span>
-                        Cubre el saldo insoluto de la deuda contraída por el Asegurado mas intereses corrientes
-                        e intereses punitorios, si por accidente o enfermedad quedase en forma total y
-                        permanente incapacitado para ejecutar cualquier trabajo lucrativo o para dedicarse a
-                        cualquier actividad de la que pueda derivar alguna utilidad y siempre que el carácter
-                        de la invalidez sea reconocido según el Manual de Evaluación y Calificación del Grado
-                        de Invalidez establecido en los arts. 24 y 62 del  D.S. 24469 de fecha 17/01/1997.
-                        <br>
-                        <span style="text-decoration: underline;">COBERTURA COMPLEMENTARIA</span> Cubre Gastos
-                        de Sepelio, son gastos que demanden los herederos legales o nominados por el Sepelio
-                        de un asegurado (titular o conyugue), como consecuencia del fallecimiento por una
-                        enfermedad o un accidente cubierto para el Titular. Se otorgará un beneficio de
-                        $us. 300.- ante el fallecimiento del Asegurado y/o conyugue (Así no se encuentre
-                        asegurada, “Protección Familiar”). En el caso de mancomunos, se otorgará el beneficio
-                        a la primera muerte, sea del titular o del conyugue.
-                        <br>
-                        <span class="font-bold">Regla II.</span>
-                        <span class="title-regla">LIMITES DE EDAD:</span><br />
-                        <span class="font-bold">2.01</span>  Para Muerte: Edad de Ingreso de 18 años (mínimo)
-                        y 70 años (máximo) “hasta antes de cumplir los 71 años” al momento de inicio de la
-                        Cobertura, permanencia hasta 75 años (hasta antes de cumplir los 76 años).
-                        <br>
-                        <span class="font-bold">2.02</span>  Para Invalidez: Edad de Ingreso de 18 años
-                        (mínimo) y 64 años (máximo) “hasta antes de cumplir los 65 años” al momento de inicio
-                        de la Cobertura, permanencia hasta 70 años (hasta antes de cumplir los 71 años).
-                        <br>
+            <page><div style="page-break-before: always;">&nbsp;</div></page>
 
-                        <span class="font-bold">Regla III.</span>
-                        <span class="title-regla">CONDICIONES DE ADHESIÓN DE LOS ASEGURADOS</span><br />
-                        <span class="font-bold">3.01</span>   Podrán pertenecer al colectivo asegurado todos
-                        los prestatarios que reúnan los requisitos o condiciones de adhesión en la fecha de
-                        efecto o con posterioridad y figuren en la última planilla de declaración de asegurados
-                        elaborada para tal efecto por el “Tomador” y que forma parte de la póliza.
-                        <br>
-                        <span class="font-bold">3.02</span>  Toda persona seleccionada para formar parte del
-                        colectivo, a partir de la fecha de inicio de vigencia, debe rellenar un formulario de
-                        declaración jurada de salud y la nominación de beneficiarios para la cobertura de
-                        Sepelio.
-                        <br>
+            <div style="width: 100%; border: 0px solid #FFFF00; text-align:center;">
+                <h1 style="width: auto;	text-align: center; font-weight: bold; font-size: {{ $size2  }}; margin: 0;">
+                    REGLAS DEL CONTRATO DEL SEGURO DE DESGRAVAMEN HIPOTECARIO ANUAL RENOVABLE
+                </h1>
+                <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+                    <tr>
+                        <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;">
 
-                        <span class="font-bold">Regla IV.</span>
-                        <span class="title-regla">INICIO DE VIGENCIA DE LA COBERTURA PARA CADA ASEGURADO</span>
-                        <br>
-                        <span class="font-bold">4.01</span>  Operaciones de Crédito por Préstamos de dinero:
-                        desde la fecha de desembolso por parte del “Tomador”, previo cumplimiento de los
-                        requisitos de asegurabilidad.
-                        <br>
+                            <span class="font-bold">Regla I.</span>
+                            <span class="title-regla">DEFINICIONES</span><br />
+                            <span style="text-decoration: underline;">EL ASEGURADOR:</span> Alianza Vida, Seguros
+                            y Reaseguros S.A.<br>
+                            <span style="text-decoration: underline;">TOMADOR DEL SEGURO:</span>
+                            Fundación Sartawi<br>
+                            <span style="text-decoration: underline;">ASEGURADOS:</span>
+                            Prestatarios del “Tomador”, incluyendo a los cónyuges y codeudores, mediante el pago
+                            de prima, que  figuren en los contratos de crédito y hayan sido aceptados por la
+                            Compañía previa declaración jurada de salud.
+                            <br>
+                            <span style="text-decoration: underline;">BENEFICIARIO:</span>
+                            Fundación Sartawi a título oneroso y/o el “Tomador” del seguro.<br />
+                            <span style="text-decoration: underline;">COBERTURA DE MUERTE NATURAL O ACCIDENTAL:
+                            </span> Este seguro cubre el saldo insoluto de la  deuda contraída por el Asegurado
+                            con el “Tomador” mas intereses corrientes e interés punitorios a la muerte del
+                            asegurado, siempre que la causa no haya sido excluida en el presente Contrato y el
+                            Condicionado General.
+                            <br>
+                            <span style="text-decoration: underline;">COBERTURA COMPLEMENTARIA</span>
+                            Cubre el saldo insoluto de la deuda contraída por el Asegurado mas intereses corrientes
+                            e intereses punitorios, si por accidente o enfermedad quedase en forma total y
+                            permanente incapacitado para ejecutar cualquier trabajo lucrativo o para dedicarse a
+                            cualquier actividad de la que pueda derivar alguna utilidad y siempre que el carácter
+                            de la invalidez sea reconocido según el Manual de Evaluación y Calificación del Grado
+                            de Invalidez establecido en los arts. 24 y 62 del  D.S. 24469 de fecha 17/01/1997.
+                            <br>
+                            <span style="text-decoration: underline;">COBERTURA COMPLEMENTARIA</span> Cubre Gastos
+                            de Sepelio, son gastos que demanden los herederos legales o nominados por el Sepelio
+                            de un asegurado (titular o conyugue), como consecuencia del fallecimiento por una
+                            enfermedad o un accidente cubierto para el Titular. Se otorgará un beneficio de
+                            $us. 300.- ante el fallecimiento del Asegurado y/o conyugue (Así no se encuentre
+                            asegurada, “Protección Familiar”). En el caso de mancomunos, se otorgará el beneficio
+                            a la primera muerte, sea del titular o del conyugue.
+                            <br>
+                            <span class="font-bold">Regla II.</span>
+                            <span class="title-regla">LIMITES DE EDAD:</span><br />
+                            <span class="font-bold">2.01</span>  Para Muerte: Edad de Ingreso de 18 años (mínimo)
+                            y 70 años (máximo) “hasta antes de cumplir los 71 años” al momento de inicio de la
+                            Cobertura, permanencia hasta 75 años (hasta antes de cumplir los 76 años).
+                            <br>
+                            <span class="font-bold">2.02</span>  Para Invalidez: Edad de Ingreso de 18 años
+                            (mínimo) y 64 años (máximo) “hasta antes de cumplir los 65 años” al momento de inicio
+                            de la Cobertura, permanencia hasta 70 años (hasta antes de cumplir los 71 años).
+                            <br>
 
-                        <span class="font-bold">Regla V.</span>
-                        <span class="title-regla">PÉRDIDA DE LA CONDICIÓN DE PERTENENCIA AL GRUPO</span><br />
-                        <span class="font-bold">5.01</span>   La condición de miembro del colectivo terminará
-                        en la fecha que finalice la obligación contraída por el prestatario con el “Tomador”
-                        del presente seguro.
-                        <br>
-                        <span class="font-bold">5.02</span>  Si un miembro sobrepasa la edad límite de
-                        permanencia estipulada en 71 años (para muerte) y en 66 años (para invalidez) dejará
-                        de pertenecer al seguro colectivo.
-                        <br>
-                        <span class="font-bold">5.03</span>  La cobertura por el presente seguro finalizará
-                        en la fecha en que el asegurado deje de pagar la prima correspondiente al asegurado
-                        individual.
-                        <br>
-                        <span class="font-bold">Regla VI.</span>
-                        <span class="title-regla">LA PÓLIZA</span><br />
-                        <span class="font-bold">6.01</span>   No se pagará ninguna indemnización conforme a
-                        estas reglas si la suma asegurada correspondiente no resultara pagadera con arreglo a
-                        las condiciones de la Póliza.   Cualquier miembro puede examinar la póliza si lo cree
-                        oportuno, previa coordinación con el “Tomador”.
-                        <br>
-                        <span class="font-bold">Regla VII.</span>
-                        <span class="title-regla">MODIFICACIÓN O TERMINACIÓN</span><br />
-                        <span class="font-bold">7.01</span>   El “Tomador” se reserva el derecho de modificar
-                        estas reglas y los términos de la póliza al vencimiento de cada anualidad de acuerdo
-                        al resultado arrojado por la póliza al vencimiento de 	cada periodo.
-                        <br>
-                        <span class="font-bold">7.02</span>  El “Tomador” y el “Asegurador” se reservan el
-                        derecho de finalizar el Contrato.
-                        <br>
-                        <span class="font-bold">Regla VIII.</span>
-                        <span class="title-regla">RESTRICCIONES Y EXCLUSIONES</span><br>
-                        Este Seguro no será aplicable en ninguna de las siguientes circunstancias:
-                        <!---->
-                    </td>
-                    <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;"
-                        valign="top">
+                            <span class="font-bold">Regla III.</span>
+                            <span class="title-regla">CONDICIONES DE ADHESIÓN DE LOS ASEGURADOS</span><br />
+                            <span class="font-bold">3.01</span>   Podrán pertenecer al colectivo asegurado todos
+                            los prestatarios que reúnan los requisitos o condiciones de adhesión en la fecha de
+                            efecto o con posterioridad y figuren en la última planilla de declaración de asegurados
+                            elaborada para tal efecto por el “Tomador” y que forma parte de la póliza.
+                            <br>
+                            <span class="font-bold">3.02</span>  Toda persona seleccionada para formar parte del
+                            colectivo, a partir de la fecha de inicio de vigencia, debe rellenar un formulario de
+                            declaración jurada de salud y la nominación de beneficiarios para la cobertura de
+                            Sepelio.
+                        </td>
+                    </tr>
+                </table>
+                <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+                    <tr>
+                        <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;"><span class="font-bold">Regla IV.</span>
+                            <span class="title-regla">INICIO DE VIGENCIA DE LA COBERTURA PARA CADA ASEGURADO</span>
+                            <br>
+                            <span class="font-bold">4.01</span>  Operaciones de Crédito por Préstamos de dinero:
+                            desde la fecha de desembolso por parte del “Tomador”, previo cumplimiento de los
+                            requisitos de asegurabilidad.
+                            <br>
 
-                        <span class="font-bold">8.01</span>   Si  el  Asegurado  participa  como  conductor
-                        o  acompañante  en  competencias  de automóviles, motocicletas, lanchas a motor,
-                        aviones, avionetas, prácticas  de paracaidismo, aladeltismo, cacería de cualquier
-                        tipo u otra actividad que represente alto riesgo.
-                        <br>
-                        <span class="font-bold">8.02</span>  Si el Asegurado realiza operaciones o viajes
-                        submarinos o en transportes aéreos no autorizados para el transporte de pasajeros,
-                        vuelos no regulares.
-                        <br>
-                        <span class="font-bold">8.03</span>  Enfermedades preexistentes conocida al inicio
-                        del seguro o enfermedad congénita, para créditos mayores a $us. 5.001,00.-
-                        <br>
-                        <span class="font-bold">8.04</span>  Sida / HIV para siniestros a partir de $us.
-                        5.001,00.-<br>
-                        <span class="font-bold">8.05</span>  Si el Asegurado participa como elemento activo
-                        en guerra internacional o civil, rebelión, sublevación, guerrilla, huelgas, invasión,
-                        revolución, motín o hechos que las leyes califiquen como delitos contra la seguridad
-                        del Estado.
-                        <br>
-                        <span class="font-bold">8.06</span>  Suicidio realizado por el Asegurado dentro del
-                        segundo a&ntilde;o de vigencia de su cobertura. En consecuencia este riesgo quedará
-                        cubierto a partir del primer día del tercer a&ntilde;o de vigencia para cada Asegurado.
-                        <br>
-                        <span class="font-bold">8.07</span>  Guerra, invasión, actos de enemigos extranjeros,
-                        hostilidades u operaciones bélicas, sea que haya habido declaración de guerra, guerra
-                        civil, insurrección, sublevación, rebelión, sedición, motín o conmoción contra orden
-                        público, dentro o fuera del país, así como cuando el asegurado participe activamente
-                        en actos subversivos, terroristas o delincuenciales.
-                        <br>
-                        <span class="font-bold">8.08</span>  Fisión o fusión nuclear, contaminación
-                        radioactiva.<br>
-                        <span class="font-bold">8.09</span>  Acto delictuoso cometido en calidad de autor o
-                        cómplice, por un beneficiario o quien pudiere reclamar la indemnización.
-                        <br>
-                        <span class="font-bold">Regla IX.</span>
-                        <span class="title-regla">PROCEDIMIENTO EN CASO DE SINIESTROS</span><br />
-                        En caso de siniestros contemplados bajo el presente contrato, el asegurado debe
-                        presentar:<br>
-                        <span class="font-bold">Para siniestros hasta $us. 5.000,00.-</span>
-                        <br>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(a)</td>
-                                <td style="width: 90%; text-align: justify;">
-                                    Certificado de Defunción (para el Área Rural certificado de cualquier
-                                    autoridad local con la certificación del Jefe de agencia)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(b)</td>
-                                <td style="width: 90%; text-align: justify;">
-                                    Fotocopia del Certificado de nacimiento y/o fotocopia de la cédula
-                                    de identidad y/o carnet de identidad RUN y/o libreta de servicio militar.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(c)</td>
-                                <td style="width: 90%; text-align: justify;">
-                                    Estado de cuenta saldo deudor.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(d)</td>
-                                <td style="width: 90%; text-align: justify;">
-                                    Para  el  caso  de  Invalidez:  Certificado  INSO (Instituto  Nacional
-                                    de  Salud Ocupacional) o en su defecto de otra institución que esté
-                                    debidamente autorizada por la Autoridad Competente, la cual determine
-                                    el grado de invalidez.
-                                </td>
-                            </tr>
-                        </table>
-                        <span class="font-bold">Para siniestros de $us. 5.001,00.- en adelante:</span><br>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(a)</td>
-                                <td style="width: 90%; text-align: justify;">
-                                    Certificado de Defunción (para el Área Rural certificado de cualquier
-                                    autoridad local con la certificación del Jefe de agencia)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(b)</td>
-                                <td style="width: 90%; text-align: justify;">
-                                    Fotocopia del Certificado de nacimiento y/o fotocopia de la cédula de
-                                    identidad y/o carnet de identidad RUN y/o libreta de servicio militar.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(c)</td>
-                                <td style="width: 90%; text-align: justify;">Estado de cuenta saldo deudor.</td>
-                            </tr>
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(d)</td>
-                                <td style="width: 90%; text-align: justify;">Historia Clínica si existiera.</td>
-                            </tr>
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(e)</td>
-                                <td style="width: 90%; text-align: justify;">
-                                    Para  el  caso  de  Invalidez:  Certificado  INSO
-                                    (Instituto  Nacional  de  Salud Ocupacional) o en su defecto de otra
-                                    institución que esté debidamente autorizada por la Autoridad Competente,
-                                    la cual determine el grado de invalidez.
-                                </td>
-                            </tr>
-                        </table>
-                        <span class="font-bold">Para sepelio:</span>
-                        <br>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(a)</td>
-                                <td style="width: 90%; text-align: justify;">
-                                    Fotocopia del Certificado de nacimiento y/o fotocopia de la cédula de
-                                    identidad del Asegurado y/o carnet de identidad RUN y/o libreta de
-                                    servicio militar.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(b)</td>
-                                <td style="width: 90%; text-align: justify;">
-                                    Fotocopia de cédula de identidad del Beneficiario y/o Fotocopia del
-                                    certificado de nacimiento y/o carnet de identidad RUN y/o libreta de
-                                    servicio militar.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(c)</td>
-                                <td style="width: 90%; text-align: justify;">
-                                    Certificado de Defunción (para el Área Rural certificado de cualquier
-                                    autoridad local con la certificación del Jefe de agencia)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(d)</td>
-                                <td style="width: 90%; text-align: justify;">
-                                    Declaratoria de Beneficiarios o declaratoria de herederos (en caso de no
-                                    existir la nominación de los mismos)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 10%; text-align: center;" valign="top">(e)</td>
-                                <td style="width: 90%; text-align: justify;">
-                                    Carta de los beneficiarios solicitando el beneficio.
-                                </td>
-                            </tr>
-                        </table>
-                        <!---->
-                    </td>
-                </tr>
-            </table>
-            <br />
-            <p style="text-align: center; font-size: 80%;">
-                LA PAZ: calle Juana Parada Nª 683 Esq. Calle 6 (Zona Achumani) - Telf: (591 - 2)2793232,
-                Fax: (591 - 2)2799191 <br>
-                SANTA CRUZ: Av. Viedma N°19 Esq. Melchor Pinto - Telf: (591 - 3)3375656, Fax: (591 - 3)3375666
-            </p>
-        </div>
+                            <span class="font-bold">Regla V.</span>
+                            <span class="title-regla">PÉRDIDA DE LA CONDICIÓN DE PERTENENCIA AL GRUPO</span><br />
+                            <span class="font-bold">5.01</span>   La condición de miembro del colectivo terminará
+                            en la fecha que finalice la obligación contraída por el prestatario con el “Tomador”
+                            del presente seguro.
+                            <br>
+                            <span class="font-bold">5.02</span>  Si un miembro sobrepasa la edad límite de
+                            permanencia estipulada en 71 años (para muerte) y en 66 años (para invalidez) dejará
+                            de pertenecer al seguro colectivo.
+                            <br>
+                            <span class="font-bold">5.03</span>  La cobertura por el presente seguro finalizará
+                            en la fecha en que el asegurado deje de pagar la prima correspondiente al asegurado
+                            individual.
+                            <br>
+                            <span class="font-bold">Regla VI.</span>
+                            <span class="title-regla">LA PÓLIZA</span><br />
+                            <span class="font-bold">6.01</span>   No se pagará ninguna indemnización conforme a
+                            estas reglas si la suma asegurada correspondiente no resultara pagadera con arreglo a
+                            las condiciones de la Póliza.   Cualquier miembro puede examinar la póliza si lo cree
+                            oportuno, previa coordinación con el “Tomador”.
+                            <br>
+                            <span class="font-bold">Regla VII.</span>
+                            <span class="title-regla">MODIFICACIÓN O TERMINACIÓN</span><br />
+                            <span class="font-bold">7.01</span>   El “Tomador” se reserva el derecho de modificar
+                            estas reglas y los términos de la póliza al vencimiento de cada anualidad de acuerdo
+                            al resultado arrojado por la póliza al vencimiento de 	cada periodo.
+                            <br>
+                            <span class="font-bold">7.02</span>  El “Tomador” y el “Asegurador” se reservan el
+                            derecho de finalizar el Contrato.
+                            <br>
+                            <span class="font-bold">Regla VIII.</span>
+                            <span class="title-regla">RESTRICCIONES Y EXCLUSIONES</span><br>
+                            Este Seguro no será aplicable en ninguna de las siguientes circunstancias:
+                        </td>
+                    </tr>
+                </table>
+                <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+                    <tr>
+                        <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;">
+
+                            <span class="font-bold">8.01</span>   Si  el  Asegurado  participa  como  conductor
+                            o  acompañante  en  competencias  de automóviles, motocicletas, lanchas a motor,
+                            aviones, avionetas, prácticas  de paracaidismo, aladeltismo, cacería de cualquier
+                            tipo u otra actividad que represente alto riesgo.
+                            <br>
+                            <span class="font-bold">8.02</span>  Si el Asegurado realiza operaciones o viajes
+                            submarinos o en transportes aéreos no autorizados para el transporte de pasajeros,
+                            vuelos no regulares.
+                            <br>
+                            <span class="font-bold">8.03</span>  Enfermedades preexistentes conocida al inicio
+                            del seguro o enfermedad congénita, para créditos mayores a $us. 5.001,00.-
+                            <br>
+                            <span class="font-bold">8.04</span>  Sida / HIV para siniestros a partir de $us.
+                            5.001,00.-<br>
+                            <span class="font-bold">8.05</span>  Si el Asegurado participa como elemento activo
+                            en guerra internacional o civil, rebelión, sublevación, guerrilla, huelgas, invasión,
+                            revolución, motín o hechos que las leyes califiquen como delitos contra la seguridad
+                            del Estado.
+                            <br>
+                            <span class="font-bold">8.06</span>  Suicidio realizado por el Asegurado dentro del
+                            segundo a&ntilde;o de vigencia de su cobertura. En consecuencia este riesgo quedará
+                            cubierto a partir del primer día del tercer a&ntilde;o de vigencia para cada Asegurado.
+                            <br>
+                            <span class="font-bold">8.07</span>  Guerra, invasión, actos de enemigos extranjeros,
+                            hostilidades u operaciones bélicas, sea que haya habido declaración de guerra, guerra
+                            civil, insurrección, sublevación, rebelión, sedición, motín o conmoción contra orden
+                            público, dentro o fuera del país, así como cuando el asegurado participe activamente
+                            en actos subversivos, terroristas o delincuenciales.
+                            <br>
+                            <span class="font-bold">8.08</span>  Fisión o fusión nuclear, contaminación
+                            radioactiva.<br>
+                            <span class="font-bold">8.09</span>  Acto delictuoso cometido en calidad de autor o
+                            cómplice, por un beneficiario o quien pudiere reclamar la indemnización.
+                            <br>
+                            <span class="font-bold">Regla IX.</span>
+                            <span class="title-regla">PROCEDIMIENTO EN CASO DE SINIESTROS</span><br />
+                            En caso de siniestros contemplados bajo el presente contrato, el asegurado debe
+                            presentar:<br>
+                            <span class="font-bold">Para siniestros hasta $us. 5.000,00.-</span>
+                        </td>
+                    </tr>
+                </table>
+                <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+                    <tr>
+                        <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;"><table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(a)</td>
+                                    <td style="width: 90%; text-align: justify;">
+                                        Certificado de Defunción (para el Área Rural certificado de cualquier
+                                        autoridad local con la certificación del Jefe de agencia)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(b)</td>
+                                    <td style="width: 90%; text-align: justify;">
+                                        Fotocopia del Certificado de nacimiento y/o fotocopia de la cédula
+                                        de identidad y/o carnet de identidad RUN y/o libreta de servicio militar.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(c)</td>
+                                    <td style="width: 90%; text-align: justify;">
+                                        Estado de cuenta saldo deudor.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(d)</td>
+                                    <td style="width: 90%; text-align: justify;">
+                                        Para  el  caso  de  Invalidez:  Certificado  INSO (Instituto  Nacional
+                                        de  Salud Ocupacional) o en su defecto de otra institución que esté
+                                        debidamente autorizada por la Autoridad Competente, la cual determine
+                                        el grado de invalidez.
+                                    </td>
+                                </tr>
+                            </table>
+                            <span class="font-bold">Para siniestros de $us. 5.001,00.- en adelante:</span><br>
+                            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(a)</td>
+                                    <td style="width: 90%; text-align: justify;">
+                                        Certificado de Defunción (para el Área Rural certificado de cualquier
+                                        autoridad local con la certificación del Jefe de agencia)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(b)</td>
+                                    <td style="width: 90%; text-align: justify;">
+                                        Fotocopia del Certificado de nacimiento y/o fotocopia de la cédula de
+                                        identidad y/o carnet de identidad RUN y/o libreta de servicio militar.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(c)</td>
+                                    <td style="width: 90%; text-align: justify;">Estado de cuenta saldo deudor.</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(d)</td>
+                                    <td style="width: 90%; text-align: justify;">Historia Clínica si existiera.</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(e)</td>
+                                    <td style="width: 90%; text-align: justify;">
+                                        Para  el  caso  de  Invalidez:  Certificado  INSO
+                                        (Instituto  Nacional  de  Salud Ocupacional) o en su defecto de otra
+                                        institución que esté debidamente autorizada por la Autoridad Competente,
+                                        la cual determine el grado de invalidez.
+                                    </td>
+                                </tr>
+                            </table>
+                            <span class="font-bold">Para sepelio:</span>
+                            <br>
+                            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(a)</td>
+                                    <td style="width: 90%; text-align: justify;">
+                                        Fotocopia del Certificado de nacimiento y/o fotocopia de la cédula de
+                                        identidad del Asegurado y/o carnet de identidad RUN y/o libreta de
+                                        servicio militar.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(b)</td>
+                                    <td style="width: 90%; text-align: justify;">
+                                        Fotocopia de cédula de identidad del Beneficiario y/o Fotocopia del
+                                        certificado de nacimiento y/o carnet de identidad RUN y/o libreta de
+                                        servicio militar.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(c)</td>
+                                    <td style="width: 90%; text-align: justify;">
+                                        Certificado de Defunción (para el Área Rural certificado de cualquier
+                                        autoridad local con la certificación del Jefe de agencia)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(d)</td>
+                                    <td style="width: 90%; text-align: justify;">
+                                        Declaratoria de Beneficiarios o declaratoria de herederos (en caso de no
+                                        existir la nominación de los mismos)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" valign="top">(e)</td>
+                                    <td style="width: 90%; text-align: justify;">
+                                        Carta de los beneficiarios solicitando el beneficio.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <br />
+                <p style="text-align: center; font-size: {{ $size  }};">
+                    LA PAZ: calle Juana Parada Nª 683 Esq. Calle 6 (Zona Achumani) - Telf: (591 - 2)2793232,
+                    Fax: (591 - 2)2799191 <br>
+                    SANTA CRUZ: Av. Viedma N°19 Esq. Melchor Pinto - Telf: (591 - 3)3375656, Fax: (591 - 3)3375666
+                </p>
+            </div>
+        </span>
+
+        
 
     </div>
 </div>
+
 @if($flag > 0 && ! is_null($viDetail))
-<hr />
-<div class="container" style="width: 770px;">
+<page><div style="page-break-before: always;">&nbsp;</div></page>
+
+<div class="container" style="width: 730px; ">
     <div class="main">
         <div class="header">
-            <div style="font-size: 80%; width: auto; height: auto; font-weight: bold; text-align: center;">
+            <div style="font-size: {{ $size }}; width: auto; height: auto; font-weight: bold; text-align: center;">
                 DECLARACIÓN JURADA DE SALUD <br>
                 SOLICITUD DE SEGURO MASIVO VIDA INDIVIDUAL DE CORTO PLAZO
             </div>
-            <div style="font-size: 70%; width: auto; height: auto; margin-top: 3px; text-align: center;">
+            <div style="font-size: {{ $size }}; width: auto; height: auto; margin-top: 3px; text-align: center;">
                 Formato aprobado por la Autoridad de Fiscalización y Control de Pensiones y
                 Seguros – APS  mediante Resolución Administrativa APS/DS/No.687-2013 <br>
                 Código 206-934215-2013 07 035 3001
             </div>
-            <div style="font-size: 70%; width: auto; height: auto; font-weight: bold; margin-top: 3px;
+            <div style="font-size: {{ $size }}; width: auto; height: auto; font-weight: bold; margin-top: 3px;
                  text-align: center;">
                 El interesado solicita  a Nacional Vida Seguros de Personas S.A, un seguro
                 de vida, basado en las declaraciones que siguen a continuación, las mismas
                 que formaran parte integrante e indivisible de la póliza:
             </div>
         </div>
-        <div class="wrap">
+        <br>
+        <div class="wrap" style="font-size: {{ $size }};">
             <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: 70%;">I.	DATOS PERSONALES DEL SOLICITANTE:</div>
+                 font-weight: bold; font-size: {{ $size }};">I.	DATOS PERSONALES DEL SOLICITANTE:</div>
             <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                 <tr>
                     <td style="width: 14%; text-align: left;">Nombre del Tomador: </td>
@@ -972,11 +1048,12 @@
                 </tr>
             </table>
         </div>
+        <br>
         <div class="wrap">
             <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: 70%;">II. ELECCION DEL PLAN</div>
+                 font-weight: bold; font-size: {{ $size }};">II. ELECCION DEL PLAN</div>
             <div style="font-size: 75%; text-align: left; margin: 2px 0;">1. Planes del Seguro</div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
                     <td style="width: 10%;"></td>
                     <td style="width: 75%; background: #000; color: #fff; text-align: center;
@@ -1010,15 +1087,16 @@
                         <td style="width: 15%;"></td>
                     </tr>
                 @endforeach
-
+                
             </table>
         </div>
+        <br />
         <div class="wrap">
             <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: 70%;">III. BENEFICIARIO</div>
+                 font-weight: bold; font-size: {{ $size }};">III. BENEFICIARIO</div>
             <div style="font-size: 75%; text-align: left; margin: 2px 0;">Beneficiarios:</div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
-
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
+               
                 <tr>
                     <td style="width: 10%;"></td>
                     <td style="width: 10%; background: #000; color: #fff; text-align: center;
@@ -1047,37 +1125,38 @@
                     <td style="width: 10%;"></td>
                     <td style="width: 10%; background: #000; color: #fff; text-align: center;
                         height: 10px; padding-top: 2px; border: 1px solid #000;" >
-
+                        
                     </td>
                     <td style="width: 35%; border: 1px solid #000; text-align: center;
                         padding-top: 2px;" >
-
+                        
                     </td>
                     <td style="width: 10%; border: 1px solid #000; text-align: center;
                         padding-top: 2px;" >
-
+                        
                     </td>
                     <td style="width: 15%; border: 1px solid #000; text-align: center;
                         padding-top: 2px;" >
-
+                        
                     </td>
                     <td style="width: 10%; border: 1px solid #000; text-align: center;
                         padding-top: 2px;" >
-
+                        
                     </td>
                     <td style="width: 10%;"></td>
                 </tr>
-
+                
             </table>
         </div>
+        <br />
         <div class="wrap">
             <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: 70%;">IV. CUESTIONARIO DE SALUD: (Marque con una X si corresponde)
+                 font-weight: bold; font-size: {{ $size }};">IV. CUESTIONARIO DE SALUD: (Marque con una X si corresponde)
             </div>
-            <div style="font-size: 70%; text-align: left; margin: 2px 0;">
+            <div style="font-size: {{ $size }}; text-align: left; margin: 2px 0;">
                 1. ¿Usted padece de alguna de las siguientes enfermedades?
             </div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
                     <td style="width: 10%; "></td>
                     <td style="width: 20%; height: 5px; padding: 5px; text-align: left;">
@@ -1131,35 +1210,27 @@
                 </tr>
             </table>
         </div>
+        <br />
         <div class="wrap">
             <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: 70%;">V. FORMA DE PAGO </div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+                 font-weight: bold; font-size: {{ $size }};">V. FORMA DE PAGO </div>
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
-                    <td style="width: 10%; "></td>
-                    <td style="width: 20%; height: 5px; padding: 5px; text-align: left;">
+                    <td style="width: 25%; padding: 5px; text-align: left;">
                         {{ $viHeader->payment_method = 'DA'?'Debito Automatico':'Pago al Contado'}}
                     </td>
-                    <td style="width: 5%; padding: 2px 0; " >
-                        <div class="input-check">&nbsp;</div>
-                    </td>
-                    <td style="width: 20%; "></td>
                 </tr>
             </table>
         </div>
+        <br />
         <div class="wrap">
             <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: 70%;">VI. PERIODICIDAD</div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+                 font-weight: bold; font-size: {{ $size }};">VI. PERIODICIDAD</div>
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
-                    <td style="width: 10%; "></td>
                     <td style="width: 20%; height: 5px; padding: 5px; text-align: left;">
                         {{ $viHeader->period = 'Y'?'Pago Anual':'Pago Mensual'}}
                     </td>
-                    <td style="width: 5%; padding: 2px 0; " >
-                        <div class="input-check">&nbsp;</div>
-                    </td>
-                    <td style="width: 20%; "></td>
                 </tr>
             </table>
         </div>
@@ -1167,7 +1238,7 @@
             <div style="font-size: 75%; text-align: left; margin: 2px 0;">
                 Debito en Cuenta de la Entidad Financiera
             </div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
                     <td style="width: 10%;"></td>
                     <td style="width: 20%; background: #000; color: #fff;
@@ -1206,7 +1277,8 @@
                 </tr>
             </table>
         </div>
-        <div class="text_contenido">
+        <br />
+        <div class="text_contenido" style="font-size: {{ $size }}; text-align: justify">
             Declaro haber contestado con total veracidad y máxima buena fe a todas las preguntas del presente
             cuestionario y no haber omitido u ocultado hechos y/o circunstancias que hubieran podido influir en la
             celebración del contrato de seguro, las mismas que son completas y verídicas.
@@ -1223,15 +1295,15 @@
             Autorizo a Médicos, Clínicas e Institutos de Salud para suministrar a Nacional Vida Seguro de Personas
             S.A., todos los datos que requiera sobre mi estado de salud antes o después de mi fallecimiento.
         </div>
-        <br><br>
+        <br>
         <div class="wrap">
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
                     <td style="width: 5%; ">
                         Fecha:
                     </td>
                     <td style="width: 35%; height: 5px; border-bottom: 1px solid #080808;" >&nbsp;
-                       {{ date('d-m-Y', strtotime($viHeader->date_issue)) }}
+                       {{ date('d-m-Y', strtotime($viHeader->date_issue)) }} 
                     </td>
                     <td style="width: 5%;" >
                         Firma:
@@ -1257,7 +1329,7 @@
                 </tr>
             </table>
             <br><br>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
                 <tr>
                     <td style="width: 5%; ">
                     </td>
@@ -1288,9 +1360,7 @@
             </table>
         </div>
 
-        <page><div style="page-break-before: always;">&nbsp;</div></page>
-
-        <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
+        <div style="width: 730px; border: 0px solid #FFFF00; text-align:center; font-size: {{ $size }}">
             <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
                 <tr>
                     <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
@@ -1322,7 +1392,7 @@
                                     Nombre Completo:
                                 </td>
                                 <td style="width: 73%; border-bottom: 1px solid #080808; text-align: left;">
-                                    {{ $viDetail->client->full_name }}
+                                    {{ $viDetail->client->full_name }} 
                                 </td>
                             </tr>
                             <tr>
@@ -1350,6 +1420,7 @@
                                 </td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             2. COBERTURAS Y CAPITALES ASEGURADOS:
                         </div>
@@ -1358,7 +1429,7 @@
                                 <td style="width: 5%;">
                                     a.
                                 </td>
-                                <td style="width: 95%; text-align: justify;">
+                                <td style="width: {{ $size2 }}; text-align: justify;">
                                     <label class="emphasis">Muerte por cualquier causa:</label> La compañía asume
                                     la muerte por cualquier causa de EL ASEGURADO, siempre y cuando la causa
                                     no se encuentre excluida en el punto  4 del presente certificado.
@@ -1368,7 +1439,7 @@
                                 <td style="width: 5%;">
                                     b.
                                 </td>
-                                <td style="width: 95%; text-align: justify;">
+                                <td style="width: {{ $size2 }}; text-align: justify;">
                                     <label class="emphasis">Pago anticipado del Capital Asegurado en caso de
                                         Invalidez Total y Permanente:</label>
                                     Cobertura aplicable cuando se presenta la Incapacidad Total y Permanente en
@@ -1380,7 +1451,7 @@
                                 <td style="width: 5%;">
                                     c.
                                 </td>
-                                <td style="width: 95%; text-align: justify;">
+                                <td style="width: {{ $size2 }}; text-align: justify;">
                                     <label class="emphasis">Sepelio:</label> El beneficio de sepelio no considera
                                     exclusiones para EL ASEGURADO y se paga al ocurrir la muerte por cualquier
                                     causa.
@@ -1390,7 +1461,7 @@
                                 <td style="width: 5%;" valign="top">
                                     d.
                                 </td>
-                                <td style="width: 95%; text-align: justify;">
+                                <td style="width: {{ $size2 }}; text-align: justify;">
                                     <label class="emphasis">Capitales Asegurados:</label>
                                     <br><br>
                                     <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
@@ -1411,15 +1482,15 @@
                                             </td>
                                         </tr>
                                         @foreach(json_decode($viHeader->plan->plan) as $plan)
-                                            <tr>
-                                                <td style="width: 70%; border: 1px solid #000;
+                                        <tr>
+                                            <td style="width: 70%; border: 1px solid #000;
                                                     background: #000; color: #fff;">
-                                                    {{ $plan->cov }}
-                                                </td>
-                                                <td style="width: 30%; padding-left: 5px; border: 1px solid #000;">
-                                                    Hasta Bs. {{number_format($plan->rank, 0, '.', ',')}}
-                                                </td>
-                                            </tr>
+                                                {{ $plan->cov }}
+                                            </td>
+                                            <td style="width: 30%; padding-left: 5px; border: 1px solid #000;">
+                                                Hasta Bs. {{number_format($plan->rank, 0, '.', ',')}}
+                                            </td>
+                                        </tr>
                                         @endforeach
                                     </table>
                                     <br>
@@ -1455,6 +1526,7 @@
                                 </td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             3. PUNTO DE VENTA:
                         </div>
@@ -1478,16 +1550,16 @@
                         </table>
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             4. EXCLUSIONES:
-                            <span style="font-weight: normal;">
+                            <span style="font-weight: normal; text-align: justify">
                                 Este seguro de  vida no será aplicable en ninguna de
                                 las siguientes circunstancias:
                             </span><br>
                             Para Cobertura de Muerte por Cualquier Causa:
                         </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
+                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child" style="text-align: justify">
                             <tr>
-                                <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: 5%; font-weight: normal;" valign="top">*</td>
+                                <td style="width: {{ $size2 }};">
                                     Participación de EL ASEGURADO en actos de guerra, declarada o no, sedición,
                                     rebelión, asonada, conspiración, motín, tumulto, o cualquier acto que tenga
                                     relación con ellos, salvo comprobación de que EL ASEGURADO no haya participado,
@@ -1497,7 +1569,7 @@
 
                             <tr>
                                 <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Participación de EL ASEGURADO como conductor o acompañante en competencias de
                                     velocidad o resistencia, de automóviles motocicletas, lanchas o en cualquier
                                     clase de vehículos a motor.
@@ -1505,13 +1577,13 @@
                             </tr>
                             <tr>
                                 <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Suicidio durante el primer año de haber estado asegurado ininterrumpidamente.
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Fisión o Fusión nuclear o contaminación radioactiva.
                                 </td>
                             </tr>
@@ -1524,7 +1596,7 @@
                             </tr>
                             <tr>
                                 <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     La utilización por EL ASEGURADO de medios de transporte aéreo no comercial,
                                     salvo en calidad de pasajero de líneas aéreas debidamente autorizadas para
                                     el transporte público.
@@ -1532,28 +1604,28 @@
                             </tr>
                             <tr>
                                 <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Que EL ASEGURADO se encuentre en estado de ebriedad o bajo los efectos de
                                     Alcohol, drogas o alucinógenos.
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Falsas declaraciones, omisión o reticencia del Asegurado que puedan influir
                                     en la comprobación de su estado de invalidez.
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Intento de suicidio cualquiera sea la época en que ocurra o por medidas o
                                     lesiones inferidas AL ASEGURADO por sí mismo o por terceros con su
                                     consentimiento.
                                 </td>
                             </tr>
                         </table>
-                    <td>
+                    </td>
                     <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             5. COSTO DE LA COBERTURA:
@@ -1600,6 +1672,7 @@
                                 <td style="width: 45%;"></td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             6. BENEFICIARIOS:
                         </div>
@@ -1628,19 +1701,19 @@
                             <tr>
                                 <td style="width: 15%; text-align: center; background: #000;
                                     color: #FFF; border: 1px solid #000; height: 10px;">
-
+                                 
                                 </td>
                                 <td style="width: 35%; text-align: center; border: 1px solid #000;">
-
+                                    
                                 </td>
                                 <td style="width: 15%; text-align: center; border: 1px solid #000;">
-
+                                   
                                 </td>
                                 <td style="width: 20%; text-align: center; border: 1px solid #000;">
-
+                                    
                                 </td>
                                 <td style="width: 15%; text-align: center; border: 1px solid #000;">
-
+                                    
                                 </td>
                             </tr>
                             <tr>
@@ -1649,16 +1722,16 @@
                                     Beneficiario 2
                                 </td>
                                 <td style="width: 35%; text-align: center; border: 1px solid #000;">
-
+                                   
                                 </td>
                                 <td style="width: 15%; text-align: center; border: 1px solid #000;">
-
+                                   
                                 </td>
                                 <td style="width: 20%; text-align: center; border: 1px solid #000;">
-
+                                   
                                 </td>
                                 <td style="width: 15%; text-align: center; border: 1px solid #000;">
-
+                                 
                                 </td>
                             </tr>
                             <tr>
@@ -1668,12 +1741,13 @@
                                 </td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             7. PROCEDIMIENTO A SEGUIR EN CASO DE SINIESTRO:
                         </div>
                         <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
                             <tr>
-                                <td style="width: 100%;" colspan="2">
+                                <td style="width: 100%; text-align: justify" colspan="2">
                                     El Asegurado o Beneficiario, tan pronto y a más tardar dentro de los 30 días
                                     de tener conocimiento del siniestro, debe comunicar tal hecho a la aseguradora,
                                     salvo fuerza mayor o impedimiento jurídico.
@@ -1686,68 +1760,71 @@
                                 </td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             DOCUMENTOS  A PRESENTAR  EN CASO DE  MUERTE POR CUALQUIER CAUSA:
                         </div>
                         <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
                             <tr>
                                 <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Certificado Médico de defunción.
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Certificado de la Autoridad competente (si corresponde).
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Documento de identidad (carnet de identidad o certificado
                                     de nacimiento) del asegurado.
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Documento de identidad (Carnet de identidad o Certificado
                                     de nacimiento) del beneficiario.
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Declaratoria de Herederos si no existieran Beneficiarios
                                     nominados en la Póliza.
                                 </td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             DOCUMENTOS  A PRESENTAR  EN CASO DE  INVALIDEZ TOTAL PERMANENTE
                         </div>
                         <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
                             <tr>
                                 <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%; text-align: justify;">
+                                <td style="width: {{ $size2 }}; text-align: justify;">
                                     Declaración médica de invalidez, emitida por un médico autorizado por la APS.
                                 </td>
                             </tr>
                         </table>
+                        <br />
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             DOCUMENTOS  A PRESENTAR  EN CASO DE  SEPELIO
                         </div>
                         <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
                             <tr>
                                 <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Certificado de defunción.
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Documento de identidad (carnet de identidad o certificado
                                     de nacimiento) del asegurado.
 
@@ -1755,14 +1832,14 @@
                             </tr>
                             <tr>
                                 <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Documento de identidad (Carnet de identidad o Certificado de
                                     nacimiento) del beneficiario.
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
+                                <td style="width: {{ $size2 }};">
                                     Declaratoria de Herederos si no existieran Beneficiarios
                                     nominados en la Póliza.
                                 </td>
@@ -1804,6 +1881,7 @@
                             </tr>
                         </table>
                         <br>
+                        
                         <div style="text-align: left; margin: 2px 0; font-weight: bold;">
                             9. CORREDOR DE SEGUROS
                         </div>
@@ -1864,7 +1942,6 @@
                                 <td style="width: 13%;"></td>
                             </tr>
                         </table>
-                        <br>
                         <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
                             <tr>
                                 <td style="width: 5%;"></td>
@@ -1902,14 +1979,15 @@
                             </tr>
                         </table>
                     </td>
-                <tr>
+                </tr>
             </table>
         </div>
 
         <page><div style="page-break-before: always;">&nbsp;</div></page>
 
-        <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify; font-size: 75%; margin-top: 4px;">
-            <p>
+        <div style="width: 730px; border: 0px solid #FFFF00; text-align:justify; font-size: {{ $size }}">
+            <div style="width:100%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
+                <p>
                 <b>Discrepancias en la Póliza (Art. 1013) </b>"Si el Tomador o ASEGURADO
                 encuentran que la póliza no concuerda con lo convenido o con lo propuesto,
                 pueden pedir rectificación correspondiente por escrito, dentro de los quince
@@ -1973,6 +2051,8 @@
                 siniestro o tan pronto sean llenados los requerimientos señalados en el
                 artículo 1031".
             </p>
+            </div>
+            
         </div>
 
     </div>

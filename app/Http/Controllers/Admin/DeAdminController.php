@@ -20,6 +20,7 @@ class DeAdminController extends BaseController
     public function index($nav, $action, $id_retailer_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list_parameter'){
 
             $sql = RetailerProduct::join('ad_company_products', 'ad_company_products.id', '=', 'ad_retailer_products.ad_company_product_id')
@@ -28,35 +29,37 @@ class DeAdminController extends BaseController
                                   ->where('ad_retailer_products.id', '=', $id_retailer_product)
                                   ->get();
             //dd($sql);
-            return view('admin.de.parameters.list-parameter', compact('nav', 'action', 'sql', 'id_retailer_product', 'main_menu'));
+            return view('admin.de.parameters.list-parameter', compact('nav', 'action', 'sql', 'id_retailer_product', 'main_menu', 'array_data'));
         }
     }
 
     public function index_parameter($nav, $action, $id_retailer_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='list_parameter_additional'){
             $query = \DB::table('ad_product_parameters')
                           ->where('ad_retailer_product_id', '=', $id_retailer_product)
                           ->get();
             //dd($id_retailer_product);
-            return view('admin.de.parameters.list-parameter-additional', compact('nav', 'action', 'query', 'id_retailer_product', 'main_menu'));
+            return view('admin.de.parameters.list-parameter-additional', compact('nav', 'action', 'query', 'id_retailer_product', 'main_menu','array_data'));
         }elseif($action=='new_parameter_additional'){
             //dd($id_retailer_product);
-            return view('admin.de.parameters.new-parameter-additional', compact('nav', 'action', 'id_retailer_product', 'main_menu'));
+            return view('admin.de.parameters.new-parameter-additional', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'array_data'));
         }
     }
 
     public function index_parameter_additional($nav, $action, $id_product_parameters, $id_retailer_product)
     {
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         if($action=='edit_parameter_additional'){
             //dd($id_retailer_product);
             $query = ProductParameter::where('id',$id_product_parameters)
                                      ->where('ad_retailer_product_id',$id_retailer_product)
                                      ->first();
             //dd($query);
-            return view('admin.de.parameters.edit-parameter-additional', compact('nav', 'action', 'id_product_parameters', 'id_retailer_product', 'query', 'main_menu'));
+            return view('admin.de.parameters.edit-parameter-additional', compact('nav', 'action', 'id_product_parameters', 'id_retailer_product', 'query', 'main_menu', 'array_data'));
         }
     }
     /**
@@ -119,7 +122,7 @@ class DeAdminController extends BaseController
     public function edit($nav, $action, $id_retailer_product)
     {
         $main_menu = $this->menu_principal();
-
+        $array_data = $this->array_data();
         if($action=='edit_parameter'){
             $query = \DB::table('ad_retailer_products')
                 ->join('ad_company_products', 'ad_company_products.id', '=', 'ad_retailer_products.ad_company_product_id')
@@ -128,7 +131,7 @@ class DeAdminController extends BaseController
                 ->where('ad_retailer_products.id', '=', $id_retailer_product)
                 ->get();
             //dd($query);
-            return view('admin.de.parameters.edit-parameter', compact('nav', 'action', 'query', 'id_retailer_product', 'main_menu'));
+            return view('admin.de.parameters.edit-parameter', compact('nav', 'action', 'query', 'id_retailer_product', 'main_menu', 'array_data'));
         }
     }
 

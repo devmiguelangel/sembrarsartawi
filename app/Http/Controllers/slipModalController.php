@@ -6,6 +6,14 @@ use Illuminate\Http\Request;
 use Sibas\Http\Controllers\PdfController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
+use Illuminate\Support\Facades\Auth;
+use Sibas\Entities\User;
+use Sibas\Entities\RetailerProduct;
+use Sibas\Entities\De\Header;
+use Sibas\Entities\De\Detail;
+use Sibas\Entities\De\Facultative;
+
 
 class slipModalController extends Controller {
 
@@ -13,10 +21,18 @@ class slipModalController extends Controller {
      * @var PdfController
      */
     protected $pdf;
-
+    
+    var $retailer;
+    var $retailerProduct;
+    
     public function __construct(PdfController $pdf) {
-
         $this->pdf = $pdf;
+        
+        $auth = Auth::user();
+        $user = User::where('id', $auth->id)->first();
+        $this->retailer = $user->retailer()->first();
+        $this->retailerProduct = RetailerProduct::where('ad_retailer_id', $this->retailer->id)
+                        ->where('type', 'MP')->get();
     }
 
     /**
@@ -25,7 +41,7 @@ class slipModalController extends Controller {
      * @return int
      */
     public function ajaxBuscar(Request $request) {
-        $var = $this->returnHtmlModal($request->get('type'), $request->get('id_header'));
+        $var = $this->returnHtmlModal($request->get('type'), $request->get('id_header'),0);
 
         if (count($var['cli']) > 0)
             return response()->json($var['html']);
@@ -39,24 +55,39 @@ class slipModalController extends Controller {
      * @param type $idHeader
      * @return Response
      */
-    public function generaPdf($type, $idHeader){
-        $var = $this->returnHtmlModal($type, decode($idHeader));
+    public function generaPdf($type, $idHeader) {
+        $var = $this->returnHtmlModal($type, decode($idHeader),1);
         set_time_limit(0);
         return $this->pdf->create($var['html']['template_cert'], $type);
     }
-    
-    public function returnHtmlModal($type,$idHeader){
+
+    public function returnHtmlModal($type,$idHeader, $flagPdf){
         $var = '';
+        $flagPdf = $flagPdf;
+        $retailer = $this->retailer;
+        $retailerProduct = $this->retailerProduct;
+        
+        $cli = array();
+        $cli = \Sibas\Entities\De\Header::where('id', $idHeader)->first();
+        $detail = Detail::where('id', $cli->details[0]->id)->first();
+        
+        $data = false;
+        if ($cli->facultative == true && $cli->issued == false) {
+            $data = $cli->facultative_observation;
+        } elseif ($cli->facultative == true && $cli->issued == true) {
+            $data = Facultative::where('op_de_detail_id', $detail->id)->get();
+        }
         switch ($type) {
             case 'cotizacion':
-                $cli = array();
-                $cli = \Sibas\Entities\De\Header::where('id', $idHeader)->first();
-                $var = array('template_cert' => view('cert.cert_cotizacion', compact('cli', 'idHeader', 'type'))->render());
+                
+                $resQuestion = $this->getEvaluationResponse($detail->response);
+                $imc = $detail->client->imc;
+                
+                
+                $var = array('template_cert' => view('cert.cert_cotizacion', compact('cli', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct', 'resQuestion', 'imc'))->render());
                 break;
             case 'emision':
-                $cli = array();
-                $cli = \Sibas\Entities\De\Header::where('id', $idHeader)->first();
-
+                
                 $question = array();
                 $i = 1;
                 foreach ($cli->details as $key => $value) {
@@ -69,7 +100,7 @@ class slipModalController extends Controller {
                 $adRates = DB::table('ad_rates')->get();
                 $adRates = $adRates[0];
                 
-                $var = array('template_cert' => view('cert.cert_emision', compact('cli', 'question', 'adRates', 'idHeader', 'type'))->render());
+                $var = array('template_cert' => view('cert.cert_emision', compact('cli', 'question', 'adRates', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct','data'))->render());
                 break;
             case 'sub_vida_emision':
                 
@@ -78,13 +109,11 @@ class slipModalController extends Controller {
                 $viHeader = \Sibas\Entities\Vi\Header::where('id', $viDetail->op_vi_header_id)->first();
                 
                 $cli = $viDetail;
-                $var = array('template_cert' => view('cert.cert_emision_vida', compact('viDetail', 'viHeader', 'idHeader', 'type'))->render());
+                $var = array('template_cert' => view('cert.cert_emision_vida', compact('viDetail', 'viHeader', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct'))->render());
                 break;
             
             case 'print_all':
-                $cli = array();
-                $cli = \Sibas\Entities\De\Header::where('id', $idHeader)->first();
-
+         
                 $question = array();
                 $i = 1;
                 foreach ($cli->details as $key => $value) {
@@ -112,7 +141,7 @@ class slipModalController extends Controller {
                 if(count($viDetail)>0)
                     $viHeader = \Sibas\Entities\Vi\Header::where('id', $viDetail->op_vi_header_id)->first();
                 
-                $var = array('template_cert' => view('cert.cert_all', compact('cli', 'question', 'adRates', 'viDetail', 'viHeader', 'flag', 'idHeader', 'type'))->render());
+                $var = array('template_cert' => view('cert.cert_all', compact('cli', 'question', 'adRates', 'viDetail', 'viHeader', 'flag', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct','data'))->render());
                 
                 break;
             default:
@@ -120,6 +149,18 @@ class slipModalController extends Controller {
         }
         $arr = array('html'=>$var, 'cli'=>$cli);
         return $arr;
+    }
+    public function getEvaluationResponse($response)
+    {
+        $questions = json_decode($response->response, true);
+
+        foreach ($questions as $question) {
+            if ($question['expected'] != $question['response']) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

@@ -28,6 +28,7 @@ class AdRetailerProductActivitiesController extends BaseController {
         $nav = 'adRetailerProductActivities';
         $action = 'list';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         
         $adActivities = $this->adActivities;
         $activities = array();
@@ -53,7 +54,7 @@ class AdRetailerProductActivitiesController extends BaseController {
         
         //edw-->$entities = AdRetailerProductActivities::groupBy('ad_retailer_product_id')->get();
         
-        return view('admin.adRetailerProductActivities.list', compact('nav', 'action', 'entities', 'activities','main_menu','selection'));
+        return view('admin.adRetailerProductActivities.list', compact('nav', 'action', 'entities', 'activities','main_menu','selection', 'array_data'));
     }
 
     /**
@@ -72,6 +73,7 @@ class AdRetailerProductActivitiesController extends BaseController {
         $nav = 'adRetailerProductActivities';
         $action = 'new';
         $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
         
         $activities = $this->adActivities;
         $selectedProd = DB::table('ad_retailer_product_activities')->groupBy('ad_retailer_product_id')->get();
@@ -92,7 +94,7 @@ class AdRetailerProductActivitiesController extends BaseController {
                 $retailerProducts[$key]->mostrar = 0;
         }
 
-        return view('admin.adRetailerProductActivities.new', compact('nav', 'action', 'activities', 'retailerProducts','main_menu'));
+        return view('admin.adRetailerProductActivities.new', compact('nav', 'action', 'activities', 'retailerProducts','main_menu', 'array_data'));
     }
 
     /**
@@ -133,7 +135,7 @@ class AdRetailerProductActivitiesController extends BaseController {
         $nav = 'adRetailerProductActivities';
         $action = 'edit';
         $main_menu = $this->menu_principal();
-        
+        $array_data = $this->array_data();
         $adRetailerProductId = $id;
         
         $arrSelect = DB::table('ad_retailer_product_activities')->where('ad_retailer_product_id',$id)->get();
@@ -156,7 +158,7 @@ class AdRetailerProductActivitiesController extends BaseController {
                 ->select('ad_retailer_products.*','ad_products.name')
                 ->get();
         
-        return view('admin.adRetailerProductActivities.edit', compact('nav', 'action', 'activities', 'retailerProducts','arrSelect','main_menu', 'adRetailerProductId'));
+        return view('admin.adRetailerProductActivities.edit', compact('nav', 'action', 'activities', 'retailerProducts','arrSelect','main_menu', 'adRetailerProductId', 'array_data'));
     }
 
     /**
