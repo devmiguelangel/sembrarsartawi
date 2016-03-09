@@ -83,4 +83,9 @@ class RetailerProduct extends Model
         ->withPivot('detail');
     }
 
+    public function modalities()
+    {
+        return $this->hasMany(Modality::class, 'ad_retailer_product_id', 'id');
+    }
+
 }

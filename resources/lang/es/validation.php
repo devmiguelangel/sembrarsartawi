@@ -159,6 +159,7 @@ return [
         'qs'               => 'Cuestionario de Salud',
         'numberBN'         => 'Número de Beneficiarios',
         'beneficiaries'    => 'Beneficiarios',
+        'insured_value'    => 'Valor Asegurado',
         '' => '',
     ],
 

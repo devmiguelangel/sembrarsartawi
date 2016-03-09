@@ -51,7 +51,7 @@
                         <span class="text-semibold">{{ session('error_header') }}</span>.
                     </div>
                 @endif
-
+                
                 @if(session('success_header'))
                     <div class="alert bg-success alert-styled-right">
                         <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
@@ -60,6 +60,16 @@
                 @endif
 
                 <div class="col-md-10 col-md-offset-1">
+                  <br>
+
+                  @if ($error_value)
+                    <div class="alert alert-danger" role="alert">
+                      Imposible realizar la emisión.<br>
+                      La suma total del valor asegurado para este cliente supera los <strong>{{ number_format($amount_max, 2, '.', ',') }} Bs.</strong>
+                      <br><br>
+                      Haga click <strong><a href="{{ route('de.issuance', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">aquí</a></strong> para volver a la pantalla de Emisión.
+                    </div>
+                  @endif
                     <div class="modal-header bg-primary title">
                         <div class="panel-heading">
                             <h6 class="modal-title">Información del TITULAR</h6>
@@ -323,7 +333,7 @@
                             <div class="clearfix"></div>
                             <div class="form-group">
                                 <div class="col-lg-5">
-                                    <strong>Participación %: </strong>
+                                    <strong>Participación: </strong>
                                 </div>
                                 <div class="col-lg-7">
                                     {{ $detail->percentage_credit }} %
@@ -460,140 +470,130 @@
 
                   <div class="panel-body form-horizontal">
                       <div class="col-xs-12 col-md-6">
-                          {{--<div class="form-group">
-                              <label class="col-lg-3 control-label label_required">Mano utilizada para escribir y/o firmar: </label>
-                              <div class="col-lg-9">
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="icon-user"></i></span>
-                                      {!! SelectField::input('hand', $data['hands']->toArray(), [
-                                          'class' => 'select-search'],
-                                          old('hand', $detail->client->hand))
-                                      !!}
-                                  </div>
-                                  <label class="validation-error-label" for="location">{{ $errors->first('hand') }}</label>
+                        <div class="form-group">
+                          <label class="col-lg-3 control-label label_required">Valor Asegurado: </label>
+                          <div class="col-lg-9">
+                              <div class="input-group">
+                                <span class="input-group-addon">Bs.</span>
+                                {!! Form::text('insured_value', old('insured_value', $detail->insured_value), [
+                                    'class'        => 'form-control ui-wizard-content',
+                                    'autocomplete' => 'off',
+                                    'placeholder'  => 'Valor Asegurado',
+                                    'id'           => 'insured_value',
+                                    'readonly'     => true
+                                ]) !!}
                               </div>
+                              <label class="validation-error-label" for="location">{{ $errors->first('insured_value') }}</label>
                           </div>
-                          <div class="form-group">
-                              <label class="col-lg-3 control-label ">Avenida o Calle: </label>
-                              <div class="col-lg-9">
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="icon-user"></i></span>
-                                      {!! SelectField::input('avenue_street', $data['avenue_street']->toArray(), [
-                                          'class' => 'select-search'],
-                                          old('avenue_street', $detail->client->avenue_street))
-                                      !!}
-                                  </div>
-                                  <label class="validation-error-label" for="location">{{ $errors->first('avenue_street') }}</label>
-                              </div>
-                          </div>--}}
-                          <div class="form-group">
-                              <label class="col-lg-3 control-label label_required">Forma de Pago: </label>
-                              <div class="col-lg-9">
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
-                                      {!! SelectField::input('payment_method', $data['payment_methods']->toArray(), [
-                                          'class' => 'select-search',
-                                          'id'    => 'payment_method',
-                                        ],
-                                          old('payment_method'))
-                                      !!}
-                                  </div>
-                                  <label class="validation-error-label" for="location">{{ $errors->first('payment_method') }}</label>
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="col-lg-3 control-label label_required">Periodicidad: </label>
-                              <div class="col-lg-9">
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
-                                      {!! SelectField::input('period', $data['periods']->toArray(), [
-                                          'class' => 'select-search',
-                                          'id'    => 'period',
-                                        ],
-                                          old('period'))
-                                      !!}
-                                  </div>
-                                  <label class="validation-error-label" for="location">{{ $errors->first('period') }}</label>
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="col-lg-3 control-label label_required">Número de Cuenta: </label>
-                              <div class="col-lg-9">
-                                  <div class="input-group">
-                                      <span class="input-group-addon">Nro</span>
-                                      {!! Form::text('account_number', old('account_number'), [
-                                          'class'        => 'form-control ui-wizard-content',
-                                          'autocomplete' => 'off',
-                                          'placeholder'  => 'Número de Cuenta',
-                                          'id'           => 'account_number'
-                                      ]) !!}
-                                  </div>
-                                  <label class="validation-error-label" for="location">{{ $errors->first('account_number') }}</label>
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="col-lg-3 control-label">Tarjeta de Crédito: </label>
-                              <div class="col-lg-9">
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
-                                      {!! Form::text('credit_card', old('credit_card'), [
-                                          'class' => 'form-control ui-wizard-content',
-                                          'autocomplete' => 'off',
-                                          'placeholder' => 'Tarjeta de Crédito'])
-                                      !!}
-                                  </div>
-                                  <label class="validation-error-label" for="location">{{ $errors->first('credit_card') }}</label>
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="col-lg-3 control-label label_required">Plan: </label>
-                              <div class="col-lg-9">
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
-                                      {!! SelectField::input('plan', $data['plans']->toArray(), [
-                                          'class'     => 'select-search',
-                                          'id'        => 'plans',
-                                        ],
-                                          old('plan'))
-                                      !!}
-                                  </div>
-                                  <label class="validation-error-label" for="location">{{ $errors->first('plan') }}</label>
-                              </div>
-                          </div>
-                          <div class="modal-header bg-primary title">
-                              <div class="panel-heading">
-                                  <h6 class="modal-title">Datos del Tomador</h6>
-                              </div>
-                          </div>
-                          <br>
-                          <div class="form-group">
-                              <label class="col-lg-3 control-label">Nombre: </label>
-                              <div class="col-lg-9">
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
-                                      {!! Form::text('taker_name', old('taker_name', $detail->client->full_name), [
-                                          'class' => 'form-control ui-wizard-content',
-                                          'autocomplete' => 'off',
-                                          'placeholder' => 'Nombre del Tomador'])
-                                      !!}
-                                  </div>
-                                  <label class="validation-error-label" for="location">{{ $errors->first('taker_name') }}</label>
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="col-lg-3 control-label">CI/NIT: </label>
-                              <div class="col-lg-9">
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
-                                      {!! Form::text('taker_dni', old('taker_dni', $detail->client->dni), [
-                                          'class' => 'form-control ui-wizard-content',
-                                          'autocomplete' => 'off',
-                                          'placeholder' => 'CI/NIT del Tomador'])
-                                      !!}
-                                  </div>
-                                  <label class="validation-error-label" for="location">{{ $errors->first('taker_dni') }}</label>
-                              </div>
-                          </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label label_required">Forma de Pago: </label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
+                                    {!! SelectField::input('payment_method', $data['payment_methods']->toArray(), [
+                                        'class' => 'select-search',
+                                        'id'    => 'payment_method',
+                                      ],
+                                        old('payment_method'))
+                                    !!}
+                                </div>
+                                <label class="validation-error-label" for="location">{{ $errors->first('payment_method') }}</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label label_required">Periodicidad: </label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
+                                    {!! SelectField::input('period', $data['periods']->toArray(), [
+                                        'class' => 'select-search',
+                                        'id'    => 'period',
+                                      ],
+                                        old('period'))
+                                    !!}
+                                </div>
+                                <label class="validation-error-label" for="location">{{ $errors->first('period') }}</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label label_required">Número de Cuenta: </label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Nro</span>
+                                    {!! Form::text('account_number', old('account_number'), [
+                                        'class'        => 'form-control ui-wizard-content',
+                                        'autocomplete' => 'off',
+                                        'placeholder'  => 'Número de Cuenta',
+                                        'id'           => 'account_number'
+                                    ]) !!}
+                                </div>
+                                <label class="validation-error-label" for="location">{{ $errors->first('account_number') }}</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Tarjeta de Crédito: </label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
+                                    {!! Form::text('credit_card', old('credit_card'), [
+                                        'class' => 'form-control ui-wizard-content',
+                                        'autocomplete' => 'off',
+                                        'placeholder' => 'Tarjeta de Crédito'])
+                                    !!}
+                                </div>
+                                <label class="validation-error-label" for="location">{{ $errors->first('credit_card') }}</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label label_required">Plan: </label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="icon-list-unordered"></i></span>
+                                    {!! SelectField::input('plan', $data['plans']->toArray(), [
+                                        'class'     => 'select-search',
+                                        'id'        => 'plans',
+                                      ],
+                                        old('plan'))
+                                    !!}
+                                </div>
+                                <label class="validation-error-label" for="location">{{ $errors->first('plan') }}</label>
+                            </div>
+                        </div>
+                        <div class="modal-header bg-primary title">
+                            <div class="panel-heading">
+                                <h6 class="modal-title">Datos del Tomador</h6>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Nombre: </label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
+                                    {!! Form::text('taker_name', old('taker_name', $detail->client->full_name), [
+                                        'class' => 'form-control ui-wizard-content',
+                                        'autocomplete' => 'off',
+                                        'placeholder' => 'Nombre del Tomador'])
+                                    !!}
+                                </div>
+                                <label class="validation-error-label" for="location">{{ $errors->first('taker_name') }}</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">CI/NIT: </label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="icon-piggy-bank"></i></span>
+                                    {!! Form::text('taker_dni', old('taker_dni', $detail->client->dni), [
+                                        'class' => 'form-control ui-wizard-content',
+                                        'autocomplete' => 'off',
+                                        'placeholder' => 'CI/NIT del Tomador'])
+                                    !!}
+                                </div>
+                                <label class="validation-error-label" for="location">{{ $errors->first('taker_dni') }}</label>
+                            </div>
+                        </div>
                       </div>
                       <div class="col-xs-12 col-md-6">
                           <div class="form-group">
@@ -624,13 +624,16 @@
                           </div>
                       </div>
                       <div class="text-right">
+                        @if (! $error_value)
                           <a href="{{ route('de.vi.sp.list', ['rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
 
                           {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', [
                               'type' => 'submit',
                               'class' => 'btn btn-primary'])
                           !!}
+                        @endif
                       </div>
+
                       <hr />
                       <div class="col-xs-12 col-md-6" ng-if="plan">
                           <div class="col-md-10 col-md-offset-1">
