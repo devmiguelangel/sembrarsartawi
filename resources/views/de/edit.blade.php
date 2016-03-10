@@ -12,7 +12,8 @@
     <div class="page-header">
         <div class="page-header-content">
             <div class="page-title">
-                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Seguro de Desgravamen</span></h4>
+                <h4><i class="icon-arrow-left52 position-left"></i> <span
+                            class="text-semibold">Seguro de Desgravamen</span></h4>
 
                 <ul class="breadcrumb breadcrumb-caret position-right">
                     <li><a href="">Inicio</a></li>
@@ -55,7 +56,7 @@
                                         <span class="number">4</span> Emisión de la Póliza de Desgravamen
                                     </a>
                                 </li>
-                                <li class="disabled last" >
+                                <li class="disabled last">
                                     <a href="#">
                                         <span class="number">5</span> Impresión de la Póliza
                                     </a>
@@ -63,7 +64,9 @@
                             </ul>
                         </div>
                     </div>
-                    <button style="float: right;" type="button" class="btn btn-rounded btn-default text-right" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
+                    <button style="float: right;" type="button" class="btn btn-rounded btn-default text-right"
+                            title="Detalle de producto" data-placement="right" data-toggle="modal"
+                            data-target="#modal_theme_primary">
                         <i class="icon-question7"></i> Producto
                     </button>
                 </div>
@@ -71,50 +74,65 @@
 
                 @if(session('success_header'))
                     <script>
-                        $(function(){messageAction('succes',"{{ session('success_header') }}");});
+                        $(function () {
+                            messageAction('succes', "{{ session('success_header') }}");
+                        });
                     </script>
                 @endif
 
                 @if(session('error_header'))
                     <script>
-                        $(function(){messageAction('error',"{{ session('error_header') }}");});
+                        $(function () {
+                            messageAction('error', "{{ session('error_header') }}");
+                        });
                     </script>
                 @endif
 
                 @if(is_null($header))
                     <div class="alert bg-danger alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span>
+                        </button>
                         <span class="text-semibold">La Cotización no existe</span>.
                     </div>
                 @endif
 
                 @if(session('error_client'))
                     <script>
-                        $(function(){messageAction('error',"{{ session('error_client') }}");});
+                        $(function () {
+                            messageAction('error', "{{ session('error_client') }}");
+                        });
                     </script>
                 @endif
 
                 @if(session('success_client'))
                     <script>
-                        $(function(){messageAction('succes',"{{ session('success_client') }}");});
+                        $(function () {
+                            messageAction('succes', "{{ session('success_client') }}");
+                        });
                     </script>
                 @endif
 
                 @if(session('error_beneficiary'))
                     <script>
-                        $(function(){messageAction('error',"{{ session('error_beneficiary') }}");});
+                        $(function () {
+                            messageAction('error', "{{ session('error_beneficiary') }}");
+                        });
                     </script>
                 @endif
 
                 @if(session('error_detail'))
                     <script>
-                        $(function(){messageAction('error',"{{ session('error_detail') }}");});
+                        $(function () {
+                            messageAction('error', "{{ session('error_detail') }}");
+                        });
                     </script>
                 @endif
 
                 @if(session('success_detail'))
                     <script>
-                        $(function(){messageAction('succes',"{{ session('success_detail') }}");});
+                        $(function () {
+                            messageAction('succes', "{{ session('success_detail') }}");
+                        });
                     </script>
                 @endif
 
@@ -171,8 +189,8 @@
                                             'rp_id'     => $rp_id,
                                             'header_id' => $header_id,
                                             'detail_id' => encode($detail->id)]) }}"
-                                            title="Completado" class="label label-success"
-                                            ng-click="detailDe.editBeneficiary($event)">
+                                           title="Completado" class="label label-success"
+                                           ng-click="detailDe.editBeneficiary($event)">
                                             Completado
                                         </a>
                                     @else
@@ -180,8 +198,8 @@
                                             'rp_id'     => $rp_id,
                                             'header_id' => $header_id,
                                             'detail_id' => encode($detail->id)]) }}"
-                                            title="Pendiente" class="label label-danger"
-                                            ng-click="detailDe.createBeneficiary($event)">
+                                           title="Pendiente" class="label label-danger"
+                                           ng-click="detailDe.createBeneficiary($event)">
                                             Pendiente
                                         </a>
                                     @endif
@@ -194,8 +212,8 @@
                                             <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
                                                 'header_id' => $header_id,
                                                 'detail_id' => encode($detail->id)]) }}"
-                                                title="Completado" class="label label-success"
-                                                ng-click="detailDe.editBalance($event)">
+                                               title="Completado" class="label label-success"
+                                               ng-click="detailDe.editBalance($event)">
                                                 Completado
                                             </a>
                                         @endif
@@ -203,8 +221,8 @@
                                         <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
                                                 'header_id' => $header_id,
                                                 'detail_id' => encode($detail->id)]) }}"
-                                                title="Pendiente" class="label label-danger"
-                                                ng-click="detailDe.editBalance($event)">
+                                           title="Pendiente" class="label label-danger"
+                                           ng-click="detailDe.editBalance($event)">
                                             Pendiente
                                         </a>
                                     @endif
@@ -233,7 +251,7 @@
                                                             'rp_id'     => $rp_id,
                                                             'header_id' => $header_id,
                                                             'detail_id' => encode($detail->id)]) }}"
-                                                            ng-click="detailDe.createBeneficiary($event)">
+                                                           ng-click="detailDe.createBeneficiary($event)">
                                                             <i class="icon-plus2"></i> Registrar Beneficiarios
                                                         </a>
                                                     @else
@@ -241,7 +259,7 @@
                                                             'rp_id'     => $rp_id,
                                                             'header_id' => $header_id,
                                                             'detail_id' => encode($detail->id)]) }}"
-                                                            ng-click="detailDe.editBeneficiary($event)">
+                                                           ng-click="detailDe.editBeneficiary($event)">
                                                             <i class="icon-plus2"></i> Editar Beneficiarios
                                                         </a>
                                                     @endif
@@ -252,7 +270,7 @@
                                                             'header_id' => $header_id,
                                                             'detail_id' => encode($detail->id)
                                                             ]) }}"
-                                                            ng-click="detailDe.editBalance($event)">
+                                                           ng-click="detailDe.editBalance($event)">
                                                             <i class="icon-plus2"></i>
                                                             @if($detail->cumulus > 0)
                                                                 Editar Saldo deudor
@@ -299,10 +317,13 @@
                                 <label class="col-lg-3 control-label label_required">Tipo de Cobertura: </label>
                                 <div class="col-lg-9">
                                     {!! SelectField::input('coverage', $data['coverages']->toArray(), [
-                                        'class' => 'select-search'],
+                                        'class' => 'select-search',
+                                        'id'    => 'coverage'
+                                        ],
                                         old('coverage', $header->coverage->id))
                                     !!}
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('coverage') }}</label>
+                                    <label id="location-error" class="validation-error-label"
+                                           for="location">{{ $errors->first('coverage') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -317,17 +338,21 @@
                                             'readonly' => true
                                         ]) !!}
                                     </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('amount_requested') }}</label>
+                                    <label id="location-error" class="validation-error-label"
+                                           for="location">{{ $errors->first('amount_requested') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-lg-3 control-label label_required">Moneda: </label>
                                 <div class="col-lg-9">
                                     {!! SelectField::input('currency', $data['currencies']->toArray(), [
-                                        'class' => 'bootstrap-select'],
+                                        'class' => 'select-search',
+                                        'id'    => 'currency'
+                                        ],
                                         old('currency', $header->currency))
                                     !!}
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('currency') }}</label>
+                                    <label id="location-error" class="validation-error-label"
+                                           for="location">{{ $errors->first('currency') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -339,16 +364,21 @@
                                         'placeholder'  => 'Plazo del Credito',
                                         'readonly'     => isset($_GET['idf']) ? null : true
                                     ]) !!}
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('term') }}</label>
+                                    <label id="location-error" class="validation-error-label"
+                                           for="location">{{ $errors->first('term') }}</label>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-sort-time-asc"></i></span>
                                         {!! SelectField::input('type_term', $data['term_types']->toArray(), [
-                                            'class' => 'select-search'], old('type_term', $header->type_term))
+                                            'class' => 'select-search',
+                                            'id'    => 'type_term'
+                                            ], 
+                                            old('type_term', $header->type_term))
                                         !!}
                                     </div>
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('type_term') }}</label>
+                                    <label id="location-error" class="validation-error-label"
+                                           for="location">{{ $errors->first('type_term') }}</label>
                                 </div>
                             </div>
                         </div>
@@ -361,7 +391,8 @@
                                         'autocomplete' => 'off',
                                         'placeholder' => 'Número de Operación'])
                                     !!}
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('operation_number') }}</label>
+                                    <label id="location-error" class="validation-error-label"
+                                           for="location">{{ $errors->first('operation_number') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -371,7 +402,8 @@
                                         'class' => 'select-search'],
                                         old('policy_number', $header->policy_number))
                                     !!}
-                                    <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('policy_number') }}</label>
+                                    <label id="location-error" class="validation-error-label"
+                                           for="location">{{ $errors->first('policy_number') }}</label>
                                 </div>
                             </div>
                         </div>
@@ -386,14 +418,17 @@
                                         Guardar y Cerrar <i class="icon-floppy-disk position-right"></i>
                                     </a>
 
-                                    <a href="{{ route('de.issue', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-primary">
+                                    <a href="{{ route('de.issue', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                                       class="btn btn-primary">
                                         Emitir <i class="icon-play position-right"></i>
                                     </a>
                                 @else
                                     @if($header->facultative && ! $header->approved && ! $header->facultative_sent && ! isset($_GET['idf']))
-                                        <a href="{{ route('de.fa.request.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn btn-warning"
-                                          ng-click="requestCreate($event)">
-                                            Solicitar aprobación de la Compañia <i class="icon-warning position-right"></i>
+                                        <a href="{{ route('de.fa.request.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                                           class="btn btn-warning"
+                                           ng-click="requestCreate($event)">
+                                            Solicitar aprobación de la Compañia <i
+                                                    class="icon-warning position-right"></i>
                                         </a>
                                     @else
                                         @if (! isset($_GET['idf']))
@@ -401,7 +436,8 @@
                                                 Solicitud enviada (Cerrar) <i class="icon-warning position-right"></i>
                                             </a>
                                         @else
-                                            <a href="{{ route('home') }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+                                            <a href="{{ route('home') }}"
+                                               class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
 
                                             {!! Form::button('Solicitud enviada (Guardar y Cerrar) <i class="icon-warning position-right"></i>', [
                                                 'type'  => 'submit',

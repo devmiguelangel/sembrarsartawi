@@ -30,6 +30,7 @@ class HeaderSpCreateFormRequest extends Request
             'qs'               => 'required|array',
             // 'numberBN'         => 'required|numeric|min:1',
             'beneficiaries'    => 'required|array',
+            'insured_value'    => 'required|numeric',
             'payment_method'   => 'required|in:' . $payment_methods,
             'period'           => 'required|in:' . $periods,
             'account_number'   => 'required|numeric',

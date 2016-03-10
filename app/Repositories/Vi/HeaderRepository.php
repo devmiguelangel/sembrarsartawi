@@ -4,11 +4,28 @@ namespace Sibas\Repositories\Vi;
 
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Sibas\Entities\Client;
+use Sibas\Entities\De\Header as HeaderDe;
+use Sibas\Entities\Modality;
+use Sibas\Entities\User;
 use Sibas\Entities\Vi\Header;
 use Sibas\Repositories\BaseRepository;
 
 class HeaderRepository extends BaseRepository
 {
+    /**
+     * @var double
+     */
+    public $insured_value = 0;
+    /**
+     * @var double
+     */
+    public $amount_max    = 0;
+    /**
+     * @var boolean
+     */
+    public $error_value   = false;
+
     public function storeSubProduct(Request $request)
     {
         $user       = $request->user();
@@ -52,6 +69,7 @@ class HeaderRepository extends BaseRepository
                     $detailVi = $this->model->details()->create([
                         'id'              => date('U'),
                         'op_client_id'    => $detail->client->id,
+                        'insured_value'   => $this->data['insured_value'],
                         'currency'        => 'BS',
                         'client_code'     => $detail->client->code,
                         'taker_name'      => $this->data['taker_name'],
@@ -102,5 +120,64 @@ class HeaderRepository extends BaseRepository
         $max = Header::max($field);
 
         return is_null($max) ? $default : $max + 1;
+    }
+
+    /**
+     * @param User $user
+     * @param string $sp_id
+     * @param HeaderDe $headerDe
+     * @param Client $client
+     * @return bool
+     */
+    public function getInsuredValue($user, $sp_id, $headerDe, $client)
+    {
+        $modality         = null;
+        $retailer         = $user->retailer->first();
+        $retailerProduct  = $retailer->retailerProducts()->where('id', decode($sp_id))->first();
+        $modalities       = $retailerProduct->modalities()->where('active', true)->get();
+        $amount_requested = $this->getAmountInBs($headerDe->currency,
+                                                $headerDe->amount_requested,
+                                                $retailer->exchangeRate->bs_value);
+
+        foreach ($modalities as $modality) {
+            if ($modality->modality === 'MV'
+                && ($amount_requested >= $modality->rank_min && $amount_requested <= $modality->rank_max)) {
+                $this->insured_value = $modality->amount;
+
+                break;
+            } elseif ($modality->modality === 'MS') {
+                $this->insured_value = $modality->amount;
+
+                break;
+            }
+        }
+
+        if ($this->insured_value > 0 && ($modality instanceof Modality)) {
+            if ($amount_requested < $modality->amount) {
+                $this->insured_value = $amount_requested;
+            }
+
+            if ($this->insured_value < $modality->amount_min) {
+                $this->insured_value = $modality->amount_min;
+            }
+
+            $amount_total = 0;
+
+            foreach ($client->detailsVi as $detail) {
+                $amount_total += $detail->insured_value;
+            }
+
+            $amount_total += $this->insured_value;
+
+            if ($amount_total > $modality->amount_max) {
+                $this->insured_value = '';
+                $this->error_value   = true;
+                $this->amount_max    = $modality->amount_max;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

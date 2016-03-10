@@ -14,6 +14,7 @@ class Detail extends Model {
     protected $fillable = [
         'id',
         'op_client_id',
+        'insured_value',
         'currency',
         'client_code',
         'taker_name',
