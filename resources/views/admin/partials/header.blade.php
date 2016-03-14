@@ -393,6 +393,11 @@
                 <li><a href="{{ route('admin.vi.content.list', ['nav'=>'contentvi', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Tabla de datos</a></li>
                 <li class="active">Formulario</li>
             @endif
+        @elseif($nav=='modality')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Modalidades</li>
+            @endif
         @elseif($nav=='email')
             <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
             @if($action=='list_epr')

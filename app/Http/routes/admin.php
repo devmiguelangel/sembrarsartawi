@@ -103,6 +103,7 @@ require "admin.coverage.php";
 require "admin.tasas.php";
 require "admin.state.php";
 require "admin.form.php";
+require "admin.modality.php";
 
 Route::get('admin/ad_activities/list',[
     'as' => 'adActivities',
