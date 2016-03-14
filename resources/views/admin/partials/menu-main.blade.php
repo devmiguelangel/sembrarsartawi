@@ -346,8 +346,9 @@
 
             @if(count($main_menu)>0)
                 @foreach($main_menu as $data)
+                    
                     @if($ade)
-                        @if(in_array($data->product,$arr_prod,TRUE) && $sw_de===FALSE)
+                        @if($data->product=='de')
                             <li>
                                 <a href="#"><i class="icon-puzzle4"></i> <span>Desgravamen</span></a>
                                 @if($nav=='de')
@@ -407,12 +408,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            @var $sw_de=TRUE
+
                         @endif
                     @endif
 
                     @if($avi)
-                        @if(in_array($data->product,$arr_prod,TRUE) && $sw_vi===FALSE)
+                        @if($data->product=='vi' || $data->product=='vg')
                             <li>
                                 <a href="#"><i class="icon-puzzle4"></i> <span>Vida Individual</span></a>
                                 @if($nav=='vi')
@@ -488,7 +489,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            @var $sw_vi=TRUE
+
                         @endif
                     @endif
                 @endforeach
