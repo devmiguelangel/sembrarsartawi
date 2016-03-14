@@ -99,7 +99,7 @@
             //SELECCIONAMOS LA MODALIDAD
             $('#id_modality').change(function(e){
                 var id_modality = $(this).prop('value');
-                alert(id_modality);
+                //alert(id_modality);
                 if(id_modality!=0){
                     if(id_modality=='MS'){
                         $('#content-rank-min').fadeOut('fast');
