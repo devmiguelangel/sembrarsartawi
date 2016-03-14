@@ -12,7 +12,8 @@
     <div class="page-header">
         <div class="page-header-content">
             <div class="page-title">
-                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Seguro de Desgravamen</span></h4>
+                <h4><i class="icon-arrow-left52 position-left"></i> <span
+                            class="text-semibold">Seguro de Desgravamen</span></h4>
 
                 <ul class="breadcrumb breadcrumb-caret position-right">
                     <li><a href="">Inicio</a></li>
@@ -38,7 +39,9 @@
                             <small class="display-block">Sub-Producto</small>
                         </span>
                         <span class="col-md-1">
-                            <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right" data-popup="tooltip" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
+                            <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right"
+                                    data-popup="tooltip" title="Detalle de producto" data-placement="right"
+                                    data-toggle="modal" data-target="#modal_theme_primary">
                                 <i class="icon-question7"></i> Producto
                             </button>
                         </span>
@@ -47,29 +50,34 @@
 
                 @if(session('error_header'))
                     <div class="alert bg-danger alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span>
+                        </button>
                         <span class="text-semibold">{{ session('error_header') }}</span>.
                     </div>
                 @endif
-                
+
                 @if(session('success_header'))
                     <div class="alert bg-success alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span>
+                        </button>
                         <span class="text-semibold">{{ session('success_header') }}</span>.
                     </div>
                 @endif
 
                 <div class="col-md-10 col-md-offset-1">
-                  <br>
+                    <br>
 
-                  @if ($error_value)
-                    <div class="alert alert-danger" role="alert">
-                      Imposible realizar la emisión.<br>
-                      La suma total del valor asegurado para este cliente supera los <strong>{{ number_format($amount_max, 2, '.', ',') }} Bs.</strong>
-                      <br><br>
-                      Haga click <strong><a href="{{ route('de.issuance', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">aquí</a></strong> para volver a la pantalla de Emisión.
-                    </div>
-                  @endif
+                    @if ($error_value)
+                        <div class="alert alert-danger" role="alert">
+                            Imposible realizar la emisión.<br>
+                            La suma total del valor asegurado para este cliente supera los
+                            <strong>{{ number_format($amount_max, 2, '.', ',') }} Bs.</strong>
+                            <br><br>
+                            Haga clic <strong><a
+                                        href="{{ route('de.issuance', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">aquí</a></strong>
+                            para volver a la pantalla de Emisión.
+                        </div>
+                    @endif
                     <div class="modal-header bg-primary title">
                         <div class="panel-heading">
                             <h6 class="modal-title">Información del TITULAR</h6>
@@ -348,143 +356,164 @@
                   'ng-controller' => 'HeaderViController' 
                 ]) !!}
 
-                  {!! Form::hidden('detail_id', encode($detail->id)) !!}
+                {!! Form::hidden('detail_id', encode($detail->id)) !!}
 
-                  <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-10 col-md-offset-1">
                     <div class="modal-header bg-primary title">
                         <div class="panel-heading">
                             <h6 class="modal-title">Cuestionario de Salud</h6>
                         </div>
                     </div>
                     <div class="panel panel-body border-top-success">
-                      ¿Usted padece de alguna de las siguientes enfermedades?
-                      <div class="col-xs-12 col-md-12">
-                          @foreach($data['questions'] as $question)
-                              <div class="form-group">
-                                  <div class="col-xs-12 col-md-10">
-                                      <label class="radio-inline text-semibold">
-                                          <strong>{{ $question['order'] }}</strong>.
-                                          {{ $question['question'] }}
-                                      </label>
-                                  </div>
-                                  <div class="col-xs-12 col-md-2">
-                                      {!! Form::hidden('qs[' . $question['order'] . '][id]', $question['id']) !!}
-                                      {!! Form::hidden('qs[' . $question['order'] . '][question]', $question['question']) !!}
-                                      <label class="radio-inline radio-right">
-                                          {!! Form::radio('qs[' . $question['order'] . '][response]', '1', $question['check_yes'], ['class' => 'styled']) !!}
-                                          Si
-                                      </label>
-                                      <label class="radio-inline radio-right">
-                                          {!! Form::radio('qs[' . $question['order'] . '][response]', '0', $question['check_no'], ['class' => 'styled']) !!}
-                                          No
-                                      </label>
-                                  </div>
-                              </div>
-                          @endforeach
-                      </div>
-                      <label class="validation-error-label" for="location">{{ $errors->first('qs') }}</label>
-                    </div>
-                  </div>
-
-                  <div class="clearfix">&nbsp;</div>
-                  <div class="panel-body form-horizontal">
-                    <div>
-                      <div class="modal-header bg-primary title">
-                          <div class="panel-heading">
-                              <h6 class="modal-title">
-                                Beneficiarios
-                              </h6>
-                          </div>
-                      </div>
-                      
-                      <div class="panel panel-body">
-                        <div>
-                          <a href="#" class="glyphicon glyphicon-minus-sign pull-right" style="color: #f44336; font-size: 25px;" ng-click="beneficiary($event, false)"></a>
-                          <a href="#" class="glyphicon glyphicon-plus-sign pull-right" style="color: #4caf50; font-size: 25px;" ng-click="beneficiary($event, true)"></a>
-                        </div>
-                        <div class="clearfix">&nbsp;</div>
-                        <div class="form-inline" id="beneficiaries">
-                          @if (request()->old('beneficiaries'))
-                            <span ng-init="numberBN={{ count(request()->old('beneficiaries')) }}"></span>
-                            @foreach (request()->old('beneficiaries') as $key => $beneficiary)
-                              <div class="beneficiary">
-                                <span class="label label-info">{{ $key }}</span>
-                                <div class="form-group" style="margin-left: 5px;">
-                                  <span class="label_required"></span>
-                                  <input type="text" name="beneficiaries[{{ $key }}][first_name]" class="form-control" autocomplete="off" placeholder="Nombre"
-                                    value="{{ old('beneficiaries.' . $key . '.first_name') }}">
-                                  @if ($errors->first('beneficiaries.' . $key . '.first_name'))
-                                    <span class="validation-error-label" for="location">Valor inválido</span>
-                                  @endif
-                                </div>
+                        ¿Usted padece de alguna de las siguientes enfermedades?
+                        <div class="col-xs-12 col-md-12">
+                            @foreach($data['questions'] as $question)
                                 <div class="form-group">
-                                  <span class="label_required"></span>
-                                  <input type="text" name="beneficiaries[{{ $key }}][last_name]" class="form-control" autocomplete="off" placeholder="Apellido Paterno"
-                                    value="{{ old('beneficiaries.' . $key . '.last_name') }}">
-                                  @if ($errors->first('beneficiaries.' . $key . '.last_name'))
-                                    <span class="validation-error-label" for="location">Valor inválido</span>
-                                  @endif
+                                    <div class="col-xs-12 col-md-10">
+                                        <label class="radio-inline text-semibold">
+                                            <strong>{{ $question['order'] }}</strong>.
+                                            {{ $question['question'] }}
+                                        </label>
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        {!! Form::hidden('qs[' . $question['order'] . '][id]', $question['id']) !!}
+                                        {!! Form::hidden('qs[' . $question['order'] . '][question]', $question['question']) !!}
+                                        <label class="radio-inline radio-right">
+                                            {!! Form::radio('qs[' . $question['order'] . '][response]', '1', $question['check_yes'], ['class' => 'styled']) !!}
+                                            Si
+                                        </label>
+                                        <label class="radio-inline radio-right">
+                                            {!! Form::radio('qs[' . $question['order'] . '][response]', '0', $question['check_no'], ['class' => 'styled']) !!}
+                                            No
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                  <input type="text" name="beneficiaries[{{ $key }}][mother_last_name]" class="form-control" autocomplete="off" placeholder="Apellido Materno"
-                                    value="{{ old('beneficiaries.' . $key . '.mother_last_name') }}">
-                                  @if ($errors->first('beneficiaries.' . $key . '.mother_last_name'))
-                                    <span class="validation-error-label" for="location">Valor inválido</span>
-                                  @endif
-                                </div>
-                                <div class="form-group">
-                                  <span class="label_required"></span>
-                                  <input type="text" name="beneficiaries[{{ $key }}][relationship]" class="form-control" autocomplete="off" placeholder="Parentesco"
-                                    value="{{ old('beneficiaries.' . $key . '.relationship') }}">
-                                  @if ($errors->first('beneficiaries.' . $key . '.relationship'))
-                                    <span class="validation-error-label" for="location">Valor inválido</span>
-                                  @endif
-                                </div>
-                                <div class="form-group">
-                                  <input type="text" name="beneficiaries[{{ $key }}][dni]" class="form-control" autocomplete="off" placeholder="Documento de Identidad"
-                                    value="{{ old('beneficiaries.' . $key . '.dni') }}">
-                                  @if ($errors->first('beneficiaries.' . $key . '.dni'))
-                                    <span class="validation-error-label" for="location">Valor inválido</span>
-                                  @endif
-                                </div>
-                                <div class="form-group">
-                                  <span class="label_required"></span>
-                                  <input type="text" name="beneficiaries[{{ $key }}][participation]" class="form-control" autocomplete="off" placeholder="Participación %"
-                                    value="{{ old('beneficiaries.' . $key . '.participation') }}">
-                                  @if ($errors->first('beneficiaries.' . $key . '.participation'))
-                                    <span class="validation-error-label" for="location">Valor inválido</span>
-                                  @endif
-                                </div>
-                              </div>
                             @endforeach
-
-                            @if (session('error_participation'))
-                              <label class="validation-error-label" for="location">{{ session('error_participation') }}</label>
-                            @endif
-                          @endif
                         </div>
-                        <label class="validation-error-label" for="location">{{ $errors->first('beneficiaries') }}</label>
-                      </div>
+                        <label class="validation-error-label" for="location">{{ $errors->first('qs') }}</label>
                     </div>
-                  </div>
+                </div>
 
-                  <div class="panel-body form-horizontal">
-                      <div class="col-xs-12 col-md-6">
+                <div class="clearfix">&nbsp;</div>
+                <div class="panel-body form-horizontal">
+                    <div>
+                        <div class="modal-header bg-primary title">
+                            <div class="panel-heading">
+                                <h6 class="modal-title">
+                                    Beneficiarios
+                                </h6>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-body">
+                            <div>
+                                <a href="#" class="glyphicon glyphicon-minus-sign pull-right"
+                                   style="color: #f44336; font-size: 25px;" ng-click="beneficiary($event, false)"></a>
+                                <a href="#" class="glyphicon glyphicon-plus-sign pull-right"
+                                   style="color: #4caf50; font-size: 25px;" ng-click="beneficiary($event, true)"></a>
+                            </div>
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="form-inline" id="beneficiaries">
+                                @if (request()->old('beneficiaries'))
+                                    <span ng-init="numberBN={{ count(request()->old('beneficiaries')) }}"></span>
+                                    @foreach (request()->old('beneficiaries') as $key => $beneficiary)
+                                        <div class="beneficiary">
+                                            <span class="label label-info">{{ $key }}</span>
+                                            <div class="form-group" style="margin-left: 5px;">
+                                                <span class="label_required"></span>
+                                                <input type="text" name="beneficiaries[{{ $key }}][first_name]"
+                                                       class="form-control" autocomplete="off" placeholder="Nombre"
+                                                       value="{{ old('beneficiaries.' . $key . '.first_name') }}">
+                                                @if ($errors->first('beneficiaries.' . $key . '.first_name'))
+                                                    <span class="validation-error-label"
+                                                          for="location">Valor inválido</span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <span class="label_required"></span>
+                                                <input type="text" name="beneficiaries[{{ $key }}][last_name]"
+                                                       class="form-control" autocomplete="off"
+                                                       placeholder="Apellido Paterno"
+                                                       value="{{ old('beneficiaries.' . $key . '.last_name') }}">
+                                                @if ($errors->first('beneficiaries.' . $key . '.last_name'))
+                                                    <span class="validation-error-label"
+                                                          for="location">Valor inválido</span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" name="beneficiaries[{{ $key }}][mother_last_name]"
+                                                       class="form-control" autocomplete="off"
+                                                       placeholder="Apellido Materno"
+                                                       value="{{ old('beneficiaries.' . $key . '.mother_last_name') }}">
+                                                @if ($errors->first('beneficiaries.' . $key . '.mother_last_name'))
+                                                    <span class="validation-error-label"
+                                                          for="location">Valor inválido</span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <span class="label_required"></span>
+                                                <input type="text" name="beneficiaries[{{ $key }}][relationship]"
+                                                       class="form-control" autocomplete="off" placeholder="Parentesco"
+                                                       value="{{ old('beneficiaries.' . $key . '.relationship') }}">
+                                                @if ($errors->first('beneficiaries.' . $key . '.relationship'))
+                                                    <span class="validation-error-label"
+                                                          for="location">Valor inválido</span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" name="beneficiaries[{{ $key }}][dni]"
+                                                       class="form-control" autocomplete="off"
+                                                       placeholder="Documento de Identidad"
+                                                       value="{{ old('beneficiaries.' . $key . '.dni') }}">
+                                                @if ($errors->first('beneficiaries.' . $key . '.dni'))
+                                                    <span class="validation-error-label"
+                                                          for="location">Valor inválido</span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <span class="label_required"></span>
+                                                <input type="text" name="beneficiaries[{{ $key }}][participation]"
+                                                       class="form-control" autocomplete="off"
+                                                       placeholder="Participación %"
+                                                       value="{{ old('beneficiaries.' . $key . '.participation') }}">
+                                                @if ($errors->first('beneficiaries.' . $key . '.participation'))
+                                                    <span class="validation-error-label"
+                                                          for="location">Valor inválido</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    @if (session('error_participation'))
+                                        <label class="validation-error-label"
+                                               for="location">{{ session('error_participation') }}</label>
+                                    @endif
+                                @endif
+                            </div>
+                            <label class="validation-error-label"
+                                   for="location">{{ $errors->first('beneficiaries') }}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body form-horizontal">
+                    <div class="col-xs-12 col-md-6">
                         <div class="form-group">
-                          <label class="col-lg-3 control-label label_required">Valor Asegurado: </label>
-                          <div class="col-lg-9">
-                              <div class="input-group">
-                                <span class="input-group-addon">Bs.</span>
-                                {!! Form::text('insured_value', old('insured_value', $detail->insured_value), [
-                                    'class'        => 'form-control ui-wizard-content',
-                                    'autocomplete' => 'off',
-                                    'placeholder'  => 'Valor Asegurado',
-                                    'id'           => 'insured_value',
-                                    'readonly'     => true
-                                ]) !!}
-                              </div>
-                              <label class="validation-error-label" for="location">{{ $errors->first('insured_value') }}</label>
-                          </div>
+                            <label class="col-lg-3 control-label label_required">Valor Asegurado: </label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Bs.</span>
+                                    {!! Form::text('insured_value', old('insured_value', $detail->insured_value), [
+                                        'class'        => 'form-control ui-wizard-content',
+                                        'autocomplete' => 'off',
+                                        'placeholder'  => 'Valor Asegurado',
+                                        'id'           => 'insured_value',
+                                        'readonly'     => true
+                                    ]) !!}
+                                </div>
+                                <label class="validation-error-label"
+                                       for="location">{{ $errors->first('insured_value') }}</label>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label label_required">Forma de Pago: </label>
@@ -498,7 +527,8 @@
                                         old('payment_method'))
                                     !!}
                                 </div>
-                                <label class="validation-error-label" for="location">{{ $errors->first('payment_method') }}</label>
+                                <label class="validation-error-label"
+                                       for="location">{{ $errors->first('payment_method') }}</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -513,7 +543,8 @@
                                         old('period'))
                                     !!}
                                 </div>
-                                <label class="validation-error-label" for="location">{{ $errors->first('period') }}</label>
+                                <label class="validation-error-label"
+                                       for="location">{{ $errors->first('period') }}</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -528,7 +559,8 @@
                                         'id'           => 'account_number'
                                     ]) !!}
                                 </div>
-                                <label class="validation-error-label" for="location">{{ $errors->first('account_number') }}</label>
+                                <label class="validation-error-label"
+                                       for="location">{{ $errors->first('account_number') }}</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -542,7 +574,8 @@
                                         'placeholder' => 'Tarjeta de Crédito'])
                                     !!}
                                 </div>
-                                <label class="validation-error-label" for="location">{{ $errors->first('credit_card') }}</label>
+                                <label class="validation-error-label"
+                                       for="location">{{ $errors->first('credit_card') }}</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -557,7 +590,8 @@
                                         old('plan'))
                                     !!}
                                 </div>
-                                <label class="validation-error-label" for="location">{{ $errors->first('plan') }}</label>
+                                <label class="validation-error-label"
+                                       for="location">{{ $errors->first('plan') }}</label>
                             </div>
                         </div>
                         <div class="modal-header bg-primary title">
@@ -577,7 +611,8 @@
                                         'placeholder' => 'Nombre del Tomador'])
                                     !!}
                                 </div>
-                                <label class="validation-error-label" for="location">{{ $errors->first('taker_name') }}</label>
+                                <label class="validation-error-label"
+                                       for="location">{{ $errors->first('taker_name') }}</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -591,73 +626,77 @@
                                         'placeholder' => 'CI/NIT del Tomador'])
                                     !!}
                                 </div>
-                                <label class="validation-error-label" for="location">{{ $errors->first('taker_dni') }}</label>
+                                <label class="validation-error-label"
+                                       for="location">{{ $errors->first('taker_dni') }}</label>
                             </div>
                         </div>
-                      </div>
-                      <div class="col-xs-12 col-md-6">
-                          <div class="form-group">
-                              <label class="control-label col-lg-3">Número de domicilio: </label>
-                              <div class="col-lg-9">
-                                  <div class="input-group">
-                                      <span class="input-group-addon">Nro.</span>
-                                      {!! Form::text('home_number', old('home_number', $detail->client->home_number), [
-                                          'class' => 'form-control ui-wizard-content',
-                                          'autocomplete' => 'off',
-                                          'placeholder' => 'Número de domicilio'])
-                                      !!}
-                                  </div>
-                                  <label class="validation-error-label" for="location">{{ $errors->first('home_number') }}</label>
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="control-label col-lg-3">Dirección laboral: </label>
-                              <div class="col-lg-9">
-                                  {!! Form::textarea('business_address', old('business_address', $detail->client->business_address), [
-                                      'size' => '4x4',
-                                      'class' => 'form-control',
-                                      'placeholder' => 'Dirección laboral',
-                                      'autocomplete' => 'off'])
-                                  !!}
-                                  <label class="validation-error-label" for="location">{{ $errors->first('business_address') }}</label>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="text-right">
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-lg-3">Número de domicilio: </label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Nro.</span>
+                                    {!! Form::text('home_number', old('home_number', $detail->client->home_number), [
+                                        'class' => 'form-control ui-wizard-content',
+                                        'autocomplete' => 'off',
+                                        'placeholder' => 'Número de domicilio'])
+                                    !!}
+                                </div>
+                                <label class="validation-error-label"
+                                       for="location">{{ $errors->first('home_number') }}</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-3">Dirección laboral: </label>
+                            <div class="col-lg-9">
+                                {!! Form::textarea('business_address', old('business_address', $detail->client->business_address), [
+                                    'size' => '4x4',
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Dirección laboral',
+                                    'autocomplete' => 'off'])
+                                !!}
+                                <label class="validation-error-label"
+                                       for="location">{{ $errors->first('business_address') }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
                         @if (! $error_value)
-                          <a href="{{ route('de.vi.sp.list', ['rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+                            <a href="{{ route('de.vi.sp.list', ['rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id]) }}"
+                               class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
 
-                          {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', [
-                              'type' => 'submit',
-                              'class' => 'btn btn-primary'])
-                          !!}
+                            {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', [
+                                'type' => 'submit',
+                                'class' => 'btn btn-primary'])
+                            !!}
                         @endif
-                      </div>
+                    </div>
 
-                      <hr />
-                      <div class="col-xs-12 col-md-6" ng-if="plan">
-                          <div class="col-md-10 col-md-offset-1">
-                              <div class="modal-header bg-success">
-                                  <h6 class="modal-title">@{{ plan.name }} </h6>
-                              </div>
-                              <div class="panel panel-body border-top-primary text-center">
-                                  <p class="text-muted content-group-sm">
+                    <hr/>
+                    <div class="col-xs-12 col-md-6" ng-if="plan">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="modal-header bg-success">
+                                <h6 class="modal-title">@{{ plan.name }} </h6>
+                            </div>
+                            <div class="panel panel-body border-top-primary text-center">
+                                <p class="text-muted content-group-sm">
                                     <span ng-repeat="p in plan.plan">
                                       @{{ p.cov }} @{{ p.rank | currency: 'Bs. ' }} <br>
                                     </span>
-                                  </p>
-                                  <div class="col-md-12">
-                                      <p>
+                                </p>
+                                <div class="col-md-12">
+                                    <p>
                                         Prima Anual Bs. @{{ plan.annual_premium | currency: 'Bs. ' }}<br>
                                         Prima Mensual Bs. @{{ plan.monthly_premium | currency: 'Bs. ' }} <br>
-                                      </p>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                  <input type="hidden" id="rp-plans" value="{{ route('rp.plans', ['rp_id' => $sp_id]) }}">
+                <input type="hidden" id="rp-plans" value="{{ route('rp.plans', ['rp_id' => $sp_id]) }}">
                 {!! Form::close() !!}
             </div>
             <!-- /horizotal form -->

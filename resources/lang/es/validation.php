@@ -107,6 +107,7 @@ return [
     'attributes' => [
         'username'         => 'Nombre de Usuario',
         'password'         => 'Contraseña',
+        'email'            => 'Correo Electrónico',
         'coverage'         => 'Cobertura',
         'amount_requested' => 'Monto Solicitado',
         'currency'         => 'Moneda',

@@ -11,20 +11,41 @@
 |
 */
 
-Route::group(['prefix' => 'auth'], function() {
+Route::group([ 'prefix' => 'auth' ], function () {
     /*
      * Authentication
      */
     require 'routes/auth.php';
-
 });
 
-Route::group(['middleware' => 'auth'], function() {
-    Route::group(['middleware' => 'is_admin'], function() {
+// Password reset link request routes
+Route::get('password/email', [
+    'as'   => 'password.create',
+    'uses' => 'Auth\PasswordController@getEmail'
+]);
+
+Route::post('password/email', [
+    'as'   => 'password.store',
+    'uses' => 'Auth\PasswordController@postEmail'
+]);
+
+// Password reset routes
+Route::get('password/reset/{token}', [
+    'as'   => 'reset.create',
+    'uses' => 'Auth\PasswordController@getReset'
+]);
+
+Route::post('password/reset', [
+    'as'   => 'reset.store',
+    'uses' => 'Auth\PasswordController@postReset'
+]);
+
+Route::group([ 'middleware' => 'auth' ], function () {
+    Route::group([ 'middleware' => 'is_admin' ], function () {
         /*
          * Home
          */
-        Route::get('/', function() {
+        Route::get('/', function () {
             return redirect()->route('home');
         });
 
@@ -45,19 +66,19 @@ Route::group(['middleware' => 'auth'], function() {
         require 'routes/certificate.php';
 
         require 'routes/report.php';
-        
+
         require 'routes/pdfSleep.php';
     });
 
     /*
      * Administrator
      */
-    Route::group(['middleware' => 'is_user'], function() {
+    Route::group([ 'middleware' => 'is_user' ], function () {
         require 'routes/admin.php';
     });
 });
 
 Route::get('{rp_id}/facultative/{id}/mc/show', [
-    'as'    => 'de.fa.mc.show',
-    'uses'  => 'De\MedicalCertificateController@show'
+    'as'   => 'de.fa.mc.show',
+    'uses' => 'De\MedicalCertificateController@show'
 ]);
