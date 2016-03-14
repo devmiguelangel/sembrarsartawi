@@ -421,6 +421,7 @@
                                         @var $data_cm=''
                                         @var $data_pl=''
                                         @var $data_contvi=''
+                                        @var $data_modality=''
                                     @endif
                                 @elseif($nav=='addquestionvi')
                                     @if($action=='list' || $action=='new' || $action=='edit')
@@ -428,6 +429,7 @@
                                         @var $data_vpp=''
                                         @var $data_pl=''
                                         @var $data_contvi=''
+                                        @var $data_modality=''
                                     @endif
                                 @elseif($nav=='listplansvi')
                                     @if($action=='list' || $action=='edit' || $action=='new')
@@ -435,6 +437,7 @@
                                         @var $data_cm=''
                                         @var $data_vpp=''
                                         @var $data_contvi=''
+                                        @var $data_modality=''
                                     @endif
                                 @elseif($nav=='contentvi')
                                     @if($action=='list' || $action=='edit' || $action=='new')
@@ -442,12 +445,22 @@
                                         @var $data_cm=''
                                         @var $data_vpp=''
                                         @var $data_pl=''
+                                        @var $data_modality=''
+                                    @endif
+                                @elseif($nav=='modality')
+                                    @if($action=='list' || $action=='new' || $action=='edit')
+                                        @var $data_modality='active'
+                                        @var $data_cm=''
+                                        @var $data_vpp=''
+                                        @var $data_pl=''
+                                        @var $data_contvi=''
                                     @endif
                                 @else
                                     @var $data_cm=''
                                     @var $data_vpp=''
                                     @var $data_pl=''
                                     @var $data_contvi=''
+                                    @var $data_modality=''
                                 @endif
                                 <ul>
                                     <li class="{{$data_vpp}}">
@@ -467,6 +480,11 @@
                                 <ul>
                                     <li class="{{$data_contvi}}">
                                         <a href="{{route('admin.vi.content.list', ['nav'=>'contentvi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar contenido</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="{{$data_modality}}">
+                                        <a href="{{route('admin.vi.modality.list', ['nav'=>'modality', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar modalidad</a>
                                     </li>
                                 </ul>
                             </li>
