@@ -66,8 +66,11 @@ var header = function ($scope, $http) {
       }).finally(function () {
         $scope.easyLoading('#popup', '', false);
       });
-
   };
+
+  $('#coverage option:not(:selected), ' + 
+    '#currency option:not(:selected), ' + 
+    '#type_term option:not(:selected)').prop('disabled', true);
 
 };
 
