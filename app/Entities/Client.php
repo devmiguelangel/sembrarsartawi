@@ -26,6 +26,11 @@ class Client extends Model
         return $this->hasMany(DetailVi::class, 'op_client_id', 'id');
     }
 
+    public function activity()
+    {
+        return $this->belongsTo(Activity::class, 'ad_activity_id', 'id');
+    }
+
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name . ' ' . $this->mother_last_name;
