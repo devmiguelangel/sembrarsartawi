@@ -4,1135 +4,254 @@
 @if($flagPdf == 1)
     @var $size = '55%'
 @endif
-    
+
 <meta charset="utf-8">
+<!--
 @include('partials.logos_modal',array('image1'=>$retailer->image,'images'=>$retailerProduct))
+        -->
 <div class="container" style="width: 730px; ">
     <div class="main">
         <div class="header">
-            <div style="font-size: {{ $size }}; width: auto; height: auto; font-weight: bold; text-align: center;">
+            <div style="font-size: {{ $size }}; width: auto; height: auto; font-weight: bold; text-align: right;">
                 DECLARACIÓN JURADA DE SALUD <br>
-                SOLICITUD DE SEGURO MASIVO VIDA INDIVIDUAL DE CORTO PLAZO
+                SOLICITUD DE SEGURO DE VIDA EN GRUPO
             </div>
-            <div style="font-size: {{ $size }}; width: auto; height: auto; margin-top: 3px; text-align: center;">
-                Formato aprobado por la Autoridad de Fiscalización y Control de Pensiones y
-                Seguros – APS  mediante Resolución Administrativa APS/DS/No.687-2013 <br>
-                Código 206-934215-2013 07 035 3001
-            </div>
-            <div style="font-size: {{ $size }}; width: auto; height: auto; font-weight: bold; margin-top: 3px;
-                 text-align: center;">
-                El interesado solicita  a Nacional Vida Seguros de Personas S.A, un seguro
-                de vida, basado en las declaraciones que siguen a continuación, las mismas
-                que formaran parte integrante e indivisible de la póliza:
+            <div style="font-size: {{ $size }}; width: auto; height: auto; margin-top: 3px; text-align: left;">
+                Estimado Cliente, agradeceremos completar la informacion que se requiere a continuaci&oacute;n: (utilice
+                letra clara)
             </div>
         </div>
         <br>
         <div class="wrap" style="font-size: {{ $size }};">
-            <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: {{ $size }};">I.	DATOS PERSONALES DEL SOLICITANTE:</div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <div style="width: auto;    height: auto; text-align: left; margin: 2px 0; padding: 0;
+                    font-weight: bold; font-size: {{ $size }};">I. DATOS PERSONALES (TITULAR)
+            </div>
+            <br/>
+            <div style="width: auto;    height: auto; text-align: left; margin: 2px 0; padding: 0;
+                    font-weight: bold; font-size: {{ $size }};">Nombres y Apellidos:
+            </div>
+            <br/>
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="width: 730px;">
                 <tr>
-                    <td style="width: 14%; text-align: left;">Nombre del Tomador: </td>
-                    <td style="width: 86%; border-bottom: 1px solid #080808; text-align: left;">
-                        {{ $viDetail->taker_name }}
-                    </td>
-                </tr>
-            </table>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
-                <tr>
-                    <td style="width: 15%; text-align: left;">Nombre del Asegurado: </td>
-                    <td style="width: 85%; border-bottom: 1px solid #080808; text-align: left;">
+                    <td style="width: 730px; text-align: left;border-bottom: 1px solid #080808;">
                         {{ $viDetail->client->full_name }}
                     </td>
                 </tr>
             </table>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="width: 730px;">
                 <tr>
-                    <td style="width: 14%; text-align: left;">Lugar de Nacimiento:</td>
-                    <td style="width: 32%; border-bottom: 1px solid #080808; text-align: left;">
-                        {{ $viDetail->client->place_residence }}
+                    <td style="width: 20%; text-align: left;">Lugar y Fecha de Nacimiento:</td>
+                    <td style="width: 60%; border-bottom: 1px solid #080808; text-align: left;"> &nbsp;
+                        {{ $viDetail->client->birth_place }} {{ date('d/m/Y', strtotime($viDetail->client->birthdate)) }}
                     </td>
-                    <td style="width: 14%; text-align: left;">Fecha de Nacimiento:</td>
-                    <td style="width: 37%; border-bottom: 1px solid #080808; text-align: left;">
-                        {{ date('d-m-Y', strtotime($viDetail->client->birthdate)) }}
+                    <td style="width: 5%; text-align: left;">Sexo:</td>
+                    <td style="width: 15%; border-bottom: 1px solid #080808; text-align: left;">
+                        {{ config('base.client_genders.' . $viDetail->client->gender) }}
                     </td>
                 </tr>
             </table>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="width: 730px;">
                 <tr>
-                    <td style="width: 18%; text-align: left;">No Documento de Identidad:</td>
-                    <td style="width: 13%; border-bottom: 1px solid #080808; text-align: left;">
-                        {{ $viDetail->client->dni }}
-                    </td>
-                    <td style="width: 8%; text-align: left;">Expedido en:</td>
-                    <td style="width: 19%; border-bottom: 1px solid #080808; text-align: left;">
-                        {{ $viDetail->client->extension }}
+                    <td style="width: 15%; text-align: left;">Carnet de Identidad:</td>
+                    <td style="width: 43%; border-bottom: 1px solid #080808; text-align: left;">
+                        {{ $viDetail->client->dni }} {{ $viDetail->client->extension }}
                     </td>
                     <td style="width: 4%; text-align: left;">Edad:</td>
                     <td style="width: 9%; border-bottom: 1px solid #080808; text-align: left;">
-                        {{ $viDetail->client->age }}
+                        {{ $viDetail->client->age }} años
                     </td>
                     <td style="width: 4%; text-align: left;">Peso:</td>
                     <td style="width: 9%; border-bottom: 1px solid #080808; text-align: left;">
-
+                        {{ $viDetail->client->weight }} kg.
                     </td>
                     <td style="width: 7%; text-align: left;">Estatura:</td>
                     <td style="width: 9%; border-bottom: 1px solid #080808;">
-                        {{ $viDetail->client->height }}
+                        {{ $viDetail->client->height }} cm.
                     </td>
                 </tr>
             </table>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="width: 730px;">
                 <tr>
-                    <td style="width: 12%; text-align: left;">Dirección Domicilio:</td>
-                    <td style="width: 38%; border-bottom: 1px solid #080808; text-align: left;">
+                    <td style="width: 8%; text-align: left;">Direcci&oacute;n:</td>
+                    <td style="width: 32%; border-bottom: 1px solid #080808; text-align: left;">
                         {{ $viDetail->client->home_address }}
                     </td>
-                    <td style="width: 12%; text-align: left;">Correo Electronico</td>
-                    <td style="width: 38%; border-bottom: 1px solid #080808; text-align: left;">
-                        {{ $viDetail->client->email }}
-                    </td>
-                </tr>
-            </table>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
-                <tr>
-                    <td style="width: 12%; text-align: left;">Teléfono Domicilio:</td>
-                    <td style="width: 28%; border-bottom: 1px solid #080808; text-align: left;">
+                    <td style="width: 11%; text-align: left;">Telef. Domicilio:</td>
+                    <td style="width: 19%; border-bottom: 1px solid #080808; text-align: left;">
                         {{ $viDetail->client->phone_number_home }}
                     </td>
-                    <td style="width: 11%; text-align: left;">Teléfono Oficina:</td>
-                    <td style="width: 19%; border-bottom: 1px solid #080808; text-align: left;">
+                    <td style="width: 9%; text-align: left;">Teléfono Of:</td>
+                    <td style="width: 21%; border-bottom: 1px solid #080808; text-align: left;">
                         {{ $viDetail->client->phone_number_office }}
                     </td>
-                    <td style="width: 11%; text-align: left;">Teléfono Celular:</td>
-                    <td style="width: 19%; border-bottom: 1px solid #080808; text-align: left;">
-                        {{ $viDetail->client->phone_number_mobile }}
-                    </td>
                 </tr>
             </table>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="width: 730px;">
                 <tr>
-                    <td style="width: 12%; text-align: left;">Actividad Laboral</td>
-                    <td style="width: 88%; border-bottom: 1px solid #080808; text-align: left;">
-                        {{ $viDetail->client->occupation_description }}
-                    </td>
-                </tr>
-            </table>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
-                <tr>
-                    <td style="width: 12%; text-align: left;">Lugar de Trabajo</td>
-                    <td style="width: 88%; border-bottom: 1px solid #080808; text-align: left;">
-                        {{ $viDetail->client->business_address }}
+                    <td style="width: 8%; text-align: left;">Ocupaci&oacute;n:</td>
+                    <td style="width: 92%; border-bottom: 1px solid #080808; text-align: left;">
+                        {{ $viDetail->client->activity->occupation }} - {{ $viDetail->client->occupation_description }}
                     </td>
                 </tr>
             </table>
         </div>
         <br>
         <div class="wrap">
-            <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: {{ $size }};">II. ELECCION DEL PLAN</div>
-            <div style="font-size: 75%; text-align: left; margin: 2px 0;">1. Planes del Seguro</div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
-                <tr>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 75%; background: #000; color: #fff; text-align: center;
-                        height: 15px; border: 1px solid #000;" colspan="2">
-                        Expresado en Bolivianos
-                    </td>
-                    <td style="width: 15%;"></td>
-                </tr>
-                <tr>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 55%; background: #353535; color: #fff; height: 15px;
-                        border: 1px solid #000; text-align: left;">
-                        Coberturas
-                    </td>
-                    <td style="width: 20%; background: #353535; color: #fff;
-                        border: 1px solid #000; text-align: left;">
-                        Rangos de Capitales
-                    </td>
-                    <td style="width: 15%;"></td>
-                </tr>
-                @foreach(json_decode($viHeader->plan->plan) as $plan)
-                    <tr>
-                        <td style="width: 10%;"></td>
-                        <td style="width: 55%; background: #000; color: #fff; border: 1px solid #080808;
-                            text-align: left;">
-                            {{ $plan->cov }}
-                        </td>
-                        <td style="width: 20%; border: 1px solid #080808;">
-                            Hasta Bs. {{number_format( $plan->rank , 0, '.', ',')}}&nbsp;
-                        </td>
-                        <td style="width: 15%;"></td>
-                    </tr>
-                @endforeach
-                
-            </table>
-        </div>
-        <br />
-        <div class="wrap">
-            <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: {{ $size }};">III. BENEFICIARIO</div>
-            <div style="font-size: 75%; text-align: left; margin: 2px 0;">Beneficiarios:</div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
-               
-                <tr>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 10%; background: #000; color: #fff; text-align: center;
-                        height: 10px; padding-top: 5px;" >
-
-                    </td>
-                    <td style="width: 35%; background: #000; color: #fff; text-align: center;
-                        padding-top: 5px; border: 1px solid #000;" >
-                        Nombre Completo
-                    </td>
-                    <td style="width: 10%; background: #000; color: #fff; text-align: center;
-                        padding-top: 5px; border: 1px solid #000;" >
-                        Parentesco
-                    </td>
-                    <td style="width: 15%; background: #000; color: #fff; text-align: center;
-                        padding-top: 5px; border: 1px solid #000;" >
-                        Carnet de Identidad
-                    </td>
-                    <td style="width: 10%; background: #000; color: #fff; text-align: center;
-                        padding-top: 5px; border: 1px solid #000;" >
-                        Proporcion (%)
-                    </td>
-                    <td style="width: 10%;"></td>
-                </tr>
-                <tr>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 10%; background: #000; color: #fff; text-align: center;
-                        height: 10px; padding-top: 2px; border: 1px solid #000;" >
-                        
-                    </td>
-                    <td style="width: 35%; border: 1px solid #000; text-align: center;
-                        padding-top: 2px;" >
-                        
-                    </td>
-                    <td style="width: 10%; border: 1px solid #000; text-align: center;
-                        padding-top: 2px;" >
-                        
-                    </td>
-                    <td style="width: 15%; border: 1px solid #000; text-align: center;
-                        padding-top: 2px;" >
-                        
-                    </td>
-                    <td style="width: 10%; border: 1px solid #000; text-align: center;
-                        padding-top: 2px;" >
-                        
-                    </td>
-                    <td style="width: 10%;"></td>
-                </tr>
-                
-            </table>
-        </div>
-        <br />
-        <div class="wrap">
-            <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: {{ $size }};">IV. CUESTIONARIO DE SALUD: (Marque con una X si corresponde)
+            <div style="width: auto;    height: auto; text-align: left; margin: 2px 0; padding: 0;
+                    font-weight: bold; font-size: {{ $size }};">2. CUESTIONARIO
+                <br>
+                ¿Usted padece de alguna de las siguientes enfermedades?
             </div>
-            <div style="font-size: {{ $size }}; text-align: left; margin: 2px 0;">
-                1. ¿Usted padece de alguna de las siguientes enfermedades?
-            </div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
-                <tr>
-                    <td style="width: 10%; "></td>
-                    <td style="width: 20%; height: 5px; padding: 5px; text-align: left;">
-                        Cáncer
-                    </td>
-                    <td style="width: 5%; padding: 2px 0; " >
-                        <div class="input-check">&nbsp;</div>
-                    </td>
-                    <td style="width: 15%;"></td>
-                    <td style="width: 25%; padding: 5px; text-align: left;">
-                        Sida
-                    </td>
-                    <td style="width: 5%; padding: 2px 0;" >
-                        <div class="input-check">&nbsp;</div>
-                    </td>
-                    <td style="width: 20%; "></td>
-                </tr>
-                <tr>
-                    <td style="width: 10%; "></td>
-                    <td style="width: 20%; height: 5px; padding: 5px; text-align: left;">
-                        Diabetes
-                    </td>
-                    <td style="width: 5%; padding: 2px 0; " >
-                        <div class="input-check">&nbsp;</div>
-                    </td>
-                    <td style="width: 15%;"></td>
-                    <td style="width: 25%; padding: 5px; text-align: left;">
-                        Enfermedades del Corazón
-                    </td>
-                    <td style="width: 5%; padding: 2px 0; " >
-                        <div class="input-check">&nbsp;</div>
-                    </td>
-                    <td style="width: 20%; "></td>
-                </tr>
-                <tr>
-                    <td style="width: 10%; "></td>
-                    <td style="width: 20%; height: 5px; padding: 5px; text-align: left;">
-                        Insuficiencia Renal
-                    </td>
-                    <td style="width: 5%; padding: 2px 0; " >
-                        <div class="input-check">&nbsp;</div>
-                    </td>
-                    <td style="width: 15%;"></td>
-                    <td style="width: 25%; padding: 5px; text-align: left;">
-                        Enfermedades Cerebro Vasculares
-                    </td>
-                    <td style="width: 5%; padding: 2px 0; " >
-                        <div class="input-check">&nbsp;</div>
-                    </td>
-                    <td style="width: 20%; "></td>
-                </tr>
-            </table>
-        </div>
-        <br />
-        <div class="wrap">
-            <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: {{ $size }};">V. FORMA DE PAGO </div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
-                <tr>
-                    <td style="width: 25%; padding: 5px; text-align: left;">
-                        {{ $viHeader->payment_method = 'DA'?'Debito Automatico':'Pago al Contado'}}
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <br />
-        <div class="wrap">
-            <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                 font-weight: bold; font-size: {{ $size }};">VI. PERIODICIDAD</div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
-                <tr>
-                    <td style="width: 20%; height: 5px; padding: 5px; text-align: left;">
-                        {{ $viHeader->period = 'Y'?'Pago Anual':'Pago Mensual'}}
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="wrap">
-            <div style="font-size: 75%; text-align: left; margin: 2px 0;">
-                Debito en Cuenta de la Entidad Financiera
-            </div>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
-                <tr>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 20%; background: #000; color: #fff;
-                        height: 10px; padding-top: 5px;" >
-                        Número de Cuenta 1
-                    </td>
-                    <td style="width: 40%; padding-top: 5px; padding-left: 5px;
-                        border-bottom: 1px solid #000;" >
-                        1071022974
-                    </td>
-                    <td style="width: 30%; border-left: 1px solid #000;"></td>
-                </tr>
-                <tr>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 20%; background: #000; color: #fff;
-                        height: 10px; padding-top: 5px;" >
-                        Número de Cuenta 2
-                    </td>
-                    <td style="width: 40%; padding-top: 5px; padding-left: 5px;
-                        border-bottom: 1px solid #000;" >
 
-                    </td>
-                    <td style="width: 30%; border-left: 1px solid #000;"></td>
-                </tr>
-                <tr>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 20%; background: #000; color: #fff;
-                        height: 10px; padding-top: 5px;" >
-                        Tarjeta de Crédito
-                    </td>
-                    <td style="width: 40%; padding-top: 5px; padding-left: 5px;
-                        border-bottom: 1px solid #000;" >
+            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table"
+                   style="font-size: {{ $size }};width: 730px;">
+                @if($viDetail->response instanceof \Sibas\Entities\Vi\Response)
+                    @var $responses = json_decode($viDetail->response->response, false);
 
-                    </td>
-                    <td style="width: 30%; border-left: 1px solid #000;"></td>
-                </tr>
+                    @foreach($responses as $nq => $response)
+                        <tr>
+                            <td style="width: 5%;">{{ $nq }}</td>
+                            <td style="width: 45%;">¿{{ $response->question }}?</td>
+                            <td style="width: 25%;">SI <input type="text" value="&nbsp;" readonly style="width: 35px;"/>
+                            </td>
+                            <td style="width: 25%;">NO <input type="text" value="X" readonly
+                                                              style="width: 35px; text-align: center;"/></td>
+                        </tr>
+                    @endforeach
+                @endif
             </table>
         </div>
-        <br />
+
+        <br/>
         <div class="text_contenido" style="font-size: {{ $size }}; text-align: justify">
-            Declaro haber contestado con total veracidad y máxima buena fe a todas las preguntas del presente
-            cuestionario y no haber omitido u ocultado hechos y/o circunstancias que hubieran podido influir en la
-            celebración del contrato de seguro, las mismas que son completas y verídicas.
-            <br>
-            Las declaraciones de salud que hacen anulable el Contrato de Seguros y por las que el asegurado pierde
-            su derecho a indemnización, se enmarcan en los artículos 992: OBLIGACION DE DECLARAR; 993: RETICENCIA
-            O INEXACTTUD; 994: AUSENCIA DE DOLO; 999: DOLO O MALA FE; 1038: PERDIDA AL DERECHO DE LA INDEMNIZACION;
-            1138: IMPUGNACION DEL CONTRATO; 1140: ERROR EN LA EDAD DEL ASEGURADO, del Código de Comercio.
-            <br>
-            Por la presente acepto que esta solicitud no es un contrato de seguro y que este solo existirá si se
-            emite y entrega el Certificado de Cobertura de acuerdo con esta solicitud y los reglamentos de Seguros
-            Masivos autorizados por la APS.
-            <br>
-            Autorizo a Médicos, Clínicas e Institutos de Salud para suministrar a Nacional Vida Seguro de Personas
-            S.A., todos los datos que requiera sobre mi estado de salud antes o después de mi fallecimiento.
+            <p style="text-align: justify; margin: 0;">
+                Declaro haber contestado con total veracidad, máxima buena fe a todas
+                las preguntas del presente cuestionario y no haber omitido u ocupado
+                hechos y/o circunstancias que hubiera podido influir en la celebración
+                del contrato de seguro. Las declaraciones de salud que hacen anulable
+                el Contrato de Seguros y en la que el asegurado pierde su derecho a
+                indemnización, se enmarcan en los artículos 992, 993, 999 y 1038 del
+                Código de Comercio.
+                <br><br>
+                Relevo expresamente del secreto profesional y legal, a cualquier
+                médico que me hubiese asistido y/o tratado de dolencias y le autorizo
+                a revelar a Nacional Vida Seguros de Personas S.A. todos los datos y
+                antecedentes patológicos que pudiera tener o de los que hubiera
+                adquirido conocimiento al prestarme sus servicios. Entiendo que de
+                presentarse alguna eventualidad contemplada bajo la póliza de seguro
+                como consecuencia de alguna enfermedad existente a la fecha de la
+                firma de este documento o cuando haya alcanzado la edad límite
+                estipulada en la póliza, la compañía aseguradora quedará liberada
+                de toda la responsabilidad en lo que respecta a mí seguro.
+            </p>
         </div>
         <br>
         <div class="wrap">
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
+            <table cellpadding="0" cellspacing="0" border="0" style="font-size: {{ $size }};width: 730px;">
                 <tr>
-                    <td style="width: 5%; ">
-                        Fecha:
+                    <td style="width: 10%; ">
+                        Lugar y Fecha:
                     </td>
-                    <td style="width: 35%; height: 5px; border-bottom: 1px solid #080808;" >&nbsp;
-                       {{ date('d-m-Y', strtotime($viHeader->date_issue)) }} 
+                    <td style="width: 30%; height: 5px; border-bottom: 1px solid #080808;">&nbsp;
+                        {{ date('d/m/Y', strtotime($viHeader->date_issue)) }}
                     </td>
-                    <td style="width: 5%;" >
+                    <td style="width: 5%;">
                         Firma:
                     </td>
                     <td style="width: 35%; border-bottom: 1px solid #080808;">&nbsp;
 
                     </td>
-                    <td style="width: 20%;">
-                    </td>
                 </tr>
                 <tr>
                     <td style="width: 5%;">
                     </td>
-                    <td style="width: 35%; height: 5px;" >
+                    <td style="width: 35%; height: 5px;">
                     </td>
                     <td style="width: 5%;">
                     </td>
-                    <td style="width: 35%; text-align: center;">
-                        SOLICITANTE
-                    </td>
-                    <td style="width: 20%;">
+                    <td style="width: 55%; text-align: center;">
+                        ASEGURADO
                     </td>
                 </tr>
             </table>
             <br><br>
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table" style="font-size: {{ $size }};">
-                <tr>
-                    <td style="width: 5%; ">
-                    </td>
-                    <td style="width: 35%; height: 5px; " >
-                    </td>
-                    <td style="width: 5%;" >
-                        Firma:
-                    </td>
-                    <td style="width: 35%; border-bottom: 1px solid #080808;">&nbsp;
-
-                    </td>
-                    <td style="width: 20%; " >
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 5%; ">
-                    </td>
-                    <td style="width: 35%; height: 5px;" >
-                    </td>
-                    <td style="width: 5%;" >
-                    </td>
-                    <td style="width: 35%; text-align: center;">
-                        BANCO
-                    </td>
-                    <td style="width: 20%; " >
-                    </td>
-                </tr>
-            </table>
         </div>
 
-        <div style="width: 730px; border: 0px solid #FFFF00; text-align:center; font-size: {{ $size }}">
-            <table cellpadding="0" cellspacing="0" border="0" class="wrap_table">
-                <tr>
-                    <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
-                        <div style="width: auto; height: auto; font-weight: bold; text-align: center;">
-                            DECLARACIÓN JURADA DE SALUD <br>
-                            SOLICITUD DE SEGURO MASIVO VIDA INDIVIDUAL DE CORTO PLAZO
-                        </div>
-                        <div style="width: auto; height: auto; margin-top: 3px; text-align: center;">
-                            Formato aprobado por la Autoridad de Fiscalización y Control de
-                            Pensiones y Seguros APS  mediante Resolución Administrativa
-                            <br>
-                            APS/DSNo.687-2013 Código 206-934215-2013 07  035 400
-                            <br>
-                            POLIZA DE  SEGURO MASIVO VIDA DE CORTO PLAZO N° 123456
-                        </div>
-                        <p style="text-align: justify;">
-                            NACIONAL VIDA Seguros de Personas S.A., (denominada en adelante "LA COMPAÑÍA "),
-                            por el presente CERTIFICADO INDIVIDUAL DE SEGURO hace constar que la persona
-                            nominada en la declaración jurada de salud / formulario de seguro, (denominado
-                            en adelante "EL ASEGURADO"), está protegido por la Póliza de Seguro de Vida
-                            Masiva arriba mencionada, de acuerdo a las  siguientes Condiciones Particulares:
-                        </p>
-                        <div style="text-align: left; margin: 2px 0; font-weight: bold;">
-                            1. DATOS DEL ASEGURADO ASEGURADO
-                        </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 27%; text-align: left;">
-                                    Nombre Completo:
-                                </td>
-                                <td style="width: 73%; border-bottom: 1px solid #080808; text-align: left;">
-                                    {{ $viDetail->client->full_name }} 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 22%; text-align: left;">
-                                    Cedula de Identidad:
-                                </td>
-                                <td style="width: 73%; border-bottom: 1px solid #080808; text-align: left;">
-                                    {{ $viDetail->client->dni }} {{ $viDetail->client->extension }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 22%; text-align: left;">
-                                    Dirección Domicilio:
-                                </td>
-                                <td style="width: 73%; border-bottom: 1px solid #080808; text-align: left;">
-                                    {{ $viDetail->client->home_address }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 22%; text-align: left;">
-                                    Fecha de Nacimiento:
-                                </td>
-                                <td style="width: 73%; border-bottom: 1px solid #080808; text-align: left;">
-                                    {{ date('d-m-Y', strtotime($viDetail->client->birthdate)) }}
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <div style="text-align: left; margin: 2px 0; font-weight: bold;">
-                            2. COBERTURAS Y CAPITALES ASEGURADOS:
-                        </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 5%;">
-                                    a.
-                                </td>
-                                <td style="width: 95%; text-align: justify;">
-                                    <label class="emphasis">Muerte por cualquier causa:</label> La compañía asume
-                                    la muerte por cualquier causa de EL ASEGURADO, siempre y cuando la causa
-                                    no se encuentre excluida en el punto  4 del presente certificado.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%;">
-                                    b.
-                                </td>
-                                <td style="width: 95%; text-align: justify;">
-                                    <label class="emphasis">Pago anticipado del Capital Asegurado en caso de
-                                        Invalidez Total y Permanente:</label>
-                                    Cobertura aplicable cuando se presenta la Incapacidad Total y Permanente en
-                                    forma irreversible y por lo menos en un 60% de incapacidad, por Accidente o
-                                    por Enfermedad
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%;">
-                                    c.
-                                </td>
-                                <td style="width: 95%; text-align: justify;">
-                                    <label class="emphasis">Sepelio:</label> El beneficio de sepelio no considera
-                                    exclusiones para EL ASEGURADO y se paga al ocurrir la muerte por cualquier
-                                    causa.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%;" valign="top">
-                                    d.
-                                </td>
-                                <td style="width: 95%; text-align: justify;">
-                                    <label class="emphasis">Capitales Asegurados:</label>
-                                    <br><br>
-                                    <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                                        <tr>
-                                            <td style="width: 100%; background: #000; color: #fff;
-                                                text-align: center; border: 1px solid #000;" colspan="2">
-                                                Expresado en Bolivianos
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 70%; background: #353535; color: #fff;
-                                                border: 1px solid #000;">
-                                                Coberturas
-                                            </td>
-                                            <td style="width: 30%; background: #353535; color: #fff;
-                                                border: 1px solid #000;">
-                                                Rango de Capitales
-                                            </td>
-                                        </tr>
-                                        @foreach(json_decode($viHeader->plan->plan) as $plan)
-                                        <tr>
-                                            <td style="width: 70%; border: 1px solid #000;
-                                                    background: #000; color: #fff;">
-                                                {{ $plan->cov }}
-                                            </td>
-                                            <td style="width: 30%; padding-left: 5px; border: 1px solid #000;">
-                                                Hasta Bs. {{number_format($plan->rank, 0, '.', ',')}}
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </table>
-                                    <br>
-                                    <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                                        <tr>
-                                            <td style="width: 20%;">
-                                                Límites de edad:
-                                            </td>
-                                            <td style="width: 20%;">
-                                                De Ingreso:
-                                            </td>
-                                            <td style="width: 60%; text-align: justify;">
-                                                De Ingreso:	Mayores de 14 años y  hasta los 70 años por
-                                                muerte por cualquier causa. Mayores de 14 años y hasta
-                                                los 64 años para Pago anticipado del Capital Asegurado
-                                                en caso de Invalidez Total y Permanente
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 20%;">
-
-                                            </td>
-                                            <td style="width: 20%;">
-                                                De permanencia:
-                                            </td>
-                                            <td style="width: 60%; text-align: justify;">
-                                                De permanencia: Hasta los 75 años en caso de muerte por
-                                                cualquier causa Hasta los 65 años de Pago anticipado del
-                                                Capital Asegurado en caso de Invalidez Total y Permanente.
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <div style="text-align: left; margin: 2px 0; font-weight: bold;">
-                            3. PUNTO DE VENTA:
-                        </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 35%; text-align: left;">
-                                    Nombre de la Razón Social:
-                                </td>
-                                <td style="width: 65%; text-align: left">
-                                    Banco Económico S.A.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 35%; text-align: left;">
-                                    Dirección:
-                                </td>
-                                <td style="width: 65%; text-align: left;">
-                                    Santa Cruz, SANTA CRUZ
-                                </td>
-                            </tr>
-                        </table>
-                        <div style="text-align: left; margin: 2px 0; font-weight: bold;">
-                            4. EXCLUSIONES:
-                            <span style="font-weight: normal; text-align: justify">
-                                Este seguro de  vida no será aplicable en ninguna de
-                                las siguientes circunstancias:
-                            </span><br>
-                            Para Cobertura de Muerte por Cualquier Causa:
-                        </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child" style="text-align: justify">
-                            <tr>
-                                <td style="width: 5%; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
-                                    Participación de EL ASEGURADO en actos de guerra, declarada o no, sedición,
-                                    rebelión, asonada, conspiración, motín, tumulto, o cualquier acto que tenga
-                                    relación con ellos, salvo comprobación de que EL ASEGURADO no haya participado,
-                                    o formado parte activa de dichos actos de manera directa.
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
-                                    Participación de EL ASEGURADO como conductor o acompañante en competencias de
-                                    velocidad o resistencia, de automóviles motocicletas, lanchas o en cualquier
-                                    clase de vehículos a motor.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
-                                    Suicidio durante el primer año de haber estado asegurado ininterrumpidamente.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
-                                    Fisión o Fusión nuclear o contaminación radioactiva.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">La Cobertura de Sepelio no tiene exclusiones.</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">Para la cobertura Pago anticipado del Capital Asegurado
-                                    en caso de Invalidez Total y Permanente:</td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
-                                    La utilización por EL ASEGURADO de medios de transporte aéreo no comercial,
-                                    salvo en calidad de pasajero de líneas aéreas debidamente autorizadas para
-                                    el transporte público.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
-                                    Que EL ASEGURADO se encuentre en estado de ebriedad o bajo los efectos de
-                                    Alcohol, drogas o alucinógenos.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
-                                    Falsas declaraciones, omisión o reticencia del Asegurado que puedan influir
-                                    en la comprobación de su estado de invalidez.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
-                                <td style="width: 95%;">
-                                    Intento de suicidio cualquiera sea la época en que ocurra o por medidas o
-                                    lesiones inferidas AL ASEGURADO por sí mismo o por terceros con su
-                                    consentimiento.
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
-                        <div style="text-align: left; margin: 2px 0; font-weight: bold;">
-                            5. COSTO DE LA COBERTURA:
-                        </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 27%; background: #000; color: #FFF; padding: 3px;
-                                    border: 1px solid #000;">
-                                    Prima Neta
-                                </td>
-                                <td style="width: 28%; border: 1px solid #000; padding: 2px;">
-                                    {{ $viHeader->plan->annual_premium }}
-                                </td>
-                                <td style="width: 45%;"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 27%; background: #000; color: #FFF; padding: 2px;
-                                    border: 1px solid #000;">
-                                    Impuestos
-                                </td>
-                                <td style="width: 28%; border: 1px solid #000; padding: 2px;">
-                                    2.7
-                                </td>
-                                <td style="width: 45%;"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 27%; background: #000; color: #FFF; padding: 2px;
-                                    border: 1px solid #000;">
-                                    Comision Corretaje
-                                </td>
-                                <td style="width: 28%; border: 1px solid #000; padding: 2px;">
-                                    12.15
-                                </td>
-                                <td style="width: 45%;"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 27%; background: #000; color: #FFF; padding: 2px;
-                                    border: 1px solid #000;">
-                                    Prima Comercial
-                                </td>
-                                <td style="width: 28%; border: 1px solid #000; padding: 2px;">
-                                    252.00
-                                </td>
-                                <td style="width: 45%;"></td>
-                            </tr>
-                        </table>
-                        <br />
-                        <div style="text-align: left; margin: 2px 0; font-weight: bold;">
-                            6. BENEFICIARIOS:
-                        </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 15%; text-align: center; background: #000;
-                                    color: #FFF; height: 10px;">
-                                </td>
-                                <td style="width: 35%; background: #000; color: #FFF;
-                                    height: 10px; text-align: center; border: 1px solid #000;">
-                                    Nombre Completo
-                                </td>
-                                <td style="width: 15%; background: #000; color: #FFF;
-                                    text-align: center; border: 1px solid #000;">
-                                    Parentesco
-                                </td>
-                                <td style="width: 20%; background: #000; color: #FFF;
-                                    text-align: center; border: 1px solid #000;">
-                                    C.I.
-                                </td>
-                                <td style="width: 15%; background: #000; color: #FFF;
-                                    text-align: center; border: 1px solid #000;">
-                                    Proporción
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 15%; text-align: center; background: #000;
-                                    color: #FFF; border: 1px solid #000; height: 10px;">
-                                 
-                                </td>
-                                <td style="width: 35%; text-align: center; border: 1px solid #000;">
-                                    
-                                </td>
-                                <td style="width: 15%; text-align: center; border: 1px solid #000;">
-                                   
-                                </td>
-                                <td style="width: 20%; text-align: center; border: 1px solid #000;">
-                                    
-                                </td>
-                                <td style="width: 15%; text-align: center; border: 1px solid #000;">
-                                    
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 15%; text-align: center; background: #000;
-                                    color: #FFF; border: 1px solid #000; height: 10px;">
-                                    Beneficiario 2
-                                </td>
-                                <td style="width: 35%; text-align: center; border: 1px solid #000;">
-                                   
-                                </td>
-                                <td style="width: 15%; text-align: center; border: 1px solid #000;">
-                                   
-                                </td>
-                                <td style="width: 20%; text-align: center; border: 1px solid #000;">
-                                   
-                                </td>
-                                <td style="width: 15%; text-align: center; border: 1px solid #000;">
-                                 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 85%; background: #000; color: #FFF;" colspan="4"></td>
-                                <td style="width: 15%; background: #000; color: #FFF;
-                                    text-align: center; border: 1px solid #000;">100%
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <div style="text-align: left; margin: 2px 0; font-weight: bold;">
-                            7. PROCEDIMIENTO A SEGUIR EN CASO DE SINIESTRO:
-                        </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 100%; text-align: justify" colspan="2">
-                                    El Asegurado o Beneficiario, tan pronto y a más tardar dentro de los 30 días
-                                    de tener conocimiento del siniestro, debe comunicar tal hecho a la aseguradora,
-                                    salvo fuerza mayor o impedimiento jurídico.
-                                    <br>
-                                    Para reclamar el pago de cualquier indemnización con cargo
-                                    a esta póliza, EL ASEGURADO O BENEFICIARIO deberá remitir a
-                                    LA COMPAÑÍA su solicitud junto con los documentos a presentar
-                                    en caso de fallecimiento o invalidez. LA COMPAÑÍA podrá, a sus
-                                    expensas, recabar informes o pruebas complementarias.
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <div style="text-align: left; margin: 2px 0; font-weight: bold;">
-                            DOCUMENTOS  A PRESENTAR  EN CASO DE  MUERTE POR CUALQUIER CAUSA:
-                        </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
-                                    Certificado Médico de defunción.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
-                                    Certificado de la Autoridad competente (si corresponde).
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
-                                    Documento de identidad (carnet de identidad o certificado
-                                    de nacimiento) del asegurado.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
-                                    Documento de identidad (Carnet de identidad o Certificado
-                                    de nacimiento) del beneficiario.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
-                                    Declaratoria de Herederos si no existieran Beneficiarios
-                                    nominados en la Póliza.
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <div style="text-align: left; margin: 2px 0; font-weight: bold;">
-                            DOCUMENTOS  A PRESENTAR  EN CASO DE  INVALIDEZ TOTAL PERMANENTE
-                        </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%; text-align: justify;">
-                                    Declaración médica de invalidez, emitida por un médico autorizado por la APS.
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <div style="text-align: left; margin: 2px 0; font-weight: bold;">
-                            DOCUMENTOS  A PRESENTAR  EN CASO DE  SEPELIO
-                        </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
-                                    Certificado de defunción.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
-                                    Documento de identidad (carnet de identidad o certificado
-                                    de nacimiento) del asegurado.
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
-                                    Documento de identidad (Carnet de identidad o Certificado de
-                                    nacimiento) del beneficiario.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
-                                <td style="width: 95%;">
-                                    Declaratoria de Herederos si no existieran Beneficiarios
-                                    nominados en la Póliza.
-                                </td>
-                            </tr>
-                        </table>
-                        <br>
-                        <div style="text-align: left; margin: 2px 0; font-weight: bold;">
-                            8. COMPAÑÍA ASEGURADORA
-                        </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 100%;">
-                                    <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                                        <tr>
-                                            <td style="width: 14%; text-align: left;">
-                                                Razón Social:
-                                            </td>
-                                            <td style="width: 86%; border-bottom: 1px solid #000; text-align: left;"
-                                                colspan="5">
-                                                Nacional Vida Seguros de Personas S.A.
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:14%; text-align: left;">Dirección:</td>
-                                            <td style="width:36%; border-bottom: 1px solid #000;">
-                                                Av. Monseñor Rivero  N 223
-                                            </td>
-                                            <td style="width:7%;">Teléfono:</td>
-                                            <td style="width:18%; border-bottom: 1px solid #000;">
-                                                3716262
-                                            </td>
-                                            <td style="width:7%;">Fax:</td>
-                                            <td style="width:18%; border-bottom: 1px solid #000;">
-                                                3337969
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                        <br>
-                        
-                        <div style="text-align: left; margin: 2px 0; font-weight: bold;">
-                            9. CORREDOR DE SEGUROS
-                        </div>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 100%;">
-                                    <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                                        <tr>
-                                            <td style="width: 14%; text-align: left;">
-                                                Razón Social:
-                                            </td>
-                                            <td style="width: 86%; border-bottom: 1px solid #000; text-align: left;"
-                                                colspan="5">
-                                                Sudamericana S.R.L.
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:14%;">Dirección:</td>
-                                            <td style="width:36%; border-bottom: 1px solid #000;">
-                                                Equipetrol Calle Nº 8 Este Nº 25
-                                            </td>
-                                            <td style="width:7%;">Teléfono:</td>
-                                            <td style="width:18%; border-bottom: 1px solid #000;">
-                                                3416055
-                                            </td>
-                                            <td style="width:7%;">Fax:</td>
-                                            <td style="width:18%; border-bottom: 1px solid #000;">
-                                                3416056
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                        <br><br>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 13%;"></td>
-                                <td style="width: 20%; border-bottom: 1px solid #000;
-                                    text-align: center;">
-                                    Santa Cruz
-                                </td>
-                                <td style="width: 4%; text-align: center;"> , </td>
-                                <td style="width: 10%; border-bottom: 1px solid #000;
-                                    text-align: center;">
-                                    30
-                                </td>
-                                <td style="width: 5%; text-align: center;"> de </td>
-                                <td style="width: 20%; border-bottom: 1px solid #000;
-                                    text-align: center;">
-                                    Noviembre
-                                </td>
-                                <td style="width: 5%; text-align: center;"> de </td>
-                                <td style="width: 10%; border-bottom: 1px solid #000;
-                                    text-align: center;">
-                                    2015
-                                </td>
-                                <td style="width: 13%;"></td>
-                            </tr>
-                        </table>
-                        <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
-                            <tr>
-                                <td style="width: 5%;"></td>
-                                <td style="width: 90%; text-align: center; padding-bottom: 20px;"
-                                    colspan="3">
-                                    NACIONAL VIDA SEGURO DE  PERSONAS S.A.
-                                    <br>
-                                    FIRMAS AUTORIZADAS
-                                </td>
-                                <td style="width: 5%;"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%;"></td>
-                                <td style="width: 35%; border-bottom: 1px solid #000; text-align: center;">
-
-                                </td>
-                                <td style="width: 10%;"></td>
-                                <td style="width: 45%; border-bottom: 1px solid #000; text-align: center;">
-
-                                </td>
-                                <td style="width: 5%;"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%;"></td>
-                                <td style="width: 35%; text-align: center;">
-                                    Joaquín Montaño Salas <br>
-                                    Gerente Regional
-                                </td>
-                                <td style="width: 10%;"></td>
-                                <td style="width: 45%; text-align: center;">
-                                    Mario Aguirre <br>
-                                    Gerente Nacional de Seguros Masivos
-                                </td>
-                                <td style="width: 5%;"></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <page><div style="page-break-before: always;">&nbsp;</div></page>
-
-        <div style="width: 730px; border: 0px solid #FFFF00; text-align:justify; font-size: {{ $size }}">
-            <div style="width:100%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
-                <p>
-                <b>Discrepancias en la Póliza (Art. 1013) </b>"Si el Tomador o ASEGURADO
-                encuentran que la póliza no concuerda con lo convenido o con lo propuesto,
-                pueden pedir rectificación correspondiente por escrito, dentro de los quince
-                días siguientes a la recepción de la Póliza. Se consideran aceptadas las
-                estipulaciones de esta si durante dicho plazo no se solicita la mencionada
-                rectificación. Si dentro de los quince días siguientes al de la reclamación
-                LA COMPAÑÍA no da curso a la rectificación solicitada o mantiene silencio,
-                se entiende aceptada en los términos de la modificación".
+        <div class="wrap">
+            <div style="width: auto;    height: auto; text-align: center; margin: 2px 0; padding: 0;
+                    font-weight: bold; font-size: {{ $size }};">
+                CERTIFICADO INDIVIDUAL DE SEGURO Nº 88 <br>
+                PÓLIZA DE SEGURO DE VIDA EN GRUPO <br>
+                POL-VG-LP-00000181-2014-00 <br>
+                (Formato aprobado de la S.P.V.S. mediante Resolución
+                Administrativa N° 081 del 10/03/00) <br>
+                206-934601-2000 03 005-3004
                 <br>
-                <b>Omisión de Aviso (Art. 1030) </b>"LA COMPAÑIA puede liberarse de sus
-                obligaciones cuando EL ASEGURADO o beneficiario, según el caso, omitan dar el
-                aviso dentro del plazo del articulo 1028  con el fin de impedir la comprobación
-                oportuna de las circunstancias del siniestro o el de la magnitud de los daños.
-                (Art.1035 Código de Comercio)".
-                <br>
-                <b>Iniciación y Duración del Contrato. </b>"El presente seguro tendrá una duración
-                de un año a contar de la fecha de inicio de la cobertura, salvo que en las
-                Condiciones Particulares, Certificado de Cobertura  se estipule una duración
-                diferente, el cual se entenderá prorrogado en forma tácita, sucesiva y automática
-                por nuevos e iguales períodos en cada ocasión".
-                <br>
-                <b>Periodo de Gracia. </b>LA COMPAÑÍA concederá al ASEGURADO un periodo de gracia para
-                efectuar el pago de la prima correspondiente sin intereses de treinta (30) días calendario,
-                contados desde el vencimiento de la fecha establecida en el convenio de pago para el
-                pago de la misma.  Si el fallecimiento ocurriese dentro del periodo de gracia, la prima
-                adeudada para completar la anualidad por EL TOMADOR/ ASEGURADO será deducida del
-                beneficio correspondiente.
-                <br>
-                <b>Efecto del no pago de Prima: Terminación del Contrato. </b>Si habiendo vencido el
-                período de gracia fijado por el artículo precedente, la Prima se encontrare impaga,
-                el Contrato de Seguro caducara en forma inmediata, sin necesidad de aviso, notificación
-                o requerimiento alguno, liberándose LA COMPAÑÍA  de toda obligación y responsabilidad
-                derivada de la Póliza.
-                <br>
-                <b>Plazo para Pronunciarse (Art. 1033). </b>LA COMPAÑÍA se pronunciará
-                sobre el derecho de EL ASEGURADO o beneficiario dentro de los treinta
-                (30) días de recibidas la información y evidencias citadas en  el
-                Art.1031 del Código de Comercio.  Se dejará constancia escrita de la
-                fecha de recepción de la información y evidencias a efecto del cómputo
-                del plazo. En plazo de treinta (30) días, fenece con la aceptación o
-                rechazo del siniestro o con la solicitud del asegurador al asegurado
-                que se complementen los requerimientos contemplados en el Art. 1031
-                del Código de Comercio y no vuelve a correr hasta que el asegurado haya
-                cumplido con tales requerimientos.
-                <br>
-                La solicitud de complementos establecidos en el Art. 1031 del Código
-                de Comercio, por parte del Asegurador no podrá extenderse por mas de
-                dos veces a partir de la primera solicitud de informes y evidencias,
-                debiendo pronunciarse dentro del plazo establecido y de manera definitiva
-                sobre el derecho del asegurado, después de la entrega por parte del
-                asegurado del último requerimiento de información.
-                <br>
-                El silencio del asegurador, vencido el término  para pronunciarse o
-                vencidas las solicitudes de complementación, importa la aceptación del
-                reclamo.
-            </p>
-
-            <p>
-                <b>Termino para el pago de Siniestro (Art. 1034).</b> En los seguros de
-                vida, el pago se hará dentro de los quince días posteriores al aviso del
-                siniestro o tan pronto sean llenados los requerimientos señalados en el
-                artículo 1031".
-            </p>
             </div>
-            
-        </div>
+            <br>
 
+            <div class="text_contenido" style="font-size: {{ $size }}; text-align: justify">
+                <p style="text-align: justify; margin: 0;">
+                    NACIONAL VIDA Seguros de Personas S.A., (denominada en adelante
+                    “La Compañía"), por el presente CERTIFICADO INDIVIDUAL DE
+                    SEGURO hace constar que JUAN PEREZ VELASCO (denominado en
+                    adelante el “Asegurado”), está protegido por la Póliza de
+                    Seguro de Vida en Grupo arriba mencionada y de acuerdo con
+                    la misma está asegurado bajo las siguientes condiciones:
+                </p>
+            </div>
+        </div>
+        <br>
+
+        <div class="wrap">
+            <div style="width: auto;    height: auto; text-align: left; margin: 2px 0; padding: 0;
+                    font-weight: bold; font-size: {{ $size }};">
+                1. COBERTURAS VALORES ASEGURADOS
+                <br>
+            </div>
+
+            <table cellpadding="0" cellspacing="0" border="0" style="font-size: {{ $size }};width: 730px;">
+                <tr>
+                    <td style="width: 30%; text-align: center;">VIDA</td>
+                    <td style="width: 10%;"></td>
+                    <td style="width: 30%; text-align: center;">
+                        Bs. {{ number_format($viDetail->insured_value, 2) }}</td>
+                    <td style="width: 30%;"></td>
+                </tr>
+            </table>
+            <br>
+
+            <div style="width: auto;    height: auto; text-align: left; margin: 2px 0; padding: 0;
+                    font-weight: bold; font-size: {{ $size }};">
+                2. PAGO DE LAS INDEMNIZACIONES
+                <br>
+            </div>
+            <div class="text_contenido" style="font-size: {{ $size }}; text-align: justify">
+                <p style="text-align: justify; margin: 0;">
+                    La Compañía después de recibir prueba fehaciente sobre el
+                    fallecimiento del Asegurado, ocurrido mientras gozaba de
+                    protección bajo el presente seguro, pagará al Beneficiario
+                    la suma asegurada. <br>
+                    Los pagos serán hechos por la Compañía por conducto del Contratante.
+                </p>
+            </div>
+            <br>
+
+            <div style="width: auto;    height: auto; text-align: left; margin: 2px 0; padding: 0;
+                    font-weight: bold; font-size: {{ $size }};">
+                3. VIGENCIA
+                <br>
+            </div>
+            <div class="text_contenido" style="font-size: {{ $size }}; text-align: justify">
+                <p style="text-align: justify; margin: 0;">
+                    La cobertura del seguro inicia su vigencia el 29 de Diciembre
+                    de 2014 a hrs. 12:00:00 meridiano y concluirá de acuerdo a la
+                    vigencia original de la Póliza de Seguro de Vida en Grupo, en
+                    virtud de la cual se emite el presente Certificado Individual;
+                    de manera que al caducar aquella caducará automáticamente el
+                    presente Certificado.
+                </p>
+            </div>
+        </div>
     </div>
 </div>
