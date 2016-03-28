@@ -4,6 +4,7 @@ use Sibas\Entities\RetailerProductQuestion;
 
 class RetailerProductQuestionTableSeeder extends BaseSeeder
 {
+
     /**
      * @return \Illuminate\Support\Facades\DB
      */
@@ -12,11 +13,12 @@ class RetailerProductQuestionTableSeeder extends BaseSeeder
         return new RetailerProductQuestion();
     }
 
+
     protected function getData()
     {
-        $data = [];
+        $data = [ ];
 
-        $questions       = $this->getModelData('Question')->all();
+        $questions        = $this->getModelData('Question')->all();
         $retailerProducts = $this->getModelData('RetailerProduct');
 
         foreach ($questions as $key => $question) {
@@ -31,7 +33,7 @@ class RetailerProductQuestionTableSeeder extends BaseSeeder
             $data[] = [
                 'ad_retailer_product_id' => $rp_id,
                 'ad_question_id'         => $question->id,
-                'order'                  => ($key <= 5 ? $key + 1 : $key - 5),
+                'order'                  => ( $key <= 5 ? $key + 1 : $key - 5 ),
                 'response'               => $response,
                 'active'                 => true,
             ];
