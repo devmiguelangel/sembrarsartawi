@@ -96,6 +96,9 @@ class DatabaseSeeder extends Seeder
         // $this->call(McCertificateQuestionnaireTableSeeder::class);
         // $this->call(McQuestionTableSeeder::class);
         // $this->call(McCertificateQuestionnaireQuestionTableSeeder::class);
+        $this->call(VehicleTypeTableSeeder::class);
+        $this->call(VehicleMakeTableSeeder::class);
+        $this->call(VehicleModelTableSeeder::class);
 
         Model::reguard();
     }

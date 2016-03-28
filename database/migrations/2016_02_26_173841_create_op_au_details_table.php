@@ -16,8 +16,8 @@ class CreateOpAuDetailsTable extends Migration
             $table->integer('id')->unsigned();
             $table->integer('op_au_header_id')->unsigned();
             $table->integer('ad_vehicle_type_id')->unsigned();
-            $table->integer('ad_make_id')->unsigned();
-            $table->integer('ad_model_id')->unsigned();
+            $table->integer('ad_vehicle_make_id')->unsigned();
+            $table->integer('ad_vehicle_model_id')->unsigned();
             $table->enum('category', array_keys(config('base.vehicle_category')));
             $table->integer('year')->unsigned();
             $table->string('license_plate', 15);
@@ -40,8 +40,8 @@ class CreateOpAuDetailsTable extends Migration
             $table->primary('id');
             $table->foreign('op_au_header_id')->references('id')->on('op_au_headers');
             $table->foreign('ad_vehicle_type_id')->references('id')->on('ad_vehicle_types');
-            $table->foreign('ad_make_id')->references('id')->on('ad_makes');
-            $table->foreign('ad_model_id')->references('id')->on('ad_models');
+            $table->foreign('ad_vehicle_make_id')->references('id')->on('ad_vehicle_makes');
+            $table->foreign('ad_vehicle_model_id')->references('id')->on('ad_vehicle_models');
         });
     }
 

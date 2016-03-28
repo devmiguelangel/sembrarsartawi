@@ -15,7 +15,7 @@ return [
             'slug' => 'BC'
         ],
     ],
-    
+
     'user_types' => [
         'ADT' => 'Administrador',
         'UST' => 'Usuario',
@@ -28,9 +28,9 @@ return [
     ],
 
     'client_document_types' => [
-        'CI' => 'Carnet de Identidad',
-        'PE' => 'Persona Extranjera',
-        'PA' => 'Pasaporte',
+        'CI'  => 'Carnet de Identidad',
+        'PE'  => 'Persona Extranjera',
+        'PA'  => 'Pasaporte',
         'RUN' => 'Registro Único Nacional',
     ],
 
@@ -63,8 +63,8 @@ return [
     ],
 
     'currencies' => [
-        'BS'    => 'Bolivianos',
-        'USD'   => 'Dolares',
+        'BS'  => 'Bolivianos',
+        'USD' => 'Dolares',
     ],
 
     'product_parameters' => [
@@ -112,6 +112,7 @@ return [
         'CO' => 'Al Contado',
         'DA' => 'Débito Automático',
         'PT' => 'Prima Total',
+        'AN' => 'Anualizado',
     ],
 
     'account_types' => [
@@ -144,14 +145,15 @@ return [
         'de' => 'Error en Datos',
         're' => 'Reaseguro',
         'in' => 'Inspección',
+        'sm' => 'Medidas de Seguridad',
     ],
 
     'company_state' => [
-        'A'  => 'Aprobado',
-        'R'  => 'Rechazado',
-        'P'  => 'Pendiente',
-        'O'  => 'Observado',
-        'C'  => 'Subsanado/Pendiente',
+        'A' => 'Aprobado',
+        'R' => 'Rechazado',
+        'P' => 'Pendiente',
+        'O' => 'Observado',
+        'C' => 'Subsanado/Pendiente',
     ],
 
     'medical_certificate_types' => [
