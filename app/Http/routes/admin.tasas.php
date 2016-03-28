@@ -5,17 +5,22 @@
  * Date: 11/02/2016
  * Time: 12:08
  */
-Route::get('admin/tasas/list/{nav}/{action}', [
+Route::get('admin/tasas/list-product-retailer/{nav}/{action}', [
+    'as' => 'admin.tasas.list-product-retailer',
+    'uses' => 'Admin\TasasAdminController@index_product_retailer'
+]);
+
+Route::get('admin/tasas/list/{nav}/{action}/{id_retailer_products}/{code_product}', [
     'as' => 'admin.tasas.list',
     'uses' => 'Admin\TasasAdminController@index'
 ]);
 
-Route::get('admin/tasas/new/{nav}/{action}', [
+Route::get('admin/tasas/new/{nav}/{action}/{id_retailer_products}/{code_product}', [
     'as' => 'admin.tasas.new',
     'uses' => 'Admin\TasasAdminController@index'
 ]);
 
-Route::get('admin/tasas/edit/{nav}/{action}/{id_rates}', [
+Route::get('admin/tasas/edit/{nav}/{action}/{id_rates}/{id_retailer_products}/{code_product}', [
     'as' => 'admin.tasas.edit',
     'uses' => 'Admin\TasasAdminController@edit'
 ]);
@@ -33,7 +38,7 @@ Route::post('admin/tasas/edit', [
 /**
  * AJAX
 **/
-Route::get('admin/tasas/product_retailer_ajax/{id_retailer}', 'Admin\TasasAdminController@ajax_product_retailer');
+Route::get('admin/tasas/product_retailer_ajax/{id_retailer}/{id_retailer_product}', 'Admin\TasasAdminController@ajax_product_retailer');
 Route::get('admin/tasas/cobertura_ajax/{id_retailer_product}', 'Admin\TasasAdminController@ajax_cobertura');
 Route::get('admin/tasas/delete_ajax/{id_rates}', 'Admin\TasasAdminController@ajax_delete');
 Route::get('admin/tasas/quest_rate_ajax/{id_retailer_product}', 'Admin\TasasAdminController@ajax_quest_rate');

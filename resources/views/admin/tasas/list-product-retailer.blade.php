@@ -62,8 +62,8 @@
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         @if((boolean)$data->active==true)
                                             <li>
-                                                <a href="{{route('admin.policy.list', ['nav'=>'policy', 'action'=>'list', 'id_retailer_products'=>$data->id_retailer_products, 'code_product'=>$data->code])}}">
-                                                    <i class="icon-pencil3"></i> Agregar numero póliza
+                                                <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$data->id_retailer_products, 'code_product'=>$data->code])}}">
+                                                    <i class="icon-pencil3"></i> Administrar tasas
                                                 </a>
                                             </li>
                                         @endif

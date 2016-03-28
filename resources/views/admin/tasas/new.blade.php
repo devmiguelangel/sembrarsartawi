@@ -17,7 +17,7 @@
         <div class="panel-heading">
             <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
                 <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
-                Nuevo Registro agregar tasas a productos
+                Nuevo Registro agregar tasas producto {{$product_query->name}}
                 <small class="display-block">Formulario</small>
             </h5>
             <div class="heading-elements">
@@ -97,9 +97,11 @@
                     <button type="submit" class="btn btn-primary">
                         Guardar <i class="icon-floppy-disk position-right"></i>
                     </button>
-                    <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list'])}}" class="btn btn-primary">
+                    <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}" class="btn btn-primary">
                         Cancelar <i class="icon-arrow-right14 position-right"></i>
                     </a>
+                    <input type="hidden" id="id_retailer_products" name="id_retailer_products" value="{{$id_retailer_products}}">
+                    <input type="hidden" name="code_product" value="{{$code_product}}">
                 </div>
             {!!Form::close()!!}
         </div>
@@ -109,8 +111,9 @@
             //BUSCAMOS LOS PRODUCTOS AGREGADOS AL RETAILER
             $('#id_retailer').change(function(e) {
                 var  id_retailer = $(this).prop('value');
-                //alert(id_retailer);
-                $.get( "{{url('/')}}/admin/tasas/product_retailer_ajax/"+id_retailer, function( data ) {
+                var id_retailer_product = $('#id_retailer_products').prop('value');
+                //alert(id_retailer_product);
+                $.get( "{{url('/')}}/admin/tasas/product_retailer_ajax/"+id_retailer+"/"+id_retailer_product, function( data ) {
                     console.log(data);
                     if(data.length>0) {
                         $('button[type="submit"]').prop('disabled', false);

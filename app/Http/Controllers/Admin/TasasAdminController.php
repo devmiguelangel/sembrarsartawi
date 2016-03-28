@@ -5,6 +5,7 @@ namespace Sibas\Http\Controllers\Admin;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
+use Sibas\Entities\Product;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 
@@ -15,27 +16,48 @@ class TasasAdminController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($nav, $action)
+    public function index($nav, $action, $id_retailer_products, $code_product)
     {
         $main_menu = $this->menu_principal();
         $array_data = $this->array_data();
         if($action=='list'){
-            $query = \DB::table('ad_rates as ar')
-                ->leftjoin('ad_coverages as ac', 'ac.id', '=', 'ar.ad_coverage_id')
-                ->join('ad_retailer_products as arp', 'arp.id', '=', 'ar.ad_retailer_product_id')
-                ->join('ad_retailers as aret', 'aret.id', '=', 'arp.ad_retailer_id')
-                ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
-                ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
-                ->select('ar.id as id_rates', 'ar.rate_company', 'ar.rate_bank', 'ar.rate_final', 'ap.name as product', 'ac.name as coverage', 'aret.name as retailer')
-                ->get();
-            return view('admin.tasas.list', compact('nav', 'action', 'query', 'main_menu', 'array_data'));
+            if($code_product=='de' || $code_product=='vi'){
+                $product_query = Product::where('code',$code_product)->first();
+                $query = \DB::table('ad_rates as ar')
+                    ->leftjoin('ad_coverages as ac', 'ac.id', '=', 'ar.ad_coverage_id')
+                    ->join('ad_retailer_products as arp', 'arp.id', '=', 'ar.ad_retailer_product_id')
+                    ->join('ad_retailers as aret', 'aret.id', '=', 'arp.ad_retailer_id')
+                    ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
+                    ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
+                    ->select('ar.id as id_rates', 'ar.rate_company', 'ar.rate_bank', 'ar.rate_final', 'ap.name as product', 'ac.name as coverage', 'aret.name as retailer')
+                    ->where('arp.id','=',$id_retailer_products)
+                    ->get();
+                return view('admin.tasas.list', compact('nav', 'action', 'query', 'main_menu', 'array_data', 'id_retailer_products', 'code_product', 'product_query'));
+            }elseif($code_product=='au'){
+
+            }
         }elseif($action=='new'){
             $retailer = \DB::table('ad_retailers')
                             ->get();
-            return view('admin.tasas.new', compact('nav', 'action', 'main_menu', 'retailer', 'array_data'));
+            $product_query = Product::where('code',$code_product)->first();
+            return view('admin.tasas.new', compact('nav', 'action', 'main_menu', 'retailer', 'array_data', 'id_retailer_products', 'code_product', 'product_query'));
         }
     }
 
+    public function index_product_retailer($nav, $action)
+    {
+        $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
+        $query = \DB::table('ad_retailer_products as arp')
+            ->join('ad_retailers as ar', 'ar.id', '=', 'arp.ad_retailer_id')
+            ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
+            ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
+            ->select('arp.id as id_retailer_products', 'ar.name as retailer', 'ap.name as product', 'arp.type', 'arp.active', 'ap.code')
+            ->orderBy('arp.type')
+            ->get();
+        $parameter = config('base.retailer_product_types');
+        return view('admin.tasas.list-product-retailer', compact('nav', 'action', 'main_menu', 'array_data', 'query', 'parameter'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -79,7 +101,7 @@ class TasasAdminController extends BaseController
                     'updated_at'=>date("Y-m-d H:i:s")
                 ]
             );
-            return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list'])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
+            return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list', 'id_retailer_products'=>$request->get('id_retailer_products'), 'code_product'=>$request->get('code_product')])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
         }catch(QueryException $e) {
             return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
@@ -102,7 +124,7 @@ class TasasAdminController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($nav, $action, $id_rates)
+    public function edit($nav, $action, $id_rates, $id_retailer_products, $code_product)
     {
         $main_menu = $this->menu_principal();
         $array_data = $this->array_data();
@@ -115,7 +137,7 @@ class TasasAdminController extends BaseController
             ->select('ar.id as id_rates', 'ar.rate_company', 'ar.rate_bank', 'ar.rate_final', 'ap.name as product', 'ac.name as coverage', 'aret.name as retailer', 'ap.code as code_product')
             ->where('ar.id', '=', $id_rates)
             ->first();
-        return view('admin.tasas.edit', compact('nav', 'action', 'query', 'main_menu', 'id_rates', 'array_data'));
+        return view('admin.tasas.edit', compact('nav', 'action', 'query', 'main_menu', 'id_rates', 'array_data', 'id_retailer_products', 'code_product'));
     }
 
     /**
@@ -147,7 +169,7 @@ class TasasAdminController extends BaseController
                         'updated_at' => date("Y-m-d H:i:s")
                     ]
                 );
-            return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list'])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
+            return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list', 'id_retailer_products'=>$request->get('id_retailer_products'), 'code_product'=>$request->get('code_product')])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
         }catch (QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
@@ -165,13 +187,14 @@ class TasasAdminController extends BaseController
     }
 
     //FUNCIONES AJAX
-    public function ajax_product_retailer($id_retailer)
+    public function ajax_product_retailer($id_retailer,$id_retailer_product)
     {
         $product_retailer=\DB::table('ad_retailer_products as arp')
             ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
             ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
             ->select('arp.id as id_retailer_product', 'ap.name as product', 'ap.code')
             ->where('arp.ad_retailer_id', '=', $id_retailer)
+            ->where('arp.id',$id_retailer_product)
             ->get();
         return response()->json($product_retailer);
     }

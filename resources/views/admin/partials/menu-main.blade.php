@@ -16,6 +16,7 @@
             @var $adg=false
             @var $ade=false
             @var $avi=false
+            @var $aau=false
             @if(auth()->user()->type->code=='ADT')
                 @var $apo=true
                 @var $aco=true
@@ -31,6 +32,7 @@
                 @var $adg=true
                 @var $ade=true
                 @var $avi=true
+                @var $aau=true
             @else
                 @foreach(auth()->user()->permissions as $user_permission)
                     @if($user_permission->slug == 'APL')
@@ -172,14 +174,14 @@
 
             @if($ata)
                 @if($nav=='rate')
-                    @if($action=='list' || $action=='new' || $action=='edit')
+                    @if($action=='list' || $action=='new' || $action=='edit' || $action=='list_product_retailer')
                         @var $data_rate='active'
                     @endif
                 @else
                     @var $data_rate=''
                 @endif
                 <li class="{{$data_rate}}">
-                    <a href="{{route('admin.tasas.list',['nav'=>'rate', 'action'=>'list'])}}" title='Administrar tasas'>
+                    <a href="{{route('admin.tasas.list-product-retailer',['nav'=>'rate', 'action'=>'list_product_retailer'])}}" title='Administrar tasas'>
                         <i class="icon-folder"></i> Administrar tasas
                     </a>
                 </li>
@@ -488,6 +490,12 @@
                                     </ul>
                                 </li>
 
+                            @endif
+                        @endif
+
+                        @if($aau)
+                            @if($c==2)
+                                <li></li>
                             @endif
                         @endif
                     @endif

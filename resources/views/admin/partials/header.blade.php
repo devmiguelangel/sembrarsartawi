@@ -432,10 +432,14 @@
             @endif
         @elseif($nav=='rate')
             <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
-            @if($action=='list')
+            @if($action=='list_product_retailer')
+                <li class="active">Productos Retailer</li>
+            @elseif($action=='list')
+                <li><a href="{{ route('admin.tasas.list-product-retailer', ['nav'=>'rate', 'action'=>'list_product_retailer']) }}">Productos Retailer</a></li>
                 <li class="active">Tasas</li>
             @elseif($action=='new' || $action=='edit')
-                <li><a href="{{ route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list']) }}">Tasas</a></li>
+                <li><a href="{{ route('admin.tasas.list-product-retailer', ['nav'=>'rate', 'action'=>'list_product_retailer']) }}">Productos Retailer</a></li>
+                <li><a href="{{ route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product]) }}">Tasas</a></li>
                 <li class="active">Formulario</li>
             @endif
         @elseif($nav=='state')

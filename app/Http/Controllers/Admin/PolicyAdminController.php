@@ -138,7 +138,7 @@ class PolicyAdminController extends BaseController
                         ->select('ap.name as product')
                         ->where('arp.id',$id_retailer_products)
                         ->first();
-        return view('admin.policy.edit', compact('nav', 'action', 'main_menu', 'query_policy', 'id_retailer_products', 'query_prod', 'id_policies', 'code_product', 'permissions'));
+        return view('admin.policy.edit', compact('nav', 'action', 'main_menu', 'query_policy', 'id_retailer_products', 'query_prod', 'id_policies', 'code_product', 'permissions', 'array_data'));
     }
 
     /**
@@ -168,7 +168,7 @@ class PolicyAdminController extends BaseController
                 ]);
             //dd($query_update);
 
-            return redirect()->route('admin.policy.list', ['nav' => 'policynumber', 'action' => 'list', 'id_company' => $request->input('id_company'), 'id_retailer_products' => $request->input('id_retailer_products'), 'code_product' => $request->input('code_product')])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
+            return redirect()->route('admin.policy.list', ['nav' => 'policy', 'action' => 'list', 'id_company' => $request->input('id_company'), 'id_retailer_products' => $request->input('id_retailer_products'), 'code_product' => $request->input('code_product')])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
 
         }catch(QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
