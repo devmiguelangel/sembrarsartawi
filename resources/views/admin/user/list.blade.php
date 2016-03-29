@@ -48,6 +48,7 @@
                 </div>
             @elseif (session('error'))
                 <div class="alert alert-danger alert-styled-left alert-bordered">
+                    <button data-dismiss="alert" class="close" type="button"><span>×</span><span class="sr-only">Close</span></button>
                     <span class="text-semibold">Error!</span> {{ session('error') }}
                 </div>
             @endif

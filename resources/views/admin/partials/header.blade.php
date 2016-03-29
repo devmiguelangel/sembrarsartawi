@@ -466,6 +466,21 @@
                     <li class="active">Editar Registro</li>
                 @endif
             @endif
+        @elseif($nav=='au_parameter')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list_parameter')
+                <li class="active">Parametros</li>
+            @elseif($action=='edit_parameter')
+                <li><a href="{{ route('admin.au.parameters.list-parameter', ['nav'=>'au_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}">Parametros</a></li>
+                <li class="active">Formulario</li>
+            @elseif($action=='list_parameter_additional')
+                <li><a href="{{ route('admin.au.parameters.list-parameter', ['nav'=>'au_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}">Parametros</a></li>
+                <li class="active">parametros adicionales</li>
+            @elseif($action=='new_parameter_additional' || $action=='edit_parameter_additional')
+                <li><a href="{{ route('admin.au.parameters.list-parameter', ['nav'=>'au_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}">Parametros</a></li>
+                <li><a href="{{ route('admin.au.parameters.list-parameter-additional', ['nav'=>'au_parameter', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product]) }}">Parametros Adicionales</a></li>
+                <li class="active">Formulario</li>
+            @endif
         @endif
     </ul>
     <!--

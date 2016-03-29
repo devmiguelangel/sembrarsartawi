@@ -79,9 +79,14 @@ class PolicyAdminController extends BaseController
     {
         $end_policy = 0;
         $auto_increment = 0;
+        $currency = null;
         if($request->input('code_product')=='vi'){
             $end_policy = $request->input('txtEndPoliza');
             $auto_increment = $request->input('auto_inc');
+        }
+
+        if($request->input('code_product')=='au'){
+           $currency = $request->get('moneda');
         }
 
         try {
@@ -92,6 +97,7 @@ class PolicyAdminController extends BaseController
                     'end_policy' => $end_policy,
                     'date_begin' => new Carbon(str_replace('/', '-', $request->input('fechaini'))),
                     'date_end' => new Carbon(str_replace('/', '-', $request->input('fechafin'))),
+                    'currency' => $currency,
                     'created_at' => date("Y-m-d H:i:s"),
                     'updated_at' => date("Y-m-d H:i:s"),
                     'auto_increment' => $auto_increment,
@@ -152,10 +158,16 @@ class PolicyAdminController extends BaseController
     {
         $end_policy = 0;
         $auto_increment = 0;
+        $currency = null;
         if($request->input('code_product')=='vi'){
             $end_policy = $request->input('txtEndPoliza');
             $auto_increment = $request->input('auto_inc');
         }
+
+        if($request->input('code_product')=='au'){
+            $currency = $request->get('moneda');
+        }
+
         try {
             $query_update = \DB::table('ad_policies')
                 ->where('id', $request->input('id_policies'))
@@ -164,7 +176,8 @@ class PolicyAdminController extends BaseController
                     'end_policy' => $end_policy,
                     'auto_increment' => $auto_increment,
                     'date_begin' => new Carbon(str_replace('/', '-', $request->input('fechaini'))),
-                    'date_end' => new Carbon(str_replace('/', '-', $request->input('fechafin')))
+                    'date_end' => new Carbon(str_replace('/', '-', $request->input('fechafin'))),
+                    'currency' => $currency
                 ]);
             //dd($query_update);
 

@@ -77,6 +77,9 @@
                     @if($user_permission->slug == 'AVI')
                         @var $avi=true
                     @endif
+                    @if($user_permission->slug == 'AAU')
+                        @var $aau=true
+                    @endif
                 @endforeach
             @endif
 
@@ -495,7 +498,23 @@
 
                         @if($aau)
                             @if($c==2)
-                                <li></li>
+                                <li>
+                                    <a href="#"><i class="icon-puzzle4"></i> <span>{{$data->name_product}}</span></a>
+                                    @if($nav=='au_parameter')
+                                        @if($action=='list_parameter' || $action=='edit_parameter' ||
+                                            $action=='list_parameter_additional' || $action=='new_parameter_additional' ||
+                                            $action=='edit_parameter_additional')
+                                            @var $data_aup='active'
+                                        @endif
+                                    @else
+                                        @var $data_aup=''
+                                    @endif
+                                    <ul>
+                                        <li class="{{$data_aup}}">
+                                            <a href="{{route('admin.au.parameters.list-parameter', ['nav'=>'au_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
+                                        </li>
+                                    </ul>
+                                </li>
                             @endif
                         @endif
                     @endif

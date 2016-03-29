@@ -54,9 +54,30 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2">Numero de Póliza <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" name="txtNumPoliza" id="txtNumPoliza" value="{{$query_policy->number}}" class="form-control required number">
+                            <input type="text" name="txtNumPoliza" id="txtNumPoliza" value="{{$query_policy->number}}" class="form-control required alphanumeric">
                         </div>
                     </div>
+
+                    @if($code_product=='au')
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Moneda <span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                <select name="moneda" id="moneda" class="form-control required">
+                                    <option value="0">Seleccione</option>
+                                    <option value="BS"
+                                        @if($query_policy->currency=='BS')
+                                            selected
+                                        @endif
+                                            >Bolivianos</option>
+                                    <option value="USD"
+                                        @if($query_policy->currency=='USD')
+                                            selected
+                                        @endif
+                                            >Dolares</option>
+                                </select>
+                            </div>
+                        </div>
+                    @endif
 
                     <div class="form-group" style="{{$hide}}">
                         <label class="control-label col-lg-2">Póliza Final <span class="text-danger">*</span></label>
@@ -193,8 +214,8 @@
                 if($(element).hasClass('text') === true){
                     regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s]*$/;
                     err = 'Ingrese solo texto';
-                }else if($(element).hasClass('number') === true){
-                    regex = /^([0-9])*$/;
+                }else if($(element).hasClass('alphanumeric') === true){
+                    regex = /^([0-9A-Z\-])*$/;
                     err = 'Ingrese solo numeros';
                 }
 
