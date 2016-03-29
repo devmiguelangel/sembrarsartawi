@@ -18,40 +18,47 @@ use Sibas\Repositories\De\HeaderRepository;
 use Sibas\Repositories\Retailer\PolicyRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
-
 class HeaderController extends Controller
 {
+
     /**
      * @var HeaderRepository
      */
     protected $repository;
+
     /**
      * @var DataRepository
      */
     protected $dataRepository;
+
     /**
      * @var RetailerProductRepository
      */
     protected $retailerProductRepository;
+
     /**
      * @var PolicyRepository
      */
     private $policyRepository;
+
     /**
      * @var Rate
      */
     protected $rate;
+
     /**
      * @var FacultativeRepository
      */
     protected $facultativeRepository;
 
-    public function __construct(HeaderRepository $repository,
-                                DataRepository $dataRepository,
-                                RetailerProductRepository $retailerProductRepository,
-                                PolicyRepository $policyRepository,
-                                FacultativeRepository $facultativeRepository)
-    {
+
+    public function __construct(
+        HeaderRepository $repository,
+        DataRepository $dataRepository,
+        RetailerProductRepository $retailerProductRepository,
+        PolicyRepository $policyRepository,
+        FacultativeRepository $facultativeRepository
+    ) {
         $this->repository                = $repository;
         $this->dataRepository            = $dataRepository;
         $this->retailerProductRepository = $retailerProductRepository;
@@ -61,10 +68,12 @@ class HeaderController extends Controller
         $this->rate = null;
     }
 
+
     /**
      * Returns data for create Header
      *
      * @param $rp_id
+     *
      * @return array
      */
     protected function getData($rp_id)
@@ -77,19 +86,20 @@ class HeaderController extends Controller
         ];
     }
 
+
     /**
      * Display a listing of the Clients.
      *
      * @param $rp_id
      * @param $header_id
+     *
      * @return Response
      */
     public function lists($rp_id, $header_id)
     {
         $header = null;
 
-        if ($this->repository->getHeaderById(decode($header_id))
-                && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+        if ($this->repository->getHeaderById(decode($header_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
             $header          = $this->repository->getModel();
             $retailerProduct = $this->retailerProductRepository->getModel();
 
@@ -105,10 +115,12 @@ class HeaderController extends Controller
         return view('de.list', compact('rp_id', 'header_id', 'header', 'coverage_detail'));
     }
 
+
     /**
      * Show the form for creating a new resource.
      *
      * @param String $rp_id
+     *
      * @return Response
      */
     public function create($rp_id)
@@ -118,11 +130,13 @@ class HeaderController extends Controller
         return view('de.create', compact('rp_id', 'data'));
     }
 
+
     /**
      * Store a newly created resource in storage.
      *
      * @param HeaderCreateFormRequest $request
-     * @param $rp_id
+     * @param                         $rp_id
+     *
      * @return Response
      */
     public function store(HeaderCreateFormRequest $request, $rp_id)
@@ -133,18 +147,18 @@ class HeaderController extends Controller
             return redirect()->route('de.client.list', [
                 'rp_id'     => $rp_id,
                 'header_id' => encode($header->id),
-            ])->with(['success_header' => 'La cotización fue registrada con éxito.']);
+            ])->with([ 'success_header' => 'La cotización fue registrada con éxito.' ]);
         }
 
-        return redirect()->back()
-            ->with(['error_header' => 'La cotización no pudo ser registrada'])
-            ->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()->with([ 'error_header' => 'La cotización no pudo ser registrada' ])->withInput()->withErrors($this->repository->getErrors());
     }
+
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -152,11 +166,13 @@ class HeaderController extends Controller
         //
     }
 
+
     /**
      * Show the form for editing the specified resource.
      *
      * @param  String $rp_id
      * @param  String $header_id
+     *
      * @return Response
      */
     public function edit($rp_id, $header_id)
@@ -168,7 +184,7 @@ class HeaderController extends Controller
             $header = $this->repository->getModel();
             $data   = $this->getData(decode($rp_id));
 
-            $cumulus = $header->details->sum(function($detail) {
+            $cumulus = $header->details->sum(function ($detail) {
                 return $detail->cumulus;
             });
 
@@ -178,10 +194,12 @@ class HeaderController extends Controller
         return view('de.edit', compact('rp_id', 'header_id', 'header', 'data'));
     }
 
+
     /**
      * Update the specified resource in storage.
      *
      * @param HeaderEditFormRequest $request
+     *
      * @return Response
      */
     public function update(HeaderEditFormRequest $request, $rp_id, $header_id)
@@ -190,38 +208,39 @@ class HeaderController extends Controller
             return redirect()->route('de.edit', [
                 'rp_id'     => $rp_id,
                 'header_id' => $header_id,
-            ])->with(['success_header' => 'La Póliza fue actualizada con éxito.']);
+            ])->with([ 'success_header' => 'La Póliza fue actualizada con éxito.' ]);
         }
 
-        return redirect()->back()
-            ->with(['error_header' => 'La Póliza no pudo ser actualizada.'])
-            ->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()->with([ 'error_header' => 'La Póliza no pudo ser actualizada.' ])->withInput()->withErrors($this->repository->getErrors());
     }
+
 
     /**
      * Show all options for Company
      *
      * @param $rp_id
      * @param $header_id
+     *
      * @return \Illuminate\View\View
      */
     public function result($rp_id, $header_id)
     {
-        if ($this->repository->getHeaderById(decode($header_id))
-                && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+        if ($this->repository->getHeaderById(decode($header_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
             $header          = $this->repository->getModel();
             $retailerProduct = $this->retailerProductRepository->getModel();
 
             return view('de.result', compact('rp_id', 'header_id', 'header', 'retailerProduct'));
         }
 
-        return redirect()->back()->with(['error_header' => 'La tasa no pudo ser registrada']);
+        return redirect()->back()->with([ 'error_header' => 'La tasa no pudo ser registrada' ]);
     }
+
 
     /**
      * Store data for Result Quote
      *
      * @param HeaderResultFormRequest $request
+     *
      * @return $this
      */
     public function storeResult(HeaderResultFormRequest $request, $rp_id, $header_id)
@@ -238,12 +257,13 @@ class HeaderController extends Controller
                 return redirect()->route('de.edit', [
                     'rp_id'     => $rp_id,
                     'header_id' => $header_id,
-                ])->with(['success_header' => 'La tasa fue registrada correctamente']);
+                ])->with([ 'success_header' => 'La tasa fue registrada correctamente' ]);
             }
         }
 
-        return redirect()->back()->with(['error_header' => 'La tasa no pudo ser registrada']);
+        return redirect()->back()->with([ 'error_header' => 'La tasa no pudo ser registrada' ]);
     }
+
 
     public function issue($rp_id, $header_id)
     {
@@ -251,12 +271,12 @@ class HeaderController extends Controller
             return redirect()->route('de.issuance', [
                 'rp_id'     => $rp_id,
                 'header_id' => $header_id,
-            ])->with(['success_header' => 'La Poliza fue emitida con exito']);
+            ])->with([ 'success_header' => 'La Poliza fue emitida con exito' ]);
         }
 
-        return redirect()->back()
-            ->with('error_header', 'La Poliza no puede ser emitida');
+        return redirect()->back()->with('error_header', 'La Poliza no puede ser emitida');
     }
+
 
     public function issuance($rp_id, $header_id)
     {
@@ -275,6 +295,7 @@ class HeaderController extends Controller
         return redirect()->back();
     }
 
+
     public function viSPList($rp_id, $header_id, $sp_id)
     {
         if ($this->repository->getHeaderById(decode($header_id))) {
@@ -283,9 +304,9 @@ class HeaderController extends Controller
             return view('vi.sp.list', compact('rp_id', 'header_id', 'header', 'sp_id'));
         }
 
-        return redirect()->back()
-            ->with(['error_header' => 'El numero de Poliza no existe']);
+        return redirect()->back()->with([ 'error_header' => 'El numero de Poliza no existe' ]);
     }
+
 
     public function viSPListStore(Request $request)
     {
@@ -304,14 +325,15 @@ class HeaderController extends Controller
             ]);
         }
 
-        return redirect()->back()
-            ->with(['error_cache' => 'El Sub-Producto no puede ser procesado']);
+        return redirect()->back()->with([ 'error_cache' => 'El Sub-Producto no puede ser procesado' ]);
     }
+
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function destroy($id)
@@ -319,9 +341,11 @@ class HeaderController extends Controller
         //
     }
 
+
     /**
      * @param $rp_id
      * @param $header_id
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function requestCreate($rp_id, $header_id)
@@ -333,12 +357,12 @@ class HeaderController extends Controller
                 $observation = '';
 
                 foreach ($header->details as $detail) {
-                    if (! $detail->approved && ($detail->facultative instanceof Facultative)) {
+                    if ( ! $detail->approved && ( $detail->facultative instanceof Facultative )) {
                         $observation .= $detail->facultative->reason;
                     }
                 }
 
-                if (! empty($observation)) {
+                if ( ! empty( $observation )) {
                     $header->facultative_observation = $observation;
 
                     $payload = view('de.facultative.request', compact('rp_id', 'header'));
@@ -350,17 +374,18 @@ class HeaderController extends Controller
                 }
             }
 
-            return response()->json(['err' => 'Unauthorized action.'], 401);
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
         }
 
-        return redirect()->back()
-            ->with(['error_header' => 'La solicitud no puede ser enviada']);
+        return redirect()->back()->with([ 'error_header' => 'La solicitud no puede ser enviada' ]);
     }
+
 
     /**
      * @param FacultativeRequestFormRequest $request
-     * @param $rp_id
-     * @param $header_id
+     * @param                               $rp_id
+     * @param                               $header_id
+     *
      * @return $this|\Illuminate\Http\RedirectResponse
      */
     public function requestStore(FacultativeRequestFormRequest $request, $rp_id, $header_id)
@@ -374,7 +399,7 @@ class HeaderController extends Controller
                 $mail->subject  = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->issue_number;
                 $mail->template = 'de.request-approval';
 
-                if ($mail->send(decode($rp_id), ['header' => $header], 'COP')) {
+                if ($mail->send(decode($rp_id), [ 'header' => $header ], 'COP')) {
                     $this->repository->storeSent($header);
                 }
 
@@ -383,17 +408,18 @@ class HeaderController extends Controller
                 ]);
             }
 
-            return response()->json(['err'=>'Unauthorized action.'], 401);
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
         }
 
-        return redirect()->back()
-            ->with(['error_header' => 'La solicitud no pudo ser enviada']);
+        return redirect()->back()->with([ 'error_header' => 'La solicitud no pudo ser enviada' ]);
     }
+
 
     /**
      * Update the specified resource in storage.
      *
      * @param HeaderEditFormRequest $request
+     *
      * @return Response
      */
     public function updateFa(HeaderEditFormRequest $request, $rp_id, $header_id, $id_facultative)
@@ -404,12 +430,9 @@ class HeaderController extends Controller
             $this->facultativeRepository->approved = 2;
             $this->facultativeRepository->sendProcessMail($mail, $rp_id, $id_facultative, true);
 
-            return redirect()->route('home')
-                ->with(['success_header' => 'La Póliza fue actualizada con éxito.']);
+            return redirect()->route('home')->with([ 'success_header' => 'La Póliza fue actualizada con éxito.' ]);
         }
 
-        return redirect()->back()
-            ->with(['error_header' => 'La Póliza no pudo ser actualizada.'])
-            ->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()->with([ 'error_header' => 'La Póliza no pudo ser actualizada.' ])->withInput()->withErrors($this->repository->getErrors());
     }
 }

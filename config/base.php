@@ -193,6 +193,7 @@ return [
         'AUS' => 'Administración de Usuarios',
         'ADE' => 'Administración de Desgravamen',
         'AVI' => 'Administración de Vida',
+        'AAU' => 'Administración de Automotores',
     ],
 
     'inbox' => [ 'all', 'approved', 'observed', 'rejected', ],

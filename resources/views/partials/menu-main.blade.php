@@ -1,12 +1,8 @@
-<!--{{ Request::url() }}<br>
-{{ Request::path() }}<br>
-{{ Request::is('de/zw3q9d5n6qmjrgvrx8gmp1kx2/create') ? 'active' : '' }}<br>-->
-
-
 <div class="navbar navbar-default" id="navbar-second">
     <div class="navbar-boxed">
         <ul class="nav navbar-nav no-border visible-xs-block">
-            <li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-menu7"></i></a></li>
+            <li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i
+                            class="icon-menu7"></i></a></li>
         </ul>
         <div class="navbar-collapse collapse" id="navbar-second-toggle">
             <ul class="nav navbar-nav">
@@ -16,20 +12,23 @@
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Descargar Formularios <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Descargar Formularios <span
+                                class="caret"></span></a>
                     <ul class="dropdown-menu width-200">
-                      @foreach(auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
-                        @if($retailerProduct->type == 'MP')
-                          <li class="dropdown-header">{{ $retailerProduct->companyProduct->product->name }}</li>
-                          @foreach ($retailerProduct->forms as $form)
-                            <li>
-                              <a href="{{ asset($form->file) }}" target="_blank"><i class="icon-align-center-horizontal"></i> {{ $form->title }}</a>
-                            </li>
-                          @endforeach
-                        @endif
-                      @endforeach
+                        @foreach(auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
+                            @if($retailerProduct->type == 'MP')
+                                <li class="dropdown-header">{{ $retailerProduct->companyProduct->product->name }}</li>
+                                @foreach ($retailerProduct->forms as $form)
+                                    <li>
+                                        <a href="{{ asset($form->file) }}" target="_blank"><i
+                                                    class="icon-align-center-horizontal"></i> {{ $form->title }}</a>
+                                    </li>
+                                @endforeach
+                            @endif
+                        @endforeach
                     </ul>
                 </li>
+
                 @if (auth()->user()->profile->first()->slug === 'SEP')
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Productos <span class="caret"></span></a>
@@ -41,40 +40,40 @@
                                             <i class="icon-list-unordered"></i> {{ $retailerProduct->companyProduct->product->name }}
                                         </a>
                                         <ul class="dropdown-menu">
-                                            @if(isset($client))
-                                                @var $client= encode($client->id)
+                                            @if(request()->route()->hasParameter('client'))
+                                                @var $client = encode($client->id);
                                             @else
-                                                @var $client= ''
+                                                @var $client = ''
                                             @endif
 
-                                            @if(isset($detail_id))
-                                                @var $detail_id= $detail_id
+                                            @if(request()->route()->hasParameter('detail_id'))
+                                                @var $detail_id = $detail_id
                                             @else
-                                                @var $detail_id= ''
+                                                @var $detail_id = ''
                                             @endif
 
-                                            @if(isset($header_id))
-                                                @var $header_id= $header_id
+                                            @if(request()->route()->hasParameter('header_id'))
+                                                @var $header_id = $header_id
                                             @else
-                                                @var $header_id= ''
+                                                @var $header_id = ''
                                             @endif
 
-                                            @if(isset($header))
-                                                @var $header= encode($header->id)
+                                            @if(request()->route()->hasParameter('header'))
+                                                @var $header = encode($header->id);
                                             @else
-                                                @var $header= ''
+                                                @var $header = ''
                                             @endif
 
-                                            @if(isset($detail))
-                                                @var $detail= encode($detail->id)
+                                            @if(request()->route()->hasParameter('detail'))
+                                                @var $detail = encode($detail->id);
                                             @else
-                                                @var $detail= ''
+                                                @var $detail = ''
                                             @endif
 
-                                            @if(isset($sp_id))
-                                                @var $sp_id= $sp_id
+                                            @if(request()->route()->hasParameter('sp_id'))
+                                                @var $sp_id = $sp_id
                                             @else
-                                                @var $sp_id= ''
+                                                @var $sp_id = ''
                                             @endif
 
                                             <li class="{{
@@ -94,17 +93,20 @@
                                                         Request::is('de/'.encode($retailerProduct->id).'/'.$header.'/balance/edit/'.$detail.'') ? 'active':
                                                         ''
                                                        }}
-                                                       ">
-                                                <a href="{{ route('de.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a>
+                                                    ">
+                                                <a href="{{ route($retailerProduct->companyProduct->product->code . '.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a>
                                             </li>
                                             <li class="{{ request()->route()->getName() === 'de.cancel.lists' ? 'active' : '' }}">
-                                                <a href="{{ route('de.cancel.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Anular Póliza</a>
+                                                <a href="{{ route('de.cancel.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Anular
+                                                    Póliza</a>
                                             </li>
                                             <li class="{{ request()->route()->getName() === 'de.pre.approved.lists' ? 'active' : '' }}">
-                                                <a href="{{ route('de.pre.approved.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Solicitudes Preaprobadas</a>
+                                                <a href="{{ route('de.pre.approved.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Solicitudes
+                                                    Preaprobadas</a>
                                             </li>
                                             <li class="{{ request()->route()->getName() === 'de.issue.lists' ? 'active' : '' }}">
-                                                <a href="{{ route('de.issue.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Emitir Solicitudes</a>
+                                                <a href="{{ route('de.issue.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Emitir
+                                                    Solicitudes</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -114,20 +116,8 @@
                     </li>
                 @endif
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes  <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <span class="caret"></span></a>
                     <ul class="dropdown-menu width-200">
-                        <!--<li class="dropdown-submenu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cotización</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Cotización personas</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown-submenu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Certificados</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Certificados personas</a></li>
-                            </ul>
-                        </li>-->
                         <li class="{{Request::is('report/general') ? 'active':''}}">
                             <a href="{{ route('report.report_general') }}">
                                 General
@@ -138,7 +128,7 @@
                                 Polizas Emitidas
                             </a>
                         </li>
-                        <li  class="{{Request::is('report/cotizacion') ? 'active':''}}">
+                        <li class="{{Request::is('report/cotizacion') ? 'active':''}}">
                             <a href="{{ route('report.report_cotizacion') }}">
                                 Solicitudes
                             </a>
