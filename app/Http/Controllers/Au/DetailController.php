@@ -74,6 +74,15 @@ class DetailController extends Controller
     }
 
 
+    /**
+     *
+     * Lists Detail vehicle
+     *
+     * @param $rp_id
+     * @param $header_id
+     *
+     * @return mixed
+     */
     public function lists($rp_id, $header_id)
     {
         if ($this->headerRepository->getHeaderById(decode($header_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
@@ -87,19 +96,29 @@ class DetailController extends Controller
     }
 
 
+    /**
+     *
+     * Show the form for creating a new resource.
+     *
+     * @param $rp_id
+     * @param $header_id
+     *
+     * @return mixed
+     */
     public function create($rp_id, $header_id)
     {
         if (request()->ajax()) {
             if ($this->headerRepository->getHeaderById(decode($header_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
                 $header          = $this->headerRepository->getModel();
                 $retailerProduct = $this->retailerProductRepository->getModel();
+                $parameter       = $retailerProduct->parameters()->where('slug', 'GE')->first();
                 $categories      = $retailerProduct->categories()->where('active', true)->orderBy('category',
                     'ASC')->get();
 
                 $data = $this->getData();
 
                 $payload = view('au.vehicle-create',
-                    compact('rp_id', 'header_id', 'header', 'data', 'retailerProduct'));
+                    compact('rp_id', 'header_id', 'header', 'data', 'parameter'));
 
                 return response()->json([
                     'payload'    => $payload->render(),
@@ -115,6 +134,16 @@ class DetailController extends Controller
     }
 
 
+    /**
+     *
+     * Store a newly created resource in storage.
+     *
+     * @param VehicleCreateFormRequest $request
+     * @param string                   $rp_id
+     * @param string                   $header_id
+     *
+     * @return mixed
+     */
     public function store(VehicleCreateFormRequest $request, $rp_id, $header_id)
     {
         if (request()->ajax()) {
@@ -126,6 +155,32 @@ class DetailController extends Controller
                         'location' => route('au.vh.lists', [ 'rp_id' => $rp_id, 'header_id' => $header_id ])
                     ]);
                 }
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
+        return redirect()->back();
+    }
+
+
+    /**
+     *
+     * Remove the specified resource from storage.
+     *
+     * @param string $rp_id
+     * @param string $header_id
+     * @param string $detail_id
+     *
+     * @return mixed
+     */
+    public function destroy($rp_id, $header_id, $detail_id)
+    {
+        if (request()->ajax()) {
+            if ($this->repository->getDetailById(decode($detail_id)) && $this->repository->removeVehicle()) {
+                return response()->json([
+                    'location' => route('au.vh.lists', [ 'rp_id' => $rp_id, 'header_id' => $header_id ])
+                ]);
             }
 
             return response()->json([ 'err' => 'Unauthorized action.' ], 401);

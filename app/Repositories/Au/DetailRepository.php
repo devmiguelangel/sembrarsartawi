@@ -5,6 +5,7 @@ namespace Sibas\Repositories\Au;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Sibas\Entities\Au\Detail;
 use Sibas\Entities\Au\Header;
 use Sibas\Repositories\BaseRepository;
 
@@ -12,6 +13,29 @@ class DetailRepository extends BaseRepository
 {
 
     /**
+     *
+     * Get Detail by Id
+     *
+     * @param $detail_id
+     *
+     * @return bool
+     */
+    public function getDetailById($detail_id)
+    {
+        $this->model = Detail::where('id', $detail_id)->first();
+
+        if ($this->model instanceof Detail) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     *
+     * Store Detail vehicle
+     *
      * @param Request      $request
      * @param Model|Header $header
      *
@@ -42,4 +66,23 @@ class DetailRepository extends BaseRepository
 
         return false;
     }
+
+
+    /**
+     *
+     * Remove vehicle from storage.
+     */
+    public function removeVehicle()
+    {
+        try {
+            $this->model->delete();
+
+            return true;
+        } catch (QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+
+        return false;
+    }
+
 }

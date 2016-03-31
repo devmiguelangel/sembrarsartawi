@@ -71,16 +71,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-12">
-                            <input type="text" name="modelo_text" class="form-control input-sm" placeholder="Modelo">
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-lg-3 control-label label_required">Año: </label>
                         <div class="col-lg-9">
                             <select name="year" class="select-search" ng-model="formData.year">
                                 <option value="">Seleccione</option>
-                                @for($i = date('Y'); $i >= date('Y') - $retailerProduct->parameters->first()->old_car; $i-- )
+                                @for($i = date('Y'); $i >= date('Y') - $parameter->old_car; $i-- )
                                     <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                             </select>

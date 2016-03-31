@@ -88,12 +88,48 @@ var detail = function ($rootScope, $scope, $http) {
 
   };
 
+  /**
+   * Category by Vehicle Type
+   * @param  {[type]} value    [description]
+   * @param  {[type]} oldValue [description]
+   * @param  {[type]} scope)   {               if (value ! [description]
+   * @return {[type]}          [description]
+   */
   $scope.$watch('formData.vehicle_type', function(value, oldValue, scope) {
     if (value != null) {
       $scope.formData.category = value.category;
       $('#category option:not(:selected)').prop('disabled', true);
     }
   });
+
+  $scope.delete = function (event) {
+    event.preventDefault();
+
+    var url     = event.target.attributes.href.value;
+    var message = 'Desea eliminar el registro de este vehículo?';
+    CSRF_TOKEN  = $scope.csrf_token();
+    
+    bootbox.confirm(message, function(result) {
+      if (result) {
+        $http.delete(url, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRF-TOKEN': CSRF_TOKEN
+          }
+        })
+         .then(
+             function(response){
+              if (response.status == 200) {
+               $scope.redirect(response.data.location);
+              }
+             },
+             function(response){
+               console.log('Unauthorized action.');
+             }
+          );
+      }
+    });
+  };
 
 };
 

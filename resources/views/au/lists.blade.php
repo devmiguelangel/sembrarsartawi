@@ -118,7 +118,10 @@
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li><a href="paso2_form.html"><i class="icon-pencil3"></i> Editar</a>
                                                 </li>
-                                                <li><a href="paso2_form.html"><i class="icon-trash"></i> Eliminar</a>
+                                                <li>
+                                                    <a href="{{ route('au.vh.destroy', ['rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => encode($detail->id)]) }}"
+                                                       ng-click="delete($event)">
+                                                        <i class="icon-trash"></i>Eliminar</a>
                                                 </li>
                                             </ul>
                                         </li>

@@ -35,4 +35,12 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
         'uses' => 'Au\DetailController@store'
     ]);
 
+    /*
+     * Vehicle destroy
+     */
+    Route::delete('{header_id}/vehicle/delete/{detail_id}', [
+        'as'   => 'au.vh.destroy',
+        'uses' => 'Au\DetailController@destroy'
+    ]);
+
 });
