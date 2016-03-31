@@ -79,9 +79,14 @@ class PolicyAdminController extends BaseController
     {
         $end_policy = 0;
         $auto_increment = 0;
+        $currency = null;
         if($request->input('code_product')=='vi'){
             $end_policy = $request->input('txtEndPoliza');
             $auto_increment = $request->input('auto_inc');
+        }
+
+        if($request->input('code_product')=='au'){
+           $currency = $request->get('moneda');
         }
 
         try {
@@ -92,6 +97,7 @@ class PolicyAdminController extends BaseController
                     'end_policy' => $end_policy,
                     'date_begin' => new Carbon(str_replace('/', '-', $request->input('fechaini'))),
                     'date_end' => new Carbon(str_replace('/', '-', $request->input('fechafin'))),
+                    'currency' => $currency,
                     'created_at' => date("Y-m-d H:i:s"),
                     'updated_at' => date("Y-m-d H:i:s"),
                     'auto_increment' => $auto_increment,
@@ -138,7 +144,7 @@ class PolicyAdminController extends BaseController
                         ->select('ap.name as product')
                         ->where('arp.id',$id_retailer_products)
                         ->first();
-        return view('admin.policy.edit', compact('nav', 'action', 'main_menu', 'query_policy', 'id_retailer_products', 'query_prod', 'id_policies', 'code_product', 'permissions'));
+        return view('admin.policy.edit', compact('nav', 'action', 'main_menu', 'query_policy', 'id_retailer_products', 'query_prod', 'id_policies', 'code_product', 'permissions', 'array_data'));
     }
 
     /**
@@ -152,10 +158,16 @@ class PolicyAdminController extends BaseController
     {
         $end_policy = 0;
         $auto_increment = 0;
+        $currency = null;
         if($request->input('code_product')=='vi'){
             $end_policy = $request->input('txtEndPoliza');
             $auto_increment = $request->input('auto_inc');
         }
+
+        if($request->input('code_product')=='au'){
+            $currency = $request->get('moneda');
+        }
+
         try {
             $query_update = \DB::table('ad_policies')
                 ->where('id', $request->input('id_policies'))
@@ -164,11 +176,12 @@ class PolicyAdminController extends BaseController
                     'end_policy' => $end_policy,
                     'auto_increment' => $auto_increment,
                     'date_begin' => new Carbon(str_replace('/', '-', $request->input('fechaini'))),
-                    'date_end' => new Carbon(str_replace('/', '-', $request->input('fechafin')))
+                    'date_end' => new Carbon(str_replace('/', '-', $request->input('fechafin'))),
+                    'currency' => $currency
                 ]);
             //dd($query_update);
 
-            return redirect()->route('admin.policy.list', ['nav' => 'policynumber', 'action' => 'list', 'id_company' => $request->input('id_company'), 'id_retailer_products' => $request->input('id_retailer_products'), 'code_product' => $request->input('code_product')])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
+            return redirect()->route('admin.policy.list', ['nav' => 'policy', 'action' => 'list', 'id_company' => $request->input('id_company'), 'id_retailer_products' => $request->input('id_retailer_products'), 'code_product' => $request->input('code_product')])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
 
         }catch(QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));

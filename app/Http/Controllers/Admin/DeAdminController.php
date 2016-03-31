@@ -194,4 +194,23 @@ class DeAdminController extends BaseController
     {
         //
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * AJAX
+     **/
+    public function ajax_delete($id_product_parameters, $ad_retailer_product_id)
+    {
+        try{
+            $query_del = \DB::table('ad_product_parameters')
+                ->where('id', $id_product_parameters)
+                ->where('ad_retailer_product_id', $ad_retailer_product_id)
+                ->delete();
+            return '1|Se elimino correctamente el registro';
+        }catch (QueryException $e){
+            return '0|'.$e->getMessage();
+        }
+    }
 }

@@ -19,7 +19,7 @@
                 <span class="form-wizard-count">
                     <i class="icon-pencil7"></i>
                 </span>
-                Formulario
+                Formulario Producto Desgravamen
                 <small class="display-block">Editar registro </small>
             </h5>
             <div class="heading-elements">

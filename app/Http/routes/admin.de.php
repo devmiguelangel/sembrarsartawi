@@ -41,3 +41,6 @@ Route::post('admin/de/parameters/edit-parameter-additional', [
     'as' => 'update_parameter_additional',
     'uses' => 'Admin\DeAdminController@update_data'
 ]);
+
+//AJAX
+Route::get('admin/de/parameters/delete_ajax/{id_product_parameters}/{ad_retailer_product_id}', 'Admin\DeAdminController@ajax_delete');

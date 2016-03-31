@@ -17,15 +17,15 @@
         <div class="panel-heading">
             <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
                 <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
-                Tasas agregadas a un producto
+                Tasas agregadas producto {{$product_query->name}}
                 <small class="display-block">Listado de registros</small>
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li>
-                        <a href="{{route('admin.tasas.new', ['nav'=>'rate', 'action'=>'new'])}}" class="btn btn-link btn-float has-text">
+                        <a href="{{route('admin.tasas.new', ['nav'=>'rate', 'action'=>'new', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
-                            <span>Agregar tasa <br>a un producto</span>
+                            <span>Agregar tasa</span>
                         </a>
                     </li>
                 </ul>
@@ -42,7 +42,7 @@
             </div>
         @endif
         @if(count($query)>0)
-            <table class="table datatable-basic table-bordered">
+            <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th>Producto</th>
@@ -72,7 +72,7 @@
 
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
-                                        <a href="{{route('admin.tasas.edit', ['nav'=>'rate', 'action'=>'list', 'id_rates'=>$data->id_rates])}}">
+                                        <a href="{{route('admin.tasas.edit', ['nav'=>'rate', 'action'=>'edit', 'id_rates'=>$data->id_rates, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}">
                                             <i class="icon-pencil3"></i> Editar
                                         </a>
                                     </li>

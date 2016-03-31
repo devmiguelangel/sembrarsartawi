@@ -19,7 +19,7 @@
                 <span class="form-wizard-count">
                     <i class="icon-pencil7"></i>
                 </span>
-                Formulario
+                Formulario Producto Desgravamen
                 <small class="display-block">Nuevo registro </small>
             </h5>
             <div class="heading-elements">
@@ -79,30 +79,30 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Monto Minimo <span class="text-danger">*</span></label>
+                        <label class="control-label col-lg-2">Monto Minimo (BS)<span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" name="monto_min" id="monto_min" class="form-control required number">
+                            <input type="text" name="monto_min" id="monto_min" class="form-control required number" autocomplete="off">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Monto Máximo <span class="text-danger">*</span></label>
+                        <label class="control-label col-lg-2">Monto Máximo (BS)<span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" name="monto_max" id="monto_max" class="form-control required number">
+                            <input type="text" name="monto_max" id="monto_max" class="form-control required number" autocomplete="off">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Numero Titulares <span class="text-danger">*</span></label>
+                        <label class="control-label col-lg-2">Cantidad de Titulares <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" name="num_titu" id="num_titu" class="form-control required number">
+                            <input type="text" name="num_titu" id="num_titu" class="form-control required number" autocomplete="off">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Caducidad Cotizacion <span class="text-danger">*</span></label>
+                        <label class="control-label col-lg-2">Caducidad Cotización <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" name="caduc" id="caduc" class="form-control required number">
+                            <input type="text" name="caduc" id="caduc" class="form-control required number" autocomplete="off">
                         </div>
                     </div>
 

@@ -17,7 +17,7 @@
         <div class="panel-heading">
             <h5 class="form-wizard-title text-semibold" style="border-bottom: 0px;">
                 <span class="form-wizard-count"><i class="icon-file-text2"></i></span>
-                Editar Registro agregar tasas a productos
+                Editar Tasas
                 <small class="display-block">Formulario</small>
             </h5>
             <div class="heading-elements">
@@ -89,10 +89,11 @@
                 <button type="submit" class="btn btn-primary">
                     Guardar <i class="icon-floppy-disk position-right"></i>
                 </button>
-                <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list'])}}" class="btn btn-primary">
+                <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}" class="btn btn-primary">
                     Cancelar <i class="icon-arrow-right14 position-right"></i>
                 </a>
                 <input type="hidden" name="id_rates" value="{{$id_rates}}">
+                <input type="hidden" name="id_retailer_products" value="{{$id_retailer_products}}">
                 <input type="hidden" name="code_product" value="{{$query->code_product}}">
             </div>
             {!!Form::close()!!}

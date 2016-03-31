@@ -43,14 +43,14 @@
             @endif
         </div>
         @if(count($query)>0)
-            <table class="table datatable-basic">
+            <table class="table datatable-basic table-bordered dataTable no-footer">
             <thead>
             <tr>
                 <th style="text-align: center;">Nombre Parametro</th>
                 <th style="text-align: center;">Edad Mínima</th>
                 <th style="text-align: center;">Edad Máxima</th>
-                <th style="text-align: center;">Monto Mínimo (USD)</th>
-                <th style="text-align: center;">Monto Máximo (USD)</th>
+                <th style="text-align: center;">Monto Mínimo (BS)</th>
+                <th style="text-align: center;">Monto Máximo (BS)</th>
                 <th style="text-align: center;">Caducidad Cotización (días)</th>
                 <th style="text-align: center;">Numero Titulares</th>
                 <th class="text-center">Acción</th>
@@ -79,6 +79,13 @@
                                             <i class="icon-pencil3"></i> Editar
                                         </a>
                                     </li>
+                                    @if($data->slug!='GE')
+                                        <li>
+                                            <a href="#" class="confirm_delete" id="{{$data->id}}|{{$data->ad_retailer_product_id}}">
+                                                <i class="icon-trash"></i> Eliminar
+                                            </a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </li>
                         </ul>
@@ -94,10 +101,39 @@
         @endif
     </div>
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(function(){
             setTimeout(function() {
                 $('#message-session').fadeOut();
             }, 3000);
+
+            $('a[href].confirm_delete').click(function(e){
+                var _id = $(this).prop('id');
+                var vec = _id.split('|');
+                var id_product_parameters = vec[0];
+                var ad_retailer_product_id = vec[1];
+
+                bootbox.confirm("Esta seguro de eliminar el registro ?", function(result) {
+                    if(result){
+                        $.get( "{{url('/')}}/admin/de/parameters/delete_ajax/"+id_product_parameters+"/"+ad_retailer_product_id, function( data ) {
+                            console.log(data);
+                            var arr = data.split('|');
+                            if(arr[0]==1){
+                                swal({
+                                    title: arr[1],
+                                    confirmButtonColor: "#2196F3"
+                                });
+                                window.setTimeout('location.reload()', 2000);
+                            }else if(arr[0]==0){
+                                swal({
+                                    title: "Error!! "+arr[1],
+                                    confirmButtonColor: "#2196F3"
+                                });
+                            }
+                        });
+                    }
+                });
+
+            });
         });
     </script>
 @endsection

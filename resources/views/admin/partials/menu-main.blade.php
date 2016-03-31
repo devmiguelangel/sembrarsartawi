@@ -16,6 +16,7 @@
             @var $adg=false
             @var $ade=false
             @var $avi=false
+            @var $aau=false
             @if(auth()->user()->type->code=='ADT')
                 @var $apo=true
                 @var $aco=true
@@ -31,6 +32,7 @@
                 @var $adg=true
                 @var $ade=true
                 @var $avi=true
+                @var $aau=true
             @else
                 @foreach(auth()->user()->permissions as $user_permission)
                     @if($user_permission->slug == 'APL')
@@ -74,6 +76,9 @@
                     @endif
                     @if($user_permission->slug == 'AVI')
                         @var $avi=true
+                    @endif
+                    @if($user_permission->slug == 'AAU')
+                        @var $aau=true
                     @endif
                 @endforeach
             @endif
@@ -172,14 +177,14 @@
 
             @if($ata)
                 @if($nav=='rate')
-                    @if($action=='list' || $action=='new' || $action=='edit')
+                    @if($action=='list' || $action=='new' || $action=='edit' || $action=='list_product_retailer')
                         @var $data_rate='active'
                     @endif
                 @else
                     @var $data_rate=''
                 @endif
                 <li class="{{$data_rate}}">
-                    <a href="{{route('admin.tasas.list',['nav'=>'rate', 'action'=>'list'])}}" title='Administrar tasas'>
+                    <a href="{{route('admin.tasas.list-product-retailer',['nav'=>'rate', 'action'=>'list_product_retailer'])}}" title='Administrar tasas'>
                         <i class="icon-folder"></i> Administrar tasas
                     </a>
                 </li>
@@ -488,6 +493,28 @@
                                     </ul>
                                 </li>
 
+                            @endif
+                        @endif
+
+                        @if($aau)
+                            @if($c==2)
+                                <li>
+                                    <a href="#"><i class="icon-puzzle4"></i> <span>{{$data->name_product}}</span></a>
+                                    @if($nav=='au_parameter')
+                                        @if($action=='list_parameter' || $action=='edit_parameter' ||
+                                            $action=='list_parameter_additional' || $action=='new_parameter_additional' ||
+                                            $action=='edit_parameter_additional')
+                                            @var $data_aup='active'
+                                        @endif
+                                    @else
+                                        @var $data_aup=''
+                                    @endif
+                                    <ul>
+                                        <li class="{{$data_aup}}">
+                                            <a href="{{route('admin.au.parameters.list-parameter', ['nav'=>'au_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
+                                        </li>
+                                    </ul>
+                                </li>
                             @endif
                         @endif
                     @endif
