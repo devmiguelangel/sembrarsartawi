@@ -23,16 +23,16 @@ class DetailRepository extends BaseRepository
 
         try {
             $header->details()->create([
-                'id'                  => date('U'),
-                'ad_vehicle_type_id'  => $this->data['vehicle_type']['id'],
-                'ad_vehicle_make_id'  => $this->data['vehicle_make']['id'],
-                'ad_vehicle_model_id' => $this->data['vehicle_model']['id'],
-                'category'            => $this->data['category']['category'],
-                'year'                => $this->data['year'],
-                'license_plate'       => $this->data['license_plate'],
-                'use'                 => $this->data['use'],
-                'mileage'             => (boolean) $this->data['mileage'],
-                'insured_value'       => $this->data['insured_value'],
+                'id'                              => date('U'),
+                'ad_vehicle_type_id'              => $this->data['vehicle_type']['id'],
+                'ad_vehicle_make_id'              => $this->data['vehicle_make']['id'],
+                'ad_vehicle_model_id'             => $this->data['vehicle_model']['id'],
+                'ad_retailer_product_category_id' => $this->data['category']['id'],
+                'year'                            => $this->data['year'],
+                'license_plate'                   => $this->data['license_plate'],
+                'use'                             => $this->data['use'],
+                'mileage'                         => (boolean) $this->data['mileage'],
+                'insured_value'                   => $this->data['insured_value'],
             ]);
 
             return true;

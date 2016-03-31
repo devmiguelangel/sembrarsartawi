@@ -13,7 +13,12 @@ class HeaderRepository extends BaseRepository
 
     public function getHeaderById($header_id)
     {
-        $this->model = Header::where('id', '=', $header_id)->get();
+        $this->model = Header::with([
+            'details.vehicleType',
+            'details.vehicleMake',
+            'details.vehicleModel',
+            'details.category',
+        ])->where('id', '=', $header_id)->get();
 
         if ($this->model->count() === 1) {
             $this->model = $this->model->first();

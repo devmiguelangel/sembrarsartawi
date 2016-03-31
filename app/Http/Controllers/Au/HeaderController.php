@@ -66,7 +66,7 @@ class HeaderController extends Controller
             if ($this->repository->storeHeader($request, $client)) {
                 $header = $this->repository->getModel();
 
-                return redirect()->route('au.vh.create', [
+                return redirect()->route('au.vh.lists', [
                     'rp_id'     => $rp_id,
                     'header_id' => encode($header->id),
                 ])->with([ 'success_header' => 'La cotización fue registrada con éxito.' ]);
