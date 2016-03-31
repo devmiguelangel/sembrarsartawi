@@ -199,6 +199,8 @@ return [
     'inbox' => [ 'all', 'approved', 'observed', 'rejected', ],
 
     'vehicle_category' => [
+        'CA' => 'A',
+        'CB' => 'B',
         'RC' => 'Rent A Car',
         'OT' => 'Otros',
     ],

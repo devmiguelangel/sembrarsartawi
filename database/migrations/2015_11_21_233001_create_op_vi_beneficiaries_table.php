@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateOpViBeneficiariesTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -23,12 +24,14 @@ class CreateOpViBeneficiariesTable extends Migration
             $table->string('extension', 4);
             $table->integer('age')->unsigned();
             $table->string('relationship', 140);
+            $table->double('participation', 5, 2);
             $table->timestamps();
 
             $table->primary('id');
             $table->foreign('op_vi_detail_id')->references('id')->on('op_vi_details');
         });
     }
+
 
     /**
      * Reverse the migrations.

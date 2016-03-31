@@ -7,6 +7,7 @@ use Sibas\Repositories\BaseRepository;
 
 class DataRepository extends BaseRepository
 {
+
     /** Returns list of Currencies
      *
      * @return Collection
@@ -17,6 +18,7 @@ class DataRepository extends BaseRepository
 
         return $this->getData($currencies);
     }
+
 
     /** Returns list of Term Types
      *
@@ -29,6 +31,7 @@ class DataRepository extends BaseRepository
         return $this->getData($termType);
     }
 
+
     /** Returns list of Civil Status
      *
      * @return Collection
@@ -39,6 +42,7 @@ class DataRepository extends BaseRepository
 
         return $this->getData($civil_status);
     }
+
 
     /** Returns list of Document Types
      *
@@ -51,6 +55,7 @@ class DataRepository extends BaseRepository
         return $this->getData($document_types);
     }
 
+
     /** Returns list of Genders
      *
      * @return Collection
@@ -61,6 +66,7 @@ class DataRepository extends BaseRepository
 
         return $this->getData($genders);
     }
+
 
     /** Returns list of Hands
      *
@@ -73,6 +79,7 @@ class DataRepository extends BaseRepository
         return $this->getData($hands);
     }
 
+
     /** Returns list of Avenue Street
      *
      * @return Collection
@@ -83,6 +90,7 @@ class DataRepository extends BaseRepository
 
         return $this->getData($avenue_street);
     }
+
 
     /** Returns list of Payment Methods
      *
@@ -95,6 +103,7 @@ class DataRepository extends BaseRepository
         return $this->getData($payment_methods);
     }
 
+
     /** Returns list of Periods
      *
      * @return Collection
@@ -104,5 +113,29 @@ class DataRepository extends BaseRepository
         $periods = config('base.periods');
 
         return $this->getData($periods);
+    }
+
+
+    /** Returns list of Vehicle Categories
+     *
+     * @return Collection
+     */
+    public function getVehicleCategory()
+    {
+        $vehicle_categories = config('base.vehicle_category');
+
+        return $this->getData($vehicle_categories);
+    }
+
+
+    /** Returns list of Vehicle Uses
+     *
+     * @return Collection
+     */
+    public function getVehicleUse()
+    {
+        $vehicle_uses = config('base.vehicle_use');
+
+        return $this->getData($vehicle_uses);
     }
 }

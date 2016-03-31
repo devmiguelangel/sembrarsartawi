@@ -126,7 +126,7 @@ class HeaderRepository extends BaseRepository
         return false;
     }
 
-    
+
     /** Find Header by Id
      *
      * @param $header_id

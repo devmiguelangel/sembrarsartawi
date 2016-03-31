@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateOpViDetailsTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -16,6 +17,7 @@ class CreateOpViDetailsTable extends Migration
             $table->integer('id')->unsigned();
             $table->integer('op_vi_header_id')->unsigned();
             $table->integer('op_client_id')->unsigned();
+            $table->double('insured_value', 20, 2);
             $table->enum('currency', array_keys(config('base.currencies')));
             $table->enum('account_type', array_keys(config('base.account_types')))->nullable();
             $table->string('voucher', 60);
@@ -32,6 +34,7 @@ class CreateOpViDetailsTable extends Migration
             $table->foreign('op_client_id')->references('id')->on('op_clients');
         });
     }
+
 
     /**
      * Reverse the migrations.

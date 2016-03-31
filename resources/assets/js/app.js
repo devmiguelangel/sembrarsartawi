@@ -10,6 +10,7 @@ var BeneficiaryController  = require('./components/de/BeneficiaryController');
 var FacultativeController  = require('./components/de/FacultativeController');
 var CancellationController = require('./components/de/CancellationController');
 var HeaderViController     = require('./components/vi/HeaderController');
+var DetailAuController     = require('./components/au/DetailController');
 
 var ClientController       = require('./components/ClientController');
 
@@ -37,6 +38,7 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
 
   $rootScope.dataOptions   = [];
   $rootScope.currentOption = [];
+  $rootScope.data          = {};
 
   $rootScope.mcEnabled = false;
 
@@ -97,3 +99,5 @@ app.controller('CancellationController', ['$scope', '$http', CancellationControl
 app.controller('HeaderViController', ['$scope', '$http', '$compile', HeaderViController.header]);
 
 app.controller('ClientController', ['$scope', ClientController.client]);
+
+app.controller('DetailAuController', ['$rootScope', '$scope', '$http', DetailAuController.detail]);

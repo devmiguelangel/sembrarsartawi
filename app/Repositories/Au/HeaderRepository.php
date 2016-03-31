@@ -11,6 +11,20 @@ use Sibas\Repositories\BaseRepository;
 class HeaderRepository extends BaseRepository
 {
 
+    public function getHeaderById($header_id)
+    {
+        $this->model = Header::where('id', '=', $header_id)->get();
+
+        if ($this->model->count() === 1) {
+            $this->model = $this->model->first();
+
+            return true;
+        }
+
+        return false;
+    }
+
+
     /**
      *
      * Store Header AU

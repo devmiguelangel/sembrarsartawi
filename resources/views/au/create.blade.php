@@ -13,11 +13,11 @@
         <div class="page-header-content">
             <div class="page-title">
                 <h4><i class="icon-arrow-left52 position-left"></i> <span
-                            class="text-semibold">Seguro de Desgravamen</span></h4>
+                            class="text-semibold">Seguro de Automotores</span></h4>
 
                 <ul class="breadcrumb breadcrumb-caret position-right">
                     <li><a href="">Inicio</a></li>
-                    <li><a href="">Desgravamen</a></li>
+                    <li><a href="">Automotores</a></li>
                     <li class="active">Cotizar</li>
                 </ul>
             </div>
