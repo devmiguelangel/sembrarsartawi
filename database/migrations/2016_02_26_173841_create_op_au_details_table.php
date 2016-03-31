@@ -44,7 +44,7 @@ class CreateOpAuDetailsTable extends Migration
             $table->foreign('ad_vehicle_make_id')->references('id')->on('ad_vehicle_makes');
             $table->foreign('ad_vehicle_model_id')->references('id')->on('ad_vehicle_models');
             $table->foreign('ad_retailer_product_category_id',
-                'arp_category_id_foreign')->references('id')->on('ad_retailer_product_categories');
+                'arp_category_detail_id_foreign')->references('id')->on('ad_retailer_product_categories');
         });
     }
 

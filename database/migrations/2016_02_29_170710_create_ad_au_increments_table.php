@@ -22,7 +22,7 @@ class CreateAdAuIncrementsTable extends Migration
 
             $table->foreign('ad_rate_id')->references('id')->on('ad_rates');
             $table->foreign('ad_retailer_product_category_id',
-                'arp_category_id_foreign')->references('id')->on('ad_retailer_product_categories');
+                'arp_category_increment_id_foreign')->references('id')->on('ad_retailer_product_categories');
         });
     }
 
