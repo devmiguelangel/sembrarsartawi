@@ -11,18 +11,22 @@ use Sibas\Collections\BaseCollection;
 
 abstract class BaseRepository
 {
+
     /**
      * @var Model
      */
     protected $model;
+
     /**
      * @var BaseCollection
      */
     private $collection;
+
     /**
      * @var Collection
      */
     private $selectOption;
+
     /**
      * @var Carbon
      */
@@ -31,26 +35,32 @@ abstract class BaseRepository
     protected $errors;
 
     protected $data;
+
     /**
      * @var array
      */
     protected $fieldName;
+
     /**
      * @var string
      */
     protected $reasonImc;
+
     /**
      * @var string
      */
     protected $reasonResponse;
+
     /**
      * @var string
      */
     protected $reasonCumulus;
+
     /**
      * @var Collection
      */
     protected $records;
+
 
     public function __construct()
     {
@@ -61,8 +71,7 @@ abstract class BaseRepository
 
         $this->reasonImc      = 'El Titular :name no cumple con el IMC. ';
         $this->reasonResponse = 'El Titular :name no cumple con el Cuestionario de Salud. ';
-        $this->reasonCumulus  = 'El monto total acumulado del Titular :name es :cumulus Bs. y supera el monto maximo '
-                                . 'permitido. Monto maximo permitido :amount_max Bs. ';
+        $this->reasonCumulus  = 'El monto total acumulado del Titular :name es :cumulus Bs. y supera el monto maximo ' . 'permitido. Monto maximo permitido :amount_max Bs. ';
 
         $this->fieldName = [
             'Q' => 'quote_number',
@@ -81,6 +90,7 @@ abstract class BaseRepository
         ]);
     }
 
+
     /**
      * @return Model
      */
@@ -89,6 +99,7 @@ abstract class BaseRepository
         return $this->model;
     }
 
+
     /**
      * @return mixed
      */
@@ -96,6 +107,7 @@ abstract class BaseRepository
     {
         return $this->errors;
     }
+
 
     /** Save Model
      *
@@ -107,25 +119,56 @@ abstract class BaseRepository
             if ($this->model->save()) {
                 return true;
             }
-        } catch(QueryException $e) {
+        } catch (QueryException $e) {
             $this->errors = $e->getMessage();
         }
 
         return false;
     }
 
+
+    /** Get next number (Quote - Issue)
+     *
+     * @param string $field
+     *
+     * @return int
+     */
+    public function getNumber($field)
+    {
+        $max = $this->model->max($this->fieldName[$field]);
+
+        return is_null($max) ? 1 : $max + 1;
+    }
+
+
+    /** Verifies registration number (Quote - Issue)
+     *
+     * @param string $field
+     * @param int    $number
+     *
+     * @return bool
+     */
+    public function checkNumber($field, $number)
+    {
+        return $this->model->where($this->fieldName[$field], $number)->exists();
+    }
+
+
     protected function getSelectOption()
     {
         return $this->selectOption;
     }
 
+
     /** Returns a data forms select
+     *
      * @param array $data
+     *
      * @return Collection
      */
     protected function getData($data)
     {
-        $d = [];
+        $d = [ ];
 
         foreach ($data as $key => $value) {
             $d[] = [
@@ -137,9 +180,11 @@ abstract class BaseRepository
         return $this->selectOption->merge($d);
     }
 
+
     /**
      * @param $header_id
      * @param $clients
+     *
      * @return bool
      */
     public function setClientCacheSP($header_id, $clients)
@@ -150,6 +195,7 @@ abstract class BaseRepository
         Cache::put($key, $clients, 60);
     }
 
+
     public function destroyClientCacheSP($header_id, $detail_id)
     {
         $key = 'clients_' . $header_id;
@@ -157,7 +203,7 @@ abstract class BaseRepository
         if (Cache::has($key)) {
             $clients = Cache::pull($key);
 
-            if (! is_null($clients)) {
+            if ( ! is_null($clients)) {
                 $clients = json_decode($clients, true);
                 $client  = array_shift($clients);
 
@@ -175,6 +221,7 @@ abstract class BaseRepository
         return false;
     }
 
+
     public function getAmountInBs($currency, $amount, $bs_value)
     {
         switch ($currency) {
@@ -185,6 +232,7 @@ abstract class BaseRepository
 
         return $amount;
     }
+
 
     public function getEvaluationResponse($response)
     {

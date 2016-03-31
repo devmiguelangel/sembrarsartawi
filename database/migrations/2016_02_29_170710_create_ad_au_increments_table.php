@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
@@ -6,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateAdAuIncrementsTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -16,13 +16,16 @@ class CreateAdAuIncrementsTable extends Migration
         Schema::create('ad_au_increments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ad_rate_id')->unsigned();
-            $table->enum('category', array_keys(config('base.vehicle_category')));
+            $table->integer('ad_retailer_product_category_id')->unsigned();
             $table->double('increment', 10, 3);
             $table->timestamps();
 
             $table->foreign('ad_rate_id')->references('id')->on('ad_rates');
+            $table->foreign('ad_retailer_product_category_id',
+                'arp_category_id_foreign')->references('id')->on('ad_retailer_product_categories');
         });
     }
+
 
     /**
      * Reverse the migrations.

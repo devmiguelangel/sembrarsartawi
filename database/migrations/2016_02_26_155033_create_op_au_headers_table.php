@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateOpAuHeadersTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -27,6 +28,7 @@ class CreateOpAuHeadersTable extends Migration
             $table->timestamp('validity_start')->nullable();
             $table->timestamp('validity_end')->nullable();
             $table->enum('payment_method', array_keys(config('base.payment_methods')));
+            $table->enum('currency', array_keys(config('base.currencies')));
             $table->integer('term')->unsigned();
             $table->enum('type_term', array_keys(config('base.term_types')));
             $table->string('bill_name', 140);
@@ -50,6 +52,7 @@ class CreateOpAuHeadersTable extends Migration
             $table->foreign('op_client_id')->references('id')->on('op_clients');
         });
     }
+
 
     /**
      * Reverse the migrations.

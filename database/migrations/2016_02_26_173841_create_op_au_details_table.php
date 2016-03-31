@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateOpAuDetailsTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -18,7 +19,7 @@ class CreateOpAuDetailsTable extends Migration
             $table->integer('ad_vehicle_type_id')->unsigned();
             $table->integer('ad_vehicle_make_id')->unsigned();
             $table->integer('ad_vehicle_model_id')->unsigned();
-            $table->enum('category', array_keys(config('base.vehicle_category')));
+            $table->integer('ad_retailer_product_category_id')->unsigned();
             $table->integer('year')->unsigned();
             $table->string('license_plate', 15);
             $table->enum('use', array_keys(config('base.vehicle_use')));
@@ -42,8 +43,11 @@ class CreateOpAuDetailsTable extends Migration
             $table->foreign('ad_vehicle_type_id')->references('id')->on('ad_vehicle_types');
             $table->foreign('ad_vehicle_make_id')->references('id')->on('ad_vehicle_makes');
             $table->foreign('ad_vehicle_model_id')->references('id')->on('ad_vehicle_models');
+            $table->foreign('ad_retailer_product_category_id',
+                'arp_category_id_foreign')->references('id')->on('ad_retailer_product_categories');
         });
     }
+
 
     /**
      * Reverse the migrations.

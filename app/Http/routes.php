@@ -68,6 +68,12 @@ Route::group([ 'middleware' => 'auth' ], function () {
         require 'routes/report.php';
 
         require 'routes/pdfSleep.php';
+
+        /*
+         * Header AU
+         */
+        require 'routes/au.issuance.php';
+
     });
 
     /*

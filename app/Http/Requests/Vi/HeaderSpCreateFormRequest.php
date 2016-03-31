@@ -6,6 +6,7 @@ use Sibas\Http\Requests\Request;
 
 class HeaderSpCreateFormRequest extends Request
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,6 +16,7 @@ class HeaderSpCreateFormRequest extends Request
     {
         return true;
     }
+
 
     /**
      * Get the validation rules that apply to the request.

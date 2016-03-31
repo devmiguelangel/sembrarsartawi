@@ -193,11 +193,14 @@ return [
         'AUS' => 'Administración de Usuarios',
         'ADE' => 'Administración de Desgravamen',
         'AVI' => 'Administración de Vida',
+        'AAU' => 'Administración de Automotores',
     ],
 
     'inbox' => [ 'all', 'approved', 'observed', 'rejected', ],
 
     'vehicle_category' => [
+        'CA' => 'A',
+        'CB' => 'B',
         'RC' => 'Rent A Car',
         'OT' => 'Otros',
     ],

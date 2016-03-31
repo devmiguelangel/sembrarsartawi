@@ -9,7 +9,8 @@
                 'placeholder' => 'Nombres',
                 'autocomplete' => 'off'])
             !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('first_name') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('first_name') }}</label>
         </div>
     </div>
     <div class="form-group">
@@ -20,7 +21,8 @@
                 'placeholder' => 'Ap. Paterno',
                 'autocomplete' => 'off'])
             !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('last_name') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('last_name') }}</label>
         </div>
     </div>
     <div class="form-group">
@@ -31,7 +33,8 @@
                 'placeholder' => 'Ap. Materno',
                 'autocomplete' => 'off'])
             !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('mother_last_name') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('mother_last_name') }}</label>
         </div>
     </div>
     <div class="form-group">
@@ -42,7 +45,8 @@
                 'placeholder' => 'Ap. de casada',
                 'autocomplete' => 'off'])
             !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('married_name') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('married_name') }}</label>
         </div>
     </div>
     <div class="form-group">
@@ -51,7 +55,8 @@
             {!! SelectField::input('civil_status', $data['civil_status']->toArray(), [
                 'class' => 'select-search'],
                 old('civil_status', $client->civil_status)) !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('civil_status') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('civil_status') }}</label>
         </div>
     </div>
 
@@ -62,7 +67,8 @@
                 {!! SelectField::input('document_type', $data['document_type']->toArray(), [
                     'class' => 'select-search'],
                     old('document_type', $client->document_type)) !!}
-                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('document_type') }}</label>
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('document_type') }}</label>
             </div>
         </div>
         <div class="form-group">
@@ -73,7 +79,8 @@
                     'placeholder' => 'Documento de identidad',
                     'autocomplete' => 'off'])
                 !!}
-                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('dni') }}</label>
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('dni') }}</label>
             </div>
         </div>
         <div class="form-group">
@@ -84,7 +91,8 @@
                     'placeholder' => 'Complemento',
                     'autocomplete' => 'off'])
                 !!}
-                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('complement') }}</label>
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('complement') }}</label>
             </div>
         </div>
         <div class="form-group">
@@ -93,7 +101,8 @@
                 {!! SelectField::input('extension', $data['cities']['CI']->toArray(), [
                     'class' => 'select-search'],
                     old('extension', $client->extension)) !!}
-                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('extension') }}</label>
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('extension') }}</label>
             </div>
         </div>
     @endif
@@ -105,7 +114,8 @@
                 'placeholder' => 'País',
                 'autocomplete' => 'off'])
             !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('country') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('country') }}</label>
         </div>
     </div>
     <div class="form-group">
@@ -119,7 +129,8 @@
                     'placeholder' => 'Seleccione fecha'])
                 !!}
             </div>
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('birthdate') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('birthdate') }}</label>
         </div>
     </div>
     <div class="form-group">
@@ -130,7 +141,8 @@
                 'placeholder' => 'Lugar de nacimiento',
                 'autocomplete' => 'off'])
             !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('birth_place') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('birth_place') }}</label>
         </div>
     </div>
     <div class="form-group">
@@ -139,7 +151,8 @@
             {!! SelectField::input('place_residence', $data['cities']['DE']->toArray(), [
                 'class' => 'select-search'],
                 old('place_residence', $client->place_residence)) !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('place_residence') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('place_residence') }}</label>
         </div>
     </div>
     <div class="form-group">
@@ -150,7 +163,8 @@
                 'placeholder' => 'Localidad',
                 'autocomplete' => 'off'])
             !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('locality') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('locality') }}</label>
         </div>
     </div>
     @if(isset($ref))
@@ -164,7 +178,8 @@
                         old('hand', $detail->client->hand))
                     !!}
                 </div>
-                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('hand') }}</label>
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('hand') }}</label>
             </div>
         </div>
     @endif
@@ -181,7 +196,8 @@
                         old('avenue_street', $detail->client->avenue_street))
                     !!}
                 </div>
-                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('avenue_street') }}</label>
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('avenue_street') }}</label>
             </div>
         </div>
     @endif
@@ -194,7 +210,8 @@
                 'placeholder' => 'Dirección',
                 'autocomplete' => 'off'])
             !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('home_address') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('home_address') }}</label>
         </div>
     </div>
     @if(isset($ref))
@@ -209,7 +226,8 @@
                         'placeholder' => 'Número de domicilio'])
                     !!}
                 </div>
-                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('home_number') }}</label>
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('home_number') }}</label>
             </div>
         </div>
 
@@ -222,7 +240,8 @@
                     'placeholder' => 'Dirección laboral',
                     'autocomplete' => 'off'])
                 !!}
-                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('business_address') }}</label>
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('business_address') }}</label>
             </div>
         </div>
     @endif
@@ -232,7 +251,8 @@
             {!! SelectField::input('ad_activity_id', $data['activities']->toArray(), [
                 'class' => 'select-search'],
                 old('ad_activity_id', $client->ad_activity_id)) !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('ad_activity_id') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('ad_activity_id') }}</label>
         </div>
     </div>
     <div class="form-group">
@@ -243,7 +263,8 @@
                 'class' => 'form-control',
                 'placeholder' => 'Descripción ocupación'])
             !!}
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('occupation_description') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('occupation_description') }}</label>
         </div>
     </div>
     <div class="form-group">
@@ -257,7 +278,8 @@
                     'autocomplete' => 'off'])
                 !!}
             </div>
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('phone_number_home') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('phone_number_home') }}</label>
         </div>
     </div>
     <div class="form-group">
@@ -271,7 +293,8 @@
                     'autocomplete' => 'off'])
                 !!}
             </div>
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('phone_number_mobile') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('phone_number_mobile') }}</label>
         </div>
     </div>
     <div class="form-group">
@@ -285,7 +308,8 @@
                     'autocomplete' => 'off'])
                 !!}
             </div>
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('phone_number_office') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('phone_number_office') }}</label>
         </div>
     </div>
     <div class="form-group">
@@ -299,7 +323,8 @@
                     'autocomplete' => 'off'])
                 !!}
             </div>
-            <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('email') }}</label>
+            <label id="location-error" class="validation-error-label"
+                   for="location">{{ $errors->first('email') }}</label>
         </div>
     </div>
     @if(! isset($ref))
@@ -315,7 +340,8 @@
                       'autocomplete' => 'off'
                     ]) !!}
                 </div>
-                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('weight') }}</label>
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('weight') }}</label>
             </div>
         </div>
         <div class="form-group">
@@ -330,7 +356,8 @@
                       'autocomplete' => 'off'
                     ]) !!}
                 </div>
-                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('height') }}</label>
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('height') }}</label>
             </div>
         </div>
         <div class="form-group">
@@ -339,7 +366,8 @@
                 {!! SelectField::input('gender', $data['gender']->toArray(), [
                     'class' => 'select-search'],
                     old('gender', $client->gender)) !!}
-                <label id="location-error" class="validation-error-label" for="location">{{ $errors->first('gender') }}</label>
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('gender') }}</label>
             </div>
         </div>
     @endif

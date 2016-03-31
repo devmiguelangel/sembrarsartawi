@@ -3,15 +3,18 @@
 namespace Sibas\Repositories\Client;
 
 use Illuminate\Http\Request;
+use Predis\Command\KeyExists;
 use Sibas\Entities\Client;
 use Sibas\Repositories\BaseRepository;
 
 class ClientRepository extends BaseRepository
 {
+
     /**
      * Create a newly created Client.
      *
      * @param Request $request
+     *
      * @return bool
      */
     public function createClient($request)
@@ -25,10 +28,12 @@ class ClientRepository extends BaseRepository
         return $this->storeClient($request);
     }
 
+
     /**
      * Client store.
      *
      * @param Request $request
+     *
      * @return bool
      */
     private function storeClient($request)
@@ -47,11 +52,13 @@ class ClientRepository extends BaseRepository
         return $this->saveModel();
     }
 
+
     /**
      * Client edit
      *
      * @param Request $request
-     * @param $client
+     * @param         $client
+     *
      * @return bool
      */
     public function editClient($request, $client)
@@ -61,9 +68,11 @@ class ClientRepository extends BaseRepository
         return $this->updateClient($client);
     }
 
+
     /** Update Client
      *
      * @param null $client
+     *
      * @return bool
      */
     private function updateClient($client = null)
@@ -79,8 +88,11 @@ class ClientRepository extends BaseRepository
         return false;
     }
 
+
     /** Set complementary data on Issue
+     *
      * @param Request $request
+     *
      * @return bool
      */
     public function updateIssueClient($request)
@@ -104,6 +116,7 @@ class ClientRepository extends BaseRepository
         return $this->saveModel();
     }
 
+
     /** Set data to Client
      *
      */
@@ -111,45 +124,51 @@ class ClientRepository extends BaseRepository
     {
         $date = $this->carbon->createFromTimestamp(strtotime(str_replace('/', '-', $this->data['birthdate'])));
 
-        $this->model->code           = $this->data['code'];
-        $this->model->type           = 'N';
-        $this->model->first_name     = $this->data['first_name'];
-        $this->model->last_name      = $this->data['last_name'];
-        $this->model->mother_last_name      = $this->data['mother_last_name'];
-        $this->model->married_name   = $this->data['married_name'];
-        $this->model->birthdate      = $date->format('Y-m-d');
-        $this->model->age            = $date->age;
-        $this->model->birth_place    = $this->data['birth_place'];
-        $this->model->document_type  = $this->data['document_type'];
-        $this->model->complement     = $this->data['complement'];
-        $this->model->civil_status   = $this->data['civil_status'];
-        $this->model->gender         = $this->data['gender'];
-        $this->model->place_residence = $this->data['place_residence'];
-        $this->model->locality       = $this->data['locality'];
-        $this->model->home_address   = $this->data['home_address'];
-        $this->model->country        = $this->data['country'];
-        $this->model->ad_activity_id = $this->data['ad_activity_id'];
+        $this->model->code                   = key_exists('code', $this->data) ? $this->data['code'] : '';
+        $this->model->type                   = 'N';
+        $this->model->first_name             = $this->data['first_name'];
+        $this->model->last_name              = $this->data['last_name'];
+        $this->model->mother_last_name       = $this->data['mother_last_name'];
+        $this->model->married_name           = $this->data['married_name'];
+        $this->model->birthdate              = $date->format('Y-m-d');
+        $this->model->age                    = $date->age;
+        $this->model->birth_place            = key_exists('birth_place', $this->data) ? $this->data['birth_place'] : '';
+        $this->model->document_type          = key_exists('document_type',
+            $this->data) ? $this->data['document_type'] : 'CI';
+        $this->model->complement             = $this->data['complement'];
+        $this->model->civil_status           = key_exists('civil_status',
+            $this->data) ? $this->data['civil_status'] : '';
+        $this->model->gender                 = $this->data['gender'];
+        $this->model->place_residence        = key_exists('place_residence',
+            $this->data) ? $this->data['place_residence'] : '';
+        $this->model->locality               = key_exists('locality', $this->data) ? $this->data['locality'] : '';
+        $this->model->home_address           = key_exists('home_address',
+            $this->data) ? $this->data['home_address'] : '';
+        $this->model->country                = key_exists('country', $this->data) ? $this->data['country'] : '';
+        $this->model->ad_activity_id         = $this->data['ad_activity_id'];
         $this->model->occupation_description = $this->data['occupation_description'];
         $this->model->phone_number_home      = $this->data['phone_number_home'];
-        $this->model->phone_number_office    = $this->data['phone_number_office'];
+        $this->model->phone_number_office    = key_exists('phone_number_office',
+            $this->data) ? $this->data['phone_number_office'] : '';
         $this->model->phone_number_mobile    = $this->data['phone_number_mobile'];
-        $this->model->email          = $this->data['email'];
-        $this->model->weight         = $this->data['weight'];
-        $this->model->height         = $this->data['height'];
+        $this->model->email                  = $this->data['email'];
+        $this->model->weight                 = key_exists('weight', $this->data) ? $this->data['weight'] : 0;
+        $this->model->height                 = key_exists('height', $this->data) ? $this->data['height'] : 0;
     }
+
 
     /** Find Client by dni and extension
      *
-     * @param $dni
+     * @param      $dni
      * @param null $extension
+     *
      * @return bool
      */
     public function getClientByDni($dni, $extension = null)
     {
-        $query = Client::select('id', 'dni', 'extension')
-            ->where('dni', '=', $dni);
+        $query = Client::select('id', 'dni', 'extension')->where('dni', '=', $dni);
 
-        if (! is_null($extension)) {
+        if ( ! is_null($extension)) {
             $query->where('extension', '=', $extension);
         }
 
@@ -164,9 +183,11 @@ class ClientRepository extends BaseRepository
         return false;
     }
 
+
     /** Find Client by Id
      *
      * @param $client_id
+     *
      * @return bool
      */
     public function getClientById($client_id)
