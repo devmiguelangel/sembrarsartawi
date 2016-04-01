@@ -8,6 +8,7 @@ use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Au\HeaderCreateFormRequest;
 use Sibas\Repositories\Au\HeaderRepository;
 use Sibas\Repositories\Client\ClientRepository;
+use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class HeaderController extends Controller
 {
@@ -22,11 +23,20 @@ class HeaderController extends Controller
      */
     protected $repository;
 
+    /**
+     * @var RetailerProductRepository
+     */
+    protected $retailerProductRepository;
 
-    public function __construct(HeaderRepository $repository, ClientRepository $clientRepository)
-    {
-        $this->repository       = $repository;
-        $this->clientRepository = $clientRepository;
+
+    public function __construct(
+        HeaderRepository $repository,
+        ClientRepository $clientRepository,
+        RetailerProductRepository $retailerProductRepository
+    ) {
+        $this->repository                = $repository;
+        $this->clientRepository          = $clientRepository;
+        $this->retailerProductRepository = $retailerProductRepository;
     }
 
 
@@ -75,4 +85,24 @@ class HeaderController extends Controller
 
         return redirect()->back()->with([ 'error_header' => 'El Cliente no pudo ser registrado' ])->withInput()->withErrors($this->repository->getErrors());
     }
+
+
+    /**
+     * @param string $rp_id
+     * @param string $header_id
+     */
+    public function result($rp_id, $header_id)
+    {
+        if ($this->repository->getHeaderById(decode($header_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+            $header          = $this->repository->getModel();
+            $retailerProduct = $this->retailerProductRepository->getModel();
+
+            if ($this->repository->setVehicleResult($retailerProduct, $header)) {
+                return view('au.result', compact('rp_id', 'header_id', 'header', 'retailerProduct'));
+            }
+        }
+
+        return redirect()->back();
+    }
+
 }

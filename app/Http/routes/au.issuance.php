@@ -56,4 +56,12 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
         'uses' => 'Au\DetailController@update'
     ]);
 
+    /*
+     * Header Result
+     */
+    Route::get('{header_id}/result', [
+        'as'   => 'au.result',
+        'uses' => 'Au\HeaderController@result'
+    ]);
+
 });

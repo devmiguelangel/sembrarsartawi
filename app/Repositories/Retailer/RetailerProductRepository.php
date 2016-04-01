@@ -46,7 +46,7 @@ class RetailerProductRepository extends BaseRepository
     public function getRetailerProductById($rp_id)
     {
         $this->model = RetailerProduct::with(
-                'rates',
+                'rates.increments.category',
                 'parameters',
                 'subProducts.productCompany',
                 'subProducts.companyProduct.product',

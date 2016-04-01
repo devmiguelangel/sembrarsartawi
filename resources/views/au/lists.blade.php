@@ -119,12 +119,16 @@
                                                 <li>
                                                     <a href="{{ route('au.vh.edit', ['rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => encode($detail->id)]) }}"
                                                        ng-click="edit($event)">
-                                                        <i class="icon-pencil3" ng-click="$event.stopPropagation(); $event.preventDefault()"></i> Editar</a>
+                                                        <i class="icon-pencil3"
+                                                           ng-click="$event.stopPropagation(); $event.preventDefault()"></i>
+                                                        Editar</a>
                                                 </li>
                                                 <li>
                                                     <a href="{{ route('au.vh.destroy', ['rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => encode($detail->id)]) }}"
                                                        ng-click="delete($event)">
-                                                        <i class="icon-trash" ng-click="$event.stopPropagation(); $event.preventDefault()"></i> Eliminar</a>
+                                                        <i class="icon-trash"
+                                                           ng-click="$event.stopPropagation(); $event.preventDefault()"></i>
+                                                        Eliminar</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -145,8 +149,9 @@
                         @endif
 
                         @if($header->details->count() > 0)
-                            <button type="submit" class="btn btn-primary">Continuar <i
-                                        class="icon-arrow-right14 position-right"></i></button>
+                            <a href="{{ route('au.result', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                               class="btn btn-primary">
+                                Continuar <i class="icon-arrow-right14 position-right"></i></a>
                         @endif
                     </div>
                 </div>
