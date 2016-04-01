@@ -29,62 +29,96 @@
                 <span class="text-semibold">Error!</span> {{ session('error') }}
             </div>
         @endif
+        @var $cont = 0
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'update_rates', 'name' => 'UpdateForm', 'id' => 'UpdateForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
-            <fieldset class="content-group">
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Retailer </label>
-                    <div class="col-lg-10">
-                        <strong>{{$query->retailer}}</strong>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Producto </label>
-                    <div class="col-lg-10">
-                        <strong>{{$query->product}}</strong>
-                    </div>
-                </div>
-                @if($query->code_product=='de')
+            @if($code_product=='de' || $code_product=='vi')
+                <fieldset class="content-group">
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Coberturas </label>
+                        <label class="control-label col-lg-2">Retailer </label>
                         <div class="col-lg-10">
-                            <strong>{{$query->coverage}}</strong>
+                            <strong>{{$query->retailer}}</strong>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Tasa Compañía <span class="text-danger">*</span></label>
+                        <label class="control-label col-lg-2">Producto </label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control required decimal" name="rate_company" id="rate_company" value="{{$query->rate_company}}" autocomplete="off">
+                            <strong>{{$query->product}}</strong>
+                        </div>
+                    </div>
+                    @if($query->code_product=='de')
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Coberturas </label>
+                            <div class="col-lg-10">
+                                <strong>{{$query->coverage}}</strong>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Tasa Compañía <span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control required decimal" name="rate_company" id="rate_company" value="{{$query->rate_company}}" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Tasa Banco <span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control required decimal" name="rate_bank" id="rate_bank" value="{{$query->rate_bank}}" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Tasa Final</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" readonly value="{{$query->rate_final}}">
+                            </div>
+                        </div>
+                    @else
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Tasa Final</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" value="{{$query->rate_final}}" autocomplete="off">
+                            </div>
+                        </div>
+                    @endif
+                </fieldset>
+            @elseif($code_product=='au')
+                <fieldset class="content-group">
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Retailer </label>
+                        <div class="col-lg-10">
+                            <strong>{{$retailer_product->retailer->name}}</strong>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Tasa Banco <span class="text-danger">*</span></label>
+                        <label class="control-label col-lg-2">Producto </label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control required decimal" name="rate_bank" id="rate_bank" value="{{$query->rate_bank}}" autocomplete="off">
+                            <strong>{{$retailer_product->companyProduct->product->name}}</strong>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label class="control-label col-lg-2">Tasa Final</label>
+                        <label class="control-label col-lg-2">Tasa Final <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" readonly value="{{$query->rate_final}}">
+                            <input type="text" class="form-control required decimal" name="rate_end" id="rate_end" value="{{$query_rate->rate_final}}" autocomplete="off">
                         </div>
                     </div>
-                @else
-                    <div class="form-group">
-                        <label class="control-label col-lg-2">Tasa Final</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" value="{{$query->rate_final}}" autocomplete="off">
+                    @foreach($category_query as $data)
+                        @var $cont=$cont+1
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Tasa Categoria {{substr($data->category, 1)}} <span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control required decimal category" name="rate_category_{{$cont}}" id="rate_category_{{$cont}}" value="{{$data->increment}}" autocomplete="off" rel="{{$cont}}">
+                                <input type="hidden" name="id-increment-{{$cont}}" value="{{$data->id_increment}}">
+                            </div>
                         </div>
-                    </div>
-                @endif
-
-            </fieldset>
-
+                    @endforeach
+                    <input type="hidden" name="cont" value="{{$cont}}">
+                </fieldset>
+            @endif
             <div class="text-right">
                 <button type="submit" class="btn btn-primary">
                     Guardar <i class="icon-floppy-disk position-right"></i>
@@ -94,7 +128,7 @@
                 </a>
                 <input type="hidden" name="id_rates" value="{{$id_rates}}">
                 <input type="hidden" name="id_retailer_products" value="{{$id_retailer_products}}">
-                <input type="hidden" name="code_product" value="{{$query->code_product}}">
+                <input type="hidden" name="code_product" value="{{$code_product}}">
             </div>
             {!!Form::close()!!}
         </div>
@@ -141,35 +175,60 @@
                 }
             });
 
+            $('#rate_end').click(function(){
+                $('#rate_end').prop('value', '');
+            });
+            $('#rate_end').keyup(function(){
+                var rate_bank = $('#rate_end').prop('value');
+                var regex = /^([0-9\.])*$/;
+                if(!(regex.test(rate_bank))){
+                    $('#rate_end').prop('value', '');
+                }
+            });
+
+            $('.category').click(function(){
+                var rel = $(this).attr('rel');
+                $('#rate_category_'+rel).prop('value', '');
+            });
+            $('.category').keyup(function(){
+                var rel = $(this).attr('rel');
+                var rate = $('#rate_category_'+rel).prop('value');
+                var regex = /^([0-9\.])*$/;
+                if(!(regex.test(rate))){
+                    $('#rate_category_'+rel).prop('value', '');
+                }
+            });
 
             //VERIFICAMOS EL FORMULARIO
             $('#UpdateForm').submit(function(e){
                 var sw = true;
                 var err = 'Esta informacion es obligatoria';
+                var code_product = $("input[name='code_product']").prop('value');
+
                 $(this).find('.required, .not-required').each(function(index, element) {
                     //alert(element.type+'='+element.value);
                     if($(this).hasClass('required') === true){
-                        if(validateElement(element,err) === false){
+                        if(validateElement(element,err,code_product) === false){
                             sw = false;
-                        }else if(validateElementType(element,err) === false){
+                        }else if(validateElementType(element,err,code_product) === false){
                             sw = false;
                         }
                     }else if($(this).hasClass('not-required') === true){
                         removeClassE(element);
-                        if(validateElementType(element,err) === false){
+                        if(validateElementType(element,err,code_product) === false){
                             sw = false;
                         }
                     }
                 });
                 if(sw==true){
-
+                    $('button[type="submit"]').prop('disabled', true);
                 }else{
                     e.preventDefault();
                 }
             });
 
             //VALIDAMOS ELEMENTO
-            function validateElement(element,err){
+            function validateElement(element,err,code_product){
                 var _value = $(element).prop('value');
                 var _type = $(element).prop('type');
                 if(_type=='select-one'){
@@ -181,13 +240,23 @@
                         return true;
                     }
                 }else{
-                    if(_value==0){
-                        err = 'Ingrese una tasa';
-                        addClassE(element,err);
-                        return false;
+                    if(code_product=='au'){
+                        if(_value==''){
+                            addClassE(element,err);
+                            return false;
+                        }else{
+                            removeClassE(element,err);
+                            return true;
+                        }
                     }else{
-                        removeClassE(element,err);
-                        return true;
+                        if(_value==0){
+                            err = 'Ingrese una tasa';
+                            addClassE(element,err);
+                            return false;
+                        }else{
+                            removeClassE(element,err);
+                            return true;
+                        }
                     }
                 }
             }

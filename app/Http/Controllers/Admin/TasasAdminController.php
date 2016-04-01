@@ -6,6 +6,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use Sibas\Entities\Product;
+use Sibas\Entities\RetailerProduct;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 
@@ -34,13 +35,37 @@ class TasasAdminController extends BaseController
                     ->get();
                 return view('admin.tasas.list', compact('nav', 'action', 'query', 'main_menu', 'array_data', 'id_retailer_products', 'code_product', 'product_query'));
             }elseif($code_product=='au'){
+                $query = array();
+                $product_query = Product::where('code',$code_product)->first();
+                $query_one = \DB::table('ad_rates')
+                                    ->where('ad_retailer_product_id',$id_retailer_products)
+                                    ->get();
+                foreach($query_one as $data_rate){
+                    $b = $a = '';
+                    $a = $data_rate->id.'|'.$data_rate->rate_final.'|'.$data_rate->year;
+                    $query_two = \DB::table('ad_au_increments as aui')
+                        ->join('ad_retailer_product_categories as arpc', 'arpc.id', '=', 'aui.ad_retailer_product_category_id')
+                        ->select('aui.id', 'arpc.category', 'aui.increment')
+                        ->where('ad_rate_id',$data_rate->id)
+                        ->get();
+                    foreach($query_two as $data_category){
+                        $b .= $data_category->id.'|'.$data_category->category.'|'.$data_category->increment.'|';
+                    }
+                    $query[]=$a.'|'.$b;
+                }
 
+                //dd($array_category);
+                //$query=null;
+                return view('admin.tasas.list', compact('nav', 'action', 'id_retailer_products', 'code_product', 'product_query', 'query', 'main_menu', 'array_data'));
             }
         }elseif($action=='new'){
             $retailer = \DB::table('ad_retailers')
                             ->get();
             $product_query = Product::where('code',$code_product)->first();
-            return view('admin.tasas.new', compact('nav', 'action', 'main_menu', 'retailer', 'array_data', 'id_retailer_products', 'code_product', 'product_query'));
+            $category_query = \DB::table('ad_retailer_product_categories')
+                                 ->where('ad_retailer_product_id',$id_retailer_products)
+                                 ->get();
+            return view('admin.tasas.new', compact('nav', 'action', 'main_menu', 'retailer', 'array_data', 'id_retailer_products', 'code_product', 'product_query', 'category_query'));
         }
     }
 
@@ -76,31 +101,65 @@ class TasasAdminController extends BaseController
      */
     public function store(Request $request)
     {
-        $arr = explode('|',$request->get('id_producto_retailer'));
-        if($arr[1]=='de'){
-           $rate_company = $request->get('rate_company');
-           $rate_bank = $request->get('rate_bank');
-           $rate_final = $request->get('rate_final');
-           $ad_coverage_id = $request->get('id_coverage');
-        }else{
-            $rate_company = 0;
-            $rate_bank = 0;
+        $arr = explode('|', $request->get('id_producto_retailer'));
+        $rate_company = 0;
+        $rate_bank = 0;
+        $ad_coverage_id = null;
+        if ($arr[1] == 'de') {
+            $rate_company = $request->get('rate_company');
+            $rate_bank = $request->get('rate_bank');
             $rate_final = $request->get('rate_final');
-            $ad_coverage_id = null;
+            $ad_coverage_id = $request->get('id_coverage');
+        }elseif($arr[1] == 'au'){
+            $rate_final = $request->get('rate_end');
+            $cont = $request->get('cont');
+        }else{
+            $rate_final = $request->get('rate_final');
         }
         try{
-            $query_insert = \DB::table('ad_rates')->insert(
-                [
-                    'rate_company' => $rate_company,
-                    'rate_bank' => $rate_bank,
-                    'rate_final' => $rate_final,
-                    'ad_retailer_product_id' => $arr[0],
-                    'ad_credit_product_id' => null,
-                    'ad_coverage_id' => $ad_coverage_id,
-                    'created_at'=>date("Y-m-d H:i:s"),
-                    'updated_at'=>date("Y-m-d H:i:s")
-                ]
-            );
+            if($arr[1] == 'de' || $arr[1] == 'vi'){
+                $query_insert = \DB::table('ad_rates')->insert(
+                    [
+                        'rate_company' => $rate_company,
+                        'rate_bank' => $rate_bank,
+                        'rate_final' => $rate_final,
+                        'ad_retailer_product_id' => $arr[0],
+                        'ad_credit_product_id' => null,
+                        'ad_coverage_id' => $ad_coverage_id,
+                        'created_at'=>date("Y-m-d H:i:s"),
+                        'updated_at'=>date("Y-m-d H:i:s")
+                    ]
+                );
+            }elseif($arr[1] == 'au'){
+                $num_data = \DB::table('ad_rates')
+                                ->where('ad_retailer_product_id', $arr[0])
+                                ->get();
+                $year = count($num_data)+1;
+                $id = \DB::table('ad_rates')->insertGetId(
+                    [
+                        'rate_company' => $rate_company,
+                        'rate_bank' => $rate_bank,
+                        'rate_final' => $rate_final,
+                        'year' => $year,
+                        'ad_retailer_product_id' => $arr[0],
+                        'ad_credit_product_id' => null,
+                        'ad_coverage_id' => $ad_coverage_id,
+                        'created_at'=>date("Y-m-d H:i:s"),
+                        'updated_at'=>date("Y-m-d H:i:s")
+                    ]
+                );
+                for($i=1;$i<=$cont;$i++){
+                    $query_category = \DB::table('ad_au_increments')->insert(
+                        [
+                            'ad_rate_id' => $id,
+                            'ad_retailer_product_category_id' => $request->get('category-'.$i),
+                            'increment' => $request->get('rate_category_'.$i),
+                            'created_at' => date("Y-m-d H:i:s"),
+                            'updated_at' => date("Y-m-d H:i:s")
+                        ]
+                    );
+                }
+            }
             return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list', 'id_retailer_products'=>$request->get('id_retailer_products'), 'code_product'=>$request->get('code_product')])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
         }catch(QueryException $e) {
             return redirect()->back()->with(array('error'=>$e->getMessage()));
@@ -128,16 +187,32 @@ class TasasAdminController extends BaseController
     {
         $main_menu = $this->menu_principal();
         $array_data = $this->array_data();
-        $query = \DB::table('ad_rates as ar')
-            ->leftjoin('ad_coverages as ac', 'ac.id', '=', 'ar.ad_coverage_id')
-            ->join('ad_retailer_products as arp', 'arp.id', '=', 'ar.ad_retailer_product_id')
-            ->join('ad_retailers as aret', 'aret.id', '=', 'arp.ad_retailer_id')
-            ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
-            ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
-            ->select('ar.id as id_rates', 'ar.rate_company', 'ar.rate_bank', 'ar.rate_final', 'ap.name as product', 'ac.name as coverage', 'aret.name as retailer', 'ap.code as code_product')
-            ->where('ar.id', '=', $id_rates)
-            ->first();
-        return view('admin.tasas.edit', compact('nav', 'action', 'query', 'main_menu', 'id_rates', 'array_data', 'id_retailer_products', 'code_product'));
+        if($code_product=='de' || $code_product=='vi'){
+            $query = \DB::table('ad_rates as ar')
+                ->leftjoin('ad_coverages as ac', 'ac.id', '=', 'ar.ad_coverage_id')
+                ->join('ad_retailer_products as arp', 'arp.id', '=', 'ar.ad_retailer_product_id')
+                ->join('ad_retailers as aret', 'aret.id', '=', 'arp.ad_retailer_id')
+                ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
+                ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
+                ->select('ar.id as id_rates', 'ar.rate_company', 'ar.rate_bank', 'ar.rate_final', 'ap.name as product', 'ac.name as coverage', 'aret.name as retailer', 'ap.code as code_product')
+                ->where('ar.id', '=', $id_rates)
+                ->first();
+        }elseif($code_product=='au'){
+            $retailer_product = RetailerProduct::with('retailer','companyProduct.product')->where('id',$id_retailer_products)->first();
+
+            $query_rate = \DB::table('ad_rates')
+                ->where('id',$id_rates)
+                ->first();
+            $category_query = \DB::table('ad_au_increments as aui')
+                ->join('ad_retailer_product_categories as arpc', 'arpc.id', '=', 'aui.ad_retailer_product_category_id')
+                ->select('aui.id as id_increment', 'arpc.category', 'aui.increment')
+                ->where('ad_rate_id',$query_rate->id)
+                ->where('arpc.ad_retailer_product_id',$id_retailer_products)
+                ->get();
+            //dd($category_query);
+        }
+
+        return view('admin.tasas.edit', compact('nav', 'action', 'query', 'main_menu', 'id_rates', 'array_data', 'id_retailer_products', 'code_product', 'query_rate', 'category_query', 'retailer_product'));
     }
 
     /**
@@ -149,14 +224,18 @@ class TasasAdminController extends BaseController
      */
     public function update(Request $request)
     {
+        $rate_company = 0;
+        $rate_bank = 0;
+        $rate_final = 0;
         if($request->get('code_product')=='de'){
             $rate_company = $request->get('rate_company');
             $rate_bank = $request->get('rate_bank');
             $rate_final = $request->get('rate_final');
-        }else{
-            $rate_company = 0;
-            $rate_bank = 0;
+        }elseif($request->get('code_product')=='vi'){
             $rate_final = $request->get('rate_final');
+        }elseif($request->get('code_product')=='au'){
+            $rate_final = $request->get('rate_end');
+            $cont = $request->get('cont');
         }
         try {
             $query_update = \DB::table('ad_rates')
@@ -169,6 +248,19 @@ class TasasAdminController extends BaseController
                         'updated_at' => date("Y-m-d H:i:s")
                     ]
                 );
+            if($request->get('code_product')=='au'){
+                for($i=1;$i<=$cont;$i++){
+                    $update_increment = \DB::table('ad_au_increments')
+                        ->where('id', $request->get('id-increment-'.$i))
+                        ->where('ad_rate_id',$request->get('id_rates'))
+                        ->update(
+                            [
+                                'increment' => $request->get('rate_category_'.$i),
+                                'updated_at' => date("Y-m-d H:i:s")
+                            ]
+                        );
+                }
+            }
             return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list', 'id_retailer_products'=>$request->get('id_retailer_products'), 'code_product'=>$request->get('code_product')])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
         }catch (QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
@@ -215,14 +307,20 @@ class TasasAdminController extends BaseController
         return response()->json($coverage);
     }
 
-    public function ajax_delete($id_rates)
+    public function ajax_delete($id_rates,$code_product)
     {
         try{
+            if($code_product=='au'){
+                $query_del = \DB::table('ad_au_increments')
+                    ->where('ad_rate_id', $id_rates)->delete();
+            }
             $query_del = \DB::table('ad_rates')
                 ->where('id', $id_rates)->delete();
-            return '1|Se elimino correctamente el registro';
+            //return '1|Se elimino correctamente el registro';
+            return response()->json(['response'=>'ok', 'detail'=>'Se elimino correctamente el registro']);
         }catch (QueryException $e){
-            return '0|'.$e->getMessage();
+            //return '0|'.$e->getMessage();
+            return response()->json(['response'=>'error', 'detail'=>$e->getMessage()]);
         }
     }
 
