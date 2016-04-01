@@ -345,182 +345,179 @@
             @var $c = 0
             @foreach($array_data['products'] as $data_product)
                 @var $arr_prod[]=$data_product->code
+
             @endforeach
 
             @if(count($main_menu)>0)
+
                 @foreach($main_menu as $data)
-                    @if($data->product==$arr_prod[$c])
-                        @if($ade)
-                            @if($c==0)
-                                <li>
-                                    <a href="#"><i class="icon-puzzle4"></i> <span>{{$data->name_product}}</span></a>
-                                    @if($nav=='de')
-                                        @if($action=='list_parameter' || $action=='edit_parameter' ||
-                                            $action=='list_parameter_additional' || $action=='new_parameter_additional' ||
-                                            $action=='edit_parameter_additional')
-                                            @var $data_pp='active'
-                                            @var $data_ap=''
-                                            @var $data_ap2=''
-                                            @var $data_ap3=''
-                                            @var $data_content=''
-                                        @endif
-                                    @elseif($nav=='addquestion')
-                                        @if($action=='list' || $action=='new' || $action=='edit')
-                                            @var $data_ap='active'
-                                            @var $data_pp=''
-                                            @var $data_ap2=''
-                                            @var $data_ap3=''
-                                            @var $data_content=''
-                                        @endif
-                                    @elseif($nav=='adActivitiesList')
-                                        @if($action=='list' || $action=='new'|| $action=='edit' || $action=='import')
-                                            @var $data_ap3='active'
-                                            @var $data_ap2=''
-                                            @var $data_ap=''
-                                            @var $data_pp=''
-                                            @var $data_content=''
-                                        @endif
-                                    @elseif($nav=='contentde')
-                                        @if($action=='list' || $action=='edit' || $action=='new')
-                                            @var $data_content='active'
-                                            @var $data_pp=''
-                                            @var $data_ap=''
-                                            @var $data_ap2=''
-                                            @var $data_ap3=''
-                                        @endif
-                                    @else
-                                        @var $data_pp=''
+                    @if($ade)
+                        @if($data->product=='de')
+                            <li>
+                                <a href="#"><i class="icon-puzzle4"></i> <span>{{$data->name_product}}</span></a>
+                                @if($nav=='de')
+                                    @if($action=='list_parameter' || $action=='edit_parameter' ||
+                                        $action=='list_parameter_additional' || $action=='new_parameter_additional' ||
+                                        $action=='edit_parameter_additional')
+                                        @var $data_pp='active'
                                         @var $data_ap=''
                                         @var $data_ap2=''
                                         @var $data_ap3=''
                                         @var $data_content=''
                                     @endif
-                                    <ul>
-                                        <li class="{{$data_pp}}">
-                                            <a href="{{route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li class="{{$data_ap}}">
-                                            <a href="{{route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Cuestionario de Salud</a>
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li class="{{$data_content}}">
-                                            <a href="{{route('admin.de.content.list', ['nav'=>'contentde', 'action'=>'list', 'id_retailer_products'=>$data->id_retailer_product])}}">Administrar contenido</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                @elseif($nav=='addquestion')
+                                    @if($action=='list' || $action=='new' || $action=='edit')
+                                        @var $data_ap='active'
+                                        @var $data_pp=''
+                                        @var $data_ap2=''
+                                        @var $data_ap3=''
+                                        @var $data_content=''
+                                    @endif
+                                @elseif($nav=='adActivitiesList')
+                                    @if($action=='list' || $action=='new'|| $action=='edit' || $action=='import')
+                                        @var $data_ap3='active'
+                                        @var $data_ap2=''
+                                        @var $data_ap=''
+                                        @var $data_pp=''
+                                        @var $data_content=''
+                                    @endif
+                                @elseif($nav=='contentde')
+                                    @if($action=='list' || $action=='edit' || $action=='new')
+                                        @var $data_content='active'
+                                        @var $data_pp=''
+                                        @var $data_ap=''
+                                        @var $data_ap2=''
+                                        @var $data_ap3=''
+                                    @endif
+                                @else
+                                    @var $data_pp=''
+                                    @var $data_ap=''
+                                    @var $data_ap2=''
+                                    @var $data_ap3=''
+                                    @var $data_content=''
+                                @endif
+                                <ul>
+                                    <li class="{{$data_pp}}">
+                                        <a href="{{route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="{{$data_ap}}">
+                                        <a href="{{route('admin.de.addquestion.list', ['nav'=>'addquestion', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Cuestionario de Salud</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="{{$data_content}}">
+                                        <a href="{{route('admin.de.content.list', ['nav'=>'contentde', 'action'=>'list', 'id_retailer_products'=>$data->id_retailer_product])}}">Administrar contenido</a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                            @endif
                         @endif
+                    @endif
 
-                        @if($avi)
-                            @if($c==1)
-                                <li>
-                                    <a href="#"><i class="icon-puzzle4"></i> <span>{{$data->name_product}}</span></a>
-                                    @if($nav=='vi')
-                                        @if($action=='list' || $action=='edit' || $action='list_parameter_additional')
-                                            @var $data_vpp='active'
-                                            @var $data_cm=''
-                                            @var $data_pl=''
-                                            @var $data_contvi=''
-                                            @var $data_modality=''
-                                        @endif
-                                    @elseif($nav=='addquestionvi')
-                                        @if($action=='list' || $action=='new' || $action=='edit')
-                                            @var $data_cm='active'
-                                            @var $data_vpp=''
-                                            @var $data_pl=''
-                                            @var $data_contvi=''
-                                            @var $data_modality=''
-                                        @endif
-                                    @elseif($nav=='listplansvi')
-                                        @if($action=='list' || $action=='edit' || $action=='new')
-                                            @var $data_pl='active'
-                                            @var $data_cm=''
-                                            @var $data_vpp=''
-                                            @var $data_contvi=''
-                                            @var $data_modality=''
-                                        @endif
-                                    @elseif($nav=='contentvi')
-                                        @if($action=='list' || $action=='edit' || $action=='new')
-                                            @var $data_contvi='active'
-                                            @var $data_cm=''
-                                            @var $data_vpp=''
-                                            @var $data_pl=''
-                                            @var $data_modality=''
-                                        @endif
-                                    @elseif($nav=='modality')
-                                        @if($action=='list' || $action=='new' || $action=='edit')
-                                            @var $data_modality='active'
-                                            @var $data_cm=''
-                                            @var $data_vpp=''
-                                            @var $data_pl=''
-                                            @var $data_contvi=''
-                                        @endif
-                                    @else
+                    @if($avi)
+                        @if($data->product=='vi')
+                            <li>
+                                <a href="#"><i class="icon-puzzle4"></i> <span>{{$data->name_product}}</span></a>
+                                @if($nav=='vi')
+                                    @if($action=='list' || $action=='edit' || $action='list_parameter_additional')
+                                        @var $data_vpp='active'
                                         @var $data_cm=''
+                                        @var $data_pl=''
+                                        @var $data_contvi=''
+                                        @var $data_modality=''
+                                    @endif
+                                @elseif($nav=='addquestionvi')
+                                    @if($action=='list' || $action=='new' || $action=='edit')
+                                        @var $data_cm='active'
                                         @var $data_vpp=''
                                         @var $data_pl=''
                                         @var $data_contvi=''
                                         @var $data_modality=''
                                     @endif
-                                    <ul>
-                                        <li class="{{$data_vpp}}">
-                                            <a href="{{route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li class="{{$data_cm}}">
-                                            <a href="{{route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Cuestionario de Salud</a>
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li class="{{$data_pl}}">
-                                            <a href="{{route('admin.vi.planes.list', ['nav'=>'listplansvi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar planes</a>
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li class="{{$data_contvi}}">
-                                            <a href="{{route('admin.vi.content.list', ['nav'=>'contentvi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar contenido</a>
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li class="{{$data_modality}}">
-                                            <a href="{{route('admin.vi.modality.list', ['nav'=>'modality', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar modalidad</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                            @endif
-                        @endif
-
-                        @if($aau)
-                            @if($c==2)
-                                <li>
-                                    <a href="#"><i class="icon-puzzle4"></i> <span>{{$data->name_product}}</span></a>
-                                    @if($nav=='au_parameter')
-                                        @if($action=='list_parameter' || $action=='edit_parameter' ||
-                                            $action=='list_parameter_additional' || $action=='new_parameter_additional' ||
-                                            $action=='edit_parameter_additional')
-                                            @var $data_aup='active'
-                                        @endif
-                                    @else
-                                        @var $data_aup=''
+                                @elseif($nav=='listplansvi')
+                                    @if($action=='list' || $action=='edit' || $action=='new')
+                                        @var $data_pl='active'
+                                        @var $data_cm=''
+                                        @var $data_vpp=''
+                                        @var $data_contvi=''
+                                        @var $data_modality=''
                                     @endif
-                                    <ul>
-                                        <li class="{{$data_aup}}">
-                                            <a href="{{route('admin.au.parameters.list-parameter', ['nav'=>'au_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            @endif
+                                @elseif($nav=='contentvi')
+                                    @if($action=='list' || $action=='edit' || $action=='new')
+                                        @var $data_contvi='active'
+                                        @var $data_cm=''
+                                        @var $data_vpp=''
+                                        @var $data_pl=''
+                                        @var $data_modality=''
+                                    @endif
+                                @elseif($nav=='modality')
+                                    @if($action=='list' || $action=='new' || $action=='edit')
+                                        @var $data_modality='active'
+                                        @var $data_cm=''
+                                        @var $data_vpp=''
+                                        @var $data_pl=''
+                                        @var $data_contvi=''
+                                    @endif
+                                @else
+                                    @var $data_cm=''
+                                    @var $data_vpp=''
+                                    @var $data_pl=''
+                                    @var $data_contvi=''
+                                    @var $data_modality=''
+                                @endif
+                                <ul>
+                                    <li class="{{$data_vpp}}">
+                                        <a href="{{route('admin.vi.parameters.list', ['nav'=>'vi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="{{$data_cm}}">
+                                        <a href="{{route('admin.vi.addquestion.list', ['nav'=>'addquestionvi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Cuestionario de Salud</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="{{$data_pl}}">
+                                        <a href="{{route('admin.vi.planes.list', ['nav'=>'listplansvi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar planes</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="{{$data_contvi}}">
+                                        <a href="{{route('admin.vi.content.list', ['nav'=>'contentvi', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar contenido</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="{{$data_modality}}">
+                                        <a href="{{route('admin.vi.modality.list', ['nav'=>'modality', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar modalidad</a>
+                                    </li>
+                                </ul>
+                            </li>
+
                         @endif
                     @endif
 
-                    @var $c = $c+1;
-
+                    @if($aau)
+                        @if($data->product=='au')
+                            <li>
+                                <a href="#"><i class="icon-puzzle4"></i> <span>{{$data->name_product}}</span></a>
+                                @if($nav=='au_parameter')
+                                    @if($action=='list_parameter' || $action=='edit_parameter' ||
+                                        $action=='list_parameter_additional' || $action=='new_parameter_additional' ||
+                                        $action=='edit_parameter_additional')
+                                        @var $data_aup='active'
+                                    @endif
+                                @else
+                                    @var $data_aup=''
+                                @endif
+                                <ul>
+                                    <li class="{{$data_aup}}">
+                                        <a href="{{route('admin.au.parameters.list-parameter', ['nav'=>'au_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                    @endif
                 @endforeach
             @else
                 <div class="alert alert-warning alert-styled-left">
