@@ -16,6 +16,10 @@ class VehicleType extends Model
         'updated_at',
     ];
 
+    protected $with = [
+        'category',
+    ];
+
 
     public function category()
     {

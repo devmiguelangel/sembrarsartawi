@@ -43,4 +43,17 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
         'uses' => 'Au\DetailController@destroy'
     ]);
 
+    /*
+     * Vehicle edit
+     */
+    Route::get('{header_id}/vehicle/edit/{detail_id}', [
+        'as'   => 'au.vh.edit',
+        'uses' => 'Au\DetailController@edit'
+    ]);
+
+    Route::put('{header_id}/vehicle/edit/{detail_id}', [
+        'as'   => 'au.vh.update',
+        'uses' => 'Au\DetailController@update'
+    ]);
+
 });

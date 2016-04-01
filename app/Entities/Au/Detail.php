@@ -70,6 +70,12 @@ class Detail extends Model
     }
 
 
+    public function header()
+    {
+        return $this->belongsTo(Header::class, 'op_au_header_id', 'id');
+    }
+
+
     public function setLicensePlateAttribute($value)
     {
         $this->attributes['license_plate'] = strtoupper($value);

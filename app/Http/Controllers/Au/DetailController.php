@@ -75,7 +75,6 @@ class DetailController extends Controller
 
 
     /**
-     *
      * Lists Detail vehicle
      *
      * @param $rp_id
@@ -97,7 +96,6 @@ class DetailController extends Controller
 
 
     /**
-     *
      * Show the form for creating a new resource.
      *
      * @param $rp_id
@@ -117,8 +115,7 @@ class DetailController extends Controller
 
                 $data = $this->getData();
 
-                $payload = view('au.vehicle-create',
-                    compact('rp_id', 'header_id', 'header', 'data', 'parameter'));
+                $payload = view('au.vehicle-create', compact('rp_id', 'header_id', 'header', 'data', 'parameter'));
 
                 return response()->json([
                     'payload'    => $payload->render(),
@@ -128,6 +125,7 @@ class DetailController extends Controller
                 ]);
             }
 
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
         }
 
         return redirect()->back();
@@ -135,7 +133,6 @@ class DetailController extends Controller
 
 
     /**
-     *
      * Store a newly created resource in storage.
      *
      * @param VehicleCreateFormRequest $request
@@ -165,7 +162,6 @@ class DetailController extends Controller
 
 
     /**
-     *
      * Remove the specified resource from storage.
      *
      * @param string $rp_id
@@ -188,4 +184,74 @@ class DetailController extends Controller
 
         return redirect()->back();
     }
+
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param string $rp_id
+     * @param string $header_id
+     * @param string $detail_id
+     *
+     * @return \Illuminate\Http\Response
+     * @internal param int $id
+     *
+     */
+    public function edit($rp_id, $header_id, $detail_id)
+    {
+        if (request()->ajax()) {
+            if ($this->repository->getDetailById(decode($detail_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+                $detail          = $this->repository->getModel();
+                $header          = $detail->header;
+                $retailerProduct = $this->retailerProductRepository->getModel();
+                $parameter       = $retailerProduct->parameters()->where('slug', 'GE')->first();
+                $categories      = $retailerProduct->categories()->where('active', true)->orderBy('category',
+                    'ASC')->get();
+
+                $data = $this->getData();
+
+                $payload = view('au.vehicle-edit',
+                    compact('rp_id', 'header_id', 'detail_id', 'header', 'data', 'parameter'));
+
+                return response()->json([
+                    'payload'    => $payload->render(),
+                    'detail'     => $detail,
+                    'types'      => $data['vehicle_types'],
+                    'makes'      => $data['vehicle_makes'],
+                    'categories' => $categories,
+                ]);
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
+        return redirect()->back();
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param VehicleCreateFormRequest $request
+     * @param string                   $rp_id
+     * @param string                   $header_id
+     * @param string                   $detail_id
+     */
+    public function update(VehicleCreateFormRequest $request, $rp_id, $header_id, $detail_id)
+    {
+        if (request()->ajax()) {
+            if ($this->repository->getDetailById(decode($detail_id))) {
+                if ($this->repository->updateVehicle($request)) {
+                    return response()->json([
+                        'location' => route('au.vh.lists', [ 'rp_id' => $rp_id, 'header_id' => $header_id ])
+                    ]);
+                }
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
+        return redirect()->back();
+    }
+
 }

@@ -13,7 +13,6 @@ class DetailRepository extends BaseRepository
 {
 
     /**
-     *
      * Get Detail by Id
      *
      * @param $detail_id
@@ -22,7 +21,13 @@ class DetailRepository extends BaseRepository
      */
     public function getDetailById($detail_id)
     {
-        $this->model = Detail::where('id', $detail_id)->first();
+        $this->model = Detail::with([
+            'vehicleType',
+            'vehicleMake',
+            'vehicleModel',
+            'category',
+            'header',
+        ])->where('id', $detail_id)->first();
 
         if ($this->model instanceof Detail) {
             return true;
@@ -33,7 +38,6 @@ class DetailRepository extends BaseRepository
 
 
     /**
-     *
      * Store Detail vehicle
      *
      * @param Request      $request
@@ -69,13 +73,45 @@ class DetailRepository extends BaseRepository
 
 
     /**
-     *
      * Remove vehicle from storage.
      */
     public function removeVehicle()
     {
         try {
             $this->model->delete();
+
+            return true;
+        } catch (QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Update vehicle
+     *
+     * @param Request $request
+     *
+     * @return bool
+     */
+    public function updateVehicle(Request $request)
+    {
+        $this->data = $request->all();
+
+        try {
+            $this->model->update([
+                'ad_vehicle_type_id'              => $this->data['vehicle_type']['id'],
+                'ad_vehicle_make_id'              => $this->data['vehicle_make']['id'],
+                'ad_vehicle_model_id'             => $this->data['vehicle_model']['id'],
+                'ad_retailer_product_category_id' => $this->data['category']['id'],
+                'year'                            => $this->data['year'],
+                'license_plate'                   => $this->data['license_plate'],
+                'use'                             => $this->data['use'],
+                'mileage'                         => (boolean) $this->data['mileage'],
+                'insured_value'                   => $this->data['insured_value'],
+            ]);
 
             return true;
         } catch (QueryException $e) {
