@@ -31,64 +31,105 @@
                 </ul>
             </div>
         </div>
-        @if (session('error'))
-            <div class="alert alert-danger alert-styled-left alert-bordered">
-                <span class="text-semibold">Error!</span> {{ session('error') }}
-            </div>
-        @elseif(session('ok'))
-            <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
-                <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-                <span class="text-semibold"></span> {{session('ok')}}
-            </div>
-        @endif
+        <div class="panel-body">
+            @include('admin.partials.message')
+        </div>
         @if(count($query)>0)
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Cobertura</th>
-                    <th>Tasa Compañía</th>
-                    <th>Tasa Banco</th>
-                    <th>Tasa final</th>
-                    <th>Retailer</th>
-                    <th class="text-center">Acciones</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($query as $data)
+            @if($code_product=='de' || $code_product=='vi')
+                <table class="table table-bordered table-striped table-hover dataTable no-footer">
+                    <thead>
                     <tr>
-                    <td>{{$data->product}}</td>
-                    <td>{{$data->coverage}}</td>
-                    <td>{{$data->rate_company}}</td>
-                    <td>{{$data->rate_bank}}</td>
-                    <td>{{$data->rate_final}}</td>
-                    <td>{{$data->retailer}}</td>
-                    <td class="text-center">
-                        <ul class="icons-list">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="icon-menu9"></i>
-                                </a>
+                        <th>Producto</th>
+                        <th>Cobertura</th>
+                        <th>Tasa Compañía</th>
+                        <th>Tasa Banco</th>
+                        <th>Tasa final</th>
+                        <th>Retailer</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($query as $data)
+                        <tr>
+                            <td>{{$data->product}}</td>
+                            <td>{{$data->coverage}}</td>
+                            <td>{{$data->rate_company}}</td>
+                            <td>{{$data->rate_bank}}</td>
+                            <td>{{$data->rate_final}}</td>
+                            <td>{{$data->retailer}}</td>
+                            <td class="text-center">
+                                <ul class="icons-list">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <i class="icon-menu9"></i>
+                                        </a>
 
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li>
-                                        <a href="{{route('admin.tasas.edit', ['nav'=>'rate', 'action'=>'edit', 'id_rates'=>$data->id_rates, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}">
-                                            <i class="icon-pencil3"></i> Editar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="confirm_delete" id="{{$data->id_rates}}">
-                                            <i class="icon-trash"></i> Eliminar
-                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li>
+                                                <a href="{{route('admin.tasas.edit', ['nav'=>'rate', 'action'=>'edit', 'id_rates'=>$data->id_rates, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}">
+                                                    <i class="icon-pencil3"></i> Editar
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="confirm_delete" id="{{$data->id_rates}}">
+                                                    <i class="icon-trash"></i> Eliminar
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-                @endforeach
-                </tbody>
-            </table>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            @elseif($code_product=='au')
+                @var $cont = 0
+                <table class="table table-bordered table-striped table-hover dataTable no-footer">
+                    <thead>
+                    <tr>
+                        <th>Tasa</th>
+                        <th>Tasa Categoria A</th>
+                        <th>Tasa Categoria B</th>
+                        <th>Año</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($query as $data)
+                        @var $vec = explode('|',$data)
+                        <tr>
+                            <td>{{$vec[1]}}</td>
+                            <td>{{$vec[5]}}</td>
+                            <td>{{$vec[8]}}</td>
+                            <td>{{$vec[2]}}</td>
+                            <td class="text-center">
+                                <ul class="icons-list">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li>
+                                                <a href="{{route('admin.tasas.edit', ['nav'=>'rate', 'action'=>'edit', 'id_rates'=>$vec[0], 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}">
+                                                    <i class="icon-pencil3"></i> Editar
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="confirm_delete" id="{{$vec[0]}}|{{$code_product}}">
+                                                    <i class="icon-trash"></i> Eliminar
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            @endif
         @else
             <div class="alert alert-warning alert-styled-left">
                 <span class="text-semibold"></span> No existe ninguna tasa registrada
@@ -103,22 +144,26 @@
 
             $('a[href].confirm_delete').click(function(e){
 
-                var id_rates = $(this).prop('id');
+                var _id = $(this).prop('id');
+                var vec = _id.split('|');
+                var id_rates = vec[0];
+                var code_product = vec[1];
+                //var id_rates = $(this).prop('id');
 
-                bootbox.confirm("Esta seguro de eliminar la tasa ?", function(result) {
+                bootbox.confirm("Esta seguro de eliminar el registro ?", function(result) {
                     if(result){
-                        $.get( "{{url('/')}}/admin/tasas/delete_ajax/"+id_rates, function( data ) {
-                            console.log(data);
-                            var arr = data.split('|');
-                            if(arr[0]==1){
+                        $.get( "{{url('/')}}/admin/tasas/delete_ajax/"+id_rates+"/"+code_product, function( result ) {
+                            console.log(result);
+
+                            if(result['response']=='ok'){
                                 swal({
-                                    title: arr[1],
+                                    title: result['detail'],
                                     confirmButtonColor: "#2196F3"
                                 });
                                 window.setTimeout('location.reload()', 2000);
-                            }else if(arr[0]==0){
+                            }else if(result['response']=='error'){
                                 swal({
-                                    title: "Error!! "+arr[1],
+                                    title: "Error!! "+result['detail'],
                                     confirmButtonColor: "#2196F3"
                                 });
                             }
