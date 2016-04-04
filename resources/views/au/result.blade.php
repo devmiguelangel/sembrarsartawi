@@ -98,7 +98,8 @@
                                 </a>
                                 <hr>
 
-                                <a href="#" class="btn btn-primary"><i class="icon-arrow-right14 position-left"></i>
+                                <a href="{{ route('au.edit', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                                   class="btn btn-primary"><i class="icon-arrow-right14 position-left"></i>
                                     Emitir</a>
                             </div>
                         </div>

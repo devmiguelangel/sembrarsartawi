@@ -3,6 +3,7 @@
 namespace Sibas\Entities\Au;
 
 use Illuminate\Database\Eloquent\Model;
+use Sibas\Entities\Client;
 
 class Header extends Model
 {
@@ -18,6 +19,12 @@ class Header extends Model
     protected $appends = [
         'full_year',
     ];
+
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'op_client_id', 'id');
+    }
 
 
     public function details()

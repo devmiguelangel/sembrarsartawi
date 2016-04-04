@@ -17,6 +17,7 @@ class HeaderRepository extends BaseRepository
     public function getHeaderById($header_id)
     {
         $this->model = Header::with([
+            'client',
             'details.vehicleType',
             'details.vehicleMake',
             'details.vehicleModel',

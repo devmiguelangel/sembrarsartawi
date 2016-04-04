@@ -20,17 +20,17 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
     /*
      * Vehicle create
      */
-    Route::get('{header_id}/vehicle/lists', [
+    Route::get('create/{header_id}/vehicle/lists', [
         'as'   => 'au.vh.lists',
         'uses' => 'Au\DetailController@lists'
     ]);
 
-    Route::get('{header_id}/vehicle/create', [
+    Route::get('create/{header_id}/vehicle/create', [
         'as'   => 'au.vh.create',
         'uses' => 'Au\DetailController@create'
     ]);
 
-    Route::post('{header_id}/vehicle/create', [
+    Route::post('create/{header_id}/vehicle/create', [
         'as'   => 'au.vh.store',
         'uses' => 'Au\DetailController@store'
     ]);
@@ -38,7 +38,7 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
     /*
      * Vehicle destroy
      */
-    Route::delete('{header_id}/vehicle/delete/{detail_id}', [
+    Route::delete('create/{header_id}/vehicle/delete/{detail_id}', [
         'as'   => 'au.vh.destroy',
         'uses' => 'Au\DetailController@destroy'
     ]);
@@ -46,12 +46,12 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
     /*
      * Vehicle edit
      */
-    Route::get('{header_id}/vehicle/edit/{detail_id}', [
+    Route::get('create/{header_id}/vehicle/edit/{detail_id}', [
         'as'   => 'au.vh.edit',
         'uses' => 'Au\DetailController@edit'
     ]);
 
-    Route::put('{header_id}/vehicle/edit/{detail_id}', [
+    Route::put('create/{header_id}/vehicle/edit/{detail_id}', [
         'as'   => 'au.vh.update',
         'uses' => 'Au\DetailController@update'
     ]);
@@ -59,9 +59,35 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
     /*
      * Header Result
      */
-    Route::get('{header_id}/result', [
+    Route::get('create/{header_id}/result', [
         'as'   => 'au.result',
         'uses' => 'Au\HeaderController@result'
+    ]);
+
+    /*
+     * Header Edit
+     */
+    Route::get('edit/{header_id}', [
+        'as'   => 'au.edit',
+        'uses' => 'Au\HeaderController@edit'
+    ]);
+
+    Route::put('edit/{header_id}', [
+        'as'   => 'au.update',
+        'uses' => 'Au\HeaderController@update'
+    ]);
+
+    /*
+     * Client Edit
+     */
+    Route::get('edit/{header_id}/client/edit/{client_id}', [
+        'as'   => 'au.client.i.edit',
+        'uses' => 'Au\HeaderController@editClient'
+    ]);
+
+    Route::put('edit/{header_id}/client/edit/{client_id}', [
+        'as'   => 'au.client.i.update',
+        'uses' => 'Au\HeaderController@updateClient'
     ]);
 
 });
