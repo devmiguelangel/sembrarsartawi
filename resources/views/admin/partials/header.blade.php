@@ -481,6 +481,14 @@
                 <li><a href="{{ route('admin.au.parameters.list-parameter-additional', ['nav'=>'au_parameter', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product]) }}">Parametros Adicionales</a></li>
                 <li class="active">Formulario</li>
             @endif
+        @elseif($nav=='au_increment')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Categorias</li>
+            @elseif($action=='new')
+                <li><a href="{{ route('admin.au.increment.list', ['nav'=>'au_increment', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Categorias</a></li>
+                <li class="active">Formulario</li>
+            @endif
         @endif
     </ul>
     <!--

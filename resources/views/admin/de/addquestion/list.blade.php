@@ -109,11 +109,12 @@
         @endif
     </div>
     <script type="text/javascript">
-        setTimeout(function() {
-            $('#message-session').fadeOut();
-        }, 3000);
 
         $(document).ready(function(){
+            setTimeout(function() {
+                $('#message-session').fadeOut();
+            }, 3000);
+
             $('a[href].confirm_active').click(function(e){
 
                 var _id = $(this).prop('id');

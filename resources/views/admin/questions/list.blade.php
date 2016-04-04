@@ -43,7 +43,7 @@
             @endif
         </div>
         @if(count($query)>0)
-            <table class="table datatable-basic">
+            <table class="table datatable-basic table-bordered table-striped table-hover dataTable no-footer">
             <thead>
             <tr>
                 <th style="text-align: left;">Nro</th>
