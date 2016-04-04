@@ -117,16 +117,13 @@ var detail = function ($rootScope, $scope, $http) {
             'X-CSRF-TOKEN': CSRF_TOKEN
           }
         })
-         .then(
-             function (response) {
-              if (response.status == 200) {
-               $scope.redirect(response.data.location);
-              }
-             },
-             function (response) {
-               console.log('Unauthorized action.');
-             }
-          );
+         .then(function (response) {
+            if (response.status == 200) {
+              $scope.redirect(response.data.location);
+            }
+          }, function (response) {
+            console.log('Unauthorized action.');
+          });
       }
     });
   };
@@ -173,10 +170,9 @@ var detail = function ($rootScope, $scope, $http) {
           }
         }, function(response){
           console.log(response);
-        }
-      ).finally(function () {
-        $scope.easyLoading('body', '', false);
-      });
+        }).finally(function () {
+          $scope.easyLoading('body', '', false);
+        });
   };
 
   /**
@@ -218,6 +214,55 @@ var detail = function ($rootScope, $scope, $http) {
       }).finally(function () {
         $scope.easyLoading('#popup', '', false);
       });
+  };
+
+  /**
+   * Vehicle edit issuance form
+   * @param  {[type]} event [description]
+   * @return {[type]}       [description]
+   */
+  $scope.editIssuance = function (event) {
+    event.preventDefault();
+
+    $scope.easyLoading('body', 'dark', true);
+
+    var url = event.target.attributes.href.value;
+
+    $http.get(url, {})
+      .then(function (response) {
+          if (response.status == 200) {
+            var data = response.data;
+
+            /*$rootScope.data.types      = data.types;
+            $rootScope.data.makes      = data.makes;
+            $rootScope.data.categories = data.categories;
+
+            $scope.formData.vehicle_type  = data.detail.vehicle_type;
+            $scope.formData.vehicle_make  = data.detail.vehicle_make;
+            $scope.formData.vehicle_model = data.detail.vehicle_model;
+            $scope.formData.year          = data.detail.year;
+            $scope.formData.license_plate = data.detail.license_plate;
+            $scope.formData.use           = data.detail.use;
+            $scope.formData.mileage       = data.detail.mileage ? '1' : '0';
+            $scope.formData.insured_value = data.detail.insured_value;
+
+            
+
+            angular.element('#popup').on('shown.bs.modal', function (e) {
+              angular.element('#category option:not(:selected)').prop('disabled', true);
+              angular.element('#vehicle-make').triggerHandler('change');
+              angular.element('#vehicle-model').triggerHandler('change');
+              angular.element('#year option[value=' + $scope.formData.year + ']').prop('selected', true).triggerHandler('change');
+              angular.element('#year').triggerHandler('change');
+            });*/
+
+            $scope.popup(data.payload);
+          }
+        }, function(response){
+          console.log(response);
+        }).finally(function () {
+          $scope.easyLoading('body', '', false);
+        });
   };
 
 };

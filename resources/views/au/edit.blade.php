@@ -147,7 +147,7 @@
                         </div>
                         <div class="panel panel-body border-top-success">
                             <div class="col-xs-12 col-md-12">
-                                <table class="table">
+                                <table class="table" ng-controller="DetailAuController">
                                     <thead>
                                     <tr>
                                         <th>Nro.</th>
@@ -158,7 +158,7 @@
                                         <th>Año</th>
                                         <th>Placa</th>
                                         <th>Categoria</th>
-                                        <th>Valor Asegurado USD.</th>
+                                        <th>Valor Comercial</th>
                                         <th class="text-center">Accion</th>
                                     </tr>
                                     </thead>
@@ -185,10 +185,15 @@
                                                             <i class="icon-menu9"></i>
                                                         </a>
                                                         <ul class="dropdown-menu dropdown-menu-right">
-                                                            <li><a href="#" data-toggle="modal"
-                                                                   data-target="#modal_theme_auto"><i
-                                                                            class="icon-pencil3"></i> Editar</a></li>
-                                                            <li><a href="#"><i class="icon-trash"></i> Eliminar</a></li>
+                                                            <li>
+                                                                <a href="{{ route('au.vh.i.edit', [
+                                                                    'rp_id'     => $rp_id,
+                                                                    'header_id' => $header_id,
+                                                                    'detail_id' => encode($detail->id)]) }}"
+                                                                   ng-click="editIssuance($event)">
+                                                                    <i class="icon-pencil3"
+                                                                       ng-click="$event.stopPropagation(); $event.preventDefault()"></i>
+                                                                    Editar</a></li>
                                                         </ul>
                                                     </li>
                                                 </ul>

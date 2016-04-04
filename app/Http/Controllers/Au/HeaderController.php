@@ -172,15 +172,15 @@ class HeaderController extends Controller
      * @param string                      $header_id
      * @param string                      $client_id
      *
-     *
+     * @return \Illuminate\Http\Response
      */
     public function updateClient(ClientComplementFormRequest $request, $rp_id, $header_id, $client_id)
     {
         if ($this->repository->getHeaderById(decode($header_id))) {
             $header = $this->repository->getModel();
 
-            if (( $header->client instanceof Client ) && $this->clientRepository->updateIssueClient($request,
-                    $header->client)
+            if (( $header->client instanceof Client && $header->client->id == decode($client_id) )
+                    && $this->clientRepository->updateIssueClient($request, $header->client)
             ) {
                 return redirect()->route('au.edit', [
                     'rp_id'     => $rp_id,

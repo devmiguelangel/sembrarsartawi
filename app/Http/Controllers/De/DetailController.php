@@ -257,17 +257,20 @@ class DetailController extends Controller
     {
         if (request()->ajax()) {
             if ($this->headerRepository->getHeaderById(decode($header_id))) {
-                $header = $this->headerRepository->getModel();
-                $detail = $header->details()->where('id', decode($detail_id))->first();
+                $header   = $this->headerRepository->getModel();
+                $detail   = $header->details()->where('id', decode($detail_id))->first();
+                $retailer = request()->user()->retailer()->first();
 
                 if ($detail instanceof Detail) {
-                    $payload = view('client.de.balance', compact('rp_id', 'header', 'detail'));
-
+                    $payload             = view('client.de.balance', compact('rp_id', 'header', 'detail'));
+                    $amount_requested_bs = $header->currency == 'USD' ? $header->amount_requested * $retailer->exchangeRate->bs_value : $header->amount_requested;
+                    
                     return response()->json([
-                        'payload'          => $payload->render(),
-                        'amount_requested' => $header->amount_requested,
-                        'balance'          => $detail->balance,
-                        'cumulus'          => $detail->cumulus,
+                        'payload'             => $payload->render(),
+                        'amount_requested'    => $header->amount_requested,
+                        'amount_requested_bs' => $amount_requested_bs,
+                        'balance'             => $detail->balance,
+                        'cumulus'             => $detail->cumulus,
                     ]);
                 }
             }
