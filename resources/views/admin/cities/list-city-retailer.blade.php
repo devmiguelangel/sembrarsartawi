@@ -27,14 +27,11 @@
                 </a>
             </div>
         </div>
-        @if(session('ok'))
-            <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
-                <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-                <span class="text-semibold"></span> {{session('ok')}}
-            </div>
-        @endif
+        <div class="panel-body">
+            @include('admin.partials.message')
+        </div>
         @if(count($query)>0)
-            <table class="table datatable-basic table-bordered">
+            <table class="table table-bordered table-striped table-hover dataTable no-footer">
             <thead>
             <tr>
                 <th>Departamento</th>
@@ -87,12 +84,11 @@
                 <span class="text-semibold"></span> No existe departamentos registrados en el Retailer.
             </div>
         @endif
-
-        <div class="panel-heading" style="text-align: right;">
-            <a href="{{route('admin.cities.list', ['nav'=>'city', 'action'=>'list'])}}" class="btn btn-primary">
-                Administrar Region/Departamento <i class="icon-arrow-right7 position-right"></i>
-            </a>
-        </div>
+    </div>
+    <div class="panel-heading" style="text-align: right;">
+        <a href="{{route('admin.cities.list', ['nav'=>'city', 'action'=>'list'])}}" class="btn btn-primary">
+            Administrar Region/Departamento <i class="icon-arrow-right7 position-right"></i>
+        </a>
     </div>
     <script type="text/javascript">
         setTimeout(function() {

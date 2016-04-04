@@ -38,7 +38,7 @@
 
         </div>
         @if($query->count()>0)
-            <table class="table table-bordered">
+            <table class="table table-bordered table-striped table-hover dataTable no-footer">
                 <thead>
                 <tr>
                     <th>Departamento</th>
@@ -100,12 +100,11 @@
                 <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
             </div>
         @endif
-
-        <div class="panel-heading" style="text-align: right;">
-            <a href="{{route('admin.cities.list-city-retailer', ['nav'=>'city', 'action'=>'list_city_retailer'])}}" class="btn btn-primary">
-                Administrar Departamento Retailer <i class="icon-arrow-right7 position-right"></i>
-            </a>
-        </div>
+    </div>
+    <div class="panel-heading" style="text-align: right;">
+        <a href="{{route('admin.cities.list-city-retailer', ['nav'=>'city', 'action'=>'list_city_retailer'])}}" class="btn btn-primary">
+            Administrar Departamento Retailer <i class="icon-arrow-right7 position-right"></i>
+        </a>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){

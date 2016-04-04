@@ -412,7 +412,6 @@
                                     </li>
                                 </ul>
                             </li>
-
                         @endif
                     @endif
 
@@ -493,7 +492,6 @@
                                     </li>
                                 </ul>
                             </li>
-
                         @endif
                     @endif
 
@@ -506,13 +504,23 @@
                                         $action=='list_parameter_additional' || $action=='new_parameter_additional' ||
                                         $action=='edit_parameter_additional')
                                         @var $data_aup='active'
+                                        @var $data_ain=''
                                     @endif
+                                @elseif($nav=="au_increment")
+                                    @var $data_ain='active'
+                                    @var $data_aup=''
                                 @else
                                     @var $data_aup=''
+                                    @var $data_ain=''
                                 @endif
                                 <ul>
                                     <li class="{{$data_aup}}">
                                         <a href="{{route('admin.au.parameters.list-parameter', ['nav'=>'au_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="{{$data_ain}}">
+                                        <a href="{{route('admin.au.increment.list', ['nav'=>'au_increment', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar Categorias</a>
                                     </li>
                                 </ul>
                             </li>
