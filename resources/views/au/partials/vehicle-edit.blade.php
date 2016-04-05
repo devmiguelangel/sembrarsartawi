@@ -48,6 +48,8 @@
             </label>
         </div>
     </div>
+</div>
+<div class="col-xs-12 col-md-6">
     <div class="form-group">
         <label class="col-lg-3 control-label label_required">Año: </label>
         <div class="col-lg-9">
@@ -63,8 +65,6 @@
             </label>
         </div>
     </div>
-</div>
-<div class="col-xs-12 col-md-6">
     <div class="form-group">
         <div class="col-lg-12">
             <div class="input-group">
@@ -114,23 +114,102 @@
             </label>
         </div>
     </div>
+</div>
+
+<div class="clearfix"></div>
+<hr>
+
+<div class="col-xs-12 col-md-6">
     <div class="form-group">
-        <label class="control-label col-lg-9 label_required">Valor Comercial
-            ({{ $header->currency }}): </label>
         <div class="col-lg-12">
             <div class="input-group">
-                <span class="input-group-addon"><i class=" icon-coin-dollar"></i></span>
-                {!! Form::text('insured_value', old('insured_value'), [
-                    'class'        => 'form-control',
+                <span class="input-group-addon label_required">Color </span>
+                {!! Form::text('color', old('color'), [
+                    'class'        => 'form-control ui-wizard-content',
                     'autocomplete' => 'off',
-                    'placeholder'  => '(' . $header->currency . ')',
-                    'ng-model'     => 'formData.insured_value',
+                    'ng-model'     => 'formData.color',
                 ]) !!}
             </div>
             <label id="location-error" class="validation-error-label" for="location"
-                   ng-show="errors.insured_value">
-                @{{ errors.insured_value[0] }}
+                   ng-show="errors.color">
+                @{{ errors.color[0] }}
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-12">
+            <div class="input-group">
+                <span class="input-group-addon label_required">Motor </span>
+                {!! Form::text('engine', old('engine'), [
+                    'class'        => 'form-control ui-wizard-content',
+                    'autocomplete' => 'off',
+                    'ng-model'     => 'formData.engine',
+                ]) !!}
+            </div>
+            <label id="location-error" class="validation-error-label" for="location"
+                   ng-show="errors.engine">
+                @{{ errors.engine[0] }}
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-12">
+            <div class="input-group">
+                <span class="input-group-addon label_required">Chasis </span>
+                {!! Form::text('chassis', old('chassis'), [
+                    'class'        => 'form-control ui-wizard-content',
+                    'autocomplete' => 'off',
+                    'ng-model'     => 'formData.chassis',
+                ]) !!}
+            </div>
+            <label id="location-error" class="validation-error-label" for="location"
+                   ng-show="errors.chassis">
+                @{{ errors.chassis[0] }}
             </label>
         </div>
     </div>
 </div>
+<div class="col-xs-12 col-md-6">
+    <div class="form-group">
+        <div class="col-lg-12">
+            <div class="input-group">
+                <span class="input-group-addon">Cap/Ton</span>
+                {!! Form::text('tonnage_capacity', old('tonnage_capacity'), [
+                    'class'        => 'form-control ui-wizard-content',
+                    'autocomplete' => 'off',
+                    'ng-model'     => 'formData.tonnage_capacity',
+                ]) !!}
+            </div>
+            <label id="location-error" class="validation-error-label" for="location"
+                   ng-show="errors.tonnage_capacity">
+                @{{ errors.tonnage_capacity[0] }}
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-12">
+            <div class="input-group">
+                <span class="input-group-addon">N° Asientos</span>
+                {!! Form::text('seat_number', old('seat_number'), [
+                    'class'        => 'form-control ui-wizard-content',
+                    'autocomplete' => 'off',
+                    'ng-model'     => 'formData.seat_number',
+                ]) !!}
+            </div>
+            <label id="location-error" class="validation-error-label" for="location"
+                   ng-show="errors.seat_number">
+                @{{ errors.seat_number[0] }}
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-12">
+            <div class="alert alert-info text-bold no-padding-left no-padding-right text-center"
+                 role="alert">@{{ data.insured_value | currency:'Valor Comercial (' + data.currency + ') ' }}</div>
+            <div class="alert alert-info text-bold no-padding-left no-padding-right text-center"
+                 role="alert">@{{ data.premium | currency:'Prima (' + data.currency + ') ' }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>

@@ -139,4 +139,59 @@ class HeaderRepository extends BaseRepository
 
         return false;
     }
+
+
+    /**
+     * Update Header AU
+     *
+     * @param Request $request
+     *
+     * @return bool
+     */
+    public function updateHeader(Request $request)
+    {
+        $this->data = $request->all();
+
+        try {
+            $issue_number = $this->getNumber('I');
+
+            if ( ! $this->checkNumber('I', $issue_number)) {
+                $this->model->update([
+                    'type'             => 'I',
+                    'issue_number'     => $issue_number,
+                    'prefix'           => 'AU',
+                    'policy_number'    => $this->data['policy_number'],
+                    'operation_number' => $this->data['operation_number'],
+                    'facultative'      => false,
+                ]);
+
+                return true;
+            }
+        } catch (QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Issuance Header AU
+     */
+    public function issuanceHeader()
+    {
+        try {
+            $this->model->update([
+                'issued'     => true,
+                'date_issue' => date('Y-m-d H:i:s'),
+            ]);
+
+            return true;
+        } catch (QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+
+        return false;
+    }
+
 }

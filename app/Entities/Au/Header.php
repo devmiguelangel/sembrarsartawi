@@ -14,10 +14,23 @@ class Header extends Model
 
     protected $fillable = [
         'total_premium',
+        'type',
+        'issue_number',
+        'prefix',
+        'policy_number',
+        'operation_number',
+        'issued',
+        'date_issue',
+        'facultative',
     ];
 
     protected $appends = [
         'full_year',
+        'completed',
+    ];
+
+    protected $casts = [
+        'issued' => 'boolean',
     ];
 
 
@@ -49,6 +62,22 @@ class Header extends Model
                 return 0;
                 break;
         }
+    }
+
+
+    public function getCompletedAttribute()
+    {
+        $completed = true;
+
+        foreach ($this->details as $detail) {
+            if ( ! $detail->completed) {
+                $completed = false;
+
+                break;
+            }
+        }
+
+        return $completed;
     }
 
 }

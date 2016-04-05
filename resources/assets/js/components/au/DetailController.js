@@ -233,28 +233,33 @@ var detail = function ($rootScope, $scope, $http) {
           if (response.status == 200) {
             var data = response.data;
 
-            /*$rootScope.data.types      = data.types;
-            $rootScope.data.makes      = data.makes;
-            $rootScope.data.categories = data.categories;
+            $rootScope.data.types         = data.types;
+            $rootScope.data.makes         = data.makes;
+            $rootScope.data.categories    = data.categories;
+            $rootScope.data.insured_value = data.detail.insured_value;
+            $rootScope.data.premium       = data.detail.premium;
+            $rootScope.data.currency      = data.detail.header.currency;
 
-            $scope.formData.vehicle_type  = data.detail.vehicle_type;
-            $scope.formData.vehicle_make  = data.detail.vehicle_make;
-            $scope.formData.vehicle_model = data.detail.vehicle_model;
-            $scope.formData.year          = data.detail.year;
-            $scope.formData.license_plate = data.detail.license_plate;
-            $scope.formData.use           = data.detail.use;
-            $scope.formData.mileage       = data.detail.mileage ? '1' : '0';
-            $scope.formData.insured_value = data.detail.insured_value;
-
+            $scope.formData.vehicle_type     = data.detail.vehicle_type;
+            $scope.formData.vehicle_make     = data.detail.vehicle_make;
+            $scope.formData.vehicle_model    = data.detail.vehicle_model;
+            $scope.formData.year             = data.detail.year;
+            $scope.formData.license_plate    = data.detail.license_plate;
+            $scope.formData.use              = data.detail.use;
+            $scope.formData.mileage          = data.detail.mileage ? '1' : '0';
+            $scope.formData.color            = data.detail.color;
+            $scope.formData.engine           = data.detail.engine;
+            $scope.formData.chassis          = data.detail.chassis;
+            $scope.formData.tonnage_capacity = data.detail.tonnage_capacity;
+            $scope.formData.seat_number      = data.detail.seat_number;
             
-
             angular.element('#popup').on('shown.bs.modal', function (e) {
               angular.element('#category option:not(:selected)').prop('disabled', true);
               angular.element('#vehicle-make').triggerHandler('change');
               angular.element('#vehicle-model').triggerHandler('change');
               angular.element('#year option[value=' + $scope.formData.year + ']').prop('selected', true).triggerHandler('change');
               angular.element('#year').triggerHandler('change');
-            });*/
+            });
 
             $scope.popup(data.payload);
           }
@@ -263,6 +268,47 @@ var detail = function ($rootScope, $scope, $http) {
         }).finally(function () {
           $scope.easyLoading('body', '', false);
         });
+  };
+
+  /**
+   * Vehicle update issuance
+   * @param  {[type]} event [description]
+   * @return {[type]}       [description]
+   */
+  $scope.updateIssuance = function (event) {
+    event.preventDefault();
+
+    $scope.easyLoading('#popup', 'dark', true);
+
+    var action = $scope.getActionAttribute(event);
+
+    CSRF_TOKEN = $scope.csrf_token();
+
+    var data = $.param($scope.formData);
+    
+    $http.put(action, data, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRF-TOKEN': CSRF_TOKEN
+      }
+    })
+      .then(function (response) {
+        $scope.errors = {};
+        
+        if (response.status == 200) {
+          $scope.success = { vehicle: true };
+
+          $scope.redirect(response.data.location);
+        }
+      }, function (response) {
+        if (response.status == 422) {
+          $scope.errors = response.data;
+        } else if (response.status == 500) {
+          console.log('Unauthorized action.');
+        }
+      }).finally(function () {
+        $scope.easyLoading('#popup', '', false);
+      });
   };
 
 };

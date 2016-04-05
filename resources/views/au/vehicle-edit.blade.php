@@ -41,7 +41,7 @@
         </div>
         <script type="text/javascript">
             $(document).ready(function () {
-                $(".select-search").select2({
+                $("select.select-search").select2({
                     dropdownParent: "#popup"
                 });
             });
