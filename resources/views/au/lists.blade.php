@@ -71,16 +71,16 @@
                     </button>
                 </div>
 
-                @if(session('error_header'))
-                    <div class="alert bg-danger alert-styled-right">
+                @if(session('success_header'))
+                    <div class="alert bg-success alert-styled-right">
                         <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span>
                         </button>
-                        <span class="text-semibold">{{ session('error_header') }}</span>.
+                        <span class="text-semibold">{{ session('success_header') }}</span>.
                     </div>
                 @endif
 
                 <div class="panel-body" ng-controller="DetailAuController">
-                    <table class="table datatable-basic">
+                    <table class="table datatable-basic2">
                         <thead>
                         <tr>
                             <th>Nro.</th>
@@ -96,65 +96,63 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="#">Minibus</a></td>
-                            <td>TOYOTA</td>
-                            <td>Corolla</td>
-                            <td>NO</td>
-                            <td>2015</td>
-                            <td>FT545</td>
-                            <td><span class="label label-success">B</span></td>
-                            <td><strong>45.000 USD</strong></td>
-                            <td class="text-center">
-                                <ul class="icons-list">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            <i class="icon-menu9"></i>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li><a href="paso2_form.html"><i class="icon-pencil3"></i> Editar</a></li>
-                                            <li><a href="paso2_form.html"><i class="icon-trash"></i> Eliminar</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><a href="#">Camioneta</a></td>
-                            <td>NISSAN</td>
-                            <td>Np300</td>
-                            <td>SI</td>
-                            <td>2016</td>
-                            <td>LKJ345</td>
-                            <td><span class="label label-success">B</span></td>
-                            <td><strong>60.000 USD</strong></td>
-                            <td class="text-center">
-                                <ul class="icons-list">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            <i class="icon-menu9"></i>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li><a href="paso2_form.html"><i class="icon-pencil3"></i> Editar</a></li>
-                                            <li><a href="paso2_form.html"><i class="icon-trash"></i> Eliminar</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
+                        @foreach($header->details as $key => $detail)
+                            <tr>
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $detail->vehicleType->vehicle }}</td>
+                                <td>{{ $detail->vehicleMake->make }}</td>
+                                <td>{{ $detail->vehicleModel->model }}</td>
+                                <td>{{ $detail->mileage_text }}</td>
+                                <td>{{ $detail->year }}</td>
+                                <td>{{ $detail->license_plate }}</td>
+                                <td><span class="label label-success">{{ $detail->category->category_name }}</span></td>
+                                <td>
+                                    <strong>{{ number_format($detail->insured_value, 2) }} {{ $header->currency }}</strong>
+                                </td>
+                                <td class="text-center">
+                                    <ul class="icons-list">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                    <a href="{{ route('au.vh.edit', ['rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => encode($detail->id)]) }}"
+                                                       ng-click="edit($event)">
+                                                        <i class="icon-pencil3"
+                                                           ng-click="$event.stopPropagation(); $event.preventDefault()"></i>
+                                                        Editar</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('au.vh.destroy', ['rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => encode($detail->id)]) }}"
+                                                       ng-click="delete($event)">
+                                                        <i class="icon-trash"
+                                                           ng-click="$event.stopPropagation(); $event.preventDefault()"></i>
+                                                        Eliminar</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                     <hr/>
                     <div class="text-right">
-                        <button type="button" class="btn btn-primary" ng-click="create($event)"
-                                data-url="{{ route('au.vh.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">
-                            Agregar Vehículo <i
-                                    class="icon-plus22 position-right"></i></button>
+                        @var $parameter = $retailerProduct->parameters()->where('slug', 'GE')->first()
 
-                        <button type="submit" class="btn btn-primary">Continuar <i
-                                    class="icon-arrow-right14 position-right"></i></button>
+                        @if($parameter instanceof \Sibas\Entities\ProductParameter && $header->details->count() < $parameter->detail)
+                            <button type="button" class="btn btn-primary" ng-click="create($event)"
+                                    data-url="{{ route('au.vh.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">
+                                Agregar Vehículo <i class="icon-plus22 position-right"></i></button>
+                        @endif
+
+                        @if($header->details->count() > 0)
+                            <a href="{{ route('au.result', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                               class="btn btn-primary">
+                                Continuar <i class="icon-arrow-right14 position-right"></i></a>
+                        @endif
                     </div>
                 </div>
             </div>

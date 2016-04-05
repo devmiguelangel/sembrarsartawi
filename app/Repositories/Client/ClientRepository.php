@@ -91,14 +91,15 @@ class ClientRepository extends BaseRepository
 
     /** Set complementary data on Issue
      *
-     * @param Request $request
+     * @param Request      $request
+     * @param Model|Client $client
      *
      * @return bool
      */
-    public function updateIssueClient($request)
+    public function updateIssueClient($request, $client)
     {
         $this->data  = $request->all();
-        $this->model = $this->data['detail']->client;
+        $this->model = $client;
 
         $this->data['document_type'] = $this->model->document_type;
         $this->data['complement']    = $this->model->complement;
@@ -108,8 +109,8 @@ class ClientRepository extends BaseRepository
 
         $this->setData();
 
-        $this->model->hand             = $this->data['hand'];
-        $this->model->avenue_street    = $this->data['avenue_street'];
+        $this->model->hand             = key_exists('hand', $this->data) ? $this->data['hand'] : '';
+        $this->model->avenue_street    = key_exists('avenue_street', $this->data) ? $this->data['avenue_street'] : '';
         $this->model->home_number      = $this->data['home_number'];
         $this->model->business_address = $this->data['business_address'];
 

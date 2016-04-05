@@ -8,6 +8,7 @@ use Sibas\Entities\User;
 
 class Header extends Model
 {
+
     protected $table = 'op_de_headers';
 
     public $incrementing = false;
@@ -31,32 +32,37 @@ class Header extends Model
         'facultative'
     ];
 
+
     public function user()
     {
         return $this->belongsTo(User::class, 'ad_user_id', 'id');
     }
+
 
     public function coverage()
     {
         return $this->belongsTo(Coverage::class, 'ad_coverage_id', 'id');
     }
 
+
     public function details()
     {
         return $this->hasMany(Detail::class, 'op_de_header_id', 'id');
     }
+
 
     public function cancellation()
     {
         return $this->hasOne(Cancellation::class, 'op_de_header_id', 'id');
     }
 
+
     public function getCompletedAttribute()
     {
         $completed = true;
 
         foreach ($this->details as $detail) {
-            if (!$detail->completed) {
+            if ( ! $detail->completed) {
                 $completed = false;
 
                 break;
@@ -66,15 +72,18 @@ class Header extends Model
         return $completed;
     }
 
+
     public function getCertificateNumberAttribute()
     {
         return $this->prefix . '-' . $this->issue_number;
     }
 
+
     public function getCreatedDateAttribute()
     {
         return Carbon::createFromTimestamp(strtotime($this->created_at))->format('d/m/Y H:i a');
     }
+
 
     public function getDaysFromCreationAttribute()
     {

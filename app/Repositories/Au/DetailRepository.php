@@ -5,6 +5,7 @@ namespace Sibas\Repositories\Au;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Sibas\Entities\Au\Detail;
 use Sibas\Entities\Au\Header;
 use Sibas\Repositories\BaseRepository;
 
@@ -12,6 +13,33 @@ class DetailRepository extends BaseRepository
 {
 
     /**
+     * Get Detail by Id
+     *
+     * @param $detail_id
+     *
+     * @return bool
+     */
+    public function getDetailById($detail_id)
+    {
+        $this->model = Detail::with([
+            'vehicleType',
+            'vehicleMake',
+            'vehicleModel',
+            'category',
+            'header',
+        ])->where('id', $detail_id)->first();
+
+        if ($this->model instanceof Detail) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Store Detail vehicle
+     *
      * @param Request      $request
      * @param Model|Header $header
      *
@@ -23,16 +51,16 @@ class DetailRepository extends BaseRepository
 
         try {
             $header->details()->create([
-                'id'                  => date('U'),
-                'ad_vehicle_type_id'  => $this->data['vehicle_type']['id'],
-                'ad_vehicle_make_id'  => $this->data['vehicle_make']['id'],
-                'ad_vehicle_model_id' => $this->data['vehicle_model']['id'],
-                'category'            => $this->data['category']['category'],
-                'year'                => $this->data['year'],
-                'license_plate'       => $this->data['license_plate'],
-                'use'                 => $this->data['use'],
-                'mileage'             => (boolean) $this->data['mileage'],
-                'insured_value'       => $this->data['insured_value'],
+                'id'                              => date('U'),
+                'ad_vehicle_type_id'              => $this->data['vehicle_type']['id'],
+                'ad_vehicle_make_id'              => $this->data['vehicle_make']['id'],
+                'ad_vehicle_model_id'             => $this->data['vehicle_model']['id'],
+                'ad_retailer_product_category_id' => $this->data['category']['id'],
+                'year'                            => $this->data['year'],
+                'license_plate'                   => $this->data['license_plate'],
+                'use'                             => $this->data['use'],
+                'mileage'                         => (boolean) $this->data['mileage'],
+                'insured_value'                   => $this->data['insured_value'],
             ]);
 
             return true;
@@ -42,4 +70,55 @@ class DetailRepository extends BaseRepository
 
         return false;
     }
+
+
+    /**
+     * Remove vehicle from storage.
+     */
+    public function removeVehicle()
+    {
+        try {
+            $this->model->delete();
+
+            return true;
+        } catch (QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Update vehicle
+     *
+     * @param Request $request
+     *
+     * @return bool
+     */
+    public function updateVehicle(Request $request)
+    {
+        $this->data = $request->all();
+
+        try {
+            $this->model->update([
+                'ad_vehicle_type_id'              => $this->data['vehicle_type']['id'],
+                'ad_vehicle_make_id'              => $this->data['vehicle_make']['id'],
+                'ad_vehicle_model_id'             => $this->data['vehicle_model']['id'],
+                'ad_retailer_product_category_id' => $this->data['category']['id'],
+                'year'                            => $this->data['year'],
+                'license_plate'                   => $this->data['license_plate'],
+                'use'                             => $this->data['use'],
+                'mileage'                         => (boolean) $this->data['mileage'],
+                'insured_value'                   => $this->data['insured_value'],
+            ]);
+
+            return true;
+        } catch (QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+
+        return false;
+    }
+
 }
