@@ -39,6 +39,19 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
     ]);
 
     /*
+     * Header issuance
+     */
+    Route::get('issuance/{header_id}', [
+        'as'   => 'au.show.issuance',
+        'uses' => 'Au\HeaderController@showIssuance'
+    ]);
+
+    Route::put('issuance/{header_id}', [
+        'as'   => 'au.update.issuance',
+        'uses' => 'Au\HeaderController@updateIssuance'
+    ]);
+
+    /*
      * Client Edit
      */
     Route::get('edit/{header_id}/client/edit/{client_id}', [

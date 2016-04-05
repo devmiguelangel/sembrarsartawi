@@ -176,6 +176,7 @@ return [
         'chassis'                => 'Chasis',
         'tonnage_capacity'       => 'Capacidad/Tonelaje',
         'seat_number'            => 'Nº de Asientos',
+        'policy_number'          => 'Número de Póliza',
         ''                       => '',
     ],
 

@@ -150,25 +150,23 @@
                                 <table class="table" ng-controller="DetailAuController">
                                     <thead>
                                     <tr>
-                                        <th>Nro.</th>
                                         <th>Vehículo</th>
-                                        <th>Marca</th>
-                                        <th>Modelo</th>
+                                        <th>Marca / Modelo</th>
                                         <th>Cero Km.</th>
                                         <th>Año</th>
                                         <th>Placa</th>
                                         <th>Categoria</th>
                                         <th>Valor Comercial</th>
+                                        <th>Status</th>
                                         <th class="text-center">Accion</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($header->details as $key => $detail)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
                                             <td><a href="#">{{ $detail->vehicleType->vehicle }}</a></td>
-                                            <td>{{ $detail->vehicleMake->make }}</td>
-                                            <td>{{ $detail->vehicleModel->model }}</td>
+                                            <td>{{ $detail->vehicleMake->make }}
+                                                / {{ $detail->vehicleModel->model }}</td>
                                             <td>{{ $detail->mileage_text }}</td>
                                             <td>{{ $detail->year }}</td>
                                             <td>{{ $detail->license_plate }}</td>
@@ -177,6 +175,20 @@
                                             </td>
                                             <td>
                                                 <strong>{{ number_format($detail->insured_value, 2) }} {{ $header->currency }}</strong>
+                                            </td>
+                                            <td>
+                                                @if($detail->completed)
+                                                    <span class="label label-success">Completado</span>
+                                                @else
+                                                    <a href="{{ route('au.vh.i.edit', [
+                                                        'rp_id'     => $rp_id,
+                                                        'header_id' => $header_id,
+                                                        'detail_id' => encode($detail->id)]) }}"
+                                                       title="Pendiente" class="label label-danger"
+                                                       ng-click="editIssuance($event)">
+                                                        Pendiente
+                                                    </a>
+                                                @endif
                                             </td>
                                             <td class="text-center">
                                                 <ul class="icons-list">
@@ -213,14 +225,27 @@
                             </div>
                         </div>
 
-                        {!! Form::open(['route' => ['au.update',
-                            'rp_id'         => $rp_id,
-                            'header_id'     => $header_id
-                            ],
-                            'method'        => 'put',
-                            'class'         => 'form-horizontal',
-                            'ng-controller' => 'HeaderDeController'
-                        ]) !!}
+                        @if(! $header->issued)
+                            @if($header->type === 'Q')
+                                {!! Form::open(['route' => ['au.update',
+                                    'rp_id'         => $rp_id,
+                                    'header_id'     => $header_id
+                                    ],
+                                    'method'        => 'put',
+                                    'class'         => 'form-horizontal',
+                                    'ng-controller' => 'HeaderDeController'
+                                ]) !!}
+                            @elseif($header->type === 'I')
+                                {!! Form::open(['route' => ['au.update.issuance',
+                                    'rp_id'         => $rp_id,
+                                    'header_id'     => $header_id
+                                    ],
+                                    'method'        => 'put',
+                                    'class'         => 'form-horizontal',
+                                    'ng-controller' => 'HeaderDeController'
+                                ]) !!}
+                            @endif
+                        @endif
 
                         <div class="panel panel-body border-top-success">
                             <div class="col-xs-12 col-md-4">
@@ -260,7 +285,8 @@
                                 <hr/>
                                 <div class="col-xs-12 col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label col-lg-3 label_required">Número de Crédito: </label>
+                                        <label class="control-label col-lg-3 label_required">Número de
+                                            Operación: </label>
                                         <div class="col-lg-9">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Nro.</span>
@@ -291,8 +317,19 @@
                                 <div class="clearfix"></div>
                                 <br/>
                                 <div class="text-right">
-                                    <button type="submit" class="btn btn-primary">Guardar <i
-                                                class="glyphicon glyphicon-floppy-disk position-right"></i></button>
+                                    @if($header->completed)
+                                        @if(! $header->issued)
+                                            @if($header->type === 'Q')
+                                                <button type="submit" class="btn btn-primary">Guardar <i
+                                                            class="glyphicon glyphicon-floppy-disk position-right"></i>
+                                                </button>
+                                            @elseif($header->type === 'I')
+                                                <button type="submit" class="btn btn-primary">Emitir <i
+                                                            class="glyphicon glyphicon-floppy-disk position-right"></i>
+                                                </button>
+                                            @endif
+                                        @endif
+                                    @endif
                                 </div>
                             </div>
 

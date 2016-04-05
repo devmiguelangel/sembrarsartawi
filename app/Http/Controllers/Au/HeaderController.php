@@ -2,13 +2,13 @@
 
 namespace Sibas\Http\Controllers\Au;
 
-use Sibas\Entities\Au\Header;
 use Sibas\Entities\Client;
 use Sibas\Http\Controllers\DataTrait;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Au\ClientComplementFormRequest;
 use Sibas\Http\Requests\Au\HeaderCreateFormRequest;
+use Sibas\Http\Requests\Au\HeaderEditFormRequest;
 use Sibas\Repositories\Au\HeaderRepository;
 use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\Retailer\PolicyRepository;
@@ -142,6 +142,28 @@ class HeaderController extends Controller
 
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param HeaderEditFormRequest $request
+     * @param string                $rp_id
+     * @param string                $header_id
+     */
+    public function update(HeaderEditFormRequest $request, $rp_id, $header_id)
+    {
+        if ($this->repository->getHeaderById(decode($header_id))) {
+            if ($this->repository->updateHeader($request)) {
+                return redirect()->route('au.edit', [
+                    'rp_id'     => $rp_id,
+                    'header_id' => $header_id,
+                ])->with([ 'success_header' => 'La Póliza fue actualizada con éxito.' ]);
+            }
+        }
+
+        return redirect()->back()->withInput();
+    }
+
+
+    /**
      * @param string $rp_id
      * @param string $header_id
      * @param string $client_id
@@ -179,8 +201,8 @@ class HeaderController extends Controller
         if ($this->repository->getHeaderById(decode($header_id))) {
             $header = $this->repository->getModel();
 
-            if (( $header->client instanceof Client && $header->client->id == decode($client_id) )
-                    && $this->clientRepository->updateIssueClient($request, $header->client)
+            if (( $header->client instanceof Client && $header->client->id == decode($client_id) ) && $this->clientRepository->updateIssueClient($request,
+                    $header->client)
             ) {
                 return redirect()->route('au.edit', [
                     'rp_id'     => $rp_id,
@@ -189,8 +211,48 @@ class HeaderController extends Controller
             }
         }
 
-        return redirect()->back()->with([ 'error_client' => 'La información del Cliente no pudo ser actualizada' ])
-            ->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()->with([ 'error_client' => 'La información del Cliente no pudo ser actualizada' ])->withInput()->withErrors($this->repository->getErrors());
+    }
+
+
+    /**
+     * Header show issuance
+     */
+    public function showIssuance($rp_id, $header_id)
+    {
+        if ($this->repository->getHeaderById(decode($header_id))) {
+            $header = $this->repository->getModel();
+
+            if ($header->issued) {
+                return view('au.issuance', compact('rp_id', 'header_id',
+                    'header'))->with([ 'success_header' => 'La Póliza se fue emitida con éxito.' ]);
+            }
+        }
+
+        return redirect()->back();
+    }
+
+
+    /**
+     * Header update issuance
+     *
+     * @param string $rp_id
+     * @param string $header_id
+     *
+     * @return
+     */
+    public function updateIssuance($rp_id, $header_id)
+    {
+        if ($this->repository->getHeaderById(decode($header_id))) {
+            if ($this->repository->issuanceHeader()) {
+                return redirect()->route('au.show.issuance', [
+                    'rp_id'     => $rp_id,
+                    'header_id' => $header_id,
+                ])->with([ 'success_header' => 'La Póliza se fue emitida con éxito.' ]);
+            }
+        }
+
+        return redirect()->back();
     }
 
 }
