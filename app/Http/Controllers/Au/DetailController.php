@@ -5,6 +5,7 @@ namespace Sibas\Http\Controllers\Au;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Au\VehicleCreateFormRequest;
+use Sibas\Http\Requests\Au\VehicleEditFormRequest;
 use Sibas\Repositories\Au\DetailRepository;
 use Sibas\Repositories\Au\HeaderRepository;
 use Sibas\Repositories\Au\VehicleMakeRepository;
@@ -263,19 +264,54 @@ class DetailController extends Controller
     public function editIssuance($rp_id, $header_id, $detail_id)
     {
         if (request()->ajax()) {
-            if ($this->repository->getDetailById(decode($detail_id))) {
-                $detail = $this->repository->getModel();
+            if ($this->repository->getDetailById(decode($detail_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+                $detail          = $this->repository->getModel();
+                $header          = $detail->header;
+                $retailerProduct = $this->retailerProductRepository->getModel();
+                $parameter       = $retailerProduct->parameters()->where('slug', 'GE')->first();
+                $categories      = $retailerProduct->categories()->where('active', true)->orderBy('category',
+                    'ASC')->get();
+
+                $data = $this->getData();
 
                 $payload = view('au.vehicle-edit-issuance',
-                    compact('rp_id', 'header_id', 'detail_id'));
+                    compact('rp_id', 'header_id', 'detail_id', 'header', 'data', 'parameter'));
 
                 return response()->json([
                     'payload'    => $payload->render(),
                     'detail'     => $detail,
-                    //'types'      => $data['vehicle_types'],
-                    //'makes'      => $data['vehicle_makes'],
-                    //'categories' => $categories,
+                    'types'      => $data['vehicle_types'],
+                    'makes'      => $data['vehicle_makes'],
+                    'categories' => $categories,
                 ]);
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
+        return redirect()->back();
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param VehicleEditFormRequest $request
+     * @param string                 $rp_id
+     * @param string                 $header_id
+     * @param string                 $detail_id
+     *
+     * @return
+     */
+    public function updateIssuance(VehicleEditFormRequest $request, $rp_id, $header_id, $detail_id)
+    {
+        if (request()->ajax()) {
+            if ($this->repository->getDetailById(decode($detail_id))) {
+                if ($this->repository->updateVehicleIssuance($request)) {
+                    return response()->json([
+                        'location' => route('au.edit', [ 'rp_id' => $rp_id, 'header_id' => $header_id ])
+                    ]);
+                }
             }
 
             return response()->json([ 'err' => 'Unauthorized action.' ], 401);

@@ -30,7 +30,6 @@ class Detail extends Model
         'year',
         'license_plate',
         'use',
-        'traction',
         'mileage',
         'color',
         'engine',
@@ -79,6 +78,24 @@ class Detail extends Model
     public function setLicensePlateAttribute($value)
     {
         $this->attributes['license_plate'] = strtoupper($value);
+    }
+
+
+    public function setColorAttribute($value)
+    {
+        $this->attributes['color'] = strtoupper($value);
+    }
+
+
+    public function setEngineAttribute($value)
+    {
+        $this->attributes['engine'] = strtoupper($value);
+    }
+
+
+    public function setChassisAttribute($value)
+    {
+        $this->attributes['chassis'] = strtoupper($value);
     }
 
 

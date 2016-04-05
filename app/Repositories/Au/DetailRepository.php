@@ -121,4 +121,41 @@ class DetailRepository extends BaseRepository
         return false;
     }
 
+
+    /**
+     * Update vehicle issuance
+     *
+     * @param Request $request
+     *
+     * @return bool
+     */
+    public function updateVehicleIssuance(Request $request)
+    {
+        $this->data = $request->all();
+
+        try {
+            $this->model->update([
+                'ad_vehicle_type_id'              => $this->data['vehicle_type']['id'],
+                'ad_vehicle_make_id'              => $this->data['vehicle_make']['id'],
+                'ad_vehicle_model_id'             => $this->data['vehicle_model']['id'],
+                'ad_retailer_product_category_id' => $this->data['category']['id'],
+                'year'                            => $this->data['year'],
+                'license_plate'                   => $this->data['license_plate'],
+                'use'                             => $this->data['use'],
+                'mileage'                         => (boolean) $this->data['mileage'],
+                'color'                           => $this->data['color'],
+                'engine'                          => $this->data['engine'],
+                'chassis'                         => $this->data['chassis'],
+                'tonnage_capacity'                => $this->data['tonnage_capacity'],
+                'seat_number'                     => $this->data['seat_number'],
+            ]);
+
+            return true;
+        } catch (QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+
+        return false;
+    }
+
 }

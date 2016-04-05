@@ -5,9 +5,8 @@
             <div class="panel-heading divhr">
                 <h6 class="form-wizard-title2 text-semibold">
                     <span class="col-md-11">
-                        <span class="form-wizard-count">2</span>
+                        <span class="form-wizard-count">4</span>
                         Datos del Vehículo
-                        <small class="display-block">Cliente</small>
                     </span>
                 </h6>
             </div>
@@ -20,7 +19,7 @@
             ]) !!}
 
             <div class="panel-body ">
-                {{--@include('au.partials.vehicle-create')--}}
+                @include('au.partials.vehicle-edit')
 
                 <div class="text-right">
                     <script ng-if="success.vehicle">
@@ -41,7 +40,7 @@
         </div>
         <script type="text/javascript">
             $(document).ready(function () {
-                $(".select-search").select2({
+                $("select.select-search").select2({
                     dropdownParent: "#popup"
                 });
             });

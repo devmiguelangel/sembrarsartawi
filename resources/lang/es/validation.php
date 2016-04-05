@@ -171,6 +171,11 @@ return [
         'license_plate'          => 'Placa',
         'use'                    => 'Uso',
         'mileage'                => 'Kilometraje',
+        'color'                  => 'Color',
+        'engine'                 => 'Motor',
+        'chassis'                => 'Chasis',
+        'tonnage_capacity'       => 'Capacidad/Tonelaje',
+        'seat_number'            => 'Nº de Asientos',
         ''                       => '',
     ],
 
