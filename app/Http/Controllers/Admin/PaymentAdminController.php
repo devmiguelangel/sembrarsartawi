@@ -22,12 +22,12 @@ class PaymentAdminController extends BaseController
         $array_data = $this->array_data();
         $retailer_product_query = RetailerProduct::with('retailer','companyProduct.product')->where('id',$id_retailer_product)->first();
         if($action=='list'){
-            $query = \DB::table('ad_payment_methods as apm')
-                        ->join('ad_retailer_products as arp', 'arp.id', '=', 'apm.ad_retailer_product_id')
+            $query = \DB::table('ad_retailer_product_payment_methods as arppm')
+                        ->join('ad_retailer_products as arp', 'arp.id', '=', 'arppm.ad_retailer_product_id')
                         ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
                         ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
-                        ->select('apm.id as id_payment_method', 'ap.name as product', 'apm.payment_method', 'apm.active')
-                        ->where('apm.ad_retailer_product_id',$id_retailer_product)
+                        ->select('arppm.id as id_payment_method', 'ap.name as product', 'arppm.payment_method', 'arppm.active')
+                        ->where('arppm.ad_retailer_product_id',$id_retailer_product)
                         ->get();
             //dd($retailer_product_query);
             return view('admin.payment.list', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'array_data', 'query', 'retailer_product_query'));
@@ -35,7 +35,7 @@ class PaymentAdminController extends BaseController
             $vec=array();
             $query=array();
             $retailer_product_query = RetailerProduct::with('retailer','companyProduct.product')->where('id',$id_retailer_product)->first();
-            $payment = \DB::table('ad_payment_methods')
+            $payment = \DB::table('ad_retailer_product_payment_methods')
                 ->where('ad_retailer_product_id',$id_retailer_product)
                 ->get();
             foreach($payment as $datos){
@@ -91,7 +91,7 @@ class PaymentAdminController extends BaseController
     public function store(Request $request)
     {
         try{
-            $query_insert = \DB::table('ad_payment_methods')->insert(
+            $query_insert = \DB::table('ad_retailer_product_payment_methods')->insert(
                 [
                     'ad_retailer_product_id' => $request->get('id_retailer_product'),
                     'payment_method' => $request->get('payment_method'),
@@ -161,7 +161,7 @@ class PaymentAdminController extends BaseController
         //dd($id_company);
         if($text=='inactive'){
             try {
-                $query_update = \DB::table('ad_payment_methods')
+                $query_update = \DB::table('ad_retailer_product_payment_methods')
                     ->where('id', $id_payment_method)
                     ->where('ad_retailer_product_id', $id_retailer_product)
                     ->update(['active' => false]);
@@ -172,7 +172,7 @@ class PaymentAdminController extends BaseController
             }
         }elseif($text=='active'){
             try {
-                $query_update = \DB::table('ad_payment_methods')
+                $query_update = \DB::table('ad_retailer_product_payment_methods')
                     ->where('id', $id_payment_method)
                     ->where('ad_retailer_product_id', $id_retailer_product)
                     ->update(['active' => true]);
@@ -191,7 +191,7 @@ class PaymentAdminController extends BaseController
     public function ajax_delete($id_payment_method,$id_retailer_product)
     {
         try{
-            $query_del = \DB::table('ad_payment_methods')
+            $query_del = \DB::table('ad_retailer_product_payment_methods')
                 ->where('id', $id_payment_method)
                 ->where('ad_retailer_product_id', $id_retailer_product)
                 ->delete();
