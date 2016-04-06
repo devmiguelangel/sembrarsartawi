@@ -120,7 +120,7 @@ class HeaderController extends Controller
             }
         }
 
-        return redirect()->back();
+        return redirect()->back()->with([ 'error_header' => 'No se posible calcular la prima.' ]);
     }
 
 

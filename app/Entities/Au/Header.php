@@ -22,6 +22,7 @@ class Header extends Model
         'issued',
         'date_issue',
         'facultative',
+        'share',
     ];
 
     protected $appends = [

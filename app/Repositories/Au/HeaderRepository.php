@@ -2,6 +2,7 @@
 
 namespace Sibas\Repositories\Au;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -126,9 +127,26 @@ class HeaderRepository extends BaseRepository
         }
 
         if ($premium_total > 0) {
+            $share = [ ];
+
+            if ($header->payment_method === 'AN') {
+                $date       = Carbon::createFromDate(null, null, 15)->addMonth(1)->subYear();
+                $percentage = number_format(( 100 / $header->full_year ), 2, '.', ',');
+
+                for ($i = 1; $i <= $header->full_year; $i++) {
+                    array_push($share, [
+                        'number'     => $i,
+                        'date'       => $date->addYear()->toDateString(),
+                        'percentage' => $percentage,
+                        'share'      => number_format(( $premium_total * $percentage ) / 100, 2),
+                    ]);
+                }
+            }
+
             try {
                 $header->update([
                     'total_premium' => $premium_total,
+                    'share'         => json_encode($share),
                 ]);
 
                 return true;

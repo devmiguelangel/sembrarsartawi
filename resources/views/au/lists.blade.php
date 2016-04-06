@@ -79,6 +79,14 @@
                     </script>
                 @endif
 
+                @if(session('error_header'))
+                    <script>
+                        $(function () {
+                            messageAction('error', "{{ session('error_header') }}");
+                        });
+                    </script>
+                @endif
+
                 <div class="panel-body" ng-controller="DetailAuController">
                     <table class="table datatable-basic2">
                         <thead>
