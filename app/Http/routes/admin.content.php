@@ -50,3 +50,30 @@ Route::post('admin/de/content/new', [
     'as' => 'create_content_de',
     'uses' => 'Admin\ContentAdminController@store_de'
 ]);
+
+/*---------AUTOMOTORES---------*/
+Route::get('admin/au/content/list/{nav}/{action}/{id_retailer_product}', [
+    'as' => 'admin.au.content.list',
+    'uses' => 'Admin\ContentAdminController@index_au'
+]);
+
+Route::get('admin/au/content/new/{nav}/{action}/{id_retailer_product}', [
+    'as' => 'admin.au.content.new',
+    'uses' => 'Admin\ContentAdminController@index_au'
+]);
+
+Route::get('admin/au/content/edit/{nav}/{action}/{id_retailer_product}/{id_content}', [
+    'as' => 'admin.au.content.edit',
+    'uses' => 'Admin\ContentAdminController@edit_au'
+]);
+
+
+Route::post('admin/au/content/new', [
+    'as' => 'create_content_au',
+    'uses' => 'Admin\ContentAdminController@store_au'
+]);
+
+Route::post('admin/au/content/edit', [
+    'as' => 'update_content_au',
+    'uses' => 'Admin\ContentAdminController@update_au'
+]);

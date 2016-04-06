@@ -24,7 +24,7 @@
                 @if(count($query)==0)
                     <ul class="icons-list">
                         <li>
-                            <a href="{{route('admin.vi.content.new', ['nav'=>'contentvi', 'action'=>'new', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-link btn-float has-text">
+                            <a href="{{route('admin.au.content.new', ['nav'=>'au_content', 'action'=>'new', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-link btn-float has-text">
                                 <i class="icon-file-plus text-primary"></i>
                                 <span>Crear Contenido</span>
                             </a>
@@ -37,6 +37,8 @@
             @include('admin.partials.message')
         </div>
         @if(count($query)>0)
+            @var $contenido = substr_replace($query->content, '...', 500)
+
             <table class="table table-bordered table-striped table-hover dataTable no-footer">
                 <thead>
                 <tr>
@@ -49,7 +51,7 @@
                 <tbody>
                 <tr>
                     <td>{{$query->title}}</td>
-                    <td>{!! $query->content !!}</td>
+                    <td style="text-align: left;">{!! $contenido !!}</td>
                     <td><img src="{{ asset($query->file) }}" height="60"></td>
                     <td class="text-center">
                         <ul class="icons-list">
@@ -60,7 +62,7 @@
 
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
-                                        <a href="{{route('admin.vi.content.edit', ['nav'=>'contentvi', 'action'=>'edit', 'id_retailer_product'=>$id_retailer_product, 'id_content'=>$query->id])}}">
+                                        <a href="{{route('admin.au.content.edit', ['nav'=>'au_content', 'action'=>'edit', 'id_retailer_product'=>$id_retailer_product, 'id_content'=>$query->id])}}">
                                             <i class="icon-pencil3"></i> Editar
                                         </a>
                                     </li>

@@ -31,12 +31,9 @@
                 -->
             </div>
         </div>
-        @if (session('ok'))
-            <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
-                <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-                <span class="text-semibold">Well done!</span> {{ session('ok')}}
-            </div>
-        @endif
+        <div class="panel-body">
+            @include('admin.partials.message')
+        </div>
         @if($id_retailer_product_select>0)
             @var $disabled=''
         @else

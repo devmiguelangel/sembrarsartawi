@@ -489,6 +489,26 @@
                 <li><a href="{{ route('admin.au.increment.list', ['nav'=>'au_increment', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Categorias</a></li>
                 <li class="active">Formulario</li>
             @endif
+        @elseif($nav=='au_content')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Tabla de datos</li>
+            @elseif($action=='new' || $action=='edit')
+                <li><a href="{{ route('admin.au.content.list', ['nav'=>'au_content', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Categorias</a></li>
+                <li class="active">Formulario</li>
+            @endif
+        @elseif($nav=='payment')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list_product_retailer')
+                <li class="active">Productos Retailer</li>
+            @elseif($action=='list')
+                <li><a href="{{ route('admin.payment.list-product-retailer', ['nav'=>'payment', 'action'=>'list_product_retailer']) }}">Productos Retailer</a></li>
+                <li class="active">Lista de registros</li>
+            @elseif($action=='new')
+                <li><a href="{{ route('admin.payment.list-product-retailer', ['nav'=>'payment', 'action'=>'list_product_retailer']) }}">Productos Retailer</a></li>
+                <li><a href="{{ route('admin.payment.list', ['nav'=>'payment', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Lista de registros</a></li>
+                <li class="active">Formulario</li>
+            @endif
         @endif
     </ul>
     <!--

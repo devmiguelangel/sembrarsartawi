@@ -65,6 +65,7 @@ class TasasAdminController extends BaseController
             $category_query = \DB::table('ad_retailer_product_categories')
                                  ->where('ad_retailer_product_id',$id_retailer_products)
                                  ->get();
+
             return view('admin.tasas.new', compact('nav', 'action', 'main_menu', 'retailer', 'array_data', 'id_retailer_products', 'code_product', 'product_query', 'category_query'));
         }
     }

@@ -33,15 +33,10 @@
         </div>
 
         <div class="panel-body">
-            @if(session('ok'))
-                <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
-                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-                    <span class="text-semibold">Well done!</span> {{session('ok')}}
-                </div>
-            @endif
+            @include('admin.partials.message')
         </div>
         @if(count($company_new)>0)
-            <table class="table table-bordered">
+            <table class="table table-bordered table-striped table-hover dataTable no-footer">
             <thead>
             <tr>
                 <th>Compañia de Seguros</th>

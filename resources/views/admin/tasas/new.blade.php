@@ -130,24 +130,37 @@
                                 <input type="text" class="form-control required decimal" name="rate_end" id="rate_end" value="0" autocomplete="off">
                             </div>
                         </div>
-                        @foreach($category_query as $data)
-                            @var $cont=$cont+1
-                            <div class="form-group">
-                                <label class="control-label col-lg-2">Tasa Categoria {{substr($data->category, 1)}} <span class="text-danger">*</span></label>
-                                <div class="col-lg-10">
-                                    <input type="text" class="form-control required decimal category" name="rate_category_{{$cont}}" id="rate_category_{{$cont}}" value="0" autocomplete="off" rel="{{$cont}}">
-                                    <input type="hidden" name="category-{{$cont}}" value="{{$data->id}}">
+                        @if(count($category_query)>0)
+                            @foreach($category_query as $data)
+                                @var $cont=$cont+1
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2">Tasa Categoria {{substr($data->category, 1)}} <span class="text-danger">*</span></label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control required decimal category" name="rate_category_{{$cont}}" id="rate_category_{{$cont}}" value="0" autocomplete="off" rel="{{$cont}}">
+                                        <input type="hidden" name="category-{{$cont}}" value="{{$data->id}}">
+                                    </div>
                                 </div>
+                            @endforeach
+                            <input type="hidden" name="cont" value="{{$cont}}">
+                        @else
+                            <div class="alert alert-warning alert-styled-left">
+                                <span class="text-semibold"></span> No existe ninguna categoria registrada, ingrese una nueva categoria <a href="{{route('admin.au.increment.new', ['nav'=>'au_increment', 'action'=>'new', 'id_retailer_products'=>$id_retailer_products])}}">clic aqui</a>
+
                             </div>
-                        @endforeach
-                        <input type="hidden" name="cont" value="{{$cont}}">
+                        @endif
                     </fieldset>
                 @endif
 
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary">
-                        Guardar <i class="icon-floppy-disk position-right"></i>
-                    </button>
+                    @if(count($category_query)>0)
+                        <button type="submit" class="btn btn-primary">
+                            Guardar <i class="icon-floppy-disk position-right"></i>
+                        </button>
+                    @else
+                        <button type="submit" class="btn btn-primary" disabled>
+                            Guardar <i class="icon-floppy-disk position-right"></i>
+                        </button>
+                    @endif
                     <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}" class="btn btn-primary">
                         Cancelar <i class="icon-arrow-right14 position-right"></i>
                     </a>

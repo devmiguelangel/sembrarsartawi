@@ -10,6 +10,7 @@
             @var $apr=false
             @var $acm=false
             @var $atc=false
+            @var $apm=false
             @var $aes=false
             @var $afo=false
             @var $ace=false
@@ -26,6 +27,7 @@
                 @var $apr=true
                 @var $acm=true
                 @var $atc=true
+                @var $apm=true
                 @var $aes=true
                 @var $afo=true
                 @var $ace=true
@@ -79,6 +81,9 @@
                     @endif
                     @if($user_permission->slug == 'AAU')
                         @var $aau=true
+                    @endif
+                    @if($user_permission->slug == 'APM')
+                        @var $apm=true
                     @endif
                 @endforeach
             @endif
@@ -186,6 +191,19 @@
                 <li class="{{$data_rate}}">
                     <a href="{{route('admin.tasas.list-product-retailer',['nav'=>'rate', 'action'=>'list_product_retailer'])}}" title='Administrar tasas'>
                         <i class="icon-folder"></i> Administrar tasas
+                    </a>
+                </li>
+            @endif
+
+            @if($apm)
+                @if($nav=='payment')
+                    @var $data_payment='active'
+                @else
+                    @var $data_payment=''
+                @endif
+                <li class="{{$data_payment}}">
+                    <a href="{{route('admin.payment.list-product-retailer',['nav'=>'payment', 'action'=>'list_product_retailer'])}}" title='Administrar formas de pago'>
+                        <i class="icon-folder"></i> Administrar formas de pago
                     </a>
                 </li>
             @endif
@@ -505,13 +523,20 @@
                                         $action=='edit_parameter_additional')
                                         @var $data_aup='active'
                                         @var $data_ain=''
+                                        @var $data_aco=''
                                     @endif
                                 @elseif($nav=="au_increment")
                                     @var $data_ain='active'
                                     @var $data_aup=''
+                                    @var $data_aco=''
+                                @elseif($nav=="au_content")
+                                    @var $data_aco='active'
+                                    @var $data_aup=''
+                                    @var $data_ain=''
                                 @else
                                     @var $data_aup=''
                                     @var $data_ain=''
+                                    @var $data_aco=''
                                 @endif
                                 <ul>
                                     <li class="{{$data_aup}}">
@@ -521,6 +546,11 @@
                                 <ul>
                                     <li class="{{$data_ain}}">
                                         <a href="{{route('admin.au.increment.list', ['nav'=>'au_increment', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar Categorias</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="{{$data_aco}}">
+                                        <a href="{{route('admin.au.content.list', ['nav'=>'au_content', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar Contenido</a>
                                     </li>
                                 </ul>
                             </li>
