@@ -59,7 +59,7 @@
                     <div class="form-group">
                         <label class="control-label col-lg-2">Correos electronicos <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
-                            <select multiple="multiple" class="form-control" name="email[]" id="id_email" disabled data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
+                            <select multiple="multiple" class="form-control required" name="email[]" id="id_email" disabled data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
                                 @foreach($query_email as $data_email)
                                     <option value="{{$data_email->id}}">{{$data_email->name}} - {{$data_email->email}}</option>
                                 @endforeach
@@ -129,6 +129,95 @@
                     $('#id_email option[value="0"]').prop('selected',true);
                 }
             });
+
+            //VERIFICAMOS EL FORMULARIO
+            $('#NewForm').submit(function(e){
+                var sw = true;
+                var err = 'Esta informacion es obligatoria';
+                $(this).find('.required, .not-required').each(function(index, element) {
+                    //alert(element.type+'='+element.value);
+                    if($(this).hasClass('required') === true){
+                        if(validateElement(element,err) === false){
+                            sw = false;
+                        }else if(validateElementType(element,err) === false){
+                            sw = false;
+                        }
+                    }else if($(this).hasClass('not-required') === true){
+                        removeClassE(element);
+                        if(validateElementType(element,err) === false){
+                            sw = false;
+                        }
+                    }
+                });
+                if(sw==true){
+
+                }else{
+                    e.preventDefault();
+                }
+            });
+            //VALIDAMOS ELEMENTO
+            function validateElement(element,err){
+                var _value = $(element).prop('value');
+                var _type = $(element).prop('type');
+                if(_type=='select-one'){
+                    if(_value==0){
+                        addClassE(element,err);
+                        return false;
+                    }else{
+                        removeClassE(element,err);
+                        return true;
+                    }
+                }else{
+                    if(_value==''){
+                        addClassE(element,err);
+                        return false;
+                    }else{
+                        removeClassE(element,err);
+                        return true;
+                    }
+                }
+            }
+            //ADICIONAMOS CLASE
+            function addClassE(element,err){
+                var _id = $(element).prop('id');
+                //$(element).addClass('error-text');
+                if(!$("#"+_id+" + .validation-error-label").length) {
+                    $("#"+_id+":last").after('<label class="validation-error-label">'+err+'</label>');
+                }
+            }
+            //REMOVEMOS CLASE
+            function removeClassE(element){
+                var _id = $(element).prop('id');
+                //$(element).removeClass('error-text');
+                if($("#"+_id+" + .validation-error-label").length) {
+                    $("#"+_id+" + .validation-error-label").remove();
+                }
+            }
+            //VALIDAR TIPO DE ELEMENTO
+            function validateElementType(element,err){
+                var _value = $(element).prop('value');
+                var regex = null;
+                if($(element).hasClass('text') === true){
+                    regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s]*$/;
+                    err = 'Ingrese solo texto';
+                }else if($(element).hasClass('email') === true){
+                    regex = /^([a-z]+[a-z0-9._-]*)@{1}([a-z0-9\.]{2,})\.([a-z]{2,3})$/;
+                    err = 'Email invalido';
+                }
+
+                if(regex !== null){
+                    if(!(regex.test(_value)) && _value.length !== 0){
+                        addClassE(element,err);
+                        $(element).prop('value', '');
+                        return false;
+                    }else{
+                        removeClassE(element,err);
+                        return true;
+                    }
+                }else{
+                    return true;
+                }
+            }
 
         });
     </script>

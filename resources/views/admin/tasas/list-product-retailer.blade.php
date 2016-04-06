@@ -29,7 +29,7 @@
 
         </div>
         @if(count($query)>0)
-            <table class="table table-bordered">
+            <table class="table table-bordered table-striped table-hover dataTable no-footer">
                 <thead>
                 <tr>
                     <th>Retailer</th>

@@ -1,3 +1,6 @@
+@if(isset($product) && $product === 'au')
+
+@endif
 <div class="col-xs-12 col-md-6">
     <input type="hidden" value="{{ old('code', $client->code) }}" name="code">
 
@@ -60,7 +63,7 @@
         </div>
     </div>
 
-    @if(! isset($ref))
+    @if(! isset($ref) && ! isset($product))
         <div class="form-group">
             <label class="col-lg-3 control-label label_required">Tipo de documento:</label>
             <div class="col-lg-9">
@@ -133,18 +136,20 @@
                    for="location">{{ $errors->first('birthdate') }}</label>
         </div>
     </div>
-    <div class="form-group">
-        <label class="control-label col-lg-3 label_required">Lugar de nacimiento: </label>
-        <div class="col-lg-9">
-            {!! Form::text('birth_place', old('birth_place', $client->birth_place), [
-                'class' => 'form-control ui-wizard-content',
-                'placeholder' => 'Lugar de nacimiento',
-                'autocomplete' => 'off'])
-            !!}
-            <label id="location-error" class="validation-error-label"
-                   for="location">{{ $errors->first('birth_place') }}</label>
+    @if(! isset($product))
+        <div class="form-group">
+            <label class="control-label col-lg-3 label_required">Lugar de nacimiento: </label>
+            <div class="col-lg-9">
+                {!! Form::text('birth_place', old('birth_place', $client->birth_place), [
+                    'class' => 'form-control ui-wizard-content',
+                    'placeholder' => 'Lugar de nacimiento',
+                    'autocomplete' => 'off'])
+                !!}
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('birth_place') }}</label>
+            </div>
         </div>
-    </div>
+    @endif
     <div class="form-group">
         <label class="col-lg-3 control-label label_required">Lugar de residencia: </label>
         <div class="col-lg-9">
@@ -214,13 +219,13 @@
                    for="location">{{ $errors->first('home_address') }}</label>
         </div>
     </div>
-    @if(isset($ref))
+    @if(isset($ref) || (isset($product) && $product === 'au'))
         <div class="form-group">
             <label class="control-label label_required col-lg-3">Número de domicilio: </label>
             <div class="col-lg-9">
                 <div class="input-group">
                     <span class="input-group-addon">Nro.</span>
-                    {!! Form::text('home_number', old('home_number', $detail->client->home_number), [
+                    {!! Form::text('home_number', old('home_number', (isset($product) && $product === 'au' ? $client->home_number : $detail->client->home_number)), [
                         'class' => 'form-control ui-wizard-content',
                         'autocomplete' => 'off',
                         'placeholder' => 'Número de domicilio'])
@@ -234,7 +239,7 @@
         <div class="form-group">
             <label class="control-label col-lg-3 label_required">Dirección laboral: </label>
             <div class="col-lg-9">
-                {!! Form::textarea('business_address', old('business_address', $detail->client->business_address), [
+                {!! Form::textarea('business_address', old('business_address', (isset($product) && $product === 'au' ? $client->business_address : $detail->client->business_address)), [
                     'size' => '4x4',
                     'class' => 'form-control',
                     'placeholder' => 'Dirección laboral',
@@ -297,21 +302,23 @@
                    for="location">{{ $errors->first('phone_number_mobile') }}</label>
         </div>
     </div>
-    <div class="form-group">
-        <label class="control-label col-lg-3">Telef. Oficina: </label>
-        <div class="col-lg-9">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="icon-phone"></i></span>
-                {!! Form::text('phone_number_office', old('phone_number_office', $client->phone_number_office), [
-                    'class' => 'form-control ui-wizard-content',
-                    'placeholder' => 'Telef. Oficina',
-                    'autocomplete' => 'off'])
-                !!}
+    @if(! isset($product))
+        <div class="form-group">
+            <label class="control-label col-lg-3">Telef. Oficina: </label>
+            <div class="col-lg-9">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="icon-phone"></i></span>
+                    {!! Form::text('phone_number_office', old('phone_number_office', $client->phone_number_office), [
+                        'class' => 'form-control ui-wizard-content',
+                        'placeholder' => 'Telef. Oficina',
+                        'autocomplete' => 'off'])
+                    !!}
+                </div>
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('phone_number_office') }}</label>
             </div>
-            <label id="location-error" class="validation-error-label"
-                   for="location">{{ $errors->first('phone_number_office') }}</label>
         </div>
-    </div>
+    @endif
     <div class="form-group">
         <label class="control-label col-lg-3">Correo electónico: </label>
         <div class="col-lg-9">
@@ -328,38 +335,40 @@
         </div>
     </div>
     @if(! isset($ref))
-        <div class="form-group">
-            <label class="control-label col-lg-3 label_required">Peso: </label>
-            <div class="col-lg-9">
-                <div class="input-group">
-                    <span class="input-group-addon">(Kg)</span>
-                    {!! Form::text('weight', old('weight', $client->weight), [
-                      'id'           => 'weight',
-                      'class'        => 'form-control ui-wizard-content',
-                      'placeholder'  => 'Peso',
-                      'autocomplete' => 'off'
-                    ]) !!}
+        @if(! isset($product))
+            <div class="form-group">
+                <label class="control-label col-lg-3 label_required">Peso: </label>
+                <div class="col-lg-9">
+                    <div class="input-group">
+                        <span class="input-group-addon">(Kg)</span>
+                        {!! Form::text('weight', old('weight', $client->weight), [
+                          'id'           => 'weight',
+                          'class'        => 'form-control ui-wizard-content',
+                          'placeholder'  => 'Peso',
+                          'autocomplete' => 'off'
+                        ]) !!}
+                    </div>
+                    <label id="location-error" class="validation-error-label"
+                           for="location">{{ $errors->first('weight') }}</label>
                 </div>
-                <label id="location-error" class="validation-error-label"
-                       for="location">{{ $errors->first('weight') }}</label>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-lg-3 label_required">Estatura: </label>
-            <div class="col-lg-9">
-                <div class="input-group">
-                    <span class="input-group-addon">(cm)</span>
-                    {!! Form::text('height', old('height', $client->height), [
-                      'id'           => 'height',
-                      'class'        => 'form-control ui-wizard-content',
-                      'placeholder'  => 'Estatura',
-                      'autocomplete' => 'off'
-                    ]) !!}
+            <div class="form-group">
+                <label class="control-label col-lg-3 label_required">Estatura: </label>
+                <div class="col-lg-9">
+                    <div class="input-group">
+                        <span class="input-group-addon">(cm)</span>
+                        {!! Form::text('height', old('height', $client->height), [
+                          'id'           => 'height',
+                          'class'        => 'form-control ui-wizard-content',
+                          'placeholder'  => 'Estatura',
+                          'autocomplete' => 'off'
+                        ]) !!}
+                    </div>
+                    <label id="location-error" class="validation-error-label"
+                           for="location">{{ $errors->first('height') }}</label>
                 </div>
-                <label id="location-error" class="validation-error-label"
-                       for="location">{{ $errors->first('height') }}</label>
             </div>
-        </div>
+        @endif
         <div class="form-group">
             <label class="col-lg-3 control-label label_required">Género: </label>
             <div class="col-lg-9">

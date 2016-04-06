@@ -105,6 +105,8 @@ require "admin.state.php";
 require "admin.form.php";
 require "admin.modality.php";
 require "admin.au.php";
+require "admin.increment.php";
+require "admin.payment.php";
 require "admin.adVehicleTypes.php";
 require "admin.adVehicleMakes.php";
 require "admin.adVehicleModels.php";

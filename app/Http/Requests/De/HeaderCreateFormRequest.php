@@ -27,7 +27,6 @@ class HeaderCreateFormRequest extends Request
     {
         $currencies      = join(',', array_keys(config('base.currencies')));
         $term_types      = join(',', array_keys(config('base.term_types')));
-        $payment_methods = join(',', array_keys(config('base.payment_methods')));
 
         return [
             'coverage'         => 'required|exists:ad_coverages,id',
@@ -35,7 +34,6 @@ class HeaderCreateFormRequest extends Request
             'currency'         => 'required|in:' . $currencies,
             'term'             => 'required|integer|min:1',
             'type_term'        => 'required|in:' . $term_types,
-            'payment_method'   => 'required|in:' . $payment_methods,
         ];
     }
 }

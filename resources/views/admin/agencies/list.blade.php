@@ -33,15 +33,10 @@
         </div>
 
         <div class="panel-body">
-            @if(session('ok'))
-                <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
-                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-                    <span class="text-semibold"></span> {{session('ok')}}
-                </div>
-            @endif
+            @include('admin.partials.message')
         </div>
         @if(count($query)>0)
-            <table class="table datatable-basic table-bordered">
+            <table class="table datatable-basic table-bordered table-striped table-hover dataTable no-footer">
             <thead>
             <tr>
                 <th style="text-align: left;">Agencias</th>
@@ -79,11 +74,11 @@
                 <span class="text-semibold">Warning!</span> No existe ningun registro, ingrese un nuevo registro.
             </div>
         @endif
-        <div class="panel-heading" style="text-align: right;">
-            <a href="{{route('admin.agencies.list-agency-retailer', ['nav'=>'agency', 'action'=>'list_agency_retailer'])}}" class="btn btn-primary">
-                Administrar agencias/departamento  <i class="icon-arrow-right7 position-right"></i>
-            </a>
-        </div>
+    </div>
+    <div class="panel-heading" style="text-align: right;">
+        <a href="{{route('admin.agencies.list-agency-retailer', ['nav'=>'agency', 'action'=>'list_agency_retailer'])}}" class="btn btn-primary">
+            Administrar agencias/departamento  <i class="icon-arrow-right7 position-right"></i>
+        </a>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){

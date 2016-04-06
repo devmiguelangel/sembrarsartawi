@@ -29,74 +29,138 @@
                 <span class="text-semibold">Error!</span> {{ session('error') }}
             </div>
         @endif
+        @var $cont = 0
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'new_rates', 'name' => 'NewForm', 'id' => 'NewForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
-                <fieldset class="content-group">
-                    <div class="form-group">
-                        <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
-                        <div class="col-lg-10">
-                            @if(count($retailer)>0)
-                                <select name="id_retailer" id="id_retailer" class="form-control required">
+                @if($code_product=='de' || $code_product=='vi')
+                    <fieldset class="content-group">
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                @if(count($retailer)>0)
+                                    <select name="id_retailer" id="id_retailer" class="form-control required">
+                                        <option value="0">Seleccione</option>
+                                        @foreach($retailer as $data)
+                                            <option value="{{$data->id}}">{{$data->name}}</option>
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <div class="alert alert-warning alert-styled-left">
+                                        <span class="text-semibold"></span>No existe Retailer registrado.<br>- El Retailer no esta activado
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Producto <span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                <select name="id_producto_retailer" id="id_producto_retailer" class="form-control required" disabled>
                                     <option value="0">Seleccione</option>
-                                    @foreach($retailer as $data)
-                                        <option value="{{$data->id}}">{{$data->name}}</option>
-                                    @endforeach
                                 </select>
-                            @else
-                                <div class="alert alert-warning alert-styled-left">
-                                    <span class="text-semibold"></span>No existe Retailer registrado.<br>- El Retailer no esta activado
+                                <div id="msg_error"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="content-coverage">
+                            <label class="control-label col-lg-2">Coberturas <span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                <select name="id_coverage" id="id_coverage" class="form-control required" disabled>
+                                    <option value="0">Seleccione</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="content-rate-company">
+                            <label class="control-label col-lg-2">Tasa Compañía <span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control required decimal" name="rate_company" id="rate_company" value="0" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="content-rate-bank">
+                            <label class="control-label col-lg-2">Tasa Banco <span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control required decimal" name="rate_bank" id="rate_bank" value="0" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Tasa Final <span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" readonly value="0" autocomplete="off">
+                            </div>
+                        </div>
+
+                    </fieldset>
+                @elseif($code_product=='au')
+                    <fieldset class="content-group">
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                @if(count($retailer)>0)
+                                    <select name="id_retailer" id="id_retailer" class="form-control required">
+                                        <option value="0">Seleccione</option>
+                                        @foreach($retailer as $data)
+                                            <option value="{{$data->id}}">{{$data->name}}</option>
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <div class="alert alert-warning alert-styled-left">
+                                        <span class="text-semibold"></span>No existe Retailer registrado.<br>- El Retailer no esta activado
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Producto <span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                <select name="id_producto_retailer" id="id_producto_retailer" class="form-control required" disabled>
+                                    <option value="0">Seleccione</option>
+                                </select>
+                                <div id="msg_error"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Tasa Final <span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control required decimal" name="rate_end" id="rate_end" value="0" autocomplete="off">
+                            </div>
+                        </div>
+                        @if(count($category_query)>0)
+                            @foreach($category_query as $data)
+                                @var $cont=$cont+1
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2">Tasa Categoria {{substr($data->category, 1)}} <span class="text-danger">*</span></label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control required decimal category" name="rate_category_{{$cont}}" id="rate_category_{{$cont}}" value="0" autocomplete="off" rel="{{$cont}}">
+                                        <input type="hidden" name="category-{{$cont}}" value="{{$data->id}}">
+                                    </div>
                                 </div>
-                            @endif
-                        </div>
-                    </div>
+                            @endforeach
+                            <input type="hidden" name="cont" value="{{$cont}}">
+                        @else
+                            <div class="alert alert-warning alert-styled-left">
+                                <span class="text-semibold"></span> No existe ninguna categoria registrada, ingrese una nueva categoria <a href="{{route('admin.au.increment.new', ['nav'=>'au_increment', 'action'=>'new', 'id_retailer_products'=>$id_retailer_products])}}">clic aqui</a>
 
-                    <div class="form-group">
-                        <label class="control-label col-lg-2">Producto <span class="text-danger">*</span></label>
-                        <div class="col-lg-10">
-                            <select name="id_producto_retailer" id="id_producto_retailer" class="form-control required" disabled>
-                                <option value="0">Seleccione</option>
-                            </select>
-                            <div id="msg_error"></div>
-                        </div>
-                    </div>
-
-                    <div class="form-group" id="content-coverage">
-                        <label class="control-label col-lg-2">Coberturas <span class="text-danger">*</span></label>
-                        <div class="col-lg-10">
-                            <select name="id_coverage" id="id_coverage" class="form-control required" disabled>
-                                <option value="0">Seleccione</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group" id="content-rate-company">
-                        <label class="control-label col-lg-2">Tasa Compañía <span class="text-danger">*</span></label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control required decimal" name="rate_company" id="rate_company" value="0" autocomplete="off">
-                        </div>
-                    </div>
-
-                    <div class="form-group" id="content-rate-bank">
-                        <label class="control-label col-lg-2">Tasa Banco <span class="text-danger">*</span></label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control required decimal" name="rate_bank" id="rate_bank" value="0" autocomplete="off">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-lg-2">Tasa Final <span class="text-danger">*</span></label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" readonly value="0" autocomplete="off">
-                        </div>
-                    </div>
-
-                </fieldset>
+                            </div>
+                        @endif
+                    </fieldset>
+                @endif
 
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary">
-                        Guardar <i class="icon-floppy-disk position-right"></i>
-                    </button>
+                    @if(count($category_query)>0)
+                        <button type="submit" class="btn btn-primary">
+                            Guardar <i class="icon-floppy-disk position-right"></i>
+                        </button>
+                    @else
+                        <button type="submit" class="btn btn-primary" disabled>
+                            Guardar <i class="icon-floppy-disk position-right"></i>
+                        </button>
+                    @endif
                     <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}" class="btn btn-primary">
                         Cancelar <i class="icon-arrow-right14 position-right"></i>
                     </a>
@@ -172,7 +236,7 @@
                             }
 
                         });
-                    }else{
+                    }else if(code=='vi'){
                         $('button[type="submit"]').prop('disabled', false);
                         $('#content-coverage').fadeOut('fast');
                         $('#id_coverage').removeClass('form-control required');
@@ -193,6 +257,8 @@
                                 $('#msg_error').html('');
                             }
                         });
+                    }else{
+                        $('button[type="submit"]').prop('disabled', false);
                     }
                 }else{
 
@@ -238,22 +304,49 @@
                 }
             });
 
+            $('#rate_end').click(function(){
+                $('#rate_end').prop('value', '');
+            });
+            $('#rate_end').keyup(function(){
+                var rate_bank = $('#rate_end').prop('value');
+                var regex = /^([0-9\.])*$/;
+                if(!(regex.test(rate_bank))){
+                    $('#rate_end').prop('value', '');
+                }
+            });
+
+            $('.category').click(function(){
+                var rel = $(this).attr('rel');
+                $('#rate_category_'+rel).prop('value', '');
+            });
+
+            $('.category').keyup(function(){
+                var rel = $(this).attr('rel');
+                var rate = $('#rate_category_'+rel).prop('value');
+                var regex = /^([0-9\.])*$/;
+                if(!(regex.test(rate))){
+                    $('#rate_category_'+rel).prop('value', '');
+                }
+            });
+
 
             //VERIFICAMOS EL FORMULARIO
             $('#NewForm').submit(function(e){
                 var sw = true;
                 var err = 'Esta informacion es obligatoria';
+                var code_product = $("input[name='code_product']").prop('value');
+
                 $(this).find('.required, .not-required').each(function(index, element) {
                     //alert(element.type+'='+element.value);
                     if($(this).hasClass('required') === true){
-                        if(validateElement(element,err) === false){
+                        if(validateElement(element,err,code_product) === false){
                             sw = false;
-                        }else if(validateElementType(element,err) === false){
+                        }else if(validateElementType(element,err,code_product) === false){
                             sw = false;
                         }
                     }else if($(this).hasClass('not-required') === true){
                         removeClassE(element);
-                        if(validateElementType(element,err) === false){
+                        if(validateElementType(element,err,code_product) === false){
                             sw = false;
                         }
                     }
@@ -265,7 +358,7 @@
                 }
             });
             //VALIDAMOS ELEMENTO
-            function validateElement(element,err){
+            function validateElement(element,err,code_product){
                 var _value = $(element).prop('value');
                 var _type = $(element).prop('type');
                 if(_type=='select-one'){
@@ -277,14 +370,25 @@
                         return true;
                     }
                 }else{
-                    if(_value==0){
-                        err = 'Ingrese una tasa';
-                        addClassE(element,err);
-                        return false;
+                    if(code_product=='au'){
+                        if(_value==''){
+                            addClassE(element,err);
+                            return false;
+                        }else{
+                            removeClassE(element,err);
+                            return true;
+                        }
                     }else{
-                        removeClassE(element,err);
-                        return true;
+                        if(_value==0){
+                            err = 'Ingrese una tasa';
+                            addClassE(element,err);
+                            return false;
+                        }else{
+                            removeClassE(element,err);
+                            return true;
+                        }
                     }
+
                 }
             }
             //ADICIONAMOS CLASE

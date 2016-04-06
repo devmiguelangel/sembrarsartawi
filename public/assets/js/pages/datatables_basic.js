@@ -45,7 +45,11 @@ $(function() {
     $('.datatable-basic2').DataTable({
         searching: false,
         lengthChange: false,
+        autoWidth: true,
+        paging: false,
+        info: false,
         iDisplayLength: 30,
+        // scrollX: true,
         oLanguage: {
                     sEmptyTable: "No hay registros disponibles",
                     sInfo: "Hay _TOTAL_ registros. Mostrando de (_START_ a _END_)",
