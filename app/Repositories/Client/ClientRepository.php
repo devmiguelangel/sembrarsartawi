@@ -3,7 +3,6 @@
 namespace Sibas\Repositories\Client;
 
 use Illuminate\Http\Request;
-use Predis\Command\KeyExists;
 use Sibas\Entities\Client;
 use Sibas\Repositories\BaseRepository;
 
@@ -167,7 +166,7 @@ class ClientRepository extends BaseRepository
      */
     public function getClientByDni($dni, $extension = null)
     {
-        $query = Client::select('id', 'dni', 'extension')->where('dni', '=', $dni);
+        $query = Client::where('dni', '=', $dni);
 
         if ( ! is_null($extension)) {
             $query->where('extension', '=', $extension);

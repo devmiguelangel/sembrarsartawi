@@ -12,6 +12,11 @@ class RetailerProduct extends Model
 
     public $incrementing = false;
 
+    protected $with = [
+        'companyProduct',
+        'forms',
+    ];
+
     protected $casts = [
         'facultative' => 'boolean',
         'ws'          => 'boolean',
@@ -102,6 +107,12 @@ class RetailerProduct extends Model
     public function categories()
     {
         return $this->hasMany(RetailerProductCategory::class, 'ad_retailer_product_id', 'id');
+    }
+
+
+    public function paymentMethods()
+    {
+        return $this->hasMany(RetailerProductPaymentMethod::class, 'ad_retailer_product_id', 'id');
     }
 
 }

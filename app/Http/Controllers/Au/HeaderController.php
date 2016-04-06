@@ -64,9 +64,16 @@ class HeaderController extends Controller
      */
     public function create($rp_id)
     {
-        $data = $this->getData($rp_id);
+        $client = new Client();
 
-        return view('au.create', compact('rp_id', 'data'));
+        if (session('client')) {
+            $client = session('client');
+        }
+
+        $data                    = $this->getData($rp_id);
+        $data['payment_methods'] = $this->retailerProductRepository->getPaymentMethodsByProductById(decode($rp_id));
+
+        return view('au.create', compact('rp_id', 'data', 'client'));
     }
 
 
