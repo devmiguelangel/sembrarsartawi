@@ -15,11 +15,12 @@ var detailEdit = function ($scope, $http) {
 
     }).success(function (data, status, headers, config) {
         if (status == 200) {
-          $scope.formData.amount_requested = data.amount_requested;
-          $scope.formData.balance          = data.balance;
+          $scope.formData.amount_requested    = data.amount_requested;
+          $scope.formData.amount_requested_bs = data.amount_requested_bs;
+          $scope.formData.balance             = data.balance;
 
           if (Number(data.cumulus || 0) == 0) {
-            $scope.formData.cumulus = $scope.formData.amount_requested;
+            $scope.formData.cumulus = $scope.formData.amount_requested_bs;
           } else {
             $scope.formData.cumulus = data.cumulus;
           }
@@ -135,7 +136,7 @@ var detailEdit = function ($scope, $http) {
   * Cumulus calculate
   */
   $scope.cumulus = function () {
-    var amount_requested = Number($scope.formData.amount_requested || 0);
+    var amount_requested = Number($scope.formData.amount_requested_bs || 0);
     var balance          = Number($scope.formData.balance || 0);
 
     $scope.formData.cumulus = amount_requested + balance;

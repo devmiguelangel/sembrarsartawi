@@ -5,27 +5,26 @@
             <div class="panel-heading divhr">
                 <h6 class="form-wizard-title2 text-semibold">
                     <span class="col-md-11">
-                        <span class="form-wizard-count">2</span>
+                        <span class="form-wizard-count">4</span>
                         Datos del Vehículo
-                        <small class="display-block">Cliente</small>
                     </span>
                 </h6>
             </div>
 
-            {!! Form::open(['route' => ['au.vh.store', 'rp_id' => $rp_id, 'header_id' => $header_id],
-                'method'        => 'post',
+            {!! Form::open(['route' => ['au.vh.i.update', 'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => $detail_id],
+                'method'        => 'put',
                 'class'         => 'form-horizontal',
                 'ng-controller' => 'DetailAuController',
-                'ng-submit'     => 'store($event)',
+                'ng-submit'     => 'updateIssuance($event)',
             ]) !!}
 
             <div class="panel-body ">
-                @include('au.partials.vehicle-create')
+                @include('au.partials.vehicle-edit')
 
                 <div class="text-right">
                     <script ng-if="success.vehicle">
                         $(function () {
-                            messageAction('succes', 'El vehículo fue registrado correctamente');
+                            messageAction('succes', 'El vehículo fue actualizado correctamente');
                         });
                     </script>
 
@@ -33,7 +32,7 @@
                         Cancelar
                     </button>
 
-                    {!! Form::button('Registrar <i class="icon-plus22 position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+                    {!! Form::button('Actualizar Vehículo <i class="icon-arrow-right14 position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                 </div>
             </div>
             {!! Form::close() !!}
@@ -41,7 +40,7 @@
         </div>
         <script type="text/javascript">
             $(document).ready(function () {
-                $(".select-search").select2({
+                $("select.select-search").select2({
                     dropdownParent: "#popup"
                 });
             });

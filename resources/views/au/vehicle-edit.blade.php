@@ -12,11 +12,11 @@
                 </h6>
             </div>
 
-            {!! Form::open(['route' => ['au.vh.store', 'rp_id' => $rp_id, 'header_id' => $header_id],
-                'method'        => 'post',
+            {!! Form::open(['route' => ['au.vh.edit', 'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => $detail_id],
+                'method'        => 'put',
                 'class'         => 'form-horizontal',
                 'ng-controller' => 'DetailAuController',
-                'ng-submit'     => 'store($event)',
+                'ng-submit'     => 'update($event)',
             ]) !!}
 
             <div class="panel-body ">
@@ -25,7 +25,7 @@
                 <div class="text-right">
                     <script ng-if="success.vehicle">
                         $(function () {
-                            messageAction('succes', 'El vehículo fue registrado correctamente');
+                            messageAction('succes', 'El vehículo fue actualizado correctamente');
                         });
                     </script>
 
@@ -33,7 +33,7 @@
                         Cancelar
                     </button>
 
-                    {!! Form::button('Registrar <i class="icon-plus22 position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+                    {!! Form::button('Actualizar Vehículo <i class="icon-arrow-right14 position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                 </div>
             </div>
             {!! Form::close() !!}
@@ -41,7 +41,7 @@
         </div>
         <script type="text/javascript">
             $(document).ready(function () {
-                $(".select-search").select2({
+                $("select.select-search").select2({
                     dropdownParent: "#popup"
                 });
             });

@@ -47,7 +47,7 @@
                                             @endif
 
                                             @if(request()->route()->hasParameter('detail_id'))
-                                                @var $detail_id = $detail_id
+                                                @var $detail_id = request()->get('detail_id')
                                             @else
                                                 @var $detail_id = ''
                                             @endif
