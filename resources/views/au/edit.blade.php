@@ -257,7 +257,7 @@
                                     ],
                                     'method'        => 'put',
                                     'class'         => 'form-horizontal',
-                                    'ng-controller' => 'HeaderDeController'
+                                    'ng-controller' => 'HeaderAuController'
                                 ]) !!}
                             @elseif($header->type === 'I')
                                 {!! Form::open(['route' => ['au.update.issuance',
@@ -266,7 +266,7 @@
                                     ],
                                     'method'        => 'put',
                                     'class'         => 'form-horizontal',
-                                    'ng-controller' => 'HeaderDeController'
+                                    'ng-controller' => 'HeaderAuController'
                                 ]) !!}
                             @endif
                         @endif
@@ -357,11 +357,30 @@
                                                         <i class="icon-play position-right"></i>
                                                     </button>
                                                 @else
-                                                    <a href="#"
-                                                       class="btn btn-warning">
-                                                        Solicitar aprobación de la Compañia <i
-                                                                class="icon-warning position-right"></i>
-                                                    </a>
+                                                    @if($header->facultative && ! $header->approved && ! $header->facultative_sent && ! isset($_GET['idf']))
+                                                        <a href="{{ route('au.fa.request.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                                                           class="btn btn-warning"
+                                                           ng-click="requestCreate($event)">
+                                                            Solicitar aprobación de la Compañia
+                                                            <i class="icon-warning position-right"
+                                                               ng-click="$event.stopPropagation(); $event.preventDefault()"></i>
+                                                        </a>
+                                                    @else
+                                                        @if (! isset($_GET['idf']))
+                                                            <a href="{{ route('home', []) }}" class="btn btn-info">
+                                                                Solicitud enviada (Cerrar) <i
+                                                                        class="icon-warning position-right"></i>
+                                                            </a>
+                                                        @else
+                                                            <a href="{{ route('home') }}"
+                                                               class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+
+                                                            {!! Form::button('Solicitud enviada (Guardar y Cerrar) <i class="icon-warning position-right"></i>', [
+                                                                'type'  => 'submit',
+                                                                'class' => 'btn btn-primary'
+                                                            ]) !!}
+                                                        @endif
+                                                    @endif
                                                 @endif
                                             @endif
                                         @endif

@@ -396,11 +396,11 @@ class HeaderController extends Controller
 
                 $mail = new MailController($request->user());
 
-                $mail->subject  = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->issue_number;
+                $mail->subject  = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->prefix . ' - ' . $header->issue_number;
                 $mail->template = 'de.request-approval';
 
                 if ($mail->send(decode($rp_id), [ 'header' => $header ], 'COP')) {
-                    $this->repository->storeSent($header);
+                    $this->repository->storeSent();
                 }
 
                 return response()->json([

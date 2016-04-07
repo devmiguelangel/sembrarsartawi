@@ -4,9 +4,11 @@ namespace Sibas\Http\Controllers\Au;
 
 use Sibas\Entities\Client;
 use Sibas\Http\Controllers\DataTrait;
+use Sibas\Http\Controllers\MailController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Au\ClientComplementFormRequest;
+use Sibas\Http\Requests\Au\FacultativeRequestFormRequest;
 use Sibas\Http\Requests\Au\HeaderCreateFormRequest;
 use Sibas\Http\Requests\Au\HeaderEditFormRequest;
 use Sibas\Repositories\Au\HeaderRepository;
@@ -257,6 +259,69 @@ class HeaderController extends Controller
                     'header_id' => $header_id,
                 ])->with([ 'success_header' => 'La Póliza se fue emitida con éxito.' ]);
             }
+        }
+
+        return redirect()->back();
+    }
+
+
+    /**
+     * @param string $rp_id
+     * @param string $header_id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function requestCreate($rp_id, $header_id)
+    {
+        if (request()->ajax()) {
+            if ($this->repository->getHeaderById(decode($header_id))) {
+                $header = $this->repository->getModel();
+
+                if ($header->facultative) {
+                    $payload = view('au.facultative.request', compact('rp_id', 'header'));
+
+                    return response()->json([
+                        'payload'                 => $payload->render(),
+                        'facultative_observation' => strip_tags($header->facultative_observation),
+                    ]);
+                }
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
+        return redirect()->back();
+    }
+
+
+    /**
+     * @param FacultativeRequestFormRequest $request
+     * @param string                        $rp_id
+     * @param string                        $header_id
+     *
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function requestStore(FacultativeRequestFormRequest $request, $rp_id, $header_id)
+    {
+        if ($request->ajax()) {
+            if ($this->repository->getHeaderById(decode($header_id)) && $this->repository->storeFacultative($request)) {
+                $header = $this->repository->getModel();
+
+                $mail = new MailController($request->user());
+
+                $mail->subject  = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->prefix . ' - ' . $header->issue_number;
+                $mail->template = 'au.request-approval';
+
+                if ($mail->send(decode($rp_id), [ 'header' => $header ], 'COP')) {
+                    $this->repository->storeSent();
+                }
+
+                return response()->json([
+                    'location' => route('au.edit', compact('rp_id', 'header_id'))
+                ]);
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
         }
 
         return redirect()->back();

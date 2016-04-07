@@ -246,4 +246,34 @@ class HeaderRepository extends BaseRepository
         return false;
     }
 
+
+    /**
+     * Store Header facultative
+     *
+     * @param string $request
+     *
+     * @return bool
+     */
+    public function storeFacultative($request)
+    {
+        $this->data = $request->all();
+
+        $this->model->facultative_observation = $this->data['facultative_observation'];
+
+        return $this->saveModel();
+    }
+
+
+    /**
+     * Store Sent Header facultative
+     *
+     * @return bool
+     */
+    public function storeSent()
+    {
+        $this->model->facultative_sent = true;
+
+        return $this->saveModel();
+    }
+
 }
