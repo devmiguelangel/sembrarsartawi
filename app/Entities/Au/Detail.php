@@ -76,6 +76,12 @@ class Detail extends Model
     }
 
 
+    public function facultative()
+    {
+        return $this->hasOne(Facultative::class, 'op_au_detail_id', 'id');
+    }
+
+
     public function setLicensePlateAttribute($value)
     {
         $this->attributes['license_plate'] = strtoupper($value);

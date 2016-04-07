@@ -89,6 +89,25 @@
 
                 <div class="panel-body ">
                     <div class="col-md-10 col-md-offset-1">
+                        @if ($header->type === 'I')
+                            <div class="page-header" style="padding: 5px;">
+                                <h2>Póliza {{ $header->prefix }}-{{ $header->issue_number }}</h2>
+                            </div>
+                        @endif
+
+                        @if($header->facultative)
+                            <div class="alert bg-warning alert-styled-right">
+                            <span class="text-semibold">
+                                Nota: Se deshabilitó el boton "Emitir" por las siguientes razones: <br>
+                            </span>
+                                {!! $header->facultative_observation !!}
+                                <span class="text-semibold">
+                                <br>
+                                Por lo tanto debe solicitar aprobación de la Compañia de Seguros
+                            </span>
+                            </div>
+                        @endif
+
                         <div class="modal-header bg-primary recuadro">
                             <div class="panel-heading">
                                 <h6 class="modal-title">Información del CLIENTE</h6>
@@ -329,9 +348,21 @@
                                                             class="glyphicon glyphicon-floppy-disk position-right"></i>
                                                 </button>
                                             @elseif($header->type === 'I')
-                                                <button type="submit" class="btn btn-primary">Emitir <i
-                                                            class="glyphicon glyphicon-floppy-disk position-right"></i>
-                                                </button>
+                                                @if(! $header->facultative)
+                                                    <a href="{{ route('home', []) }}" class="btn btn-info">
+                                                        Guardar y Cerrar <i class="icon-floppy-disk position-right"></i>
+                                                    </a>
+
+                                                    <button type="submit" class="btn btn-primary">Emitir
+                                                        <i class="icon-play position-right"></i>
+                                                    </button>
+                                                @else
+                                                    <a href="#"
+                                                       class="btn btn-warning">
+                                                        Solicitar aprobación de la Compañia <i
+                                                                class="icon-warning position-right"></i>
+                                                    </a>
+                                                @endif
                                             @endif
                                         @endif
                                     @endif

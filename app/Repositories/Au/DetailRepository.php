@@ -7,7 +7,6 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\Au\Detail;
 use Sibas\Entities\Au\Header;
-use Sibas\Entities\RetailerProduct;
 use Sibas\Repositories\BaseRepository;
 
 class DetailRepository extends BaseRepository
@@ -28,6 +27,7 @@ class DetailRepository extends BaseRepository
             'vehicleModel',
             'category',
             'header',
+            'facultative',
         ])->where('id', $detail_id)->first();
 
         if ($this->model instanceof Detail) {
@@ -134,12 +134,11 @@ class DetailRepository extends BaseRepository
     /**
      * Update vehicle issuance
      *
-     * @param Request               $request
-     * @param Model|RetailerProduct $retailerProduct
+     * @param Request $request
      *
      * @return bool
      */
-    public function updateVehicleIssuance(Request $request, $retailerProduct)
+    public function updateVehicleIssuance(Request $request)
     {
         $this->data = $request->all();
 
@@ -147,7 +146,7 @@ class DetailRepository extends BaseRepository
             if ($this->data['year'] === 'old') {
                 $this->data['year'] = $this->data['year_old'];
             }
-            
+
             $this->model->update([
                 'ad_vehicle_type_id'              => $this->data['vehicle_type']['id'],
                 'ad_vehicle_make_id'              => $this->data['vehicle_make']['id'],

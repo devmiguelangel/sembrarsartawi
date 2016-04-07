@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\Au\Detail;
+use Sibas\Entities\Au\Facultative;
 use Sibas\Entities\Client;
 use Sibas\Entities\Au\Header;
 use Sibas\Entities\RetailerProduct;
@@ -160,6 +161,38 @@ class HeaderRepository extends BaseRepository
 
 
     /**
+     * Set facultative
+     *
+     * @param $header_id
+     */
+    public function setHeaderFacultative($header_id)
+    {
+        if ($this->getHeaderById($header_id)) {
+            $facultative = false;
+            $reason      = '';
+
+            foreach ($this->model->details as $detail) {
+                if ($detail->facultative instanceof Facultative) {
+                    $facultative = true;
+                    $reason .= $detail->facultative->reason;
+                }
+            }
+
+            if ($facultative) {
+                try {
+                    $this->model->update([
+                        'facultative'             => $facultative,
+                        'facultative_observation' => $reason,
+                    ]);
+                } catch (QueryException $e) {
+                    $this->errors = $e->getMessage();
+                }
+            }
+        }
+    }
+
+
+    /**
      * Update Header AU
      *
      * @param Request $request
@@ -202,6 +235,7 @@ class HeaderRepository extends BaseRepository
             $this->model->update([
                 'issued'     => true,
                 'date_issue' => date('Y-m-d H:i:s'),
+                'approved'   => true,
             ]);
 
             return true;

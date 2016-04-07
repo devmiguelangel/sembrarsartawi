@@ -22,7 +22,10 @@ class Header extends Model
         'issued',
         'date_issue',
         'facultative',
+        'facultative_observation',
+        'facultative_sent',
         'share',
+        'approved',
     ];
 
     protected $appends = [
@@ -32,7 +35,8 @@ class Header extends Model
     ];
 
     protected $casts = [
-        'issued' => 'boolean',
+        'issued'      => 'boolean',
+        'facultative' => 'boolean',
     ];
 
 

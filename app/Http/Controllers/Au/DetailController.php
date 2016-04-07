@@ -7,6 +7,7 @@ use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Au\VehicleCreateFormRequest;
 use Sibas\Http\Requests\Au\VehicleEditFormRequest;
 use Sibas\Repositories\Au\DetailRepository;
+use Sibas\Repositories\Au\FacultativeRepository;
 use Sibas\Repositories\Au\HeaderRepository;
 use Sibas\Repositories\Au\VehicleMakeRepository;
 use Sibas\Repositories\Au\VehicleTypeRepository;
@@ -46,10 +47,16 @@ class DetailController extends Controller
      */
     protected $vehicleMakeRepository;
 
+    /**
+     * @var FacultativeRepository
+     */
+    protected $facultativeRepository;
+
 
     public function __construct(
         DetailRepository $repository,
         HeaderRepository $headerRepository,
+        FacultativeRepository $facultativeRepository,
         RetailerProductRepository $retailerProductRepository,
         VehicleTypeRepository $vehicleTypeRepository,
         VehicleMakeRepository $vehicleMakeRepository,
@@ -61,6 +68,7 @@ class DetailController extends Controller
         $this->vehicleMakeRepository     = $vehicleMakeRepository;
         $this->dataRepository            = $dataRepository;
         $this->retailerProductRepository = $retailerProductRepository;
+        $this->facultativeRepository     = $facultativeRepository;
     }
 
 
@@ -311,10 +319,16 @@ class DetailController extends Controller
             if ($this->repository->getDetailById(decode($detail_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
                 $retailerProduct = $this->retailerProductRepository->getModel();
 
-                if ($this->repository->updateVehicleIssuance($request, $retailerProduct)) {
-                    return response()->json([
-                        'location' => route('au.edit', [ 'rp_id' => $rp_id, 'header_id' => $header_id ])
-                    ]);
+                if ($this->repository->updateVehicleIssuance($request)) {
+                    $detail = $this->repository->getModel();
+
+                    if ($this->facultativeRepository->storeFacultative($detail, $retailerProduct, $request->user())) {
+                        $this->headerRepository->setHeaderFacultative(decode($header_id));
+
+                        return response()->json([
+                            'location' => route('au.edit', [ 'rp_id' => $rp_id, 'header_id' => $header_id ])
+                        ]);
+                    }
                 }
             }
 
