@@ -220,6 +220,7 @@ class DetailController extends Controller
                     'types'      => $data['vehicle_types'],
                     'makes'      => $data['vehicle_makes'],
                     'categories' => $categories,
+                    'year_max'   => date('Y') - $parameter->old_car,
                 ]);
             }
 
@@ -283,6 +284,7 @@ class DetailController extends Controller
                     'types'      => $data['vehicle_types'],
                     'makes'      => $data['vehicle_makes'],
                     'categories' => $categories,
+                    'year_max'   => date('Y') - $parameter->old_car,
                 ]);
             }
 
@@ -306,8 +308,10 @@ class DetailController extends Controller
     public function updateIssuance(VehicleEditFormRequest $request, $rp_id, $header_id, $detail_id)
     {
         if (request()->ajax()) {
-            if ($this->repository->getDetailById(decode($detail_id))) {
-                if ($this->repository->updateVehicleIssuance($request)) {
+            if ($this->repository->getDetailById(decode($detail_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+                $retailerProduct = $this->retailerProductRepository->getModel();
+
+                if ($this->repository->updateVehicleIssuance($request, $retailerProduct)) {
                     return response()->json([
                         'location' => route('au.edit', [ 'rp_id' => $rp_id, 'header_id' => $header_id ])
                     ]);

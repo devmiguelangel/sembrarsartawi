@@ -98,6 +98,7 @@
                                                         {{ request()->route()->getName() === 'au.create' ? 'active' : '' }}
                                                         {{ request()->route()->getName() === 'au.vh.lists' ? 'active' : '' }}
                                                         {{ request()->route()->getName() === 'au.result' ? 'active' : '' }}
+                                                        {{ request()->route()->getName() === 'au.edit' ? 'active' : '' }}
                                                     @endif
                                                     ">
                                                 <a href="{{ route($retailerProduct->companyProduct->product->code . '.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a>

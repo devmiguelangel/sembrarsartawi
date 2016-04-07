@@ -27,6 +27,7 @@ class Header extends Model
 
     protected $appends = [
         'full_year',
+        'client_completed',
         'completed',
     ];
 
@@ -66,6 +67,20 @@ class Header extends Model
     }
 
 
+    public function getClientCompletedAttribute()
+    {
+        $completed = true;
+
+        $client = $this->client;
+
+        if (empty( $client->place_residence ) || empty( $client->locality ) || empty( $client->home_address ) || empty( $client->home_number ) || empty( $client->business_address )) {
+            $completed = false;
+        }
+
+        return $completed;
+    }
+
+
     public function getCompletedAttribute()
     {
         $completed = true;
@@ -76,6 +91,10 @@ class Header extends Model
 
                 break;
             }
+        }
+
+        if ( ! $this->client_completed) {
+            $completed = false;
         }
 
         return $completed;

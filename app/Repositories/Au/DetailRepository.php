@@ -7,6 +7,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\Au\Detail;
 use Sibas\Entities\Au\Header;
+use Sibas\Entities\RetailerProduct;
 use Sibas\Repositories\BaseRepository;
 
 class DetailRepository extends BaseRepository
@@ -50,6 +51,10 @@ class DetailRepository extends BaseRepository
         $this->data = $request->all();
 
         try {
+            if ($this->data['year'] === 'old') {
+                $this->data['year'] = $this->data['year_old'];
+            }
+
             $header->details()->create([
                 'id'                              => date('U'),
                 'ad_vehicle_type_id'              => $this->data['vehicle_type']['id'],
@@ -101,6 +106,10 @@ class DetailRepository extends BaseRepository
         $this->data = $request->all();
 
         try {
+            if ($this->data['year'] === 'old') {
+                $this->data['year'] = $this->data['year_old'];
+            }
+
             $this->model->update([
                 'ad_vehicle_type_id'              => $this->data['vehicle_type']['id'],
                 'ad_vehicle_make_id'              => $this->data['vehicle_make']['id'],
@@ -125,15 +134,20 @@ class DetailRepository extends BaseRepository
     /**
      * Update vehicle issuance
      *
-     * @param Request $request
+     * @param Request               $request
+     * @param Model|RetailerProduct $retailerProduct
      *
      * @return bool
      */
-    public function updateVehicleIssuance(Request $request)
+    public function updateVehicleIssuance(Request $request, $retailerProduct)
     {
         $this->data = $request->all();
 
         try {
+            if ($this->data['year'] === 'old') {
+                $this->data['year'] = $this->data['year_old'];
+            }
+            
             $this->model->update([
                 'ad_vehicle_type_id'              => $this->data['vehicle_type']['id'],
                 'ad_vehicle_make_id'              => $this->data['vehicle_make']['id'],

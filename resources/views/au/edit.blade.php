@@ -132,7 +132,12 @@
                                     'rp_id'     => $rp_id,
                                     'header_id' => $header_id,
                                     'client_id' => encode($header->client->id) ]) }}"
-                                   class="btn btn-primary pull-right">
+                                   class="btn btn-default pull-right">
+                                    @if($header->client_completed)
+                                        <span class="label label-success">Completado</span>
+                                    @else
+                                        <span class="label label-danger">Pendiente</span>
+                                    @endif
                                     Editar <i class="icon-pencil position-right"></i>
                                 </a>
                             </div>
