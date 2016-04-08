@@ -35,6 +35,7 @@
             @include('admin.partials.message')
         </div>
         @if(count($query)>0)
+            @var $cont=0
             <table class="table datatable-basic table-bordered table-striped table-hover dataTable no-footer">
             <thead>
             <tr>

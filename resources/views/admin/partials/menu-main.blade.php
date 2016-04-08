@@ -92,6 +92,8 @@
             <li class="navigation-header"><span>Inicio</span> <i class="icon-menu" title="Main pages"></i></li>
             @if($nav=='begin')
               @var $data='active'
+            @elseif($nav=='profile')
+              @var $data=''
             @else
               @var $data=''
             @endif

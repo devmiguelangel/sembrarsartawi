@@ -26,6 +26,8 @@ class CompanyProductToRetailerAdminController extends BaseController
                 ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
                 ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
                 ->select('arp.id as id_retailer_products', 'ar.name as retailer', 'ap.name as product', 'arp.type', 'arp.active', 'ap.code')
+                ->where('ar.active',true)
+                ->where('acp.active',true)
                 ->get();
             $parameter = config('base.retailer_product_types');
             //dd($parameter);

@@ -300,6 +300,27 @@ class UserAdminController extends BaseController
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * EDIT PROFILE
+     */
+    public function profile_edit(Guard $auth, $nav){
+        $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
+        $query = \DB::table('ad_users')
+            ->where('id',$auth->user()->id)
+            ->first();
+        //dd($query);
+        return view('admin.user.profile', compact('nav', 'main_menu', 'array_data', 'query'));
+    }
+
+    public function account_setting_edit($nav){
+        $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
+        return view('admin.user.account-setting', compact('nav', 'main_menu', 'array_data'));
+    }
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -386,6 +407,40 @@ class UserAdminController extends BaseController
             }
         }
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * UPDATE PROFILE
+     */
+    public function profile_update(Request $request){
+        try{
+            $query_update = \DB::table('ad_users')
+                ->where('id', $request->get('id_user'))->update(
+                    [
+                        'full_name' => $request->get('txtNombre'),
+                        'email' => $request->get('txtEmail'),
+                        'phone_number' => $request->get('txtTelefono'),
+                        'updated_at' => date("Y-m-d H:i:s")
+                    ]
+                );
+            return redirect()->route('admin.home', ['nav' => 'begin']);
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
+        }
+    }
+
+    public function account_setting_update(Request $request){
+        $user_update = User::find($request->get('id_user'));
+        $user_update->password=Hash::make($request->get('contrasenia'));
+        if($user_update->save()) {
+            return redirect()->route('admin.home', ['nav' => 'begin']);
+        }
+    }
+
+    /*-------------------------------------*/
 
     public function change(Request $request){
         $user_update = User::find($request->input('id_user'));

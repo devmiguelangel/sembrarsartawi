@@ -56,9 +56,9 @@
                 <td>{{$data->retailer}}</td>
                 <td>
                     @if((boolean)$data->active==true)
-                        <span class="label label-success">Active</span>
+                        <span class="label label-success">Activo</span>
                     @else
-                        <span class="label label-default">Inactive</span>
+                        <span class="label label-default">Inactivo</span>
                     @endif
                 </td>
                 <td class="text-center">

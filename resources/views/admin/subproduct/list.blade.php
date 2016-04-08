@@ -68,7 +68,8 @@
                                         </select>
                                         @else
                                             <div class="alert alert-warning alert-styled-left">
-                                                <span class="text-semibold">Warning!</span> No existe ningun subproducto, ingrese un nuevo subproducto.
+                                                <span class="text-semibold"></span>- No existe ningun producto, ingrese un nuevo producto.<br>
+                                                - El producto retailer no esta activado
                                             </div>
                                         @endif
                                     </div>
@@ -86,26 +87,30 @@
                                     <div class="form-group">
                                         @if(count($subproduct)>0)
                                             <select multiple="multiple" class="form-control required" name="subproduct[]" id="subproduct" {{$disabled}} data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
-                                            @foreach($subproduct as $value_sp)
-                                                @var $vec = explode('|',$value_sp)
-                                                @var $id_company_product = $vec[0]
-                                                @var $product = $vec[1]
-                                                @if(count($retailer_subproduct)>0)
-                                                    @foreach($retailer_subproduct as $data)
-                                                        @if($id_company_product==$data->ad_company_product_id)
-                                                            <option value="{{$id_company_product}}" selected>{{$product}}</option>
-                                                            @var $dt_var=$id_company_product
+                                                @foreach($subproduct as $value_sp)
+                                                    @var $vec = explode('|',$value_sp)
+                                                    @var $id_company_product = $vec[0]
+                                                    @var $product = $vec[1]
+                                                    @if(count($retailer_subproduct)>0)
+                                                        @foreach($retailer_subproduct as $data)
+                                                            @if($id_company_product==$data->ad_company_product_id)
+                                                                <option value="{{$id_company_product}}" selected>{{$product}}</option>
+                                                                @var $dt_var=$id_company_product
+                                                            @endif
+                                                        @endforeach
+                                                        @if($id_company_product!=$dt_var)
+                                                                <option value="{{$id_company_product}}">{{$product}}</option>
                                                         @endif
-                                                    @endforeach
-                                                    @if($id_company_product!=$dt_var)
-                                                            <option value="{{$id_company_product}}">{{$product}}</option>
+                                                    @else
+                                                        <option value="{{$id_company_product}}">{{$product}}</option>
                                                     @endif
-                                                @else
-                                                    <option value="{{$id_company_product}}">{{$product}}</option>
-                                                @endif
-                                            @endforeach
-                                        </select>
-
+                                                @endforeach
+                                            </select>
+                                        @else
+                                            <div class="alert alert-warning alert-styled-left">
+                                                <span class="text-semibold"></span>- No existe ningun subproducto, ingrese un nuevo subproducto.<br>
+                                                - El producto retailer no esta activado
+                                            </div>
                                         @endif
                                     </div>
                                 </div>

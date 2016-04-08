@@ -111,7 +111,7 @@
                 var arr = _id.split("|");
                 var id_retailer = arr[0];
                 var text = arr[1];
-                bootbox.confirm("Esta seguro de "+arr[2]+" la pregunta ?.", function(result) {
+                bootbox.confirm("Esta seguro de "+arr[2]+" el Retailer ?.", function(result) {
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
                         $.get( "{{url('/')}}/admin/retailer/active_ajax/"+id_retailer+"/"+text, function( data ) {

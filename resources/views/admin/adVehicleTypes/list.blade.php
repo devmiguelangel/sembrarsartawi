@@ -22,7 +22,7 @@
                     <li>
                         <a href="{{route('admin.vehicle.new')}}" class="btn btn-link btn-float has-text">
                             <i class="icon-plus2"></i>
-                            <span>Nueva ocupación</span>
+                            <span>Nuevo tipo <br>de vehiculo</span>
                         </a>
                     </li>
                 </ul>
@@ -31,10 +31,10 @@
         <hr />
         <div class="panel-body ">
             @include('admin.partials.message')
-            <table class="table datatable-basic">
+            <table class="table datatable-basic table-bordered table-striped table-hover dataTable no-footer">
                 <thead>
                     <tr>
-                        <th>Vehículo</th>
+                        <th>Tipo de Vehículo</th>
                         <th>Porcentaje</th>
                         <th>Categoría</th>
                         <th>Activo</th>

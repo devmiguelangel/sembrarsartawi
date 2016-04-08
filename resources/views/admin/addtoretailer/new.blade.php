@@ -120,7 +120,7 @@
                             }
                             $('button[type="submit"]').prop('disabled', true);
                             if(!$("#id_company_products + .validation-error-label").length) {
-                                $("#id_company_products:last").after('<span class="validation-error-label">El Producto ya esta agregado al Retailer</span>');
+                                $("#id_company_products:last").after('<span class="validation-error-label">El Producto ya esta agregado al Retailer o el producto agregado a la compañia no esta activado</span>');
                             }
                         }else if(data==0){
                             if($("#id_company_products + .validation-error-label").length) {

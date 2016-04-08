@@ -65,6 +65,29 @@ Route::post('admin/user/import-file', [
     'uses' => 'Admin\UserAdminController@upload_file_data_user'
 ]);
 
+//PROFILE
+Route::get('admin/user/profile/{nav}', [
+    'as' => 'admin.user.profile',
+    'uses' => 'Admin\UserAdminController@profile_edit'
+]);
+
+Route::get('admin/user/account-setting/{nav}', [
+    'as' => 'admin.user.account-setting',
+    'uses' => 'Admin\UserAdminController@account_setting_edit'
+]);
+
+Route::post('admin/user/profile', [
+    'as' => 'update_profile',
+    'uses' => 'Admin\UserAdminController@profile_update'
+]);
+
+Route::post('admin/user/account-setting', [
+    'as' => 'change_pass_profile',
+    'uses' => 'Admin\UserAdminController@account_setting_update'
+]);
+
+
+
 //procesos ajax
 Route::get('admin/user/agency_ajax/{id_retailer_city}', 'Admin\UserAdminController@ajax_agency');
 Route::get('admin/user/finduser_ajax/{usuario}', 'Admin\UserAdminController@ajax_finduser');

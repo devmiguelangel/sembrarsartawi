@@ -22,14 +22,14 @@ class SubProductAdminController extends BaseController
         $query = \DB::table('ad_retailer_products as arp')
                     ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
                     ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
-                    ->select('arp.id as id_retailer_product', 'arp.ad_company_product_id', 'arp.type', 'ap.name as product')
+                    ->select('arp.id as id_retailer_product', 'arp.ad_company_product_id', 'arp.type', 'ap.name as product', 'arp.active as active_retailer_product')
                     ->get();
         $product = array();
         $subproduct = array();
         foreach($query as $key => $value){
-            if($value->type=='MP'){
+            if($value->type=='MP' && (boolean)$value->active_retailer_product==true){
                 $product[] = $value->id_retailer_product.'|'.$value->product;
-            }elseif($value->type=='SP'){
+            }elseif($value->type=='SP' && (boolean)$value->active_retailer_product==true){
                 $subproduct[] = $value->ad_company_product_id.'|'.$value->product;
             }
         }
