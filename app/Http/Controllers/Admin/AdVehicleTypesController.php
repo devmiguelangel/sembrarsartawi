@@ -106,7 +106,7 @@ class AdVehicleTypesController extends BaseController
             if($request->input('ad_retailer_product_category_id'))
                 $update->ad_retailer_product_category_id = $request->input('ad_retailer_product_category_id');
             $update->percentage = $request->input('percentage');
-            $update->active = $request->input('active');
+            $update->active = ($request->input('active')=="on") ? 1: 0;
             
             if($update->save()) {
                 return redirect()->route('admin.vehicle.list', ['nav'=>'ad_vehicle_types', 'action'=>'list'])->with(array('ok' => 'Se edito correctamente los datos del formulario'));
