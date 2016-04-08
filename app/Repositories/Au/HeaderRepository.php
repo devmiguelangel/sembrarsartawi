@@ -2,10 +2,12 @@
 
 namespace Sibas\Repositories\Au;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\Au\Detail;
+use Sibas\Entities\Au\Facultative;
 use Sibas\Entities\Client;
 use Sibas\Entities\Au\Header;
 use Sibas\Entities\RetailerProduct;
@@ -126,9 +128,26 @@ class HeaderRepository extends BaseRepository
         }
 
         if ($premium_total > 0) {
+            $share = [ ];
+
+            if ($header->payment_method === 'AN') {
+                $date       = Carbon::createFromDate(null, null, 15)->addMonth(1)->subYear();
+                $percentage = number_format(( 100 / $header->full_year ), 2, '.', ',');
+
+                for ($i = 1; $i <= $header->full_year; $i++) {
+                    array_push($share, [
+                        'number'     => $i,
+                        'date'       => $date->addYear()->toDateString(),
+                        'percentage' => $percentage,
+                        'share'      => number_format(( $premium_total * $percentage ) / 100, 2),
+                    ]);
+                }
+            }
+
             try {
                 $header->update([
                     'total_premium' => $premium_total,
+                    'share'         => json_encode($share),
                 ]);
 
                 return true;
@@ -138,6 +157,38 @@ class HeaderRepository extends BaseRepository
         }
 
         return false;
+    }
+
+
+    /**
+     * Set facultative
+     *
+     * @param $header_id
+     */
+    public function setHeaderFacultative($header_id)
+    {
+        if ($this->getHeaderById($header_id)) {
+            $facultative = false;
+            $reason      = '';
+
+            foreach ($this->model->details as $detail) {
+                if ($detail->facultative instanceof Facultative) {
+                    $facultative = true;
+                    $reason .= $detail->facultative->reason;
+                }
+            }
+
+            if ($facultative) {
+                try {
+                    $this->model->update([
+                        'facultative'             => $facultative,
+                        'facultative_observation' => $reason,
+                    ]);
+                } catch (QueryException $e) {
+                    $this->errors = $e->getMessage();
+                }
+            }
+        }
     }
 
 
@@ -184,6 +235,7 @@ class HeaderRepository extends BaseRepository
             $this->model->update([
                 'issued'     => true,
                 'date_issue' => date('Y-m-d H:i:s'),
+                'approved'   => true,
             ]);
 
             return true;
@@ -192,6 +244,36 @@ class HeaderRepository extends BaseRepository
         }
 
         return false;
+    }
+
+
+    /**
+     * Store Header facultative
+     *
+     * @param string $request
+     *
+     * @return bool
+     */
+    public function storeFacultative($request)
+    {
+        $this->data = $request->all();
+
+        $this->model->facultative_observation = $this->data['facultative_observation'];
+
+        return $this->saveModel();
+    }
+
+
+    /**
+     * Store Sent Header facultative
+     *
+     * @return bool
+     */
+    public function storeSent()
+    {
+        $this->model->facultative_sent = true;
+
+        return $this->saveModel();
     }
 
 }

@@ -29,6 +29,7 @@ var detail = function ($rootScope, $scope, $http) {
           $scope.formData.vehicle_make  = null;
           $scope.formData.vehicle_model = null;
           $scope.formData.year          = '';
+          $scope.formData.year_old      = '';
           $scope.formData.license_plate = '';
           $scope.formData.use           = '';
           $scope.formData.mileage       = '';
@@ -87,6 +88,21 @@ var detail = function ($rootScope, $scope, $http) {
       });
 
   };
+
+  /**
+   * Year old
+   * @param  {[type]} value    [description]
+   * @param  {[type]} oldValue [description]
+   * @param  {[type]} scope)   {               if (value ! [description]
+   * @return {[type]}          [description]
+   */
+  $scope.$watch('formData.year', function(value, oldValue, scope) {
+    if (value == 'old') {
+      $scope.year_old = true;
+    } else {
+      $scope.year_old = false;
+    }
+  });
 
   /**
    * Category by Vehicle Type
@@ -153,10 +169,15 @@ var detail = function ($rootScope, $scope, $http) {
             $scope.formData.vehicle_make  = data.detail.vehicle_make;
             $scope.formData.vehicle_model = data.detail.vehicle_model;
             $scope.formData.year          = data.detail.year;
+            $scope.formData.year_old      = data.detail.year;
             $scope.formData.license_plate = data.detail.license_plate;
             $scope.formData.use           = data.detail.use;
             $scope.formData.mileage       = data.detail.mileage ? '1' : '0';
             $scope.formData.insured_value = data.detail.insured_value;
+
+            if ($scope.formData.year < data.year_max) {
+              $scope.formData.year = 'old';
+            }
 
             $scope.popup(data.payload);
 
@@ -244,6 +265,7 @@ var detail = function ($rootScope, $scope, $http) {
             $scope.formData.vehicle_make     = data.detail.vehicle_make;
             $scope.formData.vehicle_model    = data.detail.vehicle_model;
             $scope.formData.year             = data.detail.year;
+            $scope.formData.year_old         = data.detail.year;
             $scope.formData.license_plate    = data.detail.license_plate;
             $scope.formData.use              = data.detail.use;
             $scope.formData.mileage          = data.detail.mileage ? '1' : '0';
@@ -252,6 +274,10 @@ var detail = function ($rootScope, $scope, $http) {
             $scope.formData.chassis          = data.detail.chassis;
             $scope.formData.tonnage_capacity = data.detail.tonnage_capacity;
             $scope.formData.seat_number      = data.detail.seat_number;
+
+            if ($scope.formData.year < data.year_max) {
+              $scope.formData.year = 'old';
+            }
             
             angular.element('#popup').on('shown.bs.modal', function (e) {
               angular.element('#category option:not(:selected)').prop('disabled', true);

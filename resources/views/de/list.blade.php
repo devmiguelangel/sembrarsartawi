@@ -12,7 +12,8 @@
     <div class="page-header">
         <div class="page-header-content">
             <div class="page-title">
-                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Seguro de Desgravamen</span></h4>
+                <h4><i class="icon-arrow-left52 position-left"></i> <span
+                            class="text-semibold">Seguro de Desgravamen</span></h4>
 
                 <ul class="breadcrumb breadcrumb-caret position-right">
                     <li><a href="">Inicio</a></li>
@@ -45,17 +46,17 @@
                                         <span class="number">2</span> Datos del Titular
                                     </a>
                                 </li>
-                                <li class="disabled last" >
+                                <li class="disabled last">
                                     <a href="#">
                                         <span class="number">3</span> Resultado Cotización
                                     </a>
                                 </li>
-                                <li class="disabled last" >
+                                <li class="disabled last">
                                     <a href="#">
                                         <span class="number">4</span> Emisión de la Póliza de Desgravamen
                                     </a>
                                 </li>
-                                <li class="disabled last" >
+                                <li class="disabled last">
                                     <a href="#">
                                         <span class="number">5</span> Impresión de la Póliza
                                     </a>
@@ -63,7 +64,9 @@
                             </ul>
                         </div>
                     </div>
-                    <button style="float: right;" type="button" class="btn btn-rounded btn-default text-right" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
+                    <button style="float: right;" type="button" class="btn btn-rounded btn-default text-right"
+                            title="Detalle de producto" data-placement="right" data-toggle="modal"
+                            data-target="#modal_theme_primary">
                         <i class="icon-question7"></i> Producto
                     </button>
 
@@ -72,19 +75,24 @@
 
                 @if(session('success_header'))
                     <script>
-                        $(function(){messageAction('succes',"{{ session('success_header') }}");});
+                        $(function () {
+                            messageAction('succes', "{{ session('success_header') }}");
+                        });
                     </script>
                 @endif
 
                 @if(session('error_client'))
                     <script>
-                        $(function(){messageAction('info',"{{ session('error_client') }}");});
+                        $(function () {
+                            messageAction('info', "{{ session('error_client') }}");
+                        });
                     </script>
                 @endif
 
                 @if(is_null($header))
                     <div class="alert bg-danger alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span>
+                        </button>
                         <span class="text-semibold">La Cotización no existe</span>.
                     </div>
                 @endif
@@ -92,34 +100,43 @@
                 @if(session('success_question'))
                     <script>
 
-                        $(function(){messageAction('succes',"{{ session('success_question') }}");});
+                        $(function () {
+                            messageAction('succes', "{{ session('success_question') }}");
+                        });
                     </script>
                 @endif
 
                 @if(session('error_client_edit'))
                     <script>
-                        $(function(){messageAction('error',"{{ session('error_client_edit') }}");});
+                        $(function () {
+                            messageAction('error', "{{ session('error_client_edit') }}");
+                        });
                     </script>
                 @endif
 
                 @if(session('success_client'))
                     <script>
-                        $(function(){messageAction('succes',"{{ session('success_client') }}");});
+                        $(function () {
+                            messageAction('succes', "{{ session('success_client') }}");
+                        });
                     </script>
                 @endif
 
                 @if(session('error_question'))
                     <script>
-                        $(function(){messageAction('error',"{{ session('error_question') }}");});
+                        $(function () {
+                            messageAction('error', "{{ session('error_question') }}");
+                        });
                     </script>
                 @endif
 
                 @if(! is_null($header))
                     <div class="col-xs-12">
                         <div class="col-md-8 col-md-offset-2">
-                            {!! Form::open(['route' => ['de.client.search', 'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                            {!! Form::open(['route' => ['client.search', 'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'get', 'class' => 'form-horizontal']) !!}
                             <div class="form-group has-success">
-                                <label class="control-label col-lg-4 text-semibold" style="text-align: right;">Busqueda de datos:</label>
+                                <label class="control-label col-lg-4 text-semibold" style="text-align: right;">Busqueda
+                                    de datos:</label>
                                 <div class="col-lg-5">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-search4"></i></span>
@@ -138,15 +155,19 @@
                     </div>
                     <div class="col-xs-12">
                         <div class="text-right">
-                          @if ($header->details->count() < $coverage_detail)
-                            <a class="btn btn-primary" href="{{ route('de.detail.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" title="Nuevo Cliente">
-                              Nuevo Cliente <i class="icon-plus2 position-right"></i>
-                            </a>
-                          @endif
+                            @if ($header->details->count() < $coverage_detail)
+                                <a class="btn btn-primary"
+                                   href="{{ route('de.detail.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                                   title="Nuevo Cliente">
+                                    Nuevo Cliente <i class="icon-plus2 position-right"></i>
+                                </a>
+                            @endif
 
-                          @if($header->details->count() > 0)
-                              <a class="btn btn-primary" href="{{ route('de.result', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Continuar <i class="icon-arrow-right14 position-right"></i></a>
-                          @endif
+                            @if($header->details->count() > 0)
+                                <a class="btn btn-primary"
+                                   href="{{ route('de.result', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">Continuar
+                                    <i class="icon-arrow-right14 position-right"></i></a>
+                            @endif
                         </div>
                         <br>
                     </div>
@@ -193,7 +214,8 @@
                                                     'header_id' => $header_id,
                                                     'detail_id' => encode($detail->id)
                                                     ]) }}">
-                                                            <i class="icon-plus2"></i>Editar Cuestionario de Salud</a></li>
+                                                            <i class="icon-plus2"></i>Editar Cuestionario de Salud</a>
+                                                    </li>
                                                 </ul>
                                             </li>
                                         </ul>

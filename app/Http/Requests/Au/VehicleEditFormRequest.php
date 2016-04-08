@@ -28,7 +28,7 @@ class VehicleEditFormRequest extends Request
         $vehicle_categories = join(',', array_keys(config('base.vehicle_category')));
         $vehicle_uses       = join(',', array_keys(config('base.vehicle_use')));
 
-        return [
+        $rules = [
             'vehicle_type.id'   => 'required|exists:ad_vehicle_types,id',
             'category.category' => 'required|in:' . $vehicle_categories,
             'vehicle_make.id'   => 'required|exists:ad_vehicle_makes,id',
@@ -43,5 +43,12 @@ class VehicleEditFormRequest extends Request
             'tonnage_capacity'  => 'numeric|min:0',
             'seat_number'       => 'integer|min:0',
         ];
+
+        if ($this->request->get('year') === 'old') {
+            $rules['year']     = 'required|in:old';
+            $rules['year_old'] = 'required|integer';
+        }
+
+        return $rules;
     }
 }

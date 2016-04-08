@@ -116,5 +116,18 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
         'uses' => 'Au\DetailController@updateIssuance'
     ]);
 
+    /*
+     * Header Facultative
+     */
+    Route::get('request-approval/{header_id}', [
+        'as'    => 'au.fa.request.create',
+        'uses'  => 'Au\HeaderController@requestCreate'
+    ]);
+
+    Route::put('request-approval/{header_id}', [
+        'as'    => 'au.fa.request.store',
+        'uses'  => 'Au\HeaderController@requestStore'
+    ]);
+
 
 });

@@ -45,16 +45,15 @@ trait DataTrait
         $this->getInstance();
 
         return [
-            'civil_status'    => $this->dataRepository->getCivilStatus(),
-            'document_type'   => $this->dataRepository->getDocumentType(),
-            'gender'          => $this->dataRepository->getGender(),
-            'cities'          => $this->cityRepository->getCitiesByType(),
-            'activities'      => $this->activityRepository->getActivitiesByProduct(decode($rp_id)),
-            'hands'           => $this->dataRepository->getHand(),
-            'avenue_street'   => $this->dataRepository->getAvenueStreet(),
-            'term_types'      => $this->dataRepository->getTermType(),
-            'payment_methods' => $this->dataRepository->getPaymentMethod(),
-            'currencies'      => $this->dataRepository->getCurrency(),
+            'civil_status'  => $this->dataRepository->getCivilStatus(),
+            'document_type' => $this->dataRepository->getDocumentType(),
+            'gender'        => $this->dataRepository->getGender(),
+            'cities'        => $this->cityRepository->getCitiesByType(),
+            'activities'    => $this->activityRepository->getActivitiesByProduct(decode($rp_id)),
+            'hands'         => $this->dataRepository->getHand(),
+            'avenue_street' => $this->dataRepository->getAvenueStreet(),
+            'term_types'    => $this->dataRepository->getTermType(),
+            'currencies'    => $this->dataRepository->getCurrency(),
         ];
     }
 }
