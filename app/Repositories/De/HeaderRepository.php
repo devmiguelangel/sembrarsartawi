@@ -173,13 +173,12 @@ class HeaderRepository extends BaseRepository
 
 
     /**
-     * @param Header $header
      *
      * @return bool
      */
-    public function storeSent($header)
+    public function storeSent()
     {
-        $header->facultative_sent = true;
+        $this->model->facultative_sent = true;
 
         return $this->saveModel();
     }

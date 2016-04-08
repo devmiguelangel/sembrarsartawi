@@ -57,6 +57,16 @@ abstract class BaseRepository
     protected $reasonCumulus;
 
     /**
+     * @var string
+     */
+    protected $reasonYear;
+
+    /**
+     * @var string
+     */
+    protected $reasonAmount;
+
+    /**
      * @var Collection
      */
     protected $records;
@@ -72,6 +82,8 @@ abstract class BaseRepository
         $this->reasonImc      = 'El Titular :name no cumple con el IMC. ';
         $this->reasonResponse = 'El Titular :name no cumple con el Cuestionario de Salud. ';
         $this->reasonCumulus  = 'El monto total acumulado del Titular :name es :cumulus Bs. y supera el monto maximo ' . 'permitido. Monto maximo permitido :amount_max Bs. ';
+        $this->reasonYear     = 'El Vehículo con placa :license_plate tiene una antiguedad mayor a :year_max años. ';
+        $this->reasonAmount   = 'El valor asegurado del Vehículo con placa :license_plate excede el máximo valor permitido. Valor permitido: :amount_max USD. ';
 
         $this->fieldName = [
             'Q' => 'quote_number',

@@ -56,10 +56,22 @@
                 @for($i = date('Y'); $i >= date('Y') - $parameter->old_car; $i-- )
                     <option value="{{ $i }}">{{ $i }}</option>
                 @endfor
+                <option value="old">-{{ $i + 1 }}</option>
             </select>
             <label id="location-error" class="validation-error-label" for="location"
                    ng-show="errors.year">
                 @{{ errors.year[0] }}
+            </label>
+            {!! Form::text('year_old', old('year_old'), [
+                'class'        => 'form-control ui-wizard-content',
+                'placeholder'  => 'Año',
+                'autocomplete' => 'off',
+                'ng-model'     => 'formData.year_old',
+                'ng-if'        => 'year_old',
+            ]) !!}
+            <label id="location-error" class="validation-error-label" for="location"
+                   ng-show="errors.year_old">
+                @{{ errors.year_old[0] }}
             </label>
         </div>
     </div>

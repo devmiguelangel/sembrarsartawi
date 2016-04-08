@@ -168,6 +168,7 @@ return [
         'vehicle_make'           => [ 'id' => 'Marca' ],
         'vehicle_model'          => [ 'id' => 'Modelo' ],
         'year'                   => 'Año',
+        'year_old'               => 'Año',
         'license_plate'          => 'Placa',
         'use'                    => 'Uso',
         'mileage'                => 'Kilometraje',

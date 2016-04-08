@@ -22,15 +22,21 @@ class Header extends Model
         'issued',
         'date_issue',
         'facultative',
+        'facultative_observation',
+        'facultative_sent',
+        'share',
+        'approved',
     ];
 
     protected $appends = [
         'full_year',
+        'client_completed',
         'completed',
     ];
 
     protected $casts = [
-        'issued' => 'boolean',
+        'issued'      => 'boolean',
+        'facultative' => 'boolean',
     ];
 
 
@@ -65,6 +71,20 @@ class Header extends Model
     }
 
 
+    public function getClientCompletedAttribute()
+    {
+        $completed = true;
+
+        $client = $this->client;
+
+        if (empty( $client->place_residence ) || empty( $client->locality ) || empty( $client->home_address ) || empty( $client->home_number ) || empty( $client->business_address )) {
+            $completed = false;
+        }
+
+        return $completed;
+    }
+
+
     public function getCompletedAttribute()
     {
         $completed = true;
@@ -75,6 +95,10 @@ class Header extends Model
 
                 break;
             }
+        }
+
+        if ( ! $this->client_completed) {
+            $completed = false;
         }
 
         return $completed;
