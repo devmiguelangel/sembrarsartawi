@@ -538,11 +538,34 @@
                                     @var $data_ain=''
                                     @var $data_aco=''
                                 @endif
-                                <ul>
-                                    <li class="{{$data_aup}}">
-                                        <a href="{{route('admin.au.parameters.list-parameter', ['nav'=>'au_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
-                                    </li>
-                                </ul>
+                                @var $data_vehicle_type=''
+                                @var $data_vehicle_makes=''
+                                    @if($nav=='au_parameter')
+                                        @if($action=='list_parameter' || $action=='edit_parameter' ||
+                                            $action=='list_parameter_additional' || $action=='new_parameter_additional' ||
+                                            $action=='edit_parameter_additional')
+                                            @var $data_aup='active'
+                                        @endif
+                                    @elseif($nav=='ad_vehicle_types')
+                                        @if($action=='list' || $action=='edit' || $action=='new')
+                                            @var $data_vehicle_type='active'
+                                        @endif  
+                                    @elseif($nav=='ad_vehicle_makes' || $nav=='ad_vehicle_models')
+                                        @if($action=='list' || $action=='edit' || $action=='new')
+                                            @var $data_vehicle_makes='active'
+                                        @endif  
+                                    @endif
+                                    <ul>
+                                        <li class="{{$data_aup}}">
+                                            <a href="{{route('admin.au.parameters.list-parameter', ['nav'=>'au_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
+                                        </li>
+                                        <li class="{{$data_vehicle_type}}">
+                                            <a href="{{route('admin.vehicle.list', ['nav'=>'ad_vehicle_types', 'action'=>'list'])}}">Tipos de Vehículo</a>
+                                        </li>
+                                        <li class="{{$data_vehicle_makes}}">
+                                            <a href="{{route('admin.vehicle_makes.list', ['nav'=>'ad_vehicle_makes', 'action'=>'list'])}}">Marcas - Vehículos</a>
+                                        </li>
+                                    </ul>
                                 <ul>
                                     <li class="{{$data_ain}}">
                                         <a href="{{route('admin.au.increment.list', ['nav'=>'au_increment', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar Categorias</a>

@@ -509,6 +509,42 @@
                 <li><a href="{{ route('admin.payment.list', ['nav'=>'payment', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Lista de registros</a></li>
                 <li class="active">Formulario</li>
             @endif
+        @elseif($nav=='ad_vehicle_types')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Tipos de Vehículo</li>
+            @elseif($action=='edit')
+                <li><a href="{{route('admin.vehicle.list', ['nav'=>'ad_vehicle_types', 'action'=>'list'])}}">Tipos de Vehículo</a></li>
+                <li class="active">Formulario</li>
+            @elseif($action=='new')
+                <li><a href="{{route('admin.vehicle.list', ['nav'=>'ad_vehicle_types', 'action'=>'list'])}}">Tipos de Vehículo</a></li>
+                <li class="active">Formulario</li>
+            @endif
+        @elseif($nav=='ad_vehicle_makes')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Tipos de Marcas</li>
+            @elseif($action=='edit')
+                <li><a href="{{route('admin.vehicle_makes.list', ['nav'=>'ad_vehicle_makes', 'action'=>'list'])}}">Tipos de Marcas</a></li>
+                <li class="active">Formulario</li>
+            @elseif($action=='new')
+                <li><a href="{{route('admin.vehicle_makes.list', ['nav'=>'ad_vehicle_makes', 'action'=>'list'])}}">Tipos de Marcas</a></li>
+                <li class="active">Formulario</li>
+            @endif
+        @elseif($nav=='ad_vehicle_models')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li><a href="{{route('admin.vehicle_makes.list', ['nav'=>'ad_vehicle_makes', 'action'=>'list'])}}">Tipos de Marcas</a></li>
+                <li class="active">Lista Modelos</li>
+            @elseif($action=='edit')
+                <li><a href="{{route('admin.vehicle_makes.list', ['nav'=>'ad_vehicle_makes', 'action'=>'list'])}}">Tipos de Marcas</a></li>
+                <li>Lista Modelos</li>
+                <li class="active">Formulario</li>
+            @elseif($action=='new')
+                <li><a href="{{route('admin.vehicle_makes.list', ['nav'=>'ad_vehicle_makes', 'action'=>'list'])}}">Tipos de Marcas</a></li>
+                <li>Lista Modelos</li>
+                <li class="active">Formulario</li>
+            @endif
         @endif
     </ul>
     <!--

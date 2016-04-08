@@ -107,6 +107,9 @@ require "admin.modality.php";
 require "admin.au.php";
 require "admin.increment.php";
 require "admin.payment.php";
+require "admin.adVehicleTypes.php";
+require "admin.adVehicleMakes.php";
+require "admin.adVehicleModels.php";
 
 Route::get('admin/ad_activities/list',[
     'as' => 'adActivities',
