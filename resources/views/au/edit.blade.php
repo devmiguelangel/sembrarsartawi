@@ -93,19 +93,19 @@
                             <div class="page-header" style="padding: 5px;">
                                 <h2>Póliza {{ $header->prefix }}-{{ $header->issue_number }}</h2>
                             </div>
-                        @endif
 
-                        @if($header->facultative)
-                            <div class="alert bg-warning alert-styled-right">
+                            @if($header->facultative)
+                                <div class="alert bg-warning alert-styled-right">
                             <span class="text-semibold">
                                 Nota: Se deshabilitó el boton "Emitir" por las siguientes razones: <br>
                             </span>
-                                {!! $header->facultative_observation !!}
-                                <span class="text-semibold">
+                                    {!! $header->facultative_observation !!}
+                                    <span class="text-semibold">
                                 <br>
                                 Por lo tanto debe solicitar aprobación de la Compañia de Seguros
                             </span>
-                            </div>
+                                </div>
+                            @endif
                         @endif
 
                         <div class="modal-header bg-primary recuadro">
@@ -148,9 +148,12 @@
                             </div>
                             <div class="col-xs-4 col-md-4 pull-right">
                                 <a href="{{ route('au.client.i.edit', [
+
                                     'rp_id'     => $rp_id,
                                     'header_id' => $header_id,
-                                    'client_id' => encode($header->client->id) ]) }}"
+                                    'client_id' => encode($header->client->id),
+                                     isset($_GET['idf']) ? 'idf=' . e($_GET['idf']) : null
+                                ]) }}"
                                    class="btn btn-default pull-right">
                                     @if($header->client_completed)
                                         <span class="label label-success">Completado</span>
@@ -225,7 +228,9 @@
                                                                 <a href="{{ route('au.vh.i.edit', [
                                                                     'rp_id'     => $rp_id,
                                                                     'header_id' => $header_id,
-                                                                    'detail_id' => encode($detail->id)]) }}"
+                                                                    'detail_id' => encode($detail->id),
+                                                                    isset($_GET['idf']) ? 'idf=' . e($_GET['idf']) : null
+                                                                ]) }}"
                                                                    ng-click="editIssuance($event)">
                                                                     <i class="icon-pencil3"
                                                                        ng-click="$event.stopPropagation(); $event.preventDefault()"></i>
@@ -249,26 +254,24 @@
                             </div>
                         </div>
 
-                        @if(! $header->issued)
-                            @if($header->type === 'Q')
-                                {!! Form::open(['route' => ['au.update',
-                                    'rp_id'         => $rp_id,
-                                    'header_id'     => $header_id
-                                    ],
-                                    'method'        => 'put',
-                                    'class'         => 'form-horizontal',
-                                    'ng-controller' => 'HeaderAuController'
-                                ]) !!}
-                            @elseif($header->type === 'I')
-                                {!! Form::open(['route' => ['au.update.issuance',
-                                    'rp_id'         => $rp_id,
-                                    'header_id'     => $header_id
-                                    ],
-                                    'method'        => 'put',
-                                    'class'         => 'form-horizontal',
-                                    'ng-controller' => 'HeaderAuController'
-                                ]) !!}
-                            @endif
+                        @if(! isset($_GET['idf']))
+                            {!! Form::open(['route' => ['au.update',
+                                'rp_id'         => $rp_id,
+                                'header_id'     => $header_id
+                                ],
+                                'method'        => 'put',
+                                'class'         => 'form-horizontal',
+                                'ng-controller' => 'HeaderAuController'
+                            ]) !!}
+                        @else
+                            {!! Form::open(['route' => ['au.update.fa',
+                                'rp_id'          => $rp_id,
+                                'header_id'      => $header_id,
+                                'id_facultative' => e($_GET['idf'])
+                                ],
+                                'method'         => 'put', 'class' => 'form-horizontal',
+                                'ng-controller'  => 'HeaderAuController'
+                            ]) !!}
                         @endif
 
                         <div class="panel panel-body border-top-success">
@@ -341,46 +344,45 @@
                                 <div class="clearfix"></div>
                                 <br/>
                                 <div class="text-right">
-                                    @if($header->completed)
-                                        @if(! $header->issued)
-                                            @if($header->type === 'Q')
-                                                <button type="submit" class="btn btn-primary">Guardar <i
-                                                            class="glyphicon glyphicon-floppy-disk position-right"></i>
-                                                </button>
-                                            @elseif($header->type === 'I')
-                                                @if(! $header->facultative)
+                                    @if($header->type === 'Q')
+                                        @if($header->completed)
+                                            <button type="submit" class="btn btn-primary">Guardar <i
+                                                        class="glyphicon glyphicon-floppy-disk position-right"></i>
+                                            </button>
+                                        @endif
+                                    @elseif($header->type === 'I')
+                                        @if(! $header->facultative)
+                                            <a href="{{ route('home', []) }}" class="btn btn-info">
+                                                Guardar y Cerrar <i class="icon-floppy-disk position-right"></i>
+                                            </a>
+
+                                            <a href="{{ route('au.issue', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                                               class="btn btn-primary">
+                                                Emitir <i class="icon-play position-right"></i>
+                                            </a>
+                                        @else
+                                            @if($header->facultative && ! $header->approved && ! $header->facultative_sent && ! isset($_GET['idf']))
+                                                <a href="{{ route('au.fa.request.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                                                   class="btn btn-warning"
+                                                   ng-click="requestCreate($event)">
+                                                    Solicitar aprobación de la Compañia
+                                                    <i class="icon-warning position-right"
+                                                       ng-click="$event.stopPropagation(); $event.preventDefault()"></i>
+                                                </a>
+                                            @else
+                                                @if (! isset($_GET['idf']))
                                                     <a href="{{ route('home', []) }}" class="btn btn-info">
-                                                        Guardar y Cerrar <i class="icon-floppy-disk position-right"></i>
+                                                        Solicitud enviada (Cerrar) <i
+                                                                class="icon-warning position-right"></i>
                                                     </a>
-
-                                                    <button type="submit" class="btn btn-primary">Emitir
-                                                        <i class="icon-play position-right"></i>
-                                                    </button>
                                                 @else
-                                                    @if($header->facultative && ! $header->approved && ! $header->facultative_sent && ! isset($_GET['idf']))
-                                                        <a href="{{ route('au.fa.request.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
-                                                           class="btn btn-warning"
-                                                           ng-click="requestCreate($event)">
-                                                            Solicitar aprobación de la Compañia
-                                                            <i class="icon-warning position-right"
-                                                               ng-click="$event.stopPropagation(); $event.preventDefault()"></i>
-                                                        </a>
-                                                    @else
-                                                        @if (! isset($_GET['idf']))
-                                                            <a href="{{ route('home', []) }}" class="btn btn-info">
-                                                                Solicitud enviada (Cerrar) <i
-                                                                        class="icon-warning position-right"></i>
-                                                            </a>
-                                                        @else
-                                                            <a href="{{ route('home') }}"
-                                                               class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+                                                    <a href="{{ route('home') }}"
+                                                       class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
 
-                                                            {!! Form::button('Solicitud enviada (Guardar y Cerrar) <i class="icon-warning position-right"></i>', [
-                                                                'type'  => 'submit',
-                                                                'class' => 'btn btn-primary'
-                                                            ]) !!}
-                                                        @endif
-                                                    @endif
+                                                    {!! Form::button('Solicitud enviada (Guardar y Cerrar) <i class="icon-warning position-right"></i>', [
+                                                        'type'  => 'submit',
+                                                        'class' => 'btn btn-primary'
+                                                    ]) !!}
                                                 @endif
                                             @endif
                                         @endif

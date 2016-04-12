@@ -11,7 +11,12 @@
                 </h6>
             </div>
 
-            {!! Form::open(['route' => ['au.vh.i.update', 'rp_id' => $rp_id, 'header_id' => $header_id, 'detail_id' => $detail_id],
+            {!! Form::open(['route' => ['au.vh.i.update',
+                'rp_id'     => $rp_id,
+                'header_id' => $header_id,
+                'detail_id' => $detail_id,
+                isset($_GET['idf']) ? 'idf=' . e($_GET['idf']) : null
+            ],
                 'method'        => 'put',
                 'class'         => 'form-horizontal',
                 'ng-controller' => 'DetailAuController',

@@ -131,6 +131,7 @@ class DetailController extends Controller
                     'types'      => $data['vehicle_types'],
                     'makes'      => $data['vehicle_makes'],
                     'categories' => $categories,
+                    'amount_max' => $parameter->amount_max,
                 ]);
             }
 
@@ -326,7 +327,11 @@ class DetailController extends Controller
                         $this->headerRepository->setHeaderFacultative(decode($header_id));
 
                         return response()->json([
-                            'location' => route('au.edit', [ 'rp_id' => $rp_id, 'header_id' => $header_id ])
+                            'location' => route('au.edit', [
+                                'rp_id'     => $rp_id,
+                                'header_id' => $header_id,
+                                $request->get('idf') ? 'idf=' . $request->get('idf') : null
+                            ])
                         ]);
                     }
                 }

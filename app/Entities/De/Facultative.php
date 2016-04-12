@@ -8,11 +8,12 @@ use Sibas\Entities\User;
 
 class Facultative extends Model
 {
+
     protected $table = 'op_de_facultatives';
 
     public $incrementing = false;
 
-    protected $fillable = ['id', 'reason', 'state', ];
+    protected $fillable = [ 'id', 'reason', 'state', ];
 
     protected $casts = [
         'approved'  => 'boolean',
@@ -26,20 +27,24 @@ class Facultative extends Model
         'date_admission',
     ];
 
+
     public function user()
     {
         return $this->belongsTo(User::class, 'ad_user_id', 'id');
     }
+
 
     public function detail()
     {
         return $this->belongsTo(Detail::class, 'op_de_detail_id', 'id');
     }
 
+
     public function observations()
     {
-       return $this->hasMany(Observation::class, 'op_de_facultative_id', 'id');
+        return $this->hasMany(Observation::class, 'op_de_facultative_id', 'id');
     }
+
 
     public function getCompanyStateAttribute()
     {
@@ -68,6 +73,7 @@ class Facultative extends Model
         return $state;
     }
 
+
     public function getProcessDaysAttribute()
     {
         $days = 0;
@@ -83,10 +89,11 @@ class Facultative extends Model
         return $days;
     }
 
+
     public function getDateAdmissionAttribute()
     {
-        $now  = new Carbon();
-        $dt   = new Carbon($this->created_at);
+        $now = new Carbon();
+        $dt  = new Carbon($this->created_at);
         $dt->setLocale('es');
 
         return $dt->diffForHumans($now);

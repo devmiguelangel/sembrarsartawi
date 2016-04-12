@@ -5,6 +5,8 @@ namespace Sibas\Repositories\Retailer;
 use Sibas\Entities\RetailerProduct;
 use Sibas\Entities\RetailerProductCoverage;
 use Sibas\Entities\RetailerProductPaymentMethod;
+use Sibas\Entities\RetailerProductState;
+use Sibas\Entities\State;
 use Sibas\Repositories\BaseRepository;
 
 class RetailerProductRepository extends BaseRepository
@@ -108,5 +110,16 @@ class RetailerProductRepository extends BaseRepository
         $paymentMethods = $selectOption->merge($paymentMethods);
 
         return $paymentMethods;
+    }
+
+
+    public function getStatusByProduct($rp_id)
+    {
+        $status = State::select('id', 'state', 'state as name', 'slug as data_slug')->whereHas('retailerProduct',
+            function ($q) use ($rp_id) {
+                $q->where('ad_retailer_products.id', $rp_id);
+            })->get();
+
+        return $status;
     }
 }

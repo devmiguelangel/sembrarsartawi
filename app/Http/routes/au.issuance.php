@@ -30,6 +30,11 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
         'uses' => 'Au\HeaderController@update'
     ]);
 
+    Route::put('edit/{header_id}/{id_facultative}', [
+        'as'   => 'au.update.fa',
+        'uses' => 'Au\HeaderController@updateFa'
+    ]);
+
     /*
      * Header Result
      */
@@ -46,8 +51,8 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
         'uses' => 'Au\HeaderController@showIssuance'
     ]);
 
-    Route::put('issuance/{header_id}', [
-        'as'   => 'au.update.issuance',
+    Route::get('issue/{header_id}', [
+        'as'   => 'au.issue',
         'uses' => 'Au\HeaderController@updateIssuance'
     ]);
 
@@ -120,14 +125,59 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
      * Header Facultative
      */
     Route::get('request-approval/{header_id}', [
-        'as'    => 'au.fa.request.create',
-        'uses'  => 'Au\HeaderController@requestCreate'
+        'as'   => 'au.fa.request.create',
+        'uses' => 'Au\HeaderController@requestCreate'
     ]);
 
     Route::put('request-approval/{header_id}', [
-        'as'    => 'au.fa.request.store',
-        'uses'  => 'Au\HeaderController@requestStore'
+        'as'   => 'au.fa.request.store',
+        'uses' => 'Au\HeaderController@requestStore'
     ]);
 
+});
+
+Route::group([ 'prefix' => 'fau/{rp_id}' ], function () {
+    /*
+     * Facultative process
+     */
+    Route::get('facultative/edit/{id}', [
+        'as'   => 'au.fa.edit',
+        'uses' => 'Au\FacultativeController@edit'
+    ]);
+
+    Route::put('facultative/edit/{id}', [
+        'as'   => 'au.fa.update',
+        'uses' => 'Au\FacultativeController@update'
+    ]);
+
+    Route::get('facultative/{id}/observation', [
+        'as'   => 'au.fa.observation',
+        'uses' => 'Au\FacultativeController@observation'
+    ]);
+
+    Route::get('facultative/{id}/answer/{id_observation}', [
+        'as'   => 'au.fa.create.answer',
+        'uses' => 'Au\FacultativeController@createAnswer'
+    ]);
+
+    Route::put('facultative/{id}/answer/{id_observation}', [
+        'as'   => 'au.fa.store.answer',
+        'uses' => 'Au\FacultativeController@storeAnswer'
+    ]);
+
+    Route::get('facultative/{id}/response/{id_observation}', [
+        'as'   => 'au.fa.response',
+        'uses' => 'Au\FacultativeController@response'
+    ]);
+
+    Route::get('facultative/{id}/observation-process', [
+        'as'   => 'au.fa.observation.process',
+        'uses' => 'Au\FacultativeController@observationProcess'
+    ]);
+
+    Route::put('facultative/read/edit/{id}', [
+        'as'   => 'au.fa.read.update',
+        'uses' => 'Au\FacultativeController@readUpdate'
+    ]);
 
 });

@@ -1,13 +1,15 @@
 <?php
 
-namespace Sibas\Http\Controllers\De;
+namespace Sibas\Http\Controllers\Au;
 
 use Illuminate\Http\Request;
-use Sibas\Http\Controllers\Controller;
+
 use Sibas\Http\Controllers\MailController;
+use Sibas\Http\Requests;
+use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\De\FacultativeFormRequest;
-use Sibas\Repositories\De\FacultativeRepository;
-use Sibas\Repositories\De\HeaderRepository;
+use Sibas\Repositories\Au\FacultativeRepository;
+use Sibas\Repositories\Au\HeaderRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class FacultativeController extends Controller
@@ -26,7 +28,7 @@ class FacultativeController extends Controller
     /**
      * @var RetailerProductRepository
      */
-    private $retailerProductRepository;
+    protected $retailerProductRepository;
 
 
     public function __construct(
@@ -43,8 +45,8 @@ class FacultativeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  string $rp_id
-     * @param  string $id
+     * @param string $rp_id
+     * @param string $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -55,9 +57,9 @@ class FacultativeController extends Controller
                 $fa = $this->repository->getModel();
 
                 return response()->json([
-                    'payload'      => view('de.facultative.edit', compact('fa', 'rp_id'))->render(),
+                    'payload'      => view('au.facultative.edit', compact('fa', 'rp_id'))->render(),
                     'states'       => $this->retailerProductRepository->getStatusByProduct(decode($rp_id)),
-                    'current_rate' => $fa->detail->header->total_rate,
+                    'current_rate' => $fa->detail->rate,
                     'user_email'   => $fa->detail->header->user->email,
                 ]);
             }
@@ -72,9 +74,9 @@ class FacultativeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request|FacultativeFormRequest $request
-     * @param string                         $rp_id
-     * @param string                         $id
+     * @param FacultativeFormRequest $request
+     * @param string                 $rp_id
+     * @param string                 $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -87,9 +89,14 @@ class FacultativeController extends Controller
                     $header = $fa->detail->header;
 
                     $this->repository->approved = (int) $request->get('approved');
+                    $surcharge                  = (boolean) $request->get('surcharge');
 
                     if ($this->repository->approved === 1 || $this->repository->approved === 0) {
                         $this->headerRepository->setApproved($header);
+
+                        if ($surcharge) {
+                            $this->headerRepository->setVehicleResult(null, $header);
+                        }
                     }
 
                     $mail = new MailController($request->user(), $request->get('emails'));
@@ -110,18 +117,41 @@ class FacultativeController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
+     * @param string $rp_id
+     * @param string $id
      *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
-    public function destroy($id)
+    public function observation($rp_id, $id)
     {
-        //
+        if (request()->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                $fa = $this->repository->getModel();
+
+                if ($fa->observations->last()->state->slug !== 'me') {
+                    $payload = view('au.facultative.observation', compact('fa'));
+
+                    return response()->json([
+                        'payload' => $payload->render()
+                    ]);
+                }
+
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
+        return redirect()->back();
     }
 
 
+    /**
+     * @param string $rp_id
+     * @param string $id
+     * @param string $id_observation
+     *
+     * @return mixed
+     */
     public function createAnswer($rp_id, $id, $id_observation)
     {
         if (request()->ajax()) {
@@ -129,7 +159,7 @@ class FacultativeController extends Controller
                 $fa = $this->repository->getModel();
 
                 return response()->json([
-                    'payload' => view('de.facultative.answer', compact('fa', 'id_observation', 'rp_id'))->render()
+                    'payload' => view('au.facultative.answer', compact('fa', 'id_observation', 'rp_id'))->render()
                 ]);
             }
 
@@ -140,6 +170,14 @@ class FacultativeController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @param string  $rp_id
+     * @param string  $id
+     * @param string  $id_observation
+     *
+     * @return mixed
+     */
     public function storeAnswer(Request $request, $rp_id, $id, $id_observation)
     {
         $this->validate($request, [
@@ -167,29 +205,13 @@ class FacultativeController extends Controller
     }
 
 
-    public function observation($rp_id, $id)
-    {
-        if (request()->ajax()) {
-            if ($this->repository->getFacultativeById(decode($id))) {
-                $fa = $this->repository->getModel();
-
-                if ($fa->observations->last()->state->slug !== 'me') {
-                    $payload = view('de.facultative.observation', compact('fa'));
-
-                    return response()->json([
-                        'payload' => $payload->render()
-                    ]);
-                }
-
-            }
-
-            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
-        }
-
-        return redirect()->back();
-    }
-
-
+    /**
+     * @param string $rp_id
+     * @param string $id
+     * @param string $id_observation
+     *
+     * @return mixed
+     */
     public function response($rp_id, $id, $id_observation)
     {
         if (request()->ajax()) {
@@ -198,7 +220,7 @@ class FacultativeController extends Controller
                 $observation = $fa->observations()->where('id', decode($id_observation))->first();
 
                 return response()->json([
-                    'payload' => view('de.facultative.response', compact('fa', 'observation'))->render()
+                    'payload' => view('au.facultative.response', compact('fa', 'observation'))->render()
                 ]);
             }
 
@@ -209,6 +231,12 @@ class FacultativeController extends Controller
     }
 
 
+    /**
+     * @param string $rp_id
+     * @param string $id
+     *
+     * @return mixed
+     */
     public function observationProcess($rp_id, $id)
     {
         if (request()->ajax()) {
@@ -216,7 +244,7 @@ class FacultativeController extends Controller
                 $fa = $this->repository->getModel();
 
                 return response()->json([
-                    'payload' => view('de.facultative.observation-process', compact('fa'))->render()
+                    'payload' => view('au.facultative.observation-process', compact('fa'))->render()
                 ]);
             }
 
@@ -227,6 +255,13 @@ class FacultativeController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @param string  $rp_id
+     * @param string  $id
+     *
+     * @return mixed
+     */
     public function readUpdate(Request $request, $rp_id, $id)
     {
         if (request()->ajax()) {

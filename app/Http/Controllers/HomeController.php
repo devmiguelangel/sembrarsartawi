@@ -6,42 +6,58 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
-use Sibas\Repositories\De\FacultativeRepository;
+use Sibas\Repositories\De\FacultativeRepository as FacultativeDeRepository;
+use Sibas\Repositories\Au\FacultativeRepository as FacultativeAuRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class HomeController extends Controller
 {
+
     /**
      * @var string
      */
     protected $inbox;
+
     /**
      * @var int
      */
     protected $header_id;
+
     /**
-     * @var FacultativeRepository
+     * @var FacultativeDeRepository
      */
     protected $facultativeDeRepository;
+
     /**
      * @var RetailerProductRepository
      */
     protected $retailerProductRepository;
 
-    public function __construct(FacultativeRepository $facultativeDeRepository,
-                                RetailerProductRepository $retailerProductRepository)
-    {
+    /**
+     * @var FacultativeAuRepository
+     */
+    protected $facultativeAuRepository;
+
+
+    public function __construct(
+        FacultativeDeRepository $facultativeDeRepository,
+        FacultativeAuRepository $facultativeAuRepository,
+        RetailerProductRepository $retailerProductRepository
+    ) {
         $this->facultativeDeRepository   = $facultativeDeRepository;
         $this->retailerProductRepository = $retailerProductRepository;
 
-        $this->inbox     = 'all';
-        $this->header_id = null;
+        $this->inbox                   = 'all';
+        $this->header_id               = null;
+        $this->facultativeAuRepository = $facultativeAuRepository;
     }
+
 
     /**
      * Display a listing of the resource.
      *
      * @param Guard $auth
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Guard $auth)
@@ -63,25 +79,25 @@ class HomeController extends Controller
         $user = $auth->user();
 
         $data = [
-            'products' => [],
+            'products' => [ ],
         ];
 
         if ($user->profile->first()->slug === 'SEP' || $user->profile->first()->slug === 'COP') {
-            if (! is_null($arp_id)) {
+            /*if ( ! is_null($arp_id)) {
                 if ($this->retailerProductRepository->getRetailerProductById($arp_id)) {
                     $retailerProduct = $this->retailerProductRepository->getModel();
 
                     $this->setData($retailerProduct, $user, $data);
                 }
-            } else {
-                foreach ($user->retailer->first()->retailerProducts as $retailerProduct) {
-                    $this->setData($retailerProduct, $user, $data);
-                }
+            }*/
+            foreach ($user->retailer->first()->retailerProducts as $retailerProduct) {
+                $this->setData($retailerProduct, $user, $data);
             }
         }
 
         return view('home', compact('user', 'data'));
     }
+
 
     private function setData($retailerProduct, $user, &$data)
     {
@@ -89,13 +105,21 @@ class HomeController extends Controller
             $product     = $retailerProduct->companyProduct->product;
             $product->rp = $retailerProduct;
 
-            if ($product->code === 'de') {
-                $product->records = $this->facultativeDeRepository->getRecords($user, $this->inbox, $this->header_id);
+            switch ($product->code) {
+                case 'de':
+                    $product->records = $this->facultativeDeRepository->getRecords($user, $this->inbox,
+                        $this->header_id);
+                    break;
+                case 'au':
+                    $product->records = $this->facultativeAuRepository->getRecords($user, $this->inbox,
+                        $this->header_id);
+                    break;
             }
 
             array_push($data['products'], $product);
         }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -107,10 +131,12 @@ class HomeController extends Controller
         //
     }
 
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -118,10 +144,12 @@ class HomeController extends Controller
         //
     }
 
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -129,10 +157,12 @@ class HomeController extends Controller
         //
     }
 
+
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -140,11 +170,13 @@ class HomeController extends Controller
         //
     }
 
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -152,10 +184,12 @@ class HomeController extends Controller
         //
     }
 
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

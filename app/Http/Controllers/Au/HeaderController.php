@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Au;
 
+use Illuminate\Http\Response;
 use Sibas\Entities\Client;
 use Sibas\Http\Controllers\DataTrait;
 use Sibas\Http\Controllers\MailController;
@@ -11,6 +12,7 @@ use Sibas\Http\Requests\Au\ClientComplementFormRequest;
 use Sibas\Http\Requests\Au\FacultativeRequestFormRequest;
 use Sibas\Http\Requests\Au\HeaderCreateFormRequest;
 use Sibas\Http\Requests\Au\HeaderEditFormRequest;
+use Sibas\Repositories\Au\FacultativeRepository;
 use Sibas\Repositories\Au\HeaderRepository;
 use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\Retailer\PolicyRepository;
@@ -39,10 +41,16 @@ class HeaderController extends Controller
      */
     protected $policyRepository;
 
+    /**
+     * @var FacultativeRepository
+     */
+    protected $facultativeRepository;
+
 
     public function __construct(
         HeaderRepository $repository,
         ClientRepository $clientRepository,
+        FacultativeRepository $facultativeRepository,
         RetailerProductRepository $retailerProductRepository,
         PolicyRepository $policyRepository
     ) {
@@ -50,6 +58,7 @@ class HeaderController extends Controller
         $this->clientRepository          = $clientRepository;
         $this->retailerProductRepository = $retailerProductRepository;
         $this->policyRepository          = $policyRepository;
+        $this->facultativeRepository     = $facultativeRepository;
     }
 
 
@@ -216,6 +225,7 @@ class HeaderController extends Controller
                 return redirect()->route('au.edit', [
                     'rp_id'     => $rp_id,
                     'header_id' => $header_id,
+                    $request->get('idf') ? 'idf=' . $request->get('idf') : null
                 ])->with([ 'success_client' => 'La información del Cliente se actualizó correctamente' ]);
             }
         }
@@ -234,7 +244,7 @@ class HeaderController extends Controller
 
             if ($header->issued) {
                 return view('au.issuance', compact('rp_id', 'header_id',
-                    'header'))->with([ 'success_header' => 'La Póliza se fue emitida con éxito.' ]);
+                    'header'))->with([ 'success_header' => 'La Póliza fue emitida con éxito.' ]);
             }
         }
 
@@ -257,7 +267,7 @@ class HeaderController extends Controller
                 return redirect()->route('au.show.issuance', [
                     'rp_id'     => $rp_id,
                     'header_id' => $header_id,
-                ])->with([ 'success_header' => 'La Póliza se fue emitida con éxito.' ]);
+                ])->with([ 'success_header' => 'La Póliza fue emitida con éxito.' ]);
             }
         }
 
@@ -325,6 +335,28 @@ class HeaderController extends Controller
         }
 
         return redirect()->back();
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param HeaderEditFormRequest $request
+     *
+     * @return Response
+     */
+    public function updateFa(HeaderEditFormRequest $request, $rp_id, $header_id, $id_facultative)
+    {
+        if ($this->repository->updateHeaderFacultative($request, decode($header_id))) {
+            $mail = new MailController($request->user());
+
+            $this->facultativeRepository->approved = 2;
+            $this->facultativeRepository->sendProcessMail($mail, $rp_id, $id_facultative, true);
+
+            return redirect()->route('home')->with([ 'success_header' => 'La Póliza fue actualizada con éxito.' ]);
+        }
+
+        return redirect()->back()->with([ 'error_header' => 'La Póliza no pudo ser actualizada.' ])->withInput()->withErrors($this->repository->getErrors());
     }
 
 }

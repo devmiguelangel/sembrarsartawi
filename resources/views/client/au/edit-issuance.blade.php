@@ -72,12 +72,22 @@
                     </div>
                 @endif
 
-                {!! Form::open(['route' => ['au.client.i.update',  'rp_id' => $rp_id, 'header_id' => $header_id, 'client_id' => $client_id], 'method' => 'put', 'class' => 'form-horizontal']) !!}
+                {!! Form::open(['route' => ['au.client.i.update',
+                    'rp_id'     => $rp_id,
+                    'header_id' => $header_id,
+                    'client_id' => $client_id,
+                    isset($_GET['idf']) ? 'idf=' . e($_GET['idf']) : null
+                    ], 'method' => 'put', 'class' => 'form-horizontal'
+                ]) !!}
                 <div class="panel-body ">
                     @include('client.de.partials.inputs-quote', ['product' => 'au'])
 
                     <div class="text-right">
-                        <a href="{{ route('au.edit', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                        <a href="{{ route('au.edit', [
+                            'rp_id'     => $rp_id,
+                            'header_id' => $header_id,
+                            isset($_GET['idf']) ? 'idf=' . e($_GET['idf']) : null
+                        ]) }}"
                            class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
 
                         {!! Form::button('Actualizar Cliente <i class="icon-arrow-right14 position-right"></i>', [

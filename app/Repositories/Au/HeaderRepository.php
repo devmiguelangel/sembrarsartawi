@@ -81,49 +81,55 @@ class HeaderRepository extends BaseRepository
      *
      * @return array
      */
-    public function setVehicleResult($retailerProduct, $header)
+    public function setVehicleResult($retailerProduct = null, $header)
     {
         $premium_total = 0;
 
-        $max_year = $retailerProduct->rates()->max('year');
+        if ($retailerProduct instanceof RetailerProduct) {
+            $max_year = $retailerProduct->rates()->max('year');
 
-        foreach ($retailerProduct->rates as $rate) {
-            if ($header->full_year == $rate->year || ( $header->full_year > $max_year && $rate->year == $max_year )) {
-                /**
-                 * @var Detail $detail
-                 */
-                foreach ($header->details as $detail) {
-                    foreach ($rate->increments as $increment) {
-                        if ($increment->category->category == $detail->category->category) {
-                            $rate_vh    = $rate->rate_final + $increment->increment;
-                            $premium_vh = ( $rate_vh * $detail->insured_value ) / 100;;
+            foreach ($retailerProduct->rates as $rate) {
+                if ($header->full_year == $rate->year || ( $header->full_year > $max_year && $rate->year == $max_year )) {
+                    /**
+                     * @var Detail $detail
+                     */
+                    foreach ($header->details as $detail) {
+                        foreach ($rate->increments as $increment) {
+                            if ($increment->category->category == $detail->category->category) {
+                                $rate_vh    = $rate->rate_final + $increment->increment;
+                                $premium_vh = ( $rate_vh * $detail->insured_value ) / 100;;
 
-                            if ($header->full_year > $max_year) {
-                                $rate_annual = $rate_vh / $max_year;
-                                $rate_vh     = $rate_annual * $header->full_year;
-                                $premium_vh  = ( $rate_vh * $detail->insured_value ) / 100;
+                                if ($header->full_year > $max_year) {
+                                    $rate_annual = $rate_vh / $max_year;
+                                    $rate_vh     = $rate_annual * $header->full_year;
+                                    $premium_vh  = ( $rate_vh * $detail->insured_value ) / 100;
 
-                                if ($header->payment_method === 'PT') {
-                                    $premium_diff = ( $premium_vh * 10 ) / 100;
-                                    $premium_vh   = $premium_vh - $premium_diff;
+                                    if ($header->payment_method === 'PT') {
+                                        $premium_diff = ( $premium_vh * 10 ) / 100;
+                                        $premium_vh   = $premium_vh - $premium_diff;
+                                    }
                                 }
-                            }
 
-                            $premium_total += $premium_vh;
+                                $premium_total += $premium_vh;
 
-                            try {
-                                $detail->update([
-                                    'rate'    => $rate_vh,
-                                    'premium' => $premium_vh,
-                                ]);
-                            } catch (QueryException $e) {
-                                $this->errors = $e->getMessage();
+                                try {
+                                    $detail->update([
+                                        'rate'    => $rate_vh,
+                                        'premium' => $premium_vh,
+                                    ]);
+                                } catch (QueryException $e) {
+                                    $this->errors = $e->getMessage();
 
-                                return false;
+                                    return false;
+                                }
                             }
                         }
                     }
                 }
+            }
+        } else {
+            foreach ($header->details as $detail) {
+                $premium_total += $detail->premium;
             }
         }
 
@@ -178,15 +184,13 @@ class HeaderRepository extends BaseRepository
                 }
             }
 
-            if ($facultative) {
-                try {
-                    $this->model->update([
-                        'facultative'             => $facultative,
-                        'facultative_observation' => $reason,
-                    ]);
-                } catch (QueryException $e) {
-                    $this->errors = $e->getMessage();
-                }
+            try {
+                $this->model->update([
+                    'facultative'             => $facultative,
+                    'facultative_observation' => $reason,
+                ]);
+            } catch (QueryException $e) {
+                $this->errors = $e->getMessage();
             }
         }
     }
@@ -213,7 +217,6 @@ class HeaderRepository extends BaseRepository
                     'prefix'           => 'AU',
                     'policy_number'    => $this->data['policy_number'],
                     'operation_number' => $this->data['operation_number'],
-                    'facultative'      => false,
                 ]);
 
                 return true;
@@ -274,6 +277,61 @@ class HeaderRepository extends BaseRepository
         $this->model->facultative_sent = true;
 
         return $this->saveModel();
+    }
+
+
+    /**
+     * @param Header $header
+     *
+     * @return bool
+     */
+    public function setApproved($header)
+    {
+        if ($header instanceof Header) {
+            $this->model = $header;
+            $details     = $this->model->details;
+            $approved    = 0;
+            $rejected    = 0;
+
+            foreach ($details as $detail) {
+                if ($detail->approved) {
+                    $approved += 1;
+                } elseif ($detail->rejected) {
+                    $rejected += 1;
+                }
+            }
+
+            if ($details->count() === $rejected) {
+                $this->model->rejected = true;
+            } elseif ($details->count() === ( $approved + $rejected )) {
+                $this->model->approved = true;
+            }
+
+            return $this->saveModel();
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param Request $request
+     * @param string  $header_id
+     *
+     * @return bool
+     */
+    public function updateHeaderFacultative($request, $header_id)
+    {
+        $this->data = $request->all();
+
+        if ($this->getHeaderById($header_id)) {
+            $this->model->policy_number    = $this->data['policy_number'];
+            $this->model->operation_number = $this->data['operation_number'];
+
+            return $this->saveModel();
+        }
+
+        return false;
     }
 
 }
