@@ -18,13 +18,9 @@ var detail = function ($rootScope, $scope, $http) {
           $rootScope.data.types      = data.types;
           $rootScope.data.makes      = data.makes;
           $rootScope.data.categories = data.categories;
+          $rootScope.amount_max      = data.amount_max;
 
           $scope.formData.vehicle_type  = null;
-
-          /*if ($rootScope.data.types.hasOwnProperty(0)) {
-            $scope.formData.vehicle_type  = $rootScope.data.types[0];
-          }*/
-
           $scope.formData.category      = null;
           $scope.formData.vehicle_make  = null;
           $scope.formData.vehicle_model = null;
@@ -115,6 +111,21 @@ var detail = function ($rootScope, $scope, $http) {
     if (value != null) {
       $scope.formData.category = value.category;
       angular.element('#category option:not(:selected)').prop('disabled', true);
+    }
+  });
+
+  /**
+   * Insured Value
+   * @param  {[type]} value    [description]
+   * @param  {[type]} oldValue [description]
+   * @param  {[type]} scope)   {               if (value [description]
+   * @return {[type]}          [description]
+   */
+  $scope.$watch('formData.insured_value', function(value, oldValue, scope) {
+    if (value > scope.amount_max) {
+      $scope.insured_value = true;
+    } else {
+      $scope.insured_value = false;
     }
   });
 

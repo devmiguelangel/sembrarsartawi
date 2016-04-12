@@ -13,10 +13,12 @@ use Sibas\Repositories\BaseRepository;
 
 class FacultativeRepository extends BaseRepository
 {
+
     /**
      * @var ProductParameter
      */
     private $parameter = null;
+
     /**
      * @var array
      */
@@ -24,43 +26,38 @@ class FacultativeRepository extends BaseRepository
         'reason' => '',
         'state'  => '',
     ];
-    /**
-     * @var int
-     */
-    public $approved = null;
+
 
     /**
-     * @param $user
+     * Get Facultative records
+     *
+     * @param        $user
      * @param string $inbox
-     * @param int $header_id
+     * @param int    $header_id
+     *
      * @return mixed
      */
     public function getRecords($user, $inbox, $header_id = null)
     {
         $user_type = $user->profile->first()->slug;
 
-        $fa = Facultative::with('user',
-                                'detail.header.user',
-                                'detail.client',
-                                'observations.state',
-                                'observations.user');
+        $fa = Facultative::with('user', 'detail.header.user', 'detail.client', 'observations.state',
+            'observations.user');
 
         switch ($user_type) {
             case 'SEP':
                 $fa->whereHas('detail.header', function ($query) use ($user) {
-                        $query->where('ad_user_id', $user->id)
-                            ->where('type', 'I');
-                    });
+                    $query->where('ad_user_id', $user->id)->where('type', 'I')->where('issued', 0);
+                });
                 break;
             case 'COP':
                 $fa->whereHas('detail.header', function ($query) use ($user, $header_id) {
-                        $query->where('type', 'I');
+                    $query->where('type', 'I')->where('issued', '=', false)->where('issued', 0);
 
-                        if (! is_null($header_id)) {
-                            $query->where('id', $header_id);
-                        }
-                    })
-                    ->where('state', 'PE');
+                    if ( ! is_null($header_id)) {
+                        $query->where('id', $header_id);
+                    }
+                })->where('state', 'PE');
                 break;
         }
 
@@ -71,7 +68,7 @@ class FacultativeRepository extends BaseRepository
         $fa->each(function ($item, $key) use ($user_type) {
             // All
             if ($user_type === 'SEP') {
-                if (! $item->read) {
+                if ( ! $item->read) {
                     $this->records['all-unread']->push($item);
                 }
             } else {
@@ -82,7 +79,7 @@ class FacultativeRepository extends BaseRepository
             if ($item->state === 'PR' && $item->approved) {
                 $this->records['approved']->push($item);
 
-                if (! $item->read) {
+                if ( ! $item->read) {
                     $this->records['approved-unread']->push($item);
                 }
 
@@ -93,7 +90,7 @@ class FacultativeRepository extends BaseRepository
             if ($item->state === 'PE' && $item->observations->count() > 0) {
                 $this->records['observed']->push($item);
 
-                if (! $item->read) {
+                if ( ! $item->read) {
                     $this->records['observed-unread']->push($item);
                 }
 
@@ -104,7 +101,7 @@ class FacultativeRepository extends BaseRepository
             if ($item->state === 'PR' && ! $item->approved) {
                 $this->records['rejected']->push($item);
 
-                if (! $item->read) {
+                if ( ! $item->read) {
                     $this->records['rejected-unread']->push($item);
                 }
 
@@ -117,8 +114,10 @@ class FacultativeRepository extends BaseRepository
         return $this->records;
     }
 
+
     /**
      * @param Request $request
+     *
      * @return bool
      */
     public function storeFacultative(Request $request, $rp_id)
@@ -142,14 +141,16 @@ class FacultativeRepository extends BaseRepository
                     } else {
                         $detail->facultative()->delete();
                     }
-                } else if ($evaluation) {
-                    $detail->facultative()->create([
-                        'id'     => date('U'),
-                        'reason' => $this->props['reason'],
-                        'state'  => $this->props['state'],
-                    ]);
+                } else {
+                    if ($evaluation) {
+                        $detail->facultative()->create([
+                            'id'     => date('U'),
+                            'reason' => $this->props['reason'],
+                            'state'  => $this->props['state'],
+                        ]);
 
-                    return true;
+                        return true;
+                    }
                 }
             } catch (QueryException $e) {
                 $this->errors = $e->getMessage();
@@ -159,7 +160,9 @@ class FacultativeRepository extends BaseRepository
         return false;
     }
 
-    private function evaluation($detail) {
+
+    private function evaluation($detail)
+    {
         if ($this->parameter instanceof ProductParameter) {
             switch ($this->parameter->slug) {
                 case 'FC':
@@ -177,6 +180,7 @@ class FacultativeRepository extends BaseRepository
         return false;
     }
 
+
     private function setAeEvaluation($detail)
     {
         $facultative = false;
@@ -185,22 +189,22 @@ class FacultativeRepository extends BaseRepository
         $reason      = '';
 
         if ($imc) {
-            $reason .= str_replace([':name'], [$detail->client->full_name], $this->reasonImc) . '<br>';
+            $reason .= str_replace([ ':name' ], [ $detail->client->full_name ], $this->reasonImc) . '<br>';
 
             $facultative = true;
         }
 
         if ($response) {
-            $reason .= str_replace([':name'], [$detail->client->full_name], $this->reasonResponse) . '<br>';
+            $reason .= str_replace([ ':name' ], [ $detail->client->full_name ], $this->reasonResponse) . '<br>';
 
             $facultative = true;
         }
 
         if ($this->parameter->slug == 'FA') {
-            $reason .= str_replace([':name', ':cumulus', ':amount_max'], [
+            $reason .= str_replace([ ':name', ':cumulus', ':amount_max' ], [
                     $detail->client->full_name,
                     number_format($detail->cumulus, 2),
-                    number_format(($this->parameter->amount_min - 1), 2)
+                    number_format(( $this->parameter->amount_min - 1 ), 2)
                 ], $this->reasonCumulus) . '<br>';
 
             $facultative = true;
@@ -214,21 +218,21 @@ class FacultativeRepository extends BaseRepository
         return $facultative;
     }
 
+
     private function getParameter($retailerProduct, $amount, $cumulus)
     {
         foreach ($retailerProduct->parameters as $parameter) {
-            if (($amount >= $parameter->amount_min && $amount <= $parameter->amount_max)
-                    || ($cumulus >= $parameter->amount_min && $cumulus <= $parameter->amount_max)) {
+            if (( $amount >= $parameter->amount_min && $amount <= $parameter->amount_max ) || ( $cumulus >= $parameter->amount_min && $cumulus <= $parameter->amount_max )) {
                 $this->parameter = $parameter;
             }
         }
     }
 
+
     public function getFacultativeById($id)
     {
-        $this->model = Facultative::with('detail.header.user', 'detail.client', 'observations')
-            ->where('id', '=', $id)
-            ->get();
+        $this->model = Facultative::with('detail.header.user', 'detail.client', 'observations')->where('id', '=',
+            $id)->get();
 
         if ($this->model->count() === 1) {
             $this->model = $this->model->first();
@@ -239,8 +243,10 @@ class FacultativeRepository extends BaseRepository
         return false;
     }
 
+
     /**
      * @param Request $request
+     *
      * @return bool
      */
     public function updateFacultative($request)
@@ -306,8 +312,10 @@ class FacultativeRepository extends BaseRepository
         return $this->saveModel();
     }
 
+
     /**
      * @param Request $request
+     *
      * @return bool
      */
     public function storeAnswer($request, $id_observation)
@@ -315,83 +323,15 @@ class FacultativeRepository extends BaseRepository
         $user       = $request->user();
         $this->data = $request->all();
 
-        $this->model->observations()->where('id', $id_observation)
-            ->update([
-                'response'             => true,
-                'observation_response' => $this->data['observation_response'],
-                'date_response'        => new Carbon()
-            ]);
+        $this->model->observations()->where('id', $id_observation)->update([
+            'response'             => true,
+            'observation_response' => $this->data['observation_response'],
+            'date_response'        => new Carbon()
+        ]);
 
         return $this->saveModel();
     }
 
-    /**
-     * @param MailController $mail
-     * @param string $rp_id
-     * @param string $id
-     * @param bool $response
-     * @return bool
-     */
-    public function sendProcessMail(MailController $mail, $rp_id, $id, $response = false)
-    {
-        if ($this->getFacultativeById(decode($id)) && is_int($this->approved)) {
-            $fa     = $this->getModel();
-            $header = $fa->detail->header;
-
-            $profiles = '';
-            $process  = '';
-            $subject  = ':process : Respuesta :response a Caso Facultativo No. '
-                . $header->prefix . '-' . $header->issue_number . ' '
-                . $fa->detail->client->full_name;
-
-            $template = 'de.facultative.';
-
-            switch ($this->approved) {
-                case 1:
-                    $process  = 'Aprobado';
-                    $template .= 'process';
-                    break;
-                case 0:
-                    $process  = 'Rechazado';
-                    $template .= 'process';
-                    break;
-                case 2:
-                    $process  = $fa->observations->last()->state->state;
-
-                    if ($response) {
-                        $template .= 'response';
-                        $subject  = str_replace(':response', 'del Oficial de Credito', $subject);
-                    } else {
-                        $template .= 'observation';
-                    }
-                    break;
-            }
-
-            $subject = str_replace(':response', 'de la aseguradora', $subject);
-            $subject = str_replace(':process', $process, $subject);
-
-            $mail->subject  = $subject;
-            $mail->template = $template;
-
-            if ($this->approved >= 0 && ! $response) {
-                array_push($mail->receivers, [
-                    'email' => $header->user->email,
-                    'name'  => $header->user->full_name,
-                ]);
-            } elseif ($response) {
-                array_push($mail->receivers, [
-                    'email' => $fa->observations->last()->user->email,
-                    'name'  => $fa->observations->last()->user->full_name,
-                ]);
-            }
-
-            if ($mail->send(decode($rp_id), compact('fa'), $profiles)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     public function readUpdate(Request $request, $id)
     {
@@ -402,6 +342,28 @@ class FacultativeRepository extends BaseRepository
             $this->model->read = $read;
 
             return $this->saveModel();
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param MailController $mail
+     * @param string         $rp_id
+     * @param string         $id
+     * @param bool           $response
+     *
+     * @return bool
+     */
+    public function sendProcessMail(MailController $mail, $rp_id, $id, $response = false)
+    {
+        if ($this->getFacultativeById(decode($id)) && is_int($this->approved)) {
+            $this->fa     = $this->getModel();
+            $this->header = $this->fa->detail->header;
+            $this->client = $this->fa->detail->client;
+
+            $this->sendMail($mail, $rp_id, $response);
         }
 
         return false;

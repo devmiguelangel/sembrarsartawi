@@ -75,6 +75,9 @@
             </label>
         </div>
     </div>
+    <div class="alert alert-danger no-border" ng-if="year_old">
+        Vehiculos con antigüedad mayor a {{ $parameter->old_car }} años requieren aprobación de la compañia de seguros.
+    </div>
 </div>
 <div class="col-xs-12 col-md-6">
     <div class="form-group">
@@ -144,5 +147,9 @@
                 @{{ errors.insured_value[0] }}
             </label>
         </div>
+    </div>
+    <div class="alert alert-danger no-border" ng-if="insured_value">
+        Vehiculos cuyo valor excedan los {{ number_format($parameter->amount_max, 2) }} USD requieren aprobación de la
+        compañia de seguros.
     </div>
 </div>

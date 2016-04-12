@@ -4,6 +4,7 @@ namespace Sibas\Entities\Au;
 
 use Illuminate\Database\Eloquent\Model;
 use Sibas\Entities\Client;
+use Sibas\Entities\User;
 
 class Header extends Model
 {
@@ -32,12 +33,22 @@ class Header extends Model
         'full_year',
         'client_completed',
         'completed',
+        'certificate_number',
     ];
 
     protected $casts = [
-        'issued'      => 'boolean',
-        'facultative' => 'boolean',
+        'issued'           => 'boolean',
+        'canceled'         => 'boolean',
+        'facultative'      => 'boolean',
+        'facultative_sent' => 'boolean',
+        'approved'         => 'boolean',
     ];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'ad_user_id', 'id');
+    }
 
 
     public function client()
@@ -102,6 +113,12 @@ class Header extends Model
         }
 
         return $completed;
+    }
+
+
+    public function getCertificateNumberAttribute()
+    {
+        return $this->prefix . '-' . $this->issue_number;
     }
 
 }

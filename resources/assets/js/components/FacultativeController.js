@@ -21,25 +21,26 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
 
     $scope.easyLoading('body', 'dark', true);
 
-    var href = event.target.href;
+    var url = event.target.href;
 
-    $http.get(href, {
+    $http.get(url, {})
+      .then(function (response) {
+          if (response.status == 200) {
+            var data = response.data;
 
-    }).success(function (data, status, headers, config) {
-        if (status == 200) {
-          $rootScope.dataOptions       = data.states;
-          $rootScope.currentOption     = $rootScope.dataOptions[0];
-          $scope.formData.current_rate = data.current_rate;
-          $scope.formData.final_rate   = data.current_rate;
-          $scope.formData.emails       = data.user_email;
+            $rootScope.dataOptions       = data.states;
+            $rootScope.currentOption     = $rootScope.dataOptions[0];
+            $scope.formData.current_rate = data.current_rate;
+            $scope.formData.final_rate   = data.current_rate;
+            $scope.formData.emails       = data.user_email;
 
-          $scope.popup(data.payload);
-        }
-      }).error(function (err, status, headers, config) {
-        console.log(err);
-      }).finally(function () {
-        $scope.easyLoading('body', '', false);
-      });
+            $scope.popup(data.payload);
+          }
+        }, function(response){
+          console.log(response.data);
+        }).finally(function () {
+          $scope.easyLoading('body', '', false);
+        });
   };
 
   /**
@@ -57,28 +58,27 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
 
     $scope.formData.emails = $scope.formData.emails.split(',');
 
-    $http({
-      method: 'PUT',
-      url: action,
-      data: $.param($scope.formData),
+    var data = $.param($scope.formData);
+
+    $http.put(action, data, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'X-CSRF-TOKEN': CSRF_TOKEN
       }
-    }).success(function (data, status, headers, config) {
+    })
+      .then(function (response) {
         $scope.errors = {};
         $scope.formData.emails = $scope.formData.emails.join(',');
-
-        if (status == 200) {
+        
+        if (response.status == 200) {
           $scope.success = { facultative: true };
-          $scope.redirect(data.location);
+          // $scope.redirect(response.data.location);
         }
-      })
-      .error(function (err, status, headers, config) {
-        if (status == 422) {
+      }, function (response) {
+        if (response.status == 422) {
           angular.forEach($scope.formData.emails, function(value, key){
-            if ('emails.' + key in err) {
-              err.emails = [
+            if ('emails.' + key in response.data) {
+              response.data = [
                 'El email no es válido'
               ];
             }
@@ -86,16 +86,13 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
 
           $scope.formData.emails = $scope.formData.emails.join(',');
 
-          $scope.errors = err;
-        } else if (status == 500) {
+          $scope.errors = response.data;
+        } else if (response.status == 500) {
           console.log('Unauthorized action.');
         }
-
-        console.log(err);
       }).finally(function () {
         $scope.easyLoading('#popup', '', false);
       });
-
   };
 
   /**
@@ -287,24 +284,30 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
   };
 
   $scope.readEdit = function (event, value) {
+    var slug  = event.target.attributes['data-slug'].value;
     var rp_id = event.target.attributes['data-rp-id'].value;
     var id    = event.target.attributes['data-record'].value;
     var url   = angular.element('#read-edit').prop('value');
+    url       = url.replace('fde', slug);
     url       = url.replace(':rp_id', rp_id);
     url       = url.replace(':id', id);
 
     CSRF_TOKEN = $scope.csrf_token();
 
-    $http.put(url, $.param({read: value}), {
+    var data = $.param({read: value});
+
+    $http.put(url, data, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'X-CSRF-TOKEN': CSRF_TOKEN
       }
-    }).success(function (data, status, headers, config) {
-        // console.log(data);
-      })
-      .error(function (err, status, header, config) {
-        console.log(err);
+    })
+      .then(function (response) {
+        if (response.status == 200) {
+          // console.log(response.data);
+        }
+      }, function (response) {
+
       });
   };
 

@@ -8,20 +8,20 @@
                 <h6 class="form-wizard-title2 text-semibold">
                     <span class="col-md-11">
                         Formulario para aprobar la solicitud no emitida
-                        <small class="display-block">Titular {{ $fa->detail->client->full_name }}</small>
+                        <small class="display-block">Titular {{ $fa->detail->header->client->full_name }}</small>
                     </span>
                 </h6>
             </div>
             <br>
 
-            {!! Form::open(['route' => ['de.fa.update', 'rp_id' => $rp_id, 'id' => encode($fa->id)],
+            {!! Form::open(['route' => ['au.fa.update', 'rp_id' => $rp_id, 'id' => encode($fa->id)],
                 'id'        => 'form-fa',
                 'method'    => 'put',
                 'class'     => 'form-horizontal',
                 'ng-submit' => 'store($event)',
             ]) !!}
 
-            @include('partials.process')
+            @include('partials.process', ['product' => 'au'])
 
             {!! Form::close() !!}
         </div>

@@ -8,6 +8,8 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Sibas\Collections\BaseCollection;
+use Sibas\Entities\Client;
+use Sibas\Http\Controllers\MailController;
 
 abstract class BaseRepository
 {
@@ -70,6 +72,26 @@ abstract class BaseRepository
      * @var Collection
      */
     protected $records;
+
+    /**
+     * @var Model
+     */
+    protected $fa;
+
+    /**
+     * @var Model
+     */
+    protected $header;
+
+    /**
+     * @var Client
+     */
+    protected $client;
+
+    /**
+     * @var int
+     */
+    public $approved = null;
 
 
     public function __construct()
@@ -258,4 +280,70 @@ abstract class BaseRepository
 
         return false;
     }
+
+
+    /**
+     * @param MailController $mail
+     * @param string         $rp_id
+     * @param bool           $response
+     *
+     * @return bool
+     */
+    public function sendMail(MailController $mail, $rp_id, $response = false)
+    {
+        $profiles = '';
+        $process  = '';
+        $subject  = ':process : Respuesta :response a Caso Facultativo No. ' . $this->header->prefix . '-' . $this->header->issue_number . ' ' . $this->client->full_name;
+
+        $template = 'de.facultative.';
+
+        switch ($this->approved) {
+            case 1:
+                $process = 'Aprobado';
+                $template .= 'process';
+                break;
+            case 0:
+                $process = 'Rechazado';
+                $template .= 'process';
+                break;
+            case 2:
+                $process = $this->fa->observations->last()->state->state;
+
+                if ($response) {
+                    $template .= 'response';
+                    $subject = str_replace(':response', 'del Oficial de Credito', $subject);
+                } else {
+                    $template .= 'observation';
+                }
+                break;
+        }
+
+        $subject = str_replace(':response', 'de la aseguradora', $subject);
+        $subject = str_replace(':process', $process, $subject);
+
+        $mail->subject  = $subject;
+        $mail->template = $template;
+
+        if ($this->approved >= 0 && ! $response) {
+            array_push($mail->receivers, [
+                'email' => $this->header->user->email,
+                'name'  => $this->header->user->full_name,
+            ]);
+        } elseif ($response) {
+            array_push($mail->receivers, [
+                'email' => $this->fa->observations->last()->user->email,
+                'name'  => $this->fa->observations->last()->user->full_name,
+            ]);
+        }
+
+        $fa     = $this->fa;
+        $client = $this->client;
+
+        if ($mail->send(decode($rp_id), compact('fa', 'client'), $profiles)) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

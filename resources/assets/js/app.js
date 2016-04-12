@@ -4,10 +4,10 @@ var ngAnimate = require('angular-animate');
 global.jQuery = $;
 var bootstrap = require('bootstrap');*/
 
+var FacultativeController  = require('./components/FacultativeController');
 var HeaderDeController     = require('./components/de/HeaderController');
 var DetailDeController     = require('./components/de/DetailController');
 var BeneficiaryController  = require('./components/de/BeneficiaryController');
-var FacultativeController  = require('./components/de/FacultativeController');
 var CancellationController = require('./components/de/CancellationController');
 var HeaderViController     = require('./components/vi/HeaderController');
 var HeaderAuController     = require('./components/au/HeaderController');
