@@ -31,18 +31,11 @@
                 </ul>
             </div>
         </div>
-        @if (session('error'))
-            <div class="alert alert-danger alert-styled-left alert-bordered">
-                <span class="text-semibold">Error!</span> {{ session('error') }}
-            </div>
-        @elseif(session('ok'))
-            <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
-                <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-                <span class="text-semibold"></span> {{session('ok')}}
-            </div>
-        @endif
+        <div class="panel-body">
+            @include('admin.partials.message')
+        </div>
         @if(count($query_list)>0)
-            <table class="table table-bordered">
+            <table class="table table-bordered table-striped table-hover dataTable no-footer">
                 <thead>
                 <tr>
                     <th>Orden</th>

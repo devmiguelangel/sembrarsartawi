@@ -44,15 +44,7 @@
             -->
         </h4>
     </div>
-    <!--
-    <div class="heading-elements">
-        <div class="heading-btn-group">
-            <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
-            <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
-            <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
-        </div>
-    </div>
-    -->
+
 </div>
 
 <div class="breadcrumb-line">
@@ -60,6 +52,9 @@
         @if($nav=='begin')
             <li><a href="#"><i class="icon-home2 position-left"></i> Inicio</a></li>
             <li class="active">Dashboard</li>
+        @elseif($nav=='profile' || $nav=='account_setting')
+            <li><a href="#"><i class="icon-home2 position-left"></i> Inicio</a></li>
+            <li class="active">Formulario Perfil</li>
         @elseif($nav=='user')
             <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
             @if($action=='list')

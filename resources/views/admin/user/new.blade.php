@@ -427,7 +427,6 @@
                     e.preventDefault();
                 }
             });
-
             //VALIDAMOS ELEMENTO
             function validateElement(element,err){
                 var _value = $(element).prop('value');

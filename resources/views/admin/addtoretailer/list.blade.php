@@ -90,7 +90,8 @@
         </table>
         @else
             <div class="alert alert-warning alert-styled-left">
-                <span class="text-semibold"></span> No existe productos/compañías registrados a un Retailer<br>
+                <span class="text-semibold"></span> - No existe productos/compañías registrados a un Retailer<br>
+                - No esta activado el Retailer
             </div>
         @endif
     </div>
@@ -106,7 +107,7 @@
                 var arr = _id.split("|");
                 var id_retailer_products = arr[0];
                 var text = arr[1];
-                bootbox.confirm("Esta seguro de "+arr[2]+" la pregunta ?.", function(result) {
+                bootbox.confirm("Esta seguro de "+arr[2]+" el registro ?", function(result) {
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
                         $.get( "{{url('/')}}/admin/addtoretailer/active_ajax/"+id_retailer_products+"/"+text, function( data ) {

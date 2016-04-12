@@ -31,7 +31,7 @@
         <hr />
         <div class="panel-body ">
             @include('admin.partials.message')
-            <table class="table datatable-basic">
+            <table class="table datatable-basic table-bordered table-striped table-hover dataTable no-footer">
                 <thead>
                     <tr>
                         <th>Marca</th>

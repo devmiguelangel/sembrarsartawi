@@ -60,7 +60,7 @@
                 <td>{{$data->product}}</td>
                 <td>
                     @if((boolean)$data->active==true)
-                        <span class="label label-success">Active</span>
+                        <span class="label label-success">Activo</span>
                     @elseif((boolean)$data->active==false)
                         <span class="label label-default">Inactivo</span>
                     @endif
@@ -110,7 +110,7 @@
                 var arr = _id.split("|");
                 var id_company_product = arr[0];
                 var text = arr[1];
-                bootbox.confirm("Esta seguro de "+arr[2]+" la pregunta ?.", function(result) {
+                bootbox.confirm("Esta seguro de "+arr[2]+" el registro ?", function(result) {
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
                         $.get( "{{url('/')}}/admin/addproductcompany/active_ajax/"+id_company_product+"/"+text, function( data ) {

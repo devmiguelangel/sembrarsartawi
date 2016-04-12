@@ -111,8 +111,8 @@
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-                    <li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
+                    <li><a href="{{route('admin.user.profile', ['nav'=>'profile'])}}"><i class="icon-user-plus"></i> Mi perfil</a></li>
+                    <li><a href="{{route('admin.user.account-setting', ['nav'=>'account_setting'])}}"><i class="icon-cog5"></i> Configuraciones de la cuenta</a></li>
                     <li><a href="{{route('auth.logout')}}"><i class="icon-switch2"></i> Salir</a></li>
                 </ul>
             </li>

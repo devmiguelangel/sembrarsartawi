@@ -90,7 +90,7 @@
                     @endif
                 </td>
                 <td style="text-align: center;">
-                    <a href="{{route('admin.au.parameters.list-parameter-additional', ['nav'=>'au_parameter', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}">Agregar/Modificar Parametros</a>
+                    <a href="{{route('admin.au.parameters.list-parameter-additional', ['nav'=>'au_parameter', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-success">Agregar/Modificar Parametros <i class="icon-plus2"></i></a>
                 </td>
                 <td>
                     @if((boolean)$query->active == true)

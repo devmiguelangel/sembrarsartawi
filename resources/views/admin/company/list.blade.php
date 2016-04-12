@@ -108,7 +108,7 @@
                 var arr = _id.split("|");
                 var id_company = arr[0];
                 var text = arr[1];
-                bootbox.confirm("Esta seguro de "+arr[2]+" la pregunta ?.", function(result) {
+                bootbox.confirm("Esta seguro de "+arr[2]+" el registro ?", function(result) {
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
                         $.get( "{{url('/')}}/admin/company/active_ajax/"+id_company+"/"+text, function( data ) {
