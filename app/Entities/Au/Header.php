@@ -2,6 +2,7 @@
 
 namespace Sibas\Entities\Au;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Sibas\Entities\Client;
 use Sibas\Entities\User;
@@ -34,6 +35,7 @@ class Header extends Model
         'client_completed',
         'completed',
         'certificate_number',
+        'created_date',
     ];
 
     protected $casts = [
@@ -60,6 +62,12 @@ class Header extends Model
     public function details()
     {
         return $this->hasMany(Detail::class, 'op_au_header_id', 'id');
+    }
+
+
+    public function cancellation()
+    {
+        return $this->hasOne(Cancellation::class, 'op_au_header_id', 'id');
     }
 
 
@@ -119,6 +127,12 @@ class Header extends Model
     public function getCertificateNumberAttribute()
     {
         return $this->prefix . '-' . $this->issue_number;
+    }
+
+
+    public function getCreatedDateAttribute()
+    {
+        return Carbon::createFromTimestamp(strtotime($this->created_at))->format('d/m/Y H:i a');
     }
 
 }

@@ -103,16 +103,16 @@
                                                     ">
                                                 <a href="{{ route($retailerProduct->companyProduct->product->code . '.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a>
                                             </li>
-                                            <li class="{{ request()->route()->getName() === 'de.cancel.lists' ? 'active' : '' }}">
-                                                <a href="{{ route('de.cancel.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Anular
+                                            <li class="{{ request()->route()->getName() === $retailerProduct->companyProduct->product->code . '.cancel.lists' ? 'active' : '' }}">
+                                                <a href="{{ route($retailerProduct->companyProduct->product->code . '.cancel.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Anular
                                                     Póliza</a>
                                             </li>
-                                            <li class="{{ request()->route()->getName() === 'de.pre.approved.lists' ? 'active' : '' }}">
-                                                <a href="{{ route('de.pre.approved.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Solicitudes
+                                            <li class="{{ request()->route()->getName() === $retailerProduct->companyProduct->product->code. '.pre.approved.lists' ? 'active' : '' }}">
+                                                <a href="{{ route($retailerProduct->companyProduct->product->code . '.pre.approved.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Solicitudes
                                                     Preaprobadas</a>
                                             </li>
-                                            <li class="{{ request()->route()->getName() === 'de.issue.lists' ? 'active' : '' }}">
-                                                <a href="{{ route('de.issue.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Emitir
+                                            <li class="{{ request()->route()->getName() === $retailerProduct->companyProduct->product->code . '.issue.lists' ? 'active' : '' }}">
+                                                <a href="{{ route($retailerProduct->companyProduct->product->code . '.issue.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Emitir
                                                     Solicitudes</a>
                                             </li>
                                         </ul>
