@@ -134,6 +134,40 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
         'uses' => 'Au\HeaderController@requestStore'
     ]);
 
+    /*
+     * Cancellations
+     */
+    Route::get('cancel', [
+        'as'   => 'au.cancel.lists',
+        'uses' => 'Au\CancellationController@lists'
+    ]);
+
+    Route::get('cancel/{header_id}/create', [
+        'as'   => 'au.cancel.create',
+        'uses' => 'Au\CancellationController@create'
+    ]);
+
+    Route::post('cancel/{header_id}/create', [
+        'as'   => 'au.cancel.store',
+        'uses' => 'Au\CancellationController@store'
+    ]);
+
+    /*
+     * Pre-Approved
+     */
+    Route::get('pre-approved', [
+        'as'   => 'au.pre.approved.lists',
+        'uses' => 'Au\PreApprovedController@lists'
+    ]);
+
+    /*
+     * Issue Quote
+     */
+    Route::get('issue', [
+        'as'   => 'au.issue.lists',
+        'uses' => 'Au\IssueController@lists'
+    ]);
+
 });
 
 Route::group([ 'prefix' => 'fau/{rp_id}' ], function () {

@@ -16,38 +16,47 @@ use Sibas\Repositories\UserRepository;
 
 trait ReportTrait
 {
+
     /**
      * @var AgencyRepository
      */
     protected $agencyRepository;
+
     /**
      * @var CityRepository
      */
     protected $cityRepository;
+
     /**
      * @var UserRepository
      */
     protected $userRepository;
+
     /**
      * @var User
      */
     protected $user;
+
     /**
      * @var Retailer
      */
     protected $retailer;
+
     /**
      * @var Collection
      */
     protected $cities;
+
     /**
      * @var Collection
      */
     protected $agencies;
+
     /**
      * @var Collection
      */
     protected $users;
+
 
     protected function getInstance()
     {
@@ -56,8 +65,10 @@ trait ReportTrait
         $this->userRepository   = new UserRepository();
     }
 
+
     /**
      * @param User $user
+     *
      * @return array
      */
     protected function data(User $user)
@@ -76,12 +87,20 @@ trait ReportTrait
         ];
     }
 
+
     /**
-     * @param Request $request
-     * @param Builder $builder
+     * @param Request     $request
+     * @param Builder     $builder
+     * @param string|null $product
      */
-    protected function filtersByHeader(Request $request, $builder)
+    protected function filtersByHeader(Request $request, $builder, $product = null)
     {
+        $client = 'details.client';
+
+        if ($product === 'au') {
+            $client = 'client';
+        }
+
         if ($request->has('policy_number')) {
             $builder = $builder->where('issue_number', 'like', '%' . $request->get('policy_number') . '%');
         } elseif ($request->has('quote_number')) {
@@ -107,34 +126,37 @@ trait ReportTrait
         }
 
         if ($request->has('client')) {
-            $builder = $builder->whereHas('details.client', function ($q) use ($request) {
-                $q->where(function($q1) use ($request) {
-                    $q1->orWhere('first_name', 'like', '%' . $request->get('client') . '%')
-                        ->orWhere('last_name', 'like', '%' . $request->get('client') . '%')
-                        ->orWhere('mother_last_name', 'like', '%' . $request->get('client') . '%');
+            $builder = $builder->whereHas($client, function ($q) use ($request) {
+                $q->where(function ($q1) use ($request) {
+                    $q1->orWhere('first_name', 'like', '%' . $request->get('client') . '%')->orWhere('last_name',
+                        'like', '%' . $request->get('client') . '%')->orWhere('mother_last_name', 'like',
+                        '%' . $request->get('client') . '%');
                 });
             });
         }
 
         if ($request->has('dni')) {
-            $builder = $builder->whereHas('details.client', function ($q) use ($request) {
+            $builder = $builder->whereHas($client, function ($q) use ($request) {
                 $q->where('dni', 'like', '%' . $request->get('dni') . '%');
             });
         }
 
         if ($request->has('extension')) {
-            $builder = $builder->whereHas('details.client', function ($q) use ($request) {
+            $builder = $builder->whereHas($client, function ($q) use ($request) {
                 $q->where('extension', 'like', '%' . $request->get('extension') . '%');
             });
         }
 
         if ($request->has('date_begin') && $request->has('date_end')) {
-            $date_begin = $this->carbon->createFromTimestamp(strtotime(str_replace('/', '-', $request->get('date_begin'))));
-            $date_end   = $this->carbon->createFromTimestamp(strtotime(str_replace('/', '-', $request->get('date_end'))));
+            $date_begin = $this->carbon->createFromTimestamp(strtotime(str_replace('/', '-',
+                $request->get('date_begin'))));
+            $date_end   = $this->carbon->createFromTimestamp(strtotime(str_replace('/', '-',
+                $request->get('date_end'))));
 
-            $builder = $builder->whereBetween('created_at', [$date_begin, $date_end]);
+            $builder = $builder->whereBetween('created_at', [ $date_begin, $date_end ]);
         }
     }
+
 
     protected function getDataForReport()
     {
@@ -191,22 +213,22 @@ trait ReportTrait
                     return true;
                 }
             } elseif ($permission === 'RA') {
-                if (($item->agency instanceof Agency) && ($item->agency->id === $this->user->agency->id)) {
+                if (( $item->agency instanceof Agency ) && ( $item->agency->id === $this->user->agency->id )) {
                     return true;
                 }
             } elseif ($permission === 'RR') {
-                if (($item->city instanceof City) && ($item->city->id === $this->user->city->id)) {
+                if (( $item->city instanceof City ) && ( $item->city->id === $this->user->city->id )) {
                     return true;
                 }
             } elseif ($permission === 'RN') {
-                if (($item->agency instanceof Agency) && ($item->city instanceof City)) {
+                if (( $item->agency instanceof Agency ) && ( $item->city instanceof City )) {
                     return true;
                 }
             }
         })->toArray();
 
         if ($permission !== 'RU') {
-            $users = $this->getSelectOption();
+            $users       = $this->getSelectOption();
             $this->users = $users->merge($this->users)->toArray();
 
             if ($permission === 'RN' || $permission === 'RR') {
@@ -221,6 +243,7 @@ trait ReportTrait
         }
     }
 
+
     /**
      * @return Collection
      */
@@ -233,6 +256,7 @@ trait ReportTrait
             ]
         ]);
     }
+
 
     protected function getPermissionForReport($user)
     {
@@ -250,7 +274,7 @@ trait ReportTrait
             }
         }
 
-        return ($permission instanceof Permission) ? $permission->slug : 'RU';
+        return ( $permission instanceof Permission ) ? $permission->slug : 'RU';
     }
 
 }
