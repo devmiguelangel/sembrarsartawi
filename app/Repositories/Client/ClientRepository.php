@@ -2,6 +2,7 @@
 
 namespace Sibas\Repositories\Client;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Sibas\Entities\Client;
 use Sibas\Repositories\BaseRepository;
@@ -108,8 +109,14 @@ class ClientRepository extends BaseRepository
 
         $this->setData();
 
-        $this->model->hand             = key_exists('hand', $this->data) ? $this->data['hand'] : '';
-        $this->model->avenue_street    = key_exists('avenue_street', $this->data) ? $this->data['avenue_street'] : '';
+        if (key_exists('hand', $this->data)) {
+            $this->model->hand = $this->data['hand'];
+        }
+
+        if (key_exists('avenue_street', $this->data)) {
+            $this->model->avenue_street = $this->data['avenue_street'];
+        }
+
         $this->model->home_number      = $this->data['home_number'];
         $this->model->business_address = $this->data['business_address'];
 
@@ -124,7 +131,10 @@ class ClientRepository extends BaseRepository
     {
         $date = $this->carbon->createFromTimestamp(strtotime(str_replace('/', '-', $this->data['birthdate'])));
 
-        $this->model->code                   = key_exists('code', $this->data) ? $this->data['code'] : '';
+        if (key_exists('code', $this->data)) {
+            $this->model->code = $this->data['code'];
+        }
+
         $this->model->type                   = 'N';
         $this->model->first_name             = $this->data['first_name'];
         $this->model->last_name              = $this->data['last_name'];
@@ -132,28 +142,53 @@ class ClientRepository extends BaseRepository
         $this->model->married_name           = $this->data['married_name'];
         $this->model->birthdate              = $date->format('Y-m-d');
         $this->model->age                    = $date->age;
-        $this->model->birth_place            = key_exists('birth_place', $this->data) ? $this->data['birth_place'] : '';
-        $this->model->document_type          = key_exists('document_type',
-            $this->data) ? $this->data['document_type'] : 'CI';
         $this->model->complement             = $this->data['complement'];
-        $this->model->civil_status           = key_exists('civil_status',
-            $this->data) ? $this->data['civil_status'] : '';
         $this->model->gender                 = $this->data['gender'];
-        $this->model->place_residence        = key_exists('place_residence',
-            $this->data) ? $this->data['place_residence'] : '';
-        $this->model->locality               = key_exists('locality', $this->data) ? $this->data['locality'] : '';
-        $this->model->home_address           = key_exists('home_address',
-            $this->data) ? $this->data['home_address'] : '';
-        $this->model->country                = key_exists('country', $this->data) ? $this->data['country'] : '';
         $this->model->ad_activity_id         = $this->data['ad_activity_id'];
         $this->model->occupation_description = $this->data['occupation_description'];
         $this->model->phone_number_home      = $this->data['phone_number_home'];
-        $this->model->phone_number_office    = key_exists('phone_number_office',
-            $this->data) ? $this->data['phone_number_office'] : '';
         $this->model->phone_number_mobile    = $this->data['phone_number_mobile'];
         $this->model->email                  = $this->data['email'];
-        $this->model->weight                 = key_exists('weight', $this->data) ? $this->data['weight'] : 0;
-        $this->model->height                 = key_exists('height', $this->data) ? $this->data['height'] : 0;
+
+        if (key_exists('birth_place', $this->data)) {
+            $this->model->birth_place = $this->data['birth_place'];
+        }
+
+        if (key_exists('document_type', $this->data)) {
+            $this->model->document_type = $this->data['document_type'];
+        }
+
+        if (key_exists('civil_status', $this->data)) {
+            $this->model->civil_status = $this->data['civil_status'];
+        }
+
+        if (key_exists('place_residence', $this->data)) {
+            $this->model->place_residence = $this->data['place_residence'];
+        }
+
+        if (key_exists('locality', $this->data)) {
+            $this->model->locality = $this->data['locality'];
+        }
+
+        if (key_exists('home_address', $this->data)) {
+            $this->model->home_address = $this->data['home_address'];
+        }
+
+        if (key_exists('country', $this->data)) {
+            $this->model->country = $this->data['country'];
+        }
+
+        if (key_exists('phone_number_office', $this->data)) {
+            $this->model->phone_number_office = $this->data['phone_number_office'];
+        }
+
+        if (key_exists('weight', $this->data)) {
+            $this->model->weight = $this->data['weight'];
+        }
+
+        if (key_exists('height', $this->data)) {
+            $this->model->height = $this->data['height'];
+        }
     }
 
 

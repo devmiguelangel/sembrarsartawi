@@ -17,6 +17,9 @@ class PreApprovedRepository extends BaseRepository
     {
         $headers = Header::with([
             'details',
+            'details.vehicleType',
+            'details.vehicleMake',
+            'details.vehicleModel',
             'client',
             'user.city',
             'user.agency'
