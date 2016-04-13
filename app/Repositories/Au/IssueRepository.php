@@ -14,7 +14,15 @@ class IssueRepository extends BaseRepository
 
     public function getHeaderList($request)
     {
-        $headers = Header::with([ 'details', 'client', 'user.city', 'user.agency' ])->where('type', 'Q');
+        $headers = Header::with([
+            'details',
+            'details.vehicleType',
+            'details.vehicleMake',
+            'details.vehicleModel',
+            'client',
+            'user.city',
+            'user.agency'
+        ])->where('type', 'Q');
 
         $this->filtersByHeader($request, $headers, 'au');
 
