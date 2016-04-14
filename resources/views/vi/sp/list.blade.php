@@ -12,7 +12,8 @@
     <div class="page-header">
         <div class="page-header-content">
             <div class="page-title">
-                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Seguro de Desgravamen</span></h4>
+                <h4><i class="icon-arrow-left52 position-left"></i> <span
+                            class="text-semibold">Seguro de Desgravamen</span></h4>
 
                 <ul class="breadcrumb breadcrumb-caret position-right">
                     <li><a href="">Inicio</a></li>
@@ -38,7 +39,9 @@
                             <small class="display-block">Lista de clientes</small>
                         </span>
                         <span class="col-md-1">
-                            <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right" data-popup="tooltip" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
+                            <button style="float: left;" type="button" class="btn btn-rounded btn-default text-right"
+                                    data-popup="tooltip" title="Detalle de producto" data-placement="right"
+                                    data-toggle="modal" data-target="#modal_theme_primary">
                                 <i class="icon-question7"></i> Producto
                             </button>
                         </span>
@@ -47,35 +50,36 @@
 
                 @if(session('error_cache'))
                     <script>
-                        $(function(){messageAction('error',"{{ session('error_cache') }}");});
+                        $(function () {
+                            messageAction('error', "{{ session('error_cache') }}");
+                        });
                     </script>
                 @endif
 
                 {!! Form::open(['route' => ['de.vi.sp.list.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id], 'method' => 'post', 'class' => '']) !!}
-                    {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
-                    {!! Form::hidden('header_id', $header_id) !!}
-                    {!! Form::hidden('sp_id', $sp_id) !!}
-                    <table class="table datatable-basic">
-                        <thead>
-                        <tr>
-                            <th>Seleccionar</th>
-                            <th>Titular</th>
-                            <th>C.I.</th>
-                            <th>Nombres y Apellidos</th>
-                            <th>Fecha Nacimiento</th>
-                            <th>Departamento</th>
-                            <th>% Credito</th>
-                            {{--<th>Status</th>--}}
-                            {{--<th class="text-center">Accion</th>--}}
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($header->details as $key => $detail)
+                {!! Form::hidden('rp_id', encrypt($rp_id)) !!}
+                {!! Form::hidden('header_id', $header_id) !!}
+                {!! Form::hidden('sp_id', $sp_id) !!}
+                <table class="table datatable-basic">
+                    <thead>
+                    <tr>
+                        <th>Seleccionar</th>
+                        <th>Titular</th>
+                        <th>C.I.</th>
+                        <th>Nombres y Apellidos</th>
+                        <th>Fecha Nacimiento</th>
+                        <th>Departamento</th>
+                        <th>% Credito</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($header->details as $key => $detail)
                         <tr>
                             <td>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" class="styled" name="clients[{{ $key + 1 }}]" value="{{ encode($detail->id) }}">
+                                        <input type="checkbox" class="styled" name="clients[{{ $key + 1 }}]"
+                                               value="{{ encode($detail->id) }}">
                                     </label>
                                 </div>
                             </td>
@@ -85,36 +89,21 @@
                             <td>{{ dateToFormat($detail->client->birthdate) }}</td>
                             <td>{{ $detail->client->birth_place }}</td>
                             <td>{{ $detail->percentage_credit }} %</td>
-                            {{--<td><span class="label label-success">Completado</span></td>--}}
-                            {{--<td class="text-center">
-                                <ul class="icons-list">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            <i class="icon-menu9"></i>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li><a href="paso2_form.html"><i class="icon-pencil3"></i> Editar</a></li>
-                                            <li><a href="paso2_form.html"><i class="icon-trash"></i> Eliminar</a></li>
-                                            <li><a href="paso3.html"><i class="icon-plus2"></i> Registrar Cuestionario de Salud</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </td>--}}
                         </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                    <div class="text-right">
-                        <a href="{{ route('de.issuance', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+                    @endforeach
+                    </tbody>
+                </table>
+                <div class="text-right">
+                    <a href="{{ route('de.issuance', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                       class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
 
-                        {!! Form::button('Continuar <i class="icon-arrow-right14 position-right"></i>', [
-                            'type' => 'submit',
-                            'class' => 'btn btn-primary'])
-                        !!}
-                    </div>
+                    {!! Form::button('Continuar <i class="icon-arrow-right14 position-right"></i>', [
+                        'type' => 'submit',
+                        'class' => 'btn btn-primary'])
+                    !!}
+                </div>
                 {!! Form::close() !!}
             </div>
-            <!-- /horizotal form -->
         </div>
     </div>
 @endsection

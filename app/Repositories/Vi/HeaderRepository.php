@@ -13,18 +13,22 @@ use Sibas\Repositories\BaseRepository;
 
 class HeaderRepository extends BaseRepository
 {
+
     /**
      * @var double
      */
     public $insured_value = 0;
+
     /**
      * @var double
      */
-    public $amount_max    = 0;
+    public $amount_max = 0;
+
     /**
      * @var boolean
      */
-    public $error_value   = false;
+    public $error_value = false;
+
 
     public function storeSubProduct(Request $request)
     {
@@ -34,7 +38,7 @@ class HeaderRepository extends BaseRepository
         $plans      = $this->data['plans'];
         $detail     = $this->data['detail'];
 
-        $plan = $plans->filter(function($item) {
+        $plan = $plans->filter(function ($item) {
             return $item['id'] == $this->data['plan'];
         });
 
@@ -48,8 +52,8 @@ class HeaderRepository extends BaseRepository
             $this->model->id                 = date('U');
             $this->model->ad_user_id         = $user->id;
             $this->model->type               = 'I';
-            $this->model->policy_number      = $this->getNumber('policy_number', $policy->number);
-            $this->model->issue_number       = $this->getNumber('issue_number');
+            $this->model->policy_number      = $this->getNumber('P', $policy->number);
+            $this->model->issue_number       = $this->getNumber('I');
             $this->model->prefix             = 'VI';
             $this->model->pre_printed        = false;
             $this->model->pre_printed_number = 0;
@@ -67,13 +71,13 @@ class HeaderRepository extends BaseRepository
             if ($this->saveModel()) {
                 try {
                     $detailVi = $this->model->details()->create([
-                        'id'              => date('U'),
-                        'op_client_id'    => $detail->client->id,
-                        'insured_value'   => $this->data['insured_value'],
-                        'currency'        => 'BS',
-                        'client_code'     => $detail->client->code,
-                        'taker_name'      => $this->data['taker_name'],
-                        'taker_dni'       => $this->data['taker_dni'],
+                        'id'            => date('U'),
+                        'op_client_id'  => $detail->client->id,
+                        'insured_value' => $this->data['insured_value'],
+                        'currency'      => 'BS',
+                        'client_code'   => $detail->client->code,
+                        'taker_name'    => $this->data['taker_name'],
+                        'taker_dni'     => $this->data['taker_dni'],
                     ]);
 
                     $detailVi->response()->create([
@@ -82,7 +86,7 @@ class HeaderRepository extends BaseRepository
                         'observation' => '',
                     ]);
 
-                    $beneficiaries  = [];
+                    $beneficiaries  = [ ];
                     $beneficiary_id = date('U');
 
                     foreach ($this->data['beneficiaries'] as $key => $beneficiary) {
@@ -101,7 +105,7 @@ class HeaderRepository extends BaseRepository
                     $detailVi->beneficiaries()->createMany($beneficiaries);
 
                     return true;
-                } catch(QueryException $e) {
+                } catch (QueryException $e) {
                     $this->errors = $e->getMessage();
                 }
             }
@@ -110,23 +114,13 @@ class HeaderRepository extends BaseRepository
         return false;
     }
 
-    /**
-     * @param $field
-     * @param int $default
-     * @return int
-     */
-    private function getNumber($field, $default = 1)
-    {
-        $max = Header::max($field);
-
-        return is_null($max) ? $default : $max + 1;
-    }
 
     /**
-     * @param User $user
-     * @param string $sp_id
+     * @param User     $user
+     * @param string   $sp_id
      * @param HeaderDe $headerDe
-     * @param Client $client
+     * @param Client   $client
+     *
      * @return bool
      */
     public function getInsuredValue($user, $sp_id, $headerDe, $client)
@@ -135,13 +129,11 @@ class HeaderRepository extends BaseRepository
         $retailer         = $user->retailer->first();
         $retailerProduct  = $retailer->retailerProducts()->where('id', decode($sp_id))->first();
         $modalities       = $retailerProduct->modalities()->where('active', true)->get();
-        $amount_requested = $this->getAmountInBs($headerDe->currency,
-                                                $headerDe->amount_requested,
-                                                $retailer->exchangeRate->bs_value);
+        $amount_requested = $this->getAmountInBs($headerDe->currency, $headerDe->amount_requested,
+            $retailer->exchangeRate->bs_value);
 
         foreach ($modalities as $modality) {
-            if ($modality->modality === 'MV'
-                && ($amount_requested >= $modality->rank_min && $amount_requested <= $modality->rank_max)) {
+            if ($modality->modality === 'MV' && ( $amount_requested >= $modality->rank_min && $amount_requested <= $modality->rank_max )) {
                 $this->insured_value = $modality->amount;
 
                 break;
@@ -152,7 +144,7 @@ class HeaderRepository extends BaseRepository
             }
         }
 
-        if ($this->insured_value > 0 && ($modality instanceof Modality)) {
+        if ($this->insured_value > 0 && ( $modality instanceof Modality )) {
             if ($amount_requested < $modality->amount) {
                 $this->insured_value = $amount_requested;
             }

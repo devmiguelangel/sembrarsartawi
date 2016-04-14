@@ -110,6 +110,7 @@ abstract class BaseRepository
         $this->fieldName = [
             'Q' => 'quote_number',
             'I' => 'issue_number',
+            'P' => 'policy_number',
         ];
 
         $this->records = collect([
@@ -165,13 +166,15 @@ abstract class BaseRepository
      *
      * @param string $field
      *
+     * @param int    $default
+     *
      * @return int
      */
-    public function getNumber($field)
+    public function getNumber($field, $default = 1)
     {
         $max = $this->model->max($this->fieldName[$field]);
 
-        return is_null($max) ? 1 : $max + 1;
+        return is_null($max) ? $default : $max + 1;
     }
 
 
