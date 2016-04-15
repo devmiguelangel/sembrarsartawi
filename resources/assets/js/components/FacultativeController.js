@@ -72,7 +72,7 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
         
         if (response.status == 200) {
           $scope.success = { facultative: true };
-          // $scope.redirect(response.data.location);
+          $scope.redirect(response.data.location);
         }
       }, function (response) {
         if (response.status == 422) {

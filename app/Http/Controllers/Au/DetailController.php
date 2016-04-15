@@ -121,17 +121,20 @@ class DetailController extends Controller
                 $parameter       = $retailerProduct->parameters()->where('slug', 'GE')->first();
                 $categories      = $retailerProduct->categories()->where('active', true)->orderBy('category',
                     'ASC')->get();
+                $exchange_rate   = $retailerProduct->retailer->exchangeRate;
 
                 $data = $this->getData();
 
                 $payload = view('au.vehicle-create', compact('rp_id', 'header_id', 'header', 'data', 'parameter'));
 
                 return response()->json([
-                    'payload'    => $payload->render(),
-                    'types'      => $data['vehicle_types'],
-                    'makes'      => $data['vehicle_makes'],
-                    'categories' => $categories,
-                    'amount_max' => $parameter->amount_max,
+                    'payload'       => $payload->render(),
+                    'types'         => $data['vehicle_types'],
+                    'makes'         => $data['vehicle_makes'],
+                    'categories'    => $categories,
+                    'amount_max'    => $parameter->amount_max,
+                    'currency'      => $header->currency,
+                    'exchange_rate' => $exchange_rate,
                 ]);
             }
 
@@ -217,6 +220,7 @@ class DetailController extends Controller
                 $parameter       = $retailerProduct->parameters()->where('slug', 'GE')->first();
                 $categories      = $retailerProduct->categories()->where('active', true)->orderBy('category',
                     'ASC')->get();
+                $exchange_rate   = $retailerProduct->retailer->exchangeRate;
 
                 $data = $this->getData();
 
@@ -224,12 +228,15 @@ class DetailController extends Controller
                     compact('rp_id', 'header_id', 'detail_id', 'header', 'data', 'parameter'));
 
                 return response()->json([
-                    'payload'    => $payload->render(),
-                    'detail'     => $detail,
-                    'types'      => $data['vehicle_types'],
-                    'makes'      => $data['vehicle_makes'],
-                    'categories' => $categories,
-                    'year_max'   => date('Y') - $parameter->old_car,
+                    'payload'       => $payload->render(),
+                    'detail'        => $detail,
+                    'types'         => $data['vehicle_types'],
+                    'makes'         => $data['vehicle_makes'],
+                    'categories'    => $categories,
+                    'year_max'      => date('Y') - $parameter->old_car,
+                    'amount_max'    => $parameter->amount_max,
+                    'currency'      => $header->currency,
+                    'exchange_rate' => $exchange_rate,
                 ]);
             }
 

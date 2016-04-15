@@ -79,7 +79,7 @@
             </div>
         </div>
         <div class="alert alert-danger no-border" ng-if="year_old">
-            Vehiculos con antigüedad mayor a {{ $parameter->old_car }} años requieren aprobación de la compañia de
+            Vehículos con antigüedad mayor a {{ $parameter->old_car }} años requieren aprobación de la compañia de
             seguros.
         </div>
         <div class="form-group">
