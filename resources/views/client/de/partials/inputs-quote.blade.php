@@ -1,6 +1,3 @@
-@if(isset($product) && $product === 'au')
-
-@endif
 <div class="col-xs-12 col-md-6">
     <input type="hidden" value="{{ old('code', $client->code) }}" name="code">
 
@@ -29,7 +26,8 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-lg-3 label_required">Ap. Materno: </label>
+        <label class="control-label col-lg-3 {{ (isset($product) && $product === 'au') ? '' : 'label_required' }}">Ap.
+            Materno: </label>
         <div class="col-lg-9">
             {!! Form::text('mother_last_name', old('mother_last_name', $client->mother_last_name), [
                 'class' => 'form-control',
@@ -110,7 +108,7 @@
         </div>
     @endif
     <div class="form-group">
-        <label class="control-label col-lg-3 label_required">País: </label>
+        <label class="control-label col-lg-3 {{ (isset($product) && $product === 'au') ? '' : 'label_required' }}">País: </label>
         <div class="col-lg-9">
             {!! Form::text('country', old('country', $client->country), [
                 'class' => 'form-control ui-wizard-content',

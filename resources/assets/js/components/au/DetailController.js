@@ -19,6 +19,8 @@ var detail = function ($rootScope, $scope, $http) {
           $rootScope.data.makes      = data.makes;
           $rootScope.data.categories = data.categories;
           $rootScope.amount_max      = data.amount_max;
+          $rootScope.currency        = data.currency;
+          $rootScope.exchange_rate   = data.exchange_rate;
 
           $scope.formData.vehicle_type  = null;
           $scope.formData.category      = null;
@@ -114,21 +116,6 @@ var detail = function ($rootScope, $scope, $http) {
     }
   });
 
-  /**
-   * Insured Value
-   * @param  {[type]} value    [description]
-   * @param  {[type]} oldValue [description]
-   * @param  {[type]} scope)   {               if (value [description]
-   * @return {[type]}          [description]
-   */
-  $scope.$watch('formData.insured_value', function(value, oldValue, scope) {
-    if (value > scope.amount_max) {
-      $scope.insured_value = true;
-    } else {
-      $scope.insured_value = false;
-    }
-  });
-
   $scope.delete = function (event) {
     event.preventDefault();
 
@@ -175,6 +162,9 @@ var detail = function ($rootScope, $scope, $http) {
             $rootScope.data.types      = data.types;
             $rootScope.data.makes      = data.makes;
             $rootScope.data.categories = data.categories;
+            $rootScope.amount_max      = data.amount_max;
+            $rootScope.currency        = data.currency;
+            $rootScope.exchange_rate   = data.exchange_rate;
 
             $scope.formData.vehicle_type  = data.detail.vehicle_type;
             $scope.formData.vehicle_make  = data.detail.vehicle_make;
@@ -206,6 +196,25 @@ var detail = function ($rootScope, $scope, $http) {
           $scope.easyLoading('body', '', false);
         });
   };
+
+  /**
+   * Insured Value
+   * @param  {[type]} value    [description]
+   * @param  {[type]} oldValue [description]
+   * @param  {[type]} scope)   {               if (value [description]
+   * @return {[type]}          [description]
+   */
+  $scope.$watch('formData.insured_value', function(value, oldValue, scope) {
+    if (scope.currency == 'BS') {
+      value = value / scope.exchange_rate.bs_value;
+    }
+
+    if (value > scope.amount_max) {
+      scope.insured_value = true;
+    } else {
+      scope.insured_value = false;
+    }
+  });
 
   /**
    * Vehicle update

@@ -31,10 +31,10 @@ class ClientComplementFormRequest extends Request
         return [
             'first_name'             => 'required|alpha_space',
             'last_name'              => 'required|alpha_space',
-            'mother_last_name'       => 'required|alpha_space',
+            'mother_last_name'       => 'alpha_space',
             'married_name'           => 'alpha_space',
             'civil_status'           => 'required|in:' . $civil_status,
-            'country'                => 'required|alpha_space',
+            'country'                => 'alpha_space',
             'birthdate'              => 'required|date_format:d/m/Y',
             'place_residence'        => 'required|exists:ad_cities,slug',
             'locality'               => 'required|alpha_dash_space',
