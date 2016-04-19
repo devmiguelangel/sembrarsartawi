@@ -113,7 +113,11 @@
 
 
                 <div class="panel-body ">
-                    {!! Form::open(['route' => ['au.store', 'rp_id' => $rp_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                    {!! Form::open(['route' => ['au.store', 'rp_id' => $rp_id],
+                        'method'        => 'post',
+                        'class'         => 'form-horizontal',
+                        'ng-controller' => 'HeaderAuController',
+                    ]) !!}
 
                     <div class="panel-body ">
                         <h2>Datos del Cliente</h2>
@@ -351,15 +355,19 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label label_required">Plazo del Crédito: </label>
                                 <div class="col-lg-3">
-                                    {!! Form::text('term', old('term', 0), [
-                                        'class'        => 'touchspin-set-value',
-                                        'autocomplete' => 'off'
+                                    {!! Form::text('term', old('term', ''), [
+                                        'class'        => 'form-control',
+                                        'autocomplete' => 'off',
+                                        'id'           => 'term',
                                     ]) !!}
                                     <label id="location-error" class="validation-error-label"
                                            for="location">{{ $errors->first('term') }}</label>
                                 </div>
                                 <div class="col-lg-6">
-                                    {!! SelectField::input('type_term', $data['term_types']->toArray(), ['class' => 'bootstrap-select'], old('type_term')) !!}
+                                    {!! SelectField::input('type_term', $data['term_types']->toArray(), [
+                                        'class' => 'form-control',
+                                        'id'    => 'type_term',
+                                        ], old('type_term')) !!}
                                     <label id="location-error" class="validation-error-label"
                                            for="location">{{ $errors->first('type_term') }}</label>
                                 </div>
@@ -370,7 +378,7 @@
                                 <label class="col-lg-3 control-label label_required">Forma de Pago: </label>
                                 <div class="col-lg-9">
                                     {!! SelectField::input('payment_method', $data['payment_methods']->toArray(), [
-                                        'class' => 'select-search',
+                                        'class' => 'form-control',
                                         'id'    => 'payment_method',
                                       ],
                                         old('payment_method'))
