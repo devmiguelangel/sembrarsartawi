@@ -186,7 +186,7 @@ var detail = function ($rootScope, $scope, $http) {
               angular.element('#category option:not(:selected)').prop('disabled', true);
               angular.element('#vehicle-make').triggerHandler('change');
               angular.element('#vehicle-model').triggerHandler('change');
-              angular.element('#year option[value=' + $scope.formData.year + ']').prop('selected', true).triggerHandler('change');
+              angular.element('#year option[value=' + $scope.formData.year + ']').prop('selected', true);
               angular.element('#year').triggerHandler('change');
             });
           }
