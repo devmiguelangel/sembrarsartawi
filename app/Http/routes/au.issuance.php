@@ -46,7 +46,7 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
     /*
      * Header issuance
      */
-    Route::get('issuance/{header_id}', [
+    Route::get('issuance/{header_id}/result', [
         'as'   => 'au.show.issuance',
         'uses' => 'Au\HeaderController@showIssuance'
     ]);

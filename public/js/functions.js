@@ -13,14 +13,21 @@
  * @param {type} type
  * @returns {undefined}
  */
-function cargaModal(id_header, tokken, url, post, type) {
+function cargaModal(id_header, tokken, url, post, type, aux) {
+    var _def;
+    if(aux)
+        _def = aux;
+    else
+        _def = 0;
+    
     $.ajax({
         url: url,
         type: post,
         data: {
             type: type,
             id_header: id_header,
-            _token: tokken
+            _token: tokken,
+            aux: _def
         },
         dataType: 'JSON',
         beforeSend: function() {

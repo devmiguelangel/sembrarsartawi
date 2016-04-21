@@ -3,6 +3,7 @@
 namespace Sibas\Http\Controllers\Au;
 
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 use Sibas\Entities\Client;
 use Sibas\Http\Controllers\DataTrait;
 use Sibas\Http\Controllers\MailController;
@@ -239,12 +240,14 @@ class HeaderController extends Controller
      */
     public function showIssuance($rp_id, $header_id)
     {
+        $this->retailerProductRepository->getRetailerProductById(decode($rp_id));
+        $rp = $this->retailerProductRepository->getModel();
         if ($this->repository->getHeaderById(decode($header_id))) {
             $header = $this->repository->getModel();
 
             if ($header->issued) {
                 return view('au.issuance', compact('rp_id', 'header_id',
-                    'header'))->with([ 'success_header' => 'La Póliza fue emitida con éxito.' ]);
+                    'header', 'rp'))->with([ 'success_header' => 'La Póliza fue emitida con éxito.' ]);
             }
         }
 

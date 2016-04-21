@@ -88,12 +88,11 @@
                                 <div class="form-group">
                                     {!! Html::image($retailerProduct->companyProduct->company->image, null, ['style' => 'max-height: 130px;']) !!}
                                 </div>
-                                <h6 class="no-margin text-semibold">Prima Total:</h6>
+                                <h6 class="no-margin text-semibold">Prima Totalsss:</h6>
                                 <p class="text-muted content-group-sm">{{ $header->currency }} {{ number_format($header->total_premium, 2) }}</p>
                                 <a href="#"
-                                   onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion')"
-                                   data-toggle="modal" data-target="#modal_general"
-                                   class="btn btn-success">
+                                   onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip_au', 'POST', 'cotizacion', {{ $retailerProduct->companyProduct->id }})"
+                                   data-toggle="modal" data-target="#modal_general" class="btn btn-success">
                                     <i class="icon-file-check position-left"></i> Ver Cotización
                                 </a>
                                 <hr>
@@ -111,4 +110,7 @@
             </div>
         </div>
     </div>
+<!-- modal -->
+@include('partials.modal')
+<!-- /modal -->
 @endsection

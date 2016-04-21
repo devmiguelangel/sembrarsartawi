@@ -97,24 +97,27 @@
                             <p class="text-muted content-group-sm">Cotizacion/Emisión </p>
                             <div class="col-md-12">
                                 <p>
-                                    <button type="button" class="btn btn-primary btn-labeled btn-xlg col-lg-12"
+                                    <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip_issuance', 'POST', 'print_all', {{ $rp->companyProduct->id }})"
+                                   data-toggle="modal" data-target="#modal_general" class="btn btn-primary btn-labeled btn-xlg col-lg-12"
                                             data-toggle="modal" data-target="#modal_slip"><b><i
                                                     class="icon-printer4"></i></b> Imprimir Todo
-                                    </button>
+                                    </a>
                                 </p>
                                 <div class="col-md-12">&nbsp;</div>
                                 <p>
-                                    <button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12"
-                                            data-toggle="modal" data-target="#modal_theme_cotizacion"><b><i
+                                    <a href="#"
+                                   onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip_issuance', 'POST', 'cotizacion', {{ $rp->companyProduct->id }})"
+                                   data-toggle="modal" data-target="#modal_general" class="btn btn-info btn-labeled btn-xlg col-lg-12"><b><i
                                                     class="icon-printer4"></i></b> Ver Slip de Cotización
-                                    </button>
+                                    </a>
                                 </p>
                                 <div class="col-md-6">&nbsp;</div>
                                 <p>
-                                    <button type="button" class="btn btn-info btn-labeled btn-xlg col-lg-12"
-                                            data-toggle="modal" data-target="#modal_theme_certificado"><b><i
+                                    <a href="#" 
+                                       onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip_issuance', 'POST', 'emision', {{ $rp->companyProduct->id }})"
+                                   data-toggle="modal" data-target="#modal_general" class="btn btn-info btn-labeled btn-xlg col-lg-12"><b><i
                                                     class="icon-printer4"></i></b> Ver Certificado
-                                    </button>
+                                    </a>
                                 </p>
                                 <div class="col-md-6">&nbsp;</div>
                             </div>
@@ -127,8 +130,7 @@
         </div>
     </div>
 
-    <!-- modal -->
-    @include('partials.modal')
-            <!-- /modal -->
-
+<!-- modal -->
+@include('partials.modal')
+<!-- /modal -->
 @endsection

@@ -1,5 +1,5 @@
 <div class="col-md-12">
-    <a href="{{ route('sleepModalPdf', ['type'=>$type, 'idHeader'=>$idHeader])}}" target="_blanck">
+    <a href="{{ route('sleepModalAutoPdf', ['type'=>$type, 'idHeader'=>$idHeader, 'aux'=>isset($aux)?$aux:0])}}" target="_blanck">
         <i class="fa fa-file-pdf-o fa-3x text-primary"></i>
     </a>
     &nbsp;&nbsp;
