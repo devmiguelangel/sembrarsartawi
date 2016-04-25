@@ -1,4 +1,6 @@
-@include('partials.tools_modal',array('type'=>$type,'idHeader'=>encode($header->id),'aux'=>$aux))
+@if($tools == 1)
+    @include('partials.tools_modal',array('type'=>$type,'idHeader'=>encode($header->id),'aux'=>$aux))
+@endif
 @foreach($header->details as $detail )
 <div style="width: 100%; height: auto; border: 0px solid #0081C2; padding: 5px;">
     <div style="width: 100%; font-weight: normal; font-size: 12px; font-family: Arial, Helvetica, sans-serif; color: #000000; border: 0px solid #FFFF00;">
@@ -236,7 +238,7 @@
                 <td style="width:2%;"></td>
                 <td style="width:40%;">Valor Comercial según avalúo del vehículo y/o precio de mercado</td>
                 <td style="width:5%;"></td>
-                <td style="width:5%;">USD. </td>
+                <td style="width:5%;">{{ $header->currency }}. </td>
                 <td style="width:15%; border-bottom:1px solid #999;">{{number_format($detail->insured_value, 2, '.', ',')}}</td>
                 <td style="width:33%;">&nbsp;</td>
             </tr>
@@ -260,8 +262,8 @@
                 <td style="width:85%; text-align:left;">(591)-2-2433500&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fax: (591)-2-2128329</td>
             </tr>
         </table>
-        
-        <span style="font-weight:bold; font-size:65%; font-family: Arial;">3. Categoría de vehículos: {{ $detail->category->category }}</span>
+        @var $category = explode('C',$detail->category->category)
+        <span style="font-weight:bold; font-size:65%; font-family: Arial;">3. Categoría de vehículos: {{ $category[1] }}</span>
         <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-family: Arial; margin-top:4px; font-size:65%; margin-bottom: 5px;">
             <tr>
                 <td style="width:50%; padding:4px; text-align:center; background:#CCCCCC; font-weight:bold; border-right:1px solid #000; border-bottom:1px solid #000; border-top:1px solid #000; border-left:1px solid #000;">
@@ -693,7 +695,7 @@
                 <tr>
                     <td style="width:25%; font-weight:bold;">6. Plazo del contrato de seguros:</td>
                     <td style="width:20%; border-bottom:1px solid #999; text-align:center;">
-                        {{ $header->type_term == 'Y'?'Años':'Meses' }} {{ $header->term }}
+                        {{ $header->term }} {{ $header->type_term == 'Y'?'Años':'Meses' }}
                     </td>
                     <td style="width:55%; text-align:left;">El plazo de la póliza debe ser igual al plazo del crédito del
                         asegurado
@@ -748,7 +750,7 @@
                     <td style="width:2%;">&nbsp;</td>
                     <td style="width:12%; text-align:right;">Expedido en:</td>
                     <td style="width:12%; border-bottom:1px solid #333; text-align:center;">
-                        {{ $header->client->extension }}
+                        {{ $header->client->getFullNameExtension() }}
                     </td>
                     <td style="width:54%;">&nbsp;</td>
                 </tr>
@@ -758,7 +760,7 @@
                             <tr>
                                 <td style="width:20%; text-align:left;">Lugar y fecha:</td>
                                 <td style="width:50%; border-bottom:1px solid #999; text-align:center;">
-                                    {{ date('Y-m-d', strtotime($header->created_at)) }}
+                                    {{ $header->user->city->name }} {{ date('Y-m-d', strtotime($header->created_at)) }}
                                 </td>
                                 <td style="width:30%;">&nbsp;</td>
                             </tr>

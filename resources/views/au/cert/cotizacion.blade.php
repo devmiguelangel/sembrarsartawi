@@ -1,4 +1,6 @@
-@include('partials.tools_modal',array('type'=>$type,'idHeader'=>encode($header->id),'aux'=>$aux))
+@if($tools == 1)
+    @include('partials.tools_modal',array('type'=>$type,'idHeader'=>encode($header->id),'aux'=>$aux))
+@endif    
 <div style="width: 100%; height: auto; border: 0px solid #0081C2; padding: 10px;">
     <div style="width: 100%; font-weight: normal; font-size: 12px; font-family: Arial, Helvetica, sans-serif; color: #000000; ">
         <div style="width: 100%; border: 0px solid #FFFF00; text-align:center;">
@@ -71,12 +73,12 @@
                 </tr>
                 <tr style="background:#E5E5E5;">
                     <td style="width:50%; text-align:right;"><b>Periodo de contratacion:</b></td>
-                    <td style="width:50%; text-align: left;">{{ $header->type_term == 'Y'?'Años':'Meses' }} {{ $header->term }}</td>
+                    <td style="width:50%; text-align: left;">{{ $header->term }} {{ $header->type_term == 'Y'?'Años':'Meses' }} </td>
                 </tr>
                 @if($header->payment_method == 'AN')
                 <tr style="background:#D5D5D5;">
                     <td style="width:50%; text-align:right;"><b>Prima Anual:</b></td>
-                    <td style="width:50%; text-align: left;">{{ $header->total_premium * $header->term }}</td>
+                    <td style="width:50%; text-align: left;">{{ $header->total_premium/$time }}</td>
                 </tr>
                 @endif
                 <tr style="background:#E5E5E5;">
@@ -116,10 +118,11 @@
                     <td style="width:10%; text-align:center;">{{ $detail->vehicleType->vehicle }}</td>
                     <td style="width:10%; text-align:center;">{{ $detail->vehicleMake->make }}</td>
                     <td style="width:10%; text-align:center;">{{ $detail->vehicleModel->model }}</td>
-                    <td style="width:10%; text-align:center;">{{ $detail->engine }}</td>
+                    <td style="width:10%; text-align:center;">{{ $detail->mileage == 1?'Si':'No' }}</td>
                     <td style="width:10%; text-align:center;">{{ $detail->year }}</td>
                     <td style="width:10%; text-align:center;">{{ $detail->license_plate }}</td>
-                    <td style="width:10%; text-align:center;">{{ $detail->category->category }}</td>
+                    @var $category = explode('C',$detail->category->category)
+                    <td style="width:10%; text-align:center;">{{ $category[1] }}</td>
                     <td style="width:10%; text-align:center;">{{number_format($detail->insured_value,2,".",",")}}</td>
                     <td style="width:10%; text-align:center;">{{ $detail->rate }}</td>
                     @if($header->payment_method == 'AN')

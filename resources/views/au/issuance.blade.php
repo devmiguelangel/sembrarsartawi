@@ -97,7 +97,7 @@
                             <p class="text-muted content-group-sm">Cotizacion/Emisión </p>
                             <div class="col-md-12">
                                 <p>
-                                    <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip_issuance', 'POST', 'print_all', {{ $rp->companyProduct->id }})"
+                                    <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip_issuance', 'POST', 'print_all', {{ $rp->companyProduct->id }});$('.modal-title').html('Slip de Cotizaci&oacute;n - Slip de Emisi&oacute;n')"
                                    data-toggle="modal" data-target="#modal_general" class="btn btn-primary btn-labeled btn-xlg col-lg-12"
                                             data-toggle="modal" data-target="#modal_slip"><b><i
                                                     class="icon-printer4"></i></b> Imprimir Todo
@@ -106,7 +106,7 @@
                                 <div class="col-md-12">&nbsp;</div>
                                 <p>
                                     <a href="#"
-                                   onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip_issuance', 'POST', 'cotizacion', {{ $rp->companyProduct->id }})"
+                                   onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip_issuance', 'POST', 'cotizacion', {{ $rp->companyProduct->id }});$('.modal-title').html('Slip de Cotizaci&oacute;n')"
                                    data-toggle="modal" data-target="#modal_general" class="btn btn-info btn-labeled btn-xlg col-lg-12"><b><i
                                                     class="icon-printer4"></i></b> Ver Slip de Cotización
                                     </a>
@@ -114,7 +114,7 @@
                                 <div class="col-md-6">&nbsp;</div>
                                 <p>
                                     <a href="#" 
-                                       onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip_issuance', 'POST', 'emision', {{ $rp->companyProduct->id }})"
+                                       onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip_issuance', 'POST', 'emision', {{ $rp->companyProduct->id }});$('.modal-title').html('Slip de Emisi&oacute;n')"
                                    data-toggle="modal" data-target="#modal_general" class="btn btn-info btn-labeled btn-xlg col-lg-12"><b><i
                                                     class="icon-printer4"></i></b> Ver Certificado
                                     </a>

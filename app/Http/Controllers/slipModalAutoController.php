@@ -71,6 +71,8 @@ class slipModalAutoController extends Controller {
         $companyProduct = CompanyProduct::where('id', $aux)->first();
         $vehicleType = VehicleType::where('active', 1)->get();
         $groupVehicle = [];
+        
+        $time = $header->getFullYearAttribute();
         $i = 1;
         $e = 1;
         foreach ($vehicleType as $key => $value) {
@@ -87,17 +89,20 @@ class slipModalAutoController extends Controller {
         $data = array(
                     'fecha_validacion'=>date('Y-m-d', strtotime('+'.$retailerProduct[0]->parameters[0]->expiration.' days', strtotime($header->created_at))),
                 );
+        $tools = 1;
         switch ($type) {
             case 'cotizacion':
-                
-                $var = array('template_cert' => view('au.cert.cotizacion', compact('header', 'retailer', 'retailerProduct', 'companyProduct','data', 'type', 'aux'))->render());
+                $var = array('template_cert' => view('au.cert.cotizacion', compact('time','header', 'retailer', 'retailerProduct', 'companyProduct','data', 'type', 'aux', 'tools'))->render()); 
                 break;
             case 'emision':
-                
-                $var = array('template_cert' => view('au.cert.emision', compact('header', 'retailer', 'retailerProduct', 'companyProduct','data', 'type', 'aux', 'vehicleType', 'groupVehicle'))->render());
+                $var = array('template_cert' => view('au.cert.emision', compact('header', 'retailer', 'retailerProduct', 'companyProduct','data', 'type', 'aux', 'vehicleType', 'groupVehicle', 'tools'))->render());
                 break;
             case 'print_all':
-                $var = array('template_cert' => view('au.cert.printAll', compact('header', 'retailer', 'retailerProduct', 'companyProduct','data', 'type', 'aux', 'vehicleType', 'groupVehicle'))->render());
+                $cot = view('au.cert.cotizacion', compact('time', 'header', 'retailer', 'retailerProduct', 'companyProduct','data', 'type', 'aux', 'tools'))->render();
+                $tools = 0;
+                $emi = view('au.cert.emision', compact('header', 'retailer', 'retailerProduct', 'companyProduct','data', 'type', 'aux', 'vehicleType', 'groupVehicle', 'tools'))->render();
+                
+                $var = array('template_cert' => view('au.cert.printAll', compact('cot', 'emi'))->render());
                 break;
             default:
                 break;
