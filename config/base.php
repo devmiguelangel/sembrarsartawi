@@ -226,4 +226,12 @@ return [
         'MV' => 'Modalidad Valor Asegurado',
     ],
 
+    'credit_products' => [
+        'PCS' => 'Consumo',
+        'PCM' => 'Comercial',
+        'PMO' => 'Hipotecario',
+        'PCA' => 'Tarjetas',
+        'POT' => 'Otros',
+    ],
+
 ];

@@ -384,6 +384,7 @@
                                         @var $data_ap2=''
                                         @var $data_ap3=''
                                         @var $data_content=''
+                                        @var $data_pc=''
                                     @endif
                                 @elseif($nav=='addquestion')
                                     @if($action=='list' || $action=='new' || $action=='edit')
@@ -392,6 +393,7 @@
                                         @var $data_ap2=''
                                         @var $data_ap3=''
                                         @var $data_content=''
+                                        @var $data_pc=''
                                     @endif
                                 @elseif($nav=='adActivitiesList')
                                     @if($action=='list' || $action=='new'|| $action=='edit' || $action=='import')
@@ -400,6 +402,7 @@
                                         @var $data_ap=''
                                         @var $data_pp=''
                                         @var $data_content=''
+                                        @var $data_pc=''
                                     @endif
                                 @elseif($nav=='contentde')
                                     @if($action=='list' || $action=='edit' || $action=='new')
@@ -408,17 +411,31 @@
                                         @var $data_ap=''
                                         @var $data_ap2=''
                                         @var $data_ap3=''
+                                        @var $data_pc=''
                                     @endif
+                                @elseif($nav=='credit_product')
+                                    @var $data_pc='active'
+                                    @var $data_pp=''
+                                    @var $data_ap=''
+                                    @var $data_ap2=''
+                                    @var $data_ap3=''
+                                    @var $data_content=''
                                 @else
                                     @var $data_pp=''
                                     @var $data_ap=''
                                     @var $data_ap2=''
                                     @var $data_ap3=''
                                     @var $data_content=''
+                                    @var $data_pc=''
                                 @endif
                                 <ul>
                                     <li class="{{$data_pp}}">
                                         <a href="{{route('admin.de.parameters.list-parameter', ['nav'=>'de', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="{{$data_pc}}">
+                                        <a href="{{route('admin.de.creditproduct.list', ['nav'=>'credit_product', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar producto crediticio</a>
                                     </li>
                                 </ul>
                                 <ul>

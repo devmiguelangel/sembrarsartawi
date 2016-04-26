@@ -540,6 +540,14 @@
                 <li>Lista Modelos</li>
                 <li class="active">Formulario</li>
             @endif
+        @elseif($nav=='credit_product')
+            <li><a href="{{ route('admin.home', ['nav'=>'begin']) }}"><i class="icon-home2 position-left"></i>Inicio</a></li>
+            @if($action=='list')
+                <li class="active">Lista de registros</li>
+            @elseif($action=='new')
+                <li><a href="{{route('admin.de.creditproduct.list', ['nav'=>'credit_product', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product])}}">Lista de registros</a></li>
+                <li class="active">Formulario</li>
+            @endif
         @endif
     </ul>
     <!--
