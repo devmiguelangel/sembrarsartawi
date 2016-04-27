@@ -5,6 +5,8 @@
  * Route Client DE
  */
 Route::group(['prefix' => '/'], function() {
+    # ruta desgravamen
+    
     Route::get('report/general', [
         'as' => 'report.report_general',
         'uses' => 'Report\ReportController@general'
@@ -30,5 +32,16 @@ Route::group(['prefix' => '/'], function() {
     Route::post('report/cotizacion', [
         'as' => 'report.report_cotizacion_result',
         'uses' => 'Report\ReportController@cotizacion'
+    ]);
+    
+    # ruta Automoviles
+    
+    Route::get('report/auto/cotizacion', [
+        'as' => 'report.auto_report_cotizacion',
+        'uses' => 'Report\ReportAutoController@cotizacion'
+    ]);
+    Route::post('report/auto/cotizacion', [
+        'as' => 'report.auto_report_cotizacion_result',
+        'uses' => 'Report\ReportAutoController@cotizacion'
     ]);
 });

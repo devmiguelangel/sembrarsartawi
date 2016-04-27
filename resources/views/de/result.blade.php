@@ -88,7 +88,7 @@
                               </div>
                               <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
                               <p class="text-muted content-group-sm">{{ $rate->rate_final }}%</p>
-                              <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion')" data-toggle="modal" data-target="#modal_general" class="btn btn-success">
+                              <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion',{{$retailerProduct->companyProduct->product->id}})" data-toggle="modal" data-target="#modal_general" class="btn btn-success">
                                 <i class="icon-file-check position-left"></i>  Ver Cotización
                               </a>
                               <hr>

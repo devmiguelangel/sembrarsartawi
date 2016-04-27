@@ -95,21 +95,21 @@
                                 </p>
                                 <div class="col-md-12">&nbsp;</div>-->
                                 <p>
-                                    <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion')" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
+                                    <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion', {{ $rp->companyProduct->id }})" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
                                         <b><i class="icon-printer4"></i></b>
                                         Ver Slip de Cotización
                                     </a>
                                 </p>
                                 <div class="col-md-6">&nbsp;</div>
                                 <p>
-                                    <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'emision')" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
+                                    <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'emision', {{ $rp->companyProduct->id }})" class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
                                         <b><i class="icon-printer4"></i></b>
                                         Ver Certificado de Desgravamen
                                     </a>
                                 </p>
                                 <div class="col-md-6">&nbsp;</div>
                                 <p>
-                                    <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'print_all')" class="btn btn-primary btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
+                                    <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'print_all',{{ $rp->companyProduct->id }})" class="btn btn-primary btn-labeled btn-xlg col-lg-12" data-toggle="modal" data-target="#modal_general">
                                         <b><i class="icon-printer4"></i></b>
                                         Imprimir Todo
                                     </a>

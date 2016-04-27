@@ -1,4 +1,4 @@
-@include('partials.tools_modal',array('type'=>$type,'idHeader'=>encode($idHeader)))
+@include('partials.tools_modal_de',array('type'=>$type,'idHeader'=>encode($idHeader),'aux'=>$aux))
 @var $size = '80%'
 @var $size2 = '95%'
 @if($flagPdf == 1)

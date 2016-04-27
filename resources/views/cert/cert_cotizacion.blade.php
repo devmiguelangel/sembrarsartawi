@@ -1,4 +1,4 @@
-@include('partials.tools_modal',array('type'=>$type,'idHeader'=>encode($idHeader)))
+@include('partials.tools_modal_de',array('type'=>$type,'idHeader'=>encode($idHeader),'aux'=>$aux))
 <div style="width: 100%; font-weight: normal; font-size: 12px; font-family: Arial, Helvetica, sans-serif;
      color: #000000; ">
     
