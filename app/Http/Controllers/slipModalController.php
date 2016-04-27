@@ -41,7 +41,7 @@ class slipModalController extends Controller {
      * @return int
      */
     public function ajaxBuscar(Request $request) {
-        $var = $this->returnHtmlModal($request->get('type'), $request->get('id_header'),0);
+        $var = $this->returnHtmlModal($request->get('type'), $request->get('id_header'),0,$request->get('aux'));
 
         if (count($var['cli']) > 0)
             return response()->json($var['html']);
@@ -55,17 +55,18 @@ class slipModalController extends Controller {
      * @param type $idHeader
      * @return Response
      */
-    public function generaPdf($type, $idHeader) {
-        $var = $this->returnHtmlModal($type, decode($idHeader),1);
+    public function generaPdf($type, $idHeader, $aux) {
+        $var = $this->returnHtmlModal($type, decode($idHeader),1, $aux);
         set_time_limit(0);
         return $this->pdf->create($var['html']['template_cert'], $type);
     }
 
-    public function returnHtmlModal($type,$idHeader, $flagPdf){
+    public function returnHtmlModal($type,$idHeader, $flagPdf, $aux){
         $var = '';
         $flagPdf = $flagPdf;
         $retailer = $this->retailer;
-        $retailerProduct = $this->retailerProduct;
+        //edw-->$retailerProduct = $this->retailerProduct;
+        $retailerProduct = RetailerProduct::where('ad_company_product_id', $aux)->get();
         
         $cli = array();
         $cli = \Sibas\Entities\De\Header::where('id', $idHeader)->first();
@@ -84,7 +85,7 @@ class slipModalController extends Controller {
                 $imc = $detail->client->imc;
                 
                 
-                $var = array('template_cert' => view('cert.cert_cotizacion', compact('cli', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct', 'resQuestion', 'imc'))->render());
+                $var = array('template_cert' => view('cert.cert_cotizacion', compact('cli', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct', 'resQuestion', 'imc','aux'))->render());
                 break;
             case 'emision':
                 
@@ -100,7 +101,7 @@ class slipModalController extends Controller {
                 $adRates = DB::table('ad_rates')->get();
                 $adRates = $adRates[0];
                 
-                $var = array('template_cert' => view('cert.cert_emision', compact('cli', 'question', 'adRates', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct','data'))->render());
+                $var = array('template_cert' => view('cert.cert_emision', compact('cli', 'question', 'adRates', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct','data','aux'))->render());
                 break;
             case 'sub_vida_emision':
                 
@@ -109,7 +110,7 @@ class slipModalController extends Controller {
                 $viHeader = \Sibas\Entities\Vi\Header::where('id', $viDetail->op_vi_header_id)->first();
                 
                 $cli = $viDetail;
-                $var = array('template_cert' => view('cert.cert_emision_vida', compact('viDetail', 'viHeader', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct'))->render());
+                $var = array('template_cert' => view('cert.cert_emision_vida', compact('viDetail', 'viHeader', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct','aux'))->render());
                 break;
             
             case 'print_all':
@@ -141,7 +142,7 @@ class slipModalController extends Controller {
                 if(count($viDetail)>0)
                     $viHeader = \Sibas\Entities\Vi\Header::where('id', $viDetail->op_vi_header_id)->first();
                 
-                $var = array('template_cert' => view('cert.cert_all', compact('cli', 'question', 'adRates', 'viDetail', 'viHeader', 'flag', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct','data'))->render());
+                $var = array('template_cert' => view('cert.cert_all', compact('cli', 'question', 'adRates', 'viDetail', 'viHeader', 'flag', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct','data','aux'))->render());
                 
                 break;
             default:
