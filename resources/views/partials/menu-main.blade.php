@@ -140,6 +140,11 @@
                                 Solicitudes
                             </a>
                         </li>
+                        <li class="{{Request::is('report/auto/cotizacion/valor') ? 'active':''}}">
+                            <a href="{{ route('report.auto_report_cotizacion') }}">
+                                Solicitudes Automotores
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>

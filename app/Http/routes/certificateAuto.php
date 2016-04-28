@@ -14,6 +14,12 @@ Route::group([ 'prefix' => 'au/{rp_id}/issuance/{header_id}/' ], function () {
         'uses' => 'slipModalAutoController@ajaxBuscar'
     ]);
     });
+Route::group([ 'prefix' => '/report/auto/cotizacion/' ], function () {
+    Route::post('slip_au_cot', [
+        'as' => 'slip_au_cot',
+        'uses' => 'slipModalAutoController@ajaxBuscar'
+    ]);
+    });
 
 /**/
 

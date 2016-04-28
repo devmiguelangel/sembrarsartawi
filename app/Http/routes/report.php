@@ -34,13 +34,14 @@ Route::group(['prefix' => '/'], function() {
         'uses' => 'Report\ReportController@cotizacion'
     ]);
     
+    
     # ruta Automoviles
     
-    Route::get('report/auto/cotizacion', [
+    Route::get('report/auto/cotizacion/valor', [
         'as' => 'report.auto_report_cotizacion',
         'uses' => 'Report\ReportAutoController@cotizacion'
     ]);
-    Route::post('report/auto/cotizacion', [
+    Route::post('report/auto/cotizacion/valor', [
         'as' => 'report.auto_report_cotizacion_result',
         'uses' => 'Report\ReportAutoController@cotizacion'
     ]);

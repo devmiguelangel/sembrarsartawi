@@ -39,16 +39,16 @@
             <div class="panel-body ">
                 <div class="col-xs-12 col-md-12">
                     <form class="form-horizontal form-validate-jquery" action="" id="form_search_general">
-                    {!! Form::open(['route' => ['report.report_cotizacion_result'], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                        {!! Form::open(['route' => ['report.auto_report_cotizacion_result'], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                         <div class="panel-body ">
                             <div class="col-xs-12 col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label col-lg-4">Agencia: </label>
+                                    <label class="control-label col-lg-4">Cotización: </label>
                                     <div class="col-lg-8">
-                                        {!! Form::select('agencia', 
-                                                (['0' => 'Seleccione'] + $agencies), 
-                                                $valueForm['agencia'], 
-                                            ['class' => 'select-search']) !!}
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Nro.</span>
+                                            <input name="nro_cotizacion" value="{{ $valueForm['nro_cotizacion'] }}" type="text" class="form-control ui-wizard-content">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -60,8 +60,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
+
+
                             </div>
                             <div class="col-xs-12 col-md-3">
                                 <div class="form-group">
@@ -70,8 +70,8 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-user"></i></span>
                                             {!! Form::select('usuario', 
-                                                (['0' => 'Seleccione'] + $users), 
-                                                $valueForm['usuario'], 
+                                            (['0' => 'Seleccione'] + $users), 
+                                            $valueForm['usuario'], 
                                             ['class' => 'select-search']) !!}
                                         </div>
                                     </div>
@@ -88,24 +88,22 @@
                                     <label class="control-label col-lg-4">Sucursal: </label>
                                     <div class="col-lg-8">
                                         {!! Form::select('sucursal', 
-                                                (['0' => 'Seleccione'] + $cities), 
-                                                $valueForm['sucursal'], 
-                                            ['class' => 'select-search']) !!}
+                                        (['0' => 'Seleccione'] + $cities), 
+                                        $valueForm['sucursal'], 
+                                        ['class' => 'select-search']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Extensión: </label>
                                     <div class="col-lg-8">
                                         {!! Form::select('extension', 
-                                                (['0' => 'Seleccione'] + $extencion), 
-                                                $valueForm['extension'], 
-                                            ['class' => 'select-search']) !!}
+                                        (['0' => 'Seleccione'] + $extencion), 
+                                        $valueForm['extension'], 
+                                        ['class' => 'select-search']) !!}
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-3">
-                                
-                                
                             </div>
                             <div class="col-xs-12 col-md-7">
                                 <div class="form-group">
@@ -129,86 +127,109 @@
                             <input type="hidden" id="xls_download" name="xls_download" value="0">
                             <div class="col-xs-12 col-md-3">
                                 <div class="text-right">
-                                    <a href="{{ route('report.report_cotizacion') }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
+                                    <a href="{{ route('report.auto_report_cotizacion') }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
                                     <button type="submit" class="btn btn-primary" id="buscar" onclick="$('#xls_download').val(0);">Buscar <i class="icon-search4 position-right"></i></button>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <hr />
-                    {!! Form::close() !!}
+                        {!! Form::close() !!}
                 </div>
                 <div class="col-xs-12 col-md-12">  
                     @if (count($result)>0)
-                        <div class="panel panel-flat">  
-                            <div class="col-xs-12 col-md-12">
-                                <div class="text-right">
-                                    <br />
-                                    <a onclick="$('#xls_download').val(1); $('#form_search_general').submit();">
-                                        <img src="{{ asset('images/xls2.png') }}" alt="descargar" />
-                                    </a>
-                                </div>
+                    <div class="panel panel-flat">  
+                        <div class="col-xs-12 col-md-12">
+                            <div class="text-right">
+                                <br />
+                                <a onclick="$('#xls_download').val(1); $('#form_search_general').submit();">
+                                    <img src="{{ asset('images/xls2.png') }}" alt="descargar" />
+                                </a>
                             </div>
-                            <table class="table datatable-fixed-left table-striped" width="100%">
-                                <thead>
-                                    <tr style="background-color: #337ab7" class="text-white">
-                                        <th>Producto</th>
-                                        <th>Importe Solicitado</th>
-                                        <th>Moneda</th>
-                                        <th>Tiempo</th>
-                                        <th>Tasa total</th>
-                                        <th>Prima total</th>
-                                        <th>Fecha de cotización</th>
-                                        <th>Usuario</th>
-                                        <th>Rol</th>
-                                        <th>Accion</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @var $sum = 1
-                                    @foreach($result as $entities)
-                                    
-                                    <tr>
-                                        <td><strong>{{ $entities->nro_cotizacion }}</strong></td>
-                                        <td><strong>{{ $entities->cliente }}</strong></td>
-                                        <td><strong>{{ $entities->ci }}</strong></td>
-                                        <td><strong>{{ $entities->ciudad }}</strong></td>
-                                        <td><strong>{{ $entities->genero }}</strong></td>
-                                        <td><strong>{{ $entities->plazo_de_credito }}</strong></td>
-                                        <td><strong>{{ $entities->forma_de_pago }}</strong></td>
-                                        <td><strong>{{ $entities->numero_credito }}</strong></td>
-                                        <td><strong>{{ $entities->usuario }}</strong></td>
-                                        <td><strong>{{ $entities->sucursal_registro }}</strong></td>
-                                        <td><strong>{{ $entities->agencia }}</strong></td>
-                                        <td class="text-center">
-                                            <ul class="icons-list">
-                                                    <li class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                            <i class="icon-menu9"></i>
-                                                        </a>
-                                                        <ul class="dropdown-menu dropdown-menu-right">
-                                                            <li>
-                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion')" data-toggle="modal" data-target="#modal_general">
-                                                                    <i class="icon-plus2"></i> Ver Slip de Cotización
-                                                                </a>
-                                                            </li>
-                                                            <!--<li>
-                                                                <a href="{{ route('de.result', ['rp_id' => encode($entities->ad_user_id), 'header_id' => encode($entities->id)]) }}" >
-                                                                    <i class="icon-plus2"></i> Emitir Cotización
-                                                                </a>
-                                                            </li>-->
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                        </td>
-                                    </tr>
-                                    @var $sum++
-                                    @endforeach
-                                </tbody>
-                            </table>
                         </div>
+                        <table class="table datatable-fixed-left table-striped" width="100%">
+                            <thead>
+                                <tr style="background-color: #337ab7" class="text-white">
+                                    <th>Nro. Cotizaci&oacute;n</th>
+                                    <th>Cliente</th>
+                                    <th>CI</th>
+                                    <th>Ciudad</th>
+                                    <th>G&eacute;nero</th>
+                                    <th>Plazo de Cr&eacute;dito</th>
+                                    <th>Forma de Pago</th>
+                                    <th>Nro. Credito</th>
+                                    <th>Usuario</th>
+                                    <th>Sucursal Reg&iacute;stro</th>
+                                    <th>Agencia</th>
+                                    <th  class="col-md-12 col-xs-12">
+                            <div class="col-xs-12">
+                                <div class="col-lg-12">Auto</div>
+                                <div class="col-lg-5">Modelo</div>
+                                <div class="col-lg-2">Año</div>
+                                <div class="col-lg-3">Placa</div>
+                                <!--<div class="col-lg-2">Uso</div>
+                                <div class="col-lg-1">Tracci&oacute;n</div>-->
+                                <div class="col-lg-1">0 Km.</div>
+                                <div class="col-lg-1">Valor Asegurado</div>
+                            </div>   
+                            </th>
+                            <th>Acci&oacute;n</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @var $sum = 1
+                                @foreach($result as $entities)
+                                <tr>
+                                    <td><strong>{{ $entities->nro_cotizacion }}</strong></td>
+                                    <td>{{ $entities->cliente }}</td>
+                                    <td>{{ $entities->ci }}</td>
+                                    <td>{{ $entities->ciudad }}</td>
+                                    <td>{{ $entities->genero }}</td>
+                                    <td>{{ $entities->plazo_de_credito }}</td>
+                                    <td>{{ $entities->forma_de_pago }}</td>
+                                    <td>{{ $entities->numero_credito }}</td>
+                                    <td>{{ $entities->usuario }}</td>
+                                    <td>{{ $entities->sucursal_registro }}</td>
+                                    <td>{{ $entities->agencia }}</td>
+                                    <td class="col-md-12 col-xs-12">
+                                        @foreach($entities->auDetail as $detail)
+                                        <div class="col-xs-12">
+                                            <div class="col-lg-5 "><i class="icons-list"></i> {{ $detail->vehicleModel->model }}</div>
+                                            <div class="col-lg-2">{{ $detail->year }}</div>
+                                            <div class="col-lg-3">{{ $detail->license_plate }}</div>
+                                            <!--<div class="col-lg-2">{{ $detail->use }}</div>
+                                            <div class="col-lg-1">{{ $detail->traction }}</div>-->
+                                            <div class="col-lg-1">{{ $detail->mileage }}</div>
+                                            <div class="col-lg-1">{{ $detail->insured_value }}</div>
+                                        </div>
+                                        @endforeach
+                                    </td>
+                                    <td class="text-center">
+                                        <ul class="icons-list">
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                    <li>
+                                                        <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip_au_cot', 'POST', 'cotizacion', 1)" data-toggle="modal" data-target="#modal_general">
+                                                            <i class="icon-plus2"></i> Ver Slip de Cotización
+                                                        </a>
+                                                    </li>
+
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                @var $sum++
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     @else
-                        <h1>No existen resultados.</h1>
+                    <h1>No existen resultados.</h1>
                     @endif
                 </div>
 

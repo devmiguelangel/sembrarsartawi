@@ -67,7 +67,7 @@ class slipModalAutoController extends Controller {
         $cli = 1;
         $header = Header::where('id', $idHeader)->first();
         $retailer = Retailer::where('id', $header->client->ad_retailer_id)->first();
-        $retailerProduct = RetailerProduct::where('ad_company_product_id', $aux)->get();
+        $retailerProduct = RetailerProduct::where('ad_company_product_id', $aux)->get();        
         $companyProduct = CompanyProduct::where('id', $aux)->first();
         $vehicleType = VehicleType::where('active', 1)->get();
         $groupVehicle = [];
