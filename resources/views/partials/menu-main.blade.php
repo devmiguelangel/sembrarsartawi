@@ -145,6 +145,16 @@
                                 Solicitudes Automotores
                             </a>
                         </li>
+                        <li class="{{Request::is('report/auto/general/valor') ? 'active':''}}">
+                            <a href="{{ route('report.auto_report_general') }}">
+                                General Automotores
+                            </a>
+                        </li>
+                        <li class="{{Request::is('report/auto/general_emitido/valor') ? 'active':''}}">
+                            <a href="{{ route('report.auto_report_general_emitido') }}">
+                                Polizas Emitidas Automotores
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>

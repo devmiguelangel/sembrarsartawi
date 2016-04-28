@@ -162,17 +162,17 @@
                                     <th>Sucursal Reg&iacute;stro</th>
                                     <th>Agencia</th>
                                     <th  class="col-md-12 col-xs-12">
-                            <div class="col-xs-12">
-                                <div class="col-lg-12">Auto</div>
-                                <div class="col-lg-5">Modelo</div>
-                                <div class="col-lg-2">Año</div>
-                                <div class="col-lg-3">Placa</div>
-                                <!--<div class="col-lg-2">Uso</div>
-                                <div class="col-lg-1">Tracci&oacute;n</div>-->
-                                <div class="col-lg-1">0 Km.</div>
-                                <div class="col-lg-1">Valor Asegurado</div>
-                            </div>   
-                            </th>
+                                        <div class="col-xs-12">
+                                            <div class="col-lg-12">Auto</div>
+                                            <div class="col-lg-5">Modelo</div>
+                                            <div class="col-lg-2">Año</div>
+                                            <div class="col-lg-3">Placa</div>
+                                            <!--<div class="col-lg-2">Uso</div>
+                                            <div class="col-lg-1">Tracci&oacute;n</div>-->
+                                            <div class="col-lg-1">0 Km.</div>
+                                            <div class="col-lg-1">Valor Asegurado</div>
+                                        </div>   
+                                    </th>
                             <th>Acci&oacute;n</th>
 
                             </tr>

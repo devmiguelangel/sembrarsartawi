@@ -59,7 +59,7 @@ class ReportAutoController extends Controller {
         if ($request->get('xls_download'))
             $this->exportXls($result, 'General', 1);
 
-        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag'));
+        return view('report.general_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag'));
     }
 
     /**
@@ -83,7 +83,7 @@ class ReportAutoController extends Controller {
         if ($request->get('xls_download'))
             $this->exportXls($result, 'General', 1);
 
-        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag'));
+        return view('report.general_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag'));
     }
 
     /**
@@ -97,70 +97,65 @@ class ReportAutoController extends Controller {
         $opClients = DB::table('op_clients')
                 ->join('op_de_details', 'op_clients.id', '=', 'op_de_details.op_client_id')
                 ->select('op_de_details.op_de_header_id');
-
-        $query = DB::table('op_de_headers')
-                ->join('ad_users', 'op_de_headers.ad_user_id', '=', 'ad_users.id')
+        if ($request->get('xls_download'))
+            $keyGroup ='op_au_headers.id';
+                else
+            $keyGroup ='op_au_details.id';
+                
+        $query = DB::table('op_au_headers')
+                ->join('ad_users', 'op_au_headers.ad_user_id', '=', 'ad_users.id')
                 ->join('ad_agencies', 'ad_users.ad_agency_id', '=', 'ad_agencies.id')
                 ->join('ad_cities', 'ad_users.ad_city_id', '=', 'ad_cities.id')
-                ->join('ad_coverages', 'op_de_headers.ad_coverage_id', '=', 'ad_coverages.id')
-                ->join('op_de_details', 'op_de_headers.id', '=', 'op_de_details.op_de_header_id')
-                ->leftJoin('op_de_facultatives', 'op_de_details.id', '=', 'op_de_facultatives.op_de_detail_id')
-                ->leftJoin('op_de_observations', 'op_de_facultatives.id', '=', 'op_de_observations.op_de_facultative_id')
-                ->join('op_clients', 'op_de_details.op_client_id', '=', 'op_clients.id')
-                ->groupBy('op_de_details.id')
-                //edw-->->select('op_de_headers.policy_number','op_de_headers.prefix', 'op_de_headers.id', 'ad_coverages.name', 'op_de_headers.operation_number', 'op_de_headers.amount_requested', 'op_de_headers.currency', 'op_de_headers.term', 'op_de_headers.type_term', 'op_de_headers.total_rate', 'op_de_headers.total_premium', 'op_de_headers.date_issue', 'ad_users.username', 'ad_users.full_name')
+                ->join('op_au_details', 'op_au_headers.id', '=', 'op_au_details.op_au_header_id')
+                ->join('ad_vehicle_types', 'op_au_details.ad_vehicle_type_id', '=', 'ad_vehicle_types.id')
+                ->join('ad_vehicle_makes', 'op_au_details.ad_vehicle_make_id', '=', 'ad_vehicle_makes.id')
+                ->join('ad_vehicle_models', 'op_au_details.ad_vehicle_model_id', '=', 'ad_vehicle_models.id')
+                ->leftJoin('op_au_cancellations', 'op_au_cancellations.op_au_header_id', '=', 'op_au_headers.id')
+                ->leftJoin('ad_users as user_c', 'user_c.id', '=', 'op_au_cancellations.ad_user_id')
+                
+                ->leftJoin('op_au_facultatives', 'op_au_details.id', '=', 'op_au_facultatives.op_au_detail_id')
+                ->leftJoin('op_au_observations', 'op_au_facultatives.id', '=', 'op_au_observations.op_au_facultative_id')
+                ->join('op_clients', 'op_au_headers.op_client_id', '=', 'op_clients.id')
+                ->groupBy($keyGroup)
+                
                 ->select(
-                        DB::raw("CONCAT(op_de_headers.prefix, ' - ',op_de_headers.issue_number ) as policy_number"), 'ad_coverages.name as name_coverage', DB::raw("CONCAT(op_clients.first_name,' ',op_clients.last_name,' ',op_clients.mother_last_name) as client"), DB::raw("CONCAT(op_clients.dni,' ',op_clients.extension) as ci_client"), 'op_clients.gender', 'op_clients.age', DB::raw('UCASE(REPLACE(op_clients.place_residence, "-", " ")) as place_residence'), 'op_clients.phone_number_home', DB::raw("CONCAT(op_de_details.amount,' ',op_de_headers.currenCy) as amount_currency"), DB::raw("CONCAT(op_de_details.balance,' ',op_de_headers.currenCy) as balance"), DB::raw("CONCAT(op_de_details.cumulus,' ',op_de_headers.currenCy) as cumulus"), DB::raw("CONCAT(op_de_headers.term,' ',IF(op_de_headers.type_term='Y','Años','Meses')) as plazo"), DB::raw("CONCAT(op_clients.height,' cm') as estatura"), DB::raw("CONCAT(op_clients.weight,' kg') as peso"), DB::raw("CONCAT(op_de_details.percentage_credit, ' %') as participacion"), DB::raw('if(op_de_details.headline = "D", "Deudor", "Codeudor") as titular'), 'ad_users.full_name as creado_por', DB::raw("CONCAT(ad_cities.name,' / ',ad_agencies.name) as sucursal_regional"), DB::raw("DATE_FORMAT(op_de_headers.created_at,'%d/%m/%Y %h:%i') as fecha_de_ingreso"), DB::raw("IF(op_de_headers.issued=1,'SI','NO') as certificado_emitido"), DB::raw("DATE_FORMAT(op_de_headers.date_issue,'%d/%m/%Y %h:%i') as fecha_emision"),
-                        # estado compañia
-                        DB::raw("if(op_de_headers.issued=TRUE and op_de_headers.facultative=FALSE,'Aprobado Freecover',
-                                if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=TRUE,'Aprobado',
-                                if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=FALSE,'Rechazado',
-                                if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is null,'Pendiente',
-                                if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is not null,'Observado',
-                                ''))))) as estado_compania"),
-                        # motivo estado compañia
-                        DB::raw("if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=TRUE,'Aprobado',
-                                if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=false,'Rechazado',
-                                if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is not null,
-                                 (
-                                 SELECT t6.state
-                                    FROM op_de_observations t8
-                                    INNER JOIN ad_states t6 ON (t6.id=t8.ad_state_id)
-                                    WHERE t8.op_de_facultative_id= op_de_facultatives.id
-                                    ORDER BY t8.id DESC
-                                    LIMIT 0, 1),
-                                ''))) as motivo_estado_compania"),
-                        # porcentaje extra prima
-                        DB::raw("if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=TRUE and op_de_facultatives.surcharge=true,op_de_facultatives.percentage,'') as porcentaje_extraprima"),
-                        # fecha respuesta final compañia
-                        DB::raw("if(op_de_headers.issued=TRUE and op_de_headers.facultative=true and op_de_facultatives.state='PR' ,DATE_FORMAT(op_de_facultatives.updated_at,'%d/%m/%Y %h:%i'),
-                                if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE'  and op_de_observations.id is not null ,DATE_FORMAT(op_de_observations.created_at,'%d/%m/%Y %h:%i'),'')) as fecha_respuesta_final_compania"),
-                        # dias en proceso
-                        DB::raw("if(op_de_headers.issued=TRUE and op_de_headers.facultative=true and op_de_facultatives.state='PR' ,DATEDIFF(op_de_facultatives.updated_at,op_de_headers.created_at),
-                                if(op_de_headers.issued=TRUE and op_de_headers.facultative=false,DATEDIFF(op_de_headers.date_issue,op_de_headers.created_at),
-                                if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is null ,DATEDIFF(CURDATE(),op_de_headers.created_at),
-                                if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is not null ,DATEDIFF(op_de_observations.created_at,op_de_headers.created_at),'')
-                                ))) as dias_en_proceso"),
-                        # dias duracion total del caso
-                        DB::raw("if(op_de_headers.issued=TRUE ,CONCAT(DATEDIFF(op_de_headers.date_issue,op_de_headers.created_at),' dias'),
-                                if(op_de_headers.issued=false ,CONCAT(DATEDIFF(CURDATE(),op_de_headers.created_at),' dias'),'')) as duracion_total_del_caso"), 'op_de_headers.id'
+                        'op_au_headers.id', 
+                        DB::raw("CONCAT(op_au_headers.prefix, ' - ',op_au_headers.issue_number ) as nro_cotizacion"),
+                        DB::raw("CONCAT(op_clients.first_name,' ',op_clients.last_name,' ',op_clients.mother_last_name) as cliente"), 
+                        DB::raw("CONCAT(op_clients.dni,' ',op_clients.extension) as ci"), 
+                        DB::raw("IF(op_clients.gender='M','Masculino','Femenino') as genero"),
+                        DB::raw('CONCAT(op_au_headers.term," ",IF(op_au_headers.type_term="Y","Años",IF(op_au_headers.type_term="M","Meses",IF(op_au_headers.type_term="D","Dias","null")))) as plazo_de_credito'), 
+                        
+                        'op_au_headers.payment_method as forma_de_pago', 
+                        'op_au_headers.operation_number as numero_credito', 
+                        'ad_vehicle_types.vehicle as tipo_vehiculo', 
+                        'ad_vehicle_models.model as modelo', 
+                        'op_au_details.year as anio', 
+                        'op_au_details.license_plate as placa', 
+                        'op_au_details.use as uso', 
+                        'op_au_details.traction as traccion', 
+                        'op_au_details.mileage as cero_km', 
+                        'op_au_details.insured_value as valor_asegurado',
+                        
+                        'ad_users.full_name as usuario', 
+                        'ad_cities.name as sucursal_registro', 
+                        'ad_agencies.name as agencia',
+                        'op_au_headers.created_at as fecha_de_ingreso',
+                        'op_au_headers.canceled as anulado',
+                        'user_c.full_name as anulado_por',
+                        'op_au_cancellations.created_at as fecha_anulacion'
                 )
-                ->where('op_de_headers.type', 'I');
+                ->where('op_au_headers.type', 'I');
 
         if ($flag == 2)
-            $query->where('op_de_headers.issued', 1);
+            $query->where('op_au_headers.issued', 1);
 
         $details = array();
         $result = array();
         $flagClient = 0;
 
         if ($request->get('_token')) {
-            # relacion facultativos
-            if ($request->get('rechazado') || $request->get('no_freecover') || $request->get('extraprima') || $request->get('no_extraprima') || $request->get('pendiente') || $request->get('subsanado') || $request->get('observado')) {
-
-                //edw--> $query->leftJoin('op_de_facultatives', 'op_de_facultatives.op_de_detail_id', '=', 'op_de_details.id');
-            }
-
+            
             $arr = $this->role($request);
 
             foreach ($arr as $key => $value) {
@@ -175,7 +170,7 @@ class ReportAutoController extends Controller {
                                 $q->whereRaw($key2 . ' = "' . $value2 . '"');
                             }
                         }
-                        $q->whereRaw('`op_de_headers`.`type`="I"');
+                        $q->whereRaw('`op_au_headers`.`type`="I"');
                     });
                 } elseif ($key == 'or') {
                     foreach ($value as $key => $value) {
@@ -188,7 +183,7 @@ class ReportAutoController extends Controller {
                                     $q->whereRaw($key2 . ' = "' . $value2 . '"');
                                 }
                             }
-                            $q->whereRaw('`op_de_headers`.`type`="I"');
+                            $q->whereRaw('`op_au_headers`.`type`="I"');
                         });
                     }
                 }
@@ -196,11 +191,11 @@ class ReportAutoController extends Controller {
 
             # numero poliza
             if ($request->get('numero_poliza'))
-                $query->where('op_de_headers.issue_number', $request->get('numero_poliza'));
+                $query->where('op_au_headers.issue_number', $request->get('numero_poliza'));
 
             # usuario vendedor
             if ($request->get('usuario'))
-                $query->where('op_de_headers.ad_user_id', $request->get('usuario'));
+                $query->where('op_au_headers.ad_user_id', $request->get('usuario'));
 
             # usuario vendedor agencia
             if ($request->get('agencia'))
@@ -212,20 +207,20 @@ class ReportAutoController extends Controller {
 
             # fecha de emision inicial
             if ($request->get('fecha_ini'))
-                $query->where('op_de_headers.date_issue', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->get('fecha_ini')))));
+                $query->where('op_au_headers.date_issue', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->get('fecha_ini')))));
 
             # fecha de emision final
             if ($request->get('fecha_fin'))
-                $query->where('op_de_headers.date_issue', '<=', date('Y-m-d', strtotime('+1 days', strtotime(str_replace('/', '-', $request->get('fecha_fin'))))));
+                $query->where('op_au_headers.date_issue', '<=', date('Y-m-d', strtotime('+1 days', strtotime(str_replace('/', '-', $request->get('fecha_fin'))))));
 
             # anulados
             if ($request->get('anulados')) {
                 switch ($request->get('anulados')) {
                     case 1:
-                        $query->where('op_de_headers.canceled', 1);
+                        $query->where('op_au_headers.canceled', 1);
                         break;
                     case 2:
-                        $query->where('op_de_headers.canceled', 0);
+                        $query->where('op_au_headers.canceled', 0);
                         break;
                     default:
                         break;
@@ -235,20 +230,20 @@ class ReportAutoController extends Controller {
 
             # extencion cliente
             if ($request->get('extension'))
-                $opClients->where('op_clients.extension', $request->get('extension'));
+                $query->where('op_clients.extension', $request->get('extension'));
             # ci cliente
             if ($request->get('ci'))
-                $opClients->where('op_clients.dni', $request->get('ci'));
+                $query->where('op_clients.dni', $request->get('ci'));
 
             # nombre cliente
             if ($request->get('cliente'))
-                $opClients->where('op_clients.first_name', 'LIKE', '%' . $request->get('cliente') . '%');
+                $query->where('op_clients.first_name', 'LIKE', '%' . $request->get('cliente') . '%');
 
 
             if ($request->get('extension') || $request->get('ci') || $request->get('cliente'))
                 $flagClient = 1;
 
-            $details = $opClients->get();
+            //edw-->$details = $opClients->get();
 
             $result = $query->get();
         }else {
@@ -256,7 +251,7 @@ class ReportAutoController extends Controller {
         }
 
         # validacion filtra poliza enbase al cliente
-        if (count($details) > 0 || $flagClient == 1) {
+        /**if (count($details) > 0 || $flagClient == 1) {
             $idHeaders = $this->returnIdHeades($details);
             $var = array();
             foreach ($result as $key => $value) {
@@ -265,6 +260,7 @@ class ReportAutoController extends Controller {
             }
             $result = $var;
         }
+        /**/
 
         $result = $this->observations($request, $result);
 
@@ -272,6 +268,11 @@ class ReportAutoController extends Controller {
         # validacion exporta xls
         if ($request->get('xls_download'))
             $this->exportXls($result, 'General', 1);
+        
+        # listado de autos registrados por cliente
+        foreach ($result as $key => $value) {
+            $result[$key]->auDetail = Detail::where('op_au_header_id', $value->id)->get();
+        }
 
         $res = array('result' => $result, 'flag' => $flag);
 
@@ -286,56 +287,56 @@ class ReportAutoController extends Controller {
     public function role($request) {
         $consult = [];
         if ($request->get('freecover'))
-            $consult[] = array('`op_de_headers`.`issued`' => 1, '`op_de_headers`.`facultative`' => 0);
+            $consult[] = array('`op_au_headers`.`issued`' => 1, '`op_au_headers`.`facultative`' => 0);
 
         # no freecover
         if ($request->get('no_freecover'))
-            $consult[] = array('`op_de_headers`.`facultative`' => 1, '`op_de_facultatives`.`state`' => 'PR', '`op_de_facultatives`.`approved`' => 1);
+            $consult[] = array('`op_au_headers`.`facultative`' => 1, '`op_au_facultatives`.`state`' => 'PR', '`op_au_facultatives`.`approved`' => 1);
 
         # emitido
         if ($request->get('emitido'))
-            $consult[] = array('`op_de_headers`.`issued`' => 1);
+            $consult[] = array('`op_au_headers`.`issued`' => 1);
 
         # no emitido
         if ($request->get('no_emitido'))
-            $consult[] = array('`op_de_headers`.`issued`' => 0);
+            $consult[] = array('`op_au_headers`.`issued`' => 0);
 
         # extraprima
         if ($request->get('extraprima'))
-            $consult[] = array('`op_de_facultatives`.`state`' => 'PR', '`op_de_headers`.`facultative`' => 1, '`op_de_facultatives`.`surcharge`' => 1);
+            $consult[] = array('`op_au_facultatives`.`state`' => 'PR', '`op_au_headers`.`facultative`' => 1, '`op_au_facultatives`.`surcharge`' => 1);
 
         # no extraprima
         if ($request->get('no_extraprima'))
-            $consult[] = array('`op_de_facultatives`.`state`' => 'PR', '`op_de_headers`.`facultative`' => 1, '`op_de_facultatives`.`surcharge`' => 0);
+            $consult[] = array('`op_au_facultatives`.`state`' => 'PR', '`op_au_headers`.`facultative`' => 1, '`op_au_facultatives`.`surcharge`' => 0);
 
         # rechazados
         if ($request->get('rechazado'))
-            $consult[] = array('`op_de_facultatives`.`approved`' => 0, '`op_de_facultatives`.`state`' => 'PR');
+            $consult[] = array('`op_au_facultatives`.`approved`' => 0, '`op_au_facultatives`.`state`' => 'PR');
 
         # polizas anuladas
         if ($request->get('anulado'))
-            $consult[] = array('`op_de_headers`.`issued`' => 1, '`op_de_headers`.`canceled`' => 1);
+            $consult[] = array('`op_au_headers`.`issued`' => 1, '`op_au_headers`.`canceled`' => 1);
 
         # pendiente
         if ($request->get('pendiente'))
             $consult[] = array(
-                '`op_de_headers`.`issued`' => 0,
-                '`op_de_headers`.`facultative`' => 1,
-                '`op_de_facultatives`.`state`' => 'PE',
+                '`op_au_headers`.`issued`' => 0,
+                '`op_au_headers`.`facultative`' => 1,
+                '`op_au_facultatives`.`state`' => 'PE',
                 '(SELECT COUNT(odo.id)
-                    FROM op_de_observations as odo
-                    WHERE odo.op_de_facultative_id = op_de_facultatives.id)' => 0,
+                    FROM op_au_observations as odo
+                    WHERE odo.op_au_facultative_id = op_au_facultatives.id)' => 0,
             );
 
         # subsanado
         if ($request->get('subsanado'))
             $consult[] = array(
-                '`op_de_headers`.`issued`' => 0,
-                '`op_de_headers`.`facultative`' => 1,
-                '`op_de_facultatives`.`state`' => 'PE',
+                '`op_au_headers`.`issued`' => 0,
+                '`op_au_headers`.`facultative`' => 1,
+                '`op_au_facultatives`.`state`' => 'PE',
                 '(SELECT COUNT(odo.id)
-                    FROM op_de_observations as odo
-                    WHERE odo.op_de_facultative_id = op_de_facultatives.id
+                    FROM op_au_observations as odo
+                    WHERE odo.op_au_facultative_id = op_au_facultatives.id
                         AND odo.response = true
                     ORDER BY odo.id DESC)' => 1,
             );
@@ -343,12 +344,12 @@ class ReportAutoController extends Controller {
         # observado
         if ($request->get('observado'))
             $consult[] = array(
-                '`op_de_headers`.`issued`' => 0,
-                '`op_de_headers`.`facultative`' => 1,
-                '`op_de_facultatives`.`state`' => 'PE',
+                '`op_au_headers`.`issued`' => 0,
+                '`op_au_headers`.`facultative`' => 1,
+                '`op_au_facultatives`.`state`' => 'PE',
                 '(SELECT COUNT(odo.id)
-                    FROM op_de_observations as odo
-                    WHERE odo.op_de_facultative_id = op_de_facultatives.id)' => [ '>', 0],
+                    FROM op_au_observations as odo
+                    WHERE odo.op_au_facultative_id = op_au_facultatives.id)' => [ '>', 0],
             );
 
         $arr = [];
@@ -440,15 +441,41 @@ class ReportAutoController extends Controller {
         $agencies = $this->agencies;
         $cities = $this->cities;
         $extencion = $this->extencion;
-
+        if ($request->get('xls_download'))
+            $keyGroup ='op_au_headers.id';
+                else
+            $keyGroup ='op_au_details.id';
         $valueForm = $this->addValueForm($request);
         $query = DB::table('op_au_headers')
                 ->join('op_clients', 'op_au_headers.op_client_id', '=', 'op_clients.id')
                 ->join('ad_users', 'op_au_headers.ad_user_id', '=', 'ad_users.id')
                 ->join('ad_cities', 'ad_users.ad_city_id', '=', 'ad_cities.id')
+                ->join('op_au_details', 'op_au_headers.id', '=', 'op_au_details.op_au_header_id')
+                ->join('ad_vehicle_types', 'op_au_details.ad_vehicle_type_id', '=', 'ad_vehicle_types.id')
+                ->join('ad_vehicle_makes', 'op_au_details.ad_vehicle_make_id', '=', 'ad_vehicle_makes.id')
+                ->join('ad_vehicle_models', 'op_au_details.ad_vehicle_model_id', '=', 'ad_vehicle_models.id')
                 ->leftJoin('ad_agencies', 'ad_users.ad_agency_id', '=', 'ad_agencies.id')
+                ->groupBy($keyGroup)
                 ->select(
-                'op_au_headers.id', 'op_au_headers.quote_number as nro_cotizacion', DB::raw("CONCAT(op_clients.first_name,' ',op_clients.last_name,' ',op_clients.mother_last_name) as cliente"), DB::raw("CONCAT(op_clients.dni,' ',op_clients.complement,' ',op_clients.extension) as ci"), 'ad_cities.name as ciudad', DB::raw('IF(op_clients.gender="M","Masculino","Femenino") as genero'), DB::raw('CONCAT(op_au_headers.term," ",IF(op_au_headers.type_term="Y","Años",IF(op_au_headers.type_term="M","Meses",IF(op_au_headers.type_term="D","Dias","null")))) as plazo_de_credito'), 'op_au_headers.payment_method as forma_de_pago', 'op_au_headers.operation_number as numero_credito', 'ad_users.full_name as usuario', 'ad_cities.name as sucursal_registro', 'ad_agencies.name as agencia'
+                'op_au_headers.id', 'op_au_headers.quote_number as nro_cotizacion', 
+                DB::raw("CONCAT(op_clients.first_name,' ',op_clients.last_name,' ',op_clients.mother_last_name) as cliente"), 
+                        DB::raw("CONCAT(op_clients.dni,' ',op_clients.complement,' ',op_clients.extension) as ci"), 
+                        'ad_cities.name as ciudad', 
+                        DB::raw('IF(op_clients.gender="M","Masculino","Femenino") as genero'), 
+                        DB::raw('CONCAT(op_au_headers.term," ",IF(op_au_headers.type_term="Y","Años",IF(op_au_headers.type_term="M","Meses",IF(op_au_headers.type_term="D","Dias","null")))) as plazo_de_credito'), 
+                        'op_au_headers.payment_method as forma_de_pago', 
+                        'op_au_headers.operation_number as numero_credito', 
+                        'ad_users.full_name as usuario', 
+                        'ad_cities.name as sucursal_registro', 
+                        'ad_agencies.name as agencia',
+                        'ad_vehicle_types.vehicle as tipo_vehiculo', 
+                        'ad_vehicle_models.model as modelo', 
+                        'op_au_details.year as anio', 
+                        'op_au_details.license_plate as placa', 
+                        'op_au_details.use as uso', 
+                        'op_au_details.traction as traccion', 
+                        'op_au_details.mileage as cero_km', 
+                        'op_au_details.insured_value as valor_asegurado'
         )
         ->where('op_au_headers.issued', 0);
 
