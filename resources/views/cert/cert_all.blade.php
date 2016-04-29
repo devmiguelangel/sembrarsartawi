@@ -492,7 +492,7 @@
                     @foreach($cli->details as $titular)
                         <tr>
                             <td style="width:100%; text-align: justify; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
-                                El titular {{ $sum }} no cumple con las preguntas
+                                {{ $header->facultative_observation }}
                             </td>
                         </tr>
                         @var $sum++
@@ -527,7 +527,7 @@
                             Tasa Final
                         </td>
                         <td style="width:45%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
-                            Observaciones
+                            Respuesta de la Compañia
                         </td>
                     </tr>
                     @foreach($data as $facultatives)

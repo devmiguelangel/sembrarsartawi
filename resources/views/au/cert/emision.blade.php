@@ -455,7 +455,7 @@
                         <td style="width:7%; text-align: center; font-weight: bold; border: 1px solid #dedede;
                             background: #e57474;">Tasa Final</td>
                         <td style="width:69%; text-align: center; font-weight: bold; border: 1px solid #dedede;
-                            background: #e57474;">Observaciones</td>
+                            background: #e57474;">Respuesta de la Compañia</td>
                     </tr>
                     <tr>
                         <td style="width:5%; text-align: center; background: #e78484; color: #FFFFFF;
@@ -468,8 +468,10 @@
                             border: 1px solid #dedede;">{{ $detail->facultative->current_rate }} %</td>
                         <td style="width:7%; text-align: center; background: #e78484; color: #FFFFFF;
                             border: 1px solid #dedede;">{{ $detail->facultative->final_rate }} %</td>
+                        <!--<td style="width:69%; text-align: justify; background: #e78484; color: #FFFFFF;
+                            border: 1px solid #dedede;">{{ $header->facultative_observation }}</td>-->
                         <td style="width:69%; text-align: justify; background: #e78484; color: #FFFFFF;
-                            border: 1px solid #dedede;">{{ $header->facultative_observation }}</td>
+                            border: 1px solid #dedede;">{{ $header->details[0]->facultative->observation }}</td>
                     </tr>
                 </table> 
             @else

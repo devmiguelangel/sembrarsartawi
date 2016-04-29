@@ -78,6 +78,9 @@ class slipModalController extends Controller {
         } elseif ($cli->facultative == true && $cli->issued == true) {
             $data = Facultative::where('op_de_detail_id', $detail->id)->get();
         }
+        
+        $header = Header::where('id',$idHeader)->first();
+        
         switch ($type) {
             case 'cotizacion':
                 
@@ -85,7 +88,7 @@ class slipModalController extends Controller {
                 $imc = $detail->client->imc;
                 
                 
-                $var = array('template_cert' => view('cert.cert_cotizacion', compact('cli', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct', 'resQuestion', 'imc','aux'))->render());
+                $var = array('template_cert' => view('cert.cert_cotizacion', compact('header','cli', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct', 'resQuestion', 'imc','aux'))->render());
                 break;
             case 'emision':
                 
@@ -101,7 +104,7 @@ class slipModalController extends Controller {
                 $adRates = DB::table('ad_rates')->get();
                 $adRates = $adRates[0];
                 
-                $var = array('template_cert' => view('cert.cert_emision', compact('cli', 'question', 'adRates', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct','data','aux'))->render());
+                $var = array('template_cert' => view('cert.cert_emision', compact('header','cli', 'question', 'adRates', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct','data','aux'))->render());
                 break;
             case 'sub_vida_emision':
                 
@@ -142,7 +145,7 @@ class slipModalController extends Controller {
                 if(count($viDetail)>0)
                     $viHeader = \Sibas\Entities\Vi\Header::where('id', $viDetail->op_vi_header_id)->first();
                 
-                $var = array('template_cert' => view('cert.cert_all', compact('cli', 'question', 'adRates', 'viDetail', 'viHeader', 'flag', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct','data','aux'))->render());
+                $var = array('template_cert' => view('cert.cert_all', compact('header','cli', 'question', 'adRates', 'viDetail', 'viHeader', 'flag', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct','data','aux'))->render());
                 
                 break;
             default:

@@ -37,7 +37,7 @@
                 <td style="width:50%; text-align:right; height: 20px;">
                     <b>Monto Actual Solicitado: </b>
                 </td>
-                <td style="width:50%; text-align: left;"> {{ $cli->amount_requested }}</td>
+                <td style="width:50%; text-align: left;"> {{ $cli->amount_requested }}  {{ $header->currency }}</td>
             </tr>
             <tr style="background:#E5E5E5;">
                 <td style="width:50%; text-align:right; height: 20px;">
@@ -177,7 +177,7 @@
                                             Estatura
                                         </td>
                                         <td style="width: 30%;">
-                                            {{ $titular->client->weight }} cm
+                                            {{ $titular->client->height }} cm
                                         </td>
                                     </tr>
                                     <tr>
@@ -185,7 +185,7 @@
                                             Peso
                                         </td>
                                         <td style="width: 30%;">
-                                            {{ $titular->client->height }} kg
+                                             {{ $titular->client->weight }} kg
                                         </td>
                                     </tr>
                                 </table>
@@ -309,7 +309,7 @@
             @foreach($cli->details as $titular)
             <tr>
                 <td style="width: 30%;">{{ $titular->client->full_name }}</td>
-                <td style="width: 30%;">8000 Bs.</td>
+                <td style="width: 30%;">{{ $cli->amount_requested }}  {{ $header->currency }}</td>
                 <td style="width: 10%;">{{ $cli->total_rate }}%</td>
             </tr>
             @endforeach
