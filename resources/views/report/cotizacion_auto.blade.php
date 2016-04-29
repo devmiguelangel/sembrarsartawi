@@ -209,7 +209,7 @@
                                                 </a>
                                                 <ul class="dropdown-menu dropdown-menu-right">
                                                     <li>
-                                                        <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip_au_cot', 'POST', 'cotizacion', 1)" data-toggle="modal" data-target="#modal_general">
+                                                        <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip_au_cot', 'POST', 'cotizacion', 3)" data-toggle="modal" data-target="#modal_general">
                                                             <i class="icon-plus2"></i> Ver Slip de Cotización
                                                         </a>
                                                     </li>
