@@ -492,6 +492,7 @@ class ReportAutoController extends Controller {
                 ->join('ad_vehicle_makes', 'op_au_details.ad_vehicle_make_id', '=', 'ad_vehicle_makes.id')
                 ->join('ad_vehicle_models', 'op_au_details.ad_vehicle_model_id', '=', 'ad_vehicle_models.id')
                 ->leftJoin('ad_agencies', 'ad_users.ad_agency_id', '=', 'ad_agencies.id')
+                ->orderBy('op_au_headers.quote_number','desc')
                 ->groupBy($keyGroup)
                 ->select(
                 'op_au_headers.id', 'op_au_headers.quote_number as nro_cotizacion', 
