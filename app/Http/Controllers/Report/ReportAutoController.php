@@ -116,6 +116,7 @@ class ReportAutoController extends Controller {
                 ->leftJoin('op_au_facultatives', 'op_au_details.id', '=', 'op_au_facultatives.op_au_detail_id')
                 ->leftJoin('op_au_observations', 'op_au_facultatives.id', '=', 'op_au_observations.op_au_facultative_id')
                 ->join('op_clients', 'op_au_headers.op_client_id', '=', 'op_clients.id')
+                ->orderBy('op_au_headers.issue_number','desc')
                 ->groupBy($keyGroup)
                 
                 ->select(
@@ -143,7 +144,43 @@ class ReportAutoController extends Controller {
                         'op_au_headers.created_at as fecha_de_ingreso',
                         'op_au_headers.canceled as anulado',
                         'user_c.full_name as anulado_por',
-                        'op_au_cancellations.created_at as fecha_anulacion'
+                        'op_au_cancellations.created_at as fecha_anulacion',
+                        
+                        # estado compañia
+                        DB::raw("if(op_au_headers.issued=TRUE and op_au_headers.facultative=FALSE,'Aprobado Freecover',
+                                if(op_au_headers.facultative=true and op_au_facultatives.state='PR' and op_au_facultatives.approved=TRUE,'Aprobado',
+                                if(op_au_headers.facultative=true and op_au_facultatives.state='PR' and op_au_facultatives.approved=FALSE,'Rechazado',
+                                if(op_au_headers.issued=false and op_au_headers.facultative=true and op_au_facultatives.state='PE' and op_au_observations.id is null,'Pendiente',
+                                if(op_au_headers.issued=false and op_au_headers.facultative=true and op_au_facultatives.state='PE' and op_au_observations.id is not null,'Observado',
+                                ''))))) as estado_compania"),
+                        # motivo estado compañia
+                        DB::raw("if(op_au_headers.facultative=true and op_au_facultatives.state='PR' and op_au_facultatives.approved=TRUE,'Aprobado',
+                                if(op_au_headers.facultative=true and op_au_facultatives.state='PR' and op_au_facultatives.approved=false,'Rechazado',
+                                if(op_au_headers.issued=false and op_au_headers.facultative=true and op_au_facultatives.state='PE' and op_au_observations.id is not null,
+                                 (
+                                 SELECT t6.state
+                                    FROM op_au_observations t8
+                                    INNER JOIN ad_states t6 ON (t6.id=t8.ad_state_id)
+                                    WHERE t8.op_au_facultative_id= op_au_facultatives.id
+                                    ORDER BY t8.id DESC
+                                    LIMIT 0, 1),
+                                ''))) as motivo_estado_compania"),
+                        # porcentaje extra prima
+                        DB::raw("if(op_au_headers.facultative=true and op_au_facultatives.state='PR' and op_au_facultatives.approved=TRUE and op_au_facultatives.surcharge=true,op_au_facultatives.percentage,'') as porcentaje_extraprima"),
+                        # estado banco
+                        DB::raw("if(op_au_headers.issued=true ,'Emitido','No Emitido') as estado_banco"),
+                        # fecha respuesta final compañia
+                        DB::raw("if(op_au_headers.issued=TRUE and op_au_headers.facultative=true and op_au_facultatives.state='PR' ,DATE_FORMAT(op_au_facultatives.updated_at,'%d/%m/%Y %h:%i'),
+                                if(op_au_headers.issued=false and op_au_headers.facultative=true and op_au_facultatives.state='PE'  and op_au_observations.id is not null ,DATE_FORMAT(op_au_observations.created_at,'%d/%m/%Y %h:%i'),'')) as fecha_respuesta_final_compania"),
+                        # dias en proceso
+                        DB::raw("if(op_au_headers.issued=TRUE and op_au_headers.facultative=true and op_au_facultatives.state='PR' ,DATEDIFF(op_au_facultatives.updated_at,op_au_headers.created_at),
+                                if(op_au_headers.issued=TRUE and op_au_headers.facultative=false,DATEDIFF(op_au_headers.date_issue,op_au_headers.created_at),
+                                if(op_au_headers.issued=false and op_au_headers.facultative=true and op_au_facultatives.state='PE' and op_au_observations.id is null ,DATEDIFF(CURDATE(),op_au_headers.created_at),
+                                if(op_au_headers.issued=false and op_au_headers.facultative=true and op_au_facultatives.state='PE' and op_au_observations.id is not null ,DATEDIFF(op_au_observations.created_at,op_au_headers.created_at),'')
+                                ))) as dias_en_proceso"),
+                        # dias duracion total del caso
+                        DB::raw("if(op_au_headers.issued=TRUE ,CONCAT(DATEDIFF(op_au_headers.date_issue,op_au_headers.created_at),' dias'),
+                                if(op_au_headers.issued=false ,CONCAT(DATEDIFF(CURDATE(),op_au_headers.created_at),' dias'),'')) as duracion_total_del_caso")
                 )
                 ->where('op_au_headers.type', 'I');
 

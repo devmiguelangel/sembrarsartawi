@@ -31,8 +31,8 @@
                 <h6 class="form-wizard-title2 text-semibold">
                     <span class="col-md-12">
                         <span class="form-wizard-count">R</span>
-                        Reporte Solicitudes
-                        <small class="display-block">Listado de Solicitudes</small>
+                        Reporte Solicitudes Automotores
+                        <small class="display-block">Listado de Solicitudes Automotores</small>
                     </span>
                 </h6>
             </div>
@@ -167,8 +167,6 @@
                                             <div class="col-lg-5">Modelo</div>
                                             <div class="col-lg-2">Año</div>
                                             <div class="col-lg-3">Placa</div>
-                                            <!--<div class="col-lg-2">Uso</div>
-                                            <div class="col-lg-1">Tracci&oacute;n</div>-->
                                             <div class="col-lg-1">0 Km.</div>
                                             <div class="col-lg-1">Valor Asegurado</div>
                                         </div>   
@@ -192,14 +190,12 @@
                                     <td>{{ $entities->usuario }}</td>
                                     <td>{{ $entities->sucursal_registro }}</td>
                                     <td>{{ $entities->agencia }}</td>
-                                    <td class="col-md-12 col-xs-12">
+                                    <td class="col-md-12 col-xs-12" style="width: 700px !important;">
                                         @foreach($entities->auDetail as $detail)
-                                        <div class="col-xs-12">
-                                            <div class="col-lg-5 "><i class="icons-list"></i> {{ $detail->vehicleModel->model }}</div>
+                                        <div class="col-xs-12 alert alert-success text-left">
+                                            <div class="col-lg-5 "><i class="icon-plus2"></i> {{ $detail->vehicleModel->model }}</div>
                                             <div class="col-lg-2">{{ $detail->year }}</div>
                                             <div class="col-lg-3">{{ $detail->license_plate }}</div>
-                                            <!--<div class="col-lg-2">{{ $detail->use }}</div>
-                                            <div class="col-lg-1">{{ $detail->traction }}</div>-->
                                             <div class="col-lg-1">{{ $detail->mileage }}</div>
                                             <div class="col-lg-1">{{ $detail->insured_value }}</div>
                                         </div>

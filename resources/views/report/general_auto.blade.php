@@ -260,22 +260,13 @@
                             <table class="table datatable-fixed-left table-striped" width="100%">
                                 <thead>
                                     <tr style="background-color: #337ab7" class="text-white">
-                                        <th>Nro. Cotización</th>
+                                        <th>Nro. Emisión</th>
                                         <th>Cliente</th>
                                         <th>C.I.</th>
                                         <th>Genero</th>
                                         <th>Plazo de Credito</th>
                                         <th>Forma de Pago</th>
                                         <th>Nro. Credito</th>
-                                        <!--
-                                        <th>Tipo de Vehículo</th>
-                                        <th>Modelo</th>
-                                        <th>Año</th>
-                                        <th>Placa</th>
-                                        <th>Uso</th>
-                                        <th>Tracción</th>
-                                        <th>0 Km</th>
-                                        <th>Valor Asegurado</th>-->
                                         <th  class="col-md-12 col-xs-12">
                                             <div class="col-lg-12">Auto</div>
                                             <div class="col-xs-12 alert"> 
@@ -293,6 +284,12 @@
                                         <th>Anulado</th>
                                         <th>Anulado Por</th>
                                         <th>Fecha Anualción</th>
+                                        <th>Estado Compañia</th>
+                                        <th>Estado Banco</th>
+                                        <th>Motivo Estado Compañia</th>
+                                        <th>Porcentaje Extraprima</th>
+                                        <th>Fecha Respuesta Final Compañia</th>
+                                        <th>Duraci&oacute;n Total del Caso</th>
                                         <th>Accion</th>
                                     </tr>
                                 </thead>
@@ -306,7 +303,7 @@
                                         <td>{{ $entities->ci }}</td>
                                         <td>{{ $entities->genero }}</td>
                                         <td>{{ $entities->plazo_de_credito }}</td>
-                                        <td>{{ $entities->forma_de_pago }}</td>
+                                        <td>{{ $entities->forma_de_pago=='AN'?'Anualizado':'Prima Total' }}</td>
                                         
                                         <td>{{ $entities->numero_credito }}</td>
                                         <td class="col-md-12 col-xs-12">
@@ -315,27 +312,24 @@
                                                 <div class="col-lg-5 "><i class="icon-plus2"></i> {{ $detail->vehicleModel->model }}</div>
                                                 <div class="col-lg-2">{{ $detail->year }}</div>
                                                 <div class="col-lg-3">{{ $detail->license_plate }}</div>
-                                                <div class="col-lg-1">{{ $detail->mileage=1?'SI':'NO' }}</div>
+                                                <div class="col-lg-1">{{ $detail->mileage==1?'SI':'NO' }}</div>
                                                 <div class="col-lg-1">{{ $detail->insured_value }}</div>
                                             </div>
                                         @endforeach
                                         </td>
-                                        <!--<td>{{ $entities->tipo_vehiculo }}</td>
-                                        <td>{{ $entities->modelo }}</td>
-                                        <td>{{ $entities->anio }}</td>
-                                        <td>{{ $entities->placa }}</td>
-                                        <td>{{ $entities->uso }}</td>
-                                        <td>{{ $entities->traccion }}</td>
-                                        <td>{{ $entities->cero_km }}</td>
-                                        <td>{{ $entities->valor_asegurado }}</td>-->
                                         <td>{{ $entities->usuario }}</td>
                                         <td>{{ $entities->sucursal_registro }}</td>
                                         <td>{{ $entities->agencia }}</td>
                                         <td>{{ $entities->fecha_de_ingreso }}</td>
-                                        <td>{{ $entities->anulado }}</td>
+                                        <td>{{ $entities->anulado == 0?'NO':'SI' }}</td>
                                         <td>{{ $entities->anulado_por }}</td>
-                                        <td>{{ date('Y-m-d', strtotime($entities->fecha_anulacion)) }}</td>
-                                        
+                                        <td>{{ $entities->fecha_anulacion != ''?date('Y-m-d', strtotime($entities->fecha_anulacion)):'' }}</td>
+                                        <td>{{ $entities->estado_compania }}</td>
+                                        <td>{{ $entities->estado_banco }}</td>
+                                        <td>{{ $entities->motivo_estado_compania }}</td>
+                                        <td>{{ $entities->porcentaje_extraprima }}</td>
+                                        <td>{{ $entities->fecha_respuesta_final_compania }}</td>
+                                        <td>{{ $entities->duracion_total_del_caso }}</td>
                                         <td class="text-center">
                                             <ul class="icons-list">
                                                     <li class="dropdown">
@@ -356,7 +350,7 @@
                                                             </li>
                                                             @else
                                                             <li>
-                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip_rep_au_cot_general', 'POST', 'cotizacion',1)" data-toggle="modal" data-target="#modal_general">
+                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip_rep_au_cot_general', 'POST', 'cotizacion',3)" data-toggle="modal" data-target="#modal_general">
                                                                     <i class="icon-plus2"></i> Ver Slip de Cotización
                                                                 </a>
                                                             </li>
