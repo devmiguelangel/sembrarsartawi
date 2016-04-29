@@ -471,7 +471,7 @@
                         <!--<td style="width:69%; text-align: justify; background: #e78484; color: #FFFFFF;
                             border: 1px solid #dedede;">{{ $header->facultative_observation }}</td>-->
                         <td style="width:69%; text-align: justify; background: #e78484; color: #FFFFFF;
-                            border: 1px solid #dedede;">{{ $header->details[0]->facultative->observation }}</td>
+                            border: 1px solid #dedede;">{{ $detail->facultative->observation }}</td>
                     </tr>
                 </table> 
             @else
