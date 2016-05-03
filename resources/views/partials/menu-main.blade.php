@@ -125,35 +125,49 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <span class="caret"></span></a>
                     <ul class="dropdown-menu width-200">
-                        <li class="{{Request::is('report/general') ? 'active':''}}">
-                            <a href="{{ route('report.report_general') }}">
-                                General
+                        <li class="dropdown-submenu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-list-unordered"></i> Desgravamen
                             </a>
+                            <ul class="dropdown-menu">
+                                <li class="{{Request::is('report/general') ? 'active':''}}">
+                                    <a href="{{ route('report.report_general') }}">
+                                        General
+                                    </a>
+                                </li>
+                                <li class="{{Request::is('report/general_emitido') ? 'active':''}}">
+                                    <a href="{{ route('report.report_general_emitido') }}" title="Polizas Emitidas">
+                                        Polizas Emitidas
+                                    </a>
+                                </li>
+                                <li class="{{Request::is('report/cotizacion') ? 'active':''}}">
+                                    <a href="{{ route('report.report_cotizacion') }}">
+                                        Solicitudes
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="{{Request::is('report/general_emitido') ? 'active':''}}">
-                            <a href="{{ route('report.report_general_emitido') }}" title="Polizas Emitidas">
-                                Polizas Emitidas
+                        <li class="dropdown-submenu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-list-unordered"></i> Automotores
                             </a>
-                        </li>
-                        <li class="{{Request::is('report/cotizacion') ? 'active':''}}">
-                            <a href="{{ route('report.report_cotizacion') }}">
-                                Solicitudes
-                            </a>
-                        </li>
-                        <li class="{{Request::is('report/auto/cotizacion/valor') ? 'active':''}}">
-                            <a href="{{ route('report.auto_report_cotizacion') }}">
-                                Solicitudes Automotores
-                            </a>
-                        </li>
-                        <li class="{{Request::is('report/auto/general/valor') ? 'active':''}}">
-                            <a href="{{ route('report.auto_report_general') }}">
-                                General Automotores
-                            </a>
-                        </li>
-                        <li class="{{Request::is('report/auto/general_emitido/valor') ? 'active':''}}">
-                            <a href="{{ route('report.auto_report_general_emitido') }}">
-                                Polizas Emitidas Automotores
-                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="{{Request::is('report/auto/cotizacion/valor') ? 'active':''}}">
+                                    <a href="{{ route('report.auto_report_cotizacion') }}">
+                                        Solicitudes Automotores
+                                    </a>
+                                </li>
+                                <li class="{{Request::is('report/auto/general/valor') ? 'active':''}}">
+                                    <a href="{{ route('report.auto_report_general') }}">
+                                        General Automotores
+                                    </a>
+                                </li>
+                                <li class="{{Request::is('report/auto/general_emitido/valor') ? 'active':''}}">
+                                    <a href="{{ route('report.auto_report_general_emitido') }}">
+                                        Polizas Emitidas Automotores
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </li>
