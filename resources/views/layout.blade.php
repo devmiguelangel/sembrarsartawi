@@ -8,7 +8,8 @@
 
     <title>Sibas</title>
     <!-- Global stylesheets -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet"
+          type="text/css">
     {!! Html::style('assets/css/icons/icomoon/styles.css') !!}
     {!! Html::style('assets/css/icons/fontawesome/styles.min.css') !!}
     {!! Html::style('assets/css/bootstrap.min.css') !!}
@@ -35,17 +36,17 @@
     {!! Html::script('assets/js/plugins/forms/styling/switchery.min.js') !!}
     {!! Html::script('assets/js/plugins/forms/styling/switch.min.js') !!}
     {!! Html::script('assets/js/plugins/forms/inputs/touchspin.min.js') !!}
-    
+
     {!! Html::script('assets/js/pages/form_input_groups.js') !!}
     {!! Html::script('assets/js/core/libraries/jquery_ui/interactions.min.js') !!}
-    
+
     {!! Html::script('assets/js/pages/form_select2.js') !!}
     {!! Html::script('assets/js/plugins/forms/selects/bootstrap_select.min.js') !!}
     {!! Html::script('assets/js/pages/form_bootstrap_select.js') !!}
     {!! Html::script('assets/js/pages/form_validation.js') !!}
     {!! Html::script('js/functions.js') !!}
             <!-- /theme JS files -->
-            
+
     <!--picker date-->
     {!! Html::script('assets/js/core/libraries/jquery_ui/datepicker.min.js') !!}
     {!! Html::script('assets/js/plugins/ui/moment/moment.min.js') !!}
@@ -56,8 +57,8 @@
     {!! Html::script('assets/js/plugins/pickers/pickadate/picker.time.js') !!}
     {!! Html::script('assets/js/plugins/pickers/pickadate/legacy.js') !!}
     {!! Html::script('assets/js/pages/picker_date.js') !!}
-    <!--fin picker date-->
-    
+            <!--fin picker date-->
+
     <!--datatable-->
     {!! Html::script('assets/js/plugins/tables/datatables/datatables.min.js') !!}
     {!! Html::script('assets/js/plugins/tables/datatables/extensions/fixed_columns.min.js') !!}
@@ -65,24 +66,23 @@
     {!! Html::script('assets/js/core/app.js') !!}
     {!! Html::script('assets/js/pages/datatables_extension_fixed_columns.js') !!}
     {!! Html::script('assets/js/pages/datatables_basic.js') !!}
-    <!--fin datatable-->
-    
+            <!--fin datatable-->
+
     <!--notificacion-->
     {!! Html::script('assets/js/plugins/notifications/pnotify.min.js') !!}
     {!! Html::script('assets/js/plugins/notifications/noty.min.js') !!}
     {!! Html::script('assets/js/plugins/notifications/jgrowl.min.js') !!}
     {!! Html::script('assets/js/plugins/notifications/bootbox.min.js') !!}
     {!! Html::script('assets/js/pages/components_notifications_other.js') !!}
-    
-    <!--fin notificacion-->
-    
+            <!--fin notificacion-->
+
     {!! Html::script('js/jquery.loading.min.js') !!}
-    
+
 </head>
 <body class="layout-boxed" ng-app="sibas">
 <!-- Main navbar -->
 @yield('header')
-<!-- /main navbar -->
+        <!-- /main navbar -->
 <div class="page-header">
     <div class="page-header-content">
         <div class="cabecera">
@@ -91,10 +91,10 @@
 </div>
 <!-- Second navbar -->
 @yield('menu-main')
-<!-- /second navbar -->
+        <!-- /second navbar -->
 <!-- Page header -->
 @yield('menu-header')
-<!-- /page header -->
+        <!-- /page header -->
 <!-- Page container -->
 <div class="page-container @yield('class-container')">
     <!-- Page content -->
@@ -116,7 +116,7 @@
 </div>
 <!-- modal information product -->
 @include('partials.information_product')
-<!-- /modal -->
+        <!-- /modal -->
 
 @include('partials.popup')
 

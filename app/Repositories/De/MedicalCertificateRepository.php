@@ -9,9 +9,12 @@ use Sibas\Repositories\BaseRepository;
 
 class MedicalCertificateRepository extends BaseRepository
 {
+
     /**
      * Get Medical Certificate by Product
+     *
      * @param $rp_id
+     *
      * @return bool
      */
     public function getMedicalCertificateByProduct($rp_id)
@@ -19,12 +22,9 @@ class MedicalCertificateRepository extends BaseRepository
         $this->model = Certificate::with([
             'certificateQuestionnaires.questionnaire',
             'certificateQuestionnaires.questions'
-        ])
-            ->whereHas('certificateQuestionnaires', function ($query) {
-                $query->where('active', true);
-            })
-            ->where('ad_retailer_product_id', $rp_id)
-            ->where('active', true)->first();
+        ])->whereHas('certificateQuestionnaires', function ($query) {
+            $query->where('active', true);
+        })->where('ad_retailer_product_id', $rp_id)->where('active', true)->first();
 
         if ($this->model instanceof Certificate) {
             return true;
@@ -33,9 +33,12 @@ class MedicalCertificateRepository extends BaseRepository
         return false;
     }
 
+
     /**
      * Get Medical Certificate by Id
+     *
      * @param $id
+     *
      * @return bool
      */
     public function getMedicalCertificateById($id)
@@ -43,8 +46,7 @@ class MedicalCertificateRepository extends BaseRepository
         $this->model = Certificate::with([
             'certificateQuestionnaires.questionnaire',
             'certificateQuestionnaires.questions'
-        ])
-            ->where('id', $id)->first();
+        ])->where('id', $id)->first();
 
         if ($this->model instanceof Certificate) {
             return true;
@@ -53,8 +55,10 @@ class MedicalCertificateRepository extends BaseRepository
         return false;
     }
 
+
     /**
      * @param Request $request
+     *
      * @return bool
      */
     public function storeMedicalCertificate(Request $request)
@@ -76,6 +80,7 @@ class MedicalCertificateRepository extends BaseRepository
 
         return $this->saveModel();
     }
+
 
     /**
      * Get Number of Medical Certificate
