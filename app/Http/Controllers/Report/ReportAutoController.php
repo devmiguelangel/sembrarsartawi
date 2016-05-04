@@ -2,27 +2,57 @@
 
 namespace Sibas\Http\Controllers\Report;
 
+use Illuminate\Contracts\Auth\Guard;
 use Sibas\Http\Controllers\Excel\ExportXlsController;
 use DB;
 use Illuminate\Http\Request;
 use Sibas\Http\Requests;
+use Sibas\Http\Controllers\ReportTrait;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Entities\Au\Detail;
 
 class ReportAutoController extends Controller {
-
+use ReportTrait;
     var $object = [];
     public $value = '';
     public $valueOr = '';
 
-    public function __construct() {
-        $this->users = DB::table('ad_users')->lists('username', 'id');
-        $this->agencies = DB::table('ad_agencies')->lists('name', 'id');
-        $this->cities = DB::table('ad_cities')->lists('name', 'id');
+    public function __construct(Guard $auth) {
+        $this->data    = $this->data($auth->user());
+        $data = $this->selectIdNameTable($this->data);
+        $this->users = $data['users'];
+        $this->agencies = $data['agencies'];
+        $this->cities = $data['cities'];
         $this->extencion = DB::table('ad_cities')->lists('name', 'abbreviation');
         $this->observation = DB::table('op_de_observations')->orderBy('id', 'DESC')->get();
     }
-
+    
+    public function selectIdNameTable(){
+        $arr = [];
+        foreach ($this->data as $key => $value) {
+            foreach ($value as $key2 => $value2) {
+                if($value2['name'] != 'Todos'){
+                    switch ($key) {
+                        case 'cities':
+                            $val = DB::table('ad_cities')->where('ad_cities.name',$value2['name'])->first();
+                            $arr[$key][$val->id]=$val->name;           
+                            break;
+                        case 'agencies':
+                            $val = DB::table('ad_agencies')->where('ad_agencies.name',$value2['name'])->first();
+                            $arr[$key][$val->id]=$val->name;
+                            break;
+                        case 'users':
+                            $val = DB::table('ad_users')->where('ad_users.username',$value2['username'])->first();
+                            $arr[$key][$val->id]=$val->username;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        return $arr;
+    }
     /**
      * funcion determina tipo de reporte si es polizas emitidas o general
      * @param type $request
