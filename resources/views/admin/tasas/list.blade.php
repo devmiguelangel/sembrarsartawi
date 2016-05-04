@@ -40,9 +40,11 @@
                     <thead>
                     <tr>
                         <th>Producto</th>
+                        <!--
                         <th>Cobertura</th>
                         <th>Tasa Compañía</th>
                         <th>Tasa Banco</th>
+                        -->
                         <th>Tasa final</th>
                         <th>Retailer</th>
                         <th class="text-center">Acciones</th>
@@ -52,9 +54,11 @@
                     @foreach($query as $data)
                         <tr>
                             <td>{{$data->product}}</td>
+                            <!--
                             <td>{{$data->coverage}}</td>
                             <td>{{$data->rate_company}}</td>
                             <td>{{$data->rate_bank}}</td>
+                            -->
                             <td>{{$data->rate_final}}</td>
                             <td>{{$data->retailer}}</td>
                             <td class="text-center">
