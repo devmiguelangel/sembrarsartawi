@@ -68,9 +68,11 @@ var header = function ($scope, $http) {
       });
   };
 
-  $('#coverage option:not(:selected), ' + 
-    '#currency option:not(:selected), ' + 
-    '#type_term option:not(:selected)').prop('disabled', true);
+  $('#coverage option:not(:selected), ' +
+    '#currency option:not(:selected), ' +
+    '#type_term option:not(:selected), ' +
+    '#credit_product option:not(:selected), ' + 
+    '#movement_type option:not(:selected)').prop('disabled', true);
 
 };
 

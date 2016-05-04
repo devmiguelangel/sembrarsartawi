@@ -384,6 +384,32 @@
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">
+                                <label class="control-label col-lg-3 label_required">Producto: </label>
+                                <div class="col-lg-9">
+                                    {!! SelectField::input('credit_product', $data['credit_products']->toArray(), [
+                                        'class' => 'select-search',
+                                        'id'    => 'credit_product'
+                                        ],
+                                        old('credit_product', $header->ad_credit_product_id))
+                                    !!}
+                                    <label id="location-error" class="validation-error-label"
+                                           for="location">{{ $errors->first('credit_product') }}</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 label_required">Tipo de Movimiento: </label>
+                                <div class="col-lg-9">
+                                    {!! SelectField::input('movement_type', $data['movement_types']->toArray(), [
+                                        'class' => 'select-search',
+                                        'id'    => 'movement_type'
+                                        ],
+                                        old('movement_type', $header->movement_type))
+                                    !!}
+                                    <label id="location-error" class="validation-error-label"
+                                           for="location">{{ $errors->first('movement_type') }}</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="control-label col-lg-3">Número de Operación: </label>
                                 <div class="col-lg-9">
                                     {!! Form::text('operation_number', old('operation_number', $header->operation_number), [

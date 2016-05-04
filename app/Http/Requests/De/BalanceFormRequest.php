@@ -6,6 +6,7 @@ use Sibas\Http\Requests\Request;
 
 class BalanceFormRequest extends Request
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,6 +17,7 @@ class BalanceFormRequest extends Request
         return true;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,9 +25,30 @@ class BalanceFormRequest extends Request
      */
     public function rules()
     {
-        return [
+        $rules = [
             'amount_requested' => 'required|numeric|min:1',
             'balance'          => 'required|numeric',
+            'cumulus'          => 'required|numeric',
         ];
+
+        $cumulus_rule = '';
+
+        if ($this->request->has('movement_type') && $this->request->get('movement_type') === 'LC') {
+            $cumulus             = $this->request->get('cumulus');
+            $amount_requested_bs = $this->request->get('amount_requested_bs');
+            $balance             = $this->request->get('balance');
+
+            if ($amount_requested_bs > $cumulus) {
+                $cumulus_rule = '|min:' . $amount_requested_bs;
+            }
+
+            if ($balance > $cumulus) {
+                $cumulus_rule = '|min:' . $balance;
+            }
+
+            $rules['cumulus'] .= $cumulus_rule;
+        }
+
+        return $rules;
     }
 }

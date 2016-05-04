@@ -8,9 +8,11 @@ use Sibas\Repositories\BaseRepository;
 
 class DetailRepository extends BaseRepository
 {
+
     /** Create a newly created Detail.
      *
      * @param Request $request
+     *
      * @return bool
      */
     public function createDetail($request)
@@ -20,11 +22,9 @@ class DetailRepository extends BaseRepository
         $client     = $this->data['client'];
         $retailer   = $request->user()->retailer->first();
 
-        $this->model= new Detail();
+        $this->model = new Detail();
 
-        $amount = $this->getAmountInBs($header->currency,
-                                        $header->amount_requested,
-                                        $retailer->exchangeRate->bs_value);
+        $amount = $this->getAmountInBs($header->currency, $header->amount_requested, $retailer->exchangeRate->bs_value);
 
         $this->model->id                = date('U');
         $this->model->op_de_header_id   = $header->id;
@@ -40,23 +40,26 @@ class DetailRepository extends BaseRepository
         return $this->saveModel();
     }
 
+
     public function updateBalance(Request $request, $detail_id)
     {
         $this->data  = $request->all();
         $header      = $this->data['header'];
         $this->model = $header->details()->where('id', $detail_id)->first();
+        dd($this->model);
 
         if ($this->model instanceof Detail) {
-            $cumulus = $this->model->amount + $this->data['balance'];
+            // $cumulus = $this->model->amount + $this->data['balance'];
 
             $this->model->balance = $this->data['balance'];
-            $this->model->cumulus = $cumulus;
+            $this->model->cumulus = $this->data['cumulus'];
 
             return $this->saveModel();
         }
 
         return false;
     }
+
 
     public function setApprovedDetail($approved = true, $facultative = false)
     {
@@ -69,11 +72,10 @@ class DetailRepository extends BaseRepository
         $this->saveModel();
     }
 
+
     public function getDetailById($detail_id)
     {
-        $this->model = Detail::with('client', 'response', 'beneficiary', 'facultative')
-            ->where('id', $detail_id)
-            ->get();
+        $this->model = Detail::with('client', 'response', 'beneficiary', 'facultative')->where('id', $detail_id)->get();
 
         if ($this->model->count() === 1) {
             $this->model = $this->model->first();
@@ -84,9 +86,11 @@ class DetailRepository extends BaseRepository
         return false;
     }
 
+
     /** Returns Headline Type for Client
      *
      * @param $header
+     *
      * @return string
      */
     public function getHeadlineType($header)
@@ -102,9 +106,11 @@ class DetailRepository extends BaseRepository
         return 'D';
     }
 
+
     /** Returns Percentage Credit for Client
      *
      * @param $header
+     *
      * @return int
      */
     private function getPercentage($header)
@@ -125,6 +131,7 @@ class DetailRepository extends BaseRepository
 
         return $percentage;
     }
+
 
     /**
      * @return mixed

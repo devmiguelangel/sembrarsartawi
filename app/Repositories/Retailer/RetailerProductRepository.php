@@ -2,6 +2,7 @@
 
 namespace Sibas\Repositories\Retailer;
 
+use Sibas\Entities\CreditProduct;
 use Sibas\Entities\RetailerProduct;
 use Sibas\Entities\RetailerProductCoverage;
 use Sibas\Entities\RetailerProductPaymentMethod;
@@ -121,5 +122,25 @@ class RetailerProductRepository extends BaseRepository
             })->get();
 
         return $status;
+    }
+
+
+    public function getCreditProductByProduct($rp_id)
+    {
+        $selectOption   = $this->getSelectOption();
+        $creditProducts = CreditProduct::where('ad_retailer_product_id', $rp_id)->get();
+        $data           = [ ];
+
+        foreach ($creditProducts as $creditProduct) {
+            $data[] = [
+                'id'                  => $creditProduct->id,
+                'name'                => $creditProduct->name,
+                'data_credit_product' => $creditProduct->slug,
+            ];
+        }
+
+        $data = $selectOption->merge($data);
+
+        return $data;
     }
 }

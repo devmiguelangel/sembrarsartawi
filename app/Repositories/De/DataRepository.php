@@ -138,4 +138,13 @@ class DataRepository extends BaseRepository
 
         return $this->getData($vehicle_uses);
     }
+
+
+    public function getMovementType()
+    {
+        $movement_types = config('base.movement_types');
+
+        return $this->getData($movement_types);
+    }
+
 }

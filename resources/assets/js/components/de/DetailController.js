@@ -18,6 +18,7 @@ var detailEdit = function ($scope, $http) {
           $scope.formData.amount_requested    = data.amount_requested;
           $scope.formData.amount_requested_bs = data.amount_requested_bs;
           $scope.formData.balance             = data.balance;
+          $scope.formData.movement_type       = data.movement_type;
 
           if (Number(data.cumulus || 0) == 0) {
             $scope.formData.cumulus = $scope.formData.amount_requested_bs;
@@ -136,11 +137,25 @@ var detailEdit = function ($scope, $http) {
   * Cumulus calculate
   */
   $scope.cumulus = function () {
-    var amount_requested = Number($scope.formData.amount_requested_bs || 0);
-    var balance          = Number($scope.formData.balance || 0);
+    if ($scope.formData.movement_type == 'AD') {
+      var amount_requested = Number($scope.formData.amount_requested_bs || 0);
+      var balance          = Number($scope.formData.balance || 0);
 
-    $scope.formData.cumulus = amount_requested + balance;
+      $scope.formData.cumulus = amount_requested + balance;
+    }
   };
+
+  $scope.$watch('formData.cumulus', function(value, oldValue, scope) {
+    if (scope.formData.movement_type == 'LC') {
+      var balance = Number(scope.formData.balance || 0);
+
+      if (value >= scope.formData.amount_requested_bs && value >= balance) {
+        scope.data.cumulus = false;
+      } else {
+        scope.data.cumulus = true;
+      }
+    }
+  });
 
 };
 
