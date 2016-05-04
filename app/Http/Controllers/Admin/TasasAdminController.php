@@ -106,11 +106,15 @@ class TasasAdminController extends BaseController
         $rate_company = 0;
         $rate_bank = 0;
         $ad_coverage_id = null;
+
         if ($arr[1] == 'de') {
             $rate_company = $request->get('rate_company');
             $rate_bank = $request->get('rate_bank');
             $rate_final = $request->get('rate_final');
-            $ad_coverage_id = $request->get('id_coverage');
+            if($request->get('id_coverage')!=0){
+                $ad_coverage_id = $request->get('id_coverage');
+            }
+
         }elseif($arr[1] == 'au'){
             $rate_final = $request->get('rate_end');
             $cont = $request->get('cont');

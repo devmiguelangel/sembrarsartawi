@@ -48,7 +48,7 @@
                             <strong>{{$query->product}}</strong>
                         </div>
                     </div>
-                    @if($query->code_product=='de')
+                    @if($query->code_product=='xx')
                         <div class="form-group">
                             <label class="control-label col-lg-2">Coberturas </label>
                             <div class="col-lg-10">
