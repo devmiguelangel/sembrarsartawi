@@ -215,7 +215,7 @@
                         //alert(id_profile);
                         if(id_profile!=4){//SI EL PROFILE ES DISTINTO DE COMPAÑIA SE HABILITA AGENCIA
                             $.get( "{{url('/')}}/admin/user/agency_ajax/"+id_retailer_city, function( data ) {
-                                console.log(data);
+                                //console.log(data);
                                 $('#content-agency').fadeIn('slow');
                                 $('#agencia option').remove();
                                 $('#agencia').addClass('form-control required');
@@ -223,8 +223,8 @@
                                 if(data.length>0) {
                                     $('#msg_agencia').html('');
                                     $.each(data, function () {
-                                        console.log("ID: " + this.id);
-                                        console.log("First Name: " + this.name);
+                                        //console.log("ID: " + this.id);
+                                        //console.log("First Name: " + this.name);
                                         $('#agencia').append('<option value="'+this.id+'">'+this.name+'</option>');
                                     });
                                 }else{
@@ -237,15 +237,15 @@
                         }
                     }else{
                         $.get( "{{url('/')}}/admin/user/agency_ajax/"+id_retailer_city, function( data ) {
-                            console.log(data);
+                            //console.log(data);
                             $('#content-agency').fadeIn('slow');
                             $('#agencia option').remove();
                             $('#agencia').append('<option value="0">Seleccione</option>');
                             if(data.length>0) {
                                 $('#msg_agencia').html('');
                                 $.each(data, function () {
-                                    console.log("ID: " + this.id);
-                                    console.log("First Name: " + this.name);
+                                    //console.log("ID: " + this.id);
+                                    //console.log("First Name: " + this.name);
                                     $('#agencia').append('<option value="'+this.id+'">'+this.name+'</option>');
                                 });
                             }else{
@@ -280,8 +280,8 @@
                             $('#id_profile').append('<option value="0">Seleccione</option>');
                             if(data.length>0){
                                 $.each(data, function () {
-                                    console.log("ID: " + this.id);
-                                    console.log("Profiles: " + this.name);
+                                    //console.log("ID: " + this.id);
+                                    //console.log("Profiles: " + this.name);
                                     $('#id_profile').append('<option value="'+this.id+'">'+this.name+'</option>');
                                 });
                             }
@@ -298,8 +298,8 @@
                         $('#permiso option').remove();
                         if(data.length>0){
                             $.each(data, function () {
-                                console.log("ID: " + this.id);
-                                console.log("Profiles: " + this.name);
+                                //console.log("ID: " + this.id);
+                                //console.log("Profiles: " + this.name);
                                 $('#permiso').append('<option value="'+this.id+'">'+this.name+'</option>');
                             });
                         }
@@ -329,7 +329,7 @@
                 //alert(usuario);
                 if(usuario.match(/^[a-zA-Z]+$/)){
                     $.get( "{{url('/')}}/admin/user/finduser_ajax/"+usuario, function( data ) {
-                        console.log(data);
+                        //console.log(data);
                         if(data.length>0){
                             $('#msg_usuario').html('el usuario '+usuario+' ya existe');
                             $('#txtIdusuario').focus();

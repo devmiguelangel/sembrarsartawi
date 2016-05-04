@@ -101,7 +101,7 @@
                 bootbox.confirm("Esta seguro de eliminar el registro ?", function(result) {
                     if(result){
                         $.get( "{{url('/')}}/admin/formulario/delete_ajax/"+id_forms, function( data ) {
-                            console.log(data);
+                            //console.log(data);
                             var arr = data.split('|');
                             if(arr[0]==1){
                                 swal({

@@ -153,7 +153,7 @@
                 bootbox.confirm("Esta seguro de eliminar la modalidad?", function(result) {
                     if(result){
                         $.get( "{{url('/')}}/admin/vi/modality/delete_ajax/"+id_modality, function( data ) {
-                            console.log(data);
+                            //console.log(data);
                             var arr = data.split('|');
                             if(arr[0]==1){
                                 swal({
@@ -183,7 +183,7 @@
                 bootbox.confirm("Esta seguro de "+arr[3]+" la modalidad ?", function(result) {
                     if(result){
                         $.get( "{{url('/')}}/admin/vi/modality/active_ajax/"+id_modality+"/"+modality_code+"/"+text, function( data ) {
-                            console.log(data);
+                            //console.log(data);
                             var arr = data.split('|');
                             if(arr[0]==1){
                                 swal({

@@ -94,10 +94,10 @@
                     var retailer_email;
                     var sw=0;
                     $.get( "{{url('/')}}/admin/email/email_retailer_product_ajax/"+id_product_retailer, function( json ) {
-                        console.log(json)
+                        //console.log(json)
                         $('#id_email option').remove();
                         $.each(json, function (key, data) {
-                            console.log(key)
+                            //console.log(key)
                             if(key=='retaileremail'){
                                 retailer_email = data;
                             }else if(key=='email'){
@@ -105,9 +105,9 @@
                             }
                         });
                         $.each(emails, function () {
-                            console.log("ID: " + this.id_email);
-                            console.log("Profiles: " + this.correo);
-                            console.log("name: " + this.name);
+                            //console.log("ID: " + this.id_email);
+                            //console.log("Profiles: " + this.correo);
+                            //console.log("name: " + this.name);
                             var id_email = this.id_email;
                             var correos = this.correo;
                             var nombres = this.name;

@@ -87,7 +87,7 @@
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
                         $.get( "{{url('/')}}/admin/au/increment/active_ajax/"+id_increment+"/"+text+"/"+id_retailer_product, function( response ) {
-                            console.log(response);
+                            //console.log(response);
                             if(response['response']=='ok'){
                                 swal({
                                     title: response['text'],

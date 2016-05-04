@@ -157,7 +157,7 @@
                 bootbox.confirm("Esta seguro de eliminar el registro ?", function(result) {
                     if(result){
                         $.get( "{{url('/')}}/admin/tasas/delete_ajax/"+id_rates+"/"+code_product, function( result ) {
-                            console.log(result);
+                            //console.log(result);
 
                             if(result['response']=='ok'){
                                 swal({
