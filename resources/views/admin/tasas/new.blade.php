@@ -208,12 +208,13 @@
                 //alert(id_retailer_product);
                 if(id_retailer_product!=0){
                     if(code=='de'){
-                        $('#content-coverage').fadeIn('fast');
-                        $('#id_coverage').addClass('form-control required');
-                        $('#content-rate-company').fadeIn('fast');
-                        $('#rate_company').addClass('form-control required decimal');
-                        $('#content-rate-bank').fadeIn('fast');
-                        $('#rate_bank').addClass('form-control required decimal');
+                        $('#content-coverage').fadeOut('fast');
+                        $('#id_coverage').removeClass('form-control required').addClass('form-control not-required');
+                        $('#content-rate-company').fadeOut('fast');
+                        $('#rate_company').removeClass('form-control required decimal').addClass('form-control not-required decimal');
+                        $('#content-rate-bank').fadeOut('fast');
+                        $('#rate_bank').removeClass('form-control required decimal').addClass('form-control not-required decimal');
+                        $('#rate_final').removeClass('form-control required decimal').addClass('form-control not-required decimal').prop('readonly',false);
                         $.get( "{{url('/')}}/admin/tasas/cobertura_ajax/"+id_retailer_product, function( data ) {
                             console.log(data);
 

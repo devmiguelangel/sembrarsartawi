@@ -2,27 +2,57 @@
 
 namespace Sibas\Http\Controllers\Report;
 
+use Illuminate\Contracts\Auth\Guard;
 use Sibas\Http\Controllers\Excel\ExportXlsController;
 use DB;
 use Illuminate\Http\Request;
 use Sibas\Http\Requests;
+use Sibas\Http\Controllers\ReportTrait;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Entities\Au\Detail;
 
 class ReportAutoController extends Controller {
-
+use ReportTrait;
     var $object = [];
     public $value = '';
     public $valueOr = '';
 
-    public function __construct() {
-        $this->users = DB::table('ad_users')->lists('username', 'id');
-        $this->agencies = DB::table('ad_agencies')->lists('name', 'id');
-        $this->cities = DB::table('ad_cities')->lists('name', 'id');
+    public function __construct(Guard $auth) {
+        $this->data    = $this->data($auth->user());
+        $data = $this->selectIdNameTable($this->data);
+        $this->users = $data['users'];
+        $this->agencies = $data['agencies'];
+        $this->cities = $data['cities'];
         $this->extencion = DB::table('ad_cities')->lists('name', 'abbreviation');
         $this->observation = DB::table('op_de_observations')->orderBy('id', 'DESC')->get();
     }
-
+    
+    public function selectIdNameTable(){
+        $arr = [];
+        foreach ($this->data as $key => $value) {
+            foreach ($value as $key2 => $value2) {
+                if($value2['name'] != 'Todos'){
+                    switch ($key) {
+                        case 'cities':
+                            $val = DB::table('ad_cities')->where('ad_cities.name',$value2['name'])->first();
+                            $arr[$key][$val->id]=$val->name;           
+                            break;
+                        case 'agencies':
+                            $val = DB::table('ad_agencies')->where('ad_agencies.name',$value2['name'])->first();
+                            $arr[$key][$val->id]=$val->name;
+                            break;
+                        case 'users':
+                            $val = DB::table('ad_users')->where('ad_users.username',$value2['username'])->first();
+                            $arr[$key][$val->id]=$val->username;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        return $arr;
+    }
     /**
      * funcion determina tipo de reporte si es polizas emitidas o general
      * @param type $request
@@ -43,7 +73,7 @@ class ReportAutoController extends Controller {
      * @param \Illuminate\Http\Request $request
      * @return type
      */
-    public function general(Request $request) {
+    public function general(Request $request,$id_comp) {
         $flag = 1;
         $users = $this->users;
         $agencies = $this->agencies;
@@ -59,7 +89,7 @@ class ReportAutoController extends Controller {
         if ($request->get('xls_download'))
             $this->exportXls($result, 'General', 1);
 
-        return view('report.general_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag'));
+        return view('report.general_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag', 'id_comp'));
     }
 
     /**
@@ -67,7 +97,7 @@ class ReportAutoController extends Controller {
      * @param \Illuminate\Http\Request $request
      * @return type
      */
-    public function general_emitido(Request $request) {
+    public function general_emitido(Request $request, $id_comp) {
         $flag = 2;
         $users = $this->users;
         $agencies = $this->agencies;
@@ -83,7 +113,7 @@ class ReportAutoController extends Controller {
         if ($request->get('xls_download'))
             $this->exportXls($result, 'General', 1);
 
-        return view('report.general_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag'));
+        return view('report.general_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag','id_comp'));
     }
 
     /**
@@ -133,10 +163,11 @@ class ReportAutoController extends Controller {
                         'ad_vehicle_models.model as modelo', 
                         'op_au_details.year as anio', 
                         'op_au_details.license_plate as placa', 
-                        'op_au_details.use as uso', 
+                        DB::raw('IF(op_au_details.use="PR","Privado",IF(op_au_details.use="PU","Publico","Ninguno")) as uso'),
                         'op_au_details.traction as traccion', 
-                        'op_au_details.mileage as cero_km', 
+                        DB::raw('IF(op_au_details.mileage="1","SI","NO") as cero_km'),
                         'op_au_details.insured_value as valor_asegurado',
+                        'op_au_headers.currency as moneda',
                         
                         'ad_users.full_name as usuario', 
                         'ad_cities.name as sucursal_registro', 
@@ -473,7 +504,7 @@ class ReportAutoController extends Controller {
      * @param \Illuminate\Http\Request $request
      * @return type
      */
-    public function cotizacion(Request $request) {
+    public function cotizacion(Request $request,$id_comp) {
         $users = $this->users;
         $agencies = $this->agencies;
         $cities = $this->cities;
@@ -501,7 +532,7 @@ class ReportAutoController extends Controller {
                         'ad_cities.name as ciudad', 
                         DB::raw('IF(op_clients.gender="M","Masculino","Femenino") as genero'), 
                         DB::raw('CONCAT(op_au_headers.term," ",IF(op_au_headers.type_term="Y","Años",IF(op_au_headers.type_term="M","Meses",IF(op_au_headers.type_term="D","Dias","null")))) as plazo_de_credito'), 
-                        'op_au_headers.payment_method as forma_de_pago', 
+                        DB::raw('IF(op_au_headers.payment_method="AN","Anualizado","Prima Total") as forma_de_pago'),
                         'op_au_headers.operation_number as numero_credito', 
                         'ad_users.full_name as usuario', 
                         'ad_cities.name as sucursal_registro', 
@@ -510,10 +541,11 @@ class ReportAutoController extends Controller {
                         'ad_vehicle_models.model as modelo', 
                         'op_au_details.year as anio', 
                         'op_au_details.license_plate as placa', 
-                        'op_au_details.use as uso', 
+                        DB::raw('IF(op_au_details.use="PR","Privado",IF(op_au_details.use="PU","Publico","Ninguno")) as uso'),
                         'op_au_details.traction as traccion', 
-                        'op_au_details.mileage as cero_km', 
-                        'op_au_details.insured_value as valor_asegurado'
+                        DB::raw('IF(op_au_details.mileage="1","SI","NO") as cero_km'),
+                        'op_au_details.insured_value as valor_asegurado',
+                        'op_au_headers.currency as moneda'
         )
         ->where('op_au_headers.issued', 0);
 
@@ -575,7 +607,7 @@ class ReportAutoController extends Controller {
             $result[$key]->auDetail = Detail::where('op_au_header_id', $value->id)->get();
         }
 
-        return view('report.cotizacion_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm'));
+        return view('report.cotizacion_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'id_comp'));
     }
 
     /**

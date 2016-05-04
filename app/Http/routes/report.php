@@ -37,29 +37,29 @@ Route::group(['prefix' => '/'], function() {
     
     # ruta Automoviles
     
-    Route::get('report/auto/general/valor', [
+    Route::get('report/auto/general/{id_comp}', [
         'as' => 'report.auto_report_general',
         'uses' => 'Report\ReportAutoController@general'
     ]);    
-    Route::post('report/auto/general/valor', [
+    Route::post('report/auto/general/{id_comp}', [
         'as' => 'report.auto_report_general_result',
         'uses' => 'Report\ReportAutoController@general'
     ]);
     
-    Route::get('report/auto/general_emitido/valor', [
+    Route::get('report/auto/general_emitido/{id_comp}', [
         'as' => 'report.auto_report_general_emitido',
         'uses' => 'Report\ReportAutoController@general_emitido'
     ]);    
-    Route::post('report/auto/general_emitido/valor', [
+    Route::post('report/auto/general_emitido/{id_comp}', [
         'as' => 'report.auto_report_general_result_emitido',
         'uses' => 'Report\ReportAutoController@general_emitido'
     ]);
     
-    Route::get('report/auto/cotizacion/valor', [
+    Route::get('report/auto/cotizacion/{id_comp}', [
         'as' => 'report.auto_report_cotizacion',
         'uses' => 'Report\ReportAutoController@cotizacion'
     ]);
-    Route::post('report/auto/cotizacion/valor', [
+    Route::post('report/auto/cotizacion/{id_comp}', [
         'as' => 'report.auto_report_cotizacion_result',
         'uses' => 'Report\ReportAutoController@cotizacion'
     ]);

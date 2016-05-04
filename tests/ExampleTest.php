@@ -1,19 +1,10 @@
-<?php
-
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-class ExampleTest extends TestCase
-{
-    /**
-     * A basic functional test example.
-     *
-     * @return void
-     */
-    public function testBasicExample()
-    {
-        $this->visit('/')
-             ->see('Laravel 5');
-    }
-}
+<li class="dropdown-submenu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="icon-list-unordered"></i> Desgravamen
+    </a>
+    <ul class="dropdown-menu">
+        <li class="">
+            <a href="">Cotizar</a>
+        </li>
+    </ul>
+</li>
