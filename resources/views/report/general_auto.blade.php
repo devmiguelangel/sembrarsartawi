@@ -52,9 +52,9 @@
                 <div class="col-xs-12 col-md-12">
                     <form class="form-horizontal form-validate-jquery" action="" id="form_search_general">
                     @if($flag == 1) 
-                        {!! Form::open(['route' => ['report.report_general_result'], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                        {!! Form::open(['route' => ['report.report_general_result','id_comp'=>$id_comp], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                     @else
-                        {!! Form::open(['route' => ['report.report_general_result_emitido'], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                        {!! Form::open(['route' => ['report.report_general_result_emitido','id_comp'=>$id_comp], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                     @endif
                         <div class="panel-body ">
                             <div class="col-xs-12 col-md-3">
@@ -235,9 +235,9 @@
                         <div class="col-xs-12 col-md-12">
                             <div class="text-right">
                                 @if($flag == 1) 
-                                <a href="{{ route('report.auto_report_general') }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
+                                <a href="{{ route('report.auto_report_general',['id_comp'=>$id_comp]) }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
                                 @else 
-                                <a href="{{ route('report.auto_report_general_emitido') }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
+                                <a href="{{ route('report.auto_report_general_emitido',['id_comp'=>$id_comp]) }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
                                 @endif 
                                 
                                 <button type="submit" class="btn btn-primary" id="buscar" onclick="$('#xls_download').val(0);">Buscar <i class="icon-search4 position-right"></i></button>
@@ -339,24 +339,24 @@
                                                         <ul class="dropdown-menu dropdown-menu-right">
                                                             @if($flag == 2)
                                                             <li>
-                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip_rep_au_cot', 'POST', 'cotizacion',1)" data-toggle="modal" data-target="#modal_general">
+                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', '{{ route('slip_au_cot',['id_comp'=>$id_comp])}}', 'POST', 'cotizacion',{{ decode($id_comp) }})" data-toggle="modal" data-target="#modal_general">
                                                                     <i class="icon-plus2"></i> Ver Slip de Cotización
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip_rep_au_emision', 'POST', 'emision',1)" data-toggle="modal" data-target="#modal_general">
-                                                                    <i class="icon-plus2"></i> Ver Certificado de Desgravamen
+                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', '{{ route('slip_rep_au_general',['id_comp'=>$id_comp])}}', 'POST', 'emision',{{ decode($id_comp) }})" data-toggle="modal" data-target="#modal_general">
+                                                                    <i class="icon-plus2"></i> Ver Certificadooo
                                                                 </a>
                                                             </li>
                                                             @else
                                                             <li>
-                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip_rep_au_cot_general', 'POST', 'cotizacion',3)" data-toggle="modal" data-target="#modal_general">
+                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', '{{ route('slip_au_cot',['id_comp'=>$id_comp])}}', 'POST', 'cotizacion',{{ decode($id_comp) }})" data-toggle="modal" data-target="#modal_general">
                                                                     <i class="icon-plus2"></i> Ver Slip de Cotización
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip_rep_au_general', 'POST', 'emision',1)" data-toggle="modal" data-target="#modal_general">
-                                                                    <i class="icon-plus2"></i> Ver Certificado de Desgravamen
+                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', '{{ route('slip_rep_au_general',['id_comp'=>$id_comp])}}', 'POST', 'emision',{{ decode($id_comp) }})" data-toggle="modal" data-target="#modal_general">
+                                                                    <i class="icon-plus2"></i> Ver Certificado
                                                                 </a>
                                                             </li>
                                                             @endif

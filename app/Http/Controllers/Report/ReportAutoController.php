@@ -73,7 +73,7 @@ use ReportTrait;
      * @param \Illuminate\Http\Request $request
      * @return type
      */
-    public function general(Request $request) {
+    public function general(Request $request,$id_comp) {
         $flag = 1;
         $users = $this->users;
         $agencies = $this->agencies;
@@ -89,7 +89,7 @@ use ReportTrait;
         if ($request->get('xls_download'))
             $this->exportXls($result, 'General', 1);
 
-        return view('report.general_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag'));
+        return view('report.general_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag', 'id_comp'));
     }
 
     /**
@@ -97,7 +97,7 @@ use ReportTrait;
      * @param \Illuminate\Http\Request $request
      * @return type
      */
-    public function general_emitido(Request $request) {
+    public function general_emitido(Request $request, $id_comp) {
         $flag = 2;
         $users = $this->users;
         $agencies = $this->agencies;
@@ -113,7 +113,7 @@ use ReportTrait;
         if ($request->get('xls_download'))
             $this->exportXls($result, 'General', 1);
 
-        return view('report.general_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag'));
+        return view('report.general_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag','id_comp'));
     }
 
     /**
@@ -503,7 +503,7 @@ use ReportTrait;
      * @param \Illuminate\Http\Request $request
      * @return type
      */
-    public function cotizacion(Request $request) {
+    public function cotizacion(Request $request,$id_comp) {
         $users = $this->users;
         $agencies = $this->agencies;
         $cities = $this->cities;
@@ -605,7 +605,7 @@ use ReportTrait;
             $result[$key]->auDetail = Detail::where('op_au_header_id', $value->id)->get();
         }
 
-        return view('report.cotizacion_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm'));
+        return view('report.cotizacion_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'id_comp'));
     }
 
     /**

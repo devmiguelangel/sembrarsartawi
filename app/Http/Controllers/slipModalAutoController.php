@@ -43,7 +43,7 @@ class slipModalAutoController extends Controller {
      */
     public function ajaxBuscar(Request $request) {
         $var = $this->returnHtmlModal($request->get('type'), $request->get('id_header'),0,$request->get('aux'));
-
+        
         if (count($var['cli']) > 0)
             return response()->json($var['html']);
 

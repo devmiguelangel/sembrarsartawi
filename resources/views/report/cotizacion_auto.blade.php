@@ -39,7 +39,7 @@
             <div class="panel-body ">
                 <div class="col-xs-12 col-md-12">
                     <form class="form-horizontal form-validate-jquery" action="" id="form_search_general">
-                        {!! Form::open(['route' => ['report.auto_report_cotizacion_result'], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                        {!! Form::open(['route' => ['report.auto_report_cotizacion_result','id_comp'=>$id_comp], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                         <div class="panel-body ">
                             <div class="col-xs-12 col-md-3">
                                 <div class="form-group">
@@ -127,7 +127,7 @@
                             <input type="hidden" id="xls_download" name="xls_download" value="0">
                             <div class="col-xs-12 col-md-3">
                                 <div class="text-right">
-                                    <a href="{{ route('report.auto_report_cotizacion') }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
+                                    <a href="{{ route('report.auto_report_cotizacion',['id_comp'=>$id_comp]) }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
                                     <button type="submit" class="btn btn-primary" id="buscar" onclick="$('#xls_download').val(0);">Buscar <i class="icon-search4 position-right"></i></button>
                                 </div>
                             </div>
@@ -209,7 +209,7 @@
                                                 </a>
                                                 <ul class="dropdown-menu dropdown-menu-right">
                                                     <li>
-                                                        <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', 'slip_au_cot', 'POST', 'cotizacion', 3)" data-toggle="modal" data-target="#modal_general">
+                                                        <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', '{{ route('slip_au_cot',['id_comp'=>$id_comp])}}', 'POST', 'cotizacion', {{ decode($id_comp) }})" data-toggle="modal" data-target="#modal_general">
                                                             <i class="icon-plus2"></i> Ver Slip de Cotización
                                                         </a>
                                                     </li>
