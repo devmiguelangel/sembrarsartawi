@@ -196,8 +196,8 @@
                                             <div class="col-lg-5 "><i class="icon-plus2"></i> {{ $detail->vehicleModel->model }}</div>
                                             <div class="col-lg-2">{{ $detail->year }}</div>
                                             <div class="col-lg-3">{{ $detail->license_plate }}</div>
-                                            <div class="col-lg-1">{{ $detail->mileage }}</div>
-                                            <div class="col-lg-1">{{ $detail->insured_value }}</div>
+                                            <div class="col-lg-1">{{ $detail->mileage==1?'SI':'NO' }}</div>
+                                            <div class="col-lg-1">{{ $detail->insured_value }} {{$entities->moneda}}</div>
                                         </div>
                                         @endforeach
                                     </td>

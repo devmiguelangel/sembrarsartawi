@@ -163,10 +163,11 @@ use ReportTrait;
                         'ad_vehicle_models.model as modelo', 
                         'op_au_details.year as anio', 
                         'op_au_details.license_plate as placa', 
-                        'op_au_details.use as uso', 
+                        DB::raw('IF(op_au_details.use="PR","Privado",IF(op_au_details.use="PU","Publico","Ninguno")) as uso'),
                         'op_au_details.traction as traccion', 
-                        'op_au_details.mileage as cero_km', 
+                        DB::raw('IF(op_au_details.mileage="1","SI","NO") as cero_km'),
                         'op_au_details.insured_value as valor_asegurado',
+                        'op_au_headers.currency as moneda',
                         
                         'ad_users.full_name as usuario', 
                         'ad_cities.name as sucursal_registro', 
@@ -531,7 +532,7 @@ use ReportTrait;
                         'ad_cities.name as ciudad', 
                         DB::raw('IF(op_clients.gender="M","Masculino","Femenino") as genero'), 
                         DB::raw('CONCAT(op_au_headers.term," ",IF(op_au_headers.type_term="Y","Años",IF(op_au_headers.type_term="M","Meses",IF(op_au_headers.type_term="D","Dias","null")))) as plazo_de_credito'), 
-                        'op_au_headers.payment_method as forma_de_pago', 
+                        DB::raw('IF(op_au_headers.payment_method="AN","Anualizado","Prima Total") as forma_de_pago'),
                         'op_au_headers.operation_number as numero_credito', 
                         'ad_users.full_name as usuario', 
                         'ad_cities.name as sucursal_registro', 
@@ -540,10 +541,11 @@ use ReportTrait;
                         'ad_vehicle_models.model as modelo', 
                         'op_au_details.year as anio', 
                         'op_au_details.license_plate as placa', 
-                        'op_au_details.use as uso', 
+                        DB::raw('IF(op_au_details.use="PR","Privado",IF(op_au_details.use="PU","Publico","Ninguno")) as uso'),
                         'op_au_details.traction as traccion', 
-                        'op_au_details.mileage as cero_km', 
-                        'op_au_details.insured_value as valor_asegurado'
+                        DB::raw('IF(op_au_details.mileage="1","SI","NO") as cero_km'),
+                        'op_au_details.insured_value as valor_asegurado',
+                        'op_au_headers.currency as moneda'
         )
         ->where('op_au_headers.issued', 0);
 
