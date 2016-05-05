@@ -161,7 +161,8 @@
                                     <th>Usuario</th>
                                     <th>Sucursal Reg&iacute;stro</th>
                                     <th>Agencia</th>
-                                    <th  class="col-md-12 col-xs-12">
+                                    <th>
+                            <div class="container">
                                         <div class="col-xs-12">
                                             <div class="col-lg-12">Auto</div>
                                             <div class="col-lg-5">Modelo</div>
@@ -170,6 +171,7 @@
                                             <div class="col-lg-1">0 Km.</div>
                                             <div class="col-lg-1">Valor Asegurado</div>
                                         </div>   
+                                </div>
                                     </th>
                             <th>Acci&oacute;n</th>
 
@@ -192,13 +194,15 @@
                                     <td>{{ $entities->agencia }}</td>
                                     <td class="col-md-12 col-xs-12" style="width: 700px !important;">
                                         @foreach($entities->auDetail as $detail)
-                                        <div class="col-xs-12 alert alert-success text-left">
-                                            <div class="col-lg-5 "><i class="icon-plus2"></i> {{ $detail->vehicleModel->model }}</div>
-                                            <div class="col-lg-2">{{ $detail->year }}</div>
-                                            <div class="col-lg-3">{{ $detail->license_plate }}</div>
-                                            <div class="col-lg-1">{{ $detail->mileage==1?'SI':'NO' }}</div>
-                                            <div class="col-lg-1">{{ $detail->insured_value }} {{$entities->moneda}}</div>
-                                        </div>
+                                        <div class="container">    
+                                            <div class="col-xs-12 alert alert-success text-left">
+                                                <div class="col-lg-5 "><i class="icon-plus2"></i> {{ $detail->vehicleModel->model }}</div>
+                                                <div class="col-lg-2">{{ $detail->year }}</div>
+                                                <div class="col-lg-3">{{ $detail->license_plate }}</div>
+                                                <div class="col-lg-1">{{ $detail->mileage==1?'SI':'NO' }}</div>
+                                                <div class="col-lg-1">{{ $detail->insured_value }} {{$entities->moneda}}</div>
+                                            </div>
+                                        </div>    
                                         @endforeach
                                     </td>
                                     <td class="text-center">

@@ -267,15 +267,18 @@
                                         <th>Plazo de Credito</th>
                                         <th>Forma de Pago</th>
                                         <th>Nro. Credito</th>
-                                        <th  class="col-md-12 col-xs-12">
-                                            <div class="col-lg-12">Auto</div>
-                                            <div class="col-xs-12 alert"> 
-                                                <div class="col-lg-5">Modelo</div>
-                                                <div class="col-lg-2">Año</div>
-                                                <div class="col-lg-3">Placa</div>
-                                                <div class="col-lg-1">0 Km.</div>
-                                                <div class="col-lg-1">Valor Aseg.</div>
-                                            </div>   
+                                        <th>
+                                            <div class="container">
+                                                <div class="col-xs-12">
+                                                    <div class="col-lg-12">Auto</div>
+                                                    <div class="col-lg-5">Modelo</div>
+                                                    <div class="col-lg-2">Año</div>
+                                                    <div class="col-lg-3">Placa</div>
+                                                    <div class="col-lg-1">0 Km.</div>
+                                                    <div class="col-lg-1">Valor Aseg.</div>
+
+                                                </div>
+                                            </div>
                                         </th>
                                         <th>Usuario</th>
                                         <th>Sucursal Registro</th>
@@ -306,15 +309,17 @@
                                         <td>{{ $entities->forma_de_pago=='AN'?'Anualizado':'Prima Total' }}</td>
                                         
                                         <td>{{ $entities->numero_credito }}</td>
-                                        <td class="col-md-12 col-xs-12">
+                                        <td class="col-md-12 col-xs-12" style="width: 700px !important;">
                                         @foreach($entities->auDetail as $detail)
-                                            <div class="col-xs-12 text-left alert alert-success">
-                                                <div class="col-lg-5 "><i class="icon-plus2"></i> {{ $detail->vehicleModel->model }}</div>
-                                                <div class="col-lg-2">{{ $detail->year }}</div>
-                                                <div class="col-lg-3">{{ $detail->license_plate }}</div>
-                                                <div class="col-lg-1">{{ $detail->mileage==1?'SI':'NO' }}</div>
-                                                <div class="col-lg-1">{{ $detail->insured_value }}</div>
-                                            </div>
+                                            <div class="container">    
+                                                <div class="col-xs-12 text-left alert alert-success">
+                                                    <div class="col-lg-5 "><i class="icon-plus2"></i> {{ $detail->vehicleModel->model }}</div>
+                                                    <div class="col-lg-2">{{ $detail->year }}</div>
+                                                    <div class="col-lg-3">{{ $detail->license_plate }}</div>
+                                                    <div class="col-lg-1">{{ $detail->mileage==1?'SI':'NO' }}</div>
+                                                    <div class="col-lg-1">{{ $detail->insured_value }}</div>
+                                                </div>
+                                            </div>    
                                         @endforeach
                                         </td>
                                         <td>{{ $entities->usuario }}</td>
