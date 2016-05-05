@@ -266,7 +266,7 @@
                         var id_profile = $('#id_profile option:selected').prop('value');
                         if(id_profile!=4){
                             $.get("{{url('/')}}/admin/user/agency_ajax/" + id_retailer_city, function (data) {
-                                console.log(data);
+                                //console.log(data);
                                 $('#content-agency').fadeIn('slow');
                                 $('#agencia option').remove();
                                 $('#agencia').addClass('form-control required');
@@ -274,8 +274,8 @@
                                 if (data.length > 0) {
                                     $('#msg_agencia').html('');
                                     $.each(data, function () {
-                                        console.log("ID: " + this.id);
-                                        console.log("First Name: " + this.name);
+                                        //console.log("ID: " + this.id);
+                                        //console.log("First Name: " + this.name);
                                         $('#agencia').append('<option value="' + this.id + '">' + this.name + '</option>');
                                     });
                                 } else {
@@ -288,15 +288,15 @@
                         }
                     }else{
                         $.get("{{url('/')}}/admin/user/agency_ajax/" + id_retailer_city, function (data) {
-                            console.log(data);
+                            //console.log(data);
                             $('#content-agency').fadeIn('slow');
                             $('#agencia option').remove();
                             $('#agencia').append('<option value="0">Seleccione</option>');
                             if (data.length > 0) {
                                 $('#msg_agencia').html('');
                                 $.each(data, function () {
-                                    console.log("ID: " + this.id);
-                                    console.log("First Name: " + this.name);
+                                    //console.log("ID: " + this.id);
+                                    //console.log("First Name: " + this.name);
                                     $('#agencia').append('<option value="' + this.id + '">' + this.name + '</option>');
                                 });
                             } else {
@@ -332,7 +332,7 @@
                         $('#permiso').removeClass('form-control');
                         $('#permiso option:selected').removeAttr("selected");
                         $.get( "{{url('/')}}/admin/user/disabled_ajax/"+id_user, function( data ) {
-                            console.log(data);
+                            //console.log(data);
                         });
                     }
                 }else{
@@ -371,7 +371,7 @@
                 if(regex.test(email)){
 
                     $.get( "{{url('/')}}/admin/user/find_email_edit_ajax/"+email+"/"+id_usuario, function( data ) {
-                        console.log(data);
+                        //console.log(data);
                         if(data==0){
                             if($("#txtEmail + .validation-error-label").length) {
                                 $("#txtEmail + .validation-error-label").remove();

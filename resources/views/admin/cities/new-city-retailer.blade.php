@@ -84,11 +84,11 @@
                     var sw=0;
                     $('#id_city').prop('disabled',false);
                     $.get( "{{url('/')}}/admin/cities/retailer_city_ajax/"+id_retailer, function( json ) {
-                        console.log(json);
+                        //console.log(json);
 
                         $('#id_city option').remove();
                         $.each(json, function (key, data) {
-                            console.log(key)
+                            //console.log(key)
                             if(key=='city'){
                                 cities = data;
                             }else if(key=='cityretailer'){
@@ -96,8 +96,8 @@
                             }
                         });
                         $.each(cities, function () {
-                            console.log("ID: " + this.id_city);
-                            console.log("Profiles: " + this.cities);
+                            //console.log("ID: " + this.id_city);
+                            //console.log("Profiles: " + this.cities);
                             var id_city = this.id_city;
                             var cities = this.cities;
                             $.each(cities_retailer, function () {

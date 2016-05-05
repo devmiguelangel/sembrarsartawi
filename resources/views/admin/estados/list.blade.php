@@ -110,7 +110,7 @@
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
                         $.get( "{{url('/')}}/admin/estados/active_ajax/"+id_retailer_product_states+"/"+text, function( data ) {
-                            console.log(data);
+                            //console.log(data);
                             if(data==1){
                                 swal({
                                     title: 'Se actualizo correctamente el registro',

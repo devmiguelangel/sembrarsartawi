@@ -178,7 +178,7 @@
                 var id_retailer_product = $('#id_retailer_products').prop('value');
                 //alert(id_retailer_product);
                 $.get( "{{url('/')}}/admin/tasas/product_retailer_ajax/"+id_retailer+"/"+id_retailer_product, function( data ) {
-                    console.log(data);
+                    //console.log(data);
                     if(data.length>0) {
                         $('button[type="submit"]').prop('disabled', false);
                         $('#id_producto_retailer').prop('disabled', false);
@@ -186,9 +186,9 @@
                         $('#id_producto_retailer').append('<option value="0">Seleccione</option>');
                         $('#msg_error').html('');
                         $.each(data, function () {
-                            console.log("ID: " + this.id_retailer_product);
-                            console.log("First Name: " + this.product);
-                            console.log("code: "+ this.code);
+                            //console.log("ID: " + this.id_retailer_product);
+                            //console.log("First Name: " + this.product);
+                            //console.log("code: "+ this.code);
                             $('#id_producto_retailer').append('<option value="'+this.id_retailer_product+'|'+this.code+'">'+this.product+'</option>');
                         });
                     }else{
@@ -215,6 +215,18 @@
                         $('#content-rate-bank').fadeOut('fast');
                         $('#rate_bank').removeClass('form-control required decimal').addClass('form-control not-required decimal');
                         $('#rate_final').removeClass('form-control required decimal').addClass('form-control not-required decimal').prop('readonly',false);
+                        $.get( "{{url('/')}}/admin/tasas/quest_rate_ajax/"+id_retailer_product, function( data ) {
+                            if(data==1){
+                                $('button[type="submit"]').prop('disabled', true);
+                                $('#rate_final').prop('disabled', true);
+                                $('#msg_error').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span>El producto ya tiene registrado la tasa</div>');
+                            }else{
+                                $('button[type="submit"]').prop('disabled', false);
+                                $('#rate_final').prop('disabled', false);
+                                $('#msg_error').html('');
+                            }
+                        });
+                        /*
                         $.get( "{{url('/')}}/admin/tasas/cobertura_ajax/"+id_retailer_product, function( data ) {
                             console.log(data);
 
@@ -237,6 +249,7 @@
                             }
 
                         });
+                        */
                     }else if(code=='vi'){
                         $('button[type="submit"]').prop('disabled', false);
                         $('#content-coverage').fadeOut('fast');

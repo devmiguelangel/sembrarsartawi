@@ -112,7 +112,7 @@
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
                         $.get( "{{url('/')}}/admin/company/active_ajax/"+id_company+"/"+text, function( data ) {
-                            console.log(data);
+                            //console.log(data);
                             if(data==1){
                                 window.setTimeout('location.reload()', 1000);
                             }else if(data==0){

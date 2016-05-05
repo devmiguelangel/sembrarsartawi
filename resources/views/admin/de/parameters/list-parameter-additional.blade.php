@@ -115,7 +115,7 @@
                 bootbox.confirm("Esta seguro de eliminar el registro ?", function(result) {
                     if(result){
                         $.get( "{{url('/')}}/admin/de/parameters/delete_ajax/"+id_product_parameters+"/"+ad_retailer_product_id, function( data ) {
-                            console.log(data);
+                            //console.log(data);
                             var arr = data.split('|');
                             if(arr[0]==1){
                                 swal({

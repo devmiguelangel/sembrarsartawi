@@ -113,7 +113,7 @@
                 bootbox.confirm("Esta seguro de eliminar el registro ?", function(result) {
                     if(result){
                         $.get( "{{url('/')}}/admin/payment/delete_ajax/"+id_payment_method+"/"+id_retailer_product, function( data ) {
-                            console.log(data);
+                            //console.log(data);
 
                             if(data['response']=='ok'){
                                 swal({
@@ -144,7 +144,7 @@
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
                         $.get( "{{url('/')}}/admin/payment/active_ajax/"+id_payment_method+"/"+text+"/"+id_retailer_product, function( data ) {
-                            console.log(data);
+                            //console.log(data);
                             if(data['response']=='ok'){
                                 window.setTimeout('location.reload()', 1000);
                             }else if(data['response']=='error'){

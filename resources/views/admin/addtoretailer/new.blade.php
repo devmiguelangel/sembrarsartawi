@@ -113,7 +113,7 @@
                 //alert(id_retailer);
                 if(id_company_product!=0){
                     $.get( "{{url('/')}}/admin/addtoretailer/quest_ajax/"+id_company_product+"/"+id_retailer, function( data ) {
-                        console.log(data);
+                        //console.log(data);
                         if(data==1){
                             if($("#id_company_products + .validation-error-label").length) {
                                 $("#id_company_products + .validation-error-label").remove();

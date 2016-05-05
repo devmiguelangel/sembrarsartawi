@@ -150,10 +150,10 @@
                     var sw=0;
                     $('#subproduct').prop('disabled',false);
                     $.get( "{{url('/')}}/admin/subproduct/subprod_ajax/"+id_retailer_product, function( json ) {
-                        console.log(json);
+                        //console.log(json);
                         $('#subproduct option').remove();
                         $.each(json, function (key, data) {
-                            console.log(key)
+                            //console.log(key)
                             if(key=='retpr'){
                                 retprod=data;
                             }else if(key=='retsp'){
@@ -161,8 +161,8 @@
                             }
                         });
                         $.each(retprod, function () {
-                            console.log("ID: " + this.ad_company_product_id);
-                            console.log("Profiles: " + this.product);
+                            //console.log("ID: " + this.ad_company_product_id);
+                            //console.log("Profiles: " + this.product);
                             var ad_company_product_id = this.ad_company_product_id;
                             var product = this.product;
                             $.each(retsubp, function () {

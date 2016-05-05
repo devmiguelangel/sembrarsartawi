@@ -101,7 +101,7 @@
                 var  id_retailer = $(this).prop('value');
                 //alert(id_retailer);
                 $.get( "{{url('/')}}/admin/cobertura/product_retailer_ajax/"+id_retailer, function( data ) {
-                    console.log(data);
+                    //console.log(data);
                     if(data.length>0) {
                         $('button[type="submit"]').prop('disabled', false);
                         $('#id_product').prop('disabled', false);
@@ -109,8 +109,8 @@
                         $('#id_product').append('<option value="0">Seleccione</option>');
                         $('#msg_error').html('');
                         $.each(data, function () {
-                            console.log("ID: " + this.id_retailer_product);
-                            console.log("First Name: " + this.product);
+                            //console.log("ID: " + this.id_retailer_product);
+                            //console.log("First Name: " + this.product);
                             $('#id_product').append('<option value="'+this.id_retailer_product+'">'+this.product+'</option>');
                         });
                     }else{

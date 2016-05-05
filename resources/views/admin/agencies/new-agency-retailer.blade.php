@@ -111,15 +111,15 @@
                 //alert(id_retailer);
                 if(id_retailer!=0){
                     $.get( "{{url('/')}}/admin/agencies/cities_ajax/"+id_retailer, function( data ) {
-                        console.log(data);
+                        //console.log(data);
                         $('#id_retailer_cities').prop('disabled',false);
                         $('#id_retailer_cities option').remove();
                         $('#id_retailer_cities').append('<option value="0">Seleccione</option>');
                         if(data.length>0) {
                             $('#msg_city').html('');
                             $.each(data, function () {
-                                console.log("ID: " + this.id_retailer_city);
-                                console.log("First Name: " + this.cities);
+                                //console.log("ID: " + this.id_retailer_city);
+                                //console.log("First Name: " + this.cities);
                                 $('#id_retailer_cities').append('<option value="'+this.id_retailer_city+'">'+this.cities+'</option>');
                             });
                         }else{
@@ -143,11 +143,11 @@
                     var sw=0;
                     $('#id_agency').prop('disabled',false);
                     $.get( "{{url('/')}}/admin/agencies/retailer_agencies_ajax/"+id_retailer_city, function( json ) {
-                        console.log(json);
+                        //console.log(json);
 
                         $('#id_agency option').remove();
                         $.each(json, function (key, data) {
-                            console.log(key)
+                            //console.log(key)
                             if(key=='retcityagency'){
                                 retailer_city_agencies = data;
                             }else if(key=='agenciestable'){
@@ -155,8 +155,8 @@
                             }
                         });
                         $.each(agencies, function () {
-                            console.log("ID: " + this.id_agency);
-                            console.log("Profiles: " + this.agencies);
+                            //console.log("ID: " + this.id_agency);
+                            //console.log("Profiles: " + this.agencies);
                             var id_agency = this.id_agency;
                             var agencies = this.agencies;
                             $.each(retailer_city_agencies, function () {
