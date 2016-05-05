@@ -12,7 +12,8 @@
     <div class="page-header">
         <div class="page-header-content">
             <div class="page-title">
-                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Seguro de Desgravamen</span></h4>
+                <h4><i class="icon-arrow-left52 position-left"></i> <span
+                            class="text-semibold">Seguro de Desgravamen</span></h4>
 
                 <ul class="breadcrumb breadcrumb-caret position-right">
                     <li><a href="">Inicio</a></li>
@@ -50,7 +51,7 @@
                                         <span class="number">3</span> Resultado Cotización
                                     </a>
                                 </li>
-                                <li class="disabled last" >
+                                <li class="disabled last">
                                     <a href="#">
                                         <span class="number">4</span> Emisión de la Póliza de Desgravamen
                                     </a>
@@ -63,47 +64,50 @@
                             </ul>
                         </div>
                     </div>
-                        <button style="float: right;" type="button" class="btn btn-rounded btn-default text-right" title="Detalle de producto" data-placement="right" data-toggle="modal" data-target="#modal_theme_primary">
-                            <i class="icon-question7"></i> Producto
-                        </button>
+                    <button style="float: right;" type="button" class="btn btn-rounded btn-default text-right"
+                            title="Detalle de producto" data-placement="right" data-toggle="modal"
+                            data-target="#modal_theme_primary">
+                        <i class="icon-question7"></i> Producto
+                    </button>
                 </div>
                 <div class="clearfix"></div>
 
                 @if(session('error_header'))
                     <div class="alert bg-danger alert-styled-right">
-                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span>
+                        </button>
                         <span class="text-semibold">{{ session('error_header') }}</span>.
                     </div>
                 @endif
 
                 <div class="panel-body ">
-                  <div class="col-xs-12 col-md-12">
-                    @if($retailerProduct->companyProduct->product->code == 'de' && $retailerProduct->type == 'MP')
-                      @foreach ($retailerProduct->rates as $rate)
-                        @if ($rate->ad_coverage_id === $header->ad_coverage_id)
-                          <div class="col-md-4 ">
-                            <div class="panel panel-body border-top-primary text-center">
-                              <div class="form-group">
-                                {!! Html::image($retailerProduct->companyProduct->company->image, null, ['style' => 'max-height: 130px;']) !!}
-                              </div>
-                              <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
-                              <p class="text-muted content-group-sm">{{ $rate->rate_final }}%</p>
-                              <a href="#" onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion',{{$retailerProduct->companyProduct->product->id}})" data-toggle="modal" data-target="#modal_general" class="btn btn-success">
-                                <i class="icon-file-check position-left"></i>  Ver Cotización
-                              </a>
-                              <hr>
-                              {!! Form::open(['route' => ['de.store.result',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
-                              {!! Form::hidden('rate_id', encrypt($rate->id)) !!}
+                    <div class="col-xs-12 col-md-12">
+                        @if($retailerProduct->companyProduct->product->code == 'de' && $retailerProduct->type == 'MP')
+                            @foreach ($retailerProduct->rates as $rate)
+                                <div class="col-md-4">
+                                    <div class="panel panel-body border-top-primary text-center">
+                                        <div class="form-group">
+                                            {!! Html::image($retailerProduct->companyProduct->company->image, null, ['style' => 'max-height: 130px;']) !!}
+                                        </div>
+                                        <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
+                                        <p class="text-muted content-group-sm">{{ $rate->rate_final }}%</p>
+                                        <a href="#"
+                                           onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion',{{$retailerProduct->companyProduct->product->id}})"
+                                           data-toggle="modal" data-target="#modal_general" class="btn btn-success">
+                                            <i class="icon-file-check position-left"></i> Ver Cotización
+                                        </a>
+                                        <hr>
+                                        {!! Form::open(['route' => ['de.store.result',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                                        {!! Form::hidden('rate_id', encrypt($rate->id)) !!}
 
-                              {!! Form::button('<i class="icon-arrow-right14 position-left"></i> Emitir', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+                                        {!! Form::button('<i class="icon-arrow-right14 position-left"></i> Emitir', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
 
-                              {!! Form::close() !!}
-                            </div>
-                          </div>
+                                        {!! Form::close() !!}
+                                    </div>
+                                </div>
+                            @endforeach
                         @endif
-                      @endforeach
-                    @endif
-                  </div>
+                    </div>
                 </div>
 
                 <!-- /horizotal form -->
@@ -111,8 +115,8 @@
         </div>
     </div>
 
-<!-- modal -->
-@include('partials.modal')
-<!-- /modal -->
+    <!-- modal -->
+    @include('partials.modal')
+            <!-- /modal -->
 
 @endsection

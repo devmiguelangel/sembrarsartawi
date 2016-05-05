@@ -312,10 +312,12 @@
                                 <hr/>
                                 <div class="col-xs-12 col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label col-lg-3 label_required">Número de
-                                            Operación: </label>
+                                        <label class="control-label col-lg-3 {{ $header->warranty ? 'label_required' : '' }}">
+                                            Número de Operación: </label>
                                         <div class="col-lg-9">
                                             <div class="input-group">
+                                                <input type="hidden" name="warranty" value="{{ (int) $header->warranty }}">
+
                                                 <span class="input-group-addon">Nro.</span>
                                                 {!! Form::text('operation_number', old('operation_number', $header->operation_number), [
                                                     'class'        => 'form-control ui-wizard-content',

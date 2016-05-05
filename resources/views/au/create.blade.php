@@ -110,7 +110,7 @@
                         {!! Form::close() !!}
                     </div>
                 </div>
-
+                <br><br><br>
 
                 <div class="panel-body ">
                     {!! Form::open(['route' => ['au.store', 'rp_id' => $rp_id],

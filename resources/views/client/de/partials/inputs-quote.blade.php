@@ -26,8 +26,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-lg-3 {{ (isset($product) && $product === 'au') ? '' : 'label_required' }}">Ap.
-            Materno: </label>
+        <label class="control-label col-lg-3">Ap. Materno: </label>
         <div class="col-lg-9">
             {!! Form::text('mother_last_name', old('mother_last_name', $client->mother_last_name), [
                 'class' => 'form-control',
@@ -120,7 +119,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-lg-3 label_required">Fecha de nacimientooo: </label>
+        <label class="control-label col-lg-3 label_required">Fecha de nacimiento: </label>
         <div class="col-lg-9">
             <div class="input-group">
                 <span class="input-group-addon"><i class="icon-calendar22"></i></span>

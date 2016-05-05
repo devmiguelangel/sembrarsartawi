@@ -32,7 +32,7 @@ class ClientCreateFormRequest extends Request
         return [
             'first_name'             => 'required|alpha_space',
             'last_name'              => 'required|alpha_space',
-            'mother_last_name'       => 'required|alpha_space',
+            'mother_last_name'       => 'alpha_space',
             'married_name'           => 'alpha_space',
             'civil_status'           => 'required|in:' . $civil_status,
             'document_type'          => 'required|in:' . $document_types,

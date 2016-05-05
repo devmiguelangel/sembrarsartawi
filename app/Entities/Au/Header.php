@@ -39,6 +39,7 @@ class Header extends Model
     ];
 
     protected $casts = [
+        'warranty'         => 'boolean',
         'issued'           => 'boolean',
         'canceled'         => 'boolean',
         'facultative'      => 'boolean',

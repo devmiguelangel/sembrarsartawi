@@ -234,4 +234,10 @@ return [
         'POT' => 'Otros',
     ],
 
+    'movement_types' => [
+        'FS' => 'Primera/Única',
+        'AD' => 'Adicional',
+        'LC' => 'Línea de Crédito',
+    ],
+
 ];

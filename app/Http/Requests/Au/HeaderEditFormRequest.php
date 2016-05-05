@@ -25,9 +25,14 @@ class HeaderEditFormRequest extends Request
      */
     public function rules()
     {
-        return [
-            'operation_number' => 'required|integer',
-            'policy_number'    => 'required|exists:ad_policies,number',
+        $rules = [
+            'policy_number' => 'required|exists:ad_policies,number',
         ];
+
+        if ($this->request->get('warranty') == 1) {
+            $rules['operation_number'] = 'required|integer';
+        }
+
+        return $rules;
     }
 }

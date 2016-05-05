@@ -278,7 +278,7 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
   $scope.finalRate = function () {
     var percentage   = $scope.formData.percentage;
     var current_rate = $scope.formData.current_rate;
-    var final_rate   = $filter('number')(((percentage/100) + current_rate), 2);
+    var final_rate   = $filter('number')(((current_rate * percentage / 100) + current_rate), 2);
 
     $scope.formData.final_rate = final_rate;
   };

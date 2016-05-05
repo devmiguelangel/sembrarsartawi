@@ -79,10 +79,12 @@ class HeaderController extends Controller
     protected function getData($rp_id)
     {
         return [
-            'coverages'  => $this->retailerProductRepository->getCoverageByProduct($rp_id),
-            'currencies' => $this->dataRepository->getCurrency(),
-            'term_types' => $this->dataRepository->getTermType(),
-            'policies'   => $this->policyRepository->gerPolicyForIssuance($rp_id),
+            'coverages'       => $this->retailerProductRepository->getCoverageByProduct($rp_id),
+            'currencies'      => $this->dataRepository->getCurrency(),
+            'term_types'      => $this->dataRepository->getTermType(),
+            'credit_products' => $this->retailerProductRepository->getCreditProductByProduct($rp_id),
+            'movement_types'  => $this->dataRepository->getMovementType(),
+            'policies'        => $this->policyRepository->gerPolicyForIssuance($rp_id),
         ];
     }
 
@@ -290,7 +292,7 @@ class HeaderController extends Controller
                 $product = $this->retailerProductRepository->getModel();
             }
 
-            return view('de.issuance', compact('rp_id', 'header_id', 'header', 'product','rp'));
+            return view('de.issuance', compact('rp_id', 'header_id', 'header', 'product', 'rp'));
 
         }
 

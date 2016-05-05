@@ -115,4 +115,10 @@ class RetailerProduct extends Model
         return $this->hasMany(RetailerProductPaymentMethod::class, 'ad_retailer_product_id', 'id');
     }
 
+
+    public function creditProducts()
+    {
+        return $this->hasMany(CreditProduct::class, 'ad_retailer_product_id', 'id');
+    }
+
 }

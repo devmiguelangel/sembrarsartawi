@@ -24,16 +24,18 @@ class HeaderRepository extends BaseRepository
         $this->model  = new Header();
         $quote_number = $this->getNumber('Q');
 
-        $this->model->id               = date('U');
-        $this->model->ad_user_id       = $user->id;
-        $this->model->type             = 'Q';
-        $this->model->quote_number     = $quote_number;
-        $this->model->ad_coverage_id   = $this->data['coverage'];
-        $this->model->amount_requested = $this->data['amount_requested'];
-        $this->model->currency         = $this->data['currency'];
-        $this->model->term             = $this->data['term'];
-        $this->model->type_term        = $this->data['type_term'];
-        $this->model->issued           = false;
+        $this->model->id                   = date('U');
+        $this->model->ad_user_id           = $user->id;
+        $this->model->type                 = 'Q';
+        $this->model->quote_number         = $quote_number;
+        $this->model->ad_coverage_id       = $this->data['coverage'];
+        $this->model->amount_requested     = $this->data['amount_requested'];
+        $this->model->currency             = $this->data['currency'];
+        $this->model->term                 = $this->data['term'];
+        $this->model->type_term            = $this->data['type_term'];
+        $this->model->ad_credit_product_id = $this->data['credit_product'];
+        $this->model->movement_type        = $this->data['movement_type'];
+        $this->model->issued               = false;
 
         if ( ! $this->checkNumber('Q', $quote_number)) {
             return $this->saveModel();
