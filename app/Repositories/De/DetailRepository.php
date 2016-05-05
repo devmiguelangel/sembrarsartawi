@@ -46,7 +46,6 @@ class DetailRepository extends BaseRepository
         $this->data  = $request->all();
         $header      = $this->data['header'];
         $this->model = $header->details()->where('id', $detail_id)->first();
-        dd($this->model);
 
         if ($this->model instanceof Detail) {
             // $cumulus = $this->model->amount + $this->data['balance'];

@@ -104,6 +104,9 @@
                             'ng-model'     => 'formData.cumulus',
                         ]) !!}
                     </div>
+                    <div class="alert-info text-center" style="padding: 5px;" ng-if="formData.movement_type == 'LC'">
+                        Sumatoria del total de operaciones vigentes, incluyendo el Monto Actual Solicitado.
+                    </div>
                     <div class="alert-warning text-center" style="padding: 5px;" ng-if="data.cumulus">
                         El monto total acumulado debe ser mayor o igual al monto actual solicitado y al saldo deudor
                         actual.

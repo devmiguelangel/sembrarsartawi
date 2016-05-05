@@ -136,18 +136,22 @@ class HeaderRepository extends BaseRepository
         if ($premium_total > 0) {
             $share = [ ];
 
-            if ($header->payment_method === 'AN') {
-                $date       = Carbon::createFromDate(null, null, 15)->addMonth(1)->subYear();
-                $percentage = number_format(( 100 / $header->full_year ), 2, '.', ',');
+            $full_year = $header->full_year;
 
-                for ($i = 1; $i <= $header->full_year; $i++) {
-                    array_push($share, [
-                        'number'     => $i,
-                        'date'       => $date->addYear()->toDateString(),
-                        'percentage' => $percentage,
-                        'share'      => number_format(( $premium_total * $percentage ) / 100, 2),
-                    ]);
-                }
+            if ($header->payment_method === 'PT') {
+                $full_year = 1;
+            }
+
+            $date       = Carbon::createFromDate(null, null, 15)->addMonth(1)->subYear();
+            $percentage = number_format(( 100 / $full_year ), 2, '.', ',');
+
+            for ($i = 1; $i <= $full_year; $i++) {
+                array_push($share, [
+                    'number'     => $i,
+                    'date'       => $date->addYear()->toDateString(),
+                    'percentage' => $percentage,
+                    'share'      => number_format(( $premium_total * $percentage ) / 100, 2),
+                ]);
             }
 
             try {

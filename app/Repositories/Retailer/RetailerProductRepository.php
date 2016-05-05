@@ -128,7 +128,7 @@ class RetailerProductRepository extends BaseRepository
     public function getCreditProductByProduct($rp_id)
     {
         $selectOption   = $this->getSelectOption();
-        $creditProducts = CreditProduct::where('ad_retailer_product_id', $rp_id)->get();
+        $creditProducts = CreditProduct::where('ad_retailer_product_id', $rp_id)->where('active', true)->get();
         $data           = [ ];
 
         foreach ($creditProducts as $creditProduct) {
