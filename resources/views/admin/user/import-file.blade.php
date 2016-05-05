@@ -103,16 +103,16 @@
                 //alert(id_retailer);
                 if(id_retailer!=0){
                     $.get( "{{url('/')}}/admin/user/city_ajax/"+id_retailer, function( data ) {
-                        console.log(data);
+                        //console.log(data);
                         $('#output_select').html('');
                         $('button[type="submit"]').prop('disabled', false);
                         $('#id_retailer_city option').remove();
                         $('#id_retailer_city').append('<option value="0">Seleccione</option>');
                         if(data.length>0) {
                             $.each(data, function () {
-                                console.log("id_retailer_city: " + this.id_retailer_city);
-                                console.log("Name: " + this.city);
-                                console.log("id_city: " + this.id_city);
+                                //console.log("id_retailer_city: " + this.id_retailer_city);
+                                //console.log("Name: " + this.city);
+                                //console.log("id_city: " + this.id_city);
                                 $('#id_retailer_city').append('<option value="'+this.id_retailer_city+'|'+this.id_city+'">'+this.city+'</option>');
                             });
                         }else{

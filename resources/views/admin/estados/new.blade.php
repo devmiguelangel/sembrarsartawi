@@ -93,7 +93,7 @@
                 var  id_retailer = $(this).prop('value');
                 //alert(id_retailer);
                 $.get( "{{url('/')}}/admin/estados/product_retailer_ajax/"+id_retailer, function( data ) {
-                    console.log(data);
+                    //console.log(data);
                     if(data.length>0) {
                         $('button[type="submit"]').prop('disabled', false);
                         $('#id_producto_retailer').prop('disabled', false);
@@ -102,8 +102,8 @@
                         $('#id_producto_retailer').append('<option value="0">Seleccione</option>');
                         $('#msg_error').html('');
                         $.each(data, function () {
-                            console.log("ID: " + this.id_retailer_product);
-                            console.log("First Name: " + this.product);
+                            //console.log("ID: " + this.id_retailer_product);
+                            //console.log("First Name: " + this.product);
                             $('#id_producto_retailer').append('<option value="'+this.id_retailer_product+'">'+this.product+'</option>');
                         });
                     }else{
@@ -124,11 +124,11 @@
                     var sw=0;
 
                     $.get( "{{url('/')}}/admin/estados/retailer_state_ajax/"+id_product_retailer, function( json ) {
-                        console.log(json);
+                        //console.log(json);
 
                         $('#id_estados option').remove();
                         $.each(json, function (key, data) {
-                            console.log(key)
+                            //console.log(key)
                             if(key=='state'){
                                 state = data;
                             }else if(key=='stateretailer'){
@@ -136,8 +136,8 @@
                             }
                         });
                         $.each(state, function () {
-                            console.log("ID: " + this.id_state);
-                            console.log("Profiles: " + this.state);
+                            //console.log("ID: " + this.id_state);
+                            //console.log("Profiles: " + this.state);
                             var id_state = this.id_state;
                             var state = this.state;
                             $.each(state_retailer, function () {
@@ -157,8 +157,8 @@
                     $.get( "{{url('/')}}/admin/estados/states_ajax/"+id_product_retailer, function( json ) {
                         $('#id_estados option').remove();
                         $.each(json, function () {
-                            console.log("ID: " + this.id_state);
-                            console.log("First Name: " + this.state);
+                            //console.log("ID: " + this.id_state);
+                            //console.log("First Name: " + this.state);
                             $('#id_estados').append('<option value="'+this.id_state+'">'+this.state+'</option>');
                         });
                     });

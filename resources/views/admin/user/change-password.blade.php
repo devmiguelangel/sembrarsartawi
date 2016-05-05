@@ -80,7 +80,7 @@
                 //alert(id_user);
                 if(contrasenia_actual!=''){
                     $.get( "{{url('/')}}/admin/user/pass_now_ajax/"+id_user+"/"+contrasenia_actual, function( data ) {
-                        console.log(data);
+                        //console.log(data);
                         if(data==1){
                             err='contraseña actual correcta';
                             $('#contrasenia_actual').each(function(indice, element) {

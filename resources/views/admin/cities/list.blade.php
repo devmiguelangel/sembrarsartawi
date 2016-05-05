@@ -119,7 +119,7 @@
                 }
                 //alert(answer+' '+id_depto);
                 $.get( "{{url('/')}}/admin/cities/typeci_ajax/"+id_depto+"/"+answer, function( data ) {
-                    console.log(data);
+                    //console.log(data);
                     if(data==1){
                         bootbox.alert("Se actualizo correctamente los datos tipo CI.");
                         window.setTimeout('location.reload()', 3000);
@@ -140,7 +140,7 @@
                 }
                 //alert(answer+' '+id_depto);
                 $.get( "{{url('/')}}/admin/cities/typere_ajax/"+id_depto+"/"+answer, function( data ) {
-                    console.log(data);
+                    //console.log(data);
                     if(data==1){
                         bootbox.alert("Se actualizo correctamente los datos tipo Regional.");
                         window.setTimeout('location.reload()', 3000);
@@ -161,7 +161,7 @@
                 }
                 //alert(answer+' '+id_depto);
                 $.get( "{{url('/')}}/admin/cities/typede_ajax/"+id_depto+"/"+answer, function( data ) {
-                    console.log(data);
+                    //console.log(data);
                     if(data==1){
                         bootbox.alert("Se actualizo correctamente los datos tipo Departamento.");
                         window.setTimeout('location.reload()', 3000);
