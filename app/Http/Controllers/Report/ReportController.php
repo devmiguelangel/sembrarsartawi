@@ -70,7 +70,7 @@ class ReportController extends Controller {
      * @param \Illuminate\Http\Request $request
      * @return type
      */
-    public function general(Request $request) {
+    public function general(Request $request, $id_comp) {
         $flag = 1;
         $users = $this->users;
         $agencies = $this->agencies;
@@ -86,14 +86,14 @@ class ReportController extends Controller {
         if ($request->get('xls_download'))
             $this->exportXls($result, 'General', 1);
         
-        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag'));
+        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag','id_comp'));
     }
     /**
      * 
      * @param \Illuminate\Http\Request $request
      * @return type
      */
-    public function general_emitido(Request $request) {
+    public function general_emitido(Request $request, $id_comp) {
         $flag = 2;
         $users = $this->users;
         $agencies = $this->agencies;
@@ -109,7 +109,7 @@ class ReportController extends Controller {
         if ($request->get('xls_download'))
             $this->exportXls($result, 'General', 1);
         
-        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag'));
+        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag','id_comp'));
     }
     /**
      * fuincion retorna resultado de consulta y busqueda de formulario
@@ -485,7 +485,7 @@ class ReportController extends Controller {
      * @param \Illuminate\Http\Request $request
      * @return type
      */
-    public function cotizacion(Request $request) {
+    public function cotizacion(Request $request, $id_comp) {
         $users = $this->users;
         $agencies = $this->agencies;
         $cities = $this->cities;
@@ -498,10 +498,31 @@ class ReportController extends Controller {
                 ->select('op_de_details.op_de_header_id');
 
         $query = DB::table('op_de_headers')
+                ->join('op_de_details', 'op_de_headers.id', '=', 'op_de_details.op_de_header_id')
+                ->join('op_clients', 'op_clients.id', '=', 'op_de_details.op_client_id')
+                ->join('ad_cities', 'ad_cities.abbreviation', '=', 'op_clients.extension')
                 ->join('ad_users', 'op_de_headers.ad_user_id', '=', 'ad_users.id')
+                ->join('ad_agencies', 'ad_users.ad_agency_id', '=', 'ad_agencies.id')
                 ->join('ad_coverages', 'op_de_headers.ad_coverage_id', '=', 'ad_coverages.id')
-                ->select('ad_coverages.name', 'op_de_headers.id', 'op_de_headers.amount_requested', 'op_de_headers.currency', 'op_de_headers.term', 'op_de_headers.type_term', 'op_de_headers.total_rate', 'op_de_headers.total_premium', 'op_de_headers.created_at', 'ad_users.username', 'ad_users.full_name','op_de_headers.ad_user_id')
-                //edw-->->where('op_de_headers.issued', 0)
+                ->select(
+                        'op_de_headers.quote_number as nro_cotizacion', 
+                        DB::raw("CONCAT(op_clients.first_name,' ',op_clients.last_name,' ',op_clients.mother_last_name) as cliente"),
+                        DB::raw("CONCAT(op_clients.dni,' ',op_clients.complement,' ',op_clients.extension) as ci"),
+                        DB::raw('IF(op_clients.gender="M","Masculino","Femenino") as genero'),
+                        'ad_cities.name as ciudad', 
+                        'op_clients.phone_number_home as telefono', 
+                        'op_clients.phone_number_office as celular', 
+                        'op_clients.email as email', 
+                        'op_de_headers.amount_requested as monto_solicitado', 
+                        'op_de_headers.currency as moneda',
+                        DB::raw('CONCAT(op_de_headers.term," ",IF(op_de_headers.type_term="Y","Años",IF(op_de_headers.type_term="M","Meses",IF(op_de_headers.type_term="D","Dias","null")))) as plazo_de_credito'), 
+                        DB::raw("CONCAT(op_clients.height,' (cm)') as estatura"),
+                        DB::raw("CONCAT(op_clients.weight,' (kg)') as peso"),
+                        DB::raw('IF(op_de_details.headline="D","Deudor","Codeudor") as deudor_codeudor'),
+                        'ad_users.full_name as creado_por',
+                        'ad_agencies.name as agencia',
+                        'op_de_headers.id'
+                        )
                 ->where('op_de_headers.type', 'Q');
         $details = array();
         $result = array();
@@ -510,6 +531,10 @@ class ReportController extends Controller {
 
             
 
+            # nro cotizacion
+            if ($request->get('nro_cotizacion'))
+                $query->where('op_de_headers.quote_number', $request->get('nro_cotizacion'));
+            
             # usuario vendedor
             if ($request->get('usuario'))
                 $query->where('op_de_headers.ad_user_id', $request->get('usuario'));
@@ -567,7 +592,7 @@ class ReportController extends Controller {
         if ($request->get('xls_download'))
             $this->exportXls($result, 'Cotizacion', 1);
 
-        return view('report.cotizacion', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm'));
+        return view('report.cotizacion', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'id_comp'));
     }
     
     /**
@@ -629,6 +654,7 @@ class ReportController extends Controller {
             'subsanado' => ($request->get('subsanado')) ? $request->get('subsanado') : '',
             'observado' => ($request->get('observado')) ? $request->get('observado') : '',
             'anulados' => ($request->get('anulados')) ? $request->get('anulados') : '3',
+            'nro_cotizacion' => ($request->get('nro_cotizacion')) ? $request->get('nro_cotizacion') : '',
         );
         return $arr;
     }
