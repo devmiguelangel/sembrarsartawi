@@ -21,3 +21,6 @@ Route::post('admin/de/creditproduct/new', [
     'uses' => 'Admin\CreditProductAdminController@store'
 ]);
 
+//AJAX
+Route::get('admin/de/creditproduct/active_ajax/{id_credit_product}/{text}/{id_retailer_product}', 'Admin\CreditProductAdminController@ajax_active_inactive');
+
