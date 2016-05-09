@@ -350,7 +350,7 @@
                                                             </li>
                                                             <li>
                                                                 <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', '{{ route('slip_rep_au_general',['id_comp'=>$id_comp])}}', 'POST', 'emision',{{ decode($id_comp) }})" data-toggle="modal" data-target="#modal_general">
-                                                                    <i class="icon-plus2"></i> Ver Certificadooo
+                                                                    <i class="icon-plus2"></i> Ver Certificado
                                                                 </a>
                                                             </li>
                                                             @else
