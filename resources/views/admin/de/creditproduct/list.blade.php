@@ -39,6 +39,7 @@
                 <thead>
                 <tr>
                     <th>Producto Crediticio</th>
+                    <th>Estado</th>
                     <th class="text-center">Acciones</th>
                 </tr>
                 </thead>
@@ -47,6 +48,13 @@
                 @foreach($query as $data)
                     <tr>
                         <td>{{$data->name}}</td>
+                        <td>
+                            @if((boolean)$data->active == true)
+                                <span class="label label-success">Activo</span>
+                            @else
+                                <span class="label label-default">Inactivo</span>
+                            @endif
+                        </td>
                         <td class="text-center">
                             <ul class="icons-list">
                                 <li class="dropdown">
@@ -55,7 +63,17 @@
                                     </a>
 
                                     <ul class="dropdown-menu dropdown-menu-right">
-                                        <li></li>
+                                        <li>
+                                            @if((boolean)$data->active==true)
+                                                <a href="#" id="{{$data->id}}|inactive|desactivar|{{$id_retailer_product}}" class="confirm_active">
+                                                    <i class="icon-cross"></i> Desactivar
+                                                </a>
+                                            @else
+                                                <a href="#" id="{{$data->id}}|active|activar|{{$id_retailer_product}}" class="confirm_active">
+                                                    <i class="icon-checkmark4"></i> Activar
+                                                </a>
+                                            @endif
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -80,22 +98,23 @@
 
                 var _id = $(this).prop('id');
                 var arr = _id.split("|");
-                var id_increment = arr[0];
+                var id_credit_product = arr[0];
                 var text = arr[1];
                 var id_retailer_product = arr[3];
+
                 bootbox.confirm("Esta seguro de "+arr[2]+" el registro?", function(result) {
                     if(result){
                         //bootbox.alert("Confirm result: " + result+ "/" +id_user);
-                        $.get( "{{url('/')}}/admin/au/increment/active_ajax/"+id_increment+"/"+text+"/"+id_retailer_product, function( response ) {
+                        $.get( "{{url('/')}}/admin/de/creditproduct/active_ajax/"+id_credit_product+"/"+text+"/"+id_retailer_product, function( response ) {
                             //console.log(response);
                             if(response['response']=='ok'){
                                 swal({
-                                    title: response['text'],
+                                    title: response['message'],
                                     confirmButtonColor: "#2196F3"
                                 });
                                 window.setTimeout('location.reload()', 1000);
                             }else if(response['response']=='error'){
-                                bootbox.alert("Error!! "+response['text']);
+                                bootbox.alert("Error!! "+response['message']);
                             }
                         });
                     }

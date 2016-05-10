@@ -22,3 +22,8 @@ Route::group(['prefix' => 'report/'], function() {
         'uses' => 'slipModalController@ajaxBuscar'
     ]);
 });
+
+Route::post('report/slip/{id_comp}', [
+    'as' => 'slip_des_cot',
+    'uses' => 'slipModalController@ajaxBuscar'
+]);

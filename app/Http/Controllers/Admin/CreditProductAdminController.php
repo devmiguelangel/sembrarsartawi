@@ -2,6 +2,7 @@
 
 namespace Sibas\Http\Controllers\Admin;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use Sibas\Entities\RetailerProduct;
@@ -126,4 +127,36 @@ class CreditProductAdminController extends BaseController
     {
         //
     }
+
+    /**
+     * ajax
+     *
+     * procesos ajax
+     */
+    public function ajax_active_inactive($id_credit_product, $text, $id_retailer_product){
+        //dd($id_company);
+        if($text=='inactive'){
+            try {
+                $query_update = \DB::table('ad_credit_products')
+                    ->where('id', $id_credit_product)
+                    ->where('ad_retailer_product_id', $id_retailer_product)
+                    ->update(['active' => false]);
+                return response()->json(['response'=>'ok', 'message' => 'Se desactivado correctamente el registro']);
+            }catch(QueryException $e){
+                return response()->json(['response'=>'error', 'message' => $e->getMessage()]);
+            }
+        }elseif($text=='active'){
+            try {
+                $query_update = \DB::table('ad_credit_products')
+                    ->where('id', $id_credit_product)
+                    ->where('ad_retailer_product_id', $id_retailer_product)
+                    ->update(['active' => true]);
+                return response()->json(['response'=>'ok', 'message' => 'Se activado correctamente el registro']);
+            }catch(QueryException $e){
+                return response()->json(['response'=>'error', 'message' => $e->getMessage()]);
+            }
+
+        }
+    }
+
 }
