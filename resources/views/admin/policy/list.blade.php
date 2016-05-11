@@ -48,7 +48,7 @@
                 @if($code_product=='vi')
                     <th>Poliza final</th>
                     <th>Auto incremento</th>
-                @elseif($code_product=='au')
+                @elseif($code_product=='au' || $code_product=='mr')
                     <th>Moneda</th>
                 @endif
                 <th>Fecha inicial</th>
@@ -70,7 +70,7 @@
                             NO
                         @endif
                     </td>
-                @elseif($code_product=='au')
+                @elseif($code_product=='au' || $code_product=='mr')
                     <td>{{$data->currency}}</td>
                 @endif
                 <td>{{$data->date_begin}}</td>

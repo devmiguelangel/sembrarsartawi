@@ -31,7 +31,7 @@ class PolicyAdminController extends BaseController
                 ->select('ap.name as product')
                 ->where('arp.id',$id_retailer_products)
                 ->first();
-            //dd($query);
+            //dd($query_prod);
             return view('admin.policy.list', compact('nav', 'action', 'main_menu', 'query', 'id_retailer_products', 'query_prod', 'code_product', 'array_data'));
         }elseif($action=='new'){
             $query_prod = \DB::table('ad_retailer_products as arp')
@@ -43,7 +43,6 @@ class PolicyAdminController extends BaseController
             //dd($id_retailer_products);
             return view('admin.policy.new', compact('nav', 'action', 'main_menu', 'id_retailer_products', 'query_prod', 'code_product', 'array_data'));
         }
-
     }
 
     public function index_product_retailer($nav, $action){
@@ -85,7 +84,7 @@ class PolicyAdminController extends BaseController
             $auto_increment = $request->input('auto_inc');
         }
 
-        if($request->input('code_product')=='au'){
+        if($request->input('code_product')=='au' || $request->get('code_product')=='mr'){
            $currency = $request->get('moneda');
         }
 

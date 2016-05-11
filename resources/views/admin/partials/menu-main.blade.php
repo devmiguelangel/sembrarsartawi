@@ -18,6 +18,7 @@
             @var $ade=false
             @var $avi=false
             @var $aau=false
+            @var $amr=false
             @if(auth()->user()->type->code=='ADT')
                 @var $apo=true
                 @var $aco=true
@@ -35,6 +36,7 @@
                 @var $ade=true
                 @var $avi=true
                 @var $aau=true
+                @var $amr=true
             @else
                 @foreach(auth()->user()->permissions as $user_permission)
                     @if($user_permission->slug == 'APL')
@@ -84,6 +86,9 @@
                     @endif
                     @if($user_permission->slug == 'APM')
                         @var $apm=true
+                    @endif
+                    @if($user_permission->slug == 'AMR')
+                        @var $amr=true
                     @endif
                 @endforeach
             @endif
@@ -593,6 +598,35 @@
                                 <ul>
                                     <li class="{{$data_aco}}">
                                         <a href="{{route('admin.au.content.list', ['nav'=>'au_content', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar Contenido</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                    @endif
+
+                    @if($amr)
+                        @if($data->product=='mr')
+                            <li>
+                                <a href="#"><i class="icon-puzzle4"></i> <span>{{$data->name_product}}</span></a>
+                                @if($nav=='mr_parameter')
+                                    @var $data_mrpa='active'
+                                    @var $data_mrco=''
+                                @elseif($nav=="mr_content")
+                                    @var $data_mrco='active'
+                                    @var $data_mrpa=''
+                                @else
+                                    @var $data_mrpa=''
+                                    @var $data_mrco=''
+                                @endif
+
+                                <ul>
+                                    <li class="{{$data_mrpa}}">
+                                        <a href="{{route('admin.mr.parameters.list-parameter', ['nav'=>'mr_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="{{$data_mrco}}">
+                                        <a href="{{route('admin.mr.content.list', ['nav'=>'mr_content', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar Contenido</a>
                                     </li>
                                 </ul>
                             </li>

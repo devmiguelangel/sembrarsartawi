@@ -77,3 +77,29 @@ Route::post('admin/au/content/edit', [
     'as' => 'update_content_au',
     'uses' => 'Admin\ContentAdminController@update_au'
 ]);
+
+/*-----------MULTIRIESGO-----------*/
+Route::get('admin/mr/content/list/{nav}/{action}/{id_retailer_product}', [
+    'as' => 'admin.mr.content.list',
+    'uses' => 'Admin\ContentAdminController@index_mr'
+]);
+
+Route::get('admin/mr/content/new/{nav}/{action}/{id_retailer_product}', [
+    'as' => 'admin.mr.content.new',
+    'uses' => 'Admin\ContentAdminController@index_mr'
+]);
+
+Route::get('admin/mr/content/edit/{nav}/{action}/{id_retailer_product}/{id_content}', [
+    'as' => 'admin.mr.content.edit',
+    'uses' => 'Admin\ContentAdminController@edit_mr'
+]);
+
+Route::post('admin/mr/content/new', [
+    'as' => 'create_content_mr',
+    'uses' => 'Admin\ContentAdminController@store_mr'
+]);
+
+Route::post('admin/mr/content/edit', [
+    'as' => 'update_content_mr',
+    'uses' => 'Admin\ContentAdminController@update_mr'
+]);
