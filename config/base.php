@@ -210,9 +210,17 @@ return [
         'PR' => 'Privado',
     ],
 
+    'property_types' => [
+        'PR' => 'Inmueble',
+        'EE' => 'Equipo Electrónico',
+        'MC' => 'Maquinaria',
+        'ME' => 'Equipo Móvil',
+    ],
+
     'property_uses' => [
-        'OT' => 'Otro',
+        'ID' => 'Inmueble Domiciliario',
         'IP' => 'Inmueble Industrial',
+        'OT' => 'Otro',
     ],
 
     'property_states' => [
