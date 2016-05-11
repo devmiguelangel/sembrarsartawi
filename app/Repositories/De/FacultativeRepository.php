@@ -128,32 +128,32 @@ class FacultativeRepository extends BaseRepository
         $retailerProduct = $retailer->retailerProducts()->where('id', $rp_id)->first();
 
         if ($retailerProduct->facultative) {
-            $this->getParameter($retailerProduct, $detail->amount, $detail->cumulus);
+            if ($this->getParameter($retailerProduct, $detail->amount, $detail->cumulus)) {
+                $evaluation = $this->evaluation($detail);
 
-            $evaluation = $this->evaluation($detail);
+                try {
+                    if ($detail->facultative instanceof Facultative) {
+                        if ($evaluation) {
+                            $detail->facultative()->update($this->props);
 
-            try {
-                if ($detail->facultative instanceof Facultative) {
-                    if ($evaluation) {
-                        $detail->facultative()->update($this->props);
-
-                        return true;
+                            return true;
+                        } else {
+                            $detail->facultative()->delete();
+                        }
                     } else {
-                        $detail->facultative()->delete();
-                    }
-                } else {
-                    if ($evaluation) {
-                        $detail->facultative()->create([
-                            'id'     => date('U'),
-                            'reason' => $this->props['reason'],
-                            'state'  => $this->props['state'],
-                        ]);
+                        if ($evaluation) {
+                            $detail->facultative()->create([
+                                'id'     => date('U'),
+                                'reason' => $this->props['reason'],
+                                'state'  => $this->props['state'],
+                            ]);
 
-                        return true;
+                            return true;
+                        }
                     }
+                } catch (QueryException $e) {
+                    $this->errors = $e->getMessage();
                 }
-            } catch (QueryException $e) {
-                $this->errors = $e->getMessage();
             }
         }
 
@@ -163,18 +163,16 @@ class FacultativeRepository extends BaseRepository
 
     private function evaluation($detail)
     {
-        if ($this->parameter instanceof ProductParameter) {
-            switch ($this->parameter->slug) {
-                case 'FC':
+        switch ($this->parameter->slug) {
+            case 'FC':
 
-                    break;
-                case 'AE':
-                    return $this->setAeEvaluation($detail);
-                    break;
-                case 'FA':
-                    return $this->setAeEvaluation($detail);
-                    break;
-            }
+                break;
+            case 'AE':
+                return $this->setAeEvaluation($detail);
+                break;
+            case 'FA':
+                return $this->setAeEvaluation($detail);
+                break;
         }
 
         return false;
@@ -222,10 +220,16 @@ class FacultativeRepository extends BaseRepository
     private function getParameter($retailerProduct, $amount, $cumulus)
     {
         foreach ($retailerProduct->parameters as $parameter) {
-            if (( $amount >= $parameter->amount_min && $amount <= $parameter->amount_max ) || ( $cumulus >= $parameter->amount_min && $cumulus <= $parameter->amount_max )) {
+            if (( $cumulus >= $parameter->amount_min && $cumulus <= $parameter->amount_max ) || ( $parameter->slug === 'FA' && $cumulus > $parameter->amount_max )) {
                 $this->parameter = $parameter;
             }
         }
+
+        if ($this->parameter instanceof ProductParameter) {
+            return true;
+        }
+
+        return false;
     }
 
 

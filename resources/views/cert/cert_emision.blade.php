@@ -193,7 +193,7 @@
                     <td style="width: 71%;"></td>
                     @var $sum=1
                     @foreach($cli->details as $titular)
-                        <td style="width: 12%;" align="right">Titular {{ $sum }}</td>
+                        <td style="width: 12%;" align="left">Titular {{ $sum }}</td>
                         @var $sum++
                     @endforeach
                 </tr>
@@ -206,7 +206,7 @@
                             <td style="width: 12%;">
                                 <table cellpadding="0" cellspacing="0" border="0" class="wrap_table_child">
                                     <tr>
-                                        <td style="width: {{ $size  }};" align="right">
+                                        <td style="width: {{ $size  }};" align="left">
                                             {{ $result == 1 ? 'SI':'NO'}}
                                         </td>
                                         <td style="width: 20%; padding-left: 3px;">
@@ -531,9 +531,11 @@
                 <p style="text-align: left;">
                     Se deja expresa constancia mediante el presente certificado, que:
                 </p>
+                @foreach($cli->details as $titular)
                 <p style="text-align: center; font-weight: bold;">
-                    POLICARPIO ARANDA AGUILAR ó PATRICIA SANDRA MAMANI MUÑOZ
+                    {{ $titular->client->full_name }}
                 </p>
+                @endforeach
                 <p style="text-align: left;">
                     Ha sido admitido como integrante a la póliza Nº {{ $cli->policy_number }}  con efecto desde,
                     {{ date('d-m-Y', strtotime($cli->created_at)) }}  y como prestatario de la FUNDACIÓN SARTAWI tiene derecho a
