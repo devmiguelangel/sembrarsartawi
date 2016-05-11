@@ -134,6 +134,7 @@ require "admin.adVehicleTypes.php";
 require "admin.adVehicleMakes.php";
 require "admin.adVehicleModels.php";
 require "admin.creditproduct.php";
+require "admin.mr.php";
 
 Route::get('admin/ad_activities/list',[
     'as' => 'adActivities',
