@@ -83,9 +83,9 @@ class ReportController extends Controller {
         $result = $array['result'];
         
         # validacion exporta xls
-        if ($request->get('xls_download'))
-            $this->exportXls($result, 'General', 1);
-        
+        //edw-->if ($request->get('xls_download'))
+        //edw-->$this->exportXls($result, 'General', 1,'');
+            
         return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag','id_comp'));
     }
     /**
@@ -106,8 +106,8 @@ class ReportController extends Controller {
         $result = $array['result'];
         
         # validacion exporta xls
-        if ($request->get('xls_download'))
-            $this->exportXls($result, 'General', 1);
+        //edw-->if ($request->get('xls_download'))
+        //edw--> $this->exportXls($result, 'General', 1);
         
         return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag','id_comp'));
     }
@@ -317,9 +317,42 @@ class ReportController extends Controller {
         
 
         # validacion exporta xls
-        if ($request->get('xls_download'))
-            $this->exportXls($result, 'General', 1);
-        
+        if ($request->get('xls_download')){
+            $resArr = [];
+            $i = 0;
+            foreach ($result as $key => $value) {
+                $resArr[$i]['Número de Póliza'] = $value->policy_number;
+                $resArr[$i]['Cobertura'] = $value->name_coverage;
+                $resArr[$i]['Cliente'] = $value->client;
+                $resArr[$i]['CI'] = $value->ci_client;
+                $resArr[$i]['Género'] = ($value->gender == 'M')?'Masculino':'Femenino';
+                $resArr[$i]['Edad'] = $value->age;
+                $resArr[$i]['Ciudad'] = $value->place_residence;
+                $resArr[$i]['Teléfono'] = $value->phone_number_home;
+                $resArr[$i]['Monto Solicitado - Moneda'] = $value->amount_currency;
+                $resArr[$i]['Saldo Deudor'] = $value->balance;
+                $resArr[$i]['Total Monto Acumulado'] = $value->cumulus;
+                $resArr[$i]['Plazo del Credito - Tipo del Plazo'] = $value->plazo;
+                $resArr[$i]['Estatura (cm)'] = $value->estatura;
+                $resArr[$i]['Peso (kg)'] = $value->peso;
+                $resArr[$i]['Participación'] = $value->participacion;
+                $resArr[$i]['Titular'] = $value->titular;
+                $resArr[$i]['Creado por'] = $value->creado_por;
+                $resArr[$i]['Sucursal / Regional'] = $value->sucursal_regional;
+                $resArr[$i]['Fecha de Ingreso'] = $value->fecha_de_ingreso;
+                $resArr[$i]['Certificado Emitido'] = $value->certificado_emitido;
+                $resArr[$i]['Fecha Emisión'] = $value->fecha_emision;
+                $resArr[$i]['Estado Compañia'] = $value->estado_compania;
+                $resArr[$i]['Motivo Estado Compañia'] = $value->motivo_estado_compania;
+                $resArr[$i]['Porcentaje Extraprima'] = $value->porcentaje_extraprima;
+                $resArr[$i]['Fecha Respuesta Final Compañia'] = $value->fecha_respuesta_final_compania;
+                $resArr[$i]['Días en Proceso'] = $value->dias_en_proceso;
+                $resArr[$i]['Duracion Total del Caso'] = $value->duracion_total_del_caso;
+                $i++;
+            }
+            $this->exportXls($resArr, 'General', 1, 'A1:AA1');
+        }
+                  
         $res = array('result' => $result,'flag'=>$flag);
         
         return $res;
@@ -589,8 +622,30 @@ class ReportController extends Controller {
         }
 
         # validacion exporta xls
-        if ($request->get('xls_download'))
-            $this->exportXls($result, 'Cotizacion', 1);
+        if ($request->get('xls_download')){
+            $resArr = [];
+            $i = 0;
+            foreach ($result as $key => $value) {
+                $resArr[$i]['Nro. Cotización'] = $value->nro_cotizacion;
+                $resArr[$i]['Cliente'] = $value->cliente;
+                $resArr[$i]['C.I.'] = $value->ci;
+                $resArr[$i]['Genero'] = $value->genero;
+                $resArr[$i]['Ciudad'] = $value->ciudad;
+                $resArr[$i]['Teléfono'] = $value->telefono;
+                $resArr[$i]['Celular'] = $value->celular;
+                $resArr[$i]['Email'] = $value->email;
+                $resArr[$i]['Monto Solicitado'] = $value->monto_solicitado;
+                $resArr[$i]['Moneda'] = $value->moneda;
+                $resArr[$i]['Plazo de Crédito'] = $value->plazo_de_credito;
+                $resArr[$i]['Estatura'] = $value->estatura;
+                $resArr[$i]['Peso'] = $value->peso;
+                $resArr[$i]['Deudor/Codeudor'] = $value->deudor_codeudor;
+                $resArr[$i]['Creado por'] = $value->creado_por;
+                $resArr[$i]['Agencia'] = $value->agencia;
+                $i++;
+            }
+            $this->exportXls($resArr, 'Cotizacion', 1, 'A1:P1');
+        }
 
         return view('report.cotizacion', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'id_comp'));
     }
@@ -601,12 +656,13 @@ class ReportController extends Controller {
      * @param type $name
      * @param type $key
      */
-    public function exportXls($array,$name, $key){
+    public function exportXls($array,$name, $key, $cabecera){
+        $cabecera = ($cabecera)?$cabecera:'A1:M1';
         $edd = new ExportXlsController();
             $edd->arrayObj($array, $name, $key);
             $edd->freezeColumn('A');
             $edd->freezeFila('A2');
-            $edd->cabecera('A1:M1');
+            $edd->cabecera($cabecera);
             $edd->exportXls();
     }
     
