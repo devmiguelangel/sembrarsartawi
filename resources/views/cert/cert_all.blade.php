@@ -571,9 +571,11 @@
                 <p style="text-align: left;">
                     Se deja expresa constancia mediante el presente certificado, que:
                 </p>
+                @foreach($cli->details as $titular)
                 <p style="text-align: center; font-weight: bold;">
-                    POLICARPIO ARANDA AGUILAR ó PATRICIA SANDRA MAMANI MUÑOZ
+                    {{ $titular->client->full_name }}
                 </p>
+                @endforeach
                 <p style="text-align: left;">
                     Ha sido admitido como integrante a la póliza Nº {{ $cli->policy_number }} con efecto desde,
                     {{ date('d-m-Y', strtotime($cli->created_at)) }} y como prestatario de la FUNDACIÓN SARTAWI tiene
