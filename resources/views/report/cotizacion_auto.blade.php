@@ -164,7 +164,7 @@
                                     <th>
                             <div class="container">
                                         <div class="col-xs-12">
-                                            <div class="col-lg-12">Auto</div>
+                                            <!--<div class="col-lg-12">Auto</div>-->
                                             <div class="col-lg-5">Modelo</div>
                                             <div class="col-lg-2">Año</div>
                                             <div class="col-lg-3">Placa</div>
