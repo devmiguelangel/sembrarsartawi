@@ -283,7 +283,7 @@
                                         <th>Plazo del Credito - Tipo del Plazo</th>
                                         <th>Estatura (cm)</th>
                                         <th>Peso (kg)</th>
-                                        <th>Particpaci&oacute;n</th>
+                                        <th>Participación</th>
                                         <th>Titular</th>
                                         <th>Creado por</th>
                                         <th>Sucursal / Regional</th>
