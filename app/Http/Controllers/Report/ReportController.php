@@ -320,6 +320,8 @@ class ReportController extends Controller {
         if ($request->get('xls_download')){
             $resArr = [];
             $i = 0;
+            
+            
             foreach ($result as $key => $value) {
                 $resArr[$i]['Número de Póliza'] = $value->policy_number;
                 $resArr[$i]['Cobertura'] = $value->name_coverage;
