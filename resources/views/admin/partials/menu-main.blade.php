@@ -605,7 +605,7 @@
                     @endif
 
                     @if($amr)
-                        @if($data->product=='mr')
+                        @if($data->product=='td')
                             <li>
                                 <a href="#"><i class="icon-puzzle4"></i> <span>{{$data->name_product}}</span></a>
                                 @if($nav=='mr_parameter')
