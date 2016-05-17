@@ -266,7 +266,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <table class="table datatable-fixed-left table-striped" width="100%">
+                            <table class="table datatable-fixed-left_order_false table-striped" width="100%">
                                 <thead>
                                     <tr style="background-color: #337ab7" class="text-white">
                                         <th>Número de Póliza</th>

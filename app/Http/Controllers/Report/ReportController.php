@@ -132,6 +132,7 @@ class ReportController extends Controller {
                 ->leftJoin('op_de_facultatives', 'op_de_details.id', '=', 'op_de_facultatives.op_de_detail_id')
                 ->leftJoin('op_de_observations', 'op_de_facultatives.id', '=', 'op_de_observations.op_de_facultative_id')
                 ->join('op_clients', 'op_de_details.op_client_id', '=', 'op_clients.id')
+                ->orderBy('op_de_headers.issue_number','desc')
                 ->groupBy('op_de_details.id')
                 //edw-->->select('op_de_headers.policy_number','op_de_headers.prefix', 'op_de_headers.id', 'ad_coverages.name', 'op_de_headers.operation_number', 'op_de_headers.amount_requested', 'op_de_headers.currency', 'op_de_headers.term', 'op_de_headers.type_term', 'op_de_headers.total_rate', 'op_de_headers.total_premium', 'op_de_headers.date_issue', 'ad_users.username', 'ad_users.full_name')
                 ->select(
@@ -539,6 +540,7 @@ class ReportController extends Controller {
                 ->join('ad_users', 'op_de_headers.ad_user_id', '=', 'ad_users.id')
                 ->join('ad_agencies', 'ad_users.ad_agency_id', '=', 'ad_agencies.id')
                 ->join('ad_coverages', 'op_de_headers.ad_coverage_id', '=', 'ad_coverages.id')
+                ->orderBy('op_de_headers.quote_number','desc')
                 ->select(
                         'op_de_headers.quote_number as nro_cotizacion', 
                         DB::raw("CONCAT(op_clients.first_name,' ',op_clients.last_name,' ',op_clients.mother_last_name) as cliente"),
