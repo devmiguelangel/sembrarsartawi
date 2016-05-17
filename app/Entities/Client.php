@@ -57,6 +57,27 @@ class Client extends Model
         return $imc;
     }
 
+    public function getImcStatusAttribute()
+    {
+        $imc = '';
+
+        $result = ceil($this->weight / (($this->height / 100) * ($this->height / 100)));
+
+        if ($result < 18) {
+            $imc = 'Desnutricion';
+        } elseif (($result >= 18) and ($result <= 24)) {
+            $imc = 'Saludable';
+        } elseif (($result >= 25) and ($result <= 29)) {
+            $imc = 'Sobrepeso aceptable';
+        } elseif (($result >= 30) and ($result <= 39)) {
+            $imc = 'Obeso';
+        } elseif ($result >= 40){
+            $imc = 'Obesidad morbida';
+        }
+        return $imc;
+        
+    }
+
     public function setFirstNameAttribute($value)
     {
         $this->attributes['first_name'] = mb_strtoupper($value);
