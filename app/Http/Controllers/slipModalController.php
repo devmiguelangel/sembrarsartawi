@@ -83,10 +83,12 @@ class slipModalController extends Controller {
         
         switch ($type) {
             case 'cotizacion':
+                $resQuestion = $this->getEvaluationResponse($detail->response);// no sirve
+                $imc = $detail->client->imc;// no sirve
                 
-                $resQuestion = $this->getEvaluationResponse($detail->response);
-                $imc = $detail->client->imc;
-                
+                foreach ($cli->details as $key => $value) {
+                    $cli->details[$key]->resQuestion = $this->getEvaluationResponse($value->response);    
+                }
                 
                 $var = array('template_cert' => view('cert.cert_cotizacion', compact('header','cli', 'idHeader', 'type', 'flagPdf','retailer','retailerProduct', 'resQuestion', 'imc','aux'))->render());
                 break;
@@ -117,7 +119,6 @@ class slipModalController extends Controller {
                 break;
             
             case 'print_all':
-         
                 $question = array();
                 $i = 1;
                 foreach ($cli->details as $key => $value) {
@@ -126,7 +127,6 @@ class slipModalController extends Controller {
                     }
                     $i ++;
                 }
-                
                 $adRates = DB::table('ad_rates')->get();
                 $adRates = $adRates[0];
                 

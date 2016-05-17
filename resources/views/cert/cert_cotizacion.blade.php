@@ -139,7 +139,8 @@
         <table cellpadding="0" cellspacing="0" border="0"
                style="width: 100%; height: auto; font-size: 80%; font-family: Arial;">
             <tr>
-                @if($resQuestion == 1)
+                
+                @if($titular->resQuestion == 1)
                     <td style="width: 100%; border: 1px solid #3B6E22; background: red; color:#ffffff;
                         height: 20px; padding: 5px">
                         No cumple con la(s) pregunta(s) del cuestionario<br />
@@ -161,7 +162,7 @@
                     <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 100%;">
                         <tr>
                             <td style="width: 30%;">
-                                Saludable
+                                {{ $titular->client->imc_status }}
                             </td>
                             <td style="width: 30%;">
                                 <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;
@@ -196,7 +197,7 @@
                 </td>
             </tr>
             <tr>
-                @if($imc == 1)
+                @if($titular->client->imc == 1)
                     <td style="width: 100%; border: 1px solid #3B6E22; background: red; color:#ffffff;
                         height: 20px; padding: 5px">
                         <strong>Nota: </strong> Al no cumplir con el peso y la estatura adecuados, la compañ&iacute;a de seguros solicitar&aacute; 
@@ -305,15 +306,17 @@
                 <td style="width: 30%; height: 20px;">VALOR ASEGURADO</td>
                 <td style="width: 10%; height: 20px;">TASA FINAL</td>
             </tr>
-
             @foreach($cli->details as $titular)
             <tr>
                 <td style="width: 30%;">{{ $titular->client->full_name }}</td>
                 <td style="width: 30%;">{{ $cli->amount_requested }}  {{ $header->currency }}</td>
+                @if($cli->total_rate == 0)
+                <td style="width: 10%;">0.82 %</td>
+                @else
                 <td style="width: 10%;">{{ $cli->total_rate }}%</td>
+                @endif
             </tr>
             @endforeach
-
         </table><br>
         <b>PRIMA:</b> De acuerdo a declaraciones mensuales del contratante, por mes vencido<br/>
         <b>FORMA DE PAGO:</b> Contado a trav&eacute;s de FUNDACION SARTAWI<br/>
