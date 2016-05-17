@@ -488,15 +488,11 @@
                             Observaciones
                         </td>
                     </tr>
-                    @var $sum=1
-                    @foreach($cli->details as $titular)
-                        <tr>
-                            <td style="width:100%; text-align: justify; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
-                                {{ $header->facultative_observation }}
-                            </td>
-                        </tr>
-                        @var $sum++
-                    @endforeach
+                    <tr>
+                        <td style="width:100%; text-align: justify; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
+                            {{ $header->facultative_observation }}
+                        </td>
+                    </tr>
                 </table>
                 @var $contenido = 'none'
             @endif
