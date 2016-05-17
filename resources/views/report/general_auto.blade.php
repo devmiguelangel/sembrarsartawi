@@ -312,8 +312,8 @@
                                         <td class="col-md-12 col-xs-12" style="width: 700px !important;">
                                         @foreach($entities->auDetail as $detail)
                                             <div class="container">    
-                                                <div class="col-xs-12 text-left alert alert-success">
-                                                    <div class="col-lg-5 "><i class="icon-plus2"></i> {{ $detail->vehicleModel->model }}</div>
+                                                <div class="col-xs-12 text-center ">
+                                                    <div class="col-lg-5 text-left">{{ $detail->vehicleModel->model }}</div>
                                                     <div class="col-lg-2">{{ $detail->year }}</div>
                                                     <div class="col-lg-3">{{ $detail->license_plate }}</div>
                                                     <div class="col-lg-1">{{ $detail->mileage==1?'SI':'NO' }}</div>
@@ -371,6 +371,7 @@
                                         </td>
                                     </tr>
                                     @var $sum++
+                                    @var $key = $entities->nro_cotizacion
                                     @endforeach
                                 </tbody>
                             </table>
