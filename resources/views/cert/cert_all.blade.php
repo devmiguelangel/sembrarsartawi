@@ -501,7 +501,7 @@
                 <table border="0" cellpadding="1" cellspacing="0"
                        style="width: 100%; font-size: 8px; border-collapse: collapse;">
                     <tr>
-                        <td colspan="6"
+                        <td colspan="7"
                             style="width:100%; text-align: center; font-weight: bold; background: #e57474; color: #FFFFFF;">
                             Caso Facultativo
                         </td>
@@ -522,9 +522,10 @@
                         <td style="width:12%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
                             Tasa Final
                         </td>
-                        <td style="width:45%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
+                        <td style="width:22%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
                             Respuesta de la Compañia
                         </td>
+                        <td style="width:23%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">Observaciones</td>
                     </tr>
                     @foreach($data as $facultatives)
                         <tr>
@@ -540,6 +541,7 @@
                                 %
                             </td>
                             <td style="width:45%; text-align: justify; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">{{ $facultatives->observation }}</td>
+                            <td style="width:45%; text-align: justify; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">{{ $header->facultative_observation }}</td>
                         </tr>
                     @endforeach
                 </table>
