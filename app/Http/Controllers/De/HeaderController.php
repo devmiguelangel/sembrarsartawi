@@ -231,35 +231,8 @@ class HeaderController extends Controller
             $header          = $this->repository->getModel();
             $retailerProduct = $this->retailerProductRepository->getModel();
 
-            return view('de.result', compact('rp_id', 'header_id', 'header', 'retailerProduct'));
-        }
-
-        return redirect()->back()->with([ 'error_header' => 'La tasa no pudo ser registrada' ]);
-    }
-
-
-    /**
-     * Store data for Result Quote
-     *
-     * @param HeaderResultFormRequest $request
-     *
-     * @return $this
-     */
-    public function storeResult(HeaderResultFormRequest $request, $rp_id, $header_id)
-    {
-        if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
-            $retailerProduct = $this->retailerProductRepository->getModel();
-            $this->rate      = $retailerProduct->rates()->where('id', $request->get('rate_id'))->first();
-        }
-
-        if ($this->rate instanceof Rate) {
-            $request['rate'] = $this->rate;
-
-            if ($this->repository->storeResult($request, decode($header_id))) {
-                return redirect()->route('de.edit', [
-                    'rp_id'     => $rp_id,
-                    'header_id' => $header_id,
-                ])->with([ 'success_header' => 'La tasa fue registrada correctamente' ]);
+            if ($this->repository->setHeaderResult($retailerProduct, $header)) {
+                return view('de.result', compact('rp_id', 'header_id', 'header', 'retailerProduct'));
             }
         }
 

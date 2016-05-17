@@ -83,29 +83,25 @@
                 <div class="panel-body ">
                     <div class="col-xs-12 col-md-12">
                         @if($retailerProduct->companyProduct->product->code == 'de' && $retailerProduct->type == 'MP')
-                            @foreach ($retailerProduct->rates as $rate)
-                                <div class="col-md-4">
-                                    <div class="panel panel-body border-top-primary text-center">
-                                        <div class="form-group">
-                                            {!! Html::image($retailerProduct->companyProduct->company->image, null, ['style' => 'max-height: 130px;']) !!}
-                                        </div>
-                                        <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
-                                        <p class="text-muted content-group-sm">{{ $rate->rate_final }}%</p>
-                                        <a href="#"
-                                           onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion',{{$retailerProduct->companyProduct->product->id}})"
-                                           data-toggle="modal" data-target="#modal_general" class="btn btn-success">
-                                            <i class="icon-file-check position-left"></i> Ver Cotización
-                                        </a>
-                                        <hr>
-                                        {!! Form::open(['route' => ['de.store.result',  'rp_id' => $rp_id, 'header_id' => $header_id], 'method' => 'post', 'class' => 'form-horizontal']) !!}
-                                        {!! Form::hidden('rate_id', encrypt($rate->id)) !!}
-
-                                        {!! Form::button('<i class="icon-arrow-right14 position-left"></i> Emitir', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
-
-                                        {!! Form::close() !!}
+                            <div class="col-md-4">
+                                <div class="panel panel-body border-top-primary text-center">
+                                    <div class="form-group">
+                                        {!! Html::image($retailerProduct->companyProduct->company->image, null, ['style' => 'max-height: 130px;']) !!}
                                     </div>
+                                    <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
+                                    <p class="text-muted content-group-sm">{{ $header->total_rate }}%</p>
+                                    <a href="#"
+                                       onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion',{{$retailerProduct->companyProduct->product->id}})"
+                                       data-toggle="modal" data-target="#modal_general" class="btn btn-success">
+                                        <i class="icon-file-check position-left"></i> Ver Cotización
+                                    </a>
+                                    <hr>
+                                    <a href="{{ route('de.edit', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
+                                       class="btn btn-primary"><i class="icon-arrow-right14 position-left"></i>
+                                        Emitir
+                                    </a>
                                 </div>
-                            @endforeach
+                            </div>
                         @endif
                     </div>
                 </div>

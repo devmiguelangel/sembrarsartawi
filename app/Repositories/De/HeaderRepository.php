@@ -2,9 +2,11 @@
 
 namespace Sibas\Repositories\De;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Facultative;
 use Sibas\Entities\De\Header;
+use Sibas\Entities\RetailerProduct;
 use Sibas\Repositories\BaseRepository;
 
 class HeaderRepository extends BaseRepository
@@ -94,21 +96,20 @@ class HeaderRepository extends BaseRepository
 
 
     /**
-     * Save data for Result Quote
-     *
-     * @param Request $request
+     * @param Model|RetailerProduct $retailerProduct
+     * @param Model|Header          $header
      *
      * @return bool
      */
-    public function storeResult($request, $header_id)
+    public function setHeaderResult($retailerProduct, $header)
     {
-        $this->data = $request->all();
+        if ($retailerProduct->rates->count() === 1) {
+            foreach ($retailerProduct->rates as $rate) {
+                $header->total_rate    = $rate->rate_final;
+                $header->total_premium = ( $header->amount_requested * $rate->rate_final ) / 100;
 
-        if ($this->getHeaderById($header_id)) {
-            $this->model->total_rate    = $this->data['rate']->rate_final;
-            $this->model->total_premium = ( $this->model->amount_requested * $this->data['rate']->rate_final ) / 100;
-
-            return $this->saveModel();
+                return $this->saveModel();
+            }
         }
 
         return false;
