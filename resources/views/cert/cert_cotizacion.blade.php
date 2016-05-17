@@ -310,11 +310,7 @@
             <tr>
                 <td style="width: 30%;">{{ $titular->client->full_name }}</td>
                 <td style="width: 30%;">{{ $cli->amount_requested }}  {{ $header->currency }}</td>
-                @if($cli->total_rate == 0)
-                <td style="width: 10%;">0.82 %</td>
-                @else
                 <td style="width: 10%;">{{ $cli->total_rate }}%</td>
-                @endif
             </tr>
             @endforeach
         </table><br>
