@@ -318,25 +318,45 @@ use ReportTrait;
             $result = $query->get();
         }
 
-        # validacion filtra poliza enbase al cliente
-        /**if (count($details) > 0 || $flagClient == 1) {
-            $idHeaders = $this->returnIdHeades($details);
-            $var = array();
-            foreach ($result as $key => $value) {
-                if (in_array($value->id, $idHeaders))
-                    $var[] = $value;
-            }
-            $result = $var;
-        }
-        /**/
-
         $result = $this->observations($request, $result);
 
-
         # validacion exporta xls
-        if ($request->get('xls_download'))
-            $this->exportXls($result, 'General', 1);
-        
+        if ($request->get('xls_download')) {
+            $resArr = [];
+            $i = 0;
+            foreach ($result as $key => $value) {
+                $resArr[$i]['Nro. Emisión'] = $value->nro_cotizacion;
+                $resArr[$i]['Cliente'] = $value->cliente;
+                $resArr[$i]['C.I.'] = $value->ci;
+                $resArr[$i]['Genero'] = $value->genero;
+                $resArr[$i]['Plazo de Credito'] = $value->plazo_de_credito;
+                $resArr[$i]['Forma de Pago'] = ($value->forma_de_pago == 'AN') ? 'Anualizado' : 'Prima Total';
+                $resArr[$i]['Nro. Credito'] = $value->numero_credito;
+                $resArr[$i]['Auto'] = $value->tipo_vehiculo;
+                $resArr[$i]['Modelo'] = $value->modelo;
+                $resArr[$i]['Año'] = $value->anio;
+                $resArr[$i]['Placa'] = $value->placa;
+                $resArr[$i]['0 Km.'] = $value->cero_km;
+                $resArr[$i]['Valor Asegurado'] = $value->valor_asegurado . ' ' . $value->moneda;
+                $resArr[$i]['Usuario'] = $value->usuario;
+                $resArr[$i]['Sucursal Registro'] = $value->sucursal_registro;
+                $resArr[$i]['Agencia'] = $value->agencia;
+                $resArr[$i]['Fecha de Ingreso'] = $value->fecha_de_ingreso;
+                $resArr[$i]['Anulado'] = ($value->anulado == 0) ? 'NO' : 'SI';
+                $resArr[$i]['Anulado Por'] = $value->anulado_por;
+                $resArr[$i]['Fecha Anualción'] = $value->fecha_anulacion;
+                $resArr[$i]['Estado Compañia'] = $value->estado_compania;
+                $resArr[$i]['Estado Banco'] = $value->estado_banco;
+                $resArr[$i]['Motivo Estado Compañia'] = $value->motivo_estado_compania;
+                $resArr[$i]['Porcentaje Extraprima'] = $value->porcentaje_extraprima;
+                $resArr[$i]['Fecha Respuesta Final Compañia'] = $value->fecha_respuesta_final_compania;
+                $resArr[$i]['Duración Total del Caso'] = $value->duracion_total_del_caso;
+                $i++;
+            }
+            $this->exportXls($resArr, 'General', 1, 'A1:Z1');
+        }
+
+
         # listado de autos registrados por cliente
         foreach ($result as $key => $value) {
             $result[$key]->auDetail = Detail::where('op_au_header_id', $value->id)->get();
@@ -585,22 +605,41 @@ use ReportTrait;
             if ($request->get('cliente'))
                 $query->where('op_clients.first_name', 'LIKE', '%' . $request->get('cliente') . '%');
 
-            /**
-              if ($request->get('extension') || $request->get('ci') || $request->get('cliente'))
-              $flagClient = 1;
 
-              $details = $opClients->get();
-              /* */
             $result = $query->get();
         }else {
             $result = $query->get();
         }
 
-
-
         # validacion exporta xls
-        if ($request->get('xls_download'))
-            $this->exportXls($result, 'Cotizacion', 1);
+        if ($request->get('xls_download')){
+            $resArr = [];
+            $i = 0;
+
+            foreach ($result as $key => $value) {
+                $resArr[$i]['Nro. Cotización'] = $value->nro_cotizacion;
+                $resArr[$i]['Cliente'] = $value->cliente;
+                $resArr[$i]['CI'] = $value->ci;
+                $resArr[$i]['Ciudad'] = $value->ciudad;
+                $resArr[$i]['Género'] = $value->genero;
+                $resArr[$i]['Plazo de Crédito'] = $value->plazo_de_credito;
+                $resArr[$i]['Forma de Pago'] = $value->forma_de_pago;
+                $resArr[$i]['Nro. Crédito'] = $value->numero_credito;
+                $resArr[$i]['Usuario'] = $value->usuario;
+                $resArr[$i]['Sucursal Regístro'] = $value->sucursal_registro;
+                $resArr[$i]['Agencia'] = $value->agencia;
+                $resArr[$i]['Auto'] = $value->tipo_vehiculo;
+                $resArr[$i]['Modelo'] = $value->modelo;
+                $resArr[$i]['Año'] = $value->anio;
+                $resArr[$i]['Placa'] = $value->placa;
+                $resArr[$i]['0 Km.'] = $value->cero_km;
+                $resArr[$i]['Valor Asegurado'] = $value->valor_asegurado.' '.$value->moneda;
+
+                $i++;
+            }
+            $this->exportXls($resArr, 'Cotizacion', 1, 'A1:Q1');
+        }
+
 
         # listado de autos registrados por cliente
         foreach ($result as $key => $value) {
@@ -616,12 +655,13 @@ use ReportTrait;
      * @param type $name
      * @param type $key
      */
-    public function exportXls($array, $name, $key) {
+    public function exportXls($array, $name, $key,$cabecera) {
+        $cabecera = ($cabecera)?$cabecera:'A1:M1';
         $edd = new ExportXlsController();
         $edd->arrayObj($array, $name, $key);
         $edd->freezeColumn('A');
         $edd->freezeFila('A2');
-        $edd->cabecera('A1:M1');
+        $edd->cabecera($cabecera);
         $edd->exportXls();
     }
 
