@@ -128,10 +128,10 @@ use ReportTrait;
                 ->join('op_de_details', 'op_clients.id', '=', 'op_de_details.op_client_id')
                 ->select('op_de_details.op_de_header_id');
         if ($request->get('xls_download'))
-            $keyGroup ='op_au_headers.id';
-                else
-            $keyGroup ='op_au_details.id';
-                
+            $keyGroup = 'op_au_details.id';
+        else
+            $keyGroup = 'op_au_headers.id';
+
         $query = DB::table('op_au_headers')
                 ->join('ad_users', 'op_au_headers.ad_user_id', '=', 'ad_users.id')
                 ->join('ad_agencies', 'ad_users.ad_agency_id', '=', 'ad_agencies.id')
@@ -530,9 +530,10 @@ use ReportTrait;
         $cities = $this->cities;
         $extencion = $this->extencion;
         if ($request->get('xls_download'))
-            $keyGroup ='op_au_headers.id';
-                else
-            $keyGroup ='op_au_details.id';
+            $keyGroup = 'op_au_details.id';
+        else
+            $keyGroup = 'op_au_headers.id';
+
         $valueForm = $this->addValueForm($request);
         $query = DB::table('op_au_headers')
                 ->join('op_clients', 'op_au_headers.op_client_id', '=', 'op_clients.id')
