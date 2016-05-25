@@ -567,7 +567,7 @@ class ContentAdminController extends BaseController
                     'updated_at' => date("Y-m-d H:i:s")
                 ]);
 
-            return redirect()->route('admin.mr.content.list', ['nav' => 'mr_content', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
+            return redirect()->route('admin.td.content.list', ['nav' => 'mr_content', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
 
         }catch(QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));

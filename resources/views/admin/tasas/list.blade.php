@@ -35,7 +35,7 @@
             @include('admin.partials.message')
         </div>
         @if(count($query)>0)
-            @if($code_product=='de' || $code_product=='vi' || $code_product=='mr')
+            @if($code_product=='de' || $code_product=='vi' || $code_product=='td')
                 <table class="table table-bordered table-striped table-hover dataTable no-footer">
                     <thead>
                     <tr>

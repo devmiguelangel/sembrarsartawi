@@ -33,7 +33,7 @@
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'new_rates', 'name' => 'NewForm', 'id' => 'NewForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
-                @if($code_product=='de' || $code_product=='vi' || $code_product=='mr')
+                @if($code_product=='de' || $code_product=='vi' || $code_product=='td')
                     <fieldset class="content-group">
                         <div class="form-group">
                             <label class="control-label col-lg-2">Retailer <span class="text-danger">*</span></label>
@@ -207,7 +207,7 @@
                 var code = arr[1];
                 //alert(id_retailer_product);
                 if(id_retailer_product!=0){
-                    if(code=='de' || code=='mr'){
+                    if(code=='de' || code=='td'){
                         $('#content-coverage').fadeOut('fast');
                         $('#id_coverage').removeClass('form-control required').addClass('form-control not-required');
                         $('#content-rate-company').fadeOut('fast');
