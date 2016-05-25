@@ -100,6 +100,12 @@
                                                         {{ request()->route()->getName() === 'au.result' ? 'active' : '' }}
                                                         {{ request()->route()->getName() === 'au.edit' ? 'active' : '' }}
                                                     @endif
+                                                    @if($retailerProduct->companyProduct->product->code === 'mr')
+                                                        {{ request()->route()->getName() === 'td.create' ? 'active' : '' }}
+                                                        {{ request()->route()->getName() === 'td.vh.lists' ? 'active' : '' }}
+                                                        {{ request()->route()->getName() === 'td.result' ? 'active' : '' }}
+                                                        {{ request()->route()->getName() === 'td.edit' ? 'active' : '' }}
+                                                    @endif
                                                     ">
                                                 <a href="{{ route($retailerProduct->companyProduct->product->code . '.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a>
                                             </li>

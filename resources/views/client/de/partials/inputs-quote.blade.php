@@ -59,7 +59,30 @@
                    for="location">{{ $errors->first('civil_status') }}</label>
         </div>
     </div>
-
+    @if(isset($product) && $product === 'td')
+        <div class="form-group">
+            <label class="control-label col-lg-3 label_required">Documento de identidad: </label>
+            <div class="col-lg-9">
+                {!! Form::text('dni', old('dni', $client->dni), [
+                    'class' => 'form-control ui-wizard-content',
+                    'placeholder' => 'Documento de identidad',
+                    'autocomplete' => 'off'])
+                !!}
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('dni') }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-3 control-label label_required">Ext. Documento de identidad: </label>
+            <div class="col-lg-9">
+                {!! SelectField::input('extension', $data['cities']['CI']->toArray(), [
+                'class' => 'select-search'],
+                old('extension', $client->extension)) !!}
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('extension') }}</label>
+            </div>
+        </div>
+    @endif
     @if(! isset($ref) && ! isset($product))
         <div class="form-group">
             <label class="col-lg-3 control-label label_required">Tipo de documento:</label>
@@ -216,13 +239,14 @@
                    for="location">{{ $errors->first('home_address') }}</label>
         </div>
     </div>
-    @if(isset($ref) || (isset($product) && $product === 'au'))
+    @if(isset($ref) || (isset($product) && $product === 'au' ||$product === 'td'))
         <div class="form-group">
             <label class="control-label label_required col-lg-3">Número de domicilio: </label>
             <div class="col-lg-9">
                 <div class="input-group">
                     <span class="input-group-addon">Nro.</span>
-                    {!! Form::text('home_number', old('home_number', (isset($product) && $product === 'au' ? $client->home_number : $detail->client->home_number)), [
+                    {!! Form::text('home_number', old('home_number', (
+                    isset($product) && $product === 'au' ? $client->home_number : isset($product) && $product === 'td' ? $client->home_number : $detail->client->home_number)), [
                         'class' => 'form-control ui-wizard-content',
                         'autocomplete' => 'off',
                         'placeholder' => 'Número de domicilio'])
@@ -236,7 +260,8 @@
         <div class="form-group">
             <label class="control-label col-lg-3 label_required">Dirección laboral: </label>
             <div class="col-lg-9">
-                {!! Form::textarea('business_address', old('business_address', (isset($product) && $product === 'au' ? $client->business_address : $detail->client->business_address)), [
+                {!! Form::textarea('business_address', old('business_address', (
+                isset($product) && $product === 'au' ? $client->business_address : isset($product) && $product === 'td' ? $client->business_address : $detail->client->business_address)), [
                     'size' => '4x4',
                     'class' => 'form-control',
                     'placeholder' => 'Dirección laboral',

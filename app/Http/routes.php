@@ -70,6 +70,10 @@ Route::group([ 'middleware' => 'auth' ], function () {
         require 'routes/pdfSleep.php';
 
         /*
+         * Header TD
+         */
+        require 'routes/td.issuance.php';
+        /*
          * Header AU
          */
         require 'routes/au.issuance.php';
@@ -89,3 +93,7 @@ Route::get('{rp_id}/facultative/{id}/mc/show', [
     'as'   => 'de.fa.mc.show',
     'uses' => 'De\MedicalCertificateController@show'
 ]);
+Route::get('{rp_id}/prueba/{header_id}/ejemplo_de_ruta/ejemplo3', [
+        'as'   => 'prueba_ejemplo',
+        'uses' => 'Td\HeaderController@listInsured'
+    ]);

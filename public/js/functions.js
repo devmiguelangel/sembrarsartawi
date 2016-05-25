@@ -46,6 +46,60 @@ function cargaModal(id_header, tokken, url, post, type, aux) {
         }
     });
 }
+function listInsured(url, post, id_header) {
+    console.log('url-->'+url);
+    console.log('post-->'+post);
+    console.log('id_header-->'+id_header);
+    $.ajax({
+        url: url,
+        type: post,
+        data: {
+            id_header: id_header
+        },
+        dataType: 'JSON',
+        beforeSend: function() {
+            $("#content_insured").html('Buscando Detalle...');
+        },
+        error: function() {
+            $("#content_insured").html('<div> Ha surgido un error. </div>');
+        },
+        success: function(respuesta) {
+            //console.log(respuesta.template_cert);
+            if (respuesta) {
+                $("#content_insured").html(respuesta.template);
+            } else {
+                $("#content_insured").html('<div> No existe detalle. </div>');
+            }
+        }
+    });
+}
+/**
+ * Funcion retornacontenido al modal con ajax
+ * @param {type} url ruta de ejecucion de una funcion
+ * @param {type} method puede ser GET - POST
+ * @returns {undefined}
+ */
+function returnContent(url, method) {
+    $.ajax({
+        url: url,
+        type: method,
+        dataType: 'JSON',
+        beforeSend: function() {
+            $("#respuesta").html('Buscando contenido...');
+        },
+        error: function() {
+            $("#respuesta").html('<div> Ha surgido un error. </div>');
+        },
+        success: function(respuesta) {
+            if (respuesta) {
+                // respuesta ajax
+                $("#respuesta").html(respuesta.template);
+            } else {
+                $("#respuesta").html('<div> No hay ningún cliente con ese id. </div>');
+            }
+        }
+    });
+}
 
 /**
  * funcion imprime modal
@@ -114,4 +168,4 @@ var FormGralF = {
         $('#md-colored').modal();
     },
 };
-	
+

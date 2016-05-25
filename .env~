@@ -3,7 +3,7 @@ APP_DEBUG=true
 APP_KEY=1ahl1VkdfszRmEG2EpSLPRv7fXJl31QZ
 
 DB_HOST=localhost
-DB_DATABASE=2016_sibas2
+DB_DATABASE=2016_sibas_od
 DB_USERNAME=root
 DB_PASSWORD=admin
 
