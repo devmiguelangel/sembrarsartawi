@@ -621,12 +621,12 @@
 
                                 <ul>
                                     <li class="{{$data_mrpa}}">
-                                        <a href="{{route('admin.mr.parameters.list-parameter', ['nav'=>'mr_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
+                                        <a href="{{route('admin.td.parameters.list-parameter', ['nav'=>'mr_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$data->id_retailer_product])}}">Parametros del producto</a>
                                     </li>
                                 </ul>
                                 <ul>
                                     <li class="{{$data_mrco}}">
-                                        <a href="{{route('admin.mr.content.list', ['nav'=>'mr_content', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar Contenido</a>
+                                        <a href="{{route('admin.td.content.list', ['nav'=>'mr_content', 'action'=>'list', 'id_retailer_product'=>$data->id_retailer_product])}}">Administrar Contenido</a>
                                     </li>
                                 </ul>
                             </li>

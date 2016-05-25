@@ -22,7 +22,7 @@ class TasasAdminController extends BaseController
         $main_menu = $this->menu_principal();
         $array_data = $this->array_data();
         if($action=='list'){
-            if($code_product=='de' || $code_product=='vi' || $code_product=='mr'){
+            if($code_product=='de' || $code_product=='vi' || $code_product=='td'){
                 $product_query = Product::where('code',$code_product)->first();
                 $query = \DB::table('ad_rates as ar')
                     ->leftjoin('ad_coverages as ac', 'ac.id', '=', 'ar.ad_coverage_id')
@@ -122,7 +122,7 @@ class TasasAdminController extends BaseController
             $rate_final = $request->get('rate_final');
         }
         try{
-            if($arr[1] == 'de' || $arr[1] == 'vi' || $arr[1] == 'mr'){
+            if($arr[1] == 'de' || $arr[1] == 'vi' || $arr[1] == 'td'){
                 $query_insert = \DB::table('ad_rates')->insert(
                     [
                         'rate_company' => $rate_company,
@@ -192,7 +192,7 @@ class TasasAdminController extends BaseController
     {
         $main_menu = $this->menu_principal();
         $array_data = $this->array_data();
-        if($code_product=='de' || $code_product=='vi' || $code_product=='mr'){
+        if($code_product=='de' || $code_product=='vi' || $code_product=='td'){
             $query = \DB::table('ad_rates as ar')
                 ->leftjoin('ad_coverages as ac', 'ac.id', '=', 'ar.ad_coverage_id')
                 ->join('ad_retailer_products as arp', 'arp.id', '=', 'ar.ad_retailer_product_id')

@@ -28,7 +28,7 @@ class MrAdminController extends BaseController
             ->first();
         //$retailer_product_query = RetailerProduct::with('retailer','companyProduct.product')->where('id',$id_retailer_product)->first();
         //dd($retailer_product_query);
-        return view('admin.mr.parameters.list-parameter', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'array_data', 'query'));
+        return view('admin.td.parameters.list-parameter', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'array_data', 'query'));
     }
 
     /**
@@ -46,10 +46,10 @@ class MrAdminController extends BaseController
                 ->where('ad_retailer_product_id', '=', $id_retailer_product)
                 ->get();
             //dd($retailer_product_query);
-            return view('admin.mr.parameters.list-parameter-additional', compact('nav', 'action', 'id_retailer_product', 'main_menu','array_data', 'query', 'retailer_product_query'));
+            return view('admin.td.parameters.list-parameter-additional', compact('nav', 'action', 'id_retailer_product', 'main_menu','array_data', 'query', 'retailer_product_query'));
         }elseif($action=='new_parameter_additional'){
             //dd($retailer_product_query);
-            return view('admin.mr.parameters.new-parameter-additional', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'array_data', 'retailer_product_query'));
+            return view('admin.td.parameters.new-parameter-additional', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'array_data', 'retailer_product_query'));
         }
     }
 
@@ -87,7 +87,7 @@ class MrAdminController extends BaseController
             $query_int->expiration = $request->get('caduc');
             $query_int->detail = $request->get('cantidad');
             if ($query_int->save()) {
-                return redirect()->route('admin.mr.parameters.list-parameter-additional', ['nav' => 'mr_parameter', 'action' => 'list_parameter_additional', 'id_retailer_product' => $id_retailer_product])->with(array('ok'=>'Se registro correctamente los datos del formulario'));
+                return redirect()->route('admin.td.parameters.list-parameter-additional', ['nav' => 'mr_parameter', 'action' => 'list_parameter_additional', 'id_retailer_product' => $id_retailer_product])->with(array('ok'=>'Se registro correctamente los datos del formulario'));
             }
         }catch (QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
@@ -123,7 +123,7 @@ class MrAdminController extends BaseController
             ->where('arp.id', '=', $id_retailer_product)
             ->first();
         //dd($query);
-        return view('admin.mr.parameters.edit-parameter', compact('nav', 'action', 'query', 'id_retailer_product', 'main_menu', 'array_data'));
+        return view('admin.td.parameters.edit-parameter', compact('nav', 'action', 'query', 'id_retailer_product', 'main_menu', 'array_data'));
     }
 
     public function edit_parameter_additional($nav, $action, $id_product_parameters, $id_retailer_product)
@@ -138,7 +138,7 @@ class MrAdminController extends BaseController
                 ->where('ad_retailer_product_id',$id_retailer_product)
                 ->first();
             //dd($query);
-            return view('admin.mr.parameters.edit-parameter-additional', compact('nav', 'action', 'id_product_parameters', 'id_retailer_product', 'main_menu', 'array_data', 'query', 'retailer_product_query'));
+            return view('admin.td.parameters.edit-parameter-additional', compact('nav', 'action', 'id_product_parameters', 'id_retailer_product', 'main_menu', 'array_data', 'query', 'retailer_product_query'));
         }
     }
     /**
@@ -158,7 +158,7 @@ class MrAdminController extends BaseController
             $retailer_update->facultative=$request->input('facu');
             $retailer_update->ws=$request->input('webs');
             if($retailer_update->save()) {
-                return redirect()->route('admin.mr.parameters.list-parameter', ['nav' => 'mr_parameter', 'action' => 'list_parameter', 'id_retailer_product'=>$request->input('id_retailer_product')])->with(array('ok'=>'Se edito correctamente los datos del formulario'));
+                return redirect()->route('admin.td.parameters.list-parameter', ['nav' => 'mr_parameter', 'action' => 'list_parameter', 'id_retailer_product'=>$request->input('id_retailer_product')])->with(array('ok'=>'Se edito correctamente los datos del formulario'));
             }
         }catch (QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
@@ -180,7 +180,7 @@ class MrAdminController extends BaseController
             $query_update->expiration = $request->get('caduc');
             $query_update->detail = $request->get('cantidad');
             if ($query_update->save()) {
-                return redirect()->route('admin.mr.parameters.list-parameter-additional', ['nav' => 'mr_parameter', 'action' => 'list_parameter_additional', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se edito correctamente los datos del formulario'));
+                return redirect()->route('admin.td.parameters.list-parameter-additional', ['nav' => 'mr_parameter', 'action' => 'list_parameter_additional', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se edito correctamente los datos del formulario'));
             }
         }catch (QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
