@@ -553,14 +553,14 @@
             @if($action=='list_parameter')
                 <li class="active">Parametros</li>
             @elseif($action=='edit_parameter')
-                <li><a href="{{ route('admin.mr.parameters.list-parameter', ['nav'=>'mr_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}">Parametros</a></li>
+                <li><a href="{{ route('admin.td.parameters.list-parameter', ['nav'=>'mr_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}">Parametros</a></li>
                 <li class="active">Formulario</li>
             @elseif($action=='list_parameter_additional')
-                <li><a href="{{ route('admin.mr.parameters.list-parameter', ['nav'=>'mr_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}">Parametros</a></li>
+                <li><a href="{{ route('admin.td.parameters.list-parameter', ['nav'=>'mr_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}">Parametros</a></li>
                 <li class="active">parametros adicionales</li>
             @elseif($action=='new_parameter_additional' || $action=='edit_parameter_additional')
-                <li><a href="{{ route('admin.mr.parameters.list-parameter', ['nav'=>'mr_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}">Parametros</a></li>
-                <li><a href="{{ route('admin.mr.parameters.list-parameter-additional', ['nav'=>'mr_parameter', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product]) }}">Parametros Adicionales</a></li>
+                <li><a href="{{ route('admin.td.parameters.list-parameter', ['nav'=>'mr_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}">Parametros</a></li>
+                <li><a href="{{ route('admin.td.parameters.list-parameter-additional', ['nav'=>'mr_parameter', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product]) }}">Parametros Adicionales</a></li>
                 <li class="active">Formulario</li>
             @endif
         @elseif($nav=='mr_content')
@@ -568,7 +568,7 @@
             @if($action=='list')
                 <li class="active">Tabla de datos</li>
             @elseif($action=='new' || $action=='edit')
-                <li><a href="{{ route('admin.mr.content.list', ['nav'=>'mr_content', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Tabla de datos</a></li>
+                <li><a href="{{ route('admin.td.content.list', ['nav'=>'mr_content', 'action'=>'list', 'id_retailer_product'=>$id_retailer_product]) }}">Tabla de datos</a></li>
                 <li class="active">Formulario</li>
             @endif
         @endif

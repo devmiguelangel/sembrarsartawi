@@ -138,7 +138,7 @@
                 <button type="submit" class="btn btn-primary">
                     Guardar <i class="icon-floppy-disk position-right"></i>
                 </button>
-                <a href="{{ route('admin.mr.parameters.list-parameter', ['nav'=>'mr_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}" class="btn btn-primary">
+                <a href="{{ route('admin.td.parameters.list-parameter', ['nav'=>'mr_parameter', 'action'=>'list_parameter', 'id_retailer_product'=>$id_retailer_product]) }}" class="btn btn-primary">
                     Cancelar <i class="icon-cross position-right"></i>
                 </a>
                 <input type="hidden" name="id_retailer_product" value="{{$id_retailer_product}}">
