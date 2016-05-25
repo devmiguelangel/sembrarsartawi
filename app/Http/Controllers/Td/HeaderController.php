@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Sibas\Entities\Client;
 use Sibas\Entities\City;
 use Sibas\Entities\Rate;
+use Sibas\Entities\ProductParameter;
 use Sibas\Entities\Td\Detail;
 use Sibas\Http\Controllers\DataTrait;
 use Sibas\Http\Controllers\MailController;
@@ -100,18 +101,20 @@ use DataTrait;
             return redirect()->back()->with([ 'error_header' => 'Presione "Nuevo" para registrar Riesgos.']);
         } else {
             if ($this->repository->getHeaderById(decode($header_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
-                $header = $this->repository->getModel();
                 $retailerProduct = $this->retailerProductRepository->getModel();
-
                 $rate = Rate::where('ad_retailer_product_id', decode($rp_id))->first();
+                
                 $totalPremium = 0;
+                #calcula y actualiza tasa final de cada riesgo
                 foreach ($detail as $key => $value) {
                     $this->detailRepository->updateRate($value->toArray(), $rate->rate_final);
                     $totalPremium+= ($value->insured_value * $rate->rate_final) / 100;
                 }
-
+                
+                #actualiza tasa final en header
                 $this->repository->updateHeaderTotalPremium(decode($header_id), $totalPremium);
-
+                $header = $this->repository->getModel();
+                
                 return view('td.result', compact('rp_id', 'header_id', 'header', 'retailerProduct'));
             }
         }
@@ -188,8 +191,14 @@ use DataTrait;
      * @param \Illuminate\Http\Request $request
      * @return int
      */
-    public function storeInsured(Request $request){
-        $this->detailRepository->createDetail($request);
+    public function storeInsured(Request $request, $rp_id, $header_id){
+        $prodParam = ProductParameter::where('ad_retailer_product_id',decode($rp_id))->where('slug','GE')->first();
+        
+        $this->detailRepository->getDetailByHeader(decode($header_id));
+        $detail = $this->detailRepository->getModel();
+        
+        if(count($detail) < $prodParam->detail || $request->get('id_detail') != '')
+            $this->detailRepository->createDetail($request);
     }
     
     /**edw
@@ -199,11 +208,19 @@ use DataTrait;
      * @return type
      */
     public function listInsured($rp_id, $header_id){
+        
+        $prodParam = ProductParameter::where('ad_retailer_product_id',decode($rp_id))->where('slug','GE')->first();
+        
         $detail = Detail::where('op_td_header_id',decode($header_id))->get();
-        $var = array('template' => view('td.listInsured', compact('detail','header_id', 'rp_id'))->render());
+        $exedDetail = 0;
+        if(count($detail) == $prodParam->detail)
+            $exedDetail = $prodParam->detail;
+        
+        
+        $var = array('template' => view('td.listInsured', compact('detail','header_id', 'rp_id', 'exedDetail','prodParam'))->render());
         return response()->json($var);
     }
-
+        
     /**edw
      * retorna array 
      * @param type $array

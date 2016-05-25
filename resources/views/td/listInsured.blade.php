@@ -2,6 +2,9 @@
 @if(count($detail)==0)
 <h2>Presione "Nuevo <i class="glyphicon glyphicon-plus "></i>" para registrar Riesgos.</h2>
 @else
+@if($exedDetail > 0 )
+    <div class="alert alert-success">Solo puede registrar <strong>{{ $prodParam->detail }}</strong> Riesgos.</div>
+@endif
     <table class="table datatable-basic">
         <thead>
             <tr>
@@ -32,4 +35,5 @@
             @endforeach
         </tbody>
     </table>
+<small>Puede registrar asta {{ $prodParam->detail }} <strong>Intereses Asegurados</strong> como maximo.</small>
 @endif

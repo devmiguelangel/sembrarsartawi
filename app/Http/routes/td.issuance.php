@@ -33,7 +33,7 @@ Route::group([ 'prefix' => 'td/{rp_id}' ], function () {
         'uses' => 'Td\HeaderController@formDetail'
     ]);
     //edw
-    Route::post('create_insured', [
+    Route::post('create_insured/{header_id}', [
         'as'   => 'td.save.insured',
         'uses' => 'Td\HeaderController@storeInsured'
     ]);

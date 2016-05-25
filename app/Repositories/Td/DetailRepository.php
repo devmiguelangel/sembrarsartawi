@@ -174,6 +174,22 @@ class DetailRepository extends BaseRepository
         }
         return false;
     }
+    /**
+     * funcion retorna registros mediante id de hader
+     * @param type $idHeader
+     * @return boolean
+     */
+    public function getDetailByHeader($idHeader) {
+        $query = Detail::where('op_td_header_id', '=', $idHeader);
+        $this->model = $query->get();
+
+        if ($this->model->count() == 1) {
+            $this->model = $this->model->first();
+
+            return true;
+        }
+        return false;
+    }
 
     /** Find Client by Id
      *

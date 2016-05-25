@@ -118,7 +118,6 @@
                                 <tbody></tbody>
                             </table>
                         </div>
-                        <small>Puede registrar asta 5 <strong>Intereses Asegurados</strong> como maximo.</small>
                     </div>
                 </div>
                 <div class="clearfix"></div>
