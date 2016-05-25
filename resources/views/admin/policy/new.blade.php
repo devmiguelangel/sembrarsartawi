@@ -64,7 +64,7 @@
                         <input type="text" name="txtNumPoliza" id="txtNumPoliza" value="" class="form-control required alphanumeric">
                     </div>
                 </div>
-                @if($code_product=='au' || $code_product=='mr')
+                @if($code_product=='au' || $code_product=='td')
                     <div class="form-group">
                         <label class="control-label col-lg-2">Moneda <span class="text-danger">*</span></label>
                         <div class="col-lg-10">

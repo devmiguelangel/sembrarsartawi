@@ -114,14 +114,14 @@ class ContentAdminController extends BaseController
                 ->where('ad_retailer_products.id',$id_retailer_product)
                 ->first();
             //dd($query);
-            return view('admin.mr.content.list', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'query_retailer', 'array_data'));
+            return view('admin.td.content.list', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'query_retailer', 'array_data'));
         }elseif($action=='new'){
             $query_retailer = RetailerProduct::join('ad_company_products as acp', 'acp.id', '=', 'ad_retailer_products.ad_company_product_id')
                 ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
                 ->select('ap.name as product')
                 ->where('ad_retailer_products.id',$id_retailer_product)
                 ->first();
-            return view('admin.mr.content.new', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'query_retailer', 'array_data'));
+            return view('admin.td.content.new', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'query_retailer', 'array_data'));
         }
     }
     /**
@@ -277,7 +277,7 @@ class ContentAdminController extends BaseController
                 ]
             );
 
-            return redirect()->route('admin.mr.content.list', ['nav' => 'mr_content', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se registro correctamente los datos del formulario'));
+            return redirect()->route('admin.td.content.list', ['nav' => 'mr_content', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se registro correctamente los datos del formulario'));
 
         }catch(QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
@@ -387,7 +387,7 @@ class ContentAdminController extends BaseController
             ->where('ad_retailer_products.id',$id_retailer_product)
             ->first();
         //dd($query);
-        return view('admin.mr.content.edit', compact('nav', 'action', 'main_menu', 'query', 'query_retailer', 'id_retailer_product', 'array_data'));
+        return view('admin.td.content.edit', compact('nav', 'action', 'main_menu', 'query', 'query_retailer', 'id_retailer_product', 'array_data'));
     }
     /**
      * Update the specified resource in storage.

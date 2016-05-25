@@ -84,7 +84,7 @@ class PolicyAdminController extends BaseController
             $auto_increment = $request->input('auto_inc');
         }
 
-        if($request->input('code_product')=='au' || $request->get('code_product')=='mr'){
+        if($request->input('code_product')=='au' || $request->get('code_product')=='td'){
            $currency = $request->get('moneda');
         }
 

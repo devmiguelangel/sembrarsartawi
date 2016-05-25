@@ -81,7 +81,7 @@
                     @endif
                 </td>
                 <td style="text-align: center;">
-                    <a href="{{route('admin.mr.parameters.list-parameter-additional', ['nav'=>'mr_parameter', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-success">Agregar/Modificar Parametros <i class="icon-plus2"></i></a>
+                    <a href="{{route('admin.td.parameters.list-parameter-additional', ['nav'=>'mr_parameter', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-success">Agregar/Modificar Parametros <i class="icon-plus2"></i></a>
                 </td>
                 <td>
                     @if((boolean)$query->active == true)
@@ -99,7 +99,7 @@
 
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li>
-                                    <a href="{{route('admin.mr.parameters.edit-parameter', ['nav'=>'mr_parameter', 'action'=>'edit_parameter', 'id_retailer_product'=>$id_retailer_product])}}">
+                                    <a href="{{route('admin.td.parameters.edit-parameter', ['nav'=>'mr_parameter', 'action'=>'edit_parameter', 'id_retailer_product'=>$id_retailer_product])}}">
                                         <i class="icon-pencil3"></i> Editar
                                     </a>
                                 </li>

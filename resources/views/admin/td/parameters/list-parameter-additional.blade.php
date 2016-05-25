@@ -24,7 +24,7 @@
 
                 <ul class="icons-list">
                     <li>
-                        <a href="{{route('admin.mr.parameters.new-parameter-additional', ['nav'=>'mr_parameter', 'action'=>'new_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-link btn-float has-text">
+                        <a href="{{route('admin.td.parameters.new-parameter-additional', ['nav'=>'mr_parameter', 'action'=>'new_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
                             <span>Agregar Parametros</span>
                         </a>
@@ -70,7 +70,7 @@
 
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
-                                            <a href="{{route('admin.mr.parameters.edit-parameter-additional', ['nav'=>'mr_parameter', 'action'=>'edit_parameter_additional', 'id_product_parameters'=>$data->id, 'id_retailer_product'=>$data->ad_retailer_product_id])}}">
+                                            <a href="{{route('admin.td.parameters.edit-parameter-additional', ['nav'=>'mr_parameter', 'action'=>'edit_parameter_additional', 'id_product_parameters'=>$data->id, 'id_retailer_product'=>$data->ad_retailer_product_id])}}">
                                                 <i class="icon-pencil3"></i>Editar
                                             </a>
                                         </li>

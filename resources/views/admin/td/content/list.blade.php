@@ -24,7 +24,7 @@
                 @if(count($query)==0)
                     <ul class="icons-list">
                         <li>
-                            <a href="{{route('admin.mr.content.new', ['nav'=>'mr_content', 'action'=>'new', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-link btn-float has-text">
+                            <a href="{{route('admin.td.content.new', ['nav'=>'mr_content', 'action'=>'new', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-link btn-float has-text">
                                 <i class="icon-file-plus text-primary"></i>
                                 <span>Crear Contenido</span>
                             </a>
@@ -62,7 +62,7 @@
 
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
-                                        <a href="{{route('admin.mr.content.edit', ['nav'=>'mr_content', 'action'=>'edit', 'id_retailer_product'=>$id_retailer_product, 'id_content'=>$query->id])}}">
+                                        <a href="{{route('admin.td.content.edit', ['nav'=>'mr_content', 'action'=>'edit', 'id_retailer_product'=>$id_retailer_product, 'id_content'=>$query->id])}}">
                                             <i class="icon-pencil3"></i> Editar
                                         </a>
                                     </li>
