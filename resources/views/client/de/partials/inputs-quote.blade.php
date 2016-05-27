@@ -239,7 +239,7 @@
                    for="location">{{ $errors->first('home_address') }}</label>
         </div>
     </div>
-    @if(isset($ref) || (isset($product) && $product === 'au' ||$product === 'td'))
+    @if(isset($ref) || (isset($product) && ($product === 'au' || $product === 'td')))
         <div class="form-group">
             <label class="control-label label_required col-lg-3">Número de domicilio: </label>
             <div class="col-lg-9">
