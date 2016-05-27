@@ -1,4 +1,4 @@
- {!! Form::open(array('route' => ['td.save.insured'], 'name' => 'Form', 'id' => 'insured_form', 'class'=>'form-horizontal form-validate-jquery')) !!}    
+{!! Form::open(array('route' => ['td.save.insured','rp_id'=>$rp_id,'header_id'=>encode($header_id)], 'name' => 'Form', 'id' => 'insured_form', 'class'=>'form-horizontal form-validate-jquery')) !!}    
     <div class="col-xs-12 col-md-6">
         <div class="form-group">
             <label class="col-lg-12 control-label label_required">Materia: </label>
@@ -167,7 +167,10 @@
     </div>
 {!!Form::close()!!}
 <script>
-$(document).ready(function() {    
+$(document).ready(function() { 
+    // procesa combo Uso
+//    valueUse();
+    
     $('#insured_form').on('submit', function(event) {
         event.preventDefault();
         var formData = {
@@ -221,6 +224,10 @@ $('#matter_insured').change(function(){
         $('.valor_asegurado').show();
         $('#insured_value').attr('required','true');
     }
+});
+
+$('#matter_insured').change(function(){
+    valueUse();
 });
 
 </script>

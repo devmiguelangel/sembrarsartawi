@@ -47,9 +47,9 @@ function cargaModal(id_header, tokken, url, post, type, aux) {
     });
 }
 function listInsured(url, post, id_header) {
-    console.log('url-->'+url);
+    /**console.log('url-->'+url);
     console.log('post-->'+post);
-    console.log('id_header-->'+id_header);
+    console.log('id_header-->'+id_header);/**/
     $.ajax({
         url: url,
         type: post,
@@ -168,4 +168,29 @@ var FormGralF = {
         $('#md-colored').modal();
     },
 };
+
+/**
+ * funcion procesa valor para el combo USO del formulario registro de riesgo Multiriesgo
+ * @returns {undefined}
+ */
+function valueUse(){
+    $('#use option[value="ID"]').remove();
+    $('#use option[value="IP"]').remove();
+    $('#use option[value="OT"]').remove();
+    
+    if($('#matter_insured').val() == 'PR'){
+        $('#use option[value="OT"]').remove();
+        if($('#matter_insured').val() != 'ID')
+            $('#use').append('<option value="ID">Inmueble Domiciliario</option>');
+        
+        if($('#matter_insured').val() != 'IP')
+            $('#use').append('<option value="IP">Inmueble Industrial</option>');
+    }else{
+        if($('#matter_insured').val() != 'OT'){
+            $('#use').append('<option value="OT">Otros</option>');
+            $('#use option[value="ID"]').remove();
+            $('#use option[value="IP"]').remove();
+        }
+    }
+}
 
