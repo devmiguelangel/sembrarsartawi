@@ -92,14 +92,15 @@
                                 </div>
                                 <h6 class="no-margin text-semibold">Prima Total:</h6>
                                 <p class="text-muted content-group-sm">{{ $header->currency }} {{ number_format($header->total_premium, 2) }}</p>
-                                <a href="#"class="btn btn-success">
-                                    <i class="icon-file-check position-left"></i> Ver Cotización
+                                <a href="{{route('create_modal_slip', ['id_retailer_product'=>decode($rp_id), 'id_header'=>decode($header_id), 'text'=>'slip', 'type'=>'IMPR'])}}" id="slip" class="btn btn-success open_modal">
+                                    Ver Cotización
                                 </a>
                                 <hr>
 
                                 <a href="{{ route('td.emision_poliza', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
                                    class="btn btn-primary"><i class="icon-arrow-right14 position-left"></i>
-                                    Emitir</a>
+                                    Emitir
+                                </a>
                             </div>
                         </div>
 
@@ -110,5 +111,7 @@
             </div>
         </div>
     </div>
+
+    @include('partials.modal_content')
     
 @endsection
