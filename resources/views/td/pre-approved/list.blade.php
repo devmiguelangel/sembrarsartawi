@@ -29,7 +29,7 @@
 
                 <div class="panel-body">
                     <div class="col-xs-12">
-                        {!! Form::open(['route' => ['au.pre.approved.lists', 'rp_id' => $rp_id], 'method' => 'get', 'class' => 'form-horizontal']) !!}
+                        {!! Form::open(['route' => ['td.pre.approved.lists', 'rp_id' => $rp_id], 'method' => 'get', 'class' => 'form-horizontal']) !!}
                         <div class="col-xs-12 col-md-12">
                             @include('report.partials.inputs-search')
                         </div>
@@ -41,13 +41,14 @@
                                 <th>Nro. de Póliza</th>
                                 <th>Cliente</th>
                                 <th>C.I.</th>
-                                <th>Tipo Vehículo</th>
-                                <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Año</th>
-                                <th>Placa</th>
+                                <th>Materia</th>
+                                <th>Descripción</th>
+                                <th>Uso</th>
+                                <th>Departamento</th>
+                                <th>Zona</th>
+                                <th>Ciudad/Localidad</th>
+                                <th>Dirección</th>
                                 <th>Valor Asegurado</th>
-                                <th>Forma de Pago</th>
                                 <th>Usuario</th>
                                 <th>Sucursal / Agencia</th>
                                 <th>Fecha de Ingreso</th>
@@ -61,13 +62,14 @@
                                         <td>{{ $header->prefix }}-{{ $header->issue_number }}</td>
                                         <td>{{ $header->client->full_name }}</td>
                                         <td>{{ $header->client->dni }} {{ $header->client->extension }}</td>
-                                        <th>{{ $detail->vehicleType->vehicle }}</th>
-                                        <th>{{ $detail->vehicleMake->make }}</th>
-                                        <th>{{ $detail->vehicleModel->model }}</th>
-                                        <th>{{ $detail->year }}</th>
-                                        <th>{{ $detail->license_plate }}</th>
+                                        <th>{{ $detail->matter_insured_text }}</th>
+                                        <th>{{ $detail->matter_description }}</th>
+                                        <th>{{ $detail->use_text }}</th>
+                                        <th>{{ $detail->city }}</th>
+                                        <th>{{ $detail->zone }}</th>
+                                        <th>{{ $detail->locality }}</th>
+                                        <th>{{ $detail->address }}</th>
                                         <td>{{ number_format($detail->insured_value, '2') }} {{ $header->currency }}</td>
-                                        <td>{{ config('base.payment_methods.' . $header->payment_method) }}</td>
                                         <td>{{ $header->user->full_name }}</td>
                                         <td>
                                             {{ ! is_null($header->user->city) ? $header->user->city->name : '' }}
@@ -84,7 +86,7 @@
                                                     </a>
                                                     <ul class="dropdown-menu dropdown-menu-right">
                                                         <li>
-                                                            <a href="{{ route('au.edit', ['rp_id' => $rp_id, 'header_id' => encode($header->id)]) }}">
+                                                            <a href="{{ route('td.edit', ['rp_id' => $rp_id, 'header_id' => encode($header->id)]) }}">
                                                                 <i class="icon-database-edit2"></i> Editar Póliza
                                                             </a>
                                                         </li>
