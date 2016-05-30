@@ -23,15 +23,13 @@ class CancellationRepository extends BaseRepository
     {
         $headers = Header::with([
             'details',
-            'details.vehicleType',
-            'details.vehicleMake',
-            'details.vehicleModel',
+            'details.category',
             'client',
             'user.city',
             'user.agency'
         ])->where('issued', true)->where('canceled', false);
 
-        $this->filtersByHeader($request, $headers, 'au');
+        $this->filtersByHeader($request, $headers, 'td');
 
         return $headers->get();
     }
@@ -59,4 +57,5 @@ class CancellationRepository extends BaseRepository
 
         return $this->saveModel();
     }
+    
 }

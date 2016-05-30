@@ -1,9 +1,9 @@
 <?php
 //edw
 Route::get('td/{rp_id}/td_list_insured/{header_id}/', [
-        'as'   => 'td.list.insured',
-        'uses' => 'Td\HeaderController@listInsured'
-    ]);
+    'as'   => 'td.list.insured',
+    'uses' => 'Td\HeaderController@listInsured'
+]);
 
 /*
  * Route Issuance TD
@@ -50,7 +50,7 @@ Route::group([ 'prefix' => 'td/{rp_id}' ], function () {
         'as'   => 'td.emision_poliza',
         'uses' => 'Td\HeaderController@edit'
     ]);
-    
+
     /*
      * Header Edit
      */
@@ -64,8 +64,6 @@ Route::group([ 'prefix' => 'td/{rp_id}' ], function () {
         'as'   => 'td.update',
         'uses' => 'Td\HeaderController@update'
     ]);
-
-    
 
     /*
      * Header Result
@@ -110,6 +108,17 @@ Route::group([ 'prefix' => 'td/{rp_id}' ], function () {
         'as'   => 'td.cancel.lists',
         'uses' => 'Td\CancellationController@lists'
     ]);
+
+    Route::get('cancel/{header_id}/create', [
+        'as'   => 'td.cancel.create',
+        'uses' => 'Td\CancellationController@create'
+    ]);
+
+    Route::post('cancel/{header_id}/create', [
+        'as'   => 'td.cancel.store',
+        'uses' => 'Td\CancellationController@store'
+    ]);
+
     /*
      * Pre-Approved
      */
@@ -117,6 +126,7 @@ Route::group([ 'prefix' => 'td/{rp_id}' ], function () {
         'as'   => 'td.pre.approved.lists',
         'uses' => 'Td\PreApprovedController@lists'
     ]);
+
     /*
      * Issue Quote
      */
