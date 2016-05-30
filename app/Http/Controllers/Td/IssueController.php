@@ -44,6 +44,23 @@ class IssueController extends Controller
      */
     public function lists(Guard $auth, Request $request, $rp_id)
     {
-       
+        $data      = $this->data($auth->user());
+        $headers   = [ ];
+        $parameter = null;
+
+        if ($request->has('_token')) {
+            $request->flash();
+        }
+
+        if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+            $retailerProduct = $this->retailerProductRepository->getModel();
+            $parameter       = $retailerProduct->parameters()->where('slug', 'GE')->first();
+        }
+
+        if ($parameter instanceof ProductParameter) {
+            $headers = $this->repository->getHeaderList($request);
+        }
+
+        return view('td.quote.list', compact('rp_id', 'headers', 'data', 'parameter'));
     }
 }

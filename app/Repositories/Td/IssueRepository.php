@@ -16,9 +16,7 @@ class IssueRepository extends BaseRepository
     {
         $headers = Header::with([
             'details',
-            'details.vehicleType',
-            'details.vehicleMake',
-            'details.vehicleModel',
+            'details.category',
             'client',
             'user.city',
             'user.agency'
