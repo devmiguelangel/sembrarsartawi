@@ -19,10 +19,10 @@
         <tbody>
             @foreach($detail as $entity)
                 <tr>
-                    <td>{{ $entity->matter_insured }}</td>
+                    <td>{{ config('base.property_types.' . $entity->matter_insured) }}</td>
                     <td>{{ $entity->matter_description }}</td>
                     <td>{{ $entity->number }}</td>
-                    <td>{{ $entity->use }}</td>
+                    <td>{{ config('base.property_uses.' . $entity->use) }}</td>
                     <td>{{ $entity->insured_value }}</td>
                     <td>
                         <a href="#"

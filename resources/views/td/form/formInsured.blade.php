@@ -47,11 +47,12 @@
     </div>
     <div class="col-xs-12 col-md-6">
         <div class="form-group">
-            <label class="col-lg-12 control-label">Uso: </label>
+            <label class="col-lg-12 control-labe label_required">Uso: </label>
             <div class="col-lg-12">
                 {!! SelectField::input('use', $uso, [
                     'class' => 'select2-choice col-xs-12 col-lg-12', 
-                    'id' => 'use'],
+                    'id' => 'use',
+                    'required' => 'required'],
                     old('use', $detail->use))
                 !!}
             </div>
@@ -170,7 +171,7 @@
 $(document).ready(function() { 
     // procesa combo Uso
 //    valueUse();
-    
+    validateInsuredValue();
     $('#insured_form').on('submit', function(event) {
         event.preventDefault();
         var formData = {
@@ -205,25 +206,7 @@ $(document).ready(function() {
 
 // valida combo box valor asegurado
 $('#matter_insured').change(function(){
-    if($('#matter_insured').val() == 'PR'){
-        $('.valor_construccion').show();
-        $('#construction_value').attr('required','true');
-        
-        $('.valor_de_terreno').show();
-        $('#land_value').attr('required','true');
-        
-        $('.valor_asegurado').hide();
-        $('#insured_value').removeAttr('required');
-    }else{
-        $('.valor_construccion').hide();
-        $('#construction_value').removeAttr('required');
-        
-        $('.valor_de_terreno').hide();
-        $('#land_value').removeAttr('required');
-        
-        $('.valor_asegurado').show();
-        $('#insured_value').attr('required','true');
-    }
+    validateInsuredValue();
 });
 
 $('#matter_insured').change(function(){

@@ -195,9 +195,9 @@ class HeaderRepository extends BaseRepository {
      *
      * @return bool
      */
-    public function updateHeader(Request $request) {
+    public function updateHeader(Request $request, $keyFac, $obsFac) {
         $this->data = $request->all();
-
+        
         try {
             $issue_number = $this->getNumber('I');
 
@@ -208,6 +208,8 @@ class HeaderRepository extends BaseRepository {
                     'prefix' => 'MR',
                     'policy_number' => $this->data['policy_number'],
                     'operation_number' => $this->data['operation_number'],
+                    'facultative' => $keyFac,
+                    'facultative_observation' => $obsFac,
                 ]);
 
                 return true;

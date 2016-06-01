@@ -8,6 +8,7 @@ use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Repositories\De\FacultativeRepository as FacultativeDeRepository;
 use Sibas\Repositories\Au\FacultativeRepository as FacultativeAuRepository;
+use Sibas\Repositories\Td\FacultativeRepository as FacultativeTdRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class HomeController extends Controller
@@ -37,11 +38,16 @@ class HomeController extends Controller
      * @var FacultativeAuRepository
      */
     protected $facultativeAuRepository;
-
+    
+    /**
+     * @var FacultativeTdRepository
+     */
+    protected $facultativeTdRepository;
 
     public function __construct(
         FacultativeDeRepository $facultativeDeRepository,
         FacultativeAuRepository $facultativeAuRepository,
+        FacultativeTdRepository $facultativeTdRepository,
         RetailerProductRepository $retailerProductRepository
     ) {
         $this->facultativeDeRepository   = $facultativeDeRepository;
@@ -50,6 +56,7 @@ class HomeController extends Controller
         $this->inbox                   = 'all';
         $this->header_id               = null;
         $this->facultativeAuRepository = $facultativeAuRepository;
+        $this->facultativeTdRepository = $facultativeTdRepository;
     }
 
 
@@ -112,6 +119,10 @@ class HomeController extends Controller
                     break;
                 case 'au':
                     $product->records = $this->facultativeAuRepository->getRecords($user, $this->inbox,
+                        $this->header_id);
+                    break;
+                case 'td':
+                    $product->records = $this->facultativeTdRepository->getRecords($user, $this->inbox,
                         $this->header_id);
                     break;
             }

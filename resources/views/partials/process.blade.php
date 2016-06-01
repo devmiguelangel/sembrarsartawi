@@ -175,6 +175,13 @@
         <label class="col-lg-3 control-label text-regular">Placa: </label>
         <span class="col-lg-9 control-label text-bold">{{ $fa->detail->license_plate }}</span>
     @endif
+    @if($product === 'td')
+        <label class="col-lg-3 control-label text-regular">Tipo de Inmueble: </label>
+        <span class="col-lg-9 control-label text-bold">{{ config('base.property_types.' . $fa->detail->matter_insured) }}</span>
+        <br>
+        <label class="col-lg-3 control-label text-regular">Descripcion: </label>
+        <span class="col-lg-9 control-label text-bold">{{ $fa->detail->matter_description }}</span>
+    @endif
 @endif
 
 <div class="form-group">

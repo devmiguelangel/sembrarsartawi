@@ -70,6 +70,7 @@ class FacultativeRepository extends BaseRepository
         }
 
         $fa = $fa->orderBy('created_at', 'desc')->get();
+        //edw-->dd($fa);
         
         $this->records['all'] = $fa;
 
@@ -122,7 +123,6 @@ class FacultativeRepository extends BaseRepository
         return $this->records;
     }
 
-
     /**
      * Store vehicle Facultative
      *
@@ -132,7 +132,111 @@ class FacultativeRepository extends BaseRepository
      *
      * @return bool
      */
-    public function storeFacultative($detail, $retailerProduct, $user)
+    public function storeFacultative($detailFac, $user) {
+        $this->observation = false;
+        try {
+            $idDetails = [];
+            $i = 0;
+            $r = 0;
+            if (isset($detailFac['roles']['role1']) && !isset($detailFac['roles']['role2'])) {
+                #solo role 1
+                foreach ($detailFac['roles']['role1'] as $key => $value) {
+                    $idDetails[$i]['detail'] = $value;
+                    $idDetails[$i]['combine'] = 0;
+                    $i++;
+                }
+                $r = 1;
+            } elseif (!isset($detailFac['roles']['role1']) && isset($detailFac['roles']['role2'])) {
+                #solo role 2
+                foreach ($detailFac['roles']['role2']['details'] as $key => $value) {
+                    $idDetails[$i]['detail'] = $value;
+                    $idDetails[$i]['combine'] = 0;
+                    $i++;
+                }
+                $r = 2;
+            } elseif (isset($detailFac['roles']['role1']) && isset($detailFac['roles']['role2'])) {
+                #role 1 y role2  combinar
+                $role1 = [];
+                foreach ($detailFac['roles']['role1'] as $key => $value) {
+                    $role1[] = $value->id;
+                }
+
+                foreach ($detailFac['roles']['role2']['details'] as $key2 => $value2) {
+                    $idDetails[$i]['detail'] = $value2;
+                    if (in_array($value2->id, $role1))
+                        $idDetails[$i]['combine'] = 1;
+                    else
+                        $idDetails[$i]['combine'] = 0;
+                    $i++;
+                }
+                $r = 2;
+            }
+            # actualiza tabla facultativos
+            $h = 0;
+            foreach ($idDetails as $key => $value) {
+                if($value['combine'] == 1)
+                    $reason = $this->returnReason($value['detail'], $detailFac, 1) . ' ' . $this->returnReason($value['detail'], $detailFac, 2);
+                else
+                    $reason = $this->returnReason($value['detail'], $detailFac, $r);
+                
+                $value['detail']->facultative()->create([
+                    'id' => date('U') + $h,
+                    'ad_user_id' => $user->id,
+                    'reason' => $reason,
+                    'state' => 'PE',
+                    'read' => false,
+                ]);
+                $this->observation.=$reason;
+                $h++;
+            }
+
+            return true;
+        } catch (QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+        return false;
+    }
+    
+    /**
+     * funcion retorna mensaje de error facultativos 
+     * @param type $object
+     * @param type $detailFac
+     * @param type $role
+     * @return string
+     */
+    public function returnReason($object, $detailFac, $role) {
+        $reason = '';
+        switch ($role) {
+            case 1:
+                $reason = str_replace([ ':riesgo_asegurado', ':name', ':cumulus', ':amount_max'], [
+                            $object->matter_description,
+                            $object->header->client->full_name,
+                            number_format($object->insured_value, 2),
+                            number_format(( $detailFac['parameter']['FA']->amount_min - 1), 2)
+                                ], $this->reasonInmueble) . '<br>';
+                break;
+            case 2:
+                $reason = str_replace([ ':name', ':cumulus', ':amount_max'], [
+                            $object->header->client->full_name,
+                            number_format($detailFac['roles']['role2']['total_amount'], 2),
+                            number_format($detailFac['roles']['role2']['amount_max'], 2)
+                                ], $this->reasonCumulus) . '<br>';
+                break;
+            default:
+                break;
+        }
+        return $reason;
+    }
+    
+    /**
+     * funcion retorna obaservacion variable global
+     * @return type
+     */
+    public function returnObservation(){
+        return $this->observation;
+    }
+    
+    public function storeFacultative2($detail, $retailerProduct, $user)
     {
         $parameter     = $retailerProduct->parameters()->where('slug', 'GE')->first();
         $exchange_rate = $retailerProduct->retailer->exchangeRate;
@@ -184,7 +288,6 @@ class FacultativeRepository extends BaseRepository
 
         return false;
     }
-
 
     /**
      * @param Request $request
@@ -258,7 +361,6 @@ class FacultativeRepository extends BaseRepository
         return $this->saveModel();
     }
 
-
     /**
      * @param MailController $mail
      * @param string         $rp_id
@@ -280,7 +382,6 @@ class FacultativeRepository extends BaseRepository
         return false;
     }
 
-
     /**
      * @param Request $request
      * @param int     $id_observation
@@ -301,7 +402,6 @@ class FacultativeRepository extends BaseRepository
         return $this->saveModel();
     }
 
-
     /**
      * @param Request $request
      * @param int     $id
@@ -320,6 +420,48 @@ class FacultativeRepository extends BaseRepository
         }
 
         return false;
+    }
+
+    /**
+     * fucion determina regla facultativo mediante el valor asegurado.
+     * @param type $idHeader
+     */
+    public function roleFacultative($rpId, $idHeader) {
+        
+        $ge = ProductParameter::where('ad_retailer_product_id', $rpId)->where('slug','GE')->first();
+        $fa = ProductParameter::where('ad_retailer_product_id', $rpId)->where('slug','FA')->first();
+        
+        $detail = Detail::where('op_td_header_id', $idHeader)->get();
+        $totalInsured = 0;
+        $facultative = [];
+        $arrayFac = [];
+        $keyFac = 0;
+        
+        # validacion facultativos por riesgo
+        foreach ($detail as $key => $value) {
+            if($value->matter_insured == 'PR' && $value->use == 'IP'){
+                if($value->insured_value >= $fa->amount_min && $value->insured_value <= $fa->amount_max){
+                    $arrayFac['role1'][] = $value;
+                    $keyFac ++;
+                }
+            }
+            $totalInsured += $value->insured_value;
+        }
+        
+        # validacion facultativos generales
+        if($totalInsured > $ge->amount_max){
+            $arrayFac['role2']['total_amount'] = $totalInsured;
+            $arrayFac['role2']['amount_max'] = $ge->amount_max;
+            $arrayFac['role2']['details'] = $detail;
+            $keyFac ++;
+        }
+            
+        $facultative['facultative'] = $keyFac;
+        $facultative['roles'] = $arrayFac;
+        $facultative['parameter']['FA'] = $fa;
+        $facultative['parameter']['GE'] = $ge;
+        
+        return $facultative;
     }
 
 }

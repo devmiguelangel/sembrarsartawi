@@ -106,6 +106,19 @@
                     <th>Días en Proceso</th>
                     <th>Cliente</th>
                     <th>C.I.</th>
+                    @if (count($data['products']) > 0)
+                        @foreach($data['products'] as $index => $product)
+                            @if((! is_null(request()->get('arp')) && encode($product->rp->id) === request()->get('arp'))
+                                    || (is_null(request()->get('arp')) && $index === 0))
+                                
+                                    @if($product->code === 'td')
+                                        <th>Tipo de Materia</th>
+                                        <th>Descripción</th>
+                                    @endif
+                               
+                            @endif
+                        @endforeach
+                    @endif
                     <th>Fecha de Ingreso</th>
                     <th class="text-center">Acción</th>
                 </tr>
@@ -167,6 +180,10 @@
                                             {{ $record->detail->header->client->dni }} {{ $record->detail->header->client->extension }}
                                         @endif
                                     </td>
+                                    @if($product->code === 'td')
+                                        <td class="view-message ">{{ config('base.property_types.' . $record->detail->matter_insured) }}</td>
+                                        <td class="view-message ">{{ config('base.property_uses.' . $record->detail->use) }}</td>
+                                    @endif
                                     <td class="view-message ">{{ $record->date_admission }}</td>
                                     {{--<td class="view-message  inbox-small-cells"><i class="icon-attachment2"></i></td>--}}
                                     <td class="view-message  text-right" style="z-index:34;">
@@ -189,7 +206,7 @@
                                                                     )
                                                                 </a>
                                                             </li>
-
+                                                            
                                                             @if ($record->company_state === 'A' && $record->detail->header->approved)
                                                                 <li>
                                                                     <a href="{{ route($product->code . '.issue', [
