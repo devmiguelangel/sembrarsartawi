@@ -1,24 +1,25 @@
-<div style="width: 775px; height: auto; border: 1px solid #0081C2; padding: 10px;">
-    <div style="width: 770px; font-weight: normal; font-size: 12px; font-family: Arial, Helvetica, sans-serif; color: #000000; border: 1px solid #FFFF00;">
+<div style="width: 775px; height: auto; border: 0px solid #0081C2; padding: 5px;">
+    <div style="width: 770px; font-weight: normal; font-size: 12px; font-family: Arial, Helvetica, sans-serif; color: #000000; border: 0px solid #FFFF00;">
         <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
-
+            @var $fecha_registro = $query_header->created_at
+            @var $num_limit = $query_parameter->expiration
             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 70%; font-family: Arial;">
                 <tr style="padding-bottom: 5px;">
                     <td style="width:34%; text-align: left;">
-                        <img src="{{ asset('images/logosartawi.jpg') }}" width="100">
+                        <img src="{{ asset($query->img_retailer) }}" width="100">
                     </td>
                     <td style="width:32%;"></td>
                     <td style="width:34%; text-align:right;">
-                        <img src="{{ asset('images/alianza.jpg') }}" height="60">
+                        <img src="{{ asset($query->img_company) }}" height="60">
                     </td>
                 </tr>
                 <tr>
                     <td style="width:34%; text-align: left;">
-                        SLIP DE COTIZACIÓN<br/>Cotizacion No 12
+                        SLIP DE COTIZACIÓN<br/>Cotizacion No {{$query_header->quote_number}}
                     </td>
                     <td style="width:32%;"></td>
                     <td style="width:34%; text-align:right;">
-                        Cotización válida hasta el: 31-11-2015
+                        Cotización válida hasta el: {{date("d-m-Y", strtotime("$fecha_registro +$num_limit day"))}}
                     </td>
                 </tr>
             </table>
@@ -37,11 +38,21 @@
                     <td style="width:25%; text-align:center; font-weight:bold;">Apellido de Casada</td>
                 </tr>
                 <tr>
-                    <td style="width:25%; text-align:center;">flores</td>
-                    <td style="width:25%; text-align:center;">flores</td>
-                    <td style="width:25%; text-align:center;">tatiana</td>
-                    <td style="width:25%; text-align:center;">tatiana</td>
+                    <td style="width:25%; text-align:center;">{{$query_client->last_name}}</td>
+                    <td style="width:25%; text-align:center;">{{$query_client->mother_last_name}}</td>
+                    <td style="width:25%; text-align:center;">{{$query_client->first_name}}</td>
+                    <td style="width:25%; text-align:center;">
+                        @if($query_client->civil_status=='S')
+                            {{$query_client->married_name}}
+                        @endif
+                    </td>
                 </tr>
+                @if($query_client->avenue_street!=null)
+                    @var $parameter_avst = config('base.avenue_street')
+                    @var $avenue_street = $parameter_avst[$query_client->avenue_street]
+                @else
+                    @var $avenue_street=''
+                @endif
                 <tr style="font-weight:bold; background:#0075AA; color:#FFF;">
                     <td style="width:25%; text-align:center; font-weight:bold;">Calle o Avenida</td>
                     <td style="width:25%; text-align:center; font-weight:bold;">Dirección</td>
@@ -49,10 +60,10 @@
                     <td style="width:25%; text-align:center; font-weight:bold;">Ciudad o Localidad</td>
                 </tr>
                 <tr>
-                    <td style="width:25%; text-align:center;">3652021</td>
-                    <td style="width:25%; text-align:center;">femenino</td>
-                    <td style="width:25%; text-align:center;">1979-10-20</td>
-                    <td style="width:25%; text-align:center;">1979-10-20</td>
+                    <td style="width:25%; text-align:center;">{{$avenue_street}}</td>
+                    <td style="width:25%; text-align:center;">{{$query_client->home_address}}</td>
+                    <td style="width:25%; text-align:center;">{{$query_client->home_number}}</td>
+                    <td style="width:25%; text-align:center;">{{$query_client->locality}}</td>
                 </tr>
                 <tr style="font-weight:bold; background:#0075AA; color:#FFF;">
                     <td style="width:25%; text-align:center; font-weight:bold;">Telefono Domicilio</td>
@@ -60,9 +71,9 @@
                     <td style="width:50%; text-align:center; font-weight:bold;" colspan="2">Telefono Celular</td>
                 </tr>
                 <tr>
-                    <td style="width:25%; text-align:center;">2222222</td>
-                    <td style="width:25%; text-align:center;">2222222</td>
-                    <td style="width:50%; text-align:center;" colspan="2">&nbsp;</td>
+                    <td style="width:25%; text-align:center;">{{$query_client->phone_number_home}}</td>
+                    <td style="width:25%; text-align:center;">{{$query_client->phone_number_office}}</td>
+                    <td style="width:50%; text-align:center;" colspan="2">{{$query_client->phone_number_mobile}}</td>
                 </tr>
                 <tr style="font-weight:bold; background:#0075AA; color:#FFF;">
                     <td style="width:25%; text-align:center; font-weight:bold;">Dirección Laboral</td>
@@ -70,9 +81,9 @@
                     <td style="width:50%; text-align:center; font-weight:bold;" colspan="2">Ocupación</td>
                 </tr>
                 <tr>
-                    <td style="width:25%; text-align:center;">2222222</td>
-                    <td style="width:25%; text-align:center;">2222222</td>
-                    <td style="width:50%; text-align:center;" colspan="2">&nbsp;</td>
+                    <td style="width:25%; text-align:center;">{{$query_client->business_address}}</td>
+                    <td style="width:25%; text-align:center;">{{$query_client->occupation_description}}</td>
+                    <td style="width:50%; text-align:center;" colspan="2">{{$query_client->occupation}}</td>
                 </tr>
             </table>
         </div><br>
@@ -86,63 +97,89 @@
                     <td style="width:10%; text-align: left;"><b>Departamento</b></td>
                     <td style="width:16%; text-align: center;"><b>Zona</b></td>
                     <td style="width:15%; text-align: center;"><b>Localidad</b></td>
-                    <td style="width:14%; text-align: right;"><b>Valor Asegurado (USD)</b></td>
+                    <td style="width:14%; text-align: right;"><b>Valor Asegurado ({{$query_header->currency}})</b></td>
                     <td style="width:10%; text-align: right;"><b>Prima</b></td>
                 </tr>
-                <tr>
-                    <td style="width:35%; text-align: left;">INMUEBLE 1: casa avenida munaypata</td>
-                    <td style="width:10%; text-align: left;">Cochabamba</td>
-                    <td style="width:16%; text-align: left;">Alto Seguencoma</td>
-                    <td style="width:15%; text-align: left;">La Paz</td>
-                    <td style="width:14%; text-align: right;">45,200.00</td>
-                    <td style="width:10%; text-align: right;">36.16</td>
-                </tr>
-                <tr>
-                    <td style="width:35%; text-align: left;">INMUEBLE 2: casa calle loyaza</td>
-                    <td style="width:10%; text-align: left;">La Paz</td>
-                    <td style="width:18%; text-align: left;">Alto obrajes</td>
-                    <td style="width:15%; text-align: left;">La Paz</td>
-                    <td style="width:14%; text-align: right;">46,300.00</td>
-                    <td style="width:10%; text-align: right;">37.04</td>
-                </tr>
+                @var $i=1
+                @var $vat=0
+                @var $pt=0
+                @foreach($query_riesgo as $data_riesgo)
+                    <tr>
+                        <td style="width:35%; text-align: left;">INMUEBLE {{$i}}: {{$data_riesgo->matter_description}}</td>
+                        <td style="width:10%; text-align: left;">{{$data_riesgo->city}}</td>
+                        <td style="width:16%; text-align: left;">{{$data_riesgo->zone}}</td>
+                        <td style="width:15%; text-align: left;">{{$data_riesgo->locality}}</td>
+                        <td style="width:14%; text-align: right;">{{number_format($data_riesgo->insured_value,2,".",",")}}</td>
+                        <td style="width:10%; text-align: right;">{{$data_riesgo->premium}}</td>
+                    </tr>
+                    @var $i=$i+1
+                    @var $vat = $vat+$data_riesgo->insured_value
+                    @var $pt = $pt+$data_riesgo->premium
+                @endforeach
                 <tr>
                     <td style="width:35%; text-align:right;"></td>
                     <td style="width:10%; text-align: left;"></td>
                     <td style="width:18%; text-align: left;"></td>
                     <td style="width:15%; text-align: right; background:#E5E5E5; font-weight: bold;">Total</td>
-                    <td style="width:14%; text-align: right; background:#E5E5E5;">91,500.00</td>
-                    <td style="width:10%; text-align: right; background:#E5E5E5;">73.20</td>
+                    <td style="width:14%; text-align: right; background:#E5E5E5;">{{number_format($vat,2,".",",")}}</td>
+                    <td style="width:10%; text-align: right; background:#E5E5E5;">{{number_format($pt,2,".",",")}}</td>
                 </tr>
             </table>
             <!--CASO FACULTATIVO-->
-            <div style="font-size:70%; text-align:left; margin-top:5px; margin-bottom:0px; border:1px solid #C68A8A; background:#FFEBEA; padding:8px; width: 98%;">
-                El valor del inmueble  supera el límite permitido, el valor de la prima es referencial, por tanto se requiere la aprobación de la compañía.<br>
-            </div>
+            @var $j=1
+            @foreach($query_riesgo as $data_fac)
+
+                @if($query_header->currency=='USD')
+                    @var $insured_value = $data_fac->insured_value
+                @elseif($query_header->currency=='BS')
+                    @var $insured_value = (int)$data_fac->insured_value/$query_change_rate->bs_value
+                @endif
+
+                @if($insured_value > $query_parameter->amount_min && $data_fac->use=='IP')
+                    <div style="font-size:70%; text-align:left; margin-top:5px; margin-bottom:0px; border:1px solid #C68A8A; background:#FFEBEA; padding:8px; width: 98%; padding-bottom: 5px;">
+                        El valor del inmueble {{$j}} supera el límite permitido, el valor de la prima es referencial, por tanto se requiere la aprobación de la compañía.<br>
+                    </div>
+                @endif
+                @var $j=$j+1
+            @endforeach
+
+            @if($query_header->currency=='BS')
+                @var $vat = (int)$vat/$query_change_rate->bs_value
+            @endif
+
+            @if($vat>$query_parameter->amount_max)
+                <div style="font-size:70%; text-align:left; margin-top:5px; margin-bottom:0px; border:1px solid #C68A8A; background:#FFEBEA; padding:8px; width: 98%; padding-bottom: 5px;">
+                    La suma total de los valores asegurados supera el límite permitido, por tanto se requiere la aprobación de la compañía.<br>
+                </div>
+            @endif
+
         </div><br>
         <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
             <h2 style="width: auto;	height: auto; text-align: left; margin: 5px 0; padding: 0; font-weight: bold; font-size: 70%;">
                 Datos de la solicitud
             </h2>
+            @var $parameter_term = config('base.term_types')
+            @var $type_term = $parameter_term[$query_header->type_term]
             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 70%; font-family: Arial;">
                 <tr style="background:#E5E5E5;">
                     <td style="width:50%; text-align:right;"><b>Compañía de Seguros:</b></td>
-                    <td style="width:50%;"></td>
+                    <td style="width:50%; text-align: left;">{{$query->company}}</td>
                 </tr>
                 <tr style="background:#D5D5D5;">
                     <td style="width:50%; text-align:right;"><b>Seguro a contratar:</b></td>
-                    <td style="width:50%; text-align: left;">Multiriesgo</td>
+                    <td style="width:50%; text-align: left;">{{$query->name_product}}</td>
                 </tr>
                 <tr style="background:#E5E5E5;">
                     <td style="width:50%; text-align:right;"><b>Periodo de contratacion:</b></td>
-                    <td style="width:50%; text-align: left;"></td>
+                    <td style="width:50%; text-align: left;">{{$query_header->term}} {{$type_term}}</td>
                 </tr>
                 <tr style="background:#D5D5D5;">
                     <td style="width:50%; text-align:right;"><b>Inicio de vigencia:</b></td>
-                    <td style="width:50%; text-align: left;"></td>
+                    <td style="width:50%; text-align: left;">{{date('d-m-Y',strtotime($query_header->validity_start))}}</td>
                 </tr>
                 <tr style="background:#E5E5E5;">
                     <td style="width:50%; text-align:right;"><b>Fin de vigencia:</b></td>
-                    <td style="width:50%; text-align: left;"></td>
+                    <td style="width:50%; text-align: left;">{{date('d-m-Y',strtotime($query_header->validity_end))}}</td>
                 </tr>
             </table>
         </div><br>
@@ -158,7 +195,7 @@
                 </tr>
                 <tr>
                     <td style="width:2%;" valign="top">&bull;</td>
-                    <td style="width:98%; border:1px solid #FFFF00;">EN CASO DE BIENES INMUEBLES:<br>
+                    <td style="width:98%; border:0px solid #FFFF00;">EN CASO DE BIENES INMUEBLES:<br>
                         <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                             <tr>
                                 <td style="width:2%;" valign="top">-</td>

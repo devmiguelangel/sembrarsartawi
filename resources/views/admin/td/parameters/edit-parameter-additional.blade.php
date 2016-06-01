@@ -120,7 +120,7 @@
                 <button type="submit" class="btn btn-primary">
                     Guardar <i class="icon-floppy-disk position-right"></i>
                 </button>
-                <a href="{{route('admin.mr.parameters.list-parameter-additional', ['nav'=>'mr_parameter', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-primary">
+                <a href="{{route('admin.td.parameters.list-parameter-additional', ['nav'=>'mr_parameter', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-primary">
                     Cancelar <i class="icon-cross position-right"></i>
                 </a>
                 <input type="hidden" name="id_product_parameter" id="id_product_parameter" value="{{$id_product_parameters}}">

@@ -98,7 +98,9 @@ Route::get('{rp_id}/prueba/{header_id}/ejemplo_de_ruta/ejemplo3', [
         'uses' => 'Td\HeaderController@listInsured'
     ]);
 
+/*RUTAS PRODUCTOS MODAL*/
 
+/*PRODUCTO MULTIRIESGO*/
 Route::get('create_modal_slip/{id_retailer_product}/{id_header}/{text}/{type}', [
     'as' => 'create_modal_slip',
     'uses' => 'ModalTdController@ajax_modal'
