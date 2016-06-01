@@ -38,11 +38,12 @@ class HomeController extends Controller
      * @var FacultativeAuRepository
      */
     protected $facultativeAuRepository;
-    
+
     /**
      * @var FacultativeTdRepository
      */
     protected $facultativeTdRepository;
+
 
     public function __construct(
         FacultativeDeRepository $facultativeDeRepository,

@@ -110,12 +110,12 @@
                         @foreach($data['products'] as $index => $product)
                             @if((! is_null(request()->get('arp')) && encode($product->rp->id) === request()->get('arp'))
                                     || (is_null(request()->get('arp')) && $index === 0))
-                                
-                                    @if($product->code === 'td')
-                                        <th>Tipo de Materia</th>
-                                        <th>Descripción</th>
-                                    @endif
-                               
+
+                                @if($product->code === 'td')
+                                    <th>Tipo de Materia</th>
+                                    <th>Descripción</th>
+                                @endif
+
                             @endif
                         @endforeach
                     @endif
@@ -206,7 +206,7 @@
                                                                     )
                                                                 </a>
                                                             </li>
-                                                            
+
                                                             @if ($record->company_state === 'A' && $record->detail->header->approved)
                                                                 <li>
                                                                     <a href="{{ route($product->code . '.issue', [

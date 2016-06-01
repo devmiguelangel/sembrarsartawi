@@ -20,7 +20,7 @@
                     <i class="icon-pencil7"></i>
                 </span>
                 Formulario Producto {{$retailer_product_query->companyProduct->product->name}}
-                <small class="display-block">Editar registro </small>
+                <small class="display-block">Editar registro</small>
             </h5>
             <div class="heading-elements">
                 <!--
@@ -89,28 +89,34 @@
                 <div class="form-group">
                     <label class="control-label col-lg-2">Monto Minimo (USD)<span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input type="text" name="monto_min" id="monto_min" class="form-control required number" value="{{$query->amount_min}}" autocomplete="off">
+                        <input type="text" name="monto_min" id="monto_min" class="form-control required number"
+                               value="{{$query->amount_min}}" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-lg-2">Monto Máximo (USD)<span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input type="text" name="monto_max" id="monto_max" class="form-control required number" value="{{$query->amount_max}}" autocomplete="off">
+                        <input type="text" name="monto_max" id="monto_max" class="form-control required number"
+                               value="{{$query->amount_max}}" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-lg-2">Cantidad de Registros <span class="text-danger">*</span></label>
+                    <label class="control-label col-lg-2">Cantidad de Registros <span
+                                class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input type="text" name="cantidad" id="cantidad" class="form-control required number" value="{{$query->detail}}" maxlength="2" autocomplete="off">
+                        <input type="text" name="cantidad" id="cantidad" class="form-control required number"
+                               value="{{$query->detail}}" maxlength="2" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-lg-2">Caducidad Cotización <span class="text-danger">*</span></label>
+                    <label class="control-label col-lg-2">Caducidad Cotización <span
+                                class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input type="text" name="caduc" id="caduc" class="form-control required number" value="{{$query->expiration}}" maxlength="3" autocomplete="off">
+                        <input type="text" name="caduc" id="caduc" class="form-control required number"
+                               value="{{$query->expiration}}" maxlength="3" autocomplete="off">
                     </div>
                 </div>
 
@@ -120,103 +126,109 @@
                 <button type="submit" class="btn btn-primary">
                     Guardar <i class="icon-floppy-disk position-right"></i>
                 </button>
-                <a href="{{route('admin.td.parameters.list-parameter-additional', ['nav'=>'mr_parameter', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}" class="btn btn-primary">
+                <a href="{{route('admin.td.parameters.list-parameter-additional', ['nav'=>'mr_parameter', 'action'=>'list_parameter_additional', 'id_retailer_product'=>$id_retailer_product])}}"
+                   class="btn btn-primary">
                     Cancelar <i class="icon-cross position-right"></i>
                 </a>
-                <input type="hidden" name="id_product_parameter" id="id_product_parameter" value="{{$id_product_parameters}}">
-                <input type="hidden" name="id_retailer_product" id="id_retailer_product" value="{{$id_retailer_product}}">
+                <input type="hidden" name="id_product_parameter" id="id_product_parameter"
+                       value="{{$id_product_parameters}}">
+                <input type="hidden" name="id_retailer_product" id="id_retailer_product"
+                       value="{{$id_retailer_product}}">
             </div>
             {!!Form::close()!!}
         </div>
     </div>
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function () {
             //VERIFICAMOS EL FORMULARIO
-            $('#UpdateForm').submit(function(e){
+            $('#UpdateForm').submit(function (e) {
                 var sw = true;
                 var err = 'Esta informacion es obligatoria';
-                $(this).find('.required, .not-required').each(function(index, element) {
+                $(this).find('.required, .not-required').each(function (index, element) {
                     //alert(element.type+'='+element.value);
-                    if($(this).hasClass('required') === true){
-                        if(validateElement(element,err) === false){
+                    if ($(this).hasClass('required') === true) {
+                        if (validateElement(element, err) === false) {
                             sw = false;
-                        }else if(validateElementType(element,err) === false){
+                        } else if (validateElementType(element, err) === false) {
                             sw = false;
                         }
-                    }else if($(this).hasClass('not-required') === true){
+                    } else if ($(this).hasClass('not-required') === true) {
                         removeClassE(element);
-                        if(validateElementType(element,err) === false){
+                        if (validateElementType(element, err) === false) {
                             sw = false;
                         }
                     }
                 });
-                if(sw==true){
+                if (sw == true) {
                     $('button[type="submit"]').prop('disabled', true);
-                }else{
+                } else {
                     e.preventDefault();
                 }
             });
 
             //VALIDAMOS ELEMENTO
-            function validateElement(element,err){
+            function validateElement(element, err) {
                 var _value = $(element).prop('value');
                 var _type = $(element).prop('type');
-                if(_type=='select-one'){
-                    if(_value==0){
-                        addClassE(element,err);
+                if (_type == 'select-one') {
+                    if (_value == 0) {
+                        addClassE(element, err);
                         return false;
-                    }else{
-                        removeClassE(element,err);
+                    } else {
+                        removeClassE(element, err);
                         return true;
                     }
-                }else{
-                    if(_value==''){
-                        addClassE(element,err);
+                } else {
+                    if (_value == '') {
+                        addClassE(element, err);
                         return false;
-                    }else{
-                        removeClassE(element,err);
+                    } else {
+                        removeClassE(element, err);
                         return true;
                     }
                 }
             }
+
             //ADICIONAMOS CLASE
-            function addClassE(element,err){
+            function addClassE(element, err) {
                 var _id = $(element).prop('id');
                 //$(element).addClass('error-text');
-                if(!$("#"+_id+" + .validation-error-label").length) {
-                    $("#"+_id+":last").after('<label class="validation-error-label">'+err+'</label>');
+                if (!$("#" + _id + " + .validation-error-label").length) {
+                    $("#" + _id + ":last").after('<label class="validation-error-label">' + err + '</label>');
                 }
             }
+
             //REMOVEMOS CLASE
-            function removeClassE(element){
+            function removeClassE(element) {
                 var _id = $(element).prop('id');
                 //$(element).removeClass('error-text');
-                if($("#"+_id+" + .validation-error-label").length) {
-                    $("#"+_id+" + .validation-error-label").remove();
+                if ($("#" + _id + " + .validation-error-label").length) {
+                    $("#" + _id + " + .validation-error-label").remove();
                 }
             }
+
             //VALIDAR TIPO DE ELEMENTO
-            function validateElementType(element,err){
+            function validateElementType(element, err) {
                 var _value = $(element).prop('value');
                 var regex = null;
-                if($(element).hasClass('text') === true){
+                if ($(element).hasClass('text') === true) {
                     regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑüÜ\s]*$/;
                     err = 'Ingrese solo texto';
-                }else if($(element).hasClass('number') === true){
+                } else if ($(element).hasClass('number') === true) {
                     regex = /^([0-9])*$/;
                     err = 'Ingrese solo numeros';
                 }
 
-                if(regex !== null){
-                    if(!(regex.test(_value)) && _value.length !== 0){
-                        addClassE(element,err);
+                if (regex !== null) {
+                    if (!(regex.test(_value)) && _value.length !== 0) {
+                        addClassE(element, err);
                         $(element).prop('value', '');
                         return false;
-                    }else{
-                        removeClassE(element,err);
+                    } else {
+                        removeClassE(element, err);
                         return true;
                     }
-                }else{
+                } else {
                     return true;
                 }
             }

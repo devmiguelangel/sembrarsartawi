@@ -97,7 +97,7 @@ trait ReportTrait
     {
         $client = 'details.client';
 
-        if ($product === 'au') {
+        if ($product === 'au' || $product === 'td') {
             $client = 'client';
         }
 

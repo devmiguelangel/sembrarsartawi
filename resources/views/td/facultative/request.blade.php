@@ -12,7 +12,7 @@
     'method'    => 'put',
     'name'      => 'Form', 
     'id'        => 'form_facultative', 
-    'class'     => 'form-horizontal form-validate-jquery')) !!}    
+    'class'     => 'form-horizontal form-validate-jquery')) !!}
 
 {!! Form::textarea('facultative_observation', old('facultative_observation', strip_tags($header->facultative_observation)), [
     'size'         => '4x4',
@@ -27,10 +27,10 @@
 <div class="text-right">
     <br>
     <script>
-    $('#form_facultative').submit(function () {
+        $('#form_facultative').submit(function () {
             messageAction('succes', 'La solicitud fue enviada');
-        });    
-    
+        });
+
     </script>
 
     {!! Form::button('Enviar Solicitud <i class="glyphicon glyphicon-send position-right"></i>', [

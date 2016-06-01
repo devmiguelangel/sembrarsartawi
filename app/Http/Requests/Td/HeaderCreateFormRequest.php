@@ -29,7 +29,6 @@ class HeaderCreateFormRequest extends Request
         $term_types      = join(',', array_keys(config('base.term_types')));
         $payment_methods = join(',', array_keys(config('base.payment_methods')));
         $currencies      = join(',', array_keys(config('base.currencies')));
-        //edw-->dd($this->request->all());
 
         return [
             'first_name'             => 'required|alpha_space',

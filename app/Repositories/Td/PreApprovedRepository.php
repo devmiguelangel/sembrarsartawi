@@ -17,15 +17,13 @@ class PreApprovedRepository extends BaseRepository
     {
         $headers = Header::with([
             'details',
-            'details.vehicleType',
-            'details.vehicleMake',
-            'details.vehicleModel',
+            'details.category',
             'client',
             'user.city',
             'user.agency'
         ])->where('type', 'I')->where('issued', false)->where('canceled', false)->where('facultative', false);
 
-        $this->filtersByHeader($request, $headers, 'au');
+        $this->filtersByHeader($request, $headers, 'td');
 
         return $headers->get();
     }

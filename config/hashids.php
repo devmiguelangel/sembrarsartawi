@@ -38,7 +38,7 @@ return [
     'connections' => [
 
         'main' => [
-            'salt' => 'sabis-tenerba-1304',
+            'salt' => 'mgm',
             'length' => '25',
             'alphabet' => 'abcdefghijklmnopqrstuvwxyz0123456789',
         ],

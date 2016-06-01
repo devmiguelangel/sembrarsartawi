@@ -52,7 +52,16 @@ class CancellationController extends Controller
      */
     public function lists(Guard $auth, Request $request, $rp_id)
     {
-     
+        $data    = $this->data($auth->user());
+        $headers = [ ];
+
+        if ($request->has('_token')) {
+            $request->flash();
+        }
+
+        $headers = $this->repository->getHeaderList($request);
+
+        return view('td.cancellation.list', compact('rp_id', 'headers', 'data'));
     }
 
 
@@ -66,7 +75,21 @@ class CancellationController extends Controller
      */
     public function create($rp_id, $header_id)
     {
-      
+        if (request()->ajax()) {
+            if ($this->headerRepository->getHeaderById(decode($header_id))) {
+                $header = $this->headerRepository->getModel();
+
+                $payload = view('td.cancellation.create', compact('rp_id', 'header'));
+
+                return response()->json([
+                    'payload' => $payload->render()
+                ]);
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
+        return redirect()->back();
     }
 
 
@@ -81,7 +104,38 @@ class CancellationController extends Controller
      */
     public function store(Request $request, $rp_id, $header_id)
     {
-        
+        $this->validate($request, [
+            'reason' => 'required|ands_full'
+        ]);
+
+        if (request()->ajax()) {
+            if ($this->headerRepository->getHeaderById(decode($header_id))) {
+                $header = $this->headerRepository->getModel();
+
+                if ($this->repository->storeCancellation($request, $header)) {
+                    $mail           = new MailController($request->user());
+                    $mail->subject  = 'Anulacion de Poliza No. ' . $header->prefix . '-' . $header->issue_number;
+                    $mail->template = 'de.cancellation';
+
+                    array_push($mail->receivers, [
+                        'email' => $header->user->email,
+                        'name'  => $header->user->full_name,
+                    ]);
+
+                    if ($mail->send(decode($rp_id), [ 'header' => $header ])) {
+
+                    }
+
+                    return response()->json([
+                        'location' => route('td.cancel.lists', [ 'rp_id' => $rp_id ])
+                    ]);
+                }
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
+        return redirect()->back();
     }
 
 

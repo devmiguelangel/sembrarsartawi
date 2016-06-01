@@ -94,24 +94,24 @@ Route::get('{rp_id}/facultative/{id}/mc/show', [
     'uses' => 'De\MedicalCertificateController@show'
 ]);
 Route::get('{rp_id}/prueba/{header_id}/ejemplo_de_ruta/ejemplo3', [
-        'as'   => 'prueba_ejemplo',
-        'uses' => 'Td\HeaderController@listInsured'
-    ]);
+    'as'   => 'prueba_ejemplo',
+    'uses' => 'Td\HeaderController@listInsured'
+]);
 
 /*RUTAS PRODUCTOS MODAL*/
 
 /*PRODUCTO MULTIRIESGO*/
 Route::get('create_modal_slip/{id_retailer_product}/{id_header}/{text}/{type}', [
-    'as' => 'create_modal_slip',
+    'as'   => 'create_modal_slip',
     'uses' => 'ModalTdController@ajax_modal'
 ]);
 
 Route::get('import_pdf/{id_retailer_product}/{id_header}/{text}/{type}', [
-    'as' => 'import_pdf',
+    'as'   => 'import_pdf',
     'uses' => 'ModalTdController@ajax_modal'
 ]);
 
 Route::get('create_modal_issuance/{id_retailer_product}/{id_header}/{text}/{type}', [
-    'as' => 'create_modal_issuance',
+    'as'   => 'create_modal_issuance',
     'uses' => 'ModalTdController@ajax_modal'
 ]);
