@@ -11,6 +11,14 @@ class Detail extends Model {
     /**/
     public $incrementing = false;
     
+    protected $fillable = [
+        
+        'premium',
+        'approved',
+        'rejected',
+        
+    ];
+    
     public function category() {
         return $this->belongsTo(RetailerProductCategory::class, 'ad_retailer_product_category_id', 'id');
     }

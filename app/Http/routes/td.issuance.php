@@ -124,8 +124,66 @@ Route::group([ 'prefix' => 'td/{rp_id}' ], function () {
         'as'   => 'td.issue.lists',
         'uses' => 'Td\IssueController@lists'
     ]);
+    
+    /*
+     * Header Facultative
+     */
+    Route::get('request-approval/{header_id}', [
+        'as'   => 'td.fa.request.create',
+        'uses' => 'Td\HeaderController@requestCreate'
+    ]);
+
+    Route::put('rrequest-approval/{header_id}', [
+        'as'   => 'td.fa.request.store',
+        'uses' => 'Td\HeaderController@requestStore'
+    ]);
 
 });
 
+Route::group([ 'prefix' => 'ftd/{rp_id}' ], function () {
+    /*
+     * Facultative process
+     */
+    Route::get('facultative/edit/{id}', [
+        'as'   => 'td.fa.edit',
+        'uses' => 'Td\FacultativeController@edit'
+    ]);
+
+    Route::put('facultative/edit/{id}', [
+        'as'   => 'td.fa.update',
+        'uses' => 'Td\FacultativeController@update'
+    ]);
+
+    Route::get('facultative/{id}/observation', [
+        'as'   => 'td.fa.observation',
+        'uses' => 'Td\FacultativeController@observation'
+    ]);
+
+    Route::get('facultative/{id}/answer/{id_observation}', [
+        'as'   => 'td.fa.create.answer',
+        'uses' => 'Td\FacultativeController@createAnswer'
+    ]);
+
+    Route::put('facultative/{id}/answer/{id_observation}', [
+        'as'   => 'td.fa.store.answer',
+        'uses' => 'Td\FacultativeController@storeAnswer'
+    ]);
+
+    Route::get('facultative/{id}/response/{id_observation}', [
+        'as'   => 'td.fa.response',
+        'uses' => 'Td\FacultativeController@response'
+    ]);
+
+    Route::get('facultative/{id}/observation-process', [
+        'as'   => 'td.fa.observation.process',
+        'uses' => 'Td\FacultativeController@observationProcess'
+    ]);
+
+    Route::put('facultative/read/edit/{id}', [
+        'as'   => 'td.fa.read.update',
+        'uses' => 'Td\FacultativeController@readUpdate'
+    ]);
+
+});
 
 

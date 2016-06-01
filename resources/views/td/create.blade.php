@@ -186,7 +186,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">Avenida o Calle: </label>
+                            <label class="col-lg-3 control-label label_required">Avenida o Calle: </label>
                             <div class="col-lg-9">
                                 {!! SelectField::input('avenue_street', $data['avenue_street']->toArray(), [
                                 'class' => 'select-search',
@@ -199,7 +199,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-3 control-label"> Dirección: </label>
+                            <label class="col-lg-3 control-label label_required"> Dirección: </label>
                             <div class="col-lg-9">
                                 {!! Form::textarea('home_address', old('home_address', $client->home_address), [
                                 'size'        => '4x4',
@@ -211,7 +211,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3">Número: </label>
+                            <label class="control-label col-lg-3 label_required">Número: </label>
                             <div class="col-lg-9">
                                 <div class="input-group">
                                     <span class="input-group-addon">Nro</span>
@@ -220,9 +220,9 @@
                                     'placeholder'  => 'Número',
                                     'autocomplete' => 'off'
                                     ]) !!}
-                                    <label id="location-error" class="validation-error-label"
-                                       for="location">{{ $errors->first('home_number') }}</label>
                                 </div>
+                                <label id="location-error" class="validation-error-label"
+                                       for="location">{{ $errors->first('home_number') }}</label>
                             </div>
                         </div>
                         <div class="form-group">

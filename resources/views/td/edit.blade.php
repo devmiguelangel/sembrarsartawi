@@ -90,6 +90,24 @@
 
                 <div class="panel-body ">
                     <div class="col-md-10 col-md-offset-1">
+                        @if ($header->type === 'I')
+                            <div class="page-header" style="padding: 5px;">
+                                <h2>Póliza {{ $header->prefix }}-{{ $header->issue_number }}</h2>
+                            </div>
+
+                            @if($header->facultative)
+                                <div class="alert bg-warning alert-styled-right">
+                            <span class="text-semibold">
+                                Nota: Se deshabilitó el boton "Emitir" por las siguientes razones: <br>
+                            </span>
+                                    {!! $header->facultative_observation !!}
+                                    <span class="text-semibold">
+                                <br>
+                                Por lo tanto debe solicitar aprobación de la Compañia de Seguros
+                            </span>
+                                </div>
+                            @endif
+                        @endif
                         <div class="modal-header bg-primary recuadro">
                             <div class="panel-heading">
                                 <h6 class="modal-title">Datos del Titular </h6>
@@ -264,13 +282,12 @@
                                             </a>
                                         @else
                                             @if($header->facultative && ! $header->approved && ! $header->facultative_sent && ! isset($_GET['idf']))
-                                                <a href="{{ route('au.fa.request.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
-                                                   class="btn btn-warning"
-                                                   ng-click="requestCreate($event)">
-                                                    Solicitar aprobación de la Compañia
-                                                    <i class="icon-warning position-right"
-                                                       ng-click="$event.stopPropagation(); $event.preventDefault()"></i>
-                                                </a>
+                                                
+                                            <a href="#"
+                                                onclick="returnContent('{{ route('td.fa.request.create',['rp_id'=>$rp_id, 'header_id'=>$header_id, 'id_detail'=>0])}}', 'GET');$('.modal-title').html('Solicitar aprobación de la Compañia')"
+                                                data-toggle="modal" data-target="#modal_general" class="btn btn-warning text-left">
+                                                 Solicitar aprobación de la Compañia <i class="icon-warning position-right"></i>
+                                             </a>
                                             @else
                                                 @if (! isset($_GET['idf']))
                                                     <a href="{{ route('home', []) }}" class="btn btn-info">

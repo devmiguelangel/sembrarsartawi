@@ -92,8 +92,16 @@
                                 </div>
                                 <h6 class="no-margin text-semibold">Prima Total:</h6>
                                 <p class="text-muted content-group-sm">{{ $header->currency }} {{ number_format($header->total_premium, 2) }}</p>
+                                @if($facultative['facultative']>0)
+                                    <div class="alert alert-danger">
+                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                        <span class="sr-only">Error:</span> 
+                                        Prima referencial, sujeta a la aprobación de la compañía
+                                    </div>
+                                @endif
+                                
                                 <a href="{{route('create_modal_slip', ['id_retailer_product'=>decode($rp_id), 'id_header'=>decode($header_id), 'text'=>'slip', 'type'=>'IMPR'])}}" id="slip" class="btn btn-success open_modal">
-                                    Ver Cotización
+                                    <i class="icon-file-check position-left"></i> Ver Cotización
                                 </a>
                                 <hr>
 

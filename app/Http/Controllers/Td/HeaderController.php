@@ -115,7 +115,10 @@ use DataTrait;
                 $this->repository->updateHeaderTotalPremium(decode($header_id), $totalPremium);
                 $header = $this->repository->getModel();
                 
-                return view('td.result', compact('rp_id', 'header_id', 'header', 'retailerProduct'));
+                # validacion facultativo
+                $facultative = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id));
+
+                return view('td.result', compact('rp_id', 'header_id', 'header', 'retailerProduct', 'facultative'));
             }
         }
         return redirect()->back()->with([ 'error_header' => 'No se posible calcular la prima.']);
@@ -179,6 +182,7 @@ use DataTrait;
         $i = 1;
         foreach ($city->toArray() as $key => $value) {
             $arr[$i] = $value;
+            $arr[$i]['id'] = $value['name'];
             $i++;
         }
         $city = $arr;
@@ -186,7 +190,54 @@ use DataTrait;
         $var = array('template' => view('td.form.formInsured', compact('rp_id','header_id', 'materia', 'uso', 'city', 'detail'))->render());
         return response()->json($var);
     }
-    /**edw
+    
+    /**
+     * funcion retorna formulario ajax solicitud de aprovacion de la compañia.
+     * @param type $rp_id
+     * @param type $header_id
+     * @param type $id_detail
+     * @return type
+     */
+    public function requestCreate($rp_id, $header_id) {
+
+        if ($this->repository->getHeaderById(decode($header_id))) {
+            $header = $this->repository->getModel();
+            $var = array('template' => view('td.facultative.request', compact('header', 'rp_id', 'header_id', 'id_detail'))->render());
+            return response()->json($var);
+        }
+        return response()->json(array('template' => '<h2>No existe ID header</h2>'));
+    }
+    
+     /**
+      * 
+      * @param \Sibas\Http\Requests\Td\FacultativeRequestFormRequest $request
+      * @param type $rp_id
+      * @param type $header_id
+      * @return type
+      */
+    public function requestStore(FacultativeRequestFormRequest $request, $rp_id, $header_id) {
+        
+        if ($this->repository->getHeaderById(decode($header_id)) && $this->repository->storeFacultative($request)) {
+            $header = $this->repository->getModel();
+    /**        
+            $mail = new MailController($request->user());
+
+            $mail->subject = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->prefix . ' - ' . $header->issue_number;
+            $mail->template = 'td.request-approval';
+/**/
+            //edw-->if ($mail->send(decode($rp_id), [ 'header' => $header], 'COP')) {
+                $this->repository->storeSent();
+                //edw-->}
+
+            return redirect()->route('td.edit', [
+                            'rp_id' => $rp_id,
+                            'header_id' => $header_id,
+                        ])->with([ 'success_header' => 'Solicitud de aprobación enviada.']);
+        }
+        return redirect()->back();
+    }
+
+    /**
      * funcion guarda detalle ajax
      * @param \Illuminate\Http\Request $request
      * @return int
@@ -256,8 +307,9 @@ use DataTrait;
             
             $paymentMethods = config('base.payment_methods');
             $termTypes = config('base.term_types');
+            $facultative = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id));
             
-            return view('td.edit', compact('rp_id', 'header_id', 'header','paymentMethods', 'termTypes', 'policies'));
+            return view('td.edit', compact('rp_id', 'header_id', 'header','paymentMethods', 'termTypes', 'policies', 'facultative'));
         }
         return redirect()->back();
     }
@@ -271,14 +323,25 @@ use DataTrait;
      */
     public function update(HeaderEditFormRequest $request, $rp_id, $header_id) {
         if ($this->repository->getHeaderById(decode($header_id))) {
-            if ($this->repository->updateHeader($request)) {
+            $keyFac = false;
+            $obs = false;
+
+            # validacion facultativo
+            $facultative = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id));
+            if ($facultative['facultative'] > 0) {
+                $this->facultativeRepository->storeFacultative($facultative, $request->user());
+                $obs = $this->facultativeRepository->returnObservation();
+                
+                $keyFac = true;
+            }
+            
+            if ($this->repository->updateHeader($request, $keyFac, $obs)) {
                 return redirect()->route('td.edit', [
                             'rp_id' => $rp_id,
                             'header_id' => $header_id,
                         ])->with([ 'success_header' => 'La Póliza fue actualizada con éxito.']);
             }
         }
-
         return redirect()->back()->withInput();
     }
 

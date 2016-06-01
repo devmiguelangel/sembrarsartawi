@@ -193,4 +193,28 @@ function valueUse(){
         }
     }
 }
-
+/**
+ * funcion valida visualizacion campos valor asegurado del form de registro de riesgos
+ * @returns {undefined}
+ */
+function validateInsuredValue(){
+    if($('#matter_insured').val() == 'PR'){
+        $('.valor_construccion').show();
+        $('#construction_value').attr('required','true');
+        
+        $('.valor_de_terreno').show();
+        $('#land_value').attr('required','true');
+        
+        $('.valor_asegurado').hide();
+        $('#insured_value').removeAttr('required');
+    }else{
+        $('.valor_construccion').hide();
+        $('#construction_value').removeAttr('required');
+        
+        $('.valor_de_terreno').hide();
+        $('#land_value').removeAttr('required');
+        
+        $('.valor_asegurado').show();
+        $('#insured_value').attr('required','true');
+    }
+}
