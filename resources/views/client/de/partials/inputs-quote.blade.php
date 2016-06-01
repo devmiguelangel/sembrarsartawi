@@ -210,6 +210,22 @@
     @endif
 </div>
 <div class="col-xs-12 col-md-6">
+    @if(isset($product) && $product === 'td')
+        <div class="form-group">
+            <label class="col-lg-3 control-label label_required">Avenida o Calle: </label>
+            <div class="col-lg-9">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="icon-user"></i></span>
+                    {!! SelectField::input('avenue_street', $data['avenue_street']->toArray(), [
+                        'class' => 'select-search'],
+                        old('avenue_street', $client->avenue_street))
+                    !!}
+                </div>
+                <label id="location-error" class="validation-error-label"
+                       for="location">{{ $errors->first('avenue_street') }}</label>
+            </div>
+        </div>
+    @endif
     @if(isset($ref))
         <div class="form-group">
             <label class="col-lg-3 control-label label_required">Avenida o Calle: </label>

@@ -15,11 +15,11 @@
  */
 function cargaModal(id_header, tokken, url, post, type, aux) {
     var _def;
-    if(aux)
+    if (aux)
         _def = aux;
     else
         _def = 0;
-    
+
     $.ajax({
         url: url,
         type: post,
@@ -30,13 +30,13 @@ function cargaModal(id_header, tokken, url, post, type, aux) {
             aux: _def
         },
         dataType: 'JSON',
-        beforeSend: function() {
+        beforeSend: function () {
             $("#respuesta").html('Buscando cliente...');
         },
-        error: function() {
+        error: function () {
             $("#respuesta").html('<div> Ha surgido un error. </div>');
         },
-        success: function(respuesta) {
+        success: function (respuesta) {
             //console.log(respuesta.template_cert);
             if (respuesta) {
                 $("#respuesta").html(respuesta.template_cert);
@@ -48,8 +48,8 @@ function cargaModal(id_header, tokken, url, post, type, aux) {
 }
 function listInsured(url, post, id_header) {
     /**console.log('url-->'+url);
-    console.log('post-->'+post);
-    console.log('id_header-->'+id_header);/**/
+     console.log('post-->'+post);
+     console.log('id_header-->'+id_header);/**/
     $.ajax({
         url: url,
         type: post,
@@ -57,13 +57,13 @@ function listInsured(url, post, id_header) {
             id_header: id_header
         },
         dataType: 'JSON',
-        beforeSend: function() {
+        beforeSend: function () {
             $("#content_insured").html('Buscando Detalle...');
         },
-        error: function() {
+        error: function () {
             $("#content_insured").html('<div> Ha surgido un error. </div>');
         },
-        success: function(respuesta) {
+        success: function (respuesta) {
             //console.log(respuesta.template_cert);
             if (respuesta) {
                 $("#content_insured").html(respuesta.template);
@@ -84,13 +84,13 @@ function returnContent(url, method) {
         url: url,
         type: method,
         dataType: 'JSON',
-        beforeSend: function() {
+        beforeSend: function () {
             $("#respuesta").html('Buscando contenido...');
         },
-        error: function() {
+        error: function () {
             $("#respuesta").html('<div> Ha surgido un error. </div>');
         },
-        success: function(respuesta) {
+        success: function (respuesta) {
             if (respuesta) {
                 // respuesta ajax
                 $("#respuesta").html(respuesta.template);
@@ -126,7 +126,7 @@ function printSelec(idDiv) {
  * @returns {undefined}
  */
 function messageAction(key, text) {
-    
+
     if (key == 'succes') {
         $.jGrowl(text, {
             header: 'Regístro',
@@ -154,15 +154,15 @@ var FormGralF = {
     deleteElement: function (url, text) {
         "use strict";
         var title;
-        
-        if(text.length > 0){
-            text =  text;            
-            title =  'Informaci&oacute;n';            
-        }else{
-            text =  this.textDelConfirmDef;
-            title =  'Eliminar registro';            
+
+        if (text.length > 0) {
+            text = text;
+            title = 'Informaci&oacute;n';
+        } else {
+            text = this.textDelConfirmDef;
+            title = 'Eliminar registro';
         }
-        $('#md-colored .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" onclick="window.location = \''+url+'\'" data-dismiss="modal">Aceptar</button>')
+        $('#md-colored .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" onclick="window.location = \'' + url + '\'" data-dismiss="modal">Aceptar</button>')
         $('#md-colored .modal-body #title_alert').html(text);
         $('#md-colored .modal-header #info_alert').html(title);
         $('#md-colored').modal();
@@ -173,24 +173,48 @@ var FormGralF = {
  * funcion procesa valor para el combo USO del formulario registro de riesgo Multiriesgo
  * @returns {undefined}
  */
-function valueUse(){
+function valueUse() {
     $('#use option[value="ID"]').remove();
     $('#use option[value="IP"]').remove();
     $('#use option[value="OT"]').remove();
-    
-    if($('#matter_insured').val() == 'PR'){
+
+    if ($('#matter_insured').val() == 'PR') {
         $('#use option[value="OT"]').remove();
-        if($('#matter_insured').val() != 'ID')
+        if ($('#matter_insured').val() != 'ID')
             $('#use').append('<option value="ID">Inmueble Domiciliario</option>');
-        
-        if($('#matter_insured').val() != 'IP')
+
+        if ($('#matter_insured').val() != 'IP')
             $('#use').append('<option value="IP">Inmueble Industrial</option>');
-    }else{
-        if($('#matter_insured').val() != 'OT'){
+    } else {
+        if ($('#matter_insured').val() != 'OT') {
             $('#use').append('<option value="OT">Otros</option>');
             $('#use option[value="ID"]').remove();
             $('#use option[value="IP"]').remove();
         }
     }
 }
+/**
+ * funcion valida visualizacion campos valor asegurado del form de registro de riesgos
+ * @returns {undefined}
+ */
+function validateInsuredValue() {
+    if ($('#matter_insured').val() == 'PR') {
+        $('.valor_construccion').show();
+        $('#construction_value').attr('required', 'true');
 
+        $('.valor_de_terreno').show();
+        $('#land_value').attr('required', 'true');
+
+        $('.valor_asegurado').hide();
+        $('#insured_value').removeAttr('required');
+    } else {
+        $('.valor_construccion').hide();
+        $('#construction_value').removeAttr('required');
+
+        $('.valor_de_terreno').hide();
+        $('#land_value').removeAttr('required');
+
+        $('.valor_asegurado').show();
+        $('#insured_value').attr('required', 'true');
+    }
+}

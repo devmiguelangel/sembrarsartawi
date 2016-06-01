@@ -52,7 +52,20 @@ class FacultativeController extends Controller
      */
     public function edit($rp_id, $id)
     {
-       
+        if (request()->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                $fa = $this->repository->getModel();
+
+                return response()->json([
+                    'payload'      => view('td.facultative.edit', compact('fa', 'rp_id'))->render(),
+                    'states'       => $this->retailerProductRepository->getStatusByProduct(decode($rp_id)),
+                    'current_rate' => $fa->detail->rate,
+                    'user_email'   => $fa->detail->header->user->email,
+                ]);
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
 
         return redirect()->back();
     }
@@ -69,7 +82,36 @@ class FacultativeController extends Controller
      */
     public function update(FacultativeFormRequest $request, $rp_id, $id)
     {
-        
+        if ($request->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                if ($this->repository->updateFacultative($request)) {
+                    $fa     = $this->repository->getModel();
+                    $header = $fa->detail->header;
+
+                    $this->repository->approved = (int) $request->get('approved');
+                    $surcharge                  = (boolean) $request->get('surcharge');
+
+                    if ($this->repository->approved === 1 || $this->repository->approved === 0) {
+                        $this->headerRepository->setApproved($header);
+
+                        if ($surcharge) {
+                            $this->headerRepository->setVehicleResult(null, $header);
+                        }
+                    }
+
+                    $mail = new MailController($request->user(), $request->get('emails'));
+
+                    $this->repository->sendProcessMail($mail, $rp_id, $id);
+
+                    return response()->json([
+                        'location' => route('home')
+                    ]);
+                }
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
         return redirect()->back();
     }
 
@@ -82,7 +124,22 @@ class FacultativeController extends Controller
      */
     public function observation($rp_id, $id)
     {
-        
+        if (request()->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                $fa = $this->repository->getModel();
+
+                if ($fa->observations->last()->state->slug !== 'me') {
+                    $payload = view('td.facultative.observation', compact('fa'));
+
+                    return response()->json([
+                        'payload' => $payload->render()
+                    ]);
+                }
+
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
 
         return redirect()->back();
     }
@@ -97,7 +154,17 @@ class FacultativeController extends Controller
      */
     public function createAnswer($rp_id, $id, $id_observation)
     {
-       
+        if (request()->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                $fa = $this->repository->getModel();
+
+                return response()->json([
+                    'payload' => view('td.facultative.answer', compact('fa', 'id_observation', 'rp_id'))->render()
+                ]);
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
 
         return redirect()->back();
     }
@@ -113,7 +180,27 @@ class FacultativeController extends Controller
      */
     public function storeAnswer(Request $request, $rp_id, $id, $id_observation)
     {
-       
+        $this->validate($request, [
+            'observation_response' => 'required|ands_full'
+        ]);
+
+        if (request()->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                if ($this->repository->storeAnswer($request, decode($id_observation))) {
+                    $mail = new MailController($request->user());
+
+                    $this->repository->approved = 2;
+                    $this->repository->sendProcessMail($mail, $rp_id, $id, true);
+
+                    return response()->json([
+                        'location' => route('home')
+                    ]);
+                }
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
         return redirect()->back();
     }
 
@@ -127,7 +214,18 @@ class FacultativeController extends Controller
      */
     public function response($rp_id, $id, $id_observation)
     {
-        
+        if (request()->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                $fa          = $this->repository->getModel();
+                $observation = $fa->observations()->where('id', decode($id_observation))->first();
+
+                return response()->json([
+                    'payload' => view('td.facultative.response', compact('fa', 'observation'))->render()
+                ]);
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
 
         return redirect()->back();
     }
@@ -141,7 +239,17 @@ class FacultativeController extends Controller
      */
     public function observationProcess($rp_id, $id)
     {
-        
+        if (request()->ajax()) {
+            if ($this->repository->getFacultativeById(decode($id))) {
+                $fa = $this->repository->getModel();
+
+                return response()->json([
+                    'payload' => view('td.facultative.observation-process', compact('fa'))->render()
+                ]);
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
 
         return redirect()->back();
     }
@@ -156,7 +264,16 @@ class FacultativeController extends Controller
      */
     public function readUpdate(Request $request, $rp_id, $id)
     {
-       
+        if (request()->ajax()) {
+            if ($this->repository->readUpdate($request, decode($id))) {
+                return response()->json([
+                    'read' => filter_var($request->get('read'), FILTER_VALIDATE_BOOLEAN)
+                ]);
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
         return redirect()->back();
     }
 

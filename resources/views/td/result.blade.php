@@ -13,7 +13,7 @@
     <div class="page-header">
         <div class="page-header-content">
             <div class="page-title">
-                <h4><i class="icon-arrow-left52 position-left"></i> 
+                <h4><i class="icon-arrow-left52 position-left"></i>
                     <span class="text-semibold">Seguro de Multiriesgo</span>
                 </h4>
                 <ul class="breadcrumb breadcrumb-caret position-right">
@@ -37,7 +37,7 @@
                     <div class="steps-basic2 wizard">
                         <div class="steps">
                             <ul>
-                                 <li class="first done">
+                                <li class="first done">
                                     <a href="#">
                                         <span class="number">1</span> Datos del Cliente
                                     </a>
@@ -62,7 +62,7 @@
                                     <a href="#">
                                         <span class="number">5</span> Impresion de la Póliza
                                     </a>
-                                </li> 
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -92,8 +92,17 @@
                                 </div>
                                 <h6 class="no-margin text-semibold">Prima Total:</h6>
                                 <p class="text-muted content-group-sm">{{ $header->currency }} {{ number_format($header->total_premium, 2) }}</p>
-                                <a href="{{route('create_modal_slip', ['id_retailer_product'=>decode($rp_id), 'id_header'=>decode($header_id), 'text'=>'slip', 'type'=>'IMPR'])}}" id="slip" class="btn btn-success open_modal">
-                                    Ver Cotización
+                                @if($facultative['facultative']>0)
+                                    <div class="alert alert-danger">
+                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                        <span class="sr-only">Error:</span>
+                                        Prima referencial, sujeta a la aprobación de la compañía
+                                    </div>
+                                @endif
+
+                                <a href="{{route('create_modal_slip', ['id_retailer_product'=>decode($rp_id), 'id_header'=>decode($header_id), 'text'=>'slip', 'type'=>'IMPR'])}}"
+                                   id="slip" class="btn btn-success open_modal">
+                                    <i class="icon-file-check position-left"></i> Ver Cotización
                                 </a>
                                 <hr>
 
@@ -113,5 +122,5 @@
     </div>
 
     @include('partials.modal_content')
-    
+
 @endsection

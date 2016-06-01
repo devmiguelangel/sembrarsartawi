@@ -29,7 +29,6 @@ class HeaderCreateFormRequest extends Request
         $term_types      = join(',', array_keys(config('base.term_types')));
         $payment_methods = join(',', array_keys(config('base.payment_methods')));
         $currencies      = join(',', array_keys(config('base.currencies')));
-        //edw-->dd($this->request->all());
 
         return [
             'first_name'             => 'required|alpha_space',
@@ -43,6 +42,9 @@ class HeaderCreateFormRequest extends Request
             'birthdate'              => 'required|date_format:d/m/Y',
             'ad_activity_id'         => 'required|exists:ad_activities,id',
             'occupation_description' => 'required|ands_full',
+            'avenue_street'          => 'required|ands_full',
+            'home_address'           => 'required|ands_full',
+            'home_number'            => 'required|ands_full',
             'phone_number_home'      => 'required|numeric|digits_between:7,8',
             'phone_number_mobile'    => 'numeric|digits_between:7,8',
             'email'                  => 'email',

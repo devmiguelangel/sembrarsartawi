@@ -13,7 +13,7 @@
     <div class="page-header">
         <div class="page-header-content">
             <div class="page-title">
-                <h4><i class="icon-arrow-left52 position-left"></i> 
+                <h4><i class="icon-arrow-left52 position-left"></i>
                     <span class="text-semibold">Seguro de Multiriesgo</span>
                 </h4>
                 <ul class="breadcrumb breadcrumb-caret position-right">
@@ -64,7 +64,7 @@
                                     <a href="#">
                                         <span class="number">5</span> Impresion de la Póliza
                                     </a>
-                                </li> 
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -100,20 +100,23 @@
                             <p class="text-muted content-group-sm">Cotizacion/Emisión </p>
                             <div class="col-md-12">
                                 <p>
-                                    <a href="#" onclick="" class="btn btn-primary btn-labeled btn-xlg col-lg-12">
+                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>decode($rp_id), 'id_au_header'=>$header->id, 'text'=>'print_all', 'type'=>'IMPR'])}}"
+                                       id="print_all" class="btn btn-primary btn-labeled btn-xlg col-lg-12 open_modal">
                                         <b><i class="icon-printer4"></i></b> Imprimir Todo
                                     </a>
                                 </p>
                                 <div class="col-md-12">&nbsp;</div>
                                 <p>
-                                    <a href="#" onclick="" class="btn btn-info btn-labeled btn-xlg col-lg-12">
+                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>decode($rp_id), 'id_au_header'=>$header->id, 'text'=>'slip', 'type'=>'IMPR'])}}"
+                                       id="slip" class="btn btn-info btn-labeled btn-xlg col-lg-12 open_modal">
                                         <b><i class="icon-printer4"></i></b> Ver Slip de Cotización
                                     </a>
                                 </p>
                                 <div class="col-md-6">&nbsp;</div>
                                 <p>
-                                    <a href="#" class="btn btn-info btn-labeled btn-xlg col-lg-12">
-                                        <b><i class="icon-printer4"></i></b> Ver Certificado
+                                    <a href="{{route('create_modal_issuance', ['id_retailer_product'=>decode($rp_id), 'id_au_header'=>$header->id, 'text'=>'issuance', 'type'=>'IMPR'])}}"
+                                       id="issuance" class="btn btn-info btn-labeled btn-xlg col-lg-12 open_modal">
+                                        <b><i class="icon-printer4"></i></b> Ver Certificado de Emision
                                     </a>
                                 </p>
                                 <div class="col-md-6">&nbsp;</div>
@@ -125,4 +128,7 @@
             <!-- /horizotal form -->
         </div>
     </div>
+
+    @include('partials.modal_content')
+
 @endsection

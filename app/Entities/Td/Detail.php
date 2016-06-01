@@ -12,6 +12,14 @@ class Detail extends Model
 
     public $incrementing = false;
 
+    protected $fillable = [
+
+        'premium',
+        'approved',
+        'rejected',
+
+    ];
+
     protected $appends = [
         'matter_insured_text',
         'use_text',

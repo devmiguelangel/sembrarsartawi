@@ -77,6 +77,8 @@
             <!--fin notificacion-->
 
     {!! Html::script('js/jquery.loading.min.js') !!}
+    {!! Html::script('js/jquery.PrintArea.js') !!}
+
 
 </head>
 <body class="layout-boxed" ng-app="sibas">
