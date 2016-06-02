@@ -458,11 +458,11 @@ use ReportTrait;
      */
     public function observations($request, $array) {
         # registros observaciones
-        $opDeObservations = DB::table('op_de_observations')->orderBy('id', 'desc')->get();
+        $opDeObservations = DB::table('op_au_observations')->orderBy('id', 'desc')->get();
         $observation = [];
         foreach ($opDeObservations as $key => $value) {
-            if (!isset($observation[$value->op_de_facultative_id])) {
-                $observation[$value->op_de_facultative_id] = $value;
+            if (!isset($observation[$value->op_au_facultative_id])) {
+                $observation[$value->op_au_facultative_id] = $value;
             }
         }
 
