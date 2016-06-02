@@ -8,17 +8,15 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
         "styde/html": "^1.0",
-        "vinkla/hashids": "^2.1",
         "nesbot/carbon": "^1.21",
         "predis/predis": "^1.0",
         "maatwebsite/excel": "~2.0",
         "guzzlehttp/guzzle": "^6.1",
-        "tijsverkoyen/css-to-inline-styles": "^1.5",
-        "h4cc/wkhtmltopdf-amd64": "0.12.x",
-        "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "barryvdh/laravel-snappy": "^0.2.2",
         "barryvdh/laravel-dompdf": "^0.6.1",
-        "artisaninweb/laravel-soap": "0.2.5.10"
+        "artisaninweb/laravel-soap": "0.2.5.10",
+        "vinkla/hashids": "^2.3",
+        "pelago/emogrifier": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

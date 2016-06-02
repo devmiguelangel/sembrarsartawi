@@ -34,6 +34,15 @@ class PreApprovedController extends Controller
      */
     public function lists(Guard $auth, Request $request, $rp_id)
     {
-        
+        $data    = $this->data($auth->user());
+        $headers = [ ];
+
+        if ($request->has('_token')) {
+            $request->flash();
+        }
+
+        $headers = $this->repository->getHeaderList($request);
+
+        return view('td.pre-approved.list', compact('rp_id', 'headers', 'data'));
     }
 }

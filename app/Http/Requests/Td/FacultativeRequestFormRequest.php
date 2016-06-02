@@ -25,7 +25,6 @@ class FacultativeRequestFormRequest extends Request
      */
     public function rules()
     {
-        //edw-->dd($this->request->all());
         return [
             'facultative_observation' => 'required|ands_full'
         ];

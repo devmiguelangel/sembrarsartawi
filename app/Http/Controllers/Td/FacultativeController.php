@@ -52,7 +52,7 @@ class FacultativeController extends Controller
      */
     public function edit($rp_id, $id)
     {
-       if (request()->ajax()) {
+        if (request()->ajax()) {
             if ($this->repository->getFacultativeById(decode($id))) {
                 $fa = $this->repository->getModel();
 
@@ -80,15 +80,16 @@ class FacultativeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(FacultativeFormRequest $request, $rp_id, $id) {
+    public function update(FacultativeFormRequest $request, $rp_id, $id)
+    {
         if ($request->ajax()) {
             if ($this->repository->getFacultativeById(decode($id))) {
                 if ($this->repository->updateFacultative($request)) {
-                    $fa = $this->repository->getModel();
+                    $fa     = $this->repository->getModel();
                     $header = $fa->detail->header;
 
                     $this->repository->approved = (int) $request->get('approved');
-                    $surcharge = (boolean) $request->get('surcharge');
+                    $surcharge                  = (boolean) $request->get('surcharge');
 
                     if ($this->repository->approved === 1 || $this->repository->approved === 0) {
                         $this->headerRepository->setApproved($header);
@@ -103,16 +104,17 @@ class FacultativeController extends Controller
                     $this->repository->sendProcessMail($mail, $rp_id, $id);
 
                     return response()->json([
-                                'location' => route('home')
+                        'location' => route('home')
                     ]);
                 }
             }
 
-            return response()->json([ 'err' => 'Unauthorized action.'], 401);
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
         }
 
         return redirect()->back();
     }
+
 
     /**
      * @param string $rp_id
@@ -210,22 +212,24 @@ class FacultativeController extends Controller
      *
      * @return mixed
      */
-    public function response($rp_id, $id, $id_observation) {
+    public function response($rp_id, $id, $id_observation)
+    {
         if (request()->ajax()) {
             if ($this->repository->getFacultativeById(decode($id))) {
-                $fa = $this->repository->getModel();
+                $fa          = $this->repository->getModel();
                 $observation = $fa->observations()->where('id', decode($id_observation))->first();
 
                 return response()->json([
-                            'payload' => view('td.facultative.response', compact('fa', 'observation'))->render()
+                    'payload' => view('td.facultative.response', compact('fa', 'observation'))->render()
                 ]);
             }
 
-            return response()->json([ 'err' => 'Unauthorized action.'], 401);
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
         }
 
         return redirect()->back();
     }
+
 
     /**
      * @param string $rp_id
