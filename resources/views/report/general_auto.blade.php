@@ -52,9 +52,9 @@
                 <div class="col-xs-12 col-md-12">
                     <form class="form-horizontal form-validate-jquery" action="" id="form_search_general">
                     @if($flag == 1) 
-                        {!! Form::open(['route' => ['report.report_general_result','id_comp'=>$id_comp], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                        {!! Form::open(['route' => ['report.auto_report_general_result','id_comp'=>$id_comp], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                     @else
-                        {!! Form::open(['route' => ['report.report_general_result_emitido','id_comp'=>$id_comp], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                        {!! Form::open(['route' => ['report.auto_report_general_result_emitido','id_comp'=>$id_comp], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                     @endif
                         <div class="panel-body ">
                             <div class="col-xs-12 col-md-3">
