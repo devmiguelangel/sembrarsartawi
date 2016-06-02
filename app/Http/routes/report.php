@@ -63,4 +63,33 @@ Route::group(['prefix' => '/'], function() {
         'as' => 'report.auto_report_cotizacion_result',
         'uses' => 'Report\ReportAutoController@cotizacion'
     ]);
+    
+    # ruta Multiriesgo
+    
+    Route::get('report/td/general/{id_comp}', [
+        'as' => 'report.td_report_general',
+        'uses' => 'Report\ReportTdController@general'
+    ]);    
+    Route::post('report/td/general/{id_comp}', [
+        'as' => 'report.td_report_general_result',
+        'uses' => 'Report\ReportTdController@general'
+    ]);
+    
+    Route::get('report/td/general_emitido/{id_comp}', [
+        'as' => 'report.td_report_general_emitido',
+        'uses' => 'Report\ReportTdController@general_emitido'
+    ]);    
+    Route::post('report/td/general_emitido/{id_comp}', [
+        'as' => 'report.td_report_general_result_emitido',
+        'uses' => 'Report\ReportTdController@general_emitido'
+    ]);
+    
+    Route::get('report/td/cotizacion/{id_comp}', [
+        'as' => 'report.td_report_cotizacion',
+        'uses' => 'Report\ReportTdController@cotizacion'
+    ]);
+    Route::post('report/td/cotizacion/{id_comp}', [
+        'as' => 'report.td_report_cotizacion_result',
+        'uses' => 'Report\ReportTdController@cotizacion'
+    ]);
 });

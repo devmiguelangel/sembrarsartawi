@@ -172,6 +172,23 @@
                                                 </a>
                                             </li>
                                     @endif
+                                    @if($retailerProduct->companyProduct->product->name == 'Multiriesgo')
+                                            <li class="{{Request::is('report/td/cotizacion/valor') ? 'active':''}}">
+                                                <a href="{{ route('report.td_report_cotizacion',[ 'id_comp' => encode($retailerProduct->companyProduct->id) ]) }}">
+                                                    Solicitudes Multiriesgo
+                                                </a>
+                                            </li>
+                                            <li class="{{Request::is('report/td/general/valor') ? 'active':''}}">
+                                                <a href="{{ route('report.td_report_general',[ 'id_comp' => encode($retailerProduct->companyProduct->id) ]) }}">
+                                                    General Multiriesgo
+                                                </a>
+                                            </li>
+                                            <li class="{{Request::is('report/td/general_emitido/valor') ? 'active':''}}">
+                                                <a href="{{ route('report.td_report_general_emitido',[ 'id_comp' => encode($retailerProduct->companyProduct->id) ]) }}">
+                                                    Polizas Emitidas Multiriesgo
+                                                </a>
+                                            </li>
+                                    @endif
                                     </ul>
                                 </li>
                             @endif

@@ -11,11 +11,11 @@
 @section('menu-header')
 
 @if($flag == 1) 
- @var $title = 'Reporte General' 
- @var $sub_title = 'Listado de Pólizas' 
+ @var $title = 'Reporte General Multiriesgo' 
+ @var $sub_title = 'Listado de Pólizas Multiriesgo' 
 @else 
- @var $title = 'Reporte Polizas Emitidas' 
- @var $sub_title = 'Listado de Pólizas Emitidas' 
+ @var $title = 'Reporte Polizas Emitidas Multiriesgo' 
+ @var $sub_title = 'Listado de Pólizas Emitidas Multiriesgo' 
 @endif
 
 <div class="page-header">
@@ -52,9 +52,9 @@
                 <div class="col-xs-12 col-md-12">
                     <form class="form-horizontal form-validate-jquery" action="" id="form_search_general">
                     @if($flag == 1) 
-                        {!! Form::open(['route' => ['report.auto_report_general_result','id_comp'=>$id_comp], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                        {!! Form::open(['route' => ['report.td_report_general_result','id_comp'=>$id_comp], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                     @else
-                        {!! Form::open(['route' => ['report.auto_report_general_result_emitido','id_comp'=>$id_comp], 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                        {!! Form::open(['route' => ['report.td_report_general_result_emitido','id_comp'=>$id_comp], 'method' => 'post', 'class' => 'form-horizontal']) !!}
                     @endif
                         <div class="panel-body ">
                             <div class="col-xs-12 col-md-3">
@@ -235,9 +235,9 @@
                         <div class="col-xs-12 col-md-12">
                             <div class="text-right">
                                 @if($flag == 1) 
-                                <a href="{{ route('report.auto_report_general',['id_comp'=>$id_comp]) }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
+                                <a href="{{ route('report.td_report_general',['id_comp'=>$id_comp]) }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
                                 @else 
-                                <a href="{{ route('report.auto_report_general_emitido',['id_comp'=>$id_comp]) }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
+                                <a href="{{ route('report.td_report_general_emitido',['id_comp'=>$id_comp]) }}" class="btn btn-default" title="Cancelar">Cancelar <i class="icon-cross2 position-right"></i></a>
                                 @endif 
                                 
                                 <button type="submit" class="btn btn-primary" id="buscar" onclick="$('#xls_download').val(0);">Buscar <i class="icon-search4 position-right"></i></button>
@@ -257,7 +257,8 @@
                                     </a>
                                 </div>
                             </div>
-                            <table class="table datatable-fixed-left_order_false table-striped" width="100%">
+                            <!--<table class="table datatable-fixed-left_order_false table-striped" width="100%">-->
+                            <table class="table datatable-fixed-left_order_false" width="100%">
                                 <thead>
                                     <tr style="background-color: #337ab7" class="text-white">
                                         <th>Nro. Emisión</th>
@@ -267,19 +268,17 @@
                                         <th>Plazo de Credito</th>
                                         <th>Forma de Pago</th>
                                         <th>Nro. Credito</th>
-                                        <th>
-                                            <div class="container">
-                                                <div class="col-xs-12">
-                                                    <!--<div class="col-lg-12">Auto</div>-->
-                                                    <div class="col-lg-5">Modelo</div>
-                                                    <div class="col-lg-2">Año</div>
-                                                    <div class="col-lg-3">Placa</div>
-                                                    <div class="col-lg-1">0 Km.</div>
-                                                    <div class="col-lg-1">Valor Aseg.</div>
-
-                                                </div>
-                                            </div>
-                                        </th>
+                                        <th>Tipo de Materia</th>
+                                        <th>Descripcion</th>
+                                        <th>Uso</th>
+                                        <th>Ciudad</th>
+                                        <th>Zona</th>
+                                        <th>Localidad</th>
+                                        <th>Direccion</th>
+                                        <th>Valor Asegurado</th>
+                                        <th>Taza</th>
+                                        <th>Prima</th>
+                                        <th>Moneda</th>
                                         <th>Usuario</th>
                                         <th>Sucursal Registro</th>
                                         <th>Agencia</th>
@@ -297,31 +296,43 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @var $sum = 1
-                                    @foreach($result as $entities)
+                                    @var $num = 0
+                                    @var $color = ''
                                     
-                                    <tr>
+                                    @foreach($result as $entities)
+                                        
+                                        @if($entities->nro_cotizacion == $num)
+                                            @var $color = $color
+                                        @else
+                                            @if($color == 'A')
+                                                @var $color = 'B'
+                                            @else    
+                                                @var $color = 'A'
+                                            @endif
+                                        @endif
+                                        @if($color == 'A')
+                                            <tr style="background-color: #eef9f8;">
+                                        @else    
+                                            <tr>
+                                        @endif    
                                         <td>{{ $entities->nro_cotizacion }}</td>
                                         <td>{{ $entities->cliente }}</td>
                                         <td>{{ $entities->ci }}</td>
                                         <td>{{ $entities->genero }}</td>
                                         <td>{{ $entities->plazo_de_credito }}</td>
                                         <td>{{ $entities->forma_de_pago=='AN'?'Anualizado':'Prima Total' }}</td>
-                                        
                                         <td>{{ $entities->numero_credito }}</td>
-                                        <td class="col-md-12 col-xs-12" style="width: 700px !important;">
-                                        @foreach($entities->auDetail as $detail)
-                                            <div class="container">    
-                                                <div class="col-xs-12 text-center ">
-                                                    <div class="col-lg-5 text-left">{{ $detail->vehicleModel->model }}</div>
-                                                    <div class="col-lg-2">{{ $detail->year }}</div>
-                                                    <div class="col-lg-3">{{ $detail->license_plate }}</div>
-                                                    <div class="col-lg-1">{{ $detail->mileage==1?'SI':'NO' }}</div>
-                                                    <div class="col-lg-1">{{ $detail->insured_value }}</div>
-                                                </div>
-                                            </div>    
-                                        @endforeach
-                                        </td>
+                                        <td>{{ $entities->tipo_materia }}</td>
+                                        <td>{{ $entities->descripcion }}</td>
+                                        <td>{{ $entities->uso }}</td>
+                                        <td>{{ $entities->ciudad }}</td>
+                                        <td>{{ $entities->zona }}</td>
+                                        <td>{{ $entities->localidad }}</td>
+                                        <td>{{ $entities->direccion }}</td>
+                                        <td>{{ $entities->valor_asegurado }} {{ $entities->moneda }}</td>
+                                        <td>{{ $entities->taza }}</td>
+                                        <td>{{ $entities->prima }}</td>
+                                        <td>{{ $entities->moneda }}</td>
                                         <td>{{ $entities->usuario }}</td>
                                         <td>{{ $entities->sucursal_registro }}</td>
                                         <td>{{ $entities->agencia }}</td>
@@ -342,36 +353,26 @@
                                                             <i class="icon-menu9"></i>
                                                         </a>
                                                         <ul class="dropdown-menu dropdown-menu-right">
-                                                            @if($flag == 2)
+                                                          
+                                                            
                                                             <li>
-                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', '{{ route('slip_au_cot',['id_comp'=>$id_comp])}}', 'POST', 'cotizacion',{{ decode($id_comp) }})" data-toggle="modal" data-target="#modal_general">
+                                                                <a href="#" >
                                                                     <i class="icon-plus2"></i> Ver Slip de Cotización
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', '{{ route('slip_rep_au_general',['id_comp'=>$id_comp])}}', 'POST', 'emision',{{ decode($id_comp) }})" data-toggle="modal" data-target="#modal_general">
+                                                                <a href="#" >
                                                                     <i class="icon-plus2"></i> Ver Certificado
                                                                 </a>
                                                             </li>
-                                                            @else
-                                                            <li>
-                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', '{{ route('slip_au_cot',['id_comp'=>$id_comp])}}', 'POST', 'cotizacion',{{ decode($id_comp) }})" data-toggle="modal" data-target="#modal_general">
-                                                                    <i class="icon-plus2"></i> Ver Slip de Cotización
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', '{{ route('slip_rep_au_general',['id_comp'=>$id_comp])}}', 'POST', 'emision',{{ decode($id_comp) }})" data-toggle="modal" data-target="#modal_general">
-                                                                    <i class="icon-plus2"></i> Ver Certificado
-                                                                </a>
-                                                            </li>
-                                                            @endif
                                                         </ul>
                                                     </li>
                                                 </ul>
                                         </td>
                                     </tr>
-                                    @var $sum++
-                                    @var $key = $entities->nro_cotizacion
+                                        
+                                        @var $num = $entities->nro_cotizacion
+                                        
                                     @endforeach
                                 </tbody>
                             </table>
