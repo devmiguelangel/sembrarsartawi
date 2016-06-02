@@ -119,7 +119,5 @@
             </div>
         </div>
     </div>
-
     @include('partials.modal_content')
-    
 @endsection
