@@ -328,91 +328,99 @@
 
         <!--renglon 1-->
         @if((boolean)$query_header->facultative === true)
-        @if((boolean)$query_header->approved === true)
-                <!--renglon 2-->
-        <div style="font-size:6pt; text-align:center; margin-top:5px; margin-bottom:0px; border:1px solid #C68A8A; background:#FFEBEA; padding:8px; width:98%;"
-             align="left">
-            APROBADO POR LA COMPAÑÍA ASEGURADORA DE ACUERDO A LAS SIGUIENTES CONDICIONES, MISMAS QUE PREVALECERÁN SOBRE
-            LAS ANTERIORES
-        </div>
-        <table border="0" cellpadding="1" cellspacing="0"
-               style="width: 100%; font-size: 8px; font-weight: normal; font-family: Arial; margin: 2px 0 0 0; padding: 5px 0 0 0; border-collapse: collapse; vertical-align: bottom;">
-            <tr>
-                <td colspan="7" style="text-align: center; font-weight: bold; background: #e57474; color: #FFFFFF;">
-                    Caso Facultativo
-                </td>
-            </tr>
-            <tr>
-                <td style="width:10%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
-                    Riesgo
-                </td>
-                <td style="width:5%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
-                    Aprobado
-                </td>
-                <td style="width:5%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
-                    Tasa de Recargo
-                </td>
-                <td style="width:7%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
-                    Porcentaje de Recargo
-                </td>
-                <td style="width:7%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
-                    Tasa Actual
-                </td>
-                <td style="width:7%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
-                    Tasa Final
-                </td>
-                <td style="width:59%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
-                    Respuesta de la Compañía/Observaciones
-                </td>
-            </tr>
-            <tr>
-                <td style="width:10%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
-                    [appropved]
-                </td>
-                <td style="width:5%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
-                    [appropved]
-                </td>
-                <td style="width:5%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
-                    [surcharge]
-                </td>
-                <td style="width:7%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
-                    [porcentage]
-                </td>
-                <td style="width:7%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
-                    [current_rate] %
-                </td>
-                <td style="width:7%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
-                    [final_rate] %
-                </td>
-                <td style="width:59%; text-align: justify; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
-                    <span style="color:#000000;">Respuesta de la Compañía:</span><br/>
-                    <span style="color:#000000">Observaciones:</span>
-                </td>
-            </tr>
-        </table>
-
-        @else
-
+            @if((boolean)$query_header->approved === true)
+                    <!--renglon 2-->
+            <div style="font-size:6pt; text-align:center; margin-top:5px; margin-bottom:0px; border:1px solid #C68A8A; background:#FFEBEA; padding:8px; width:98%;"
+                 align="left">
+                APROBADO POR LA COMPAÑÍA ASEGURADORA DE ACUERDO A LAS SIGUIENTES CONDICIONES, MISMAS QUE PREVALECERÁN SOBRE
+                LAS ANTERIORES
+            </div>
             <table border="0" cellpadding="1" cellspacing="0"
-                   style="width: 100%; font-size: 8px; border-collapse: collapse; font-weight: normal; font-family: Arial; margin: 2px 0 0 0; padding: 0; border-collapse: collapse; vertical-align: bottom;">
+                   style="width: 100%; font-size: 8px; font-weight: normal; font-family: Arial; margin: 2px 0 0 0; padding: 5px 0 0 0; border-collapse: collapse; vertical-align: bottom;">
                 <tr>
-                    <td style="text-align: center; font-weight: bold; background: #e57474; color: #FFFFFF;">
+                    <td colspan="7" style="text-align: center; font-weight: bold; background: #e57474; color: #FFFFFF;">
                         Caso Facultativo
                     </td>
                 </tr>
                 <tr>
-                    <td style="text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
-                        Observaciones
+                    <td style="width:10%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
+                        Riesgo
+                    </td>
+                    <td style="width:5%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
+                        Aprobado
+                    </td>
+                    <td style="width:5%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
+                        Tasa de Recargo
+                    </td>
+                    <td style="width:7%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
+                        Porcentaje de Recargo
+                    </td>
+                    <td style="width:7%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
+                        Tasa Actual
+                    </td>
+                    <td style="width:7%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
+                        Tasa Final
+                    </td>
+                    <td style="width:59%; text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
+                        Respuesta de la Compañía
                     </td>
                 </tr>
+                @var $parameter_prouse = config('base.property_uses')
+                @foreach($query_riesgo as $data_fac)
+                    @var $use = $parameter_prouse[$data_fac->use]
+                    <tr>
+                        <td style="width:10%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
+                            {{$use}}
+                        </td>
+                        <td style="width:5%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
+                            {{$data_fac->approved=1?'SI':'NO'}}
+                        </td>
+                        <td style="width:5%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
+                            {{$data_fac->surcharge=1?'SI':'NO'}}
+                        </td>
+                        <td style="width:7%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
+                            {{$data_fac->percentage}}
+                        </td>
+                        <td style="width:7%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
+                            {{$data_fac->current_rate}} %
+                        </td>
+                        <td style="width:7%; text-align: center; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
+                            {{$data_fac->final_rate}} %
+                        </td>
+                        <td style="width:59%; text-align: justify; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
+                            <span style="color:#000000;">Respuesta de la Compañía:</span> {{$data_fac->observation}}<br/>
+                        </td>
+                    </tr>
+                @endforeach
                 <tr>
-                    <td style="text-align: justify; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
-                        op_au_facultatives->[facultative_observation]
+                    <td colspan="7" style="text-align: left; background: #e57474; color: #FFFFFF;">
+                        <span style="color:#000000">Observaciones:</span> {{$query_header->facultative_observation}}
                     </td>
                 </tr>
             </table>
 
-        @endif
+            @else
+
+                <table border="0" cellpadding="1" cellspacing="0"
+                       style="width: 100%; font-size: 8px; border-collapse: collapse; font-weight: normal; font-family: Arial; margin: 2px 0 0 0; padding: 0; border-collapse: collapse; vertical-align: bottom;">
+                    <tr>
+                        <td style="text-align: center; font-weight: bold; background: #e57474; color: #FFFFFF;">
+                            Caso Facultativo
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold; border: 1px solid #dedede; background: #e57474;">
+                            Observaciones
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: justify; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;">
+                           {{$query_header->facultative_observation}}
+                        </td>
+                    </tr>
+                </table>
+
+            @endif
         @endif
 
         @if($query_header->issued == 1 && $query_header->canceled == 0)
