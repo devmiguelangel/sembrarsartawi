@@ -60,7 +60,7 @@
                                         <span class="number">4</span> Emisión de Póliza Seguro de Multiriesgo
                                     </a>
                                 </li>
-                                <li class="current">
+                                <li class="current" id="finish">
                                     <a href="#">
                                         <span class="number">5</span> Impresion de la Póliza
                                     </a>

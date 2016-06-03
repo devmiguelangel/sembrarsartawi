@@ -137,10 +137,12 @@ class ModalTdController extends Controller
                 $query_header->op_client_id)->first();
         //dd($query_client);
 
-        $query_riesgo = \DB::table('op_td_details as td')->join('ad_cities as ac', 'ac.id', '=',
-                'td.city')->select('td.matter_description', 'ac.name as city', 'td.zone', 'td.locality', 'td.address',
+        $query_riesgo = \DB::table('op_td_details as td')
+            ->select('td.matter_description', 'td.city', 'td.zone', 'td.locality', 'td.address',
                 'td.insured_value', 'td.rate', 'td.premium', 'td.matter_insured', 'td.use',
-                'td.number')->where('td.op_td_header_id', '=', $id_header)->get();
+                'td.number')
+            ->where('td.op_td_header_id', '=', $id_header)
+            ->get();
 
         $query_change_rate = \DB::table('ad_exchange_rates')->first();
 
