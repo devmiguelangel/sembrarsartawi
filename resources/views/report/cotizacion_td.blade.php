@@ -154,7 +154,7 @@
                                     <th>CI</th>
                                     <th>Ciudad</th>
                                     <th>G&eacute;nero</th>
-                                    <th>Plazo de Cr&eacute;dito</th>
+                                    <!--<th>Plazo de Cr&eacute;dito</th>-->
                                     <th>Forma de Pago</th>
                                     <th>Nro. Credito</th>
                                     <th>Usuario</th>
@@ -167,8 +167,8 @@
                                     <th>Localidad</th>
                                     <th>Dirección</th>
                                     <th>Valor Asegurado</th>
-                                    <th>Taza</th>
-                                    <th>Prima</th>
+                                    <!--<th>Taza</th>
+                                    <th>Prima</th>-->
                                     <th>Moneda</th>
                                     <th>Acci&oacute;n</th>
                                 </tr>
@@ -198,7 +198,7 @@
                                     <td>{{ $entities->ci }}</td>
                                     <td>{{ $entities->ciudad }}</td>
                                     <td>{{ $entities->genero }}</td>
-                                    <td>{{ $entities->plazo_de_credito }}</td>
+                                    <!--<td>{{ $entities->plazo_de_credito }}</td>-->
                                     <td>{{ $entities->forma_de_pago }}</td>
                                     <td>{{ $entities->numero_credito }}</td>
                                     <td>{{ $entities->usuario }}</td>
@@ -211,8 +211,8 @@
                                     <td>{{ $entities->localidad }}</td>
                                     <td>{{ $entities->direccion }}</td>
                                     <td>{{ $entities->valor_asegurado }} {{ $entities->moneda }}</td>
-                                    <td>{{ $entities->taza }}</td>
-                                    <td>{{ $entities->prima }}</td>
+                                    <!--<td>{{ $entities->taza }}</td>
+                                    <td>{{ $entities->prima }}</td>-->
                                     <td>{{ $entities->moneda }}</td>
                                     <td class="text-center">
                                         <ul class="icons-list">

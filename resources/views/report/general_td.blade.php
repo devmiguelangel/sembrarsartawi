@@ -265,7 +265,7 @@
                                         <th>Cliente</th>
                                         <th>C.I.</th>
                                         <th>Genero</th>
-                                        <th>Plazo de Credito</th>
+                                        <!--<th>Plazo de Credito</th>-->
                                         <th>Forma de Pago</th>
                                         <th>Nro. Credito</th>
                                         <th>Tipo de Materia</th>
@@ -319,7 +319,7 @@
                                         <td>{{ $entities->cliente }}</td>
                                         <td>{{ $entities->ci }}</td>
                                         <td>{{ $entities->genero }}</td>
-                                        <td>{{ $entities->plazo_de_credito }}</td>
+                                        <!--<td>{{ $entities->plazo_de_credito }}</td>-->
                                         <td>{{ $entities->forma_de_pago=='AN'?'Anualizado':'Prima Total' }}</td>
                                         <td>{{ $entities->numero_credito }}</td>
                                         <td>{{ $entities->tipo_materia }}</td>

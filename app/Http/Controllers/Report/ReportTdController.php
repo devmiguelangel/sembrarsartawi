@@ -329,7 +329,7 @@ use ReportTrait;
                 $resArr[$i]['Cliente'] = $value->cliente;
                 $resArr[$i]['C.I.'] = $value->ci;
                 $resArr[$i]['Genero'] = $value->genero;
-                $resArr[$i]['Plazo de Credito'] = $value->plazo_de_credito;
+                //edw-->$resArr[$i]['Plazo de Credito'] = $value->plazo_de_credito;
                 $resArr[$i]['Forma de Pago'] = ($value->forma_de_pago == 'AN') ? 'Anualizado' : 'Prima Total';
                 $resArr[$i]['Nro. Credito'] = $value->numero_credito;
                 $resArr[$i]['Tipo de Materia'] = $value->tipo_materia;
@@ -358,7 +358,7 @@ use ReportTrait;
                 $resArr[$i]['Duración Total del Caso'] = $value->duracion_total_del_caso;
                 $i++;
             }
-            $this->exportXls($resArr, 'General', 1, 'A1:AE1');
+            $this->exportXls($resArr, 'General', 1, 'A1:AD1');
         }
 
 
@@ -573,6 +573,7 @@ use ReportTrait;
                         'op_td_details.premium as prima',
                         'op_td_headers.currency as moneda'
         )
+        ->where('op_td_headers.type', 'Q')
         ->where('op_td_headers.issued', 0);
 
 
@@ -628,7 +629,7 @@ use ReportTrait;
                 $resArr[$i]['CI'] = $value->ci;
                 $resArr[$i]['Ciudad'] = $value->ciudad;
                 $resArr[$i]['Género'] = $value->genero;
-                $resArr[$i]['Plazo de Crédito'] = $value->plazo_de_credito;
+                //edw-->$resArr[$i]['Plazo de Crédito'] = $value->plazo_de_credito;
                 $resArr[$i]['Forma de Pago'] = $value->forma_de_pago;
                 $resArr[$i]['Nro. Crédito'] = $value->numero_credito;
                 $resArr[$i]['Usuario'] = $value->usuario;
@@ -641,13 +642,13 @@ use ReportTrait;
                 $resArr[$i]['Localidad'] = $value->localidad;
                 $resArr[$i]['Dirección'] = $value->direccion;
                 $resArr[$i]['Valor Asegurado'] = $value->valor_asegurado.' '.$value->moneda;
-                $resArr[$i]['Taza'] = $value->taza;
-                $resArr[$i]['Prima'] = $value->prima;
+                //edw-->$resArr[$i]['Taza'] = $value->taza;
+                //edw-->$resArr[$i]['Prima'] = $value->prima;
                 $resArr[$i]['Moneda'] = $value->moneda;
 
                 $i++;
             }
-            $this->exportXls($resArr, 'Cotizacion Multiriesgo', 1, 'A1:U1');
+            $this->exportXls($resArr, 'Cotizacion Multiriesgo', 1, 'A1:R1');
         }
 
         return view('report.cotizacion_td', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'id_comp'));
