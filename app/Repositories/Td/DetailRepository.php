@@ -143,9 +143,10 @@ class DetailRepository extends BaseRepository
         $this->model->address               = $this->data['address'];
         $this->model->op_td_header_id       = $this->data['id_header'];
         
-        if ($this->data['matter_insured'] == 'PR')
-            $this->model->insured_value = ($this->data['construction_value'] + $this->data['land_value']);
-        else
+        if ($this->data['matter_insured'] == 'PR'){
+            //edw-->$this->model->insured_value = ($this->data['construction_value'] + $this->data['land_value']);
+            $this->model->insured_value = ($this->data['construction_value']);
+        }else
             $this->model->insured_value = $this->data['insured_value'];
     }
     /**
