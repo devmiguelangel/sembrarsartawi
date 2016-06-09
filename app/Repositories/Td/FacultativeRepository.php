@@ -35,6 +35,19 @@ class FacultativeRepository extends BaseRepository
 
         return false;
     }
+    public function getFacultativeByHeaderId($header_id)
+    {
+        $this->model = Facultative::with('detail.header.user', 'detail.header.client', 'observations')->where('op_td_detail_id', '=',
+            $header_id)->get();
+
+        if ($this->model->count() === 1) {
+            $this->model = $this->model->first();
+
+            return true;
+        }
+
+        return false;
+    }
 
 
     /**
@@ -183,14 +196,23 @@ class FacultativeRepository extends BaseRepository
                 } else {
                     $reason = $this->returnReason($value['detail'], $detailFac, $r);
                 }
-
-                $value['detail']->facultative()->create([
-                    'id'         => date('U') + $h,
-                    'ad_user_id' => $user->id,
-                    'reason'     => $reason,
-                    'state'      => 'PE',
-                    'read'       => false,
-                ]);
+                if ($value['detail']->facultative instanceof Facultative) {
+                    $value['detail']->facultative->update([
+                        'reason' => $reason,
+                        'state' => 'PE',
+                        'read' => false,
+                    ]);
+                } else {
+                    $value['detail']->facultative()->create([
+                        'id' => date('U') + $h,
+                        'ad_user_id' => $user->id,
+                        'reason' => $reason,
+                        'state' => 'PE',
+                        'read' => false,
+                    ]);
+                }
+                
+                $this->idsFactultative[]= $value['detail']->id;
                 $this->observation .= $reason;
                 $h++;
             }
@@ -397,8 +419,8 @@ class FacultativeRepository extends BaseRepository
 
         return false;
     }
-
-
+    
+    
     /**
      * @param Request $request
      * @param int     $id_observation
@@ -446,9 +468,10 @@ class FacultativeRepository extends BaseRepository
      *
      * @param type $idHeader
      */
-    public function roleFacultative($rpId, $idHeader)
+    public function roleFacultative($rpId, $idHeader, $header)
     {
-
+        $moneda = $this->returnTipoCambio($rpId, $header);
+        
         $ge = ProductParameter::where('ad_retailer_product_id', $rpId)->where('slug', 'GE')->first();
         $fa = ProductParameter::where('ad_retailer_product_id', $rpId)->where('slug', 'FA')->first();
 
@@ -461,7 +484,7 @@ class FacultativeRepository extends BaseRepository
         # validacion facultativos por riesgo
         foreach ($detail as $key => $value) {
             if ($value->matter_insured == 'PR' && $value->use == 'IP') {
-                if ($value->insured_value >= $fa->amount_min && $value->insured_value <= $fa->amount_max) {
+                if ($value->insured_value >= ($fa->amount_min * $moneda) && $value->insured_value <= ($fa->amount_max * $moneda)) {
                     $arrayFac['role1'][] = $value;
                     $keyFac++;
                 }
@@ -470,9 +493,9 @@ class FacultativeRepository extends BaseRepository
         }
 
         # validacion facultativos generales
-        if ($totalInsured > $ge->amount_max) {
+        if ($totalInsured > ($ge->amount_max * $moneda)) {
             $arrayFac['role2']['total_amount'] = $totalInsured;
-            $arrayFac['role2']['amount_max']   = $ge->amount_max;
+            $arrayFac['role2']['amount_max']   = ($ge->amount_max * $moneda);
             $arrayFac['role2']['details']      = $detail;
             $keyFac++;
         }
@@ -483,6 +506,28 @@ class FacultativeRepository extends BaseRepository
         $facultative['parameter']['GE'] = $ge;
 
         return $facultative;
+    }
+    
+    /**
+     * retorna tipo de cambio
+     * @param type $rpId
+     * @param type $header
+     * @return type
+     */
+    function returnTipoCambio($rpId, $header) {
+        $retailerProduct = RetailerProduct::where('id', $rpId)->first();
+        $moneda = 1;
+        switch ($header->currency) {
+            case 'USD':
+                $moneda = $retailerProduct->retailer->exchangeRate->usd_value;
+                break;
+            case 'BS':
+                $moneda = $retailerProduct->retailer->exchangeRate->bs_value;
+                break;
+            default:
+                break;
+        }
+        return $moneda;
     }
 
 }

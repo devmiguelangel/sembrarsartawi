@@ -130,7 +130,7 @@
         </div>
     @endif
     <div class="form-group">
-        <label class="control-label col-lg-3 {{ (isset($product) && $product === 'au') ? '' : 'label_required' }}">País: </label>
+        <label class="control-label col-lg-3 {{ (isset($product) && ($product === 'au'|| $product === 'td')) ? '' : 'label_required' }}">País: </label>
         <div class="col-lg-9">
             {!! Form::text('country', old('country', $client->country), [
                 'class' => 'form-control ui-wizard-content',
@@ -311,7 +311,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-lg-3 label_required">Telefono 1: </label>
+        <label class="control-label col-lg-3 label_required">{{ (isset($product) && $product === 'td') ? 'Teléfono de domicilio' : 'Telefono 1' }}: </label>
         <div class="col-lg-9">
             <div class="input-group">
                 <span class="input-group-addon"><i class="icon-phone"></i></span>
@@ -326,7 +326,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-lg-3">Telefono 2: </label>
+        <label class="control-label col-lg-3">{{ (isset($product) && $product === 'td') ? 'Teléfono celular' : 'Telefono 2' }}: </label>
         <div class="col-lg-9">
             <div class="input-group">
                 <span class="input-group-addon"><i class="icon-phone"></i></span>
@@ -356,6 +356,24 @@
                        for="location">{{ $errors->first('phone_number_office') }}</label>
             </div>
         </div>
+    @else
+        @if($product === 'td')
+            <div class="form-group">
+                <label class="control-label col-lg-3">Telef. Oficina: </label>
+                <div class="col-lg-9">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon-phone"></i></span>
+                        {!! Form::text('phone_number_office', old('phone_number_office', $client->phone_number_office), [
+                            'class' => 'form-control ui-wizard-content',
+                            'placeholder' => 'Telef. Oficina',
+                            'autocomplete' => 'off'])
+                        !!}
+                    </div>
+                    <label id="location-error" class="validation-error-label"
+                           for="location">{{ $errors->first('phone_number_office') }}</label>
+                </div>
+            </div>
+        @endif
     @endif
     <div class="form-group">
         <label class="control-label col-lg-3">Correo electónico: </label>

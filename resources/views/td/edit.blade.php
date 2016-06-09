@@ -157,7 +157,7 @@
                         </div>
                         <div class="panel panel-body border-top-success">
                             <a class="list_content"
-                               onclick="listInsured('{{ route('td.list.insured',['rp_id'=>$rp_id,'header_id'=>$header_id])}}', 'GET', '{{ $header_id }}');"></a>
+                               onclick="listInsured('{{ route('td.list.insured',['rp_id'=>$rp_id,'header_id'=>$header_id, 'steep'=>3])}}', 'GET', '{{ $header_id }}');"></a>
                             <div class="col-xs-12 col-md-12" id="content_insured"></div>
                         </div>
                     </div>

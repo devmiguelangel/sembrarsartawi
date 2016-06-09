@@ -61,7 +61,7 @@ function listInsured(url, post, id_header) {
             $("#content_insured").html('Buscando Detalle...');
         },
         error: function () {
-            $("#content_insured").html('<div> Ha surgido un error. </div>');
+            $("#content_insured").html('<div> Cargando informaci&oacute;n... </div>');
         },
         success: function (respuesta) {
             //console.log(respuesta.template_cert);
@@ -169,52 +169,9 @@ var FormGralF = {
     },
 };
 
-/**
- * funcion procesa valor para el combo USO del formulario registro de riesgo Multiriesgo
- * @returns {undefined}
- */
-function valueUse() {
-    $('#use option[value="ID"]').remove();
-    $('#use option[value="IP"]').remove();
-    $('#use option[value="OT"]').remove();
 
-    if ($('#matter_insured').val() == 'PR') {
-        $('#use option[value="OT"]').remove();
-        if ($('#matter_insured').val() != 'ID')
-            $('#use').append('<option value="ID">Inmueble Domiciliario</option>');
 
-        if ($('#matter_insured').val() != 'IP')
-            $('#use').append('<option value="IP">Inmueble Industrial</option>');
-    } else {
-        if ($('#matter_insured').val() != 'OT') {
-            $('#use').append('<option value="OT">Otros</option>');
-            $('#use option[value="ID"]').remove();
-            $('#use option[value="IP"]').remove();
-        }
-    }
-}
-/**
- * funcion valida visualizacion campos valor asegurado del form de registro de riesgos
- * @returns {undefined}
- */
-function validateInsuredValue() {
-    if ($('#matter_insured').val() == 'PR') {
-        $('.valor_construccion').show();
-        $('#construction_value').attr('required', 'true');
 
-        $('.valor_de_terreno').show();
-        $('#land_value').attr('required', 'true');
-
-        $('.valor_asegurado').hide();
-        $('#insured_value').removeAttr('required');
-    } else {
-        $('.valor_construccion').hide();
-        $('#construction_value').removeAttr('required');
-
-        $('.valor_de_terreno').hide();
-        $('#land_value').removeAttr('required');
-
-        $('.valor_asegurado').show();
-        $('#insured_value').attr('required', 'true');
-    }
+function validaFormAjax(){
+    
 }

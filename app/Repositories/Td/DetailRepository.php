@@ -190,6 +190,21 @@ class DetailRepository extends BaseRepository
         }
         return false;
     }
+    
+    /**
+     * funcion elimina resitros de facultativo por el id
+     * @param type $id_detail
+     * @return boolean
+     */
+    public function delFacultativeById($id_detail) {
+        if($this->getDetailById($id_detail)){
+            if($this->model->facultative){
+                $this->model->facultative->delete();
+                return true;
+            }
+        }
+        return false;
+    }
 
     /** Find Client by Id
      *

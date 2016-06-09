@@ -1,6 +1,6 @@
 <?php
 //edw
-Route::get('td/{rp_id}/td_list_insured/{header_id}/', [
+Route::get('td/{rp_id}/td_list_insured/{header_id}/{steep}/', [
     'as'   => 'td.list.insured',
     'uses' => 'Td\HeaderController@listInsured'
 ]);
@@ -27,8 +27,8 @@ Route::group([ 'prefix' => 'td/{rp_id}' ], function () {
         'as'   => 'td.mr.insured',
         'uses' => 'Td\HeaderController@insured'
     ]);
-    //edw
-    Route::get('td_form_insured/{header_id}/{id_detail}/', [
+    //
+    Route::get('td_form_insured/{header_id}/{id_detail}/{steep}/', [
         'as'   => 'td.form.insured',
         'uses' => 'Td\HeaderController@formDetail'
     ]);

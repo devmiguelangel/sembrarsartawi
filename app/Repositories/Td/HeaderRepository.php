@@ -229,8 +229,55 @@ class HeaderRepository extends BaseRepository
 
         return false;
     }
+    /**
+     * funcion solo actualiza facultativo = 1 y observaciones
+     * @param type $keyFac
+     * @param type $obsFac
+     * @return boolean
+     */
+    public function updateFacultativeHeader($keyFac, $obsFac) {
+        try {
+            $this->model->update([
+                'facultative' => $keyFac,
+                'facultative_observation' => $obsFac,
+            ]);
+            return true;
+        } catch (QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+        return false;
+    }
 
+    /**
+     * funcion elimina facultativo de la tabla header
+     * @return boolean
+     */
+    public function deleteFacultativeHeader($header_id) {
+        try {
+            if ($this->getHeaderById($header_id)) {
+                
+                
+                $this->model->update([
+                    'facultative' => 0,
+                    'facultative_observation' => '',
+                ]);
+                $details = $this->model->details;
+                foreach ($details as $key => $detail) {
+                    if ($detail->facultative instanceof Facultative) {
+                        $detail->facultative->delete();
+                    }
+                }
+                return true;
+            }
+            return false;
+        } catch (QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+        return false;
+    }
 
+    
+    
     /**
      * Issuance Header AU
      */

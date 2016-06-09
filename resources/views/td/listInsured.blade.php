@@ -26,7 +26,7 @@
                 <td>{{ $entity->insured_value }}</td>
                 <td>
                     <a href="#"
-                       onclick="returnContent('{{ route('td.form.insured',['rp_id'=>$rp_id, 'header_id'=>decode($header_id), 'id_detail'=>$entity->id])}}', 'GET');$('.modal-title').html('Riesgo Asegurado')"
+                       onclick="returnContent('{{ route('td.form.insured',['rp_id'=>$rp_id, 'header_id'=>decode($header_id), 'id_detail'=>$entity->id, 'steep'=>$steep])}}', 'GET');$('.modal-title').html('Riesgo Asegurado')"
                        data-toggle="modal" data-target="#modal_general" class="btn btn-default pull-right">
                         Editar <i class="icon-pencil position-right"></i>
                     </a>
