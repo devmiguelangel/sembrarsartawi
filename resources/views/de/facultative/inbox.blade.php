@@ -292,13 +292,22 @@
                                                         </li>
                                                     @endif
 
-                                                    <li>
-                                                        <a href="#"
-                                                           onclick="cargaModal({{ $record->detail->header->id }}, '{{ Session::token() }}', '{{ 'de/' . encode($product->rp->id) . '/' . encode($record->detail->header->id) . '/slip' }}', 'POST', 'emision')"
-                                                           data-toggle="modal" data-target="#modal_general">
-                                                            <i class="icon-plus2"></i> Ver Certificado de desgravamen
-                                                        </a>
-                                                    </li>
+                                                        @if($product->code=='td')
+                                                            <li>
+                                                                <a href="{{route('create_modal_slip', ['id_retailer_product'=>$product->rp->id, 'id_au_header'=>$record->detail->header->id, 'text'=>'issuance', 'type'=>'IMPR'])}}"
+                                                                   id="issuance" class="open_modal">
+                                                                    <i class="icon-plus2"></i> Ver Certificado de Emision
+                                                                </a>
+                                                            </li>
+                                                        @else
+                                                            <li>
+                                                                <a href="#"
+                                                                   onclick="cargaModal({{ $record->detail->header->id }}, '{{ Session::token() }}', '{{ $product->code.'/' . encode($product->rp->id) . '/' . encode($record->detail->header->id) . '/slip' }}', 'POST', 'emision')"
+                                                                   data-toggle="modal" data-target="#modal_general">
+                                                                    <i class="icon-plus2"></i> Ver Certificado de desgravamen
+                                                                </a>
+                                                            </li>
+                                                        @endif
                                                 </ul>
                                             </li>
                                         </ul>
@@ -326,3 +335,4 @@
 @endif
 
 @include('partials.modal')
+@include('partials.modal_content')
