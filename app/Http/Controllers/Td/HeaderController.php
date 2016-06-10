@@ -263,16 +263,16 @@ class HeaderController extends Controller
 
         if ($this->repository->getHeaderById(decode($header_id)) && $this->repository->storeFacultative($request)) {
             $header = $this->repository->getModel();
-            /**
-             * $mail = new MailController($request->user());
-             *
-             * $mail->subject = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->prefix . ' - ' . $header->issue_number;
-             * $mail->template = 'td.request-approval';
-             * /**/
-            //edw-->if ($mail->send(decode($rp_id), [ 'header' => $header], 'COP')) {
+            /**/
+              $mail = new MailController($request->user());
+             
+              $mail->subject = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->prefix . ' - ' . $header->issue_number;
+              $mail->template = 'td.request-approval';
+            /**/
+            if ($mail->send(decode($rp_id), [ 'header' => $header], 'COP')) {
             $this->repository->storeSent();
 
-            //edw-->}
+            }
 
             return redirect()->route('td.edit', [
                 'rp_id'     => $rp_id,
