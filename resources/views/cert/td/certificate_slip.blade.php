@@ -885,8 +885,8 @@
         <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify; font-size: 70%;">
             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-family: Arial;">
                 <tr>
-                    <td style="text-align:center; width:33%;">Delfi Lopez</td>
-                    <td style="text-align:center; width:34%;">3652954</td>
+                    <td style="text-align:center; width:33%;">{{$query_client->first_name.' '.$query_client->last_name.' '.$query_client->mother_last_name}}</td>
+                    <td style="text-align:center; width:34%;">{{$query_client->dni.' '.$query_client->complement.' '.$query_client->extension}}</td>
                     <td style="text-align:center; width:33%;"><?=date('d-m-Y');?></td>
                 </tr>
                 <tr>

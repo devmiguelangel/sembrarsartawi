@@ -11,7 +11,7 @@ Route::group(['prefix' => '/'], function() {
     ]);
 });
 /*
- * Route Client DE
+ * Route Client AU
  */
 Route::group(['prefix' => '/'], function() {
     Route::get('pdf/sleep_auto/{type}/{id_header}/{aux}', [

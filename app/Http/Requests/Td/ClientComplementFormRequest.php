@@ -40,6 +40,7 @@ class ClientComplementFormRequest extends Request
             'locality'               => 'required|alpha_dash_space',
             'home_address'           => 'required|ands_full',
             'home_number'            => 'required|numeric',
+            'dni'                    => 'required|numeric',
             'business_address'       => 'required|ands_full',
             'ad_activity_id'         => 'required|exists:ad_activities,id',
             'occupation_description' => 'required|ands_full',

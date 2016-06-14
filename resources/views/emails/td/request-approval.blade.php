@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <h3>
         <span class="label label-primary">
-            Solicitud de aprobacion a caso facultativo AU - {{ $data['header']->issue_number }}
+            Solicitud de aprobacion a caso facultativo MR - {{ $data['header']->issue_number }}
         </span>
             </h3>
 

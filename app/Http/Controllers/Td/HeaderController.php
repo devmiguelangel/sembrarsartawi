@@ -129,7 +129,7 @@ class HeaderController extends Controller
                 $header = $this->repository->getModel();
 
                 # validacion facultativo
-                $facultative = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id));
+                $facultative = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id), $header);
 
                 return view('td.result', compact('rp_id', 'header_id', 'header', 'retailerProduct', 'facultative'));
             }
@@ -189,11 +189,17 @@ class HeaderController extends Controller
      *
      * @return type
      */
-    public function formDetail($rp_id, $header_id, $id_detail)
+    public function formDetail($rp_id, $header_id, $id_detail, $steep)
     {
+        
         $materia = $this->returnArray(config('base.property_types'));
         $uso     = $this->returnArray(config('base.property_uses'));
         $city    = City::where('abbreviation', '!=', '')->where('abbreviation', '!=', 'PE')->get();
+        $header  = 0;
+        if ($this->repository->getHeaderById($header_id)) {
+            $header = $this->repository->getModel();
+        }
+        
         if ($id_detail != 0) {
             $detail = Detail::where('id', $id_detail)->first();
         } else {
@@ -211,7 +217,7 @@ class HeaderController extends Controller
 
         $var = [
             'template' => view('td.form.formInsured',
-                compact('rp_id', 'header_id', 'materia', 'uso', 'city', 'detail'))->render()
+                compact('rp_id', 'header_id', 'materia', 'uso', 'city', 'detail', 'header','steep'))->render()
         ];
 
         return response()->json($var);
@@ -257,16 +263,16 @@ class HeaderController extends Controller
 
         if ($this->repository->getHeaderById(decode($header_id)) && $this->repository->storeFacultative($request)) {
             $header = $this->repository->getModel();
-            /**
-             * $mail = new MailController($request->user());
-             *
-             * $mail->subject = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->prefix . ' - ' . $header->issue_number;
-             * $mail->template = 'td.request-approval';
-             * /**/
-            //edw-->if ($mail->send(decode($rp_id), [ 'header' => $header], 'COP')) {
+            /**/
+              $mail = new MailController($request->user());
+             
+              $mail->subject = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->prefix . ' - ' . $header->issue_number;
+              $mail->template = 'td.request-approval';
+            /**/
+            if ($mail->send(decode($rp_id), [ 'header' => $header], 'COP')) {
             $this->repository->storeSent();
 
-            //edw-->}
+            }
 
             return redirect()->route('td.edit', [
                 'rp_id'     => $rp_id,
@@ -295,6 +301,27 @@ class HeaderController extends Controller
         if (count($detail) < $prodParam->detail || $request->get('id_detail') != '') {
             $this->detailRepository->createDetail($request);
         }
+        
+        if ($this->repository->getHeaderById(decode($header_id))) {
+            $header = $this->repository->getModel();
+            $facultative = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id), $header);
+            
+            if ($facultative['facultative'] === 0) {
+                
+                if ($header->facultative === true) {
+                    $this->repository->deleteFacultativeHeader(decode($header_id));
+                }                
+            }else{
+                $this->facultativeRepository->storeFacultative($facultative, $request->user());
+                
+                foreach ($header->details as $key => $value) {      
+                    if(!in_array($value->id, $this->facultativeRepository->idsFactultative))
+                        $this->detailRepository->delFacultativeById($value->id);
+                }
+                $obs = $this->facultativeRepository->returnObservation();
+                $this->repository->updateFacultativeHeader(true, $obs);
+            }
+        }
     }
 
 
@@ -306,7 +333,7 @@ class HeaderController extends Controller
      *
      * @return type
      */
-    public function listInsured($rp_id, $header_id)
+    public function listInsured($rp_id, $header_id, $steep)
     {
 
         $prodParam = ProductParameter::where('ad_retailer_product_id', decode($rp_id))->where('slug', 'GE')->first();
@@ -316,12 +343,12 @@ class HeaderController extends Controller
         if (count($detail) == $prodParam->detail) {
             $exedDetail = $prodParam->detail;
         }
-
+        
         $var = [
             'template' => view('td.listInsured',
-                compact('detail', 'header_id', 'rp_id', 'exedDetail', 'prodParam'))->render()
+                compact('detail', 'header_id', 'rp_id', 'exedDetail', 'prodParam', 'steep'))->render()
         ];
-
+        
         return response()->json($var);
     }
 
@@ -364,7 +391,7 @@ class HeaderController extends Controller
 
             $paymentMethods = config('base.payment_methods');
             $termTypes      = config('base.term_types');
-            $facultative    = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id));
+            $facultative    = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id), $header);
 
             return view('td.edit',
                 compact('rp_id', 'header_id', 'header', 'paymentMethods', 'termTypes', 'policies', 'facultative'));
@@ -374,7 +401,7 @@ class HeaderController extends Controller
     }
 
 
-    /**edw
+    /**
      * Update the specified resource in storage.
      *
      * @param HeaderEditFormRequest $request
@@ -384,16 +411,22 @@ class HeaderController extends Controller
     public function update(HeaderEditFormRequest $request, $rp_id, $header_id)
     {
         if ($this->repository->getHeaderById(decode($header_id))) {
+            $header = $this->repository->getModel();
             $keyFac = false;
             $obs    = false;
 
             # validacion facultativo
-            $facultative = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id));
+            $facultative = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id), $header);
             if ($facultative['facultative'] > 0) {
                 $this->facultativeRepository->storeFacultative($facultative, $request->user());
                 $obs = $this->facultativeRepository->returnObservation();
 
                 $keyFac = true;
+            }else{
+                
+                if ($header->facultative === 1) {
+                    $this->repository->deleteFacultativeHeader();
+                }
             }
 
             if ($this->repository->updateHeader($request, $keyFac, $obs)) {

@@ -262,9 +262,9 @@
                                         'placeholder'  => 'Telef. Oficina',
                                         'autocomplete' => 'off'
                                         ]) !!}
-                                        <label id="location-error" class="validation-error-label"
-                                               for="location">{{ $errors->first('phone_number_office') }}</label>
                                     </div>
+                                    <label id="location-error" class="validation-error-label"
+                                               for="location">{{ $errors->first('phone_number_office') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">

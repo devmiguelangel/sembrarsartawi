@@ -143,9 +143,10 @@ class DetailRepository extends BaseRepository
         $this->model->address               = $this->data['address'];
         $this->model->op_td_header_id       = $this->data['id_header'];
         
-        if ($this->data['matter_insured'] == 'PR')
-            $this->model->insured_value = ($this->data['construction_value'] + $this->data['land_value']);
-        else
+        if ($this->data['matter_insured'] == 'PR'){
+            //edw-->$this->model->insured_value = ($this->data['construction_value'] + $this->data['land_value']);
+            $this->model->insured_value = ($this->data['construction_value']);
+        }else
             $this->model->insured_value = $this->data['insured_value'];
     }
     /**
@@ -187,6 +188,21 @@ class DetailRepository extends BaseRepository
             $this->model = $this->model->first();
 
             return true;
+        }
+        return false;
+    }
+    
+    /**
+     * funcion elimina resitros de facultativo por el id
+     * @param type $id_detail
+     * @return boolean
+     */
+    public function delFacultativeById($id_detail) {
+        if($this->getDetailById($id_detail)){
+            if($this->model->facultative){
+                $this->model->facultative->delete();
+                return true;
+            }
         }
         return false;
     }

@@ -32,10 +32,12 @@ class HeaderCreateFormRequest extends Request
 
         return [
             'first_name'             => 'required|alpha_space',
+            'locality'             => 'alpha_space',
             'last_name'              => 'required|alpha_space',
             'mother_last_name'       => 'alpha_space',
             'married_name'           => 'alpha_space',
-            'dni'                    => 'required|alpha_dash',
+            'dni'                    => 'required|numeric',
+            'phone_number_office'    => 'numeric',
             'complement'             => 'alpha',
             'extension'              => 'required|exists:ad_cities,abbreviation',
             'gender'                 => 'required|in:' . $genders,

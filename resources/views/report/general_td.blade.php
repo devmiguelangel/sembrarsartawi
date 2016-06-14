@@ -353,18 +353,27 @@
                                                             <i class="icon-menu9"></i>
                                                         </a>
                                                         <ul class="dropdown-menu dropdown-menu-right">
-                                                          
-                                                            
-                                                            <li>
-                                                                <a href="#" >
-                                                                    <i class="icon-plus2"></i> Ver Slip de Cotización
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" >
-                                                                    <i class="icon-plus2"></i> Ver Certificado
-                                                                </a>
-                                                            </li>
+                                                            @if($flag==2)
+                                                                <li>
+                                                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>decode($id_comp), 'id_header'=>$entities->id, 'text'=>'issuance', 'type'=>'IMPR'])}}"
+                                                                       id="issuance" class="open_modal">
+                                                                        <i class="icon-plus2"></i> Ver Certificado de Emision
+                                                                    </a>
+                                                                </li>
+                                                            @else
+                                                                <li>
+                                                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>decode($id_comp), 'id_header'=>$entities->id, 'text'=>'slip', 'type'=>'IMPR'])}}"
+                                                                       id="slip" class="open_modal">
+                                                                        <i class="icon-plus2"></i> Ver Slip de Cotización
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>decode($id_comp), 'id_header'=>$entities->id, 'text'=>'issuance', 'type'=>'IMPR'])}}"
+                                                                       id="issuance" class="open_modal">
+                                                                        <i class="icon-plus2"></i> Ver Certificado de Emision
+                                                                    </a>
+                                                                </li>
+                                                            @endif
                                                         </ul>
                                                     </li>
                                                 </ul>
@@ -390,10 +399,8 @@
     </div>
 </div>
 
-
-
 <!-- modal -->
-@include('partials.modal')
+@include('partials.modal_content')
 <!-- /modal -->
 
 @endsection

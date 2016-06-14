@@ -70,10 +70,12 @@
                         <span class="text-semibold">{{ session('error_client_edit') }}</span>.
                     </div>
                 @endif
+                <!--
                 @foreach($errors->all() as $error )
                 <li>{{ $error }}</li>
                 
                 @endforeach
+                -->
                 {!! Form::open(['route' => ['td.client.i.update',
                     'rp_id'     => $rp_id,
                     'header_id' => $header_id,

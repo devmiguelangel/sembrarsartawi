@@ -96,11 +96,11 @@
                     <div class="panel panel-body border-top-success">
                         <div class="text-right">
                             <a href="#"
-                               onclick="returnContent('{{ route('td.form.insured',['rp_id'=>$rp_id, 'header_id'=>decode($header_id), 'id_detail'=>0])}}', 'GET');$('.modal-title').html('Riesgo Asegurado')"
+                               onclick="returnContent('{{ route('td.form.insured',['rp_id'=>$rp_id, 'header_id'=>decode($header_id), 'id_detail'=>0, 'steep'=>2])}}', 'GET');$('.modal-title').html('Riesgo Asegurado')"
                                data-toggle="modal" data-target="#modal_general" class="btn btn-primary text-left">
                                 Nuevo <i class="glyphicon glyphicon-plus "></i>
                             </a>
-                            <a class="list_content" onclick="listInsured('{{ route('td.list.insured',['rp_id'=>$rp_id,'header_id'=>$header_id])}}', 'GET', '{{ $header_id }}');"></a>
+                            <a class="list_content" onclick="listInsured('{{ route('td.list.insured',['rp_id'=>$rp_id,'header_id'=>$header_id, 'steep'=>2])}}', 'GET', '{{ $header_id }}');"></a>
                         </div>
                         <hr />
                         <div class="col-xs-12 col-md-12 " id="content_insured">
