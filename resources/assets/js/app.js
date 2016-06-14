@@ -87,7 +87,7 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
 
 }]);
 
-app.controller('HeaderDeController', ['$scope', '$http', HeaderDeController.header]);
+app.controller('HeaderDeController', ['$rootScope', '$scope', '$http', HeaderDeController.header]);
 
 app.controller('DetailDeController', ['$scope', '$http', DetailDeController.detailEdit]);
 

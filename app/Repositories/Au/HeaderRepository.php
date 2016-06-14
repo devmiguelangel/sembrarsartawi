@@ -10,7 +10,9 @@ use Sibas\Entities\Au\Detail;
 use Sibas\Entities\Au\Facultative;
 use Sibas\Entities\Client;
 use Sibas\Entities\Au\Header;
+use Sibas\Entities\De\Header as HeaderDe;
 use Sibas\Entities\RetailerProduct;
+use Sibas\Entities\User;
 use Sibas\Repositories\BaseRepository;
 
 class HeaderRepository extends BaseRepository
@@ -333,6 +335,82 @@ class HeaderRepository extends BaseRepository
             $this->model->operation_number = $this->data['operation_number'];
 
             return $this->saveModel();
+        }
+
+        return false;
+    }
+
+
+    /**
+     *
+     * @param Request $request
+     *
+     * @return bool
+     */
+    public function storeCoverage(Request $request)
+    {
+        $this->data = $request->all();
+        $user       = $request->user();
+
+        $this->model = Header::create([
+            'id'             => date('U'),
+            'ad_user_id'     => $user->id,
+            'op_client_id'   => decode($this->data['client']),
+            'type'           => 'Q',
+            'warranty'       => true,
+            'payment_method' => $this->data['payment_method']['id'],
+            'currency'       => $this->data['currency']['id'],
+            'term'           => $this->data['term'],
+            'type_term'      => $this->data['type_term']['id'],
+        ]);
+
+        return $this->saveModel();
+    }
+
+
+    /**
+     * @param Request        $request
+     * @param Model|HeaderDe $de
+     *
+     * @return bool
+     */
+    public function updateCoverage(Request $request, $de)
+    {
+        $this->data = $request->all();
+
+        try {
+            $issue_number = $this->getNumber('I');
+
+            if ( ! $this->checkNumber('I', $issue_number)) {
+                $date = $this->carbon->createFromTimestamp(strtotime(str_replace('/', '-',
+                    $this->data['validity_start'])));
+
+                $this->model->update([
+                    'type'             => 'I',
+                    'issue_number'     => $issue_number,
+                    'prefix'           => 'AU',
+                    'policy_number'    => $this->data['policy_number'],
+                    'operation_number' => $this->data['operation_number'],
+                    'payment_method'   => $this->data['payment_method'],
+                    'currency'         => $this->data['currency'],
+                    'term'             => $this->data['term'],
+                    'type_term'        => $this->data['type_term'],
+                    'validity_start'   => $date->format('Y-m-d'),
+                    'validity_end'     => $date->addYear(1)->format('Y-m-d'),
+                    'issued'           => true,
+                    'date_issue'       => date('Y-m-d H:i:s'),
+                    'approved'         => true,
+                ]);
+
+                $de->coverageWarranty()->getRelated()->updateOrCreate([
+                    'op_de_header_id' => $de->id,
+                    'op_au_header_id' => $this->model->id,
+                ]);
+
+                return true;
+            }
+        } catch (QueryException $e) {
+            $this->errors = $e->getMessage();
         }
 
         return false;

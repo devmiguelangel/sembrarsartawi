@@ -70,7 +70,7 @@ class FacultativeRepository extends BaseRepository
         }
 
         $fa = $fa->orderBy('created_at', 'desc')->get();
-        
+
         $this->records['all'] = $fa;
 
         $fa->each(function ($item, $key) use ($user_type) {
@@ -129,10 +129,12 @@ class FacultativeRepository extends BaseRepository
      * @param Model|Detail          $detail
      * @param Model|RetailerProduct $retailerProduct
      * @param Model|User            $user
+     * @param bool                  $coverage
      *
      * @return bool
+     * @throws \Exception
      */
-    public function storeFacultative($detail, $retailerProduct, $user)
+    public function storeFacultative($detail, $retailerProduct, $user, $coverage = false)
     {
         $parameter     = $retailerProduct->parameters()->where('slug', 'GE')->first();
         $exchange_rate = $retailerProduct->retailer->exchangeRate;
@@ -154,6 +156,22 @@ class FacultativeRepository extends BaseRepository
             $reason .= $amount ? str_replace([ ':license_plate', ':amount_max' ],
                     [ $detail->license_plate, number_format($parameter->amount_max, 2) ],
                     $this->reasonAmount) . '<br>' : '';
+
+            if ($coverage) {
+                if ($year || $amount) {
+                    $this->errors = [ 'reason' => $reason ];
+
+                    $detail->delete();
+
+                    return 428;
+                }
+
+                $detail->update([
+                    'approved' => true,
+                ]);
+
+                return 202;
+            }
 
             try {
                 if ($year || $amount) {

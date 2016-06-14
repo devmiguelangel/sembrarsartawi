@@ -57,6 +57,12 @@ class Header extends Model
     }
 
 
+    public function coverageWarranty()
+    {
+        return $this->hasOne(CoverageWarranty::class, 'op_de_header_id', 'id');
+    }
+
+
     public function getCompletedAttribute()
     {
         $completed = true;

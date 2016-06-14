@@ -15,7 +15,17 @@ class Header extends Model
     public $incrementing = false;
 
     protected $fillable = [
+        'id',
+        'ad_user_id',
+        'op_client_id',
+        'warranty',
+        'validity_start',
+        'validity_end',
+        'payment_method',
         'total_premium',
+        'currency',
+        'term',
+        'type_term',
         'type',
         'issue_number',
         'prefix',
@@ -74,20 +84,21 @@ class Header extends Model
 
     public function getFullYearAttribute()
     {
+        $year = 0;
+
         switch ($this->type_term) {
             case 'Y':
-                return $this->term;
+                $year = $this->term;
                 break;
             case 'M':
-                return round($this->term / 12, 0, PHP_ROUND_HALF_UP);
+                $year = round($this->term / 12, 0, PHP_ROUND_HALF_UP);
                 break;
             case 'D':
-                return round($this->term / 365, 0, PHP_ROUND_HALF_UP);
-                break;
-            default:
-                return 0;
+                $year = round($this->term / 365, 0, PHP_ROUND_HALF_UP);
                 break;
         }
+
+        return $year < 1 ? 1 : $year;
     }
 
 
@@ -117,7 +128,7 @@ class Header extends Model
             }
         }
 
-        if ( ! $this->client_completed) {
+        if ( ! $this->client_completed || $this->details->count() === 0) {
             $completed = false;
         }
 

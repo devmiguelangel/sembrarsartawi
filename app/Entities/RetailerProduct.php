@@ -18,6 +18,7 @@ class RetailerProduct extends Model
     ];
 
     protected $casts = [
+        'warranty'    => 'boolean',
         'facultative' => 'boolean',
         'ws'          => 'boolean',
     ];

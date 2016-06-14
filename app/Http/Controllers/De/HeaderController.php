@@ -11,7 +11,6 @@ use Sibas\Http\Controllers\MailController;
 use Sibas\Http\Requests\De\FacultativeRequestFormRequest;
 use Sibas\Http\Requests\De\HeaderCreateFormRequest;
 use Sibas\Http\Requests\De\HeaderEditFormRequest;
-use Sibas\Http\Requests\De\HeaderResultFormRequest;
 use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\FacultativeRepository;
 use Sibas\Repositories\De\HeaderRepository;
@@ -72,7 +71,7 @@ class HeaderController extends Controller
     /**
      * Returns data for create Header
      *
-     * @param $rp_id
+     * @param string $rp_id
      *
      * @return array
      */
@@ -92,8 +91,8 @@ class HeaderController extends Controller
     /**
      * Display a listing of the Clients.
      *
-     * @param $rp_id
-     * @param $header_id
+     * @param string $rp_id
+     * @param string $header_id
      *
      * @return Response
      */
@@ -121,7 +120,7 @@ class HeaderController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param String $rp_id
+     * @param string $rp_id
      *
      * @return Response
      */
@@ -137,7 +136,7 @@ class HeaderController extends Controller
      * Store a newly created resource in storage.
      *
      * @param HeaderCreateFormRequest $request
-     * @param                         $rp_id
+     * @param string                  $rp_id
      *
      * @return Response
      */
@@ -157,23 +156,10 @@ class HeaderController extends Controller
 
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-
-    /**
      * Show the form for editing the specified resource.
      *
-     * @param  String $rp_id
-     * @param  String $header_id
+     * @param string $rp_id
+     * @param string $header_id
      *
      * @return Response
      */
@@ -201,6 +187,8 @@ class HeaderController extends Controller
      * Update the specified resource in storage.
      *
      * @param HeaderEditFormRequest $request
+     * @param string                $rp_id
+     * @param string                $header_id
      *
      * @return Response
      */
@@ -220,8 +208,8 @@ class HeaderController extends Controller
     /**
      * Show all options for Company
      *
-     * @param $rp_id
-     * @param $header_id
+     * @param string $rp_id
+     * @param string $header_id
      *
      * @return \Illuminate\View\View
      */
@@ -240,6 +228,12 @@ class HeaderController extends Controller
     }
 
 
+    /**
+     * @param string $rp_id
+     * @param string $header_id
+     *
+     * @return mixed
+     */
     public function issue($rp_id, $header_id)
     {
         if ($this->repository->issueHeader(decode($header_id))) {
@@ -253,19 +247,20 @@ class HeaderController extends Controller
     }
 
 
+    /**
+     * @param string $rp_id
+     * @param string $header_id
+     *
+     * @return mixed
+     */
     public function issuance($rp_id, $header_id)
     {
-        $this->retailerProductRepository->getRetailerProductById(decode($rp_id));
-        $rp = $this->retailerProductRepository->getModel();
-        if ($this->repository->getHeaderById(decode($header_id))) {
-            $header  = $this->repository->getModel();
-            $product = null;
+        if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id)) && $this->repository->getHeaderById(decode($header_id))) {
+            $header          = $this->repository->getModel();
+            $retailerProduct = $this->retailerProductRepository->getModel();
+            $retailer        = $retailerProduct->retailer;
 
-            if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
-                $product = $this->retailerProductRepository->getModel();
-            }
-
-            return view('de.issuance', compact('rp_id', 'header_id', 'header', 'product', 'rp'));
+            return view('de.issuance', compact('rp_id', 'header_id', 'header', 'retailerProduct', 'retailer'));
 
         }
 
@@ -273,6 +268,13 @@ class HeaderController extends Controller
     }
 
 
+    /**
+     * @param string $rp_id
+     * @param string $header_id
+     * @param string $sp_id
+     *
+     * @return mixed
+     */
     public function viSPList($rp_id, $header_id, $sp_id)
     {
         if ($this->repository->getHeaderById(decode($header_id))) {
@@ -285,6 +287,11 @@ class HeaderController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
     public function viSPListStore(Request $request)
     {
         if ($request->has('clients')) {
@@ -307,21 +314,8 @@ class HeaderController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-
-    /**
-     * @param $rp_id
-     * @param $header_id
+     * @param string $rp_id
+     * @param string $header_id
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -360,8 +354,8 @@ class HeaderController extends Controller
 
     /**
      * @param FacultativeRequestFormRequest $request
-     * @param                               $rp_id
-     * @param                               $header_id
+     * @param string                        $rp_id
+     * @param string                        $header_id
      *
      * @return $this|\Illuminate\Http\RedirectResponse
      */
@@ -396,6 +390,9 @@ class HeaderController extends Controller
      * Update the specified resource in storage.
      *
      * @param HeaderEditFormRequest $request
+     * @param string                $rp_id
+     * @param string                $header_id
+     * @param string                $id_facultative
      *
      * @return Response
      */

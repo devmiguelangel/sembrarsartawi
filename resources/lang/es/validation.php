@@ -182,6 +182,7 @@ return [
         'seat_number'            => 'Nº de Asientos',
         'policy_number'          => 'Número de Póliza',
         'reason'                 => 'Motivo',
+        'client'                 => 'Cliente',
         ''                       => '',
     ],
 

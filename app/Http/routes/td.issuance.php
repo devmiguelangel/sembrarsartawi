@@ -134,7 +134,7 @@ Route::group([ 'prefix' => 'td/{rp_id}' ], function () {
         'as'   => 'td.issue.lists',
         'uses' => 'Td\IssueController@lists'
     ]);
-    
+
     /*
      * Header Facultative
      */
@@ -146,6 +146,14 @@ Route::group([ 'prefix' => 'td/{rp_id}' ], function () {
     Route::put('rrequest-approval/{header_id}', [
         'as'   => 'td.fa.request.store',
         'uses' => 'Td\HeaderController@requestStore'
+    ]);
+
+    /*
+     * Coverage DE
+     */
+    Route::get('coverage/{de_id}/create', [
+        'as'   => 'td.coverage.create',
+        'uses' => 'Td\HeaderController@coverageCreate'
     ]);
 
 });

@@ -111,12 +111,12 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
     /*
      * Vehicle edit issuance
      */
-    Route::get('edit/{header_id}/vehicle/edit/{detail_id}', [
+    Route::get('edit/{header_id}/vehicle/edit/{detail_id?}', [
         'as'   => 'au.vh.i.edit',
         'uses' => 'Au\DetailController@editIssuance'
     ]);
 
-    Route::put('edit/{header_id}/vehicle/edit/{detail_id}', [
+    Route::put('edit/{header_id}/vehicle/edit/{detail_id?}', [
         'as'   => 'au.vh.i.update',
         'uses' => 'Au\DetailController@updateIssuance'
     ]);
@@ -166,6 +166,29 @@ Route::group([ 'prefix' => 'au/{rp_id}' ], function () {
     Route::get('issue', [
         'as'   => 'au.issue.lists',
         'uses' => 'Au\IssueController@lists'
+    ]);
+
+    /*
+     * Coverage
+     */
+    Route::get('coverage/{de_id}/create', [
+        'as'   => 'au.coverage.create',
+        'uses' => 'Au\HeaderController@coverageCreate'
+    ]);
+
+    Route::post('coverage/{de_id}/create', [
+        'as'   => 'au.coverage.store',
+        'uses' => 'Au\HeaderController@coverageStore'
+    ]);
+
+    Route::get('coverage/{de_id}/edit/{header_id}', [
+        'as'   => 'au.coverage.edit',
+        'uses' => 'Au\HeaderController@coverageEdit'
+    ]);
+
+    Route::put('coverage/{de_id}/edit/{header_id}', [
+        'as'   => 'au.coverage.update',
+        'uses' => 'Au\HeaderController@coverageUpdate'
     ]);
 
 });

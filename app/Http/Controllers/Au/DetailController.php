@@ -2,6 +2,9 @@
 
 namespace Sibas\Http\Controllers\Au;
 
+use Illuminate\Support\Facades\Cache;
+use Sibas\Entities\Au\Detail;
+use Sibas\Entities\Au\Header;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Au\VehicleCreateFormRequest;
@@ -278,30 +281,50 @@ class DetailController extends Controller
      * @param string $header_id
      * @param string $detail_id
      */
-    public function editIssuance($rp_id, $header_id, $detail_id)
+    public function editIssuance($rp_id, $header_id, $detail_id = null)
     {
         if (request()->ajax()) {
-            if ($this->repository->getDetailById(decode($detail_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
-                $detail          = $this->repository->getModel();
-                $header          = $detail->header;
+            $flag   = false;
+            $header = null;
+            $detail = null;
+
+            if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
                 $retailerProduct = $this->retailerProductRepository->getModel();
                 $parameter       = $retailerProduct->parameters()->where('slug', 'GE')->first();
                 $categories      = $retailerProduct->categories()->where('active', true)->orderBy('category',
                     'ASC')->get();
+                $exchange_rate   = $retailerProduct->retailer->exchangeRate;
 
                 $data = $this->getData();
 
-                $payload = view('au.vehicle-edit-issuance',
-                    compact('rp_id', 'header_id', 'detail_id', 'header', 'data', 'parameter'));
+                if ($this->repository->getDetailById(decode($detail_id))) {
+                    $detail = $this->repository->getModel();
+                    $header = $detail->header;
 
-                return response()->json([
-                    'payload'    => $payload->render(),
-                    'detail'     => $detail,
-                    'types'      => $data['vehicle_types'],
-                    'makes'      => $data['vehicle_makes'],
-                    'categories' => $categories,
-                    'year_max'   => date('Y') - $parameter->old_car,
-                ]);
+                    $flag = true;
+                } elseif (Cache::has(decode($header_id)) && request()->has('coverage') && $this->headerRepository->getHeaderById(decode($header_id))) {
+                    $detail = new Detail();
+                    $header = $this->headerRepository->getModel();
+
+                    $flag = true;
+                }
+
+                if ($flag) {
+                    $payload = view('au.vehicle-edit-issuance',
+                        compact('rp_id', 'header_id', 'detail_id', 'header', 'data', 'parameter'));
+
+                    return response()->json([
+                        'payload'       => $payload->render(),
+                        'detail'        => $detail,
+                        'types'         => $data['vehicle_types'],
+                        'makes'         => $data['vehicle_makes'],
+                        'categories'    => $categories,
+                        'year_max'      => date('Y') - $parameter->old_car,
+                        'amount_max'    => $parameter->amount_max,
+                        'exchange_rate' => $exchange_rate,
+                        'currency'      => $header->currency,
+                    ]);
+                }
             }
 
             return response()->json([ 'err' => 'Unauthorized action.' ], 401);
@@ -321,25 +344,58 @@ class DetailController extends Controller
      *
      * @return
      */
-    public function updateIssuance(VehicleEditFormRequest $request, $rp_id, $header_id, $detail_id)
+    public function updateIssuance(VehicleEditFormRequest $request, $rp_id, $header_id, $detail_id = null)
     {
         if (request()->ajax()) {
-            if ($this->repository->getDetailById(decode($detail_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+            if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
                 $retailerProduct = $this->retailerProductRepository->getModel();
 
-                if ($this->repository->updateVehicleIssuance($request)) {
-                    $detail = $this->repository->getModel();
+                if ($this->repository->getDetailById(decode($detail_id))) {
+                    if ($this->repository->updateVehicleIssuance($request)) {
+                        $detail = $this->repository->getModel();
 
-                    if ($this->facultativeRepository->storeFacultative($detail, $retailerProduct, $request->user())) {
-                        $this->headerRepository->setHeaderFacultative(decode($header_id));
+                        if (Cache::has(decode($header_id)) && $request->has('coverage')) {
+                            goto StoreVehicle;
+                        }
+
+                        if ($this->facultativeRepository->storeFacultative($detail, $retailerProduct,
+                            $request->user())
+                        ) {
+                            $this->headerRepository->setHeaderFacultative(decode($header_id));
+
+                            return response()->json([
+                                'location' => route('au.edit', [
+                                    'rp_id'     => $rp_id,
+                                    'header_id' => $header_id,
+                                    $request->get('idf') ? 'idf=' . $request->get('idf') : null
+                                ])
+                            ]);
+                        }
+                    }
+                } elseif (Cache::has(decode($header_id)) && $request->has('coverage') && $this->headerRepository->getHeaderById(decode($header_id))) {
+                    $header = $this->headerRepository->getModel();
+
+                    if ($this->repository->storeVehicle($request, $header, true)) {
+                        $detail = $this->repository->getModel();
+
+                        StoreVehicle:
+                        $sf = $this->facultativeRepository->storeFacultative($detail, $retailerProduct,
+                            $request->user(), true);
+
+                        if ($sf === 428) {
+                            $errors = $this->facultativeRepository->getErrors();
+
+                            return response()->json([ 'reason' => $errors['reason'] ], 428);
+                        }
 
                         return response()->json([
-                            'location' => route('au.edit', [
+                            'location' => route('au.coverage.edit', [
                                 'rp_id'     => $rp_id,
+                                'de_id'     => $request->get('coverage'),
                                 'header_id' => $header_id,
-                                $request->get('idf') ? 'idf=' . $request->get('idf') : null
                             ])
                         ]);
+
                     }
                 }
             }

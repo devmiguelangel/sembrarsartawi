@@ -142,7 +142,8 @@ class HeaderRepository extends BaseRepository
             'details.client.detailsVi',
             'details.beneficiary',
             'details.facultative',
-            'user.city'
+            'user.city',
+            'coverageWarranty'
         ])->where('id', '=', $header_id)->get();
 
         if ($this->model->count() === 1) {
