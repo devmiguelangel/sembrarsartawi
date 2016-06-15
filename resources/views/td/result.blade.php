@@ -100,7 +100,7 @@
                                     </div>
                                 @endif
 
-                                <a href="{{route('create_modal_slip', ['id_retailer_product'=>decode($rp_id), 'id_header'=>decode($header_id), 'text'=>'slip', 'type'=>'IMPR'])}}"
+                                <a href="{{route('create_modal_slip', ['id_retailer_product'=>$rp_id, 'id_header'=>$header_id, 'text'=>'slip', 'type'=>'IMPR'])}}"
                                    id="slip" class="btn btn-success open_modal">
                                     <i class="icon-file-check position-left"></i> Ver Cotización
                                 </a>
