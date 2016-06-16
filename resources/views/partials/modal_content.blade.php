@@ -20,6 +20,7 @@
     $(document).ready(function(){
         $('a[href].open_modal').click(function(e){
             e.preventDefault();
+
             var href = $(this).prop('href');
             var id = $(this).prop('id');
             if(id=='slip'){
@@ -29,12 +30,37 @@
             }else if(id=='print_all'){
                 $('.main-title').text('Ver Imprimir Todo');
             }
+            /*
             $.get(href, function(response){
                 console.log(response);
                 $('#prueba_modal .modal-body').html(response.payload);
                 $('#prueba_modal').modal();
                 //$("#cargaexterna").html(htmlexterno);
             });
+            */
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                url: href,
+                data: {personid: 873},
+                beforeSend: function() {
+                    easyLoading('body', 'dark', true);
+                },
+                success: function(response) {
+                    console.log(response);
+                    $('#prueba_modal .modal-body').html(response.payload);
+                    $('#prueba_modal').modal();
+                },
+                error: function(xhr) { // if error occured
+                    alert("Error occured.please try again");
+                    //$(placeholder).append(xhr.statusText + xhr.responseText);
+                    //$(placeholder).removeClass('loading');
+                },
+                complete: function() {
+                    easyLoading('body', '', false);
+                }
+            });
+
             //alert(href);
             /*
              $.ajax({
@@ -51,4 +77,18 @@
              */
         });
     });
+
+    /*FUNCTION EASY LOADING*/
+    function easyLoading (element, theme, show) {
+        if (show) {
+            $(element).loading({
+                theme: theme,                  //light
+                message: 'Por favor espere...'
+            });
+        }
+
+        if (! show) {
+            $(element).loading('stop');
+        }
+    }
 </script>

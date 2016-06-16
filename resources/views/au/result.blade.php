@@ -90,10 +90,9 @@
                                 </div>
                                 <h6 class="no-margin text-semibold">Prima Total:</h6>
                                 <p class="text-muted content-group-sm">{{ $header->currency }} {{ number_format($header->total_premium, 2) }}</p>
-                                <a href="#"
-                                   onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip_au', 'POST', 'cotizacion', {{ $retailerProduct->companyProduct->id }})"
-                                   data-toggle="modal" data-target="#modal_general" class="btn btn-success">
-                                    <i class="icon-file-check position-left"></i> Ver Cotización
+                                <a href="{{route('create_modal_slip', ['id_retailer_product'=>$rp_id, 'id_header'=>$header_id, 'text'=>'slip', 'type'=>'IMPR'])}}"
+                                   id="slip" class="btn btn-success open_modal">
+                                    Ver Cotización
                                 </a>
                                 <hr>
 
@@ -111,6 +110,6 @@
         </div>
     </div>
     <!-- modal -->
-    @include('partials.modal')
+    @include('partials.modal_content')
             <!-- /modal -->
 @endsection

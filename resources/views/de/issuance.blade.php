@@ -97,32 +97,23 @@
                             <p class="text-muted content-group-sm">Certificados</p>
                             <div class="col-md-12">
                                 <p>
-                                    <a href="#"
-                                       onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion', {{ encode($retailerProduct->id) }})"
-                                       class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal"
-                                       data-target="#modal_general">
-                                        <b><i class="icon-printer4"></i></b>
-                                        Ver Slip de Cotización
+                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$rp_id, 'id_header'=>encode($header->id), 'text'=>'slip', 'type'=>'IMPR'])}}"
+                                       id="slip" class="btn btn-info btn-labeled btn-xlg col-lg-12 open_modal">
+                                        <b><i class="icon-printer4"></i></b> Ver Slip de Cotización
                                     </a>
                                 </p>
                                 <div class="col-md-6">&nbsp;</div>
                                 <p>
-                                    <a href="#"
-                                       onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'emision', {{ encode($retailerProduct->id) }})"
-                                       class="btn btn-info btn-labeled btn-xlg col-lg-12" data-toggle="modal"
-                                       data-target="#modal_general">
-                                        <b><i class="icon-printer4"></i></b>
-                                        Ver Certificado de Desgravamen
+                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$rp_id, 'id_header'=>encode($header->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
+                                       id="issuance" class="btn btn-info btn-labeled btn-xlg col-lg-12 open_modal">
+                                        <b><i class="icon-printer4"></i></b> Ver Certificado de Emision
                                     </a>
                                 </p>
                                 <div class="col-md-6">&nbsp;</div>
                                 <p>
-                                    <a href="#"
-                                       onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'print_all',{{ encode($retailerProduct->id) }})"
-                                       class="btn btn-primary btn-labeled btn-xlg col-lg-12" data-toggle="modal"
-                                       data-target="#modal_general">
-                                        <b><i class="icon-printer4"></i></b>
-                                        Imprimir Todo
+                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$rp_id, 'id_header'=>encode($header->id), 'text'=>'print_all', 'type'=>'IMPR'])}}"
+                                       id="print_all" class="btn btn-primary btn-labeled btn-xlg col-lg-12 open_modal">
+                                        <b><i class="icon-printer4"></i></b> Imprimir Todo
                                     </a>
                                 </p>
                             </div>
@@ -161,12 +152,10 @@
 
                                             @if ($clientVi)
                                                 <p>
-                                                    <a href="#"
-                                                       onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'sub_vida_emision')"
-                                                       class="btn btn-success btn-labeled btn-xlg col-lg-12"
-                                                       data-toggle="modal" data-target="#modal_general">
-                                                        <b><i class="icon-printer4"></i></b> Ver Certificado
-                                                        de {{ $subProduct->companyProduct->product->name }}
+                                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>encode($subProduct->productCompany->id), 'id_header'=>encode($header->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
+                                                       id="issuance"
+                                                       class="btn btn-success btn-labeled btn-xlg col-lg-12 open_modal">
+                                                        <b><i class="icon-printer4"></i></b> Ver Certificado Vida Grupo
                                                     </a>
                                                 </p>
                                                 <div class="col-md-6">&nbsp;</div>
@@ -230,7 +219,7 @@
     </div>
 
     <!-- modal -->
-    @include('partials.modal')
+    @include('partials.modal_content')
             <!-- /modal -->
 
 @endsection
