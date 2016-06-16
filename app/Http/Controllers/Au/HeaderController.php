@@ -119,6 +119,20 @@ class HeaderController extends Controller
             if ($this->repository->storeHeader($request, $client)) {
                 $header = $this->repository->getModel();
 
+                if ($header->warranty && $request->get('number_de')) {
+                    if ($this->headerDeRepository->getHeaderById($request->get('number_de'))) {
+                        $de = $this->headerDeRepository->getModel();
+
+                        if ($this->repository->setCoverage($de)) {
+                            goto Store;
+                        } else {
+                            return redirect()->back()->with([ 'error_header' => 'La Garantía no pudo ser asociada' ])->withInput()->withErrors($this->repository->getErrors());
+                        }
+                    }
+                }
+
+                Store:
+
                 return redirect()->route('au.vh.lists', [
                     'rp_id'     => $rp_id,
                     'header_id' => encode($header->id),

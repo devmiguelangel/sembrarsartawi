@@ -3,6 +3,7 @@
 namespace Sibas\Repositories\De;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Facultative;
 use Sibas\Entities\De\Header;
@@ -239,6 +240,41 @@ class HeaderRepository extends BaseRepository
             }
 
             return $this->saveModel();
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param string $q
+     *
+     * @return bool
+     */
+    public function getPolicies($product, $q = '')
+    {
+        try {
+            $this->model = Header::select('op_de_headers.id', 'issue_number',
+                'prefix')->leftJoin('op_de_coverage_warranties', function ($q1) {
+                $q1->on('op_de_headers.id', '=', 'op_de_coverage_warranties.op_de_header_id');
+            });
+
+            switch ($product) {
+                case 'au':
+                    $this->model->whereNull('op_au_header_id');
+                    break;
+                case 'td':
+                    $this->model->whereNull('op_td_header_id');
+                    break;
+            }
+
+            $this->model = $this->model->where('issued', true)->get();
+
+            if ($this->model->count() > 0) {
+                return true;
+            }
+        } catch (QueryException $e) {
+
         }
 
         return false;

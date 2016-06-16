@@ -409,4 +409,29 @@ class HeaderController extends Controller
 
         return redirect()->back()->with([ 'error_header' => 'La Póliza no pudo ser actualizada.' ])->withInput()->withErrors($this->repository->getErrors());
     }
+
+
+    /**
+     * @param string $product
+     * @param string $q
+     *
+     * @return
+     */
+    public function policies($product, $q = '')
+    {
+        if (request()->ajax()) {
+            if ($this->repository->getPolicies($product, $q)) {
+                $headers = $this->repository->getModel();
+
+                return response()->json([
+                    'headers' => $headers
+                ]);
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
+        return redirect()->back()->with([ 'error_header' => 'Unauthorized.' ]);
+    }
+
 }

@@ -1,4 +1,6 @@
 var header = function ($scope, $http) {
+  $scope.getPolicies();
+
   $('input[name="warranty"]').click(function (e) {
     if (this.value == 0) {
       angular.element('#term').prop('value', 1).prop('readonly', true);
@@ -7,6 +9,8 @@ var header = function ($scope, $http) {
 
       angular.element('#type_term option:not(:selected)').prop('disabled', true);
       angular.element('#payment_method option:not(:selected)').prop('disabled', true);
+      
+      angular.element('#number-de-container').hide();
     } else {
       angular.element('#term').prop('value', '').prop('readonly', false);
       angular.element('#type_term option:first').prop('selected', true);
@@ -14,13 +18,15 @@ var header = function ($scope, $http) {
 
       angular.element('#type_term option').prop('disabled', false);
       angular.element('#payment_method option').prop('disabled', false);
+      
+      angular.element('#number-de-container').show();
     }
 
     angular.element('#type_term').triggerHandler('change');
     angular.element('#payment_method').triggerHandler('change');
   });
 
-  $('input[name="warranty"]:checked').trigger('click'); 
+  $('input[name="warranty"]:checked').trigger('click');
 
   /**
    * Request create

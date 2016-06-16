@@ -32,6 +32,13 @@ class Header extends Model
         'facultative'
     ];
 
+    protected $visible = [
+        'id',
+        'issue_number',
+        'prefix',
+        'certificate_number',
+    ];
+
 
     public function user()
     {

@@ -1,5 +1,6 @@
 var angular = require('angular');
 var ngAnimate = require('angular-animate');
+var angucomplete = require('angucomplete-alt');
 /*var $ = require('jquery');
 global.jQuery = $;
 var bootstrap = require('bootstrap');*/
@@ -15,14 +16,14 @@ var DetailAuController     = require('./components/au/DetailController');
 
 var ClientController       = require('./components/ClientController');
 
-var app = angular.module('sibas', ['ngAnimate']);
+var app = angular.module('sibas', ['ngAnimate', 'angucomplete-alt', ]);
 
 app.config(['$httpProvider', function ($httpProvider) {
   $httpProvider.defaults.headers
       .common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
 
-app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $compile, $window, $timeout){
+app.run(['$rootScope', '$compile', '$window', '$timeout', '$http', function($rootScope, $compile, $window, $timeout, $http){
   $rootScope.formData = {
     mother_last_name: '',
     emails: []
@@ -64,7 +65,7 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
 
   $rootScope.compileData = function (payload) {
     return $compile(payload)($rootScope);
-  }
+  };
 
   $rootScope.submitForm = function (id_form) {
     $timeout(function(){
@@ -82,6 +83,34 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', function($rootScope, $
 
     if (! show) {
       $(element).loading('stop');
+    }
+  };
+
+  $rootScope.getPolicies = function () {
+    var url     = '/de/policies';
+    var product = angular.element('#form-init').data('product');
+
+    url += '/' + product.toLowerCase();
+
+    $http.get(url, {})
+      .then(function (response) {
+        $rootScope.headers = response.data.headers;
+          if (response.status == 200) {
+            var data = response.data;
+          }
+        }, function(response){
+          console.log(response);
+        }).finally(function () {
+        });
+  };
+
+  $rootScope.policySelected = function (selected) {
+    var number_de = angular.element('#number_de');
+    
+    if (selected) {
+      number_de.prop('value', selected.originalObject.id);
+    } else {
+      number_de.prop('value', '');
     }
   };
 

@@ -402,15 +402,32 @@ class HeaderRepository extends BaseRepository
                     'approved'         => true,
                 ]);
 
-                $de->coverageWarranty()->getRelated()->updateOrCreate([
-                    'op_de_header_id' => $de->id,
-                    'op_au_header_id' => $this->model->id,
-                ]);
-
-                return true;
+                return $this->setCoverage($de);
             }
         } catch (QueryException $e) {
             $this->errors = $e->getMessage();
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param Model|HeaderDe $de
+     *
+     * @return bool
+     */
+    public function setCoverage($de)
+    {
+        try {
+            $de->coverageWarranty()->getRelated()->updateOrCreate([
+                'op_de_header_id' => $de->id,
+                'op_au_header_id' => $this->model->id,
+            ]);
+
+            return true;
+        } catch (QueryException $e) {
+
         }
 
         return false;

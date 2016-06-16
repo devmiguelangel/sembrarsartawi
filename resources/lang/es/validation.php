@@ -183,6 +183,7 @@ return [
         'policy_number'          => 'Número de Póliza',
         'reason'                 => 'Motivo',
         'client'                 => 'Cliente',
+        'number_de'              => 'Nº de Certificado Desgravamen',
         ''                       => '',
     ],
 
