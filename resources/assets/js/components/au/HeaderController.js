@@ -1,6 +1,5 @@
 var header = function ($scope, $http) {
-  $scope.getPolicies();
-
+  
   $('input[name="warranty"]').click(function (e) {
     if (this.value == 0) {
       angular.element('#term').prop('value', 1).prop('readonly', true);

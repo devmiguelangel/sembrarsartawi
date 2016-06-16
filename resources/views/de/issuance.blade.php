@@ -97,22 +97,34 @@
                             <p class="text-muted content-group-sm">Certificados</p>
                             <div class="col-md-12">
                                 <p>
-                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$rp_id, 'id_header'=>encode($header->id), 'text'=>'slip', 'type'=>'IMPR'])}}"
-                                       id="slip" class="btn btn-info btn-labeled btn-xlg col-lg-12 open_modal">
+                                    <a href="{{ route('create_modal_slip', [
+                                        'id_retailer_product' => $rp_id,
+                                        'id_header'           => encode($header->id),
+                                        'text'                => 'slip',
+                                        'type'                => 'IMPR'
+                                    ]) }}" class="btn btn-info btn-labeled btn-xlg col-lg-12 open_modal">
                                         <b><i class="icon-printer4"></i></b> Ver Slip de Cotización
                                     </a>
                                 </p>
                                 <div class="col-md-6">&nbsp;</div>
                                 <p>
-                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$rp_id, 'id_header'=>encode($header->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
-                                       id="issuance" class="btn btn-info btn-labeled btn-xlg col-lg-12 open_modal">
+                                    <a href="{{ route('create_modal_slip', [
+                                        'id_retailer_product' => $rp_id,
+                                        'id_header'           => encode($header->id),
+                                        'text'                => 'issuance',
+                                        'type'                => 'IMPR'
+                                    ]) }}" class="btn btn-info btn-labeled btn-xlg col-lg-12 open_modal">
                                         <b><i class="icon-printer4"></i></b> Ver Certificado de Emision
                                     </a>
                                 </p>
                                 <div class="col-md-6">&nbsp;</div>
                                 <p>
-                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$rp_id, 'id_header'=>encode($header->id), 'text'=>'print_all', 'type'=>'IMPR'])}}"
-                                       id="print_all" class="btn btn-primary btn-labeled btn-xlg col-lg-12 open_modal">
+                                    <a href="{{ route('create_modal_slip', [
+                                        'id_retailer_product' => $rp_id,
+                                        'id_header'           => encode($header->id),
+                                        'text'                => 'print_all',
+                                        'type'                => 'IMPR'
+                                    ]) }}" class="btn btn-primary btn-labeled btn-xlg col-lg-12 open_modal">
                                         <b><i class="icon-printer4"></i></b> Imprimir Todo
                                     </a>
                                 </p>
@@ -132,11 +144,10 @@
                                         @if ($subProduct->companyProduct->product->code === 'vi')
                                             <p>
                                                 <a href="{{ route('de.vi.sp.list', [
-                                              'rp_id'     => $rp_id,
-                                              'header_id' => $header_id,
-                                              'sp_id'     => encode($subProduct->productCompany->id)
-                                            ]) }}"
-                                                   class="btn btn-default col-lg-12 btn-xlg">
+                                                    'rp_id'     => $rp_id,
+                                                    'header_id' => $header_id,
+                                                    'sp_id'     => encode($subProduct->productCompany->id)
+                                                ]) }}" class="btn btn-default col-lg-12 btn-xlg">
                                                     <i class="icon-hyperlink"></i> {{ $subProduct->companyProduct->product->name }}
                                                 </a>
                                             </p>
@@ -152,8 +163,12 @@
 
                                             @if ($clientVi)
                                                 <p>
-                                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>encode($subProduct->productCompany->id), 'id_header'=>encode($header->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
-                                                       id="issuance"
+                                                    <a href="{{route('create_modal_slip', [
+                                                        'id_retailer_product' => encode($subProduct->productCompany->id),
+                                                        'id_header'           => encode($header->id),
+                                                        'text'                => 'issuance',
+                                                        'type'                => 'IMPR'
+                                                    ]) }}"
                                                        class="btn btn-success btn-labeled btn-xlg col-lg-12 open_modal">
                                                         <b><i class="icon-printer4"></i></b> Ver Certificado Vida Grupo
                                                     </a>
@@ -175,19 +190,27 @@
                             <div class="col-md-12" ng-controller="HeaderDeController">
                                 @foreach($retailer->retailerProducts as $retailerProduct)
                                     @if($retailerProduct->type === 'MP' && $retailerProduct->warranty)
-                                        @var $coverage = false;
+                                        @var $coverage  = false;
+                                        @var $header_cw = null;
 
                                         @if(! is_null($header->coverageWarranty))
                                             @if($retailerProduct->companyProduct->product->code === 'au' && ! is_null($header->coverageWarranty->au))
-                                                @var $coverage = true;
+                                                @var $coverage  = true;
+                                                @var $header_cw = $header->coverageWarranty->au->id;
                                             @elseif($retailerProduct->companyProduct->product->code === 'td' && ! is_null($header->coverageWarranty->td))
-                                                @var $coverage = true;
+                                                @var $coverage  = true;
+                                                @var $header_cw = $header->coverageWarranty->td->id;
                                             @endif
                                         @endif
 
                                         @if($coverage)
-                                            <a href="#"
-                                               class="btn btn-info btn-labeled btn-xlg col-lg-12"
+                                            <a href="{{ route('create_modal_slip', [
+                                                'id_retailer_product' => encode($retailerProduct->id),
+                                                'id_header'           => encode($header_cw),
+                                                'text'                => 'issuance',
+                                                'type'                => 'IMPR'
+                                            ]) }}"
+                                               class="btn btn-info btn-labeled btn-xlg col-lg-12 open_modal"
                                                data-toggle="modal" data-target="#modal_general">
                                                 <b><i class="icon-printer4"></i></b> Ver Certificado
                                                 de {{ $retailerProduct->companyProduct->product->name }}
@@ -195,10 +218,10 @@
                                         @else
                                             <p>
                                                 <a href="{{ route($retailerProduct->companyProduct->product->code . '.coverage.create', [
-                                                'rp_id' => encode($retailerProduct->id),
-                                                'de_id' => $header_id,
-                                                'rp_de' => $rp_id
-                                            ]) }}" class="btn btn-default col-lg-12 btn-xlg"
+                                                    'rp_id' => encode($retailerProduct->id),
+                                                    'de_id' => $header_id,
+                                                    'rp_de' => $rp_id
+                                                ]) }}" class="btn btn-default col-lg-12 btn-xlg"
                                                    ng-click="createCoverage($event)">
                                                     <i class="icon-hyperlink"></i> {{ $retailerProduct->companyProduct->product->name }}
                                                 </a>

@@ -119,6 +119,7 @@
                         'ng-controller' => 'HeaderAuController',
                         'id'            => 'form-init',
                         'data-product'  => 'au',
+                        'ng-init'       => 'getPolicies()',
                     ]) !!}
 
                     <div class="panel-body ">
