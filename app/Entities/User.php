@@ -10,10 +10,9 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class User extends Model implements AuthenticatableContract,
-                                    AuthorizableContract,
-                                    CanResetPasswordContract
+class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
+
     use Authenticatable, Authorizable, CanResetPassword;
 
     /**
@@ -28,19 +27,20 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['username', 'email', 'password'];
+    protected $fillable = [ 'username', 'email', 'password' ];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = [ 'password', 'remember_token' ];
 
     public $incrementing = false;
 
     protected $with = [
-        'retailer',
+        'retailerUser.retailer',
+        'retailerUser.company',
         'type',
         'profile',
         'city',
@@ -48,35 +48,41 @@ class User extends Model implements AuthenticatableContract,
         'permissions',
     ];
 
-    public function retailer()
+
+    public function retailerUser()
     {
-        return $this->belongsToMany(Retailer::class, 'ad_retailer_users', 'ad_user_id', 'ad_retailer_id');
+        return $this->hasOne(RetailerUser::class, 'ad_user_id', 'id');
     }
+
 
     public function type()
     {
         return $this->belongsTo(UserType::class, 'ad_user_type_id', 'id');
     }
 
+
     public function profile()
     {
         return $this->belongsToMany(Profile::class, 'ad_user_profiles', 'ad_user_id', 'ad_profile_id');
     }
+
 
     public function city()
     {
         return $this->belongsTo(City::class, 'ad_city_id', 'id');
     }
 
+
     public function agency()
     {
         return $this->belongsTo(Agency::class, 'ad_agency_id', 'id');
     }
 
+
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'ad_user_permissions', 'ad_user_id', 'ad_permission_id')
-            ->wherePivot('active', true);
+        return $this->belongsToMany(Permission::class, 'ad_user_permissions', 'ad_user_id',
+            'ad_permission_id')->wherePivot('active', true);
     }
 
 }

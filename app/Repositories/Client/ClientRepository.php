@@ -38,7 +38,7 @@ class ClientRepository extends BaseRepository
      */
     private function storeClient($request)
     {
-        $retailer = $request->user()->retailer->first();
+        $retailer = $request->user()->retailerUser->retailer;
 
         $this->model = new Client();
 

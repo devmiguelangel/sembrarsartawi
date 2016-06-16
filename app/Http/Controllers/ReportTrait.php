@@ -76,7 +76,7 @@ trait ReportTrait
         $this->getInstance();
 
         $this->user     = $user;
-        $this->retailer = $this->user->retailer()->first();
+        $this->retailer = $this->user->retailerUser->retailer;
 
         $this->getDataForReport();
 

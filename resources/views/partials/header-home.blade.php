@@ -4,13 +4,13 @@
             <ul class="nav navbar-nav">
                 <li>
                     <a href="{{ route('home') }}">
-                        {!! Html::image(auth()->user()->retailer->first()->image, '', ['width' => '120']) !!}
+                        {!! Html::image(auth()->user()->retailerUser->retailer->image, '', ['width' => '120']) !!}
                     </a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @var $company = [];
-                @foreach (auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
+                @foreach (auth()->user()->retailerUser->retailer->retailerProducts as $retailerProduct)
                     @if (! in_array($retailerProduct->companyProduct->company->id, $company, true))
                         <li>
                             <a href="{{ route('home') }}" style="padding: 0;">

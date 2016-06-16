@@ -15,7 +15,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Descargar Formularios <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu width-200">
-                        @foreach(auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
+                        @foreach(auth()->user()->retailerUser->retailer->retailerProducts as $retailerProduct)
                             @if($retailerProduct->type == 'MP')
                                 <li class="dropdown-header">{{ $retailerProduct->companyProduct->product->name }}</li>
                                 @foreach ($retailerProduct->forms as $form)
@@ -33,7 +33,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Productos <span class="caret"></span></a>
                         <ul class="dropdown-menu width-200">
-                            @foreach(auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
+                            @foreach(auth()->user()->retailerUser->retailer->retailerProducts as $retailerProduct)
                                 @if($retailerProduct->type == 'MP')
                                     <li class="dropdown-submenu">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -94,18 +94,18 @@
                                                         ''
                                                        }}
 
-                                                    @if($retailerProduct->companyProduct->product->code === 'au')
-                                                        {{ request()->route()->getName() === 'au.create' ? 'active' : '' }}
-                                                        {{ request()->route()->getName() === 'au.vh.lists' ? 'active' : '' }}
-                                                        {{ request()->route()->getName() === 'au.result' ? 'active' : '' }}
-                                                        {{ request()->route()->getName() === 'au.edit' ? 'active' : '' }}
-                                                    @endif
-                                                    @if($retailerProduct->companyProduct->product->code === 'mr')
-                                                        {{ request()->route()->getName() === 'td.create' ? 'active' : '' }}
-                                                        {{ request()->route()->getName() === 'td.vh.lists' ? 'active' : '' }}
-                                                        {{ request()->route()->getName() === 'td.result' ? 'active' : '' }}
-                                                        {{ request()->route()->getName() === 'td.edit' ? 'active' : '' }}
-                                                    @endif
+                                            @if($retailerProduct->companyProduct->product->code === 'au')
+                                            {{ request()->route()->getName() === 'au.create' ? 'active' : '' }}
+                                            {{ request()->route()->getName() === 'au.vh.lists' ? 'active' : '' }}
+                                            {{ request()->route()->getName() === 'au.result' ? 'active' : '' }}
+                                            {{ request()->route()->getName() === 'au.edit' ? 'active' : '' }}
+                                            @endif
+                                            @if($retailerProduct->companyProduct->product->code === 'mr')
+                                            {{ request()->route()->getName() === 'td.create' ? 'active' : '' }}
+                                            {{ request()->route()->getName() === 'td.vh.lists' ? 'active' : '' }}
+                                            {{ request()->route()->getName() === 'td.result' ? 'active' : '' }}
+                                            {{ request()->route()->getName() === 'td.edit' ? 'active' : '' }}
+                                            @endif
                                                     ">
                                                 <a href="{{ route($retailerProduct->companyProduct->product->code . '.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a>
                                             </li>
@@ -131,21 +131,22 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <span class="caret"></span></a>
                     <ul class="dropdown-menu width-200">
-                    @foreach(auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
+                        @foreach(auth()->user()->retailerUser->retailer->retailerProducts as $retailerProduct)
                             @if($retailerProduct->type == 'MP')
                                 <li class="dropdown-submenu">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="icon-list-unordered"></i> {{ $retailerProduct->companyProduct->product->name }}
                                     </a>
                                     <ul class="dropdown-menu">
-                                    @if($retailerProduct->companyProduct->product->name == 'Desgravamen')
+                                        @if($retailerProduct->companyProduct->product->name == 'Desgravamen')
                                             <li class="{{Request::is('report/general') ? 'active':''}}">
                                                 <a href="{{ route('report.report_general',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
                                                     General
                                                 </a>
                                             </li>
                                             <li class="{{Request::is('report/general_emitido') ? 'active':''}}">
-                                                <a href="{{ route('report.report_general_emitido',[ 'id_comp' => encode($retailerProduct->id) ]) }}" title="Polizas Emitidas">
+                                                <a href="{{ route('report.report_general_emitido',[ 'id_comp' => encode($retailerProduct->id) ]) }}"
+                                                   title="Polizas Emitidas">
                                                     Polizas Emitidas
                                                 </a>
                                             </li>
@@ -154,8 +155,8 @@
                                                     Solicitudes
                                                 </a>
                                             </li>
-                                    @endif
-                                    @if($retailerProduct->companyProduct->product->name == 'Automotores')
+                                        @endif
+                                        @if($retailerProduct->companyProduct->product->name == 'Automotores')
                                             <li class="{{Request::is('report/auto/cotizacion/valor') ? 'active':''}}">
                                                 <a href="{{ route('report.auto_report_cotizacion',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
                                                     Solicitudes Automotores
@@ -171,8 +172,8 @@
                                                     Polizas Emitidas Automotores
                                                 </a>
                                             </li>
-                                    @endif
-                                    @if($retailerProduct->companyProduct->product->name == 'Multiriesgo')
+                                        @endif
+                                        @if($retailerProduct->companyProduct->product->name == 'Multiriesgo')
                                             <li class="{{Request::is('report/td/cotizacion/valor') ? 'active':''}}">
                                                 <a href="{{ route('report.td_report_cotizacion',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
                                                     Solicitudes Multiriesgo
@@ -188,11 +189,11 @@
                                                     Polizas Emitidas Multiriesgo
                                                 </a>
                                             </li>
-                                    @endif
+                                        @endif
                                     </ul>
                                 </li>
                             @endif
-                    @endforeach
+                        @endforeach
                     </ul>
                 </li>
             </ul>

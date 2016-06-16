@@ -91,14 +91,7 @@ class HomeController extends Controller
         ];
 
         if ($user->profile->first()->slug === 'SEP' || $user->profile->first()->slug === 'COP') {
-            /*if ( ! is_null($arp_id)) {
-                if ($this->retailerProductRepository->getRetailerProductById($arp_id)) {
-                    $retailerProduct = $this->retailerProductRepository->getModel();
-
-                    $this->setData($retailerProduct, $user, $data);
-                }
-            }*/
-            foreach ($user->retailer->first()->retailerProducts as $retailerProduct) {
+            foreach ($user->retailerUser->retailer->retailerProducts as $retailerProduct) {
                 $this->setData($retailerProduct, $user, $data);
             }
         }
