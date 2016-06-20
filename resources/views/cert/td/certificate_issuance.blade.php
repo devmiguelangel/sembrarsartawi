@@ -28,15 +28,15 @@
                 <td colspan="3">
                     <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                         <tr>
-                            <td style="width:20%; text-align:right;">PÓLIZA No.</td>
-                            <td style="width:20%;">
+                            <td style="width:20%; text-align:right; font-size: 58%;">PÓLIZA No.</td>
+                            <td style="width:20%; font-size: 58%;">
                                 <div style="border: 1px solid #999; width:125px;">
                                     {{$query_header->policy_number}}
                                 </div>
                             </td>
                             <td style="width:20%;">&nbsp;</td>
-                            <td style="width:14%; text-align:right;">CERTIFICADO No.</td>
-                            <td style="width:26%;">
+                            <td style="width:14%; text-align:right; font-size: 58%;">CERTIFICADO No.</td>
+                            <td style="width:26%; font-size: 58%;">
                                 <div style="border: 1px solid #999; width:125px;">
                                     {{$query_header->issue_number}}
                                 </div>
@@ -116,8 +116,7 @@
             EN CASO DE BIENES INMUEBLES:
         </div>
 
-        <table cellpadding="0" cellspacing="0" border="0"
-               style="width: 100%; height: auto; font-size: 60%; font-family: Arial;">
+        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 60%; font-family: Arial;">
             <tr>
                 <td style="width:2%;" valign="top">&bull;</td>
                 <td style="width:98%;">
@@ -202,8 +201,7 @@
 
         <span style="font-weight:bold; font-size:65%;">3. Ubicación del Riesgo:</span><br>
 
-        <table cellpadding="0" cellspacing="0" border="0"
-               style="width: 100%; height: auto; font-size: 65%; font-family: Arial; margin-top:4px;">
+        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 65%; font-family: Arial; margin-top:4px;">
             <tr>
                 <td style="width:10%;">Departamento:</td>
                 <td style="width:25%; border-bottom:1px solid #999;">{{$vec[1][1]}}</td>
@@ -216,8 +214,8 @@
                 <td style="padding-top:5px;" colspan="6">
                     <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                         <tr>
-                            <td style="width:5%;">Zona:</td>
-                            <td style="width:88%; border-bottom:1px solid #999;">{{$vec[3][1]}}</td>
+                            <td style="width:5%; font-size: 65%;">Zona:</td>
+                            <td style="width:88%; border-bottom:1px solid #999; font-size: 65%;">{{$vec[3][1]}}</td>
                             <td style="width:7%;">&nbsp;</td>
                         </tr>
                     </table>
@@ -225,8 +223,7 @@
             </tr>
         </table>
 
-        <table cellpadding="0" cellspacing="0" border="0"
-               style="width: 100%; height: auto; font-size: 65%; font-family: Arial;">
+        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 65%; font-family: Arial;">
             <tr>
                 <td style="width:17%; font-weight:bold;">4. Valor Total Asegurado:</td>
                 <td style="width:23%; border-bottom:1px solid #999; text-align:center;">
@@ -237,8 +234,7 @@
             </tr>
         </table>
 
-        <table cellpadding="0" cellspacing="0" border="0"
-               style="width: 100%; height: auto; font-size: 65%; font-family: Arial;">
+        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 65%; font-family: Arial;">
             <tr>
                 <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
                     <b>PARA BIENES INMUEBLES:</b><br>
@@ -269,18 +265,17 @@
         @var $day = $array[0];
         @var $month = $array[1];
         @var $year = $array[2];
-        <table cellpadding="0" cellspacing="0" border="0"
-               style="width: 100%; height: auto; font-size: 65%; font-family: Arial;">
+        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 65%; font-family: Arial;">
             <tr>
                 <td style="width:20%; font-weight:bold;">5. Fecha inicio de vigencia:</td>
                 <td style="width:25%;">
                     <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto;">
                         <tr>
-                            <td style="width:32%; border-bottom:1px solid #999; text-align:center;">{{$day}}</td>
-                            <td style="width:2%;">/</td>
-                            <td style="width:32%; border-bottom:1px solid #999; text-align:center;">{{$month}}</td>
-                            <td style="width:2%;">/</td>
-                            <td style="width:32%; border-bottom:1px solid #999; text-align:center;">{{$year}}</td>
+                            <td style="width:32%; border-bottom:1px solid #999; text-align:center; font-size: 65%;">{{$day}}</td>
+                            <td style="width:2%; font-size: 65%;">/</td>
+                            <td style="width:32%; border-bottom:1px solid #999; text-align:center; font-size: 65%;">{{$month}}</td>
+                            <td style="width:2%; font-size: 65%;">/</td>
+                            <td style="width:32%; border-bottom:1px solid #999; text-align:center; font-size: 65%;">{{$year}}</td>
                         </tr>
                     </table>
                 </td>
@@ -289,8 +284,7 @@
         </table>
         @var $parameter_term = config('base.term_types')
         @var $type_term = $parameter_term[$query_header->type_term]
-        <table cellpadding="0" cellspacing="0" border="0"
-               style="width: 100%; height: auto; font-size: 65%; font-family: Arial; margin-top:4px;">
+        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 65%; font-family: Arial; margin-top:4px;">
             <tr>
                 <td style="width:25%; font-weight:bold;">6. Plazo del contrato de seguros:</td>
                 <td style="width:20%; border-bottom:1px solid #999; text-align:center;">
@@ -302,8 +296,7 @@
             </tr>
         </table>
 
-        <table cellpadding="0" cellspacing="0" border="0"
-               style="width: 100%; height: auto; font-size: 65%; font-family: Arial; margin-top:4px;">
+        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 65%; font-family: Arial; margin-top:4px;">
             <tr>
                 <td style="width:15%; font-weight:bold;">7. Tasa Anual:</td>
                 <td style="width:5%;">
@@ -431,11 +424,11 @@
                     <td style="width:40%;">
                         <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto;">
                             <tr>
-                                <td valign="top" align="center" style="width:50%;">
+                                <td valign="top" align="center" style="width:50%; font-size: 65%;">
                                     <img src="{{ asset('images/firma1.jpg') }}" width="110" height="50"/><br>
                                     MIGUEL ANGEL BARRAGAN
                                 </td>
-                                <td valign="top" align="center" style="width:50%;">
+                                <td valign="top" align="center" style="width:50%; font-size: 65%;">
                                     <img src="{{ asset('images/firma2.jpg') }}" width="94" height="50"/><br>
                                     MARIANA JAUREGUI Q
                                 </td>
@@ -453,8 +446,7 @@
                 </tr>
             </table>
 
-            <table cellpadding="0" cellspacing="0" border="0"
-                   style="width: 100%; height: auto; font-size: 65%; font-family: Arial; margin-bottom: 4px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 65%; font-family: Arial; margin-bottom: 4px;">
                 <tr>
                     <td style="width:5%; text-align:left;">C.I.</td>
                     <td style="width:15%; border-bottom:1px solid #999; text-align:center;">
@@ -471,8 +463,8 @@
                     <td style="width:46%; padding-top:5px;" colspan="5">
                         <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                             <tr>
-                                <td style="width:20%; text-align:left;">Lugar y fecha:</td>
-                                <td style="width:50%; border-bottom:1px solid #999; text-align:center;">
+                                <td style="width:20%; text-align:left; font-size: 65%;">Lugar y fecha:</td>
+                                <td style="width:50%; border-bottom:1px solid #999; text-align:center; font-size: 65%;">
                                     {{$query_header->place}} {{date('d/m/Y', strtotime($query_header->date_issue))}}
                                 </td>
                                 <td style="width:30%;">&nbsp;</td>
@@ -496,8 +488,7 @@
         <!--renglon 3-->
         @if($query_header->issued == 1 && $query_header->canceled == 0)
             <div style="width: 775px; border: 0px solid #FFFF00;">
-                <table cellpadding="0" cellspacing="0" border="0"
-                       style="width: 100%; height: auto; font-size: 65%; font-family: Arial; margin-bottom: 4px;">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 65%; font-family: Arial; margin-bottom: 4px;">
                     <tr>
                         <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
 
@@ -527,43 +518,43 @@
                             portátiles, sus accesorios e instalaciones, equipos periféricos, incluyendo:
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Robo con violencia, atraco</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Robo con violencia, atraco</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Daños emergentes a la energía eléctrica incluyendo cortes de
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Daños emergentes a la energía eléctrica incluyendo cortes de
                                         electricidad.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Incendio, rayo, explosión de cualquier tipo, incluyendo los
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Incendio, rayo, explosión de cualquier tipo, incluyendo los
                                         daños causados
                                         por extinción de incendio y operaciones de salvamento.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Quemaduras superficiales y carbonización, humo, hollín</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Quemaduras superficiales y carbonización, humo, hollín</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Daños de la naturaleza como tempestad, inundación, granizo,
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Daños de la naturaleza como tempestad, inundación, granizo,
                                         cubiertos por la
                                         sección I del presente seguro.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Daños por agua, grifería y tanques cubierta por la sección I
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Daños por agua, grifería y tanques cubierta por la sección I
                                         del presente
                                         seguro. Excluye humedad y corrosión por tratarse de daños graduales.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Equipos móviles y/o portátiles, hasta $us. 10.000.</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Equipos móviles y/o portátiles, hasta $us. 10.000.</td>
                                 </tr>
                             </table>
                             <span style="font-weight: bold;">SECCIÓN  III: TODO RIESGO Y/O DAÑO FISICO POR ROTURA DE MAQUINARIA</span><br>
@@ -574,90 +565,90 @@
                             servicios (aire, agua, vapor, energía eléctrica, gas natural), incluyendo:
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Robo con violencia</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Robo con violencia</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Mal manejo, negligencia, impericia, ignorancia, actos mal
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Mal manejo, negligencia, impericia, ignorancia, actos mal
                                         intencionados, por
                                         parte de los empleados y/o de terceros
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Errores, defectos y desperfectos de construcción y de uso de
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Errores, defectos y desperfectos de construcción y de uso de
                                         materiales
                                         defectuosos
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Defectos y desperfectos y/o errores en diseño, calculo y
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Defectos y desperfectos y/o errores en diseño, calculo y
                                         montaje y/o mano de
                                         obra defectuosa
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Rotura por fuerzas centrifugas</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Rotura por fuerzas centrifugas</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Falta de agua en calderos o recipientes bajo presión
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Falta de agua en calderos o recipientes bajo presión
                                         (calentamiento excesivo)
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Incidentes durante el trabajo, como malos ajustes,
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Incidentes durante el trabajo, como malos ajustes,
                                         aflojamiento de partes y
                                         piezas
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Fallas y/o desperfectos en medidas de prevención y seguridad
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Fallas y/o desperfectos en medidas de prevención y seguridad
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Inducción, cualquiera sea su origen</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Inducción, cualquiera sea su origen</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Cuerpos extraños que se introduzcan en los bienes asegurados
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Cuerpos extraños que se introduzcan en los bienes asegurados
                                         o los golpeen
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Daños por la acción directa o indirecta de la energía
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Daños por la acción directa o indirecta de la energía
                                         eléctrica u atmosférica
                                         y caída directa de rayo.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Incendio interno e implosión, incluye explosión química
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Incendio interno e implosión, incluye explosión química
                                         interna.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Explosión en motores de combustión interna.</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Explosión en motores de combustión interna.</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Cláusula de riadas, lodos y/o anegación</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de riadas, lodos y/o anegación</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Bombas sumergidas y bombas para pozos profundos.</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Bombas sumergidas y bombas para pozos profundos.</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">El seguro se extiende a cubrir los componentes electrónicos
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">El seguro se extiende a cubrir los componentes electrónicos
                                         que formen parte
                                         de la maquinaria.
                                     </td>
@@ -670,8 +661,8 @@
                             populares, y:
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Accidentes que surjan durante el montaje y/o desmontaje a
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Accidentes que surjan durante el montaje y/o desmontaje a
                                         consecuencia de su mantenimiento para fines de limpieza y reacondicionamiento y
                                         traslados dentro de los predios del asegurado y/o mientras viajen por sus
                                         propios medios o sean transportados de un sitio de operación a otro, incluyendo
@@ -680,39 +671,39 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Colisión con objetos en movimiento o estacionarios</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Colisión con objetos en movimiento o estacionarios</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Robo con violencia y/o asalto, así como también los daños
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Robo con violencia y/o asalto, así como también los daños
                                         causados por dicho
                                         delito o su intento (excluye hurto y/o ratería)
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Riesgos políticos y sociales</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Riesgos políticos y sociales</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Rotura de vidrios.</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Rotura de vidrios.</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Gastos extraordinarios hasta el 20% de la suma asegurada.
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Gastos extraordinarios hasta el 20% de la suma asegurada.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Colisión con objetos en movimiento o estacionarios,
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Colisión con objetos en movimiento o estacionarios,
                                         volcamientos, hundimiento
                                         de terreno, deslizamiento de tierra, descarrilamiento.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Accidentes que ocurran pese a un manejo correcto, así como
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Accidentes que ocurran pese a un manejo correcto, así como
                                         los que
                                         sobrevengan por descuido, impericia o negligencia del conductor (salvo actos
                                         intencionales o
@@ -720,8 +711,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Pérdidas o daños causados por inundación, ciclón, huracán
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Pérdidas o daños causados por inundación, ciclón, huracán
                                         tempestad, vientos,
                                         terremoto, temblor, erupción volcánica
                                     </td>
@@ -736,33 +727,33 @@
                             <span style="font-weight: bold;">SECCIÓN I:</span> Por evento y/o reclamo<br>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Riesgos políticos y terrorismo: 1% del valor asegurado por
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Riesgos políticos y terrorismo: 1% del valor asegurado por
                                         ubicación, con un
                                         mínimo de USD. 100.-
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Terremoto, temblor y movimientos sísmicos: 1% del valor
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Terremoto, temblor y movimientos sísmicos: 1% del valor
                                         asegurado por
                                         ubicación, con un mínimo de USD. 100.-
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Para robo con violencia al contenido: USD 100.- (aplicable
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Para robo con violencia al contenido: USD 100.- (aplicable
                                         únicamente a
                                         riesgos domiciliarios); para otros riesgos: USD 250 por toda y cada pérdida
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Para las demás coberturas USD. 50.-</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Para las demás coberturas USD. 50.-</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Para las coberturas de asentamiento, hundimiento,
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Para las coberturas de asentamiento, hundimiento,
                                         deslizamiento, corrimiento de tierras, 5% del valor del reclamo con un mínimo de
                                         USD. 500.- por toda y cada pérdida
                                     </td>
@@ -771,38 +762,38 @@
                             <span style="font-weight: bold;">SECCIONES II Y III:</span>Por evento y/o reclamo<br>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Equipo médico: de acuerdo a la siguiente tabla de valores:
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Equipo médico: de acuerdo a la siguiente tabla de valores:
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Para equipos con un valor asegurado mayor a USD. 50.000.- 2%
+                                    <td style="width:2%; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Para equipos con un valor asegurado mayor a USD. 50.000.- 2%
                                         del valor del
                                         siniestro.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Demás equipos 2% del valor del siniestro mínimo USD. 250.-
+                                    <td style="width:2%; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Demás equipos 2% del valor del siniestro mínimo USD. 250.-
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Equipo de telecomunicaciones: 2% del valor del siniestro
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Equipo de telecomunicaciones: 2% del valor del siniestro
                                         mínimo USD. 250.-
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Equipos móviles y/o portátiles: 2% del valor del reclamo con
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Equipos móviles y/o portátiles: 2% del valor del reclamo con
                                         un mínimo de
                                         USD. 250 por evento y/o reclamo.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Demás amparados: 1% del valor del reclamo con un mínimo de
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Demás amparados: 1% del valor del reclamo con un mínimo de
                                         USD. 200.- por
                                         evento y/o reclamo
                                     </td>
@@ -811,29 +802,29 @@
                             <span style="font-weight: bold;">SECCIÓN IV:</span>Por evento y/o reclamo<br>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Para la cobertura de vidrios USD. 20.- por evento y/o reclamo
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Para la cobertura de vidrios USD. 20.- por evento y/o reclamo
                                         demás
                                         coberturas:
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Para equipos con valores asegurados hasta USD. 50.000, 2% del
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Para equipos con valores asegurados hasta USD. 50.000, 2% del
                                         valor del
                                         siniestro.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Para equipos con valores asegurados hasta USD. 250.000, 1.5%
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Para equipos con valores asegurados hasta USD. 250.000, 1.5%
                                         del valor del
                                         siniestro.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Para equipos con valores asegurados mayores a USD. 250.000,
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Para equipos con valores asegurados mayores a USD. 250.000,
                                         1% del valor del
                                         siniestro
                                     </td>
@@ -845,12 +836,12 @@
                             <span style="font-weight: bold;">SECCION I:</span>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Dinero, joyas y/o valores</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Dinero, joyas y/o valores</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Bienes inmuebles que estén ubicados en el lecho o cercanía de
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Bienes inmuebles que estén ubicados en el lecho o cercanía de
                                         rios
                                     </td>
                                 </tr>
@@ -858,24 +849,24 @@
                             <span style="font-weight: bold;">SECCIÓN II:</span>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Satélites espaciales</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Satélites espaciales</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Software y licencias</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Software y licencias</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Daños por virus</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Daños por virus</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Daños mecánicos y eléctricos internos</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Daños mecánicos y eléctricos internos</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Demás exclusiones de acuerdo al condicionado general de la
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Demás exclusiones de acuerdo al condicionado general de la
                                         póliza.
                                     </td>
                                 </tr>
@@ -883,28 +874,28 @@
                             <span style="font-weight: bold;">SECCIÓN III:</span>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">De acuerdo al condicionado general de la póliza.</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">De acuerdo al condicionado general de la póliza.</td>
                                 </tr>
                             </table>
                             <span style="font-weight: bold;">SECCIÓN IV:</span>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Equipos que operen bajo tierra</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Equipos que operen bajo tierra</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Equipos que tengan placas de circulación</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Equipos que tengan placas de circulación</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Riesgos de perforación; riesgos petroleros y riesgos de gas
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Riesgos de perforación; riesgos petroleros y riesgos de gas
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Demás exclusiones de acuerdo al condicionado general de la
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Demás exclusiones de acuerdo al condicionado general de la
                                         póliza.
                                     </td>
                                 </tr>
@@ -913,93 +904,93 @@
                             <span style="font-weight: bold;">CLÁUSULAS ADICIONALES:</span>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Anexo para cubrir colapso de techos y/o paredes</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Anexo para cubrir colapso de techos y/o paredes</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de Valor de Reemplazo</td>
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de Valor de Reemplazo</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de Elegibilidad de Ajustadores</td>
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de Elegibilidad de Ajustadores</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de Rehabilitación Automática de la Suma Asegurada
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de Rehabilitación Automática de la Suma Asegurada
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de Flete Aéreo hasta el 5% del valor del reclamo
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de Flete Aéreo hasta el 5% del valor del reclamo
                                         máximo $us. 5.000.-
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de Rescisión del Contrato a Prorrata sujeto a no
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de Rescisión del Contrato a Prorrata sujeto a no
                                         siniestralidad durante la vigencia
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Daños por Incendio y/o Rayo directo o indirecto Aparatos
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Daños por Incendio y/o Rayo directo o indirecto Aparatos
                                         Eléctricos
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de Terremoto, temblor y erupciones volcánicas</td>
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de Terremoto, temblor y erupciones volcánicas</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de Riesgos Políticos y Terrorismo</td>
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de Riesgos Políticos y Terrorismo</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de Robo con violencia a primer riesgo</td>
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de Robo con violencia a primer riesgo</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula para cubrir pérdidas y/o daños directos ocasionados
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula para cubrir pérdidas y/o daños directos ocasionados
                                         por derrube, deslizamiento, asentamiento y/o corrimiento de tierras
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de Hundimiento</td>
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de Hundimiento</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de Gastos de Investigación y Salvamento hasta el 5%
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de Gastos de Investigación y Salvamento hasta el 5%
                                         del valor del reclamo con una máximo a $us. 10.000.-
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de Definición de Evento</td>
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de Definición de Evento</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de Errores y Omisiones</td>
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de Errores y Omisiones</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de honorarios de Arquitectos, Ingenieros y
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de honorarios de Arquitectos, Ingenieros y
                                         Topografos.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de remoción de escombros</td>
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de remoción de escombros</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de Subrogación</td>
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de Subrogación</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Anexo de Renovación Automática, hasta finalizar el crédito
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Anexo de Renovación Automática, hasta finalizar el crédito
                                     </td>
                                 </tr>
 
@@ -1021,20 +1012,20 @@
                         <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">De gastos extraordinarios, hasta el 20% del valor del
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">De gastos extraordinarios, hasta el 20% del valor del
                                         reclamo, máximo $us 100.000.-
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Daños ocasionados por salvamento y la extinción de incendios,
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Daños ocasionados por salvamento y la extinción de incendios,
                                         hasta el 5% del valor del reclamo, máximo $us. 10.000.-
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">De ampliación de aviso de siniestro hasta 15 días a partir de
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">De ampliación de aviso de siniestro hasta 15 días a partir de
                                         que el contratante tiene conocimiento del evento. queda establecido que
                                         cualquier reparación, arreglo o adquisición que el asegurado deba realizar para
                                         la reposición o reparación del bien dañado, debe contar con la autorización
@@ -1042,25 +1033,25 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">De adelanto del 50% en caso de siniestro una vez declarado
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">De adelanto del 50% en caso de siniestro una vez declarado
                                         procedente el reclamo y habiéndose establecido el monto aproximado de la
                                         pérdida.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">De inclusiones y exclusiones.</td>
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">De inclusiones y exclusiones.</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">De traslado temporal, incluyendo uso, mantenimiento,
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">De traslado temporal, incluyendo uso, mantenimiento,
                                         reparación y daños durante su transporte (bajo cláusula L.A.P.)
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-size:100%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Ampliación de vigencia a prorrata, bajo los mismos términos y
+                                    <td style="width:2%; font-size: 65%; font-weight:bold;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Ampliación de vigencia a prorrata, bajo los mismos términos y
                                         condiciones incluyendo tasas pactadas, hasta 90 días.
                                     </td>
                                 </tr>
@@ -1073,23 +1064,23 @@
                             <span style="font-weight: bold;">APLICABLES A LA SECCIÓN IV (EQUIPO MÓVIL)</span>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Cobertura para el tránsito por sus propios medios, siempre y
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">Cobertura para el tránsito por sus propios medios, siempre y
                                         cuando el
                                         equipo móvil se traslade de un proyecto a otro, o a su garaje.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">De rehabilitación automática de la suma asegurada.</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                    <td style="width:98%; font-size: 65%;">De rehabilitación automática de la suma asegurada.</td>
                                 </tr>
                             </table>
                             <br>
                             <span style="font-weight: bold;">CONDICIONES GENERALES Y EXCLUSIONES:</span>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">&bull;</td>
-                                    <td style="width:98%;">De acuerdo al Condicionado General de Seguros y Reaseguros
+                                    <td style="width:2%; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">De acuerdo al Condicionado General de Seguros y Reaseguros
                                         Credinform
                                         International S.A., para Póliza de Seguro Multiriesgo con Registro No.
                                         102-910951-2007 10 100
@@ -1100,7 +1091,7 @@
                             <span style="font-weight: bold;">PROCEDIMIENTO EN CASO DE SINIESTRO:</span><br>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:100%;" valign="top">
+                                    <td style="width:100%; font-size: 65%;" valign="top">
                                         Al ocurrir un siniestro que pueda dar lugar a indemnización conforme a esta
                                         Póliza, el
                                         Asegurado deberá: a) Notificar el siniestro por escrito a la Compañía, via
@@ -1126,7 +1117,7 @@
 
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:100%;" valign="top">
+                                    <td style="width:100%; font-size: 65%;" valign="top">
                                         En caso de demora u omisión del asegurado en proporcionar la información y
                                         evidencias sobre el siniestro, el término señalado no corre hasta el
                                         cumplimiento de estas obligaciones.<br>
@@ -1168,38 +1159,38 @@
                             Póliza:
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">1.</td>
-                                    <td style="width:98%;">Bienes inmuebles que estén ubicados en el lecho o cercanía de
+                                    <td style="width:2%; font-size: 65%;" valign="top">1.</td>
+                                    <td style="width:98%; font-size: 65%;">Bienes inmuebles que estén ubicados en el lecho o cercanía de
                                         ríos
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">2.</td>
-                                    <td style="width:98%;">Riesgos textiles incluyendo riesgos azucareros y
+                                    <td style="width:2%; font-size: 65%;" valign="top">2.</td>
+                                    <td style="width:98%; font-size: 65%;">Riesgos textiles incluyendo riesgos azucareros y
                                         algodoneros
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">3.</td>
-                                    <td style="width:98%;">Riesgos mineros</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">3.</td>
+                                    <td style="width:98%; font-size: 65%;">Riesgos mineros</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">4.</td>
-                                    <td style="width:98%;">Fábricas de plástico, plastoformo, polietileno, papel,
+                                    <td style="width:2%; font-size: 65%;" valign="top">4.</td>
+                                    <td style="width:98%; font-size: 65%;">Fábricas de plástico, plastoformo, polietileno, papel,
                                         cartón, algodón
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">5.</td>
-                                    <td style="width:98%;">Discotecas, Pubs y Karaokes</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">5.</td>
+                                    <td style="width:98%; font-size: 65%;">Discotecas, Pubs y Karaokes</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">6.</td>
-                                    <td style="width:98%;">Ferias, exposición y eventos</td>
+                                    <td style="width:2%; font-size: 65%;" valign="top">6.</td>
+                                    <td style="width:98%; font-size: 65%;">Ferias, exposición y eventos</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">7.</td>
-                                    <td style="width:98%;">Industrias químicas y/o todas aquellas donde los insumos sean
+                                    <td style="width:2%; font-size: 65%;" valign="top">7.</td>
+                                    <td style="width:98%; font-size: 65%;">Industrias químicas y/o todas aquellas donde los insumos sean
                                         sustancias
                                         inflamables y/o pinturas
                                     </td>
@@ -1239,12 +1230,12 @@
                                         <table cellpadding="0" cellspacing="0" border="0"
                                                style="width: 100%; height: auto; font-family: Arial;">
                                             <tr>
-                                                <td valign="top" align="center" style="width:50%;">
+                                                <td valign="top" align="center" style="width:50%; font-size: 65%;">
                                                     <img src="{{ asset('images/firma1.jpg') }}" width="110"
                                                          height="50"/><br>
                                                     MIGUEL ANGEL BARRAGAN
                                                 </td>
-                                                <td valign="top" align="center" style="width:50%;">
+                                                <td valign="top" align="center" style="width:50%; font-size: 65%;">
                                                     <img src="{{ asset('images/firma2.jpg') }}" width="94" height="50"/><br>
                                                     MARIANA JAUREGUI Q
                                                 </td>
@@ -1253,18 +1244,17 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:25%; border-top:1px solid #999; text-align:center;">Firma del
+                                    <td style="width:25%; border-top:1px solid #999; text-align:center; font-size: 65%;">Firma del
                                         Titular Solicitante
                                     </td>
                                     <td style="width:35%;">&nbsp;</td>
-                                    <td style="width:40%; border-top:1px solid #999; text-align:center;">Firmas
+                                    <td style="width:40%; border-top:1px solid #999; text-align:center; font-size: 65%;">Firmas
                                         Autorizadas de la Compañia
                                     </td>
                                 </tr>
                             </table>
 
-                            <table cellpadding="0" cellspacing="0" border="0"
-                                   style="width: 100%; height: auto; margin-top:4px;">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; margin-top:4px; font-size: 65%;">
                                 <tr>
                                     <td style="width:5%; text-align:left;">C.I.</td>
                                     <td style="width:15%; border-bottom:1px solid #999; text-align:center;">
@@ -1281,8 +1271,8 @@
                                     <td style="width:46%; padding-top:5px;" colspan="5">
                                         <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                             <tr>
-                                                <td style="width:20%; text-align:left;">Lugar y fecha:</td>
-                                                <td style="width:50%; border-bottom:1px solid #999; text-align:center;">
+                                                <td style="width:20%; text-align:left; font-size: 65%;">Lugar y fecha:</td>
+                                                <td style="width:50%; border-bottom:1px solid #999; text-align:center; font-size: 65%;">
                                                     {{$query_header->place}} {{date('d/m/Y', strtotime($query_header->date_issue))}}
                                                 </td>
                                                 <td style="width:30%;">&nbsp;</td>

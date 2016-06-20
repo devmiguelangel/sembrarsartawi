@@ -159,12 +159,12 @@
                                             <td style="width:20%; text-align:left;">
                                                 <table border="0" cellpadding="0" cellspacing="0" style="width:100%; margin-bottom:3px;">
                                                     <tr>
-                                                        <td style="width:70%;">{{$vehiculo_texto}}</td>
-                                                        <td style="width:30%;">
+                                                        <td style="width:70%; font-size: 65%;">{{$vehiculo_texto}}</td>
+                                                        <td style="width:30%; font-size: 65%;">
 
                                                             @if($ind<=$num_reg)
 
-                                                                <div style="width:15px; height:15px; border:1px solid #333; text-align:center;">
+                                                                <div style="width:15px; height:12px; border:1px solid #333; text-align:center; vertical-align: middle;">
 
                                                                     @if($id_vh == $data_car->ad_vehicle_type_id)
                                                                         X
@@ -257,9 +257,9 @@
                     <td style="width:15%; text-align:left;">
                         <table border="0" cellpadding="0" cellspacing="0" style="width:100%; margin-bottom:5px;">
                             <tr>
-                                <td style="width:45%;">Público</td>
-                                <td style="width:55%;">
-                                    <div style="width:15px; height:15px; border:1px solid #333; text-align:center;">
+                                <td style="width:45%; font-size: 65%;">Público</td>
+                                <td style="width:55%; font-size: 65%;">
+                                    <div style="width:15px; height:12px; border:1px solid #333; text-align:center;">
                                         @if($data_car->use=='PU')
                                             X
                                         @endif
@@ -271,9 +271,9 @@
                     <td style="width:15%; text-align:left;">
                         <table border="0" cellpadding="0" cellspacing="0" style="width:100%; margin-bottom:5px;">
                             <tr>
-                                <td style="width:45%;">Privado</td>
-                                <td style="width:55%;">
-                                    <div style="width:15px; height:15px; border:1px solid #333; text-align:center;">
+                                <td style="width:45%; font-size: 65%;">Privado</td>
+                                <td style="width:55%; font-size: 65%;">
+                                    <div style="width:15px; height:12px; border:1px solid #333; text-align:center;">
                                         @if($data_car->use=='PR')
                                             X
                                         @endif
@@ -417,24 +417,24 @@
                         <b>Asistencia Jurídica</b> incluyendo<br>
                         <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                             <tr>
-                                <td style="width:2%;" valign="top">-</td>
-                                <td style="width:98%;">Asistencia de audiencias de Tránsito</td>
+                                <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                <td style="width:98%; font-size: 65%;">Asistencia de audiencias de Tránsito</td>
                             </tr>
                             <tr>
-                                <td style="width:2%;" valign="top">-</td>
-                                <td style="width:98%;">Preparación y presentación de memoriales</td>
+                                <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                <td style="width:98%; font-size: 65%;">Preparación y presentación de memoriales</td>
                             </tr>
                             <tr>
-                                <td style="width:2%;" valign="top">-</td>
-                                <td style="width:98%;">Asistencia a audiencias de Conciliación</td>
+                                <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                <td style="width:98%; font-size: 65%;">Asistencia a audiencias de Conciliación</td>
                             </tr>
                             <tr>
-                                <td style="width:2%;" valign="top">-</td>
-                                <td style="width:98%;">Gastos y costas judiciales (por acción civil)</td>
+                                <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                <td style="width:98%; font-size: 65%;">Gastos y costas judiciales (por acción civil)</td>
                             </tr>
                             <tr>
-                                <td style="width:2%;" valign="top">-</td>
-                                <td style="width:98%;">Presentación de fianzas judiciales (por acción civil)</td>
+                                <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                <td style="width:98%; font-size: 65%;">Presentación de fianzas judiciales (por acción civil)</td>
                             </tr>
                         </table>
                         <b>Beneficio de Auxilio Mecánico</b><br/>
@@ -444,8 +444,8 @@
                         el agregado)
                         <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                             <tr>
-                                <td style="width:2%;" valign="top">-</td>
-                                <td style="width:98%;">Remolque o transporte del vehículo en caso de accidente hasta el 5% del
+                                <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                <td style="width:98%; font-size: 65%;">Remolque o transporte del vehículo en caso de accidente hasta el 5% del
                                     valor del asegurado</td>
                             </tr>
                         </table>
@@ -453,42 +453,42 @@
                     <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
                         <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                             <tr>
-                                <td style="width:2%;" valign="top">-</td>
-                                <td style="width:98%;">
+                                <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                <td style="width:98%; font-size: 65%;">
                                     Desplazamiento por la inmovilización y/o robo del vehículo en caso que los beneficiarios e
                                     encuentren a más de 25 km. de su domicilio
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width:2%;" valign="top">-</td>
-                                <td style="width:98%;">
+                                <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                <td style="width:98%; font-size: 65%;">
                                     Depósito y custodia del vehículo en caso de accidente, avería mecánica o robo hasta un límite de
                                     $us. 20.-
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width:2%;" valign="top">-</td>
-                                <td style="width:98%;">
+                                <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                <td style="width:98%; font-size: 65%;">
                                     Servicio de conductor profesional en caso de accidente o fallecimiento del asegurado en caso de
                                     imposibilidad de conducir.
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width:2%;" valign="top">-</td>
-                                <td style="width:98%;">
+                                <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                <td style="width:98%; font-size: 65%;">
                                     Para avería mecánica, Localización y envío de piezas de recambio necesarias para la reparación
                                     cuando no fuera posible su obtención.
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width:2%;" valign="top">-</td>
-                                <td style="width:98%;">
+                                <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                <td style="width:98%; font-size: 65%;">
                                     Transmisión de mensajes urgente.
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width:2%;" valign="top">-</td>
-                                <td style="width:98%;">
+                                <td style="width:2%; font-size: 65%;" valign="top">-</td>
+                                <td style="width:98%; font-size: 65%;">
                                     Línea de emergencia gratuita 24 hrs. /365 días
                                 </td>
                             </tr>
@@ -573,96 +573,96 @@
                         <td style="width:50%; text-align: justify; border:0px solid #333;" valign="top">
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Anexo aclaratorio a la clausula de remisión de documentos </td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Anexo aclaratorio a la clausula de remisión de documentos </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de exclusión de llaves y placas</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de exclusión de llaves y placas</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Manual de procedimientos para la atención de siniestros</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Manual de procedimientos para la atención de siniestros</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de anticipo del 50% del siniestro</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de anticipo del 50% del siniestro</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de ampliación de aviso de siniestro</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de ampliación de aviso de siniestro</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Anexo de ausencia de control (Empresarial)</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Anexo de ausencia de control (Empresarial)</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula para cubrir daños a causa de la naturaleza</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula para cubrir daños a causa de la naturaleza</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de libre elegibilidad de talleres de elegibilidad de ajustadores</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de libre elegibilidad de talleres de elegibilidad de ajustadores</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de rehabilitación automática de la suma asegurada.</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de rehabilitación automática de la suma asegurada.</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de rescisión de contrato a prorrata</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de rescisión de contrato a prorrata</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de inclusiones y exclusiones</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de inclusiones y exclusiones</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de eliminación de copia legalizada</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de eliminación de copia legalizada</td>
                                 </tr>
                             </table>
                         </td>
                         <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula para flete aéreo</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula para flete aéreo</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Anexo de subrogación de derechos -B</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Anexo de subrogación de derechos -B</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de errores u omisiones</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de errores u omisiones</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de extensión de coberturas en caso de no portar licencia de conducir</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de extensión de coberturas en caso de no portar licencia de conducir</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de respuestos y partes originales</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de respuestos y partes originales</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de ampliación de vigencia a prorrata bajo los mismos términos y condiciones</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de ampliación de vigencia a prorrata bajo los mismos términos y condiciones</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de cobertura de daño de bolsas de aires (AIRBAGS)</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de cobertura de daño de bolsas de aires (AIRBAGS)</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Asistencia Jurídica</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Asistencia Jurídica</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de tránsito en vías no autorizadas</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de tránsito en vías no autorizadas</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%; font-weight:bold;" valign="top">&bull;</td>
-                                    <td style="width:98%;">Cláusula de no presentación de la prueba de dosaje etílico en áreas rurales</td>
+                                    <td style="width:2%; font-weight:bold; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">Cláusula de no presentación de la prueba de dosaje etílico en áreas rurales</td>
                                 </tr>
                             </table>
                         </td>
@@ -755,11 +755,11 @@
                         <td style="width:25%;">
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-family: Arial;">
                                 <tr>
-                                    <td style="width:32%; border-bottom:1px solid #999; text-align:center;">{{$day}}</td>
-                                    <td style="width:2%;">/</td>
-                                    <td style="width:32%; border-bottom:1px solid #999; text-align:center;">{{$month}}</td>
-                                    <td style="width:2%;">/</td>
-                                    <td style="width:32%; border-bottom:1px solid #999; text-align:center;">{{$year}}</td>
+                                    <td style="width:32%; border-bottom:1px solid #999; text-align:center; font-size: 65%;">{{$day}}</td>
+                                    <td style="width:2%; font-size: 65%;">/</td>
+                                    <td style="width:32%; border-bottom:1px solid #999; text-align:center; font-size: 65%;">{{$month}}</td>
+                                    <td style="width:2%; font-size: 65%;">/</td>
+                                    <td style="width:32%; border-bottom:1px solid #999; text-align:center; font-size: 65%;">{{$year}}</td>
                                 </tr>
                             </table>
                         </td>
@@ -797,11 +797,11 @@
                         <td style="width:40%;">
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-family: Arial;">
                                 <tr>
-                                    <td valign="top" align="center" style="width:50%;">
+                                    <td valign="top" align="center" style="width:50%; font-size: 65%;">
                                         <img src="{{ asset('images/firma1.jpg') }}" width="110" height="50"/><br>
                                         MIGUEL ANGEL BARRAGAN
                                     </td>
-                                    <td valign="top" align="center" style="width:50%;">
+                                    <td valign="top" align="center" style="width:50%; font-size: 65%;">
                                         <img src="{{ asset('images/firma2.jpg') }}" width="94" height="50"/><br>
                                         MARIANA JAUREGUI Q
                                     </td>
@@ -832,8 +832,8 @@
                         <td style="width:46%; padding-top:5px;" colspan="5">
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:20%; text-align:left;">Lugar y fecha:</td>
-                                    <td style="width:50%; border-bottom:1px solid #999; text-align:center;">
+                                    <td style="width:20%; text-align:left; font-size: 65%;">Lugar y fecha:</td>
+                                    <td style="width:50%; border-bottom:1px solid #999; text-align:center; font-size: 65%;">
                                         {{$query_header->place}} {{date('d/m/Y', strtotime($query_header->date_issue))}}
                                     </td>
                                     <td style="width:30%;">&nbsp;</td>
@@ -857,7 +857,7 @@
 
                             <b>CONDICIONES GENERALES Y EXCLUSIONES:</b> De acuerdo al Condicionado General de Seguro de Automotores.
                             con Código de Registro 102-910500-2003 10 085
-                            <br><br>
+                            <br>
                             <b>NOTAS ESPECIALES:</b><br>
                             El asegurado autoriza a la compañía de seguros a enviar el reporte a la central de riesgos del mercado de
                             seguros acorde a las normativas reglamentarias de la autoridad de fiscalización y control de pensiones y
@@ -866,14 +866,14 @@
                             <b>IMPORTANTE:</b><br>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width:2%;" valign="top">&bull;</td>
-                                    <td style="width:98%;">
+                                    <td style="width:2%; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">
                                         En caso de Pérdida Total por accidente y/o robo y únicamente para vehículos con antig&uuml;edad menor a un año o dentro de los primeros 10.000 KM de recorrido, lo que ocurra primero, se considera el valor de indemnización el valor de compra del vehículo 0Km, descontando el 13% de IVA, no se aplica depreciación en el primer año o 500 KM lo que ocurra primero.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width:2%;" valign="top">&bull;</td>
-                                    <td style="width:98%;">
+                                    <td style="width:2%; font-size: 65%;" valign="top">&bull;</td>
+                                    <td style="width:98%; font-size: 65%;">
                                         Para vehículos con antiguedad mayor a 1 año se considera el valor de indemnización el valor comercial actual del mercado
                                     </td>
                                 </tr>
@@ -899,54 +899,54 @@
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
                                     <td style="width:2%; font-size:65%; font-weight:bold;" valign="top">1</td>
-                                    <td style="width:98%;">En caso de siniestro denunciar a la Compañía a la brevedad posible a la linea gratuita 800107002</td>
+                                    <td style="width:98%; font-size: 65%;">En caso de siniestro denunciar a la Compañía a la brevedad posible a la linea gratuita 800107002</td>
                                 </tr>
                                 <tr>
                                     <td style="width:2%; font-size:65%; font-weight:bold;" valign="top">2</td>
-                                    <td style="width:98%;">Si hubieran heridos prestar en la primera instancia la atencion médica de primeros auxilios, o solicitar inmediata ayuda para su traslado al centro médico</td>
+                                    <td style="width:98%; font-size: 65%;">Si hubieran heridos prestar en la primera instancia la atencion médica de primeros auxilios, o solicitar inmediata ayuda para su traslado al centro médico</td>
                                 </tr>
                                 <tr>
                                     <td style="width:2%; font-size:65%; font-weight:bold;" valign="top">3</td>
-                                    <td style="width:98%;">Tomar todas las precauciones que estén a su alcance para proteger el vehículo siniestrado y evitar la agravación y propagación de los daños materiales y/o personales</td>
+                                    <td style="width:98%; font-size: 65%;">Tomar todas las precauciones que estén a su alcance para proteger el vehículo siniestrado y evitar la agravación y propagación de los daños materiales y/o personales</td>
                                 </tr>
                                 <tr>
                                     <td style="width:2%; font-size:65%; font-weight:bold;" valign="top">4</td>
-                                    <td style="width:98%;">Denunciar, en el mismo día, el hecho a la Autoridad Competente, en la jurisdicción donde se produjo el hecho, oficializando todas las circunstancias y detalles del mismo y someterse a la prueba de dosaje etílico, aun cuando dichas autoridades no se lo requieran. Asimismo, recabar el informe Técnico Circunstancial, emitido por Tránsito o la Autoridad Competente</td>
+                                    <td style="width:98%; font-size: 65%;">Denunciar, en el mismo día, el hecho a la Autoridad Competente, en la jurisdicción donde se produjo el hecho, oficializando todas las circunstancias y detalles del mismo y someterse a la prueba de dosaje etílico, aun cuando dichas autoridades no se lo requieran. Asimismo, recabar el informe Técnico Circunstancial, emitido por Tránsito o la Autoridad Competente</td>
                                 </tr>
                                 <tr>
                                     <td style="width:2%; font-size:65%; font-weight:bold;" valign="top">5</td>
-                                    <td style="width:98%;">Esperar la autorización de la Compañía para realizar cualquier reparación de daños al vehículo siniestrado. En caso de existir daños a terceros o a causa de terceros (sean materiales o personales), debe comunicarse de inmediato a la Compañía para realizar cualquier acuerdo judicial o extrajudicial, caso contrario la Aseguradora, no compromete la responsabilidad indemnizatoria</td>
+                                    <td style="width:98%; font-size: 65%;">Esperar la autorización de la Compañía para realizar cualquier reparación de daños al vehículo siniestrado. En caso de existir daños a terceros o a causa de terceros (sean materiales o personales), debe comunicarse de inmediato a la Compañía para realizar cualquier acuerdo judicial o extrajudicial, caso contrario la Aseguradora, no compromete la responsabilidad indemnizatoria</td>
                                 </tr>
                             </table>
                             Presentar a la Compañía con la siguiente documentación:
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
                                     <td style="width:2%; font-size:65%; font-weight:bold;" valign="top">1</td>
-                                    <td style="width:98%;">Formulario de denuncia de la Compañía debidamente llenado y firmado por el Asegurado o Beneficiario</td>
+                                    <td style="width:98%; font-size: 65%;">Formulario de denuncia de la Compañía debidamente llenado y firmado por el Asegurado o Beneficiario</td>
                                 </tr>
                                 <tr>
                                     <td style="width:2%; font-size:65%; font-weight:bold;" valign="top">2</td>
-                                    <td style="width:98%;">Copia legalizada de la Denuncia de Tránsito</td>
+                                    <td style="width:98%; font-size: 65%;">Copia legalizada de la Denuncia de Tránsito</td>
                                 </tr>
                                 <tr>
                                     <td style="width:2%; font-size:65%; font-weight:bold;" valign="top">3</td>
-                                    <td style="width:98%;">Copia de la Licencia de conductor del vehículo</td>
+                                    <td style="width:98%; font-size: 65%;">Copia de la Licencia de conductor del vehículo</td>
                                 </tr>
                                 <tr>
                                     <td style="width:2%; font-size:65%; font-weight:bold;" valign="top">4</td>
-                                    <td style="width:98%;">Proformas o cotizaciones</td>
+                                    <td style="width:98%; font-size: 65%;">Proformas o cotizaciones</td>
                                 </tr>
                                 <tr>
                                     <td style="width:2%; font-size:65%; font-weight:bold;" valign="top">5</td>
-                                    <td style="width:98%;">Informe Técnico Circunstanciado con porcentaje de responsabilidades emitido por las autoridades pertienentes en el caso de Responsabilidad Civil</td>
+                                    <td style="width:98%; font-size: 65%;">Informe Técnico Circunstanciado con porcentaje de responsabilidades emitido por las autoridades pertienentes en el caso de Responsabilidad Civil</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">
+                                    <td colspan="2" style=" font-size: 65%;">
                                         <b>Nota:</b> Dependiendo del tipo o magnitud del siniestro, la Compañía podrá solicitar cualquier otro documento o informacíon al Asegurado
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="font-style: italic; font-weight:bold; padding-top:8px; text-align:justify;" colspan="2">
+                                    <td style="font-style: italic; font-weight:bold; padding-top:8px; text-align:justify; font-size: 65%;" colspan="2">
                                         “Se comunica a los clientes que para la emisión de las facturas por los Contratos de Seguros de Garantías (Automotores y Multiriesgo) emitidos por Credinform International S.A., se adopta la modalidad de Facturación Electrónica, de conformidad a la Resolución RND N°. 10-0016-07 del Servicio de Impuestos Nacionales, en virtud de la cual las Notas fiscales serán emitidas a partir de los sistemas informáticos de Idepro, previa interacción con los sistemas informáticos del SIN y de Credinform International S.A., debiendo el cliente proceder al recojo de dichas Notas Fiscales en las oficinas de Idepro. Por tanto es única y total responsabilidad de los clientes recabar sus Notas Fiscales de mencionada instalación”.
                                     </td>
                                 </tr>

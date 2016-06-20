@@ -126,7 +126,15 @@ class AddQuestionAdminController extends BaseController
     public function store(Request $request)
     {
         try{
-            $num = 0;
+
+            $query_num_question = \DB::table('ad_retailer_product_questions')
+                ->where('ad_retailer_product_id',$request->input('id_retailer_product'))
+                ->get();
+            if(count($query_num_question)>0){
+                $num = count($query_num_question);
+            }else{
+                $num = 0;
+            }
             foreach ($request->get('addquestion') as $key => $value) {
                 $num = $num+1;
                 if ($request->input('response') == 1) {
@@ -156,7 +164,15 @@ class AddQuestionAdminController extends BaseController
     public function store_vi(Request $request)
     {
         try{
-            $num = 0;
+
+            $query_num_question = \DB::table('ad_retailer_product_questions')
+                ->where('ad_retailer_product_id',$request->input('id_retailer_product'))
+                ->get();
+            if(count($query_num_question)>0){
+                $num = count($query_num_question);
+            }else{
+                $num = 0;
+            }
             foreach ($request->get('addquestion') as $key => $value) {
                 $num = $num+1;
                 if ($request->input('response') == 1) {

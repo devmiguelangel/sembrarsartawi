@@ -1,5 +1,5 @@
 <div style="width: 775px; height: auto; border: 0px solid #0081C2; padding: 10px;">
-    <div style="width: 770px; font-weight: normal; font-size: 12px; font-family: Arial, Helvetica, sans-serif; color: #000000; border: 1px solid #FFFF00;">
+    <div style="width: 770px; font-weight: normal; font-size: 12px; font-family: Arial, Helvetica, sans-serif; color: #000000; border: 0px solid #FFFF00;">
         <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
             @var $fecha_registro = $query_header->created_at
             @var $num_limit = $query_parameter->expiration
