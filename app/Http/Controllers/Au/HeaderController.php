@@ -402,7 +402,7 @@ class HeaderController extends Controller
      * @param string $rp_id
      * @param string $de_id
      *
-     * @return
+     * @return mixed
      */
     public function coverageCreate($rp_id, $de_id)
     {
@@ -476,7 +476,7 @@ class HeaderController extends Controller
      * @param string $de_id
      * @param string $header_id
      *
-     * @return
+     * @return mixed
      */
     public function coverageEdit($rp_id, $de_id, $header_id)
     {

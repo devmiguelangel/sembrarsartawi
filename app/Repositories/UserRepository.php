@@ -40,7 +40,7 @@ class UserRepository extends BaseRepository
      */
     public function getUsersByRetailer($retailer_id)
     {
-        return User::with('agency', 'city')->whereHas('retailer', function ($q) use ($retailer_id) {
+        return User::with('agency', 'city')->whereHas('retailerUser.retailer', function ($q) use ($retailer_id) {
             $q->where('ad_retailers.id', $retailer_id);
         })->where('username', '!=', 'admin')->get();
     }

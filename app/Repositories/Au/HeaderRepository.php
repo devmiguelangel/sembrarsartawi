@@ -12,7 +12,6 @@ use Sibas\Entities\Client;
 use Sibas\Entities\Au\Header;
 use Sibas\Entities\De\Header as HeaderDe;
 use Sibas\Entities\RetailerProduct;
-use Sibas\Entities\User;
 use Sibas\Repositories\BaseRepository;
 
 class HeaderRepository extends BaseRepository
@@ -99,7 +98,7 @@ class HeaderRepository extends BaseRepository
                         foreach ($rate->increments as $increment) {
                             if ($increment->category->category == $detail->category->category) {
                                 $rate_vh    = $rate->rate_final + $increment->increment;
-                                $premium_vh = ( $rate_vh * $detail->insured_value ) / 100;;
+                                $premium_vh = ( $rate_vh * $detail->insured_value ) / 100;
 
                                 if ($header->full_year > $max_year) {
                                     $rate_annual = $rate_vh / $max_year;
@@ -352,19 +351,25 @@ class HeaderRepository extends BaseRepository
         $this->data = $request->all();
         $user       = $request->user();
 
-        $this->model = Header::create([
-            'id'             => date('U'),
-            'ad_user_id'     => $user->id,
-            'op_client_id'   => decode($this->data['client']),
-            'type'           => 'Q',
-            'warranty'       => true,
-            'payment_method' => $this->data['payment_method']['id'],
-            'currency'       => $this->data['currency']['id'],
-            'term'           => $this->data['term'],
-            'type_term'      => $this->data['type_term']['id'],
-        ]);
+        try {
+            $this->model = Header::create([
+                'id'             => date('U'),
+                'ad_user_id'     => $user->id,
+                'op_client_id'   => decode($this->data['client']),
+                'type'           => 'Q',
+                'warranty'       => true,
+                'payment_method' => $this->data['payment_method']['id'],
+                'currency'       => $this->data['currency']['id'],
+                'term'           => $this->data['term'],
+                'type_term'      => $this->data['type_term']['id'],
+            ]);
 
-        return $this->saveModel();
+            return $this->saveModel();
+        } catch (QueryException $e) {
+
+        }
+
+        return false;
     }
 
 
@@ -420,8 +425,9 @@ class HeaderRepository extends BaseRepository
     public function setCoverage($de)
     {
         try {
-            $de->coverageWarranty()->getRelated()->updateOrCreate([
+            $de->coverageWarranty()->updateOrCreate([
                 'op_de_header_id' => $de->id,
+            ], [
                 'op_au_header_id' => $this->model->id,
             ]);
 

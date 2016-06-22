@@ -25,8 +25,9 @@ class ClientComplementFormRequest extends Request
      */
     public function rules()
     {
-        $civil_status = join(',', array_keys(config('base.client_civil_status')));
-        $genders      = join(',', array_keys(config('base.client_genders')));
+        $civil_status  = join(',', array_keys(config('base.client_civil_status')));
+        $genders       = join(',', array_keys(config('base.client_genders')));
+        $avenue_street = join(',', array_keys(config('base.avenue_street')));
 
         return [
             'first_name'             => 'required|alpha_space',
@@ -39,6 +40,7 @@ class ClientComplementFormRequest extends Request
             'place_residence'        => 'required|exists:ad_cities,slug',
             'locality'               => 'required|alpha_dash_space',
             'home_address'           => 'required|ands_full',
+            'avenue_street'          => 'required|in:' . $avenue_street,
             'home_number'            => 'required|numeric',
             'dni'                    => 'required|numeric',
             'business_address'       => 'required|ands_full',

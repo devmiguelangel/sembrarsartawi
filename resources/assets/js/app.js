@@ -13,6 +13,8 @@ var CancellationController = require('./components/de/CancellationController');
 var HeaderViController     = require('./components/vi/HeaderController');
 var HeaderAuController     = require('./components/au/HeaderController');
 var DetailAuController     = require('./components/au/DetailController');
+var HeaderTdController     = require('./components/td/HeaderController');
+var DetailTdController     = require('./components/td/DetailController');
 
 var ClientController       = require('./components/ClientController');
 
@@ -86,6 +88,36 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', '$http', function($roo
     }
   };
 
+  $rootScope.warranty = function () {
+    $('input[name="warranty"]').click(function (e) {
+      if (this.value == 0) {
+        angular.element('#term').prop('value', 1).prop('readonly', true);
+        angular.element('#type_term option[value="Y"]').prop('selected', true);
+        angular.element('#payment_method option[value="PT"]').prop('selected', true);
+
+        angular.element('#type_term option:not(:selected)').prop('disabled', true);
+        angular.element('#payment_method option:not(:selected)').prop('disabled', true);
+        
+        angular.element('#number-de-container').hide();
+      } else {
+        // angular.element('#term').prop('value', '').prop('readonly', false);
+        angular.element('#term').prop('readonly', false);
+        angular.element('#type_term option:first').prop('selected', true);
+        angular.element('#payment_method option:first').prop('selected', true);
+
+        angular.element('#type_term option').prop('disabled', false);
+        angular.element('#payment_method option').prop('disabled', false);
+        
+        angular.element('#number-de-container').show();
+      }
+
+      angular.element('#type_term').triggerHandler('change');
+      angular.element('#payment_method').triggerHandler('change');
+    });
+
+    $('input[name="warranty"]:checked').trigger('click');
+  };
+
   $rootScope.getPolicies = function () {
     var url     = '/de/policies';
     var product = angular.element('#form-init').data('product');
@@ -133,3 +165,7 @@ app.controller('ClientController', ['$scope', ClientController.client]);
 app.controller('HeaderAuController', ['$scope', '$http', HeaderAuController.header]);
 
 app.controller('DetailAuController', ['$rootScope', '$scope', '$http', DetailAuController.detail]);
+
+app.controller('HeaderTdController', ['$scope', '$http', HeaderTdController.header]);
+
+app.controller('DetailTdController', ['$rootScope', '$scope', '$http', DetailTdController.detail]);

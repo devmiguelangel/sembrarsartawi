@@ -13,11 +13,11 @@
         <div class="page-header-content">
             <div class="page-title">
                 <h4><i class="icon-arrow-left52 position-left"></i> <span
-                            class="text-semibold">Seguro de Automotores</span></h4>
+                            class="text-semibold">Seguro de Multiriesgo</span></h4>
 
                 <ul class="breadcrumb breadcrumb-caret position-right">
                     <li><a href="">Inicio</a></li>
-                    <li><a href="">Automotores</a></li>
+                    <li><a href="">Multiriesgo</a></li>
                     <li class="active">Emisión</li>
                 </ul>
             </div>
@@ -107,7 +107,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-4 col-md-4 pull-right">
-                                <a href="{{ route('au.client.i.edit', [
+                                <a href="{{ route('td.client.i.edit', [
                                     'rp_id'     => $rp_id,
                                     'header_id' => $header_id,
                                     'client_id' => encode($header->client->id),
@@ -131,18 +131,16 @@
                                 <h6 class="modal-title">Datos del Vehículo</h6>
                             </div>
                         </div>
-                        <div class="panel panel-body border-top-success" ng-controller="DetailAuController">
+                        <div class="panel panel-body border-top-success" ng-controller="DetailTdController">
                             <div class="col-xs-12 col-md-12">
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th>Vehículo</th>
-                                        <th>Marca / Modelo</th>
-                                        <th>Cero Km.</th>
-                                        <th>Año</th>
-                                        <th>Placa</th>
-                                        <th>Categoria</th>
-                                        <th>Valor Comercial</th>
+                                        <th>Materia</th>
+                                        <th>Descripción</th>
+                                        <th>Número</th>
+                                        <th>Uso</th>
+                                        <th>Valor Asegurado</th>
                                         <th>Status</th>
                                         <th class="text-center">Accion</th>
                                     </tr>
@@ -150,32 +148,15 @@
                                     <tbody>
                                     @foreach($header->details as $key => $detail)
                                         <tr>
-                                            <td><a href="#">{{ $detail->vehicleType->vehicle }}</a></td>
-                                            <td>{{ $detail->vehicleMake->make }}
-                                                / {{ $detail->vehicleModel->model }}</td>
-                                            <td>{{ $detail->mileage_text }}</td>
-                                            <td>{{ $detail->year }}</td>
-                                            <td>{{ $detail->license_plate }}</td>
-                                            <td>
-                                                <span class="label label-success">{{ $detail->category->category_name }}</span>
-                                            </td>
+                                            <td><a href="#">{{ $detail->matter_insured_text }}</a></td>
+                                            <td>{{ $detail->matter_description }}</td>
+                                            <td>{{ $detail->number }}</td>
+                                            <td>{{ $detail->use_text }}</td>
                                             <td>
                                                 <strong>{{ number_format($detail->insured_value, 2) }} {{ $header->currency }}</strong>
                                             </td>
                                             <td>
-                                                @if($detail->completed)
-                                                    <span class="label label-success">Completado</span>
-                                                @else
-                                                    <a href="{{ route('au.vh.i.edit', [
-                                                        'rp_id'     => $rp_id,
-                                                        'header_id' => $header_id,
-                                                        'detail_id' => encode($detail->id)
-                                                    ]) }}"
-                                                       title="Pendiente" class="label label-danger"
-                                                       ng-click="editIssuance($event)">
-                                                        Pendiente
-                                                    </a>
-                                                @endif
+                                                <span class="label label-success">Completado</span>
                                             </td>
                                             <td class="text-center">
                                                 <ul class="icons-list">
@@ -185,7 +166,7 @@
                                                         </a>
                                                         <ul class="dropdown-menu dropdown-menu-right">
                                                             <li>
-                                                                <a href="{{ route('au.vh.i.edit', [
+                                                                <a href="{{ route('td.pr.i.edit', [
                                                                     'rp_id'     => $rp_id,
                                                                     'header_id' => $header_id,
                                                                     'detail_id' => encode($detail->id),
@@ -206,7 +187,7 @@
                             </div>
 
                             <div class="text-right">
-                                <a href="{{ route('au.vh.i.edit', [
+                                <a href="{{ route('td.pr.i.edit', [
                                     'rp_id'     => $rp_id,
                                     'header_id' => $header_id,
                                     'detail_id' => null,
@@ -215,21 +196,7 @@
                                    ng-click="editIssuance($event)" class="btn btn-primary">
                                     <i class="icon-pencil3"
                                        ng-click="$event.stopPropagation(); $event.preventDefault()"></i>
-                                    Agregar Vehículo</a></li>
-
-                                {{--@var $parameter = $retailerProduct->parameters()->where('slug', 'GE')->first()
-
-                                @if($parameter instanceof \Sibas\Entities\ProductParameter && $header->details->count() < $parameter->detail)
-                                    <button type="button" class="btn btn-primary" ng-click="create($event)"
-                                            data-url="{{ route('au.vh.create', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}">
-                                        Agregar Vehículo <i class="icon-plus22 position-right"></i></button>
-                                @endif
-
-                                @if($header->details->count() > 0)
-                                    <a href="{{ route('au.result', ['rp_id' => $rp_id, 'header_id' => $header_id]) }}"
-                                       class="btn btn-primary">
-                                        Continuar <i class="icon-arrow-right14 position-right"></i></a>
-                                @endif--}}
+                                    Agregar Inmueble</a></li>
                             </div>
                         </div>
                     </div>
@@ -241,7 +208,7 @@
                             </div>
                         </div>
 
-                        {!! Form::open(['route' => ['au.coverage.update',
+                        {!! Form::open(['route' => ['td.coverage.update',
                             'rp_id'         => $rp_id,
                             'de_id'         => $de_id,
                             'header_id'     => $header_id
@@ -318,26 +285,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-md-6">
-                                <div class="form-group">
-                                    <div class="col-lg-4">
-                                        <strong>Forma de Pago: </strong>
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <div class="col-lg-12">
-                                            {!! SelectField::input('payment_method', $data['payment_methods']->toArray(), [
-                                                'class' => 'form-control',
-                                                'id'    => 'payment_method',
-                                              ],
-                                                old('payment_method', $header->payment_method))
-                                            !!}
-                                            <label id="location-error" class="validation-error-label"
-                                                   for="location">{{ $errors->first('payment_method') }}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="col-xs-12 col-md-12">
                                 <hr/>
                                 <div class="col-xs-12 col-md-6">

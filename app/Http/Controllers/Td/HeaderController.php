@@ -4,6 +4,7 @@ namespace Sibas\Http\Controllers\Td;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Sibas\Entities\Client;
 use Sibas\Entities\City;
 use Sibas\Entities\Rate;
@@ -14,11 +15,14 @@ use Sibas\Http\Controllers\MailController;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Td\ClientComplementFormRequest;
+use Sibas\Http\Requests\Td\CoverageCreateFormRequest;
+use Sibas\Http\Requests\Td\CoverageEditFormRequest;
 use Sibas\Http\Requests\Td\FacultativeRequestFormRequest;
 use Sibas\Http\Requests\Td\HeaderCreateFormRequest;
 use Sibas\Http\Requests\Td\HeaderEditFormRequest;
 use Sibas\Repositories\Td\FacultativeRepository;
 use Sibas\Repositories\Td\HeaderRepository;
+use Sibas\Repositories\De\HeaderRepository as HeaderDeRepository;
 use Sibas\Repositories\Client\ClientRepository;
 use Sibas\Repositories\Td\DetailRepository;
 use Sibas\Repositories\Retailer\PolicyRepository;
@@ -57,6 +61,11 @@ class HeaderController extends Controller
      */
     protected $facultativeRepository;
 
+    /**
+     * @var HeaderDeRepository
+     */
+    protected $headerDeRepository;
+
 
     public function __construct(
         HeaderRepository $repository,
@@ -64,7 +73,8 @@ class HeaderController extends Controller
         DetailRepository $detailRepository,
         FacultativeRepository $facultativeRepository,
         RetailerProductRepository $retailerProductRepository,
-        PolicyRepository $policyRepository
+        PolicyRepository $policyRepository,
+        HeaderDeRepository $headerDeRepository
     ) {
         $this->repository                = $repository;
         $this->clientRepository          = $clientRepository;
@@ -72,6 +82,7 @@ class HeaderController extends Controller
         $this->retailerProductRepository = $retailerProductRepository;
         $this->policyRepository          = $policyRepository;
         $this->facultativeRepository     = $facultativeRepository;
+        $this->headerDeRepository        = $headerDeRepository;
     }
 
 
@@ -89,9 +100,11 @@ class HeaderController extends Controller
     public function create($rp_id)
     {
         $client = new Client();
+
         if (session('client')) {
             $client = session('client');
         }
+
         $data                    = $this->getData($rp_id);
         $data['payment_methods'] = $this->retailerProductRepository->getPaymentMethodsByProductById(decode($rp_id));
 
@@ -129,7 +142,8 @@ class HeaderController extends Controller
                 $header = $this->repository->getModel();
 
                 # validacion facultativo
-                $facultative = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id), $header);
+                $facultative = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id),
+                    $header);
 
                 return view('td.result', compact('rp_id', 'header_id', 'header', 'retailerProduct', 'facultative'));
             }
@@ -155,6 +169,20 @@ class HeaderController extends Controller
 
             if ($this->repository->storeHeader($request, $client)) {
                 $header = $this->repository->getModel();
+
+                if ($header->warranty && $request->get('number_de')) {
+                    if ($this->headerDeRepository->getHeaderById($request->get('number_de'))) {
+                        $de = $this->headerDeRepository->getModel();
+
+                        if ($this->repository->setCoverage($de)) {
+                            goto Store;
+                        } else {
+                            return redirect()->back()->with([ 'error_header' => 'La Garantía no pudo ser asociada' ])->withInput()->withErrors($this->repository->getErrors());
+                        }
+                    }
+                }
+
+                Store:
 
                 return redirect()->route('td.mr.insured', [
                     'rp_id'     => $rp_id,
@@ -191,7 +219,7 @@ class HeaderController extends Controller
      */
     public function formDetail($rp_id, $header_id, $id_detail, $steep)
     {
-        
+
         $materia = $this->returnArray(config('base.property_types'));
         $uso     = $this->returnArray(config('base.property_uses'));
         $city    = City::where('abbreviation', '!=', '')->where('abbreviation', '!=', 'PE')->get();
@@ -199,7 +227,7 @@ class HeaderController extends Controller
         if ($this->repository->getHeaderById($header_id)) {
             $header = $this->repository->getModel();
         }
-        
+
         if ($id_detail != 0) {
             $detail = Detail::where('id', $id_detail)->first();
         } else {
@@ -217,7 +245,7 @@ class HeaderController extends Controller
 
         $var = [
             'template' => view('td.form.formInsured',
-                compact('rp_id', 'header_id', 'materia', 'uso', 'city', 'detail', 'header','steep'))->render()
+                compact('rp_id', 'header_id', 'materia', 'uso', 'city', 'detail', 'header', 'steep'))->render()
         ];
 
         return response()->json($var);
@@ -264,13 +292,13 @@ class HeaderController extends Controller
         if ($this->repository->getHeaderById(decode($header_id)) && $this->repository->storeFacultative($request)) {
             $header = $this->repository->getModel();
             /**/
-              $mail = new MailController($request->user());
-             
-              $mail->subject = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->prefix . ' - ' . $header->issue_number;
-              $mail->template = 'td.request-approval';
+            $mail = new MailController($request->user());
+
+            $mail->subject  = 'Solicitud de aprobación: Caso Facultativo No. ' . $header->prefix . ' - ' . $header->issue_number;
+            $mail->template = 'td.request-approval';
             /**/
-            if ($mail->send(decode($rp_id), [ 'header' => $header], 'COP')) {
-            $this->repository->storeSent();
+            if ($mail->send(decode($rp_id), [ 'header' => $header ], 'COP')) {
+                $this->repository->storeSent();
 
             }
 
@@ -301,22 +329,23 @@ class HeaderController extends Controller
         if (count($detail) < $prodParam->detail || $request->get('id_detail') != '') {
             $this->detailRepository->createDetail($request);
         }
-        
+
         if ($this->repository->getHeaderById(decode($header_id))) {
-            $header = $this->repository->getModel();
+            $header      = $this->repository->getModel();
             $facultative = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id), $header);
-            
+
             if ($facultative['facultative'] === 0) {
-                
+
                 if ($header->facultative === true) {
                     $this->repository->deleteFacultativeHeader(decode($header_id));
-                }                
-            }else{
+                }
+            } else {
                 $this->facultativeRepository->storeFacultative($facultative, $request->user());
-                
-                foreach ($header->details as $key => $value) {      
-                    if(!in_array($value->id, $this->facultativeRepository->idsFactultative))
+
+                foreach ($header->details as $key => $value) {
+                    if ( ! in_array($value->id, $this->facultativeRepository->idsFactultative)) {
                         $this->detailRepository->delFacultativeById($value->id);
+                    }
                 }
                 $obs = $this->facultativeRepository->returnObservation();
                 $this->repository->updateFacultativeHeader(true, $obs);
@@ -343,12 +372,12 @@ class HeaderController extends Controller
         if (count($detail) == $prodParam->detail) {
             $exedDetail = $prodParam->detail;
         }
-        
+
         $var = [
             'template' => view('td.listInsured',
                 compact('detail', 'header_id', 'rp_id', 'exedDetail', 'prodParam', 'steep'))->render()
         ];
-        
+
         return response()->json($var);
     }
 
@@ -391,7 +420,8 @@ class HeaderController extends Controller
 
             $paymentMethods = config('base.payment_methods');
             $termTypes      = config('base.term_types');
-            $facultative    = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id), $header);
+            $facultative    = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id),
+                $header);
 
             return view('td.edit',
                 compact('rp_id', 'header_id', 'header', 'paymentMethods', 'termTypes', 'policies', 'facultative'));
@@ -422,8 +452,8 @@ class HeaderController extends Controller
                 $obs = $this->facultativeRepository->returnObservation();
 
                 $keyFac = true;
-            }else{
-                
+            } else {
+
                 if ($header->facultative === 1) {
                     $this->repository->deleteFacultativeHeader();
                 }
@@ -483,6 +513,14 @@ class HeaderController extends Controller
             if (( $header->client instanceof Client && $header->client->id == decode($client_id) ) && $this->clientRepository->updateIssueClient($request,
                     $header->client)
             ) {
+                if ($request->has('coverage')) {
+                    return redirect()->route('td.coverage.edit', [
+                        'rp_id'     => $rp_id,
+                        'de_id'     => $request->get('coverage'),
+                        'header_id' => $header_id
+                    ])->with([ 'success_client' => 'La información del Cliente se actualizó correctamente' ]);
+                }
+
                 return redirect()->route('td.edit', [
                     'rp_id'     => $rp_id,
                     'header_id' => $header_id,
@@ -535,6 +573,135 @@ class HeaderController extends Controller
         }
 
         return redirect()->back();
+    }
+
+
+    /**
+     * @param string $rp_id
+     * @param string $de_id
+     *
+     * @return mixed
+     */
+    public function coverageCreate($rp_id, $de_id)
+    {
+        if (request()->ajax()) {
+            if (request()->has('rp_de') && $this->headerDeRepository->getHeaderById(decode($de_id))) {
+                $de   = $this->headerDeRepository->getModel();
+                $data = [ ];
+
+                $data            = $this->getData($rp_id);
+                $payment_methods = $this->retailerProductRepository->getPaymentMethodsByProductById(decode($rp_id));
+                $currencies      = $data['currencies'];
+                $term_types      = $data['term_types'];
+                $payment_methods->shift();
+                $currencies->shift();
+                $term_types->shift();
+
+                $payload = view('td.coverage.create', compact('rp_id', 'de_id', 'de'));
+
+                return response()->json([
+                    'payload'         => $payload->render(),
+                    'payment_methods' => $payment_methods,
+                    'currencies'      => $currencies,
+                    'term_types'      => $term_types,
+                    'term'            => $de->term,
+                    'type_term'       => $de->type_term,
+                ]);
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
+        return redirect()->back();
+    }
+
+
+    /**
+     * @param CoverageCreateFormRequest $request
+     * @param string                    $rp_id
+     * @param string                    $de_id
+     *
+     * @return mixed
+     */
+    public function coverageStore(CoverageCreateFormRequest $request, $rp_id, $de_id)
+    {
+        if (request()->ajax()) {
+            if ($this->headerDeRepository->getHeaderById(decode($de_id)) && $this->clientRepository->getClientById(decode($request->get('client')))) {
+                $de     = $this->headerDeRepository->getModel();
+                $client = $this->clientRepository->getModel();
+
+                if ($this->repository->storeCoverage($request)) {
+                    $header = $this->repository->getModel();
+
+                    Cache::put($header->id, $request->get('rp_de'), 180);
+
+                    return response()->json([
+                        'location' => route('td.coverage.edit',
+                            [ 'rp_id' => $rp_id, 'de_id' => $de_id, 'header_id' => encode($header->id) ])
+                    ]);
+                }
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
+        return redirect()->back();
+    }
+
+
+    /**
+     * @param string $rp_id
+     * @param string $de_id
+     * @param string $header_id
+     *
+     * @return mixed
+     */
+    public function coverageEdit($rp_id, $de_id, $header_id)
+    {
+        if (Cache::has(decode($header_id)) && $this->repository->getHeaderById(decode($header_id))) {
+            $header                  = $this->repository->getModel();
+            $data                    = $this->getData($rp_id);
+            $data['policies']        = $this->policyRepository->getPolicyByCurrency(decode($rp_id), $header->currency);
+            $data['payment_methods'] = $this->retailerProductRepository->getPaymentMethodsByProductById(decode($rp_id));
+
+            return view('td.coverage.edit', compact('rp_id', 'de_id', 'header_id', 'header', 'data'));
+        }
+
+        return redirect()->back()->with([ 'error_header' => 'La cobertura no puede ser inicializada . ' ]);
+    }
+
+
+    /**
+     * @param CoverageEditFormRequest $request
+     * @param string                  $rp_id
+     * @param string                  $de_id
+     * @param string                  $header_id
+     *
+     * @return mixed
+     */
+    public function coverageUpdate(CoverageEditFormRequest $request, $rp_id, $de_id, $header_id)
+    {
+        if (Cache::has(decode($header_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+            $retailerProduct = $this->retailerProductRepository->getModel();
+
+            if ($this->repository->getHeaderById(decode($header_id)) && $this->headerDeRepository->getHeaderById(decode($de_id))) {
+                $header = $this->repository->getModel();
+                $de     = $this->headerDeRepository->getModel();
+
+                if ($this->repository->setPropertyResult($retailerProduct,
+                        $header) && $this->repository->updateCoverage($request, $de)
+                ) {
+                    $rp_de = Cache::get(decode($header_id));
+
+                    return redirect()->route('de.issuance', [
+                        'rp_id'     => $rp_de,
+                        'header_id' => $de_id
+                    ])->with([ 'success_header' => 'La garantía fue asociada correctamente.' ]);
+                }
+            }
+        }
+
+        return redirect()->back()->with([ 'error_header' => 'La cobertura no puede ser emitida . ' ]);
     }
 
 }

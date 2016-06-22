@@ -341,7 +341,7 @@
                                 </div>
                             </div>
                             <div class="form-group" id="number-de-container">
-                                <input type="hidden" id="number_de" name="number_de" value="">
+                                <input type="hidden" id="number_de" name="number_de" value="{{ old('number_de') }}">
 
                                 <label class="col-lg-3 control-label">Nº de Certificado Desgravamen: </label>
                                 <div class="col-lg-9">

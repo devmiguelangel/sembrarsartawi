@@ -184,6 +184,13 @@ return [
         'reason'                 => 'Motivo',
         'client'                 => 'Cliente',
         'number_de'              => 'Nº de Certificado Desgravamen',
+        'matter_insured'         => 'Materia',
+        'matter_description'     => 'Descripción',
+        'number'                 => 'Número',
+        'property_use'           => 'Uso',
+        'city'                   => 'Departamento',
+        'zone'                   => 'Zona',
+        'address'                => 'Dirección',
         ''                       => '',
     ],
 

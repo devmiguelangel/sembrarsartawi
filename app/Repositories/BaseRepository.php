@@ -74,6 +74,11 @@ abstract class BaseRepository
     protected $reasonAmount;
 
     /**
+     * @var string
+     */
+    protected $reasonProperty;
+
+    /**
      * @var Collection
      */
     protected $records;
@@ -112,6 +117,7 @@ abstract class BaseRepository
         $this->reasonInmueble = 'El monto acumulado del riesgo asegurado :riesgo_asegurado del Titular :name es :cumulus Bs. y supera el monto maximo permitido. Monto maximo permitido para este caso :amount_max Bs. ';
         $this->reasonYear     = 'El Vehículo con placa :license_plate tiene una antiguedad mayor a :year_max años. ';
         $this->reasonAmount   = 'El valor asegurado del Vehículo con placa :license_plate excede el máximo valor permitido. Valor permitido: :amount_max USD. ';
+        $this->reasonProperty = 'El valor asegurado del Riesgo asegurado :matter_insured excede el máximo valor permitido. Valor permitido: :amount_max USD. ';
 
         $this->fieldName = [
             'Q' => 'quote_number',

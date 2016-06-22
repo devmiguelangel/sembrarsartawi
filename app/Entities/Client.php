@@ -157,24 +157,5 @@ class Client extends Model
     {
         $this->attributes['business_address'] = strtoupper($value);
     }
-
-
-    public function getFullNameExtension()
-    {
-        $cit = [
-            'LP' => 'La Paz',
-            'OR' => 'Oruro',
-            'PO' => 'Potosi',
-            'CB' => 'Cochabamba',
-            'CH' => 'Chuquisaca',
-            'TJ' => 'Tarija',
-            'SC' => 'Santa Cruz',
-            'BE' => 'Beni',
-            'PA' => 'Pando',
-            'AL' => 'El Alto',
-            'PE' => 'Persona Extranjera',
-        ];
-
-        return $cit[$this->extension];
-    }
+    
 }
