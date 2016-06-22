@@ -114,7 +114,7 @@
     </div>
 
     <!-- modal -->
-    @include('partials.modal')
+    @include('partials.modal_content')
             <!-- /modal -->
 
 @endsection
