@@ -366,9 +366,13 @@
                                                 <td>{{ $entities->fecha_respuesta_final_compania }}</td>
                                                 <td>{{ $entities->dias_en_proceso }}</td>
                                                 <td>{{ $entities->duracion_total_del_caso }}</td>
-
                                                 <td class="text-center">
-                                                    <ul class="icons-list">
+                                            <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="icon-menu9"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
                                                             @if($flag==2)
                                                                 <li>
                                                                     <a href="{{route('create_modal_slip', ['id_retailer_product'=>$id_comp, 'id_header'=>encode($entities->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
@@ -391,7 +395,10 @@
                                                                 </li>
                                                             @endif
                                                         </ul>
-                                                </td>
+                                                    </li>
+                                                </ul>
+                                        </td>
+                                                
                                             </tr>
                                             @var $sum++
                                             @endforeach
@@ -409,28 +416,6 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <!-- Horizontal form -->
-        <div class="panel panel-flat border-top-primary">
-            <div class="panel-heading divhr">
-                <h6 class="form-wizard-title2 text-semibold">
-                    <span class="col-md-12">
-                        <span class="form-wizard-count">R</span>
-                        {{ $title }}
-                        <small class="display-block">{{ $sub_title }}</small>
-                    </span>
-                </h6>
-            </div>
-            <div class="panel-body ">
-
-
-            </div>
-
-        </div>
-        <!-- /horizotal form -->
-    </div>
-</div>
 
 
 
