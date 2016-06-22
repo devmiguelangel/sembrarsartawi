@@ -80,9 +80,10 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#" onclick="cargaModal({{ $header->id }},'{{ Session::token() }}', '{{ encode($header->id) . '/slip' }}', 'POST', 'cotizacion')" 
-                                                      data-toggle="modal" data-target="#modal_general">
-                                                        <i class="icon-plus2"></i> Ver Solicitud
+                                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$rp_id, 'id_header'=>encode($header->id), 'text'=>'slip', 'type'=>'IMPR'])}}"
+                                                       id="issuance" class="open_modal">
+                                                        <i class="icon-plus2"></i> Ver Slip de Cotización
+
                                                     </a>
                                                 </li>
                                             </ul>
@@ -102,7 +103,7 @@
     </div>
 
 <!-- modal -->
-@include('partials.modal')
+@include('partials.modal_content')
 <!-- /modal -->
 
 @endsection
