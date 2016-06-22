@@ -10,6 +10,7 @@ use Sibas\Http\Requests;
 use Sibas\Http\Controllers\ReportTrait;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Entities\Td\Detail;
+use Sibas\Entities\RetailerProductState;
 
 class ReportTdController extends Controller {
 use ReportTrait;
@@ -79,13 +80,15 @@ use ReportTrait;
         $agencies = $this->agencies;
         $cities = $this->cities;
         $extencion = $this->extencion;
-
-        $valueForm = $this->addValueForm($request);
-
-        $array = $this->result($request, $flag);
+        
+        $rp_state = RetailerProductState::where('ad_retailer_product_id', decode($id_comp))->get();
+        $valueForm = $this->addValueForm($request,$rp_state);
+        
+        $array = $this->result($request, $flag, $rp_state);
         $result = $array['result'];
+        
 
-        return view('report.general_td', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag', 'id_comp'));
+        return view('report.general_td', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag', 'id_comp', 'rp_state'));
     }
 
     /**
@@ -114,7 +117,7 @@ use ReportTrait;
      * @param type $flag
      * @return type
      */
-    public function result($request, $flag) {
+    public function result($request, $flag, $rp_state = array()) {
         //edw-->$this->scape();
         $propertyTypes = config('base.property_types');
         $propertyUses = config('base.property_uses');
@@ -184,6 +187,18 @@ use ReportTrait;
                                 if(op_td_headers.issued=false and op_td_headers.facultative=true and op_td_facultatives.state='PE' and op_td_observations.id is null,'Pendiente',
                                 if(op_td_headers.issued=false and op_td_headers.facultative=true and op_td_facultatives.state='PE' and op_td_observations.id is not null,'Observado',
                                 ''))))) as estado_compania"),
+                        
+                        # observaciones
+                        DB::raw("if(op_td_facultatives.state='PR',op_td_facultatives.observation,
+                                if(op_td_facultatives.state='PE',
+                                 (
+                                 SELECT t9.observation
+                                    FROM op_td_observations t9
+                                    WHERE t9.op_td_facultative_id = op_td_facultatives.id
+                                    ORDER BY t9.id DESC
+                                    LIMIT 0, 1),
+                                '')) as observation_facultative"),
+                        
                         # motivo estado compañia
                         DB::raw("if(op_td_headers.facultative=true and op_td_facultatives.state='PR' and op_td_facultatives.approved=TRUE,'Aprobado',
                                 if(op_td_headers.facultative=true and op_td_facultatives.state='PR' and op_td_facultatives.approved=false,'Rechazado',
@@ -224,7 +239,7 @@ use ReportTrait;
 
         if ($request->get('_token')) {
             
-            $arr = $this->role($request);
+            $arr = $this->role($request, $rp_state);
 
             foreach ($arr as $key => $value) {
 
@@ -350,6 +365,7 @@ use ReportTrait;
                 $resArr[$i]['Anulado'] = ($value->anulado == 0) ? 'NO' : 'SI';
                 $resArr[$i]['Anulado Por'] = $value->anulado_por;
                 $resArr[$i]['Fecha Anualción'] = $value->fecha_anulacion;
+                $resArr[$i]['Facultativo Observación'] = $value->observation_facultative;
                 $resArr[$i]['Estado Compañia'] = $value->estado_compania;
                 $resArr[$i]['Estado Banco'] = $value->estado_banco;
                 $resArr[$i]['Motivo Estado Compañia'] = $value->motivo_estado_compania;
@@ -372,7 +388,7 @@ use ReportTrait;
      * @param type $request
      * @return array
      */
-    public function role($request) {
+    public function role($request, $rp_state = array()) {
         $consult = [];
         if ($request->get('freecover'))
             $consult[] = array('`op_td_headers`.`issued`' => 1, '`op_td_headers`.`facultative`' => 0);
@@ -439,6 +455,22 @@ use ReportTrait;
                     FROM op_td_observations as odo
                     WHERE odo.op_td_facultative_id = op_td_facultatives.id)' => [ '>', 0],
             );
+        
+        # estados facultativo
+        if(count($rp_state) > 0) {
+            
+            foreach ($rp_state as $key => $value) {
+                if ($request->get($value->states->slug))
+                    $consult[] = array(
+                        '`op_td_headers`.`issued`' => 0,
+                        '`op_td_headers`.`facultative` =1 and `op_td_facultatives`.`state`="PE" and (SELECT MAX(odo.id)
+                    FROM op_td_observations as odo
+                    inner join op_td_facultatives as fcv on (fcv.id=odo.op_td_facultative_id)
+                    inner join ad_states as stat on (odo.ad_state_id = stat.id)
+                    WHERE stat.slug = "' . $value->states->slug . '" and fcv.id = op_td_facultatives.id)' => [ '>', 0],
+                    );
+            }
+        }
 
         $arr = [];
         foreach ($consult as $key => $value) {
@@ -690,7 +722,7 @@ use ReportTrait;
      * @param type $request
      * @return type
      */
-    public function addValueForm($request) {
+    public function addValueForm($request, $rp_state = array()) {
         $request->get('numero_poliza');
         $arr = array(
             'numero_poliza' => ($request->get('numero_poliza')) ? $request->get('numero_poliza') : '',
@@ -715,6 +747,14 @@ use ReportTrait;
             'observado' => ($request->get('observado')) ? $request->get('observado') : '',
             'anulados' => ($request->get('anulados')) ? $request->get('anulados') : '3',
         );
+        
+        # Validacion estado facultativo
+        if (count($rp_state) > 0) {
+            foreach ($rp_state as $key => $value) {
+                $arr[$value->states->slug] = ($request->get($value->states->slug)) ? $request->get($value->states->slug) : '';
+            }
+        }
+
         return $arr;
     }
 

@@ -133,6 +133,20 @@
                     <ul class="dropdown-menu width-200">
                     @foreach(auth()->user()->retailer->first()->retailerProducts as $retailerProduct)
                             @if($retailerProduct->type == 'MP')
+                                <li class="">
+                                    @if($retailerProduct->companyProduct->product->name == 'Desgravamen')
+                                        <a href="{{ route('report.report_cotizacion',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
+                                    @endif
+                                    @if($retailerProduct->companyProduct->product->name == 'Automotores')
+                                        <a href="{{ route('report.auto_report_cotizacion',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
+                                    @endif
+                                    @if($retailerProduct->companyProduct->product->name == 'Multiriesgo')
+                                        <a href="{{ route('report.td_report_cotizacion',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
+                                    @endif
+                                            <i class="icon-list-unordered"></i> {{ $retailerProduct->companyProduct->product->name }}
+                                        </a>
+                                </li>
+                                <!--
                                 <li class="dropdown-submenu">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="icon-list-unordered"></i> {{ $retailerProduct->companyProduct->product->name }}
@@ -190,7 +204,7 @@
                                             </li>
                                     @endif
                                     </ul>
-                                </li>
+                                </li>-->
                             @endif
                     @endforeach
                     </ul>

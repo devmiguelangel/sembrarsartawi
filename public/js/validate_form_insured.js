@@ -132,7 +132,8 @@ function soloNumeros() {
         $('#' + key + '').keyup(function() {
             if ($('#' + key + '').val() != /[^0-9]/g) {
                 this.value = (this.value + '').replace(/[^0-9]/g, '');
-                $('.' + key + '_msg').html('Ingrese solo N&uacute;meros');
+                //$('.' + key + '_msg').html('Ingrese solo N&uacute;meros');
+                $('.' + key + '_msg').html('<label id="bill_name-error" class="validation-error-label validation-valid-label" for="bill_name">Correcto.</label>');
             }
         });
     });
@@ -164,7 +165,8 @@ function soloLetras() {
                     && (env.charCode != 0) //reset
 
                     ) {
-                $('.' + key + '_msg').html('Ingrese solo Letras');
+                //$('.' + key + '_msg').html('Ingrese solo Letras');
+                $('.' + key + '_msg').html('<label id="bill_name-error" class="validation-error-label validation-valid-label" for="bill_name">Correcto.</label>');
                 return false;
             }
 

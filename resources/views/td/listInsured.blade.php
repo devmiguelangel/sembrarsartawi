@@ -28,6 +28,7 @@
                     <a href="#"
                        onclick="returnContent('{{ route('td.form.insured',['rp_id'=>$rp_id, 'header_id'=>decode($header_id), 'id_detail'=>$entity->id, 'steep'=>$steep])}}', 'GET');$('.modal-title').html('Riesgo Asegurado')"
                        data-toggle="modal" data-target="#modal_general" class="btn btn-default pull-right">
+                        <span class="label label-success">Completado</span> 
                         Editar <i class="icon-pencil position-right"></i>
                     </a>
                 </td>
@@ -35,5 +36,5 @@
         @endforeach
         </tbody>
     </table>
-    <small>Puede registrar asta {{ $prodParam->detail }} <strong>Intereses Asegurados</strong> como maximo.</small>
+    
 @endif

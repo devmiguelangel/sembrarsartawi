@@ -11,17 +11,18 @@
 @section('menu-header')
 
 @if($flag == 1) 
- @var $title = 'Reporte General Multiriesgo' 
+ @var $title = 'General Multiriesgo' 
  @var $sub_title = 'Listado de Pólizas Multiriesgo' 
 @else 
- @var $title = 'Reporte Polizas Emitidas Multiriesgo' 
+ @var $title = 'Polizas Emitidas Multiriesgo' 
  @var $sub_title = 'Listado de Pólizas Emitidas Multiriesgo' 
 @endif
 
 <div class="page-header">
     <div class="page-header-content">
         <div class="page-title">
-            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">{{ $title }}</span></h4>
+            <!--<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">{{ $title }}</span></h4>-->
+            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Multiriesgo</span></h4>
 
             <ul class="breadcrumb breadcrumb-caret position-right">
                 <li><a href="">Inicio</a></li>
@@ -35,20 +36,43 @@
 @endsection
 
 @section('content')
+
 <div class="row">
     <div class="col-md-12">
-        <!-- Horizontal form -->
         <div class="panel panel-flat border-top-primary">
-            <div class="panel-heading divhr">
+            <div class="panel-heading">
                 <h6 class="form-wizard-title2 text-semibold">
                     <span class="col-md-12">
                         <span class="form-wizard-count">R</span>
-                        {{ $title }}
-                        <small class="display-block">{{ $sub_title }}</small>
+                        Reportes
+                        <small class="display-block">Listado </small>
                     </span>
                 </h6>
             </div>
-            <div class="panel-body ">
+            <div class="panel-body">
+                <div class="tabbable">
+                    <!--<ul class="nav nav-tabs nav-tabs-highlight nav-justified">-->
+                    <ul class="nav nav-tabs nav-tabs-highlight">
+                        <li>
+                            <a href="{{ route('report.td_report_cotizacion',[ 'id_comp' => $id_comp ]) }}">Solicitudes Multiriesgo </a>
+                        </li>
+                        @if($flag == 1) 
+                            <li class="active">
+                        @else
+                            <li>
+                        @endif
+                            <a href="{{ route('report.td_report_general',[ 'id_comp' => $id_comp ]) }}">General Multiriesgo</a>
+                        </li>
+                        @if($flag == 2) 
+                            <li class="active">
+                        @else
+                            <li>
+                        @endif
+                            <a href="{{ route('report.td_report_general_emitido',[ 'id_comp' => $id_comp ]) }}">P&oacute;lizas Emitidas Multiriesgo</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        
                 <div class="col-xs-12 col-md-12">
                     <form class="form-horizontal form-validate-jquery" action="" id="form_search_general">
                     @if($flag == 1) 
@@ -183,6 +207,17 @@
                                                        Observado
                                             </label>
                                         </div>
+                                        <!-- Solo generales (estado facultativo)-->
+                                        @if($flag == 1)
+                                            <div class="form-group">
+                                                @foreach($rp_state as $state)
+                                                    <label class="checkbox-inline checkbox-left">
+                                                        <input type="checkbox" class="styled" name="{{ $state->states->slug }}" value="1" id="{{ $state->states->slug }}" @if($valueForm[$state->states->slug]==1) checked @endif>     
+                                                               {{ $state->states->state }}
+                                                    </label>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                         <hr />
                                         <div class="form-group">
                                             <label class="checkbox-inline checkbox-right">
@@ -286,6 +321,7 @@
                                         <th>Anulado</th>
                                         <th>Anulado Por</th>
                                         <th>Fecha Anualción</th>
+                                        <th>Facultativo Observación</th>
                                         <th>Estado Compañia</th>
                                         <th>Estado Banco</th>
                                         <th>Motivo Estado Compañia</th>
@@ -340,6 +376,7 @@
                                         <td>{{ $entities->anulado == 0?'NO':'SI' }}</td>
                                         <td>{{ $entities->anulado_por }}</td>
                                         <td>{{ $entities->fecha_anulacion != ''?date('Y-m-d', strtotime($entities->fecha_anulacion)):'' }}</td>
+                                        <td style="width: 100px;">{{ $entities->observation_facultative }}</td>
                                         <td>{{ $entities->estado_compania }}</td>
                                         <td>{{ $entities->estado_banco }}</td>
                                         <td>{{ $entities->motivo_estado_compania }}</td>
@@ -390,12 +427,10 @@
                         <h1>No existen resultados.</h1>
                     @endif
                 </div>
-
-
+                    </div>
+                </div>
             </div>
-
         </div>
-        <!-- /horizotal form -->
     </div>
 </div>
 

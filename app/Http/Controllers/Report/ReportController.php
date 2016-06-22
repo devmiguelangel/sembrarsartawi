@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Sibas\Http\Controllers\ReportTrait;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Entities\RetailerProductState;
 
 class ReportController extends Controller {
     use ReportTrait;
@@ -77,16 +78,17 @@ class ReportController extends Controller {
         $cities = $this->cities;
         $extencion = $this->extencion;
         
-        $valueForm = $this->addValueForm($request);
+        $rp_state = RetailerProductState::where('ad_retailer_product_id', decode($id_comp))->get();
+        $valueForm = $this->addValueForm($request, $rp_state);
        
-        $array = $this->result($request, $flag);
+        $array = $this->result($request, $flag, $rp_state);
         $result = $array['result'];
         
         # validacion exporta xls
         //edw-->if ($request->get('xls_download'))
         //edw-->$this->exportXls($result, 'General', 1,'');
             
-        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag','id_comp'));
+        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag','id_comp', 'rp_state'));
     }
     /**
      * 
@@ -117,7 +119,7 @@ class ReportController extends Controller {
      * @param type $flag
      * @return type
      */
-    public function result($request, $flag) {
+    public function result($request, $flag, $rp_state = array()) {
         
         $opClients = DB::table('op_clients')
                 ->join('op_de_details', 'op_clients.id', '=', 'op_de_details.op_client_id')
@@ -164,6 +166,18 @@ class ReportController extends Controller {
                                 if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is null,'Pendiente',
                                 if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is not null,'Observado',
                                 ''))))) as estado_compania"),
+                        
+                        # observaciones
+                        DB::raw("if(op_de_facultatives.state='PR',op_de_facultatives.observation,
+                                if(op_de_facultatives.state='PE',
+                                 (
+                                 SELECT t9.observation
+                                    FROM op_de_observations t9
+                                    WHERE t9.op_de_facultative_id = op_de_facultatives.id
+                                    ORDER BY t9.id DESC
+                                    LIMIT 0, 1),
+                                '')) as observation_facultative"),
+                        
                         # motivo estado compañia
                         DB::raw("if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=TRUE,'Aprobado',
                                 if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=false,'Rechazado',
@@ -208,7 +222,7 @@ class ReportController extends Controller {
                 //edw--> $query->leftJoin('op_de_facultatives', 'op_de_facultatives.op_de_detail_id', '=', 'op_de_details.id');
             }
             
-            $arr = $this->role($request);
+            $arr = $this->role($request, $rp_state);
             
             foreach ($arr as $key => $value) {
                 
@@ -347,6 +361,7 @@ class ReportController extends Controller {
                 $resArr[$i]['Fecha Emisión'] = $value->fecha_emision;
                 $resArr[$i]['Estado Compañia'] = $value->estado_compania;
                 $resArr[$i]['Motivo Estado Compañia'] = $value->motivo_estado_compania;
+                $resArr[$i]['Facultativo Observación'] = $value->observation_facultative;
                 $resArr[$i]['Porcentaje Extraprima'] = $value->porcentaje_extraprima;
                 $resArr[$i]['Fecha Respuesta Final Compañia'] = $value->fecha_respuesta_final_compania;
                 $resArr[$i]['Días en Proceso'] = $value->dias_en_proceso;
@@ -690,7 +705,7 @@ class ReportController extends Controller {
      * @param type $request
      * @return type
      */
-    public function addValueForm($request) {
+    public function addValueForm($request, $rp_state = array()) {
         $request->get('numero_poliza');
         $arr = array(
             'numero_poliza' => ($request->get('numero_poliza')) ? $request->get('numero_poliza') : '',
@@ -716,6 +731,14 @@ class ReportController extends Controller {
             'anulados' => ($request->get('anulados')) ? $request->get('anulados') : '3',
             'nro_cotizacion' => ($request->get('nro_cotizacion')) ? $request->get('nro_cotizacion') : '',
         );
+        
+        # Validacion estado facultativo
+        if (count($rp_state) > 0) {
+            foreach ($rp_state as $key => $value) {
+                $arr[$value->states->slug] = ($request->get($value->states->slug)) ? $request->get($value->states->slug) : '';
+            }
+        } 
+        
         return $arr;
     }
 
