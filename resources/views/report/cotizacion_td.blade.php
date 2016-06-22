@@ -235,11 +235,10 @@
                                                         </a>
                                                         <ul class="dropdown-menu dropdown-menu-right">
                                                             <li>
-                                                                <!--<a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', '{{ route('slip_au_cot',['id_comp'=>$id_comp])}}', 'POST', 'cotizacion', {{ decode($id_comp) }})" data-toggle="modal" data-target="#modal_general">
+                                                                <a href="{{route('create_modal_slip', ['id_retailer_product'=>$id_comp, 'id_header'=>encode($entities->id), 'text'=>'slip', 'type'=>'IMPR'])}}"
+                                                                   id="issuance" class="open_modal">
                                                                     <i class="icon-plus2"></i> Ver Slip de Cotización
-                                                                </a>-->
-                                                                <a href="#" >
-                                                                    <i class="icon-plus2"></i> Ver Slip de Cotización
+
                                                                 </a>
                                                             </li>
 
@@ -265,7 +264,7 @@
     </div>
 </div>
 <!-- modal -->
-@include('partials.modal')
+@include('partials.modal_content')
 <!-- /modal -->
 
 @endsection

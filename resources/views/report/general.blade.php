@@ -369,23 +369,27 @@
 
                                                 <td class="text-center">
                                                     <ul class="icons-list">
-                                                            <li class="dropdown">
-                                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                                    <i class="icon-menu9"></i>
-                                                                </a>
-                                                                <ul class="dropdown-menu dropdown-menu-right">
-                                                                    <li>
-                                                                        <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', '{{ route('slip_des_cot',['id_comp'=>$id_comp])}}', 'POST', 'cotizacion',{{ decode($id_comp) }})" data-toggle="modal" data-target="#modal_general">
-                                                                            <i class="icon-plus2"></i> Ver Slip de Cotización
-                                                                        </a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="#" onclick="cargaModal({{ $entities->id }},'{{ Session::token() }}', '{{ route('slip_des_cot',['id_comp'=>$id_comp])}}', 'POST', 'emision', {{ decode($id_comp) }})" data-toggle="modal" data-target="#modal_general">
-                                                                            <i class="icon-plus2"></i> Ver Certificado de Desgravamen
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </li>
+                                                            @if($flag==2)
+                                                                <li>
+                                                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$id_comp, 'id_header'=>encode($entities->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
+                                                                       id="issuance" class="open_modal">
+                                                                        <i class="icon-plus2"></i> Ver Certificado de Emision
+                                                                    </a>
+                                                                </li>
+                                                            @else
+                                                                <li>
+                                                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$id_comp, 'id_header'=>encode($entities->id), 'text'=>'slip', 'type'=>'IMPR'])}}"
+                                                                       id="slip" class="open_modal">
+                                                                        <i class="icon-plus2"></i> Ver Slip de Cotización
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$id_comp, 'id_header'=>encode($entities->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
+                                                                       id="issuance" class="open_modal">
+                                                                        <i class="icon-plus2"></i> Ver Certificado de Emision
+                                                                    </a>
+                                                                </li>
+                                                            @endif
                                                         </ul>
                                                 </td>
                                             </tr>
@@ -431,7 +435,7 @@
 
 
 <!-- modal -->
-@include('partials.modal')
+@include('partials.modal_content')
 <!-- /modal -->
 
 @endsection

@@ -154,34 +154,34 @@
                                     <ul class="dropdown-menu">
                                     @if($retailerProduct->companyProduct->product->name == 'Desgravamen')
                                             <li class="{{Request::is('report/general') ? 'active':''}}">
-                                                <a href="{{ route('report.report_general',[ 'id_comp' => encode($retailerProduct->companyProduct->id) ]) }}">
+                                                <a href="{{ route('report.report_general',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
                                                     General
                                                 </a>
                                             </li>
                                             <li class="{{Request::is('report/general_emitido') ? 'active':''}}">
-                                                <a href="{{ route('report.report_general_emitido',[ 'id_comp' => encode($retailerProduct->companyProduct->id) ]) }}" title="Polizas Emitidas">
+                                                <a href="{{ route('report.report_general_emitido',[ 'id_comp' => encode($retailerProduct->id) ]) }}" title="Polizas Emitidas">
                                                     Polizas Emitidas
                                                 </a>
                                             </li>
                                             <li class="{{Request::is('report/cotizacion') ? 'active':''}}">
-                                                <a href="{{ route('report.report_cotizacion',[ 'id_comp' => encode($retailerProduct->companyProduct->id) ]) }}">
+                                                <a href="{{ route('report.report_cotizacion',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
                                                     Solicitudes
                                                 </a>
                                             </li>
                                     @endif
                                     @if($retailerProduct->companyProduct->product->name == 'Automotores')
                                             <li class="{{Request::is('report/auto/cotizacion/valor') ? 'active':''}}">
-                                                <a href="{{ route('report.auto_report_cotizacion',[ 'id_comp' => encode($retailerProduct->companyProduct->id) ]) }}">
+                                                <a href="{{ route('report.auto_report_cotizacion',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
                                                     Solicitudes Automotores
                                                 </a>
                                             </li>
                                             <li class="{{Request::is('report/auto/general/valor') ? 'active':''}}">
-                                                <a href="{{ route('report.auto_report_general',[ 'id_comp' => encode($retailerProduct->companyProduct->id) ]) }}">
+                                                <a href="{{ route('report.auto_report_general',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
                                                     General Automotores
                                                 </a>
                                             </li>
                                             <li class="{{Request::is('report/auto/general_emitido/valor') ? 'active':''}}">
-                                                <a href="{{ route('report.auto_report_general_emitido',[ 'id_comp' => encode($retailerProduct->companyProduct->id) ]) }}">
+                                                <a href="{{ route('report.auto_report_general_emitido',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
                                                     Polizas Emitidas Automotores
                                                 </a>
                                             </li>

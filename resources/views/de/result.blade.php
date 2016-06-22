@@ -90,9 +90,8 @@
                                     </div>
                                     <h6 class="no-margin text-semibold">Tasa del prestamo:</h6>
                                     <p class="text-muted content-group-sm">{{ $header->total_rate }}%</p>
-                                    <a href="#"
-                                       onclick="cargaModal({{decode($header_id)}},'{{ Session::token() }}', 'slip', 'POST', 'cotizacion',{{$retailerProduct->companyProduct->product->id}})"
-                                       data-toggle="modal" data-target="#modal_general" class="btn btn-success">
+                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$rp_id, 'id_header'=>$header_id, 'text'=>'slip', 'type'=>'IMPR'])}}"
+                                       id="slip" class="btn btn-success open_modal">
                                         <i class="icon-file-check position-left"></i> Ver Cotización
                                     </a>
                                     <hr>
@@ -112,7 +111,7 @@
     </div>
 
     <!-- modal -->
-    @include('partials.modal')
+    @include('partials.modal_content')
             <!-- /modal -->
 
 @endsection

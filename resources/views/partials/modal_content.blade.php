@@ -20,6 +20,7 @@
     $(document).ready(function(){
         $('a[href].open_modal').click(function(e){
             e.preventDefault();
+
             var href = $(this).prop('href');
             var id = $(this).prop('id');
             if(id=='slip'){
@@ -29,12 +30,49 @@
             }else if(id=='print_all'){
                 $('.main-title').text('Ver Imprimir Todo');
             }
+            /*
             $.get(href, function(response){
                 console.log(response);
                 $('#prueba_modal .modal-body').html(response.payload);
                 $('#prueba_modal').modal();
                 //$("#cargaexterna").html(htmlexterno);
             });
+            */
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                url: href,
+                data: {personid: 873},
+                beforeSend: function() {
+                    easyLoading('body', 'dark', true);
+                },
+                success: function(response) {
+                    console.log(response);
+                    $('#prueba_modal .modal-body').html(response.payload);
+                    $('#prueba_modal').modal();
+                },
+                error: function( jqXHR, textStatus, errorThrown ) { // if error occured
+                    if (jqXHR.status === 0) {
+                        alert('Sin conexion: Verificar la red.');
+                    } else if (jqXHR.status == 404) {
+                        alert('Pagina solicitada no se encuentra [404]');
+                    } else if (jqXHR.status == 500) {
+                        alert('Error de servidor interno [500].');
+                    } else if (textStatus === 'parsererror') {
+                        alert('Requested JSON parse failed.');
+                    } else if (textStatus === 'timeout') {
+                        alert('Error de tiempo de espera.');
+                    } else if (textStatus === 'abort') {
+                        alert('Peticion Ajax abortado.');
+                    } else {
+                        alert('Error no capturado: ' + jqXHR.responseText);
+                    }
+                },
+                complete: function() {
+                    easyLoading('body', '', false);
+                }
+            });
+
             //alert(href);
             /*
              $.ajax({
@@ -51,4 +89,18 @@
              */
         });
     });
+
+    /*FUNCTION EASY LOADING*/
+    function easyLoading (element, theme, show) {
+        if (show) {
+            $(element).loading({
+                theme: theme,                  //light
+                message: 'Por favor espere...'
+            });
+        }
+
+        if (! show) {
+            $(element).loading('stop');
+        }
+    }
 </script>
