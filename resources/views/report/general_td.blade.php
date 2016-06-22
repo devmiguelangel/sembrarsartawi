@@ -391,30 +391,31 @@
                                                         </a>
                                                         <ul class="dropdown-menu dropdown-menu-right">
                                                             @if($flag==2)
-                                                                <li>
-                                                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$id_comp, 'id_header'=>encode($entities->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
-                                                                       id="issuance" class="open_modal">
-                                                                        <i class="icon-plus2"></i> Ver Certificado de Emision
-                                                                    </a>
-                                                                </li>
+                                                            <li>
+                                                                <a href="{{route('create_modal_slip', ['id_retailer_product'=>$id_comp, 'id_header'=>encode($entities->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
+                                                                   id="issuance" class="open_modal">
+                                                                    <i class="icon-plus2"></i> Ver Certificado de Emision
+                                                                </a>
+                                                            </li>
                                                             @else
-                                                                <li>
-                                                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$id_comp, 'id_header'=>encode($entities->id), 'text'=>'slip', 'type'=>'IMPR'])}}"
-                                                                       id="slip" class="open_modal">
-                                                                        <i class="icon-plus2"></i> Ver Slip de Cotización
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="{{route('create_modal_slip', ['id_retailer_product'=>$id_comp, 'id_header'=>encode($entities->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
-                                                                       id="issuance" class="open_modal">
-                                                                        <i class="icon-plus2"></i> Ver Certificado de Emision
-                                                                    </a>
-                                                                </li>
+                                                            <li>
+                                                                <a href="{{route('create_modal_slip', ['id_retailer_product'=>$id_comp, 'id_header'=>encode($entities->id), 'text'=>'slip', 'type'=>'IMPR'])}}"
+                                                                   id="slip" class="open_modal">
+                                                                    <i class="icon-plus2"></i> Ver Slip de Cotización
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{{route('create_modal_slip', ['id_retailer_product'=>$id_comp, 'id_header'=>encode($entities->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
+                                                                   id="issuance" class="open_modal">
+                                                                    <i class="icon-plus2"></i> Ver Certificado de Emision
+                                                                </a>
+                                                            </li>
                                                             @endif
                                                         </ul>
                                                     </li>
                                                 </ul>
                                         </td>
+                                       
                                     </tr>
                                         
                                         @var $num = $entities->nro_cotizacion
