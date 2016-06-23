@@ -762,11 +762,11 @@
 
                     </td>
                     <td style="width:40%; font-weight:bold; text-align:center; line-height: 0.9em;">
-                        <div style="font-size: 60%;">
+                        <div style="font-size: 53%;">
                             PÓLIZA DE SEGURO DE DESGRAVAMEN HIPOTECARIO<br>
                             CERTIFICADO DE COBERTURA INDIVIDUAL B1<br>
                         </div>
-                        <div style="font-size: 57%;">
+                        <div style="font-size: 50%;">
                             Código Asignado S.P.V.S.: 204-934904-2007 07 049-4004
                         </div>
                     </td>
@@ -775,53 +775,53 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="text-align: right; font-size: 57%;">
+                    <td colspan="3" style="text-align: right; font-size: 50%;">
                         Póliza Nº A1070587
                     </td>
                 </tr>
             </table>
 
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 57%; font-family: Arial;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto;  font-family: Arial;">
                 <tr>
                     <td style="width: 100%;">
-                        <table border="0" cellpadding="0" cellspacing="0" style="width:100%;">
+                        <table border="0" cellpadding="0" cellspacing="0" style="width:100%; font-size: 50%;">
                             <tr>
-                                <td style="width: 12%; text-align: left; font-size: 57%; font-weight: bold;">
+                                <td style="width: 12%; text-align: left; font-weight: bold;">
                                     CONTRATANTE:
                                 </td>
-                                <td style="width: 88%; border-bottom: 0px solid #080808; font-size: 57%; text-align: left;">
+                                <td style="width: 88%; border-bottom: 0px solid #080808; text-align: left;">
                                     BANCO DE DESARROLLO PRODUCTIVO S.A.M.
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width: 12%; text-align: left; font-size: 57%; font-weight: bold;">
+                                <td style="width: 12%; text-align: left; font-weight: bold;">
                                     ASEGURADO:
                                 </td>
-                                <td style="width: 88%; border-bottom: 0px solid #080808; font-size: 57%; text-align: left;">
+                                <td style="width: 88%; border-bottom: 0px solid #080808; text-align: left;">
 
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width: 12%; text-align: left; font-size: 57%; font-weight: bold;">
+                                <td style="width: 12%; text-align: left; font-weight: bold;">
                                     BENEFICIARIO:
                                 </td>
-                                <td style="width: 88%; border-bottom: 0px solid #080808; font-size: 57%; font-weight: bold; text-align: left;">
+                                <td style="width: 88%; border-bottom: 0px solid #080808; font-weight: bold; text-align: left;">
                                     BANCO DE DESARROLLO PRODUCTIVO S.A.M.
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width: 12%; text-align: left; font-size: 57%; font-weight: bold;">
+                                <td style="width: 12%; text-align: left; font-weight: bold;">
                                     INTERMEDIARIO:
                                 </td>
-                                <td style="width: 88%; border-bottom: 0px solid #080808; font-size: 57%; font-weight: bold; text-align: left;">
+                                <td style="width: 88%; border-bottom: 0px solid #080808; font-weight: bold; text-align: left;">
                                     Sudamericana SRL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TELEFONO: (591)-2-2433500&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fax: (591)-2-2128329
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width: 12%; text-align: left; font-size: 57%;">
+                                <td style="width: 12%; text-align: left;">
 
                                 </td>
-                                <td style="width: 88%; border-bottom: 0px solid #080808; font-size: 57%; font-weight: bold; text-align: left;">
+                                <td style="width: 88%; border-bottom: 0px solid #080808; font-weight: bold; text-align: left;">
                                     Direccion: Prolongación Cordero N&deg; 163 - San Jorge
                                 </td>
                             </tr>
@@ -830,37 +830,37 @@
                 </tr>
             </table>
 
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 57%; font-family: Arial;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-family: Arial;">
                 <tr>
-                    <td style="width: 100%; border-bottom: 1px solid #000000; border-top: 1px solid #000000;">
+                    <td style="width: 100%; border-bottom: 1px solid #000000; border-top: 1px solid #000000; font-size: 50%;">
                         LA BOLIVIANA CIACRUZ SEGUROS PERSONALES S.A. CERTIFICA QUE SE ENCUENTRA ASEGURADO(A) CON LAS SIGUIENTES COBERTURAS:
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 100%; border-bottom: 1px solid #000000;">
-                        <table border="0" cellpadding="0" cellspacing="0" style="width:100%;">
+                        <table border="0" cellpadding="0" cellspacing="0" style="width:100%; font-size: 50%;">
                             <tr>
-                                <td style="width: 45%; text-align: left; font-size: 57%; font-weight: bold;">COBERTURAS</td>
-                                <td style="width: 10%; font-size: 57%;"></td>
-                                <td style="width: 45%; text-align: left; font-size: 57%; font-weight: bold;">CAPITAL ASEGURADO</td>
+                                <td style="width: 45%; text-align: left; font-weight: bold;">COBERTURAS</td>
+                                <td style="width: 10%; "></td>
+                                <td style="width: 45%; text-align: left; font-weight: bold;">CAPITAL ASEGURADO</td>
                             </tr>
                             <tr>
-                                <td style="width: 45%; text-align: left; font-size: 57%;">-Muerte Natural y/o Accidental:</td>
-                                <td style="width: 10%; font-size: 57%;"></td>
-                                <td style="width: 45%; text-align: left; font-size: 57%;">Saldo deudor (De acuerdo a Condicionado Particular)</td>
+                                <td style="width: 45%; text-align: left; ">-Muerte Natural y/o Accidental:</td>
+                                <td style="width: 10%; "></td>
+                                <td style="width: 45%; text-align: left; ">Saldo deudor (De acuerdo a Condicionado Particular)</td>
                             </tr>
                             <tr>
-                                <td style="width: 45%; text-align: left; font-size: 57%; font-weight: bold;">COBERTURAS ADICIONALES</td>
-                                <td style="width: 10%; font-size: 57%;"></td>
-                                <td style="width: 45%; text-align: left; font-size: 57%;"></td>
+                                <td style="width: 45%; text-align: left; font-weight: bold;">COBERTURAS ADICIONALES</td>
+                                <td style="width: 10%; "></td>
+                                <td style="width: 45%; text-align: left; "></td>
                             </tr>
                             <tr>
-                                <td style="width: 45%; text-align: left; font-size: 57%;">
+                                <td style="width: 45%; text-align: left; ">
                                     -Pago anticipado por Invalidez Total y Permanente<br>
                                     -Sepelio
                                 </td>
-                                <td style="width: 10%; font-size: 57%;"></td>
-                                <td style="width: 45%; text-align: left; font-size: 57%;">
+                                <td style="width: 10%; "></td>
+                                <td style="width: 45%; text-align: left; ">
                                     De acuerdo a Condicionado Particular<br>
                                     De acuerdo a Condicionado Particular
                                 </td>
@@ -870,21 +870,23 @@
                 </tr>
             </table>
 
-            <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify; font-size: 40%;">
-                <span style="font-weight: bold;">COBERTURAS ADICIONALES</span><br>
-                <span style="font-weight: bold;">PAGO ANTICIPADO POR INVALIDEZ TOTAL Y PERMANENTE</span><br />
-                A los efectos de la presente cobertura se considera Invalidez Total y Permanente el hecho de que el Asegurado, antes de llegar
-                a los 65 años de edad, quede incapacitado en por lo menos un 65%, a causa de un estado crónico, debidoa enfermedad, o lesión o
-                la pérdida de miembros o funciones, que impida ejecutar cualquier trabajo y siempre que el carácter de tal incapacidad sea
-                reconocido.<br>
-                Una vez recibidos los documentos probatorios de la invalidez total y permanente del Asegurado , la Compañía, en caso de
-                conformidad, pagará el Capital Asegurado correspondiente al Beneficiario.<br>
-                <span style="font-weight: bold;">EXCLUSIONES</span><br>
-                <span style="font-weight: bold;">MUERTE NATURAL Y/O ACCIDENTAL</span>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+            <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify;">
+                <div style="font-size: 38%;">
+                    <span style="font-weight: bold;">COBERTURAS ADICIONALES</span><br>
+                    <span style="font-weight: bold;">PAGO ANTICIPADO POR INVALIDEZ TOTAL Y PERMANENTE</span><br />
+                    A los efectos de la presente cobertura se considera Invalidez Total y Permanente el hecho de que el Asegurado, antes de llegar
+                    a los 65 años de edad, quede incapacitado en por lo menos un 65%, a causa de un estado crónico, debidoa enfermedad, o lesión o
+                    la pérdida de miembros o funciones, que impida ejecutar cualquier trabajo y siempre que el carácter de tal incapacidad sea
+                    reconocido.<br>
+                    Una vez recibidos los documentos probatorios de la invalidez total y permanente del Asegurado , la Compañía, en caso de
+                    conformidad, pagará el Capital Asegurado correspondiente al Beneficiario.<br>
+                    <span style="font-weight: bold;">EXCLUSIONES</span><br>
+                    <span style="font-weight: bold;">MUERTE NATURAL Y/O ACCIDENTAL</span>
+                </div>
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">a)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">a)</td>
+                        <td style="width: 98%; text-align: justify;">
                             Suicidio, intento de suicidio, mutilaciones o lesiones inferidas al Asegurado por si mismo  o por
                             terceros con su consentimiento, cualquiera sea la época en que ocurra. No obstante, la Compañía pagará
                             el Capital Asegurado a los Beneficiarios, si el fallecimiento ocurriera por cualesquiera de las causas
@@ -895,21 +897,21 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">b)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center;" valign="top">b)</td>
+                        <td style="width: 98%; text-align: justify;">
                             Pena de muerte o participación, directa o indirecta, en calidad de autor o cómplice en cualquier acto delictivo.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">c)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center;" valign="top">c)</td>
+                        <td style="width: 98%; text-align: justify;">
                             Guerra, guerra civil, invasión o acción de un enemigo extranjero, hostilidades u operaciones bélicas, ya sea bajo
                             declaración de guerra o no.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">d)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center;" valign="top">d)</td>
+                        <td style="width: 98%; text-align: justify;">
                             Confiscación, nacionalización, requisición hecha u ordenada por cualquier gobierno o autoridad pública, nacional
                             o local, ley marcial o estado de sitio, rebelión, revolución, insurrección, sedición, insubordinación, poder militar
                             o usurpado, huelgas, motines, asonada, conmoción civil o popular de cualquier clase, daño malicioso, vandalismo,
@@ -917,34 +919,34 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">e)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">e)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Fisión o fusión nuclear o contaminación radioactiva.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">f)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">f)</td>
+                        <td style="width: 98%; text-align: justify;">
                             Enfermedades, lesiones, o dolencias preexistentes, entendiéndose por tales cualquier lesión, enfermedad, o
                             dolencia que afecte al asegurado, que haya sido conocida por él y que haya sido diagnosticada con anterioridad a
                             la fecha de incorporación del Asegurado a la póliza.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">g)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">g)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Consecuencias y complicaciones directas e indirectas del VIH/SIDA.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">h)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">h)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Consecuencias y complicaciones directas e indirectas de Gripe Aviar.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">i)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">i)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Viajar como piloto, copiloto, asistente de vuelo o como pasajero en transporte aéreo privado y
                             helicópteros, no autorizados para operar como línea aérea comercial sujeta a itinerario fijo,
                             salvo que solicite cobertura especifica en cada caso, y la Compañía acepte, mediante anexo expreso,
@@ -952,43 +954,43 @@
                         </td>
                     </tr>
                 </table>
-                <span style="font-weight: bold;">PAGO ANTICIPADO POR INVALIDEZ TOTAL Y PERMANENTE</span>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                <span style="font-weight: bold; font-size: 38%;">PAGO ANTICIPADO POR INVALIDEZ TOTAL Y PERMANENTE</span>
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">a)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">a)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Intento de suicidio, mutilaciones o lesiones inferidas al Asegurado por sí mismo o por terceros con su consentimiento, cualquiera sea la época que ocurra.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">b)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">b)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Participación, directa o indirecta, en calidad de autor o cómplice en cualquier acto delictivo.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">c)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">c)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Guerra, invasión, actos de enemigos extranjeros, hostilidades u operaciones bélicas, sea que haya habido o no
                             declaración de guerra, servicio militar, revolución, insurrección, sublevación, rebelión, sedición, motín; o
                             hechos que las leyes califican como delitos contra la seguridad del estado.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">d)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">d)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Fisión o fusión nuclear o contaminación radiactiva.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">e)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">e)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Catástrofes naturales.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">f)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">f)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Viajar como piloto, copiloto, asistente de vuelo o como pasajero en transporte aéreo privado y
                             helicópteros no autorizados para operar como línea aéreacomercial sujeta a itinerario fijo, salvo
                             que previamente se solicite cobertura específica para cada caso, sujeta a extra prima y que la
@@ -996,8 +998,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">g)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">g)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             La participación del asegurado como conductor o acompañante, profesionalmente o como aficionado,
                             en competencias o ensayos de velocidad o resistencia, en cualquier clase de vehículo terrestre,
                             acuático, o aéreo, a motor o no, salvo que la cobertura específica haya sido solicitada y expresamente
@@ -1005,36 +1007,36 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">h)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">h)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Enfermedades, lesiones, o dolenciaspreexistentes, entendiéndose por tales cualquier lesión,
                             enfermedad o dolencia que afecte al asegurado, que haya sido conocida por él y que haya sido
                             diagnosticada con anterioridad a la fecha de incorporación del Asegurado a la póliza.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">i)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">i)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Consecuencias y complicaciones directas e indirectas del VIH/SIDA.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">j)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">j)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Consecuencias y complicaciones directas e indirectas de Gripe Aviar.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">k)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">k)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Que el Asegurado se encuentre en estado de ebriedad o bajo los efectos o alucinógenos y haya
                             sido el causante del siniestro. Estos estados deberán ser calificados por la autoridad competente
                             o informe del médico que lo hubiese atendido.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">l)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">l)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             La participación del Asegurado en actos temerarios, profesionalmente o como aficionado, en deportes
                             riesgosos: Cuando practique como aficionado: béisbol; esquí; inmersiones acuáticas y/o buceo a más
                             de tres metros de profundidad; piloto; rodeo; rugby; alas delta; andinismo, alpinismo o montañismo,
@@ -1044,53 +1046,53 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">m)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">m)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Todo tipo de deporte practicado en competencias oficiales, llamadas o convocadas por una Asociación
                             Deportiva Legalmente reconocida, ya sea profesionalmente o no, salvo las competencias intercolegiales
                             o inter universitarias.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">n)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">n)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             La participación del Asegurado en actos temerarios o en cualquier maniobra, experimento, exhibición,
                             desafío o actividad notoriamente peligrosa, entendiendo por tales aquellas donde se pone en grave
                             peligro la vida e integridad física de las personas.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">o)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">o)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             La práctica o el desempeño de alguna actividad, profesión u oficio claramente riesgoso, que no haya
                             sido declarado por el Asegurado al momento de contratar el seguro durante su vigencia y que  no haya
                             sido aceptado por la Compañía mediante anexo expreso, sujeto a extra prima.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">p)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">p)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Falsas declaraciones, omisión o reticencia del Asegurado que puedan influir en la comprobación de su estado de invalidez.
                         </td>
                     </tr>
                 </table>
-                <span style="font-weight: bold;">SEPELIO</span>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                <span style="font-weight: bold; font-size: 38%;">SEPELIO</span>
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">a)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">a)</td>
+                        <td style="width: 98%; text-align: justify;">
                             Pena de muerte o participación, directa o indirecta, en calidad de autor o cómplice en cualquier acto delictivo.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">b)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">b)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Guerra, guerra civil, invasión o acción de un enemigo extranjero, hostilidades u operaciones bélicas, ya sea bajo declaración de guerra o no.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">c)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">c)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Confiscación, nacionalización, requisición hecha u ordenada por cualquier gobierno o autoridad pública, nacional
                             o local, ley marcial o estado de sitio, rebelión, revolución, insurrección, sedición, insubordinación,
                             poder militar o usurpado, huelgas, motines, asonada, conmoción civil o popular de cualquier clase, daño malicioso,
@@ -1098,41 +1100,41 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">d)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">d)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Enfermedades, lesiones, o dolencias preexistentes, entendiéndose por tales cualquier lesión, enfermedad o
                             dolencia que afecte al asegurado, que haya sido conocida por él y que haya sido diagnosticada con anterioridad a
                             la fecha de incorporación del Asegurado a la póliza.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">e)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">e)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Enfermedades, lesiones, o dolencias preexistentes, entendiéndose por tales cualquier lesión, enfermedad o dolencia
                             que afecte al asegurado, que haya sido conocida por él y que haya sido diagnosticada con anterioridad a la fecha de
                             incorporación del Asegurado a la póliza.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">f)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">f)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Consecuencias y complicaciones directas e indirectas del VIH/SIDA.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">g)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">g)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Consecuencias y complicaciones directas e indirectas de Gripe Aviar.
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="text-align: justify; font-size: 40%;">
+                        <td colspan="2" style="text-align: justify;">
                             En todos estos casos, si ocurriese la muerte del Asegurado como consecuencia de una causa excluida, no corresponderá
                             la devolución de prima alguna.
                         </td>
                     </tr>
                 </table>
-                <span style="font-weight: bold;">PROCEDIMIENTO EN CASO DE SINIESTRO</span><br>
+                <div style="font-size: 38%;"><b>PROCEDIMIENTO EN CASO DE SINIESTRO</b><br>
                 El Beneficiario a Título Oneroso, tan pronto y a más tardar dentro de los sesenta (60) días calendario de tener conocimiento
                 del siniestro de alguno de los Asegurados, deberá comunicar tal hecho a la Compañía, salvo fuerza mayor o impedimento
                 justificado. En caso de muerte presunta, ésta deberá acreditarse de acuerdo a ley. Una vez recibidos los documentos probatorios
@@ -1141,51 +1143,52 @@
                 Y quedará sujeta a los términos y condiciones establecidos en los artículos 1031, 1033 y 1034 del Código de Comercio.<br>
                 El Beneficiario deberá presentar a la Compañía la siguiente documentación, que podrá ser modificada en acuerdo de partes al
                 momento de celebrarse el contrato del Seguro, debiéndose detallar de manera expresa en la Condiciones Particulares:
-                <span style="font-weight: bold;">MUERTE POR CUALQUIER CAUSA</span><br>
-                <span style="font-weight: bold;">Para siniestros hasta Bs. 70.000 (Free Cover)</span>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                <b>MUERTE POR CUALQUIER CAUSA</b><br>
+                <b>Para siniestros hasta Bs. 70.000 (Free Cover)</b>
+                </div>
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">a)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">a)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Fotocopia de Certificado de Nacimiento o Fotocopia del Carnet de Identidad del Asegurado.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">b)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">b)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Liquidación de cartera con el monto indeminizable.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">c)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">c)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Certificado de Defunción Original.
                         </td>
                     </tr>
                 </table>
-                <span style="font-weight: bold;">Para siniestros mayores a Bs. 70.000</span>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                <span style="font-weight: bold; font-size: 38%;">Para siniestros mayores a Bs. 70.000</span>
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">a)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">a)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Fotocopia de Certificado de Nacimiento o Fotocopia del Carnet de Identidad del Asegurado.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">b)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">b)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Liquidación de cartera con el monto indeminizable.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">c)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">c)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Certificado de Defunción Original.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">d)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">d)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Certificado Médico Único de Defunción en original o fotocopia legalizada (para las poblaciones donde existan
                             centros médicos o postas con presencia de médico.) o informe del oficial de crédito dando fe de suceso y
                             descripción breve de lo acontecido (causa de muerte), con el respectivo visto bueno de su inmediato superior y
@@ -1194,67 +1197,67 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">e)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">e)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Historia clínica, si corresponde (para las poblaciones donde existan centros médicos o postas con presencia de médico)
                             o informe médico de un centro médico de la población más cercana (para las poblaciones que no se encuentren en el
                             área urbana y no existan centros médicos o postas sanitarias con presencia de médico).
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">f)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">f)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Fotocopia legalizada del informe de la autoridad competente, en caso de muerte accidental.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">g)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">g)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Además de alguna otra información complementaria que la compañía requiera en caso de ser necesario, en caso de
                             alguna observación legal.
                         </td>
                     </tr>
                 </table>
-                <span style="font-weight: bold;">PAGO ANTICIPADO POR INVALIDEZ Y PERMANENTE</span>
-                <span style="font-weight: bold;">Para siniestros hasta Bs. 70.000(Free Cover)</span>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                <span style="font-weight: bold; font-size: 38%;">PAGO ANTICIPADO POR INVALIDEZ Y PERMANENTE</span>
+                <span style="font-weight: bold; font-size: 38%;">Para siniestros hasta Bs. 70.000(Free Cover)</span>
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">a)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">a)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Fotocopia de Certificado de Nacimiento o Fotocopia del Carnet de Identidad del Asegurado.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">b)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">b)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Liquidación de cartera con el monto indeminizable.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">c)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">c)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Calificación del Grado de Invalidez en base a las normas vigentes por la institución o médico
                             debidamente autorizado por la Autoridad Competente (APS).
                         </td>
                     </tr>
                 </table>
-                <span style="font-weight: bold;">Para siniestros mayores a Bs. 70.000</span>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                <span style="font-weight: bold; font-size: 38%;">Para siniestros mayores a Bs. 70.000</span>
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">a)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">a)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Fotocopia de Certificado de Nacimiento o Fotocopia del Carnet de Identidad del Asegurado.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">b)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">b)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Liquidación de cartera con el monto indeminizable.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">c)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">c)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Historia clínica, si corresponde (para las poblaciones donde existan centros médicos o
                             postas con presencia de médico) o informe médico de un centro médico de la población más
                             cercana (para las poblaciones que no se encuentren en el área urbana y no existan centros
@@ -1262,39 +1265,39 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">d)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">d)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Calificación del Grado de Invalidez en base a las normas vigentes por la institución o médico
                             debidamente autorizado por la Autoridad Competente (APS).
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">e)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">e)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Además de alguna otra información complementaria que la compañía requiera en caso de ser necesario,
                             en caso de alguna observación legal.
                         </td>
                     </tr>
                 </table>
-                <span style="font-weight: bold;">SEPELIO</span>
-                <span style="font-weight: bold;">(Beneficiarios)</span>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                <span style="font-weight: bold; font-size: 38%;">SEPELIO</span>
+                <span style="font-weight: bold; font-size: 38%;">(Beneficiarios)</span>
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">a)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">a)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Fotocopia del Carnet de Identidad del Beneficiario.
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 2%; text-align: center; font-size: 40%;" valign="top">b)</td>
-                        <td style="width: 98%; text-align: justify; font-size: 40%;">
+                        <td style="width: 2%; text-align: center; " valign="top">b)</td>
+                        <td style="width: 98%; text-align: justify; ">
                             Declaratoria de Beneficiarios o Declaratoria de Herederos Legales, en caso de no existir la nominación de los mismos.
                         </td>
                     </tr>
                 </table>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
-                        <td style="width: 100%; font-size: 40%;">
+                        <td style="width: 100%;">
                             La Compañía se reserva el derecho de exigir a las autoridades competentes y a su costa, la autopsia o la exhumación
                             del cadáver para establecer las causas de la muerte. El Beneficiario y/o los sucesores deben prestar su colaboración
                             y concurso para la obtención de las correspondientes autorizaciones oficiales. Si el Beneficiario y/o los sucesores
@@ -1303,7 +1306,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 100%; font-size: 40%;">
+                        <td style="width: 100%;">
                             <b>CONDICIÓN DE ADHESIÓN:</b> El Asegurado se adhiere voluntariamente al seguro de Desgravamen Hipotecario y declara conocer
                             y aceptar todas las condiciones de la presente póliza.<br>
                             TODOS LOS BENEFICIOS A LOS CUALES EL ASEGURADO TIENE DERECHO SE SUJETAN A LO ESTIPULADO EN LAS CONDICIONES GENERALES,
