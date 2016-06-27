@@ -550,10 +550,8 @@
                             </table>
                             <label style="font-size: 45%;"><b>SECCIÓN  III: TODO RIESGO Y/O DAÑO FISICO POR ROTURA DE MAQUINARIA</b><br>
                             Todo riesgo y/o daño físico por rotura de maquinaria, daños emergentes a la energía
-                            eléctrica, daños
-                            físicos a la maquinaria, sus instalaciones y equipos auxiliares de protección, control y
-                            suministro de
-                            servicios (aire, agua, vapor, energía eléctrica, gas natural), incluyendo:
+                            eléctrica, daños físicos a la maquinaria, sus instalaciones y equipos auxiliares de protección, control y
+                            suministro de servicios (aire, agua, vapor, energía eléctrica, gas natural), incluyendo:
                             </label>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 45%;">
                                 <tr>
@@ -648,9 +646,8 @@
                             </table>
                             <div style="font-size: 45%;"><b>SECCIÓN IV:TODO RIESGO DE EQUIPO MOVIL</b><br>
                             Todo riesgo de equipo móvil incluyendo componentes electrónicos, rayo y explosión,
-                            terrorismo, huelgas,
-                            motines, conmoción civil, daño malicioso, vandalismo, sabotaje, saqueo y/o tumultos
-                            populares, y:
+                            terrorismo, huelgas, motines, conmoción civil, daño malicioso, vandalismo, sabotaje,
+                            saqueo y/o tumultos populares, y:
                             </div>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 45%;">
                                 <tr>
@@ -669,9 +666,9 @@
                                 </tr>
                                 <tr>
                                     <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Robo con violencia y/o asalto, así como también los daños
-                                        causados por dicho
-                                        delito o su intento (excluye hurto y/o ratería)
+                                    <td style="width:98%;">
+                                        Robo con violencia y/o asalto, así como también los daños
+                                        causados por dicho delito o su intento (excluye hurto y/o ratería)
                                     </td>
                                 </tr>
                                 <tr>
@@ -696,18 +693,18 @@
                                 </tr>
                                 <tr>
                                     <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Accidentes que ocurran pese a un manejo correcto, así como
-                                        los que
-                                        sobrevengan por descuido, impericia o negligencia del conductor (salvo actos
-                                        intencionales o
-                                        negligencia manifiesta del asegurado o sus representantes).
+                                    <td style="width:98%;">
+                                        Accidentes que ocurran pese a un manejo correcto, así como
+                                        los que sobrevengan por descuido, impericia o negligencia del conductor
+                                        (salvo actos intencionales o negligencia manifiesta del asegurado o sus
+                                        representantes).
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Pérdidas o daños causados por inundación, ciclón, huracán
-                                        tempestad, vientos,
-                                        terremoto, temblor, erupción volcánica
+                                    <td style="width:98%;">
+                                        Pérdidas o daños causados por inundación, ciclón, huracán
+                                        tempestad, vientos, terremoto, temblor, erupción volcánica
                                     </td>
                                 </tr>
                             </table>
@@ -716,23 +713,24 @@
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 45%;">
                                 <tr>
                                     <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Riesgos políticos y terrorismo: 1% del valor asegurado por
-                                        ubicación, con un
-                                        mínimo de USD. 100.-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Terremoto, temblor y movimientos sísmicos: 1% del valor
-                                        asegurado por
+                                    <td style="width:98%;">
+                                        Riesgos políticos y terrorismo: 1% del valor asegurado por
                                         ubicación, con un mínimo de USD. 100.-
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Para robo con violencia al contenido: USD 100.- (aplicable
-                                        únicamente a
-                                        riesgos domiciliarios); para otros riesgos: USD 250 por toda y cada pérdida
+                                    <td style="width:98%;">
+                                        Terremoto, temblor y movimientos sísmicos: 1% del valor
+                                        asegurado por ubicación, con un mínimo de USD. 100.-
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:2%;" valign="top">-</td>
+                                    <td style="width:98%;">
+                                        Para robo con violencia al contenido: USD 100.- (aplicable
+                                        únicamente a riesgos domiciliarios); para otros riesgos: USD 250 por
+                                        toda y cada pérdida
                                     </td>
                                 </tr>
                                 <tr>
@@ -741,9 +739,10 @@
                                 </tr>
                                 <tr>
                                     <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Para las coberturas de asentamiento, hundimiento,
-                                        deslizamiento, corrimiento de tierras, 5% del valor del reclamo con un mínimo de
-                                        USD. 500.- por toda y cada pérdida
+                                    <td style="width:98%;">
+                                        Para las coberturas de asentamiento, hundimiento, deslizamiento, corrimiento
+                                        de tierras, 5% del valor del reclamo con un mínimo de USD. 500.- por toda y
+                                        cada pérdida
                                     </td>
                                 </tr>
                             </table>
@@ -781,9 +780,9 @@
                                 </tr>
                                 <tr>
                                     <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Demás amparados: 1% del valor del reclamo con un mínimo de
-                                        USD. 200.- por
-                                        evento y/o reclamo
+                                    <td style="width:98%;">
+                                        Demás amparados: 1% del valor del reclamo con un mínimo de
+                                        USD. 200.- por evento y/o reclamo
                                     </td>
                                 </tr>
                             </table>
@@ -791,23 +790,23 @@
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 45%;">
                                 <tr>
                                     <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Para la cobertura de vidrios USD. 20.- por evento y/o reclamo
-                                        demás
-                                        coberturas:
+                                    <td style="width:98%;">
+                                        Para la cobertura de vidrios USD. 20.- por evento y/o reclamo
+                                        demás coberturas:
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Para equipos con valores asegurados hasta USD. 50.000, 2% del
-                                        valor del
-                                        siniestro.
+                                    <td style="width:98%;">
+                                        Para equipos con valores asegurados hasta USD. 50.000, 2% del
+                                        valor del siniestro.
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="width:2%;" valign="top">-</td>
-                                    <td style="width:98%;">Para equipos con valores asegurados hasta USD. 250.000, 1.5%
-                                        del valor del
-                                        siniestro.
+                                    <td style="width:98%;">
+                                        Para equipos con valores asegurados hasta USD. 250.000, 1.5%
+                                        del valor del siniestro.
                                     </td>
                                 </tr>
                                 <tr>
