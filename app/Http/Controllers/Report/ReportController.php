@@ -120,11 +120,11 @@ class ReportController extends Controller {
      * @return type
      */
     public function result($request, $flag, $rp_state = array()) {
-        
+        /**
         $opClients = DB::table('op_clients')
                 ->join('op_de_details', 'op_clients.id', '=', 'op_de_details.op_client_id')
                 ->select('op_de_details.op_de_header_id');
-
+        /**/
         $query = DB::table('op_de_headers')
                 ->join('ad_users', 'op_de_headers.ad_user_id', '=', 'ad_users.id')
                 ->join('ad_agencies', 'ad_users.ad_agency_id', '=', 'ad_agencies.id')
@@ -297,20 +297,20 @@ class ReportController extends Controller {
 
             # extencion cliente
             if ($request->get('extension'))
-                $opClients->where('op_clients.extension', $request->get('extension'));
+                $query->where('op_clients.extension', $request->get('extension'));
             # ci cliente
             if ($request->get('ci'))
-                $opClients->where('op_clients.dni', $request->get('ci'));
+                $query->where('op_clients.dni', $request->get('ci'));
 
             # nombre cliente
             if ($request->get('cliente'))
-                $opClients->where('op_clients.first_name', 'LIKE', '%' . $request->get('cliente') . '%');
+                $query->where('op_clients.first_name', 'LIKE', '%' . $request->get('cliente') . '%');
 
 
             if ($request->get('extension') || $request->get('ci') || $request->get('cliente'))
                 $flagClient = 1;
 
-            $details = $opClients->get();
+            //edw-->$details = $opClients->get();
 
             $result = $query->get();
         }else {
@@ -318,7 +318,7 @@ class ReportController extends Controller {
         }
 
         # validacion filtra poliza enbase al cliente
-        if (count($details) > 0 || $flagClient == 1) {
+        /**if (count($details) > 0 || $flagClient == 1) {
             $idHeaders = $this->returnIdHeades($details);
             $var = array();
             foreach ($result as $key => $value) {
@@ -327,6 +327,7 @@ class ReportController extends Controller {
             }
             $result = $var;
         }
+        /**/
         
         $result = $this->observations($request, $result);
         
@@ -543,11 +544,11 @@ class ReportController extends Controller {
         $extencion = $this->extencion;
         
         $valueForm = $this->addValueForm($request);
-        
+        /**
         $opClients = DB::table('op_clients')
                 ->join('op_de_details', 'op_clients.id', '=', 'op_de_details.op_client_id')
                 ->select('op_de_details.op_de_header_id');
-
+        /**/
         $query = DB::table('op_de_headers')
                 ->join('op_de_details', 'op_de_headers.id', '=', 'op_de_details.op_de_header_id')
                 ->join('op_clients', 'op_clients.id', '=', 'op_de_details.op_client_id')
@@ -609,20 +610,20 @@ class ReportController extends Controller {
 
             # extencion cliente
             if ($request->get('extension'))
-                $opClients->where('op_clients.extension', $request->get('extension'));
+                $query->where('op_clients.extension', $request->get('extension'));
             # ci cliente
             if ($request->get('ci'))
-                $opClients->where('op_clients.dni', $request->get('ci'));
+                $query->where('op_clients.dni', $request->get('ci'));
 
             # nombre cliente
             if ($request->get('cliente'))
-                $opClients->where('op_clients.first_name', 'LIKE', '%' . $request->get('cliente') . '%');
+                $query->where('op_clients.first_name', 'LIKE', '%' . $request->get('cliente') . '%');
 
 
             if ($request->get('extension') || $request->get('ci') || $request->get('cliente'))
                 $flagClient = 1;
 
-            $details = $opClients->get();
+            //edw-->$details = $opClients->get();
 
             $result = $query->get();
         }else {
@@ -630,7 +631,7 @@ class ReportController extends Controller {
         }
 
         # validacion filtra poliza enbase al cliente
-        if (count($details) > 0 || $flagClient == 1) {
+    /**    if (count($details) > 0 || $flagClient == 1) {
             $idHeaders = $this->returnIdHeades($details);
             $var = array();
             foreach ($result as $key => $value) {
@@ -639,7 +640,7 @@ class ReportController extends Controller {
             }
             $result = $var;
         }
-
+/**/
         # validacion exporta xls
         if ($request->get('xls_download')){
             $resArr = [];

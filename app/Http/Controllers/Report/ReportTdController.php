@@ -240,34 +240,37 @@ use ReportTrait;
         if ($request->get('_token')) {
             
             $arr = $this->role($request, $rp_state);
-
+            
             foreach ($arr as $key => $value) {
 
                 if ($key == 'and') {
-                    $this->value = $value;
-                    $query->where(function($q) {
-                        foreach ($this->value as $key2 => $value2) {
-                            if (is_array($value2)) {
-                                $q->whereRaw($key2 . ' ' . $value2[0] . '"' . $value2[1] . '"');
-                            } else {
-                                $q->whereRaw($key2 . ' = "' . $value2 . '"');
-                            }
-                        }
-                        $q->whereRaw('`op_td_headers`.`type`="I"');
-                    });
-                } elseif ($key == 'or') {
-                    foreach ($value as $key => $value) {
-                        $this->valueOr = $value;
-                        $query->orWhere(function($q) {
-                            foreach ($this->valueOr as $key2 => $value2) {
-                                if (is_array($value2)) {
-                                    $q->whereRaw($key2 . ' ' . $value2[0] . '"' . $value2[1] . '"');
+                    foreach ($value as $key2 => $value2) {
+                        $this->value = $value2;
+                        $query->where(function($q) {
+                            foreach ($this->value as $key3 => $value3) {
+                                if (is_array($value3)) {
+                                    $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
                                 } else {
-                                    $q->whereRaw($key2 . ' = "' . $value2 . '"');
+                                    $q->whereRaw($key3 . ' = "' . $value3 . '"');
                                 }
                             }
                             $q->whereRaw('`op_td_headers`.`type`="I"');
                         });
+                    }
+                    
+                } elseif ($key == 'or') {
+                    foreach ($value as $key2 => $value2) {
+                            $this->valueOr = $value2;
+                            $query->orWhere(function($q) {
+                                foreach ($this->valueOr as $key3 => $value3) {
+                                    if (is_array($value3)) {
+                                        $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
+                                    } else {
+                                        $q->whereRaw($key3 . ' = "' . $value3 . '"');
+                                    }
+                                }
+                                $q->whereRaw('`op_td_headers`.`type`="I"');
+                            });
                     }
                 }
             }
@@ -390,6 +393,7 @@ use ReportTrait;
      */
     public function role($request, $rp_state = array()) {
         $consult = [];
+        /**
         if ($request->get('freecover'))
             $consult[] = array('`op_td_headers`.`issued`' => 1, '`op_td_headers`.`facultative`' => 0);
 
@@ -412,7 +416,7 @@ use ReportTrait;
         # no extraprima
         if ($request->get('no_extraprima'))
             $consult[] = array('`op_td_facultatives`.`state`' => 'PR', '`op_td_headers`.`facultative`' => 1, '`op_td_facultatives`.`surcharge`' => 0);
-
+        
         # rechazados
         if ($request->get('rechazado'))
             $consult[] = array('`op_td_facultatives`.`approved`' => 0, '`op_td_facultatives`.`state`' => 'PR');
@@ -420,7 +424,8 @@ use ReportTrait;
         # polizas anuladas
         if ($request->get('anulado'))
             $consult[] = array('`op_td_headers`.`issued`' => 1, '`op_td_headers`.`canceled`' => 1);
-
+            /**/
+        
         # pendiente
         if ($request->get('pendiente'))
             $consult[] = array(
@@ -456,12 +461,40 @@ use ReportTrait;
                     WHERE odo.op_td_facultative_id = op_td_facultatives.id)' => [ '>', 0],
             );
         
-        # estados facultativo
-        if(count($rp_state) > 0) {
-            
+        $arr = [];
+        foreach ($consult as $key => $value) {
+            if ($key == 0) {
+                $arr['and'][] = $value;
+            } else {
+                $arr['or'][] = $value;
+            }
+        }
+        $arr = $this->roleEstado($arr, $rp_state, $request);
+        $arr = $this->roleAprobado($arr, $request);
+        
+        return $arr;
+    }
+    
+    public function roleEstado($arr, $rp_state, $request) {
+        
+        if ($request->get('pendiente') || $request->get('subsanado') || $request->get('observado')) {
+            # validacion con and
             foreach ($rp_state as $key => $value) {
                 if ($request->get($value->states->slug))
-                    $consult[] = array(
+                    $arr['and'][] = array(
+                        '`op_td_headers`.`issued`' => 0,
+                        '`op_td_headers`.`facultative` =1 and `op_td_facultatives`.`state`="PE" and (SELECT MAX(odo.id)
+                    FROM op_td_observations as odo
+                    inner join op_td_facultatives as fcv on (fcv.id=odo.op_td_facultative_id)
+                    inner join ad_states as stat on (odo.ad_state_id = stat.id)
+                    WHERE stat.slug = "' . $value->states->slug . '" and fcv.id = op_td_facultatives.id)' => [ '>', 0],
+                    );
+            }
+        } else {
+            #validacion con or
+            foreach ($rp_state as $key => $value) {
+                if ($request->get($value->states->slug))
+                    $arr['or'][] = array(
                         '`op_td_headers`.`issued`' => 0,
                         '`op_td_headers`.`facultative` =1 and `op_td_facultatives`.`state`="PE" and (SELECT MAX(odo.id)
                     FROM op_td_observations as odo
@@ -471,15 +504,61 @@ use ReportTrait;
                     );
             }
         }
+        return $arr = $arr;
+    }
+    public function roleAprobado($arr, $request){
+        
+        if($request->get('freecover') && $request->get('no_freecover'))
+            $fre = 'or';
+        else
+            $fre = 'and';
 
-        $arr = [];
-        foreach ($consult as $key => $value) {
-            if ($key == 0) {
-                $arr['and'] = $value;
-            } else {
-                $arr['or'][] = $value;
-            }
-        }
+        if ($request->get('freecover'))
+            $arr[$fre][] = array('`op_td_headers`.`issued`' => 1, '`op_td_headers`.`facultative`' => 0);
+
+        # no freecover
+        if ($request->get('no_freecover'))
+            $arr[$fre][] = array('`op_td_headers`.`facultative`' => 1, '`op_td_facultatives`.`state`' => 'PR', '`op_td_facultatives`.`approved`' => 1);
+
+        if($request->get('emitido') && $request->get('no_emitido'))
+            $emi = 'or';
+        else
+            $emi = 'and';
+        
+        # emitido
+        if ($request->get('emitido'))
+            $arr[$emi][] = array('`op_td_headers`.`issued`' => 1);
+
+        # no emitido
+        if ($request->get('no_emitido'))
+            $arr[$emi][] = array('`op_td_headers`.`issued`' => 0);
+        
+        if($request->get('extraprima') && $request->get('no_extraprima'))
+            $ext = 'or';
+        else
+            $ext = 'and';
+        
+        # extraprima
+        if ($request->get('extraprima'))
+            $arr[$ext][] = array('`op_td_facultatives`.`state`' => 'PR', '`op_td_headers`.`facultative`' => 1, '`op_td_facultatives`.`surcharge`' => 1);
+
+        # no extraprima
+        if ($request->get('no_extraprima'))
+            $arr[$ext][] = array('`op_td_facultatives`.`state`' => 'PR', '`op_td_headers`.`facultative`' => 1, '`op_td_facultatives`.`surcharge`' => 0);
+        
+        if($request->get('rechazado') && $request->get('anulado'))
+            $rec = 'or';
+        else
+            $rec = 'and';
+        
+        # rechazados
+        if ($request->get('rechazado'))
+            $arr[$rec][] = array('`op_td_facultatives`.`approved`' => 0, '`op_td_facultatives`.`state`' => 'PR');
+
+        # polizas anuladas
+        if ($request->get('anulado'))
+            $arr[$rec][] = array('`op_td_headers`.`issued`' => 1, '`op_td_headers`.`canceled`' => 1);
+        
         return $arr;
     }
 
