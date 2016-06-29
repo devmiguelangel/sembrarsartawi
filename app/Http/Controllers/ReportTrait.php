@@ -187,6 +187,12 @@ trait ReportTrait
             $item->id = $item->slug;
 
             if ($permission === 'RU' || $permission === 'RA') {
+                # validacion usuario tipo Compañia/Facultativo
+                foreach ($this->user->profile as $key => $value) {
+                    if($value->slug === 'COP')
+                        return true;
+                }
+                
                 if ($item->slug === $this->user->agency->slug) {
                     return true;
                 }
