@@ -119,6 +119,7 @@
                             </table>
                         </div>
                     </div>
+                    <small>Puede registrar hasta {{ $prodParam->detail }} <strong>Intereses Asegurados</strong> como m&aacute;ximo.</small>
                 </div>
                 <div class="clearfix"></div>
                 <div class="text-right">

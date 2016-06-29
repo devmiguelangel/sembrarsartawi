@@ -44,7 +44,6 @@
                                 </li>
                                 <li class="first done">
                                     <a href="#">
-                                        <span class="first done">current step: </span>
                                         <span class="number">2</span> Datos del Interes Asegurado
                                     </a>
                                 </li>

@@ -147,7 +147,9 @@
                 'placeholder'  => 'Ciudad o Localidad'])
             !!}
         </div>
-        <small class="locality_msg" style="color: red;"></small>
+        <div class="col-lg-12">
+            <small class="locality_msg" style="color: red;"></small>
+        </div>
     </div>
     <div class="form-group">
         <label class="col-lg-12 control-label">Dirección: </label>

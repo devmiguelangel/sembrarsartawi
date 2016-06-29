@@ -95,11 +95,9 @@
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#"
-                                                               onclick="cargaModal({{ $header->id }},'{{ Session::token() }}', '{{ encode($header->id) . '/slip' }}', 'POST', 'emision')"
-                                                               data-toggle="modal" data-target="#modal_general">
-                                                                <i class="icon-plus2"></i> Ver Certificado de
-                                                                Desgravamen
+                                                            <a href="{{route('create_modal_slip', ['id_retailer_product'=>$rp_id, 'id_header'=>encode($header->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
+                                                               id="issuance" class="open_modal">
+                                                                <i class="icon-plus2"></i> Ver Certificado de Emision
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -119,7 +117,7 @@
     </div>
 
     <!-- modal -->
-    @include('partials.modal')
+    @include('partials.modal_content')
     <!-- /modal -->
 
 @endsection

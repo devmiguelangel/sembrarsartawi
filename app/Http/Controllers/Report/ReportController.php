@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Sibas\Http\Controllers\ReportTrait;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
+use Sibas\Entities\RetailerProductState;
 
 class ReportController extends Controller {
     use ReportTrait;
@@ -77,16 +78,17 @@ class ReportController extends Controller {
         $cities = $this->cities;
         $extencion = $this->extencion;
         
-        $valueForm = $this->addValueForm($request);
+        $rp_state = RetailerProductState::where('ad_retailer_product_id', decode($id_comp))->get();
+        $valueForm = $this->addValueForm($request, $rp_state);
        
-        $array = $this->result($request, $flag);
+        $array = $this->result($request, $flag, $rp_state);
         $result = $array['result'];
         
         # validacion exporta xls
         //edw-->if ($request->get('xls_download'))
         //edw-->$this->exportXls($result, 'General', 1,'');
             
-        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag','id_comp'));
+        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag','id_comp', 'rp_state'));
     }
     /**
      * 
@@ -117,12 +119,12 @@ class ReportController extends Controller {
      * @param type $flag
      * @return type
      */
-    public function result($request, $flag) {
-        
+    public function result($request, $flag, $rp_state = array()) {
+        /**
         $opClients = DB::table('op_clients')
                 ->join('op_de_details', 'op_clients.id', '=', 'op_de_details.op_client_id')
                 ->select('op_de_details.op_de_header_id');
-
+        /**/
         $query = DB::table('op_de_headers')
                 ->join('ad_users', 'op_de_headers.ad_user_id', '=', 'ad_users.id')
                 ->join('ad_agencies', 'ad_users.ad_agency_id', '=', 'ad_agencies.id')
@@ -164,6 +166,18 @@ class ReportController extends Controller {
                                 if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is null,'Pendiente',
                                 if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is not null,'Observado',
                                 ''))))) as estado_compania"),
+                        
+                        # observaciones
+                        DB::raw("if(op_de_facultatives.state='PR',op_de_facultatives.observation,
+                                if(op_de_facultatives.state='PE',
+                                 (
+                                 SELECT t9.observation
+                                    FROM op_de_observations t9
+                                    WHERE t9.op_de_facultative_id = op_de_facultatives.id
+                                    ORDER BY t9.id DESC
+                                    LIMIT 0, 1),
+                                '')) as observation_facultative"),
+                        
                         # motivo estado compañia
                         DB::raw("if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=TRUE,'Aprobado',
                                 if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=false,'Rechazado',
@@ -208,35 +222,37 @@ class ReportController extends Controller {
                 //edw--> $query->leftJoin('op_de_facultatives', 'op_de_facultatives.op_de_detail_id', '=', 'op_de_details.id');
             }
             
-            $arr = $this->role($request);
+            $arr = $this->role($request, $rp_state);
             
             foreach ($arr as $key => $value) {
                 
                 if ($key == 'and') {
-                    $this->value = $value;
-                    $query->where(function($q) {
-                        foreach ($this->value as $key2 => $value2) {
-                            if (is_array($value2)) {
-                                $q->whereRaw($key2 . ' ' . $value2[0] .'"' . $value2[1] . '"');
-                            } else {
-                                $q->whereRaw($key2 . ' = "' . $value2 . '"');
-                            }
-                        }
-                        $q->whereRaw('`op_de_headers`.`type`="I"');
-                    });
-                }elseif ($key == 'or'){
-                    foreach ($value as $key => $value) {
-                        $this->valueOr = $value;
-                        $query->orWhere(function($q) {
-                            foreach ($this->valueOr as $key2 => $value2) {
-                                if (is_array($value2)) {
-                                    $q->whereRaw($key2 . ' ' . $value2[0] .'"' . $value2[1] . '"');
+                    foreach ($value as $key2 => $value2) {
+                        $this->value = $value2;
+                        $query->where(function($q) {
+                            foreach ($this->value as $key3 => $value3) {
+                                if (is_array($value3)) {
+                                    $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
                                 } else {
-                                    $q->whereRaw($key2 . ' = "' . $value2 . '"');
+                                    $q->whereRaw($key3 . ' = "' . $value3 . '"');
                                 }
                             }
                             $q->whereRaw('`op_de_headers`.`type`="I"');
                         });
+                    }
+                }elseif ($key == 'or'){
+                    foreach ($value as $key2 => $value2) {
+                            $this->valueOr = $value2;
+                            $query->orWhere(function($q) {
+                                foreach ($this->valueOr as $key3 => $value3) {
+                                    if (is_array($value3)) {
+                                        $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
+                                    } else {
+                                        $q->whereRaw($key3 . ' = "' . $value3 . '"');
+                                    }
+                                }
+                                $q->whereRaw('`op_de_headers`.`type`="I"');
+                            });
                     }
                 }
                 
@@ -283,20 +299,20 @@ class ReportController extends Controller {
 
             # extencion cliente
             if ($request->get('extension'))
-                $opClients->where('op_clients.extension', $request->get('extension'));
+                $query->where('op_clients.extension', $request->get('extension'));
             # ci cliente
             if ($request->get('ci'))
-                $opClients->where('op_clients.dni', $request->get('ci'));
+                $query->where('op_clients.dni', $request->get('ci'));
 
             # nombre cliente
             if ($request->get('cliente'))
-                $opClients->where('op_clients.first_name', 'LIKE', '%' . $request->get('cliente') . '%');
+                $query->where('op_clients.first_name', 'LIKE', '%' . $request->get('cliente') . '%');
 
 
             if ($request->get('extension') || $request->get('ci') || $request->get('cliente'))
                 $flagClient = 1;
 
-            $details = $opClients->get();
+            //edw-->$details = $opClients->get();
 
             $result = $query->get();
         }else {
@@ -304,7 +320,7 @@ class ReportController extends Controller {
         }
 
         # validacion filtra poliza enbase al cliente
-        if (count($details) > 0 || $flagClient == 1) {
+        /**if (count($details) > 0 || $flagClient == 1) {
             $idHeaders = $this->returnIdHeades($details);
             $var = array();
             foreach ($result as $key => $value) {
@@ -313,6 +329,7 @@ class ReportController extends Controller {
             }
             $result = $var;
         }
+        /**/
         
         $result = $this->observations($request, $result);
         
@@ -347,6 +364,7 @@ class ReportController extends Controller {
                 $resArr[$i]['Fecha Emisión'] = $value->fecha_emision;
                 $resArr[$i]['Estado Compañia'] = $value->estado_compania;
                 $resArr[$i]['Motivo Estado Compañia'] = $value->motivo_estado_compania;
+                $resArr[$i]['Facultativo Observación'] = $value->observation_facultative;
                 $resArr[$i]['Porcentaje Extraprima'] = $value->porcentaje_extraprima;
                 $resArr[$i]['Fecha Respuesta Final Compañia'] = $value->fecha_respuesta_final_compania;
                 $resArr[$i]['Días en Proceso'] = $value->dias_en_proceso;
@@ -366,8 +384,9 @@ class ReportController extends Controller {
      * @param type $request
      * @return array
      */
-    public function role($request) {
+    public function role($request, $rp_state = array()) {
         $consult = [];
+        /**
         if ($request->get('freecover'))
             $consult[] = array('`op_de_headers`.`issued`' => 1, '`op_de_headers`.`facultative`' => 0);
 
@@ -398,7 +417,7 @@ class ReportController extends Controller {
         # polizas anuladas
         if ($request->get('anulado'))
             $consult[] = array('`op_de_headers`.`issued`' => 1, '`op_de_headers`.`canceled`' => 1);
-
+/**/
         # pendiente
         if ($request->get('pendiente'))
             $consult[] = array(
@@ -437,13 +456,104 @@ class ReportController extends Controller {
         $arr=[];
         foreach ($consult as $key => $value) {
             if($key == 0){
-                $arr['and']=$value;
+                $arr['and'][]=$value;
             }else{
                 $arr['or'][]=$value;
             }
         }
+        
+        $arr = $this->roleEstado($arr, $rp_state, $request);
+        $arr = $this->roleAprobado($arr, $request);
+        
         return $arr;
                 
+    }
+    
+    public function roleEstado($arr, $rp_state, $request) {
+        
+        if ($request->get('pendiente') || $request->get('subsanado') || $request->get('observado')) {
+            # validacion con and
+            foreach ($rp_state as $key => $value) {
+                if ($request->get($value->states->slug))
+                    $arr['and'][] = array(
+                        '`op_de_headers`.`issued`' => 0,
+                        '`op_de_headers`.`facultative` =1 and `op_de_facultatives`.`state`="PE" and (SELECT MAX(odo.id)
+                    FROM op_de_observations as odo
+                    inner join op_de_facultatives as fcv on (fcv.id=odo.op_de_facultative_id)
+                    inner join ad_states as stat on (odo.ad_state_id = stat.id)
+                    WHERE stat.slug = "' . $value->states->slug . '" and fcv.id = op_de_facultatives.id)' => [ '>', 0],
+                    );
+            }
+        } else {
+            #validacion con or
+            foreach ($rp_state as $key => $value) {
+                if ($request->get($value->states->slug))
+                    $arr['or'][] = array(
+                        '`op_de_headers`.`issued`' => 0,
+                        '`op_de_headers`.`facultative` =1 and `op_de_facultatives`.`state`="PE" and (SELECT MAX(odo.id)
+                    FROM op_de_observations as odo
+                    inner join op_de_facultatives as fcv on (fcv.id=odo.op_de_facultative_id)
+                    inner join ad_states as stat on (odo.ad_state_id = stat.id)
+                    WHERE stat.slug = "' . $value->states->slug . '" and fcv.id = op_de_facultatives.id)' => [ '>', 0],
+                    );
+            }
+        }
+        return $arr = $arr;
+    }
+    public function roleAprobado($arr, $request){
+        
+        if($request->get('freecover') && $request->get('no_freecover'))
+            $fre = 'or';
+        else
+            $fre = 'and';
+
+        if ($request->get('freecover'))
+            $arr[$fre][] = array('`op_de_headers`.`issued`' => 1, '`op_de_headers`.`facultative`' => 0);
+
+        # no freecover
+        if ($request->get('no_freecover'))
+            $arr[$fre][] = array('`op_de_headers`.`facultative`' => 1, '`op_de_facultatives`.`state`' => 'PR', '`op_de_facultatives`.`approved`' => 1);
+
+        if($request->get('emitido') && $request->get('no_emitido'))
+            $emi = 'or';
+        else
+            $emi = 'and';
+        
+        # emitido
+        if ($request->get('emitido'))
+            $arr[$emi][] = array('`op_de_headers`.`issued`' => 1);
+
+        # no emitido
+        if ($request->get('no_emitido'))
+            $arr[$emi][] = array('`op_de_headers`.`issued`' => 0);
+        
+        if($request->get('extraprima') && $request->get('no_extraprima'))
+            $ext = 'or';
+        else
+            $ext = 'and';
+        
+        # extraprima
+        if ($request->get('extraprima'))
+            $arr[$ext][] = array('`op_de_facultatives`.`state`' => 'PR', '`op_de_headers`.`facultative`' => 1, '`op_de_facultatives`.`surcharge`' => 1);
+
+        # no extraprima
+        if ($request->get('no_extraprima'))
+            $arr[$ext][] = array('`op_de_facultatives`.`state`' => 'PR', '`op_de_headers`.`facultative`' => 1, '`op_de_facultatives`.`surcharge`' => 0);
+        
+        if($request->get('rechazado') && $request->get('anulado'))
+            $rec = 'or';
+        else
+            $rec = 'and';
+        
+        # rechazados
+        if ($request->get('rechazado'))
+            $arr[$rec][] = array('`op_de_facultatives`.`approved`' => 0, '`op_de_facultatives`.`state`' => 'PR');
+
+        # polizas anuladas
+        if ($request->get('anulado'))
+            $arr[$rec][] = array('`op_de_headers`.`issued`' => 1, '`op_de_headers`.`canceled`' => 1);
+        
+        return $arr;
     }
     
     /**
@@ -528,11 +638,11 @@ class ReportController extends Controller {
         $extencion = $this->extencion;
         
         $valueForm = $this->addValueForm($request);
-        
+        /**
         $opClients = DB::table('op_clients')
                 ->join('op_de_details', 'op_clients.id', '=', 'op_de_details.op_client_id')
                 ->select('op_de_details.op_de_header_id');
-
+        /**/
         $query = DB::table('op_de_headers')
                 ->join('op_de_details', 'op_de_headers.id', '=', 'op_de_details.op_de_header_id')
                 ->join('op_clients', 'op_clients.id', '=', 'op_de_details.op_client_id')
@@ -594,20 +704,20 @@ class ReportController extends Controller {
 
             # extencion cliente
             if ($request->get('extension'))
-                $opClients->where('op_clients.extension', $request->get('extension'));
+                $query->where('op_clients.extension', $request->get('extension'));
             # ci cliente
             if ($request->get('ci'))
-                $opClients->where('op_clients.dni', $request->get('ci'));
+                $query->where('op_clients.dni', $request->get('ci'));
 
             # nombre cliente
             if ($request->get('cliente'))
-                $opClients->where('op_clients.first_name', 'LIKE', '%' . $request->get('cliente') . '%');
+                $query->where('op_clients.first_name', 'LIKE', '%' . $request->get('cliente') . '%');
 
 
             if ($request->get('extension') || $request->get('ci') || $request->get('cliente'))
                 $flagClient = 1;
 
-            $details = $opClients->get();
+            //edw-->$details = $opClients->get();
 
             $result = $query->get();
         }else {
@@ -615,7 +725,7 @@ class ReportController extends Controller {
         }
 
         # validacion filtra poliza enbase al cliente
-        if (count($details) > 0 || $flagClient == 1) {
+    /**    if (count($details) > 0 || $flagClient == 1) {
             $idHeaders = $this->returnIdHeades($details);
             $var = array();
             foreach ($result as $key => $value) {
@@ -624,7 +734,7 @@ class ReportController extends Controller {
             }
             $result = $var;
         }
-
+/**/
         # validacion exporta xls
         if ($request->get('xls_download')){
             $resArr = [];
@@ -690,7 +800,7 @@ class ReportController extends Controller {
      * @param type $request
      * @return type
      */
-    public function addValueForm($request) {
+    public function addValueForm($request, $rp_state = array()) {
         $request->get('numero_poliza');
         $arr = array(
             'numero_poliza' => ($request->get('numero_poliza')) ? $request->get('numero_poliza') : '',
@@ -716,6 +826,14 @@ class ReportController extends Controller {
             'anulados' => ($request->get('anulados')) ? $request->get('anulados') : '3',
             'nro_cotizacion' => ($request->get('nro_cotizacion')) ? $request->get('nro_cotizacion') : '',
         );
+        
+        # Validacion estado facultativo
+        if (count($rp_state) > 0) {
+            foreach ($rp_state as $key => $value) {
+                $arr[$value->states->slug] = ($request->get($value->states->slug)) ? $request->get($value->states->slug) : '';
+            }
+        } 
+        
         return $arr;
     }
 

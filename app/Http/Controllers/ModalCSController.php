@@ -385,11 +385,8 @@ class ModalCSController extends Controller
                         }
                         $l = $l + 1;
                     }
-
                 }
             }
-
-
         }
 
         $query_change_rate = \DB::table('ad_exchange_rates')->first();

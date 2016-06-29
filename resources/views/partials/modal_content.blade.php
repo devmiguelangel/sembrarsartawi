@@ -51,10 +51,22 @@
                     $('#prueba_modal .modal-body').html(response.payload);
                     $('#prueba_modal').modal();
                 },
-                error: function(xhr) { // if error occured
-                    alert("Error occured.please try again");
-                    //$(placeholder).append(xhr.statusText + xhr.responseText);
-                    //$(placeholder).removeClass('loading');
+                error: function( jqXHR, textStatus, errorThrown ) { // if error occured
+                    if (jqXHR.status === 0) {
+                        alert('Sin conexion: Verificar la red.');
+                    } else if (jqXHR.status == 404) {
+                        alert('Pagina solicitada no se encuentra [404]');
+                    } else if (jqXHR.status == 500) {
+                        alert('Error de servidor interno [500].');
+                    } else if (textStatus === 'parsererror') {
+                        alert('Requested JSON parse failed.');
+                    } else if (textStatus === 'timeout') {
+                        alert('Error de tiempo de espera.');
+                    } else if (textStatus === 'abort') {
+                        alert('Peticion Ajax abortado.');
+                    } else {
+                        alert('Error no capturado: ' + jqXHR.responseText);
+                    }
                 },
                 complete: function() {
                     easyLoading('body', '', false);

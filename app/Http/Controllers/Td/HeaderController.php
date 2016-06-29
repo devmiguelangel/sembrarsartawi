@@ -205,7 +205,9 @@ class HeaderController extends Controller
      */
     public function insured($rp_id, $header_id)
     {
-        return view('td.insured', compact('rp_id', 'header_id'));
+        $prodParam = ProductParameter::where('ad_retailer_product_id', decode($rp_id))->where('slug', 'GE')->first();
+
+        return view('td.insured', compact('rp_id', 'header_id', 'prodParam'));
     }
 
 

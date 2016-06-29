@@ -12,10 +12,10 @@
 <div class="page-header">
     <div class="page-header-content">
         <div class="page-title">
-            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Reporte Solicitudes</span></h4>
+            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Automotores</span></h4>
             <ul class="breadcrumb breadcrumb-caret position-right">
                 <li><a href="">Inicio</a></li>
-                <li class="active">Reporte Solicitud Auto Motores</li>
+                <li class="active">Reporte Solicitud</li>
             </ul>
         </div>
     </div>
@@ -25,18 +25,32 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <!-- Horizontal form -->
         <div class="panel panel-flat border-top-primary">
-            <div class="panel-heading divhr">
+            <div class="panel-heading">
                 <h6 class="form-wizard-title2 text-semibold">
                     <span class="col-md-12">
                         <span class="form-wizard-count">R</span>
-                        Reporte Solicitudes Automotores
-                        <small class="display-block">Listado de Solicitudes Automotores</small>
+                        Reportes
+                        <small class="display-block">Listado</small>
                     </span>
                 </h6>
             </div>
-            <div class="panel-body ">
+            <div class="panel-body">
+                <div class="tabbable">
+                    <!--<ul class="nav nav-tabs nav-tabs-highlight nav-justified">-->
+                    <ul class="nav nav-tabs nav-tabs-highlight">
+                        <li class="active">
+                            <a href="{{ route('report.auto_report_cotizacion',[ 'id_comp' => $id_comp ]) }}">Solicitudes Automotores </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('report.auto_report_general',[ 'id_comp' => $id_comp ]) }}">General Automotores</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('report.auto_report_general_emitido',[ 'id_comp' => $id_comp ]) }}">P&oacute;lizas Emitidas Automotores</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        
                 <div class="col-xs-12 col-md-12">
                     <form class="form-horizontal form-validate-jquery" action="" id="form_search_general">
                         {!! Form::open(['route' => ['report.auto_report_cotizacion_result','id_comp'=>$id_comp], 'method' => 'post', 'class' => 'form-horizontal']) !!}
@@ -233,12 +247,10 @@
                     <h1>No existen resultados.</h1>
                     @endif
                 </div>
-
-
+                    </div>
+                </div>
             </div>
-
         </div>
-        <!-- /horizotal form -->
     </div>
 </div>
 

@@ -248,7 +248,7 @@ $(function() {
         format: 'dd/mm/yyyy',
         selectYears: true,
         selectMonths: true,
-        selectYears: 75,
+        selectYears: 152,
     });
 
     // Year selector
