@@ -134,7 +134,7 @@ Route::group([ 'prefix' => 'td/{rp_id}' ], function () {
         'as'   => 'td.issue.lists',
         'uses' => 'Td\IssueController@lists'
     ]);
-    
+
     /*
      * Header Facultative
      */
@@ -146,6 +146,42 @@ Route::group([ 'prefix' => 'td/{rp_id}' ], function () {
     Route::put('rrequest-approval/{header_id}', [
         'as'   => 'td.fa.request.store',
         'uses' => 'Td\HeaderController@requestStore'
+    ]);
+
+    /*
+     * Coverage
+     */
+    Route::get('coverage/{de_id}/create', [
+        'as'   => 'td.coverage.create',
+        'uses' => 'Td\HeaderController@coverageCreate'
+    ]);
+
+    Route::post('coverage/{de_id}/create', [
+        'as'   => 'td.coverage.store',
+        'uses' => 'Td\HeaderController@coverageStore'
+    ]);
+
+    Route::get('coverage/{de_id}/edit/{header_id}', [
+        'as'   => 'td.coverage.edit',
+        'uses' => 'Td\HeaderController@coverageEdit'
+    ]);
+
+    Route::put('coverage/{de_id}/edit/{header_id}', [
+        'as'   => 'td.coverage.update',
+        'uses' => 'Td\HeaderController@coverageUpdate'
+    ]);
+
+    /*
+     * Property edit issuance
+     */
+    Route::get('edit/{header_id}/property/edit/{detail_id?}', [
+        'as'   => 'td.pr.i.edit',
+        'uses' => 'Td\DetailController@editIssuance'
+    ]);
+
+    Route::put('edit/{header_id}/property/edit/{detail_id?}', [
+        'as'   => 'td.pr.i.update',
+        'uses' => 'Td\DetailController@updateIssuance'
     ]);
 
 });

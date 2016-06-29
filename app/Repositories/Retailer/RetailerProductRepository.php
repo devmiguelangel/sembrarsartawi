@@ -56,6 +56,7 @@ class RetailerProductRepository extends BaseRepository
     {
         $this->model = RetailerProduct::with([
             'retailer.exchangeRate',
+            'retailer.retailerProducts.companyProduct.product',
             'companyProduct.product',
             'rates.increments.category',
             'parameters',

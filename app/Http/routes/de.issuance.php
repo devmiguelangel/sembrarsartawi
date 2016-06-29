@@ -173,10 +173,17 @@ Route::group([ 'prefix' => 'fde/{rp_id}' ], function () {
     /*
      * Plans
      */
-
     Route::get('plans', [
         'as'   => 'rp.plans',
         'uses' => 'Retailer\PlanController@index'
     ]);
 
 });
+
+/*
+ * List Policies
+ */
+Route::get('de/policies/{product}/{q?}', [
+    'as'   => 'de.policies',
+    'uses' => 'De\HeaderController@policies'
+]);

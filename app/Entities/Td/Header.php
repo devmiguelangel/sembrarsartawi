@@ -15,7 +15,17 @@ class Header extends Model
     public $incrementing = false;
 
     protected $fillable = [
+        'id',
+        'ad_user_id',
+        'op_client_id',
+        'warranty',
+        'validity_start',
+        'validity_end',
+        'payment_method',
         'total_premium',
+        'currency',
+        'term',
+        'type_term',
         'type',
         'issue_number',
         'prefix',

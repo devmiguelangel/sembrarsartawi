@@ -20,7 +20,7 @@ class DetailRepository extends BaseRepository
         $this->data = $request->all();
         $header     = $this->data['header'];
         $client     = $this->data['client'];
-        $retailer   = $request->user()->retailer->first();
+        $retailer   = $request->user()->retailerUser->retailer;
 
         $this->model = new Detail();
 

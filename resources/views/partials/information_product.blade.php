@@ -1,19 +1,19 @@
 <div id="modal_theme_primary" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            @if (request()->route()->hasParameter('rp_id') && ! is_null(auth()->user()->retailer()->first()->retailerProducts()->where('id', decode($rp_id))->first()->content))
+            @if (request()->route()->hasParameter('rp_id') && ! is_null(auth()->user()->retailerUser->retailer->retailerProducts()->where('id', decode($rp_id))->first()->content))
                 <div class="modal-header bg-primary">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h6 class="modal-title">
-                        {{ auth()->user()->retailer()->first()->retailerProducts()->where('id', decode($rp_id))->first()->content->title }}
+                        {{ auth()->user()->retailerUser->retailer->retailerProducts()->where('id', decode($rp_id))->first()->content->title }}
                     </h6>
 
                 </div>
 
                 <div class="modal-body text-justify">
-                    {!! Html::image(auth()->user()->retailer()->first()->retailerProducts()->where('id', decode($rp_id))->first()->content->file, '') !!}
+                    {!! Html::image(auth()->user()->retailerUser->retailer->retailerProducts()->where('id', decode($rp_id))->first()->content->file, '') !!}
 
-                    {!! auth()->user()->retailer()->first()->retailerProducts()->where('id', decode($rp_id))->first()->content->content !!}
+                    {!! auth()->user()->retailerUser->retailer->retailerProducts()->where('id', decode($rp_id))->first()->content->content !!}
                 </div>
             @endif
 

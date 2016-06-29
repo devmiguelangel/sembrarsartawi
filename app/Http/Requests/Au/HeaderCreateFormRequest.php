@@ -46,6 +46,7 @@ class HeaderCreateFormRequest extends Request
             'phone_number_mobile'    => 'numeric|digits_between:7,8',
             'email'                  => 'email',
 
+            'number_de'      => 'exists:op_de_headers,id',
             'warranty'       => 'required|integer|in:1,0',
             'validity_start' => 'required|date_format:d/m/Y',
             'term'           => 'required|integer|min:1',

@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <!-- Horizontal form -->
             <div class="panel panel-flat border-top-primary">
-                <div class="wrapper no-pad" >
+                <div class="wrapper no-pad">
                     <!--mail inbox start-->
                     @if ($user->profile->first()->slug === 'SEP' || $user->profile->first()->slug === 'COP')
                         @include('de.facultative.inbox')

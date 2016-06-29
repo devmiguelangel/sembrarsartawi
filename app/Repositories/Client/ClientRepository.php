@@ -24,7 +24,7 @@ class ClientRepository extends BaseRepository
         if ($this->getClientByDni($this->data['dni'], $this->data['extension'])) {
             return $this->updateClient($this->model);
         }
-        
+
         return $this->storeClient($request);
     }
 
@@ -38,7 +38,7 @@ class ClientRepository extends BaseRepository
      */
     private function storeClient($request)
     {
-        $retailer = $request->user()->retailer->first();
+        $retailer = $request->user()->retailerUser->retailer;
 
         $this->model = new Client();
 
@@ -102,6 +102,8 @@ class ClientRepository extends BaseRepository
         $this->model = $client;
 
         $this->data['document_type'] = $this->model->document_type;
+        $this->data['dni']           = $this->model->dni;
+        $this->data['extension']     = $this->model->extension;
         $this->data['complement']    = $this->model->complement;
         $this->data['gender']        = $this->model->gender;
         $this->data['weight']        = $this->model->weight;
@@ -134,12 +136,11 @@ class ClientRepository extends BaseRepository
         if (key_exists('code', $this->data)) {
             $this->model->code = $this->data['code'];
         }
-        
+
         $this->model->last_name              = $this->data['last_name'];
         $this->model->mother_last_name       = $this->data['mother_last_name'];
         $this->model->first_name             = $this->data['first_name'];
         $this->model->married_name           = $this->data['married_name'];
-        
         $this->model->phone_number_home      = $this->data['phone_number_home'];
         $this->model->phone_number_mobile    = $this->data['phone_number_mobile'];
         $this->model->email                  = $this->data['email'];
@@ -148,25 +149,24 @@ class ClientRepository extends BaseRepository
         $this->model->extension              = $this->data['extension'];
         $this->model->gender                 = $this->data['gender'];
         $this->model->birthdate              = $date->format('Y-m-d');
-        
         $this->model->ad_activity_id         = $this->data['ad_activity_id'];
         $this->model->occupation_description = $this->data['occupation_description'];
-        
-        $this->model->type                   = 'N';
-        $this->model->age                    = $date->age;
+
+        $this->model->type = 'N';
+        $this->model->age  = $date->age;
 
         if (key_exists('avenue_street', $this->data)) {
             $this->model->avenue_street = $this->data['avenue_street'];
         }
-        
+
         if (key_exists('home_number', $this->data)) {
             $this->model->home_number = $this->data['home_number'];
         }
-        
+
         if (key_exists('business_address', $this->data)) {
             $this->model->business_address = $this->data['business_address'];
         }
-        
+
         if (key_exists('birth_place', $this->data)) {
             $this->model->birth_place = $this->data['birth_place'];
         }

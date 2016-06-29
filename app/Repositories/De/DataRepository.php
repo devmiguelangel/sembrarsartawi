@@ -147,4 +147,20 @@ class DataRepository extends BaseRepository
         return $this->getData($movement_types);
     }
 
+
+    public function getPropertyTypes()
+    {
+        $property_types = config('base.property_types');
+
+        return $this->getData($property_types);
+    }
+
+
+    public function getPropertyUses()
+    {
+        $property_uses = config('base.property_uses');
+
+        return $this->getData($property_uses);
+    }
+
 }

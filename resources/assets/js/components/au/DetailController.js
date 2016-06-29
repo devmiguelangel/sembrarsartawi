@@ -279,8 +279,10 @@ var detail = function ($rootScope, $scope, $http) {
             $rootScope.data.categories    = data.categories;
             $rootScope.data.insured_value = data.detail.insured_value;
             $rootScope.data.premium       = data.detail.premium;
-            $rootScope.data.currency      = data.detail.header.currency;
-
+            $rootScope.currency           = data.currency;
+            $rootScope.amount_max         = data.amount_max;
+            $rootScope.exchange_rate      = data.exchange_rate;
+            
             $scope.formData.vehicle_type     = data.detail.vehicle_type;
             $scope.formData.vehicle_make     = data.detail.vehicle_make;
             $scope.formData.vehicle_model    = data.detail.vehicle_model;
@@ -294,6 +296,7 @@ var detail = function ($rootScope, $scope, $http) {
             $scope.formData.chassis          = data.detail.chassis;
             $scope.formData.tonnage_capacity = data.detail.tonnage_capacity;
             $scope.formData.seat_number      = data.detail.seat_number;
+            $scope.formData.insured_value    = data.detail.insured_value;
 
             if ($scope.formData.year < data.year_max) {
               $scope.formData.year = 'old';
@@ -331,7 +334,7 @@ var detail = function ($rootScope, $scope, $http) {
     CSRF_TOKEN = $scope.csrf_token();
 
     var data = $.param($scope.formData);
-    
+
     $http.put(action, data, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -351,6 +354,10 @@ var detail = function ($rootScope, $scope, $http) {
           $scope.errors = response.data;
         } else if (response.status == 500) {
           console.log('Unauthorized action.');
+        } else if (response.status == 428){
+          $scope.errors = {};
+          
+          messageAction('error', response.data.reason);
         }
       }).finally(function () {
         $scope.easyLoading('#popup', '', false);

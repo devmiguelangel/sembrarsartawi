@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Sibas\Entities\Agency;
 use Sibas\Entities\City;
 use Sibas\Entities\Permission;
+use Sibas\Entities\Profile;
 use Sibas\Entities\Retailer;
 use Sibas\Entities\User;
 use Sibas\Repositories\Retailer\AgencyRepository;
@@ -36,6 +37,11 @@ trait ReportTrait
      * @var User
      */
     protected $user;
+
+    /**
+     * @var Profile
+     */
+    protected $profile;
 
     /**
      * @var Retailer
@@ -76,7 +82,8 @@ trait ReportTrait
         $this->getInstance();
 
         $this->user     = $user;
-        $this->retailer = $this->user->retailer()->first();
+        $this->profile  = $this->user->profile()->first();
+        $this->retailer = $this->user->retailerUser->retailer;
 
         $this->getDataForReport();
 
@@ -186,18 +193,22 @@ trait ReportTrait
         $this->agencies = $this->agencies->filter(function ($item) use ($permission) {
             $item->id = $item->slug;
 
-            if ($permission === 'RU' || $permission === 'RA') {
-                if ($item->slug === $this->user->agency->slug) {
-                    return true;
-                }
-            } elseif ($permission === 'RR') {
-                foreach ($item->retailerCityAgencies as $retailerCityAgency) {
-                    if ($retailerCityAgency->retailerCity->ad_city_id === $this->user->city->id) {
+            if ( ! ( $this->user->agency instanceof Agency ) && $this->profile->slug === 'COP') {
+                return true;
+            } else {
+                if ($permission === 'RU' || $permission === 'RA') {
+                    if ($item->slug === $this->user->agency->slug) {
                         return true;
                     }
+                } elseif ($permission === 'RR') {
+                    foreach ($item->retailerCityAgencies as $retailerCityAgency) {
+                        if ($retailerCityAgency->retailerCity->ad_city_id === $this->user->city->id) {
+                            return true;
+                        }
+                    }
+                } elseif ($permission === 'RN') {
+                    return true;
                 }
-            } elseif ($permission === 'RN') {
-                return true;
             }
         })->toArray();
 
