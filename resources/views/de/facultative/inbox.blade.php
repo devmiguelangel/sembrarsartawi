@@ -70,7 +70,7 @@
                     </a>
                 </div>
 
-                @if ($user->profile->first()->slug === 'SEP')
+                @if (count($data['products']) > 0 && $user->profile->first()->slug === 'SEP')
                     <div class="btn-group">
                         <a class="btn"
                            href="{{ route('home', ['arp' => encode($product->rp->id), 'inbox' => 'approved']) }}"
@@ -292,12 +292,12 @@
                                                         </li>
                                                     @endif
 
-                                                        <li>
-                                                            <a href="{{route('create_modal_slip', ['id_retailer_product'=>encode($product->rp->id), 'id_au_header'=>encode($record->detail->header->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
-                                                               id="issuance" class="open_modal">
-                                                                <i class="icon-plus2"></i> Ver Certificado de Emision
-                                                            </a>
-                                                        </li>
+                                                    <li>
+                                                        <a href="{{route('create_modal_slip', ['id_retailer_product'=>encode($product->rp->id), 'id_au_header'=>encode($record->detail->header->id), 'text'=>'issuance', 'type'=>'IMPR'])}}"
+                                                           id="issuance" class="open_modal">
+                                                            <i class="icon-plus2"></i> Ver Certificado de Emision
+                                                        </a>
+                                                    </li>
 
                                                 </ul>
                                             </li>

@@ -21,4 +21,11 @@ class RetailerUser extends Model
         return $this->belongsTo(Company::class, 'ad_company_id', 'id');
     }
 
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'ad_retailer_user_products', 'ad_retailer_user_id',
+            'ad_product_id');
+    }
+
 }

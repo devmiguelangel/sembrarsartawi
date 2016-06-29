@@ -16,14 +16,27 @@
                                 class="caret"></span></a>
                     <ul class="dropdown-menu width-200">
                         @foreach(auth()->user()->retailerUser->retailer->retailerProducts as $retailerProduct)
+                            @var $flag_product = false;
+
                             @if($retailerProduct->type == 'MP')
-                                <li class="dropdown-header">{{ $retailerProduct->companyProduct->product->name }}</li>
-                                @foreach ($retailerProduct->forms as $form)
-                                    <li>
-                                        <a href="{{ asset($form->file) }}" target="_blank"><i
-                                                    class="icon-align-center-horizontal"></i> {{ $form->title }}</a>
-                                    </li>
-                                @endforeach
+                                @if(auth()->user()->profile->first()->slug === 'COP'
+                                    && $retailerProduct->companyProduct->ad_company_id === auth()->user()->retailerUser->company->id)
+                                    @var $flag_product = true;
+                                @elseif(auth()->user()->profile->first()->slug === 'SEP')
+                                    @if(auth()->user()->retailerUser->products()->where('ad_products.id', $retailerProduct->companyProduct->product->id)->count() === 1)
+                                        @var $flag_product = true;
+                                    @endif
+                                @endif
+
+                                @if($flag_product)
+                                    <li class="dropdown-header">{{ $retailerProduct->companyProduct->product->name }}</li>
+                                    @foreach ($retailerProduct->forms as $form)
+                                        <li>
+                                            <a href="{{ asset($form->file) }}" target="_blank">
+                                                <i class="icon-align-center-horizontal"></i> {{ $form->title }}</a>
+                                        </li>
+                                    @endforeach
+                                @endif
                             @endif
                         @endforeach
                     </ul>
@@ -34,95 +47,103 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Productos <span class="caret"></span></a>
                         <ul class="dropdown-menu width-200">
                             @foreach(auth()->user()->retailerUser->retailer->retailerProducts as $retailerProduct)
+                                @var $flag_product = false;
+
                                 @if($retailerProduct->type == 'MP')
-                                    <li class="dropdown-submenu">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            <i class="icon-list-unordered"></i> {{ $retailerProduct->companyProduct->product->name }}
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            @if(request()->route()->hasParameter('client'))
-                                                @var $client = encode($client->id);
-                                            @else
-                                                @var $client = ''
-                                            @endif
+                                    @if(auth()->user()->retailerUser->products()->where('ad_products.id', $retailerProduct->companyProduct->product->id)->count() === 1)
+                                        @var $flag_product = true;
+                                    @endif
 
-                                            @if(request()->route()->hasParameter('detail_id'))
-                                                @var $detail_id = request()->get('detail_id')
-                                            @else
-                                                @var $detail_id = ''
-                                            @endif
+                                    @if($flag_product)
+                                        <li class="dropdown-submenu">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <i class="icon-list-unordered"></i> {{ $retailerProduct->companyProduct->product->name }}
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                @if(request()->route()->hasParameter('client'))
+                                                    @var $client = encode($client->id);
+                                                @else
+                                                    @var $client = ''
+                                                @endif
 
-                                            @if(request()->route()->hasParameter('header_id'))
-                                                @var $header_id = $header_id
-                                            @else
-                                                @var $header_id = ''
-                                            @endif
+                                                @if(request()->route()->hasParameter('detail_id'))
+                                                    @var $detail_id = request()->get('detail_id')
+                                                @else
+                                                    @var $detail_id = ''
+                                                @endif
 
-                                            @if(request()->route()->hasParameter('header'))
-                                                @var $header = encode($header->id);
-                                            @else
-                                                @var $header = ''
-                                            @endif
+                                                @if(request()->route()->hasParameter('header_id'))
+                                                    @var $header_id = $header_id
+                                                @else
+                                                    @var $header_id = ''
+                                                @endif
 
-                                            @if(request()->route()->hasParameter('detail'))
-                                                @var $detail = encode($detail->id);
-                                            @else
-                                                @var $detail = ''
-                                            @endif
+                                                @if(request()->route()->hasParameter('header'))
+                                                    @var $header = encode($header->id);
+                                                @else
+                                                    @var $header = ''
+                                                @endif
 
-                                            @if(request()->route()->hasParameter('sp_id'))
-                                                @var $sp_id = $sp_id
-                                            @else
-                                                @var $sp_id = ''
-                                            @endif
+                                                @if(request()->route()->hasParameter('detail'))
+                                                    @var $detail = encode($detail->id);
+                                                @else
+                                                    @var $detail = ''
+                                                @endif
 
-                                            <li class="{{
-                                                        Request::is('de/'.encode($retailerProduct->id).'/create') ? 'active' :
-                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/list') ? 'active':
-                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/create') ? 'active':
-                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/create/'.$client.'') ? 'active':
-                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/'.$detail_id.'/question/create') ? 'active':
-                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/edit/'.$detail_id.'') ? 'active':
-                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/result') ? 'active':
-                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/edit') ? 'active':
-                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/beneficiary/create/'.$detail.'') ? 'active':
-                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/'.$detail_id.'/question/edit') ? 'active':
-                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/issuance') ? 'active':
-                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/vi/'.$sp_id.'') ? 'active':
-                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/vi/'.$sp_id.'/create') ? 'active':
-                                                        Request::is('de/'.encode($retailerProduct->id).'/'.$header.'/balance/edit/'.$detail.'') ? 'active':
-                                                        ''
-                                                       }}
+                                                @if(request()->route()->hasParameter('sp_id'))
+                                                    @var $sp_id = $sp_id
+                                                @else
+                                                    @var $sp_id = ''
+                                                @endif
 
-                                            @if($retailerProduct->companyProduct->product->code === 'au')
-                                            {{ request()->route()->getName() === 'au.create' ? 'active' : '' }}
-                                            {{ request()->route()->getName() === 'au.vh.lists' ? 'active' : '' }}
-                                            {{ request()->route()->getName() === 'au.result' ? 'active' : '' }}
-                                            {{ request()->route()->getName() === 'au.edit' ? 'active' : '' }}
-                                            @endif
-                                            @if($retailerProduct->companyProduct->product->code === 'mr')
-                                            {{ request()->route()->getName() === 'td.create' ? 'active' : '' }}
-                                            {{ request()->route()->getName() === 'td.vh.lists' ? 'active' : '' }}
-                                            {{ request()->route()->getName() === 'td.result' ? 'active' : '' }}
-                                            {{ request()->route()->getName() === 'td.edit' ? 'active' : '' }}
-                                            @endif
-                                                    ">
-                                                <a href="{{ route($retailerProduct->companyProduct->product->code . '.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a>
-                                            </li>
-                                            <li class="{{ request()->route()->getName() === $retailerProduct->companyProduct->product->code . '.cancel.lists' ? 'active' : '' }}">
-                                                <a href="{{ route($retailerProduct->companyProduct->product->code . '.cancel.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Anular
-                                                    Póliza</a>
-                                            </li>
-                                            <li class="{{ request()->route()->getName() === $retailerProduct->companyProduct->product->code. '.pre.approved.lists' ? 'active' : '' }}">
-                                                <a href="{{ route($retailerProduct->companyProduct->product->code . '.pre.approved.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Solicitudes
-                                                    Preaprobadas</a>
-                                            </li>
-                                            <li class="{{ request()->route()->getName() === $retailerProduct->companyProduct->product->code . '.issue.lists' ? 'active' : '' }}">
-                                                <a href="{{ route($retailerProduct->companyProduct->product->code . '.issue.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Emitir
-                                                    Solicitudes</a>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                                <li class="{{
+                                                    Request::is('de/'.encode($retailerProduct->id).'/create') ? 'active' :
+                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/list') ? 'active':
+                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/create') ? 'active':
+                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/create/'.$client.'') ? 'active':
+                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/'.$detail_id.'/question/create') ? 'active':
+                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/edit/'.$detail_id.'') ? 'active':
+                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/result') ? 'active':
+                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/edit') ? 'active':
+                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/beneficiary/create/'.$detail.'') ? 'active':
+                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/client/'.$detail_id.'/question/edit') ? 'active':
+                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/issuance') ? 'active':
+                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/vi/'.$sp_id.'') ? 'active':
+                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header_id.'/vi/'.$sp_id.'/create') ? 'active':
+                                                    Request::is('de/'.encode($retailerProduct->id).'/'.$header.'/balance/edit/'.$detail.'') ? 'active':
+                                                    ''
+                                                   }}
+
+                                                @if($retailerProduct->companyProduct->product->code === 'au')
+                                                {{ request()->route()->getName() === 'au.create' ? 'active' : '' }}
+                                                {{ request()->route()->getName() === 'au.vh.lists' ? 'active' : '' }}
+                                                {{ request()->route()->getName() === 'au.result' ? 'active' : '' }}
+                                                {{ request()->route()->getName() === 'au.edit' ? 'active' : '' }}
+                                                @endif
+                                                @if($retailerProduct->companyProduct->product->code === 'mr')
+                                                {{ request()->route()->getName() === 'td.create' ? 'active' : '' }}
+                                                {{ request()->route()->getName() === 'td.vh.lists' ? 'active' : '' }}
+                                                {{ request()->route()->getName() === 'td.result' ? 'active' : '' }}
+                                                {{ request()->route()->getName() === 'td.edit' ? 'active' : '' }}
+                                                @endif
+                                                        ">
+                                                    <a href="{{ route($retailerProduct->companyProduct->product->code . '.create', ['rp_id' => encode($retailerProduct->id)]) }}">Cotizar</a>
+                                                </li>
+                                                <li class="{{ request()->route()->getName() === $retailerProduct->companyProduct->product->code . '.cancel.lists' ? 'active' : '' }}">
+                                                    <a href="{{ route($retailerProduct->companyProduct->product->code . '.cancel.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Anular
+                                                        Póliza</a>
+                                                </li>
+                                                <li class="{{ request()->route()->getName() === $retailerProduct->companyProduct->product->code. '.pre.approved.lists' ? 'active' : '' }}">
+                                                    <a href="{{ route($retailerProduct->companyProduct->product->code . '.pre.approved.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Solicitudes
+                                                        Preaprobadas</a>
+                                                </li>
+                                                <li class="{{ request()->route()->getName() === $retailerProduct->companyProduct->product->code . '.issue.lists' ? 'active' : '' }}">
+                                                    <a href="{{ route($retailerProduct->companyProduct->product->code . '.issue.lists', ['rp_id' => encode($retailerProduct->id)]) }}">Emitir
+                                                        Solicitudes</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    @endif
                                 @endif
                             @endforeach
                         </ul>
@@ -132,66 +153,79 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <span class="caret"></span></a>
                     <ul class="dropdown-menu width-200">
                         @foreach(auth()->user()->retailerUser->retailer->retailerProducts as $retailerProduct)
+                            @var $flag_product = false;
+
                             @if($retailerProduct->type == 'MP')
-                                <li class="dropdown-submenu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-list-unordered"></i> {{ $retailerProduct->companyProduct->product->name }}
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        @if($retailerProduct->companyProduct->product->name == 'Desgravamen')
-                                            <li class="{{Request::is('report/general') ? 'active':''}}">
-                                                <a href="{{ route('report.report_general',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
-                                                    General
-                                                </a>
-                                            </li>
-                                            <li class="{{Request::is('report/general_emitido') ? 'active':''}}">
-                                                <a href="{{ route('report.report_general_emitido',[ 'id_comp' => encode($retailerProduct->id) ]) }}"
-                                                   title="Polizas Emitidas">
-                                                    Polizas Emitidas
-                                                </a>
-                                            </li>
-                                            <li class="{{Request::is('report/cotizacion') ? 'active':''}}">
-                                                <a href="{{ route('report.report_cotizacion',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
-                                                    Solicitudes
-                                                </a>
-                                            </li>
-                                        @endif
-                                        @if($retailerProduct->companyProduct->product->name == 'Automotores')
-                                            <li class="{{Request::is('report/auto/cotizacion/valor') ? 'active':''}}">
-                                                <a href="{{ route('report.auto_report_cotizacion',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
-                                                    Solicitudes Automotores
-                                                </a>
-                                            </li>
-                                            <li class="{{Request::is('report/auto/general/valor') ? 'active':''}}">
-                                                <a href="{{ route('report.auto_report_general',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
-                                                    General Automotores
-                                                </a>
-                                            </li>
-                                            <li class="{{Request::is('report/auto/general_emitido/valor') ? 'active':''}}">
-                                                <a href="{{ route('report.auto_report_general_emitido',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
-                                                    Polizas Emitidas Automotores
-                                                </a>
-                                            </li>
-                                        @endif
-                                        @if($retailerProduct->companyProduct->product->name == 'Multiriesgo')
-                                            <li class="{{Request::is('report/td/cotizacion/valor') ? 'active':''}}">
-                                                <a href="{{ route('report.td_report_cotizacion',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
-                                                    Solicitudes Multiriesgo
-                                                </a>
-                                            </li>
-                                            <li class="{{Request::is('report/td/general/valor') ? 'active':''}}">
-                                                <a href="{{ route('report.td_report_general',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
-                                                    General Multiriesgo
-                                                </a>
-                                            </li>
-                                            <li class="{{Request::is('report/td/general_emitido/valor') ? 'active':''}}">
-                                                <a href="{{ route('report.td_report_general_emitido',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
-                                                    Polizas Emitidas Multiriesgo
-                                                </a>
-                                            </li>
-                                        @endif
-                                    </ul>
-                                </li>
+                                @if(auth()->user()->profile->first()->slug === 'COP'
+                                    && $retailerProduct->companyProduct->ad_company_id === auth()->user()->retailerUser->company->id)
+                                    @var $flag_product = true;
+                                @elseif(auth()->user()->profile->first()->slug === 'SEP')
+                                    @if(auth()->user()->retailerUser->products()->where('ad_products.id', $retailerProduct->companyProduct->product->id)->count() === 1)
+                                        @var $flag_product = true;
+                                    @endif
+                                @endif
+
+                                @if($flag_product)
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <i class="icon-list-unordered"></i> {{ $retailerProduct->companyProduct->product->name }}
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            @if($retailerProduct->companyProduct->product->name == 'Desgravamen')
+                                                <li class="{{Request::is('report/general') ? 'active':''}}">
+                                                    <a href="{{ route('report.report_general',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
+                                                        General
+                                                    </a>
+                                                </li>
+                                                <li class="{{Request::is('report/general_emitido') ? 'active':''}}">
+                                                    <a href="{{ route('report.report_general_emitido',[ 'id_comp' => encode($retailerProduct->id) ]) }}"
+                                                       title="Polizas Emitidas">
+                                                        Polizas Emitidas
+                                                    </a>
+                                                </li>
+                                                <li class="{{Request::is('report/cotizacion') ? 'active':''}}">
+                                                    <a href="{{ route('report.report_cotizacion',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
+                                                        Solicitudes
+                                                    </a>
+                                                </li>
+                                            @endif
+                                            @if($retailerProduct->companyProduct->product->name == 'Automotores')
+                                                <li class="{{Request::is('report/auto/cotizacion/valor') ? 'active':''}}">
+                                                    <a href="{{ route('report.auto_report_cotizacion',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
+                                                        Solicitudes Automotores
+                                                    </a>
+                                                </li>
+                                                <li class="{{Request::is('report/auto/general/valor') ? 'active':''}}">
+                                                    <a href="{{ route('report.auto_report_general',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
+                                                        General Automotores
+                                                    </a>
+                                                </li>
+                                                <li class="{{Request::is('report/auto/general_emitido/valor') ? 'active':''}}">
+                                                    <a href="{{ route('report.auto_report_general_emitido',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
+                                                        Polizas Emitidas Automotores
+                                                    </a>
+                                                </li>
+                                            @endif
+                                            @if($retailerProduct->companyProduct->product->name == 'Multiriesgo')
+                                                <li class="{{Request::is('report/td/cotizacion/valor') ? 'active':''}}">
+                                                    <a href="{{ route('report.td_report_cotizacion',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
+                                                        Solicitudes Multiriesgo
+                                                    </a>
+                                                </li>
+                                                <li class="{{Request::is('report/td/general/valor') ? 'active':''}}">
+                                                    <a href="{{ route('report.td_report_general',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
+                                                        General Multiriesgo
+                                                    </a>
+                                                </li>
+                                                <li class="{{Request::is('report/td/general_emitido/valor') ? 'active':''}}">
+                                                    <a href="{{ route('report.td_report_general_emitido',[ 'id_comp' => encode($retailerProduct->id) ]) }}">
+                                                        Polizas Emitidas Multiriesgo
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </li>
+                                @endif
                             @endif
                         @endforeach
                     </ul>

@@ -3,7 +3,11 @@
 namespace Sibas\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Sibas\Entities\Profile;
+use Sibas\Entities\RetailerProduct;
+use Sibas\Entities\User;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Repositories\De\FacultativeRepository as FacultativeDeRepository;
@@ -43,6 +47,16 @@ class HomeController extends Controller
      * @var FacultativeTdRepository
      */
     protected $facultativeTdRepository;
+
+    /**
+     * @var User
+     */
+    private $user;
+
+    /**
+     * @var Profile
+     */
+    private $profile;
 
 
     public function __construct(
@@ -84,121 +98,72 @@ class HomeController extends Controller
             $this->header_id = decode(request()->get('odh'));
         }
 
-        $user = $auth->user();
+        $this->user    = $auth->user();
+        $this->profile = $this->user->profile->first();
 
         $data = [
             'products' => [ ],
         ];
 
-        if ($user->profile->first()->slug === 'SEP' || $user->profile->first()->slug === 'COP') {
-            foreach ($user->retailerUser->retailer->retailerProducts as $retailerProduct) {
-                $this->setData($retailerProduct, $user, $data);
+        if ($this->profile->slug === 'SEP' || $this->profile->slug === 'COP') {
+            foreach ($this->user->retailerUser->retailer->retailerProducts as $retailerProduct) {
+                $this->setData($retailerProduct, $data);
             }
         }
 
-        return view('home', compact('user', 'data'));
+        return view('home', [
+            'user' => $this->user,
+            'data' => $data,
+        ]);
     }
 
 
-    private function setData($retailerProduct, $user, &$data)
+    /**
+     * @param Model|RetailerProduct $retailerProduct
+     * @param array                 $data
+     */
+    private function setData($retailerProduct, &$data)
     {
         if ($retailerProduct->type === 'MP' && $retailerProduct->facultative) {
-            $product     = $retailerProduct->companyProduct->product;
-            $product->rp = $retailerProduct;
+            $flag_product = false;
 
-            switch ($product->code) {
-                case 'de':
-                    $product->records = $this->facultativeDeRepository->getRecords($user, $this->inbox,
-                        $this->header_id);
+            switch ($this->profile->slug) {
+                case 'COP':
+                    if ($this->profile->slug === 'COP' && $retailerProduct->companyProduct->ad_company_id === $this->user->retailerUser->company->id) {
+                        $flag_product = true;
+                    }
                     break;
-                case 'au':
-                    $product->records = $this->facultativeAuRepository->getRecords($user, $this->inbox,
-                        $this->header_id);
-                    break;
-                case 'td':
-                    $product->records = $this->facultativeTdRepository->getRecords($user, $this->inbox,
-                        $this->header_id);
+                case 'SEP':
+                    if ($this->user->retailerUser->products()->where('ad_products.id',
+                            $retailerProduct->companyProduct->product->id)->count() === 1
+                    ) {
+                        $flag_product = true;
+                    }
                     break;
             }
 
-            array_push($data['products'], $product);
+            if ($flag_product) {
+                $product     = $retailerProduct->companyProduct->product;
+                $product->rp = $retailerProduct;
+
+                switch ($product->code) {
+                    case 'de':
+                        $product->records = $this->facultativeDeRepository->getRecords($this->user, $this->inbox,
+                            $this->header_id);
+                        break;
+                    case 'au':
+                        $product->records = $this->facultativeAuRepository->getRecords($this->user, $this->inbox,
+                            $this->header_id);
+                        break;
+                    case 'td':
+                        $product->records = $this->facultativeTdRepository->getRecords($this->user, $this->inbox,
+                            $this->header_id);
+                        break;
+                }
+
+                array_push($data['products'], $product);
+            }
         }
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int                      $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
