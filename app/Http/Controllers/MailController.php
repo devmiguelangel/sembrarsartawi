@@ -136,7 +136,7 @@ class MailController extends Controller
     {
         if (empty( $this->sender )) {
             $this->sender         = $this->defaultSender;
-            $this->sender['name'] = $this->user->retailer->first()->name;
+            $this->sender['name'] = $this->user->retailerUser->retailer->name;
         }
     }
 
@@ -168,7 +168,7 @@ class MailController extends Controller
      */
     protected function emailsByProduct($rp_id)
     {
-        $retailerProduct = $this->user->retailer()->first()->retailerProducts()->where('id', $rp_id)->first();
+        $retailerProduct = $this->user->retailerUser->retailer->retailerProducts()->where('id', $rp_id)->first();
 
         if ($retailerProduct instanceof RetailerProduct) {
             $this->emails = $retailerProduct->emails()->where('active', true)->get();

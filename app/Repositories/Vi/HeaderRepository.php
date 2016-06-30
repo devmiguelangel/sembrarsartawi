@@ -126,7 +126,7 @@ class HeaderRepository extends BaseRepository
     public function getInsuredValue($user, $sp_id, $headerDe, $client)
     {
         $modality         = null;
-        $retailer         = $user->retailer->first();
+        $retailer         = $user->retailerUser->retailer;
         $retailerProduct  = $retailer->retailerProducts()->where('id', decode($sp_id))->first();
         $modalities       = $retailerProduct->modalities()->where('active', true)->get();
         $amount_requested = $this->getAmountInBs($headerDe->currency, $headerDe->amount_requested,

@@ -13,16 +13,27 @@ class Detail extends Model
     public $incrementing = false;
 
     protected $fillable = [
-
+        'id',
+        'op_td_header_id',
+        'matter_insured',
+        'matter_description',
+        'number',
+        'use',
+        'city',
+        'zone',
+        'locality',
+        'address',
+        'insured_value',
+        'rate',
         'premium',
         'approved',
         'rejected',
-
     ];
 
     protected $appends = [
         'matter_insured_text',
         'use_text',
+        'completed',
     ];
 
 
@@ -53,6 +64,38 @@ class Detail extends Model
     public function getUseTextAttribute()
     {
         return config('base.property_uses.' . $this->use);
+    }
+
+
+    public function getCompletedAttribute()
+    {
+        $completed = true;
+
+        return $completed;
+    }
+
+
+    public function setMatterDescriptionAttribute($value)
+    {
+        $this->attributes['matter_description'] = strtoupper($value);
+    }
+
+
+    public function setZoneAttribute($value)
+    {
+        $this->attributes['zone'] = strtoupper($value);
+    }
+
+
+    public function setLocalityAttribute($value)
+    {
+        $this->attributes['locality'] = strtoupper($value);
+    }
+
+
+    public function setAddressAttribute($value)
+    {
+        $this->attributes['address'] = strtoupper($value);
     }
 
 }

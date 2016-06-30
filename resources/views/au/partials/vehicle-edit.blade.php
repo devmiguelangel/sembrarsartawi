@@ -220,14 +220,41 @@
             </label>
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-lg-12">
-            <div class="alert alert-info text-bold no-padding-left no-padding-right text-center"
-                 role="alert">@{{ data.insured_value | currency:'Valor Comercial (' + data.currency + ') ' }}</div>
-            <div class="alert alert-info text-bold no-padding-left no-padding-right text-center"
-                 role="alert">@{{ data.premium | currency:'Prima (' + data.currency + ') ' }}</div>
+
+    @if(request()->has('coverage'))
+        <div class="form-group">
+            <label class="control-label col-lg-9 label_required">Valor Comercial
+                ({{ $header->currency }}): </label>
+            <div class="col-lg-12">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class=" icon-coin-dollar"></i></span>
+                    {!! Form::text('insured_value', old('insured_value'), [
+                        'class'        => 'form-control',
+                        'autocomplete' => 'off',
+                        'placeholder'  => '(' . $header->currency . ')',
+                        'ng-model'     => 'formData.insured_value',
+                    ]) !!}
+                </div>
+                <label id="location-error" class="validation-error-label" for="location"
+                       ng-show="errors.insured_value">
+                    @{{ errors.insured_value[0] }}
+                </label>
+            </div>
         </div>
-    </div>
+        <div class="alert alert-danger no-border" ng-if="insured_value">
+            Vehículos cuyo valor excedan los {{ number_format($parameter->amount_max, 2) }} USD requieren
+            aprobación de la compañia de seguros.
+        </div>
+    @else
+        <div class="form-group">
+            <div class="col-lg-12">
+                <div class="alert alert-info text-bold no-padding-left no-padding-right text-center"
+                     role="alert">@{{ data.insured_value | currency:'Valor Comercial (' + currency + ') ' }}</div>
+                <div class="alert alert-info text-bold no-padding-left no-padding-right text-center"
+                     role="alert">@{{ data.premium | currency:'Prima (' + currency + ') ' }}</div>
+            </div>
+        </div>
+    @endif
 </div>
 
 <div class="clearfix"></div>

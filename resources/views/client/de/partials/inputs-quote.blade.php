@@ -262,7 +262,7 @@
                 <div class="input-group">
                     <span class="input-group-addon">Nro.</span>
                     {!! Form::text('home_number', old('home_number', (
-                    isset($product) && $product === 'au' ? $client->home_number : isset($product) && $product === 'td' ? $client->home_number : $detail->client->home_number)), [
+                    isset($product) && ($product === 'au' || $product === 'td') ? $client->home_number : $detail->client->home_number)), [
                         'class' => 'form-control ui-wizard-content',
                         'autocomplete' => 'off',
                         'placeholder' => 'Número de domicilio'])
@@ -277,7 +277,7 @@
             <label class="control-label col-lg-3 label_required">Dirección laboral: </label>
             <div class="col-lg-9">
                 {!! Form::textarea('business_address', old('business_address', (
-                isset($product) && $product === 'au' ? $client->business_address : isset($product) && $product === 'td' ? $client->business_address : $detail->client->business_address)), [
+                isset($product) && ($product === 'au' || $product === 'td') ? $client->business_address : $detail->client->business_address)), [
                     'size' => '4x4',
                     'class' => 'form-control',
                     'placeholder' => 'Dirección laboral',

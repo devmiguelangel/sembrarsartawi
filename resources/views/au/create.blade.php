@@ -117,6 +117,9 @@
                         'method'        => 'post',
                         'class'         => 'form-horizontal',
                         'ng-controller' => 'HeaderAuController',
+                        'id'            => 'form-init',
+                        'data-product'  => 'au',
+                        'ng-init'       => 'getPolicies()',
                     ]) !!}
 
                     <div class="panel-body ">
@@ -326,15 +329,34 @@
                                 <label class="control-label col-lg-3 label_required">Garantía: </label>
                                 <div class="col-lg-9">
                                     <label class="radio-inline">
-                                        {!! Form::radio('warranty', 1, true, ['class' => 'styled']) !!}
+                                        {!! Form::radio('warranty', 1, false, ['class' => 'styled']) !!}
                                         Con Garantía
                                     </label>
                                     <label class="radio-inline">
-                                        {!! Form::radio('warranty', 0, false, ['class' => 'styled']) !!}
+                                        {!! Form::radio('warranty', 0, true, ['class' => 'styled']) !!}
                                         No es objeto de Garantía
                                     </label>
                                     <label id="location-error" class="validation-error-label"
                                            for="location">{{ $errors->first('warranty') }}</label>
+                                </div>
+                            </div>
+                            <div class="form-group" id="number-de-container">
+                                <input type="hidden" id="number_de" name="number_de" value="{{ old('number_de') }}">
+
+                                <label class="col-lg-3 control-label">Nº de Certificado Desgravamen: </label>
+                                <div class="col-lg-9">
+                                    <div angucomplete-alt
+                                         placeholder="Nº de Certificado Desgravamen"
+                                         pause="100"
+                                         selected-object="policySelected"
+                                         local-data="headers"
+                                         search-fields="certificate_number"
+                                         title-field="certificate_number"
+                                         minlength="1"
+                                         input-class="form-control ui-wizard-content">
+                                    </div>
+                                    <label id="location-error" class="validation-error-label"
+                                           for="location">{{ $errors->first('number_de') }}</label>
                                 </div>
                             </div>
                             <div class="form-group">

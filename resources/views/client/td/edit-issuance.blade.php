@@ -70,12 +70,7 @@
                         <span class="text-semibold">{{ session('error_client_edit') }}</span>.
                     </div>
                 @endif
-                <!--
-                @foreach($errors->all() as $error )
-                <li>{{ $error }}</li>
-                
-                @endforeach
-                -->
+
                 {!! Form::open(['route' => ['td.client.i.update',
                     'rp_id'     => $rp_id,
                     'header_id' => $header_id,
@@ -83,16 +78,26 @@
                     isset($_GET['idf']) ? 'idf=' . e($_GET['idf']) : null
                     ], 'method' => 'put', 'class' => 'form-horizontal'
                 ]) !!}
+
                 <div class="panel-body ">
                     @include('client.de.partials.inputs-quote', ['product' => 'td'])
 
                     <div class="text-right">
-                        <a href="{{ route('td.edit', [
+                        @if(request()->has('coverage'))
+                            <input type="hidden" name="coverage" value="{{ request()->get('coverage') }}">
+
+                            <a href="{{ route('au.coverage.edit', [
+                            'rp_id'     => $rp_id,
+                            'de_id'     => request()->get('coverage'),
+                            'header_id' => $header_id,
+                        ]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+                        @else
+                            <a href="{{ route('au.edit', [
                             'rp_id'     => $rp_id,
                             'header_id' => $header_id,
                             isset($_GET['idf']) ? 'idf=' . e($_GET['idf']) : null
-                        ]) }}"
-                           class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+                        ]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+                        @endif
 
                         {!! Form::button('Actualizar Cliente <i class="icon-arrow-right14 position-right"></i>', [
                             'type' => 'submit',

@@ -9,22 +9,25 @@ and open the template in the editor.
 */
 
 /* header */
-
 .navbar-header {
     height: 60px;
 }
+
 .navbar-inverse2 {
     background-color: #fff;
 }
+
 .cabecera {
-    margin-top: 10px; 
+    margin-top: 10px;
     margin-bottom: 10px
 }
+
 .form-wizard-title2 {
-    //border-bottom: 1px solid #ddd;
+/ / border-bottom: 1 px solid #ddd;
     margin: 0 0 20px;
     padding-bottom: 20px;
 }
+
 /* fin header */
 
 /* footer */
@@ -33,32 +36,40 @@ and open the template in the editor.
     margin: 3px 3px 0;
     position: relative;
 }
+
 /* fin footer */
 
 /* general */
-.divhr{
+.divhr {
     border-bottom: 1px solid #ddd;
 }
-.text-justyfi{
+
+.text-justyfi {
     text-align: justify;
 }
-.chek_inbox{
+
+.chek_inbox {
     height: 20px;
     margin: 0;
     width: 20px;
 }
+
 .label_required:after {
-   content: "*";
-   color: red;
+    content: "*";
+    color: red;
 }
+
 .form-control:focus, .select2-input:focus {
     box-shadow: 0 0 7px #2196f3;
 }
+
 /* fin general */
 
 /* modal tamaño */
 @media screen and (min-width: 768px) {
-    #modal_general .modal-dialog  {width:810px;}
+    #modal_general .modal-dialog {
+        width: 810px;
+    }
 }
 
 /* pading div contenedor */
@@ -70,19 +81,22 @@ and open the template in the editor.
 
 /* color menu */
 .navbar-default {
-    //background-color: #2196f3;
+/ / background-color: #2196f3;
     background-color: #337ab7;
- 
+
 }
+
 .navbar-default .navbar-nav > li > a {
     color: #fff;
 }
+
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
     background-color: #f5f5f5;
     color: #333;
 }
+
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
-    //background-color: #2196f3;
+/ / background-color: #2196f3;
     background-color: #337ab7;
     color: #fff;
     outline: 0 none;
@@ -98,13 +112,15 @@ and open the template in the editor.
 .navbar {
     border-width: 0px 0;
     margin-bottom: 0;
-//    padding-left: 0;
-//    padding-right: 0;
+/ / padding-left: 0;
+/ / padding-right: 0;
 }
+
 .navbar-default {
     border-top-color: #f5f5f5;
-    
+
 }
+
 /* fin border del menu */
 
 .form-control::-moz-placeholder {
@@ -118,6 +134,76 @@ and open the template in the editor.
     padding: 0 20px;
 }
 
+/* angucomplete-alt css */
+.angucomplete-holder {
+    position: relative;
+}
 
+.angucomplete-dropdown {
+    border-color: #ececec;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    width: 100%;
+    padding: 6px;
+    cursor: pointer;
+    z-index: 9999;
+    position: absolute;
+    /*top: 32px;
+    left: 0px;
+    */
+    margin-top: -6px;
+    background-color: #ffffff;
+}
 
+.angucomplete-searching {
+    color: #acacac;
+    font-size: 14px;
+}
 
+.angucomplete-description {
+    font-size: 14px;
+}
+
+.angucomplete-row {
+    padding: 5px;
+    color: #000000;
+    margin-bottom: 4px;
+    clear: both;
+}
+
+.angucomplete-selected-row {
+    background-color: lightblue;
+    color: #ffffff;
+}
+
+.angucomplete-image-holder {
+    padding-top: 2px;
+    float: left;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.angucomplete-image {
+    height: 34px;
+    width: 34px;
+    border-radius: 50%;
+    border-color: #ececec;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.angucomplete-image-default {
+    /* Add your own default image here
+     background-image: url('/assets/default.png');
+    */
+    background-position: center;
+    background-size: contain;
+    height: 34px;
+    width: 34px;
+}
+
+.angucomplete-dropdown {
+    overflow-y: auto;
+    max-height: 200px;
+}

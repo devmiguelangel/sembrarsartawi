@@ -43,10 +43,11 @@ class DetailRepository extends BaseRepository
      *
      * @param Request      $request
      * @param Model|Header $header
+     * @param bool         $coverage
      *
      * @return bool
      */
-    public function storeVehicle($request, $header)
+    public function storeVehicle($request, $header, $coverage = false)
     {
         $this->data = $request->all();
 
@@ -55,8 +56,10 @@ class DetailRepository extends BaseRepository
                 $this->data['year'] = $this->data['year_old'];
             }
 
-            $header->details()->create([
-                'id'                              => date('U'),
+            $id = date('U');
+
+            $detail = [
+                'id'                              => $id,
                 'ad_vehicle_type_id'              => $this->data['vehicle_type']['id'],
                 'ad_vehicle_make_id'              => $this->data['vehicle_make']['id'],
                 'ad_vehicle_model_id'             => $this->data['vehicle_model']['id'],
@@ -66,7 +69,21 @@ class DetailRepository extends BaseRepository
                 'use'                             => $this->data['use'],
                 'mileage'                         => (boolean) $this->data['mileage'],
                 'insured_value'                   => $this->data['insured_value'],
-            ]);
+            ];
+
+            if ($coverage) {
+                $detail['color']            = $this->data['color'];
+                $detail['engine']           = $this->data['engine'];
+                $detail['chassis']          = $this->data['chassis'];
+                $detail['tonnage_capacity'] = $this->data['tonnage_capacity'];
+                $detail['seat_number']      = $this->data['seat_number'];
+            }
+
+            $header->details()->create($detail);
+
+            if ($coverage && $this->getDetailById($id)) {
+                return true;
+            }
 
             return true;
         } catch (QueryException $e) {
@@ -161,6 +178,7 @@ class DetailRepository extends BaseRepository
                 'chassis'                         => $this->data['chassis'],
                 'tonnage_capacity'                => $this->data['tonnage_capacity'],
                 'seat_number'                     => $this->data['seat_number'],
+                'insured_value'                   => $this->data['insured_value'],
             ]);
 
             return true;

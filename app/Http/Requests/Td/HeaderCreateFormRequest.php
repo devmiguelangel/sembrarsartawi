@@ -25,14 +25,13 @@ class HeaderCreateFormRequest extends Request
      */
     public function rules()
     {
-        $genders         = join(',', array_keys(config('base.client_genders')));
-        $term_types      = join(',', array_keys(config('base.term_types')));
-        $payment_methods = join(',', array_keys(config('base.payment_methods')));
-        $currencies      = join(',', array_keys(config('base.currencies')));
+        $genders    = join(',', array_keys(config('base.client_genders')));
+        $term_types = join(',', array_keys(config('base.term_types')));
+        $currencies = join(',', array_keys(config('base.currencies')));
 
         return [
             'first_name'             => 'required|alpha_space',
-            'locality'             => 'alpha_space',
+            'locality'               => 'alpha_space',
             'last_name'              => 'required|alpha_space',
             'mother_last_name'       => 'alpha_space',
             'married_name'           => 'alpha_space',
@@ -51,11 +50,11 @@ class HeaderCreateFormRequest extends Request
             'phone_number_mobile'    => 'numeric|digits_between:7,8',
             'email'                  => 'email',
 
+            'number_de'      => 'exists:op_de_headers,id',
             'warranty'       => 'required|integer|in:1,0',
             'validity_start' => 'required|date_format:d/m/Y',
             'term'           => 'required|integer|min:1',
             'type_term'      => 'required|in:' . $term_types,
-            //edw-->'payment_method' => 'required|in:' . $payment_methods,
             'currency'       => 'required|in:' . $currencies,
         ];
     }

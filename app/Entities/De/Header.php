@@ -32,6 +32,13 @@ class Header extends Model
         'facultative'
     ];
 
+    protected $visible = [
+        'id',
+        'issue_number',
+        'prefix',
+        'certificate_number',
+    ];
+
 
     public function user()
     {
@@ -54,6 +61,12 @@ class Header extends Model
     public function cancellation()
     {
         return $this->hasOne(Cancellation::class, 'op_de_header_id', 'id');
+    }
+
+
+    public function coverageWarranty()
+    {
+        return $this->hasOne(CoverageWarranty::class, 'op_de_header_id', 'id');
     }
 
 

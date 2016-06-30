@@ -95,7 +95,7 @@ class FacultativeController extends Controller
                         $this->headerRepository->setApproved($header);
 
                         if ($surcharge) {
-                            $this->headerRepository->setVehicleResult(null, $header);
+                            // $this->headerRepository->setVehicleResult(null, $header);
                         }
                     }
 

@@ -259,7 +259,7 @@ class DetailController extends Controller
             if ($this->headerRepository->getHeaderById(decode($header_id))) {
                 $header   = $this->headerRepository->getModel();
                 $detail   = $header->details()->where('id', decode($detail_id))->first();
-                $retailer = request()->user()->retailer()->first();
+                $retailer = request()->user()->retailerUser->retailer;
 
                 if ($detail instanceof Detail) {
                     $payload             = view('client.de.balance', compact('rp_id', 'header', 'detail'));
@@ -292,7 +292,7 @@ class DetailController extends Controller
 
                 if ($this->repository->updateBalance($request, decode($detail_id))) {
                     $request['detail']   = $this->repository->getModel();
-                    $request['retailer'] = $request->user()->retailer->first();
+                    $request['retailer'] = $request->user()->retailerUser->retailer;
 
                     $approved = true;
                     if ($this->facultativeRepository->storeFacultative($request, decode($rp_id))) {
