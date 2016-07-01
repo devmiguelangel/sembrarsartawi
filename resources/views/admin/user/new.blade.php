@@ -63,10 +63,20 @@
                         </div>
                     </div>
 
+                    <div class="form-group" style="display: none;" id="content-company">
+                        <label class="control-label col-lg-2">Compañías <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <select id="id_company" name="id_company" class="">
+                                <option value="0">Seleccione</option>
+                            </select>
+                            <div id="msg_company"></div>
+                        </div>
+                    </div>
+
                     <div class="form-group" style="display: none;" id="content-permissions">
                         <label class="control-label col-lg-2">Permisos </label>
                         <div class="col-lg-10">
-                            <select multiple="multiple" class="" name="permiso[]" id="permiso" data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones">
+                            <select multiple="multiple" class="" name="permiso[]" id="permiso" data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones, asi mismo para deseleccionarlos">
                                 <option value=""></option>
                             </select>
                         </div>
@@ -87,6 +97,15 @@
                                     <span class="text-semibold"></span> No existe Retailer registrado.<br>
                                 </div>
                             @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display: none;" id="content-product">
+                        <label class="control-label col-lg-2">Productos <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <select multiple="multiple" class="" name="product[]" id="product" data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones, asi mismo para deseleccionarlos">
+                                <option value=""></option>
+                            </select>
                         </div>
                     </div>
 
@@ -196,10 +215,11 @@
             if($('#session_type_user').prop('value')=='OPT'){
                 $('#content-password').fadeOut('fast');
                 $('#content-confirm-password').fadeOut('fast');
+                //$('#content-company').fadeOut('fast');
                 $('#contrasenia').removeClass('form-control required');
                 $('#confirmar').removeClass('form-control required');
+                //$('#id_company').removeClass('form-control requerid');
             }
-
 
             //OBTENER LISTA DE AGENCIAS DE ACUERDO AL DEPARTAMENTO
             $('#depto').change(function(e) {
@@ -211,9 +231,9 @@
                 //alert(type_user);
                 if(id_retailer_city!=0){
                     if(vec[1]=='UST'){//SI EL TIPO ES USUARIO
-                        var id_profile = $('#id_profile option:selected').prop('value');
+                        var id_profile = $('#id_profile option:selected').prop('value').split('|');
                         //alert(id_profile);
-                        if(id_profile!=4){//SI EL PROFILE ES DISTINTO DE COMPAÑIA SE HABILITA AGENCIA
+                        if(id_profile[1]!='COP'){//SI EL PROFILE ES DISTINTO DE COMPAÑIA SE HABILITA AGENCIA
                             $.get( "{{url('/')}}/admin/user/agency_ajax/"+id_retailer_city, function( data ) {
                                 //console.log(data);
                                 $('#content-agency').fadeIn('slow');
@@ -282,12 +302,17 @@
                                 $.each(data, function () {
                                     //console.log("ID: " + this.id);
                                     //console.log("Profiles: " + this.name);
-                                    $('#id_profile').append('<option value="'+this.id+'">'+this.name+'</option>');
+                                    //console.log("slug: "+this.slug);
+                                    $('#id_profile').append('<option value="'+this.id+'|'+this.slug+'">'+this.name+'</option>');
                                 });
                             }
                         }else{
                             $('#id_profile').removeClass('form-control required');
+                            $('#id_company').removeClass('form-control required');
+                            $('#product').removeClass('form-control requerid');
                             $('#content-user-profiles').fadeOut('fast');
+                            $('#content-company').fadeOut('fast');
+                            $('#content-product').fadeOut('fast');
                         }
                     });
 
@@ -317,10 +342,55 @@
                 }
             });
 
-            $('#id_profile').change(function(){
-                $('#depto option[value="0"]').prop('selected',true);
-                $('#agencia option[value="0"]').prop('selected',true);
+            /*  PERFILES VERIFICAMOS LA OPCION SELECCIONADA COMPAÑIA*/
+            $('#id_profile').change(function() {
+                $('#depto option[value="0"]').prop('selected', true);
+                $('#agencia option[value="0"]').prop('selected', true);
                 $('#content-agency').fadeOut('fast');
+                //alert($(this).prop('value'));
+                var arrSlug = $(this).prop('value').split('|');
+                if (arrSlug[1] == 'COP') {
+                    $('#product').removeClass('form-control requerid');
+                    $('#content-product').fadeOut('fast');
+                    $.get("{{url('/')}}/admin/user/idcompany_ajax/" + arrSlug[0], function (data) {
+                        //console.log(data);
+                        $('#content-company').fadeIn('fast');
+                        $('#id_company option').remove();
+                        $('#id_company').addClass('form-control required');
+                        $('#id_company').append('<option value="0">Seleccione</option>');
+                        if (data.length > 0) {
+                            $('#msg_company').html('');
+                            $.each(data, function () {
+                                //console.log("ID: " + this.id);
+                                //console.log("First Name: " + this.name);
+                                $('#id_company').append('<option value="' + this.id + '">' + this.name + '</option>');
+                            });
+                        } else {
+                            $('#msg_company').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span> No existen Compañías de Seguros<br><a href="{{route('admin.company.list', ['nav'=>'company', 'action'=>'list'])}}">Ingresar compañía de seguros</a></div>');
+                        }
+                    });
+
+                }else if(arrSlug[1] == 'SEP'){
+                    $('#id_company').removeClass('form-control required');
+                    $('#content-company').fadeOut('fast');
+                    $.get("{{url('/')}}/admin/user/idproduct_ajax/" + arrSlug[0], function(data){
+                        $('#product').addClass('form-control required');
+                        $('#content-product').fadeIn('fast');
+                        $('#product option').remove();
+                        if(data.length>0){
+                            $.each(data, function () {
+                                console.log("ID: " + this.id);
+                                console.log("Product: " + this.name);
+                                $('#product').append('<option value="'+this.id+'">'+this.name+'</option>');
+                            });
+                        }
+                    });
+                }else{
+                    $('#id_company').removeClass('form-control required');
+                    $('#content-company').fadeOut('fast');
+                    $('#product').removeClass('form-control requerid');
+                    $('#content-product').fadeOut('fast');
+                }
             });
 
             //VERIFICAMOS SI EL USUARIO EXISTE
