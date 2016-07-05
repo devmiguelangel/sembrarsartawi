@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
+use Sibas\Entities\RetailerUser;
 use Sibas\Entities\User;
 use Sibas\Http\Requests;
 
@@ -100,8 +101,16 @@ class UserAdminController extends BaseController
             $agency = null;
         }
         try{
+            $arrProfile = explode('|',$request->input('id_profile'));
             $array = explode('|',$request->input('tipo_usuario'));
             $arrCity = explode('|', $request->input('depto'));
+            $ad_company_id = null;
+            if($array[1]=='UST'){
+                if($arrProfile[1]=='COP'){
+                    $ad_company_id = $request->get('id_company');
+                }
+            }
+
             $user_new = new User();
             $user_new->id=date('U');
             $user_new->username=$request->input('txtIdusuario');
@@ -114,29 +123,52 @@ class UserAdminController extends BaseController
             $user_new->ad_user_type_id=$array[0];
             $user_new->active=true;
             if($user_new->save()) {
+                $query_retailer_user = new RetailerUser();
+                $query_retailer_user->ad_retailer_id=$request->input('id_retailer');
+                $query_retailer_user->ad_user_id=$user_new->id;
+                $query_retailer_user->ad_company_id=$ad_company_id;
+                $query_retailer_user->active=true;
+                /*
                 $query_retailer_user = \DB::table('ad_retailer_users')
                     ->insert(
                         [
                             'ad_retailer_id'=>$request->input('id_retailer'),
                             'ad_user_id'=>$user_new->id,
+                            'ad_company_id'=>$ad_company_id,
                             'active' => true,
                             'created_at'=>date("Y-m-d H:i:s"),
                             'updated_at'=>date("Y-m-d H:i:s")
                         ]
                     );
-                if($query_retailer_user){
+                */
+                if($query_retailer_user->save()){
                     if($array[1]=='UST' || $array[1]=='OPT'){
                         try {
                             if($array[1]=='UST'){
+
                                 $query_insert = \DB::table('ad_user_profiles')->insert(
                                     [
                                         'ad_user_id'=>$user_new->id,
-                                        'ad_profile_id'=>$request->input('id_profile'),
+                                        'ad_profile_id'=>$arrProfile[0],
                                         'active'=>true,
                                         'created_at'=>date("Y-m-d H:i:s"),
                                         'updated_at'=>date("Y-m-d H:i:s")
                                     ]
                                 );
+                                if($arrProfile[1]=='SEP'){
+                                    if(count($request->get('product'))>0){
+                                        foreach($request->get('product') as $key => $value){
+                                            $query_products = \DB::table('ad_retailer_user_products')->insert(
+                                                [
+                                                    'ad_retailer_user_id' => $query_retailer_user->id,
+                                                    'ad_product_id' => $value,
+                                                    'created_at' => date("Y-m-d H:i:s"),
+                                                    'updated_at' => date("Y-m-d H:i:s")
+                                                ]
+                                            );
+                                        }
+                                    }
+                                }
                             }
 
                             if(count($request->get('permiso'))>0){
@@ -196,7 +228,10 @@ class UserAdminController extends BaseController
             try {
                 $user_find = \DB::table('ad_users as au')
                     ->join('ad_user_types as aut', 'aut.id', '=', 'au.ad_user_type_id')
-                    ->select('au.id as id_user', 'au.ad_user_type_id', 'aut.code', 'au.ad_city_id', 'au.ad_agency_id', 'au.username', 'au.full_name', 'au.phone_number', 'au.email')
+                    ->join('ad_retailer_users as aru', 'aru.ad_user_id', '=', 'au.id')
+                    ->select('au.id as id_user', 'au.ad_user_type_id', 'aut.code', 'au.ad_city_id',
+                        'au.ad_agency_id', 'au.username', 'au.full_name', 'au.phone_number', 'au.email',
+                        'aru.ad_company_id', 'aru.id as id_retailer_user')
                     ->where('au.id', '=', $id_user)
                     ->first();
 
@@ -204,7 +239,9 @@ class UserAdminController extends BaseController
                     ->where('ad_user_id', $user_find->id_user)
                     ->get();
 
-                $profile_find = \DB::table('ad_user_profiles')
+                $profile_find = \DB::table('ad_user_profiles as aup')
+                    ->join('ad_profiles as ap', 'ap.id', '=', 'aup.ad_profile_id')
+                    ->select('aup.ad_profile_id', 'ap.slug as profile')
                     ->where('ad_user_id', '=', $user_find->id_user)
                     ->first();
 
@@ -268,8 +305,22 @@ class UserAdminController extends BaseController
                         ->get();
                 }
 
+                $query_company = \DB::table('ad_companies')
+                    ->get();
+
+                $query_product = \DB::table('ad_products')
+                    ->get();
+
+                $query_user_product = \DB::table('ad_retailer_user_products')
+                    ->where('ad_retailer_user_id', '=', $user_find->id_retailer_user)
+                    ->get();
+
+
                 //dd($permissions);
-                return view('admin.user.edit', compact('nav', 'action', 'user_find', 'cities', 'agencies', 'main_menu', 'query_type_user', 'profile_find', 'query_prof', 'retailer', 'permissions_list', 'user_permission', 'array_data'));
+                return view('admin.user.edit', compact('nav', 'action', 'user_find', 'cities',
+                    'agencies', 'main_menu', 'query_type_user', 'profile_find', 'query_prof',
+                    'retailer', 'permissions_list', 'user_permission', 'array_data', 'query_company',
+                    'query_product', 'query_user_product'));
             }catch(QueryException $e){
                 return redirect()->back()->with(array('error'=>$e->getMessage()));
             }
@@ -335,77 +386,126 @@ class UserAdminController extends BaseController
             $agency = null;
         }
 
-        $array = explode('|',$request->input('tipo_usuario'));
-        $array_city = explode('|', $request->input('depto'));
-        $user_update = User::where('id', $request->input('id_user'))->first();
-        $user_update->full_name=$request->input('txtNombre');
-        $user_update->email=$request->input('txtEmail');
-        $user_update->phone_number=$request->input('txtTelefono');
-        $user_update->ad_city_id=$array_city[1];
-        $user_update->ad_agency_id=$agency;
-        $user_update->ad_user_type_id=$array[0];
-        if($user_update->save()) {
-            if($array[1]=='UST' || $array[1]=='OPT'){
-                try{
-                    if($array[1]=='UST'){
-                        $quest_user_profile = \DB::table('ad_user_profiles')
-                            ->where('ad_user_id',$request->input('id_user'))
-                            ->first();
-                        if(count($quest_user_profile)>0){
-                            $query_update_profile = \DB::table('ad_user_profiles')
-                                ->where('ad_user_id', $request->input('id_user'))
-                                ->update(['ad_profile_id' => $request->input('id_profile'), 'updated_at'=>date("Y-m-d H:i:s"), 'active'=>true]);
-                        }else{
-                            $query_insert = \DB::table('ad_user_profiles')->insert(
-                                [
-                                    'ad_user_id'=>$request->input('id_user'),
-                                    'ad_profile_id'=>$request->input('id_profile'),
-                                    'active'=>true,
-                                    'created_at'=>date("Y-m-d H:i:s"),
-                                    'updated_at'=>date("Y-m-d H:i:s")
-                                ]
-                            );
-                        }
-                    }
-
-                    $query_del = \DB::table('ad_user_permissions')
-                                    ->where('ad_user_id', $request->input('id_user'))->delete();
-
-                    if(count($request->get('permiso'))>0){
-                        foreach ($request->get('permiso') as $key => $value) {
-                            $query_permissions = \DB::table('ad_user_permissions')->insert(
-                                [
-                                    'ad_user_id' => $request->input('id_user'),
-                                    'ad_permission_id' => $value,
-                                    'active' => true,
-                                    'created_at'=>date("Y-m-d H:i:s"),
-                                    'updated_at'=>date("Y-m-d H:i:s")
-                                ]
-                            );
-                        }
-                    }
-
-                    return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list'])->with(array('ok'=>'Se edito correctamente los datos del formulario'));
-
-                } catch(QueryException $e){
-                    return redirect()->back()->with(array('error'=>$e->getMessage()));
-                }
-            }else{
-
-                try{
-                    $query_update_profile = \DB::table('ad_user_profiles')
-                        ->where('ad_user_id', $request->input('id_user'))
-                        ->update(['active'=>false]);
-                    if(count($query_update_profile)>0){
-                        return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list'])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
-                    }else{
-                        return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list'])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
-                    }
-                } catch(QueryException $e){
-                    return redirect()->back()->with(array('error'=>$e->getMessage()));
+        try{
+            $array = explode('|',$request->get('tipo_usuario'));
+            $array_city = explode('|', $request->get('depto'));
+            $id_company = null;
+            if(!is_null($request->get('id_profile'))) {
+                $id_profile =  explode('|', $request->get('id_profile'));
+                if($id_profile[1]=='COP'){
+                    $id_company = $request->get('id_company');
                 }
             }
+
+            $user_update = User::where('id', $request->input('id_user'))->first();
+            $user_update->full_name=$request->input('txtNombre');
+            $user_update->email=$request->input('txtEmail');
+            $user_update->phone_number=$request->input('txtTelefono');
+            $user_update->ad_city_id=$array_city[1];
+            $user_update->ad_agency_id=$agency;
+            $user_update->ad_user_type_id=$array[0];
+            if($user_update->save()) {
+                $query_update_retailer_user = \DB::table('ad_retailer_users')
+                    ->where('ad_user_id',$request->get('id_user'))
+                    ->update(
+                        [
+                            'ad_company_id' => $id_company,
+                            'updated_at'=>date("Y-m-d H:i:s")
+                        ]
+                    );
+                if($query_update_retailer_user){
+                    if($array[1]=='UST' || $array[1]=='OPT'){
+                        try{
+                            if($array[1]=='UST'){
+                                $quest_user_profile = \DB::table('ad_user_profiles')
+                                    ->where('ad_user_id',$request->input('id_user'))
+                                    ->first();
+                                if(count($quest_user_profile)>0){
+                                    $query_update_profile = \DB::table('ad_user_profiles')
+                                        ->where('ad_user_id', $request->input('id_user'))
+                                        ->update(
+                                            [
+                                                'ad_profile_id' => $id_profile[0],
+                                                'updated_at'=>date("Y-m-d H:i:s"),
+                                                'active'=>true
+                                            ]
+                                        );
+                                }else{
+                                    $query_insert = \DB::table('ad_user_profiles')->insert(
+                                        [
+                                            'ad_user_id'=>$request->get('id_user'),
+                                            'ad_profile_id'=>$id_profile[0],
+                                            'active'=>true,
+                                            'created_at'=>date("Y-m-d H:i:s"),
+                                            'updated_at'=>date("Y-m-d H:i:s")
+                                        ]
+                                    );
+                                }
+
+                                if($id_profile[1] == 'SEP'){
+                                    $query_del_register = \DB::table('ad_retailer_user_products')
+                                        ->where('ad_retailer_user_id',$request->get('id_retailer_user'))
+                                        ->delete();
+                                    if(count($request->get('product'))>0){
+                                        foreach($request->get('product') as $key => $value){
+                                            $query_products = \DB::table('ad_retailer_user_products')->insert(
+                                                [
+                                                    'ad_retailer_user_id' => $request->get('id_retailer_user'),
+                                                    'ad_product_id' => $value,
+                                                    'created_at' => date("Y-m-d H:i:s"),
+                                                    'updated_at' => date("Y-m-d H:i:s")
+                                                ]
+                                            );
+                                        }
+                                    }
+                                }
+                            }
+
+                            $query_del = \DB::table('ad_user_permissions')
+                                ->where('ad_user_id', $request->input('id_user'))->delete();
+
+                            if(count($request->get('permiso'))>0){
+                                foreach ($request->get('permiso') as $key => $value) {
+                                    $query_permissions = \DB::table('ad_user_permissions')->insert(
+                                        [
+                                            'ad_user_id' => $request->input('id_user'),
+                                            'ad_permission_id' => $value,
+                                            'active' => true,
+                                            'created_at'=>date("Y-m-d H:i:s"),
+                                            'updated_at'=>date("Y-m-d H:i:s")
+                                        ]
+                                    );
+                                }
+                            }
+
+                            return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list'])->with(array('ok'=>'Se edito correctamente los datos del formulario'));
+
+                        } catch(QueryException $e){
+                            return redirect()->back()->with(array('error'=>$e->getMessage()));
+                        }
+                    }else{
+
+                        try{
+                            $query_update_profile = \DB::table('ad_user_profiles')
+                                ->where('ad_user_id', $request->input('id_user'))
+                                ->update(['active'=>false]);
+                            if(count($query_update_profile)>0){
+                                return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list'])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
+                            }else{
+                                return redirect()->route('admin.user.list', ['nav' => 'user', 'action' => 'list'])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
+                            }
+                        } catch(QueryException $e){
+                            return redirect()->back()->with(array('error'=>$e->getMessage()));
+                        }
+                    }
+                }else{
+
+                }
+            }
+        }catch(QueryException $e){
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
+
     }
 
     /**
@@ -768,5 +868,47 @@ class UserAdminController extends BaseController
                 ->get();
         }
         return response()->json($permissions_list);
+    }
+
+    public function ajax_idcompany($id_profile)
+    {
+        $query_company = \DB::table('ad_companies')
+            ->get();
+        return response()->json($query_company);
+    }
+
+    public function ajax_idproduct($id_profile)
+    {
+        $query_product = \DB::table('ad_products')
+            ->get();
+        return response()->json($query_product);
+    }
+
+    /**
+     * Delete register of data base
+     *
+     * @param  int  $id
+     * AJAX
+     **/
+    public function ajax_delete($id_user)
+    {
+        try{
+            $query_delete_retailer_user = \DB::table('ad_retailer_users')
+                ->where('ad_user_id',$id_user)
+                ->delete();
+
+            $query_delete_permissions = \DB::table('ad_user_permissions')
+                ->where('ad_user_id',$id_user)
+                ->delete();
+
+            $query_delete_user = \DB::table('ad_users')
+                ->where('id', $id_user)
+                ->delete();
+
+            return response()->json(['response'=>'ok', 'text' => 'Se elimino correctamente el registro']);
+
+        }catch (QueryException $e){
+            return response()->json(['response'=>'error', 'text' => $e->getMessage()]);
+        }
     }
 }

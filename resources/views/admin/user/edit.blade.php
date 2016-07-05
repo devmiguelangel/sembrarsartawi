@@ -26,11 +26,7 @@
 
             </div>
         </div>
-        @if (session('error'))
-            <div class="alert alert-danger alert-styled-left alert-bordered">
-                <span class="text-semibold">Error!</span> {{ session('error') }}
-            </div>
-        @endif
+        @include('admin.partials.message')
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'update_user', 'name' => 'userUpdateForm', 'id' => 'userUpdateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -44,7 +40,7 @@
 
                     @if($user_find->code=='UST')
                         @if(!empty($profile_find->ad_profile_id))
-                            @if($profile_find->ad_profile_id==4)
+                            @if($profile_find->profile=='COP')
                                 @if(empty($user_find->ad_agency_id))
                                     @var $style = 'display: none;'
                                     @var $class = ''
@@ -96,17 +92,35 @@
                                                 @foreach($query_prof as $dat_prof)
                                                     @if(!empty($profile_find->ad_profile_id))
                                                         @if($profile_find->ad_profile_id==$dat_prof->id)
-                                                            <option value="{{$dat_prof->id}}" selected>{{$dat_prof->name}}</option>
+                                                            <option value="{{$dat_prof->id}}|{{$dat_prof->slug}}" selected>{{$dat_prof->name}}</option>
                                                         @else
-                                                            <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
+                                                            <option value="{{$dat_prof->id}}|{{$dat_prof->slug}}">{{$dat_prof->name}}</option>
                                                         @endif
                                                     @else
-                                                        <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
+                                                        <option value="{{$dat_prof->id}}|{{$dat_prof->slug}}">{{$dat_prof->name}}</option>
                                                     @endif
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
+                                    @if($profile_find->profile=='COP')
+                                        <div class="form-group" id="content-company">
+                                            <label class="control-label col-lg-2">Compañías <span class="text-danger">*</span></label>
+                                            <div class="col-lg-10">
+                                                <select id="id_company" name="id_company" class="form-control required">
+                                                    <option value="0">Seleccione</option>
+                                                    @foreach($query_company as $data_company)
+                                                        @if($user_find->ad_company_id==$data_company->id)
+                                                            <option value="{{$data_company->id}}" selected>{{$data_company->name}}</option>
+                                                        @else
+                                                            <option value="{{$data_company->id}}">{{$data_company->name}}</option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                                <div id="msg_company"></div>
+                                            </div>
+                                        </div>
+                                    @endif
                                 @endif
                                 <div class="form-group" id="content-permissions">
                                     <label class="control-label col-lg-2">Permisos </label>
@@ -137,7 +151,7 @@
                                         <select id="id_profile" name="id_profile" class="">
                                             <option value="0">Seleccione</option>
                                             @foreach($query_prof as $dat_prof)
-                                                <option value="{{$dat_prof->id}}">{{$dat_prof->name}}</option>
+                                                <option value="{{$dat_prof->id}}|{{$dat_prof->slug}}">{{$dat_prof->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -160,6 +174,33 @@
                                     <strong>{{$retailer->name}}</strong>
                                 </div>
                             </div>
+                            @if($user_find->code=='UST')
+                                @var $dt_prod = 0
+                                @if($profile_find->profile=='SEP')
+                                    <div class="form-group" id="content-product">
+                                        <label class="control-label col-lg-2">Productos <span class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <select multiple="multiple" class="form-control required" name="product[]" id="product" data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones o deseleccionarlos">
+                                                @foreach($query_product as $data_product)
+                                                    @if(count($query_user_product)>0)
+                                                        @foreach($query_user_product as $data_user_product)
+                                                            @if($data_user_product->ad_product_id == $data_product->id)
+                                                                <option value="{{$data_product->id}}" selected>{{$data_product->name}}</option>
+                                                                @var $dt_prod = $data_product->id
+                                                            @endif
+                                                        @endforeach
+                                                        @if($dt_prod!=$data_product->id)
+                                                                <option value="{{$data_product->id}}">{{$data_product->name}}</option>
+                                                        @endif
+                                                    @else
+                                                        <option value="{{$data_product->id}}">{{$data_product->name}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endif
                             <div class="form-group">
                                 <label class="control-label col-lg-2">Departamento <span class="text-danger">*</span></label>
                                 <div class="col-lg-10">
@@ -246,6 +287,7 @@
                         @endif
                         <input type="hidden" id="id_user" name="id_user" id="id_user" value="{{$user_find->id_user}}">
                         <input type="hidden" id="code" name="code" value="{{$user_find->code}}">
+                        <input type="hidden" id="id_retailer_user" name="id_retailer_user" value="{{$user_find->id_retailer_user}}">
                     </div>
                 @endif
             {!!Form::close()!!}
@@ -253,6 +295,21 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
+            if($('#code').prop('value')=='OPT'){
+                $('#tipo_usuario option[value="OPT"]').prop('selected',true);
+                $('#tipo_usuario option').not(':selected').attr('disabled', true);
+            }else if($('#code').prop('value')=='UST'){
+                var arr_profile = ($('#id_profile option:selected').prop('value')).split('|');
+                $('#tipo_usuario option[value="UST"]').prop('selected',true);
+                $('#tipo_usuario option').not(':selected').attr('disabled', true);
+                if(arr_profile[1]=='SEP'){
+                    $('#id_profile option[value="SEP"]').prop('selected',true);
+                    $('#id_profile option').not(':selected').attr('disabled', true);
+                }
+            }
+            $('#tipo_usuario').triggerHandler('change');
+            $('#id_profile').triggerHandler('change');
+
             //OBTENER LISTA DE AGENCIAS DE ACUERDO AL DEPARTAMENTO
             $('#depto').change(function(e) {
                 var  _data= $(this).prop('value');
@@ -263,8 +320,8 @@
                 //alert(id_retailer_city);
                 if(id_retailer_city!=0){
                     if(vec[1]=='UST') {
-                        var id_profile = $('#id_profile option:selected').prop('value');
-                        if(id_profile!=4){
+                        var id_profile = $('#id_profile option:selected').prop('value').split('|');
+                        if(id_profile[1]!='COP'){
                             $.get("{{url('/')}}/admin/user/agency_ajax/" + id_retailer_city, function (data) {
                                 //console.log(data);
                                 $('#content-agency').fadeIn('slow');
@@ -317,7 +374,7 @@
                 var arr = _id.split("|");
                 var _code_db = $('#code').prop('value');
                 var id_user = $('#id_user').prop('value');
-                alert('_code_db: '+_code_db+ 'arr: '+arr[1]);
+                alert('_code_db: '+_code_db+ '  arr: '+arr[1]);
                 if(_code_db=='UST'){
                     if(arr[1]=='UST'){
                         $('#content-user-profiles-edit').fadeIn('fast');
@@ -331,9 +388,13 @@
                         $('#content-permissions').fadeOut('fast');
                         $('#permiso').removeClass('form-control');
                         $('#permiso option:selected').removeAttr("selected");
-                        $.get( "{{url('/')}}/admin/user/disabled_ajax/"+id_user, function( data ) {
+                        $('#content-company').fadeOut('fast');
+                        $('#id_company option[value="0"]').prop('selected',true);
+                        $('#id_company').removeClass('form-control required');
+
+                        //$.get( "{{url('/')}}/admin/user/disabled_ajax/"+id_user, function( data ) {
                             //console.log(data);
-                        });
+                        //});
                     }
                 }else{
                     if(arr[1]=='UST'){
@@ -361,6 +422,50 @@
                 $('#depto option[value="0"]').prop('selected',true);
                 $('#agencia option[value="0"]').prop('selected',true);
                 $('#content-agency').fadeOut('fast');
+                alert($(this).prop('value'));
+                var arrSlug = $(this).prop('value').split('|');
+                if (arrSlug[1] == 'COP') {
+                    //$('#product').removeClass('form-control requerid');
+                    //$('#content-product').fadeOut('fast');
+                    $.get("{{url('/')}}/admin/user/idcompany_ajax/" + arrSlug[0], function (data) {
+                        //console.log(data);
+                        $('#content-company').fadeIn('fast');
+                        $('#id_company option').remove();
+                        $('#id_company').addClass('form-control required');
+                        $('#id_company').append('<option value="0">Seleccione</option>');
+                        if (data.length > 0) {
+                            $('#msg_company').html('');
+                            $.each(data, function () {
+                                //console.log("ID: " + this.id);
+                                //console.log("First Name: " + this.name);
+                                $('#id_company').append('<option value="' + this.id + '">' + this.name + '</option>');
+                            });
+                        } else {
+                            $('#msg_company').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span> No existen Compañías de Seguros<br><a href="{{route('admin.company.list', ['nav'=>'company', 'action'=>'list'])}}">Ingresar compañía de seguros</a></div>');
+                        }
+                    });
+
+                }else if(arrSlug[1] == 'SEP'){
+                    $('#id_company').removeClass('form-control required');
+                    $('#content-company').fadeOut('fast');
+                    $.get("{{url('/')}}/admin/user/idproduct_ajax/" + arrSlug[0], function(data){
+                        $('#product').addClass('form-control required');
+                        $('#content-product').fadeIn('fast');
+                        $('#product option').remove();
+                        if(data.length>0){
+                            $.each(data, function () {
+                                console.log("ID: " + this.id);
+                                console.log("Product: " + this.name);
+                                $('#product').append('<option value="'+this.id+'">'+this.name+'</option>');
+                            });
+                        }
+                    });
+                }else{
+                    $('#id_company').removeClass('form-control required');
+                    $('#content-company').fadeOut('fast');
+                    //$('#product').removeClass('form-control requerid');
+                    //$('#content-product').fadeOut('fast');
+                }
             });
 
             //CONFIRMAR SI EXISTE CORREO ELECTRONICO

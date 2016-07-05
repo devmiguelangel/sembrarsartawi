@@ -19,7 +19,7 @@ class UserAdminRepository extends BaseRepository{
                 ->leftjoin('ad_user_profiles as aup', 'aup.ad_user_id', '=', 'ad_users.id')
                 ->leftjoin('ad_retailer_users', 'ad_retailer_users.ad_user_id', '=', 'ad_users.id')
                 ->leftjoin('ad_profiles as ap', 'ap.id', '=', 'aup.ad_profile_id')
-                ->select('ad_users.id as id_user', 'ad_user_types.name as type', 'ad_users.username', 'ad_users.full_name', 'ad_users.email', 'ad_cities.name as cities', 'ad_agencies.name as agencies', 'ad_users.active', 'ap.name as profile', 'aup.active as active_profile', 'ad_retailer_users.ad_retailer_id')
+                ->select('ad_users.id as id_user', 'ad_user_types.name as type', 'ad_users.username', 'ad_users.full_name', 'ad_users.email', 'ad_cities.name as cities', 'ad_agencies.name as agencies', 'ad_users.active', 'ap.name as profile', 'aup.active as active_profile', 'ad_retailer_users.ad_retailer_id', 'ad_user_types.code as code_type')
                 ->where('ad_user_types.code', '<>', 'ADT')
                 ->get();
         }else{
@@ -29,7 +29,7 @@ class UserAdminRepository extends BaseRepository{
                 ->leftjoin('ad_user_profiles as aup', 'aup.ad_user_id', '=', 'ad_users.id')
                 ->leftjoin('ad_retailer_users', 'ad_retailer_users.ad_user_id', '=', 'ad_users.id')
                 ->leftjoin('ad_profiles as ap', 'ap.id', '=', 'aup.ad_profile_id')
-                ->select('ad_users.id as id_user', 'ad_user_types.name as type', 'ad_users.username', 'ad_users.full_name', 'ad_users.email', 'ad_cities.name as cities', 'ad_agencies.name as agencies', 'ad_users.active', 'ap.name as profile', 'aup.active as active_profile', 'ad_retailer_users.ad_retailer_id')
+                ->select('ad_users.id as id_user', 'ad_user_types.name as type', 'ad_users.username', 'ad_users.full_name', 'ad_users.email', 'ad_cities.name as cities', 'ad_agencies.name as agencies', 'ad_users.active', 'ap.name as profile', 'aup.active as active_profile', 'ad_retailer_users.ad_retailer_id', 'ad_user_types.code as code_type')
                 ->where('ad_user_types.code', '<>', 'ADT')
                 ->where('ad_user_types.code', '<>', 'OPT')
                 ->get();

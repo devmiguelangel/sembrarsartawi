@@ -102,7 +102,7 @@
                                         'id_header'           => encode($header->id),
                                         'text'                => 'slip',
                                         'type'                => 'IMPR'
-                                    ]) }}" class="btn btn-info btn-labeled btn-xlg col-lg-12 open_modal">
+                                    ]) }}" id="slip" class="btn btn-info btn-labeled btn-xlg col-lg-12 open_modal">
                                         <b><i class="icon-printer4"></i></b> Ver Slip de Cotización
                                     </a>
                                 </p>
@@ -113,7 +113,7 @@
                                         'id_header'           => encode($header->id),
                                         'text'                => 'issuance',
                                         'type'                => 'IMPR'
-                                    ]) }}" class="btn btn-info btn-labeled btn-xlg col-lg-12 open_modal">
+                                    ]) }}" id="issuance" class="btn btn-info btn-labeled btn-xlg col-lg-12 open_modal">
                                         <b><i class="icon-printer4"></i></b> Ver Certificado de Emision
                                     </a>
                                 </p>
@@ -124,7 +124,7 @@
                                         'id_header'           => encode($header->id),
                                         'text'                => 'print_all',
                                         'type'                => 'IMPR'
-                                    ]) }}" class="btn btn-primary btn-labeled btn-xlg col-lg-12 open_modal">
+                                    ]) }}" id="print_all" class="btn btn-primary btn-labeled btn-xlg col-lg-12 open_modal">
                                         <b><i class="icon-printer4"></i></b> Imprimir Todo
                                     </a>
                                 </p>
@@ -168,8 +168,7 @@
                                                         'id_header'           => encode($header->id),
                                                         'text'                => 'issuance',
                                                         'type'                => 'IMPR'
-                                                    ]) }}"
-                                                       class="btn btn-success btn-labeled btn-xlg col-lg-12 open_modal">
+                                                    ]) }}" id="vi" class="btn btn-success btn-labeled btn-xlg col-lg-12 open_modal">
                                                         <b><i class="icon-printer4"></i></b> Ver Certificado Vida Grupo
                                                     </a>
                                                 </p>
@@ -242,7 +241,7 @@
     </div>
 
     <!-- modal -->
-    @include('partials.modal_content')
+    @include('partials.modal_content_report')
             <!-- /modal -->
 
 @endsection

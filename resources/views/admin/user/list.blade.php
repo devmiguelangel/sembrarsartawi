@@ -41,17 +41,7 @@
         </div>
 
         <div class="panel-body">
-            @if(session('ok'))
-                <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered" id="message-session">
-                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-                    <span class="text-semibold">Ok!</span> {{session('ok')}}
-                </div>
-            @elseif (session('error'))
-                <div class="alert alert-danger alert-styled-left alert-bordered">
-                    <button data-dismiss="alert" class="close" type="button"><span>×</span><span class="sr-only">Close</span></button>
-                    <span class="text-semibold">Error!</span> {{ session('error') }}
-                </div>
-            @endif
+            @include('admin.partials.message')
         </div>
         @if(count($users)>0)
             <table class="table datatable-basic">
@@ -117,7 +107,13 @@
                                         </a>
                                     @endif
                                 </li>
-
+                                <li>
+                                    @if($data->code_type=='OPT')
+                                        <a href="#" id="{{$data->id_user}}|eliminar" class="confirm_delete">
+                                            <i class="icon-cross2"></i> Eliminar
+                                        </a>
+                                    @endif
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -138,6 +134,32 @@
             setTimeout(function() {
                 $('#message-session').fadeOut();
             }, 3000);
+
+            $('a[href].confirm_delete').click(function(e){
+
+                var _id = $(this).prop('id');
+                var arr = _id.split("|");
+                var id_user = arr[0];
+                var text = arr[1];
+                bootbox.confirm("Esta seguro de "+text+" el registro?", function(result) {
+                    if(result){
+                        //bootbox.alert("Confirm result: " + result+ "/" +id_user);
+                        $.get( "{{url('/')}}/admin/user/delete_ajax/"+id_user, function( response ) {
+                            //console.log(response);
+                            if(response['response']=='ok'){
+                                swal({
+                                    title: response['text'],
+                                    confirmButtonColor: "#2196F3"
+                                });
+                                window.setTimeout('location.reload()', 1000);
+                            }else if(response['response']=='error'){
+                                bootbox.alert("Error!! "+response['text']);
+                            }
+                        });
+                    }
+                });
+
+            });
         });
     </script>
 @endsection

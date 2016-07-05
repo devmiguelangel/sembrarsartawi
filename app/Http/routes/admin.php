@@ -99,6 +99,9 @@ Route::get('admin/user/find_email_ajax/{email}', 'Admin\UserAdminController@ajax
 Route::get('admin/user/find_email_edit_ajax/{email}/{id_usuario}', 'Admin\UserAdminController@ajax_find_email_edit');
 Route::get('admin/user/city_ajax/{id_retailer}', 'Admin\UserAdminController@ajax_city');
 Route::get('admin/user/permissions_ajax/{user_type}', 'Admin\UserAdminController@ajax_permissions');
+Route::get('admin/user/idcompany_ajax/{id_profile}', 'Admin\UserAdminController@ajax_idcompany');
+Route::get('admin/user/idproduct_ajax/{id_profile}', 'Admin\UserAdminController@ajax_idproduct');
+Route::get('admin/user/delete_ajax/{id_user}', 'Admin\UserAdminController@ajax_delete');
 
 
 require "admin.company.php";
