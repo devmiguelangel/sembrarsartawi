@@ -44,7 +44,7 @@ use ReportTrait;
                             break;
                         case 'users':
                             $val = DB::table('ad_users')->where('ad_users.username',$value2['username'])->first();
-                            $arr[$key][$val->id]=$val->username;
+                            $arr[$key][$val->id]=$val->username.' | '.$val->full_name;
                             break;
                         default:
                             break;
@@ -108,7 +108,7 @@ use ReportTrait;
         $extencion = $this->extencion;
 
         $valueForm = $this->addValueForm($request);
-
+        $rp_state = array();
         $array = $this->result($request, $flag);
         $result = $array['result'];
 
@@ -116,7 +116,7 @@ use ReportTrait;
         if ($request->get('xls_download'))
             $this->exportXls($result, 'General', 1);
 
-        return view('report.general_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag','id_comp'));
+        return view('report.general_auto', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm', 'flag','id_comp', 'rp_state'));
     }
 
     /**
@@ -156,7 +156,7 @@ use ReportTrait;
                         'op_au_headers.id', 
                         DB::raw("CONCAT(op_au_headers.prefix, ' - ',op_au_headers.issue_number ) as nro_cotizacion"),
                         DB::raw("CONCAT(op_clients.first_name,' ',op_clients.last_name,' ',op_clients.mother_last_name) as cliente"), 
-                        DB::raw("CONCAT(op_clients.dni,' ',op_clients.extension) as ci"), 
+                        DB::raw("CONCAT(op_clients.dni,' ',op_clients.complement,' ',op_clients.extension) as ci"), 
                         DB::raw("IF(op_clients.gender='M','Masculino','Femenino') as genero"),
                         DB::raw('CONCAT(op_au_headers.term," ",IF(op_au_headers.type_term="Y","Años",IF(op_au_headers.type_term="M","Meses",IF(op_au_headers.type_term="D","Dias","null")))) as plazo_de_credito'), 
                         
@@ -230,28 +230,45 @@ use ReportTrait;
                 )
                 ->where('op_au_headers.type', 'I');
 
-        if ($flag == 2)
+        if ($flag == 2){
+            # reporte polizas emitidas
             $query->where('op_au_headers.issued', 1);
-
+        }else{
+            if ($request->get('anulados')) {
+                switch ($request->get('anulados')) {
+                    case 1:
+                    case 2:
+                        $query->where('op_au_headers.issued', 1);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
         $details = array();
         $result = array();
         $flagClient = 0;
 
         if ($request->get('_token')) {
             
-            $arr = $this->role($request, $rp_state);
+            $arr = $this->role('au', $request, $rp_state);
 
             foreach ($arr as $key => $value) {
 
                 if ($key == 'and') {
+                    
                     foreach ($value as $key2 => $value2) {
+                                
                         $this->value = $value2;
                         $query->where(function($q) {
                             foreach ($this->value as $key3 => $value3) {
                                 if (is_array($value3)) {
-                                    $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
+                                        $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
                                 } else {
-                                    $q->whereRaw($key3 . ' = "' . $value3 . '"');
+                                    if($value3 == 'block')
+                                        $q->whereRaw($key3);
+                                    else
+                                        $q->whereRaw($key3 . ' = "' . $value3 . '"');
                                 }
                             }
                             $q->whereRaw('`op_au_headers`.`type`="I"');
@@ -265,7 +282,10 @@ use ReportTrait;
                                     if (is_array($value3)) {
                                         $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
                                     } else {
-                                        $q->whereRaw($key3 . ' = "' . $value3 . '"');
+                                        if($value3 == 'block')
+                                            $q->whereRaw($key3);
+                                        else
+                                            $q->whereRaw($key3 . ' = "' . $value3 . '"');
                                     }
                                 }
                                 $q->whereRaw('`op_au_headers`.`type`="I"');
@@ -276,8 +296,8 @@ use ReportTrait;
 
             # numero poliza
             if ($request->get('numero_poliza'))
-                $query->where('op_au_headers.issue_number', $request->get('numero_poliza'));
-
+                $query->where('op_au_headers.issue_number', 'LIKE', '%' . $request->get('numero_poliza') . '%');
+            
             # usuario vendedor
             if ($request->get('usuario'))
                 $query->where('op_au_headers.ad_user_id', $request->get('usuario'));
@@ -292,11 +312,11 @@ use ReportTrait;
 
             # fecha de emision inicial
             if ($request->get('fecha_ini'))
-                $query->where('op_au_headers.date_issue', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->get('fecha_ini')))));
+                $query->where('op_au_headers.created_at', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->get('fecha_ini')))));
 
             # fecha de emision final
             if ($request->get('fecha_fin'))
-                $query->where('op_au_headers.date_issue', '<=', date('Y-m-d', strtotime('+1 days', strtotime(str_replace('/', '-', $request->get('fecha_fin'))))));
+                $query->where('op_au_headers.created_at', '<=', date('Y-m-d', strtotime('+1 days', strtotime(str_replace('/', '-', $request->get('fecha_fin'))))));
 
             # anulados
             if ($request->get('anulados')) {
@@ -316,9 +336,14 @@ use ReportTrait;
             # extencion cliente
             if ($request->get('extension'))
                 $query->where('op_clients.extension', $request->get('extension'));
+            
             # ci cliente
             if ($request->get('ci'))
-                $query->where('op_clients.dni', $request->get('ci'));
+                $query->where('op_clients.dni', 'LIKE', '%' . $request->get('ci') . '%');
+            
+            # complemento
+            if ($request->get('complement'))
+                $query->where('op_clients.complement', $request->get('complement'));
 
             # nombre cliente
             if ($request->get('cliente'))
@@ -364,8 +389,8 @@ use ReportTrait;
                 $resArr[$i]['Fecha Anualción'] = $value->fecha_anulacion;
                 $resArr[$i]['Facultativo Observación'] = $value->observation_facultative;
                 $resArr[$i]['Estado Compañia'] = $value->estado_compania;
-                $resArr[$i]['Estado Banco'] = $value->estado_banco;
                 $resArr[$i]['Motivo Estado Compañia'] = $value->motivo_estado_compania;
+                $resArr[$i]['Estado Banco'] = $value->estado_banco;
                 $resArr[$i]['Porcentaje Extraprima'] = $value->porcentaje_extraprima;
                 $resArr[$i]['Fecha Respuesta Final Compañia'] = $value->fecha_respuesta_final_compania;
                 $resArr[$i]['Duración Total del Caso'] = $value->duracion_total_del_caso;
@@ -384,183 +409,7 @@ use ReportTrait;
 
         return $res;
     }
-
-    /**
-     * regla de consulta para el filtro
-     * @param type $request
-     * @return array
-     */
-    public function role($request, $rp_state = array()) {
-        $consult = [];
-        /**
-        if ($request->get('freecover'))
-            $consult[] = array('`op_au_headers`.`issued`' => 1, '`op_au_headers`.`facultative`' => 0);
-
-        # no freecover
-        if ($request->get('no_freecover'))
-            $consult[] = array('`op_au_headers`.`facultative`' => 1, '`op_au_facultatives`.`state`' => 'PR', '`op_au_facultatives`.`approved`' => 1);
-
-        # emitido
-        if ($request->get('emitido'))
-            $consult[] = array('`op_au_headers`.`issued`' => 1);
-
-        # no emitido
-        if ($request->get('no_emitido'))
-            $consult[] = array('`op_au_headers`.`issued`' => 0);
-
-        # extraprima
-        if ($request->get('extraprima'))
-            $consult[] = array('`op_au_facultatives`.`state`' => 'PR', '`op_au_headers`.`facultative`' => 1, '`op_au_facultatives`.`surcharge`' => 1);
-
-        # no extraprima
-        if ($request->get('no_extraprima'))
-            $consult[] = array('`op_au_facultatives`.`state`' => 'PR', '`op_au_headers`.`facultative`' => 1, '`op_au_facultatives`.`surcharge`' => 0);
-
-        # rechazados
-        if ($request->get('rechazado'))
-            $consult[] = array('`op_au_facultatives`.`approved`' => 0, '`op_au_facultatives`.`state`' => 'PR');
-
-        # polizas anuladas
-        if ($request->get('anulado'))
-            $consult[] = array('`op_au_headers`.`issued`' => 1, '`op_au_headers`.`canceled`' => 1);
-        /**/
-        # pendiente
-        if ($request->get('pendiente'))
-            $consult[] = array(
-                '`op_au_headers`.`issued`' => 0,
-                '`op_au_headers`.`facultative`' => 1,
-                '`op_au_facultatives`.`state`' => 'PE',
-                '(SELECT COUNT(odo.id)
-                    FROM op_au_observations as odo
-                    WHERE odo.op_au_facultative_id = op_au_facultatives.id)' => 0,
-            );
-
-        # subsanado
-        if ($request->get('subsanado'))
-            $consult[] = array(
-                '`op_au_headers`.`issued`' => 0,
-                '`op_au_headers`.`facultative`' => 1,
-                '`op_au_facultatives`.`state`' => 'PE',
-                '(SELECT COUNT(odo.id)
-                    FROM op_au_observations as odo
-                    WHERE odo.op_au_facultative_id = op_au_facultatives.id
-                        AND odo.response = true
-                    ORDER BY odo.id DESC)' => 1,
-            );
-
-        # observado
-        if ($request->get('observado'))
-            $consult[] = array(
-                '`op_au_headers`.`issued`' => 0,
-                '`op_au_headers`.`facultative`' => 1,
-                '`op_au_facultatives`.`state`' => 'PE',
-                '(SELECT COUNT(odo.id)
-                    FROM op_au_observations as odo
-                    WHERE odo.op_au_facultative_id = op_au_facultatives.id)' => [ '>', 0],
-            );
-        
-        $arr = [];
-        foreach ($consult as $key => $value) {
-            if ($key == 0) {
-                $arr['and'][] = $value;
-            } else {
-                $arr['or'][] = $value;
-            }
-        }
-        
-        $arr = $this->roleEstado($arr, $rp_state, $request);
-        $arr = $this->roleAprobado($arr, $request);
-        
-        return $arr;
-    }
     
-    public function roleEstado($arr, $rp_state, $request) {
-        
-        if ($request->get('pendiente') || $request->get('subsanado') || $request->get('observado')) {
-            # validacion con and
-            foreach ($rp_state as $key => $value) {
-                if ($request->get($value->states->slug))
-                    $arr['and'][] = array(
-                        '`op_au_headers`.`issued`' => 0,
-                        '`op_au_headers`.`facultative` =1 and `op_au_facultatives`.`state`="PE" and (SELECT MAX(odo.id)
-                    FROM op_au_observations as odo
-                    inner join op_au_facultatives as fcv on (fcv.id=odo.op_au_facultative_id)
-                    inner join ad_states as stat on (odo.ad_state_id = stat.id)
-                    WHERE stat.slug = "' . $value->states->slug . '" and fcv.id = op_au_facultatives.id)' => [ '>', 0],
-                    );
-            }
-        } else {
-            #validacion con or
-            foreach ($rp_state as $key => $value) {
-                if ($request->get($value->states->slug))
-                    $arr['or'][] = array(
-                        '`op_au_headers`.`issued`' => 0,
-                        '`op_au_headers`.`facultative` =1 and `op_au_facultatives`.`state`="PE" and (SELECT MAX(odo.id)
-                    FROM op_au_observations as odo
-                    inner join op_au_facultatives as fcv on (fcv.id=odo.op_au_facultative_id)
-                    inner join ad_states as stat on (odo.ad_state_id = stat.id)
-                    WHERE stat.slug = "' . $value->states->slug . '" and fcv.id = op_au_facultatives.id)' => [ '>', 0],
-                    );
-            }
-        }
-        return $arr = $arr;
-    }
-    public function roleAprobado($arr, $request){
-        
-        if($request->get('freecover') && $request->get('no_freecover'))
-            $fre = 'or';
-        else
-            $fre = 'and';
-
-        if ($request->get('freecover'))
-            $arr[$fre][] = array('`op_au_headers`.`issued`' => 1, '`op_au_headers`.`facultative`' => 0);
-
-        # no freecover
-        if ($request->get('no_freecover'))
-            $arr[$fre][] = array('`op_au_headers`.`facultative`' => 1, '`op_au_facultatives`.`state`' => 'PR', '`op_au_facultatives`.`approved`' => 1);
-
-        if($request->get('emitido') && $request->get('no_emitido'))
-            $emi = 'or';
-        else
-            $emi = 'and';
-        
-        # emitido
-        if ($request->get('emitido'))
-            $arr[$emi][] = array('`op_au_headers`.`issued`' => 1);
-
-        # no emitido
-        if ($request->get('no_emitido'))
-            $arr[$emi][] = array('`op_au_headers`.`issued`' => 0);
-        
-        if($request->get('extraprima') && $request->get('no_extraprima'))
-            $ext = 'or';
-        else
-            $ext = 'and';
-        
-        # extraprima
-        if ($request->get('extraprima'))
-            $arr[$ext][] = array('`op_au_facultatives`.`state`' => 'PR', '`op_au_headers`.`facultative`' => 1, '`op_au_facultatives`.`surcharge`' => 1);
-
-        # no extraprima
-        if ($request->get('no_extraprima'))
-            $arr[$ext][] = array('`op_au_facultatives`.`state`' => 'PR', '`op_au_headers`.`facultative`' => 1, '`op_au_facultatives`.`surcharge`' => 0);
-        
-        if($request->get('rechazado') && $request->get('anulado'))
-            $rec = 'or';
-        else
-            $rec = 'and';
-        
-        # rechazados
-        if ($request->get('rechazado'))
-            $arr[$rec][] = array('`op_au_facultatives`.`approved`' => 0, '`op_au_facultatives`.`state`' => 'PR');
-
-        # polizas anuladas
-        if ($request->get('anulado'))
-            $arr[$rec][] = array('`op_au_headers`.`issued`' => 1, '`op_au_headers`.`canceled`' => 1);
-        
-        return $arr;
-    }
-
     /**
      * regla de consulta observacion para el filtro
      * @param type $request
@@ -691,12 +540,16 @@ use ReportTrait;
 
             # usuario vendedor nro_cotizacion
             if ($request->get('nro_cotizacion'))
-                $query->where('op_au_headers.quote_number', $request->get('nro_cotizacion'));
+                $query->where('op_au_headers.quote_number', 'LIKE', '%' . $request->get('nro_cotizacion') . '%');
 
             # usuario vendedor sucursal
             if ($request->get('sucursal'))
                 $query->where('ad_users.ad_city_id', $request->get('sucursal'));
 
+            # usuario vendedor agencia
+            if ($request->get('agencia'))
+                $query->where('ad_users.ad_agency_id', $request->get('agencia'));
+            
             # fecha de emision inicial
             if ($request->get('fecha_ini'))
                 $query->where('op_au_headers.created_at', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->get('fecha_ini')))));
@@ -708,9 +561,14 @@ use ReportTrait;
             # extencion cliente
             if ($request->get('extension'))
                 $query->where('op_clients.extension', $request->get('extension'));
+            
             # ci cliente
             if ($request->get('ci'))
-                $query->where('op_clients.dni', $request->get('ci'));
+                $query->where('op_clients.dni', 'LIKE', '%' . $request->get('ci') . '%');
+            
+            # complemento cliente
+            if ($request->get('complement'))
+                $query->where('op_clients.complement', $request->get('complement'));
 
             # nombre cliente
             if ($request->get('cliente'))
@@ -803,9 +661,11 @@ use ReportTrait;
             'cliente' => ($request->get('cliente')) ? $request->get('cliente') : '',
             'nro_cotizacion' => ($request->get('nro_cotizacion')) ? $request->get('nro_cotizacion') : '',
             'ci' => ($request->get('ci')) ? $request->get('ci') : '',
+            'complement' => ($request->get('complement')) ? $request->get('complement') : '',
             'usuario' => ($request->get('usuario')) ? $request->get('usuario') : '',
             'extension' => ($request->get('extension')) ? $request->get('extension') : '',
             'sucursal' => ($request->get('sucursal')) ? $request->get('sucursal') : '',
+            'agencia' => ($request->get('agencia')) ? $request->get('agencia') : '',
             'fecha_ini' => ($request->get('fecha_ini')) ? $request->get('fecha_ini') : '',
             'fecha_fin' => ($request->get('fecha_fin')) ? $request->get('fecha_fin') : '',
             'anulado' => ($request->get('anulado')) ? $request->get('anulado') : '',

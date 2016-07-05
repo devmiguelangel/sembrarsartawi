@@ -40,7 +40,7 @@ class ReportController extends Controller {
                             break;
                         case 'users':
                             $val = DB::table('ad_users')->where('ad_users.username',$value2['username'])->first();
-                            $arr[$key][$val->id]=$val->username;
+                            $arr[$key][$val->id]=$val->username.' | '.$val->full_name;
                             break;
                         default:
                             break;
@@ -83,10 +83,6 @@ class ReportController extends Controller {
        
         $array = $this->result($request, $flag, $rp_state);
         $result = $array['result'];
-        
-        # validacion exporta xls
-        //edw-->if ($request->get('xls_download'))
-        //edw-->$this->exportXls($result, 'General', 1,'');
             
         return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag','id_comp', 'rp_state'));
     }
@@ -103,15 +99,11 @@ class ReportController extends Controller {
         $extencion = $this->extencion;
         
         $valueForm = $this->addValueForm($request);
-       
+        $rp_state = array();               
         $array = $this->result($request, $flag);
         $result = $array['result'];
         
-        # validacion exporta xls
-        //edw-->if ($request->get('xls_download'))
-        //edw--> $this->exportXls($result, 'General', 1);
-        
-        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag','id_comp'));
+        return view('report.general', compact('result', 'users', 'agencies', 'cities', 'extencion', 'valueForm','flag','id_comp', 'rp_state'));
     }
     /**
      * fuincion retorna resultado de consulta y busqueda de formulario
@@ -120,11 +112,7 @@ class ReportController extends Controller {
      * @return type
      */
     public function result($request, $flag, $rp_state = array()) {
-        /**
-        $opClients = DB::table('op_clients')
-                ->join('op_de_details', 'op_clients.id', '=', 'op_de_details.op_client_id')
-                ->select('op_de_details.op_de_header_id');
-        /**/
+        
         $query = DB::table('op_de_headers')
                 ->join('ad_users', 'op_de_headers.ad_user_id', '=', 'ad_users.id')
                 ->join('ad_agencies', 'ad_users.ad_agency_id', '=', 'ad_agencies.id')
@@ -141,7 +129,7 @@ class ReportController extends Controller {
                         DB::raw("CONCAT(op_de_headers.prefix, ' - ',op_de_headers.issue_number ) as policy_number"),
                         'ad_coverages.name as name_coverage',
                         DB::raw("CONCAT(op_clients.first_name,' ',op_clients.last_name,' ',op_clients.mother_last_name) as client"), 
-                        DB::raw("CONCAT(op_clients.dni,' ',op_clients.extension) as ci_client"), 
+                        DB::raw("CONCAT(op_clients.dni,' ',op_clients.complement,' ',op_clients.extension) as ci_client"), 
                         'op_clients.gender', 
                         'op_clients.age',
                         DB::raw('UCASE(REPLACE(op_clients.place_residence, "-", " ")) as place_residence'),
@@ -208,9 +196,21 @@ class ReportController extends Controller {
                         )
                 ->where('op_de_headers.type', 'I');
         
-        if($flag == 2)
+        if ($flag == 2){
+            # reporte polizas emitidas
             $query->where('op_de_headers.issued', 1);
-        
+        }else{
+            if ($request->get('anulados')) {
+                switch ($request->get('anulados')) {
+                    case 1:
+                    case 2:
+                        $query->where('op_de_headers.issued', 1);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
         $details = array();
         $result = array();
         $flagClient = 0;
@@ -222,25 +222,30 @@ class ReportController extends Controller {
                 //edw--> $query->leftJoin('op_de_facultatives', 'op_de_facultatives.op_de_detail_id', '=', 'op_de_details.id');
             }
             
-            $arr = $this->role($request, $rp_state);
+            $arr = $this->role('de', $request, $rp_state);
             
             foreach ($arr as $key => $value) {
                 
                 if ($key == 'and') {
+                    
                     foreach ($value as $key2 => $value2) {
+                                
                         $this->value = $value2;
                         $query->where(function($q) {
                             foreach ($this->value as $key3 => $value3) {
                                 if (is_array($value3)) {
-                                    $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
+                                        $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
                                 } else {
-                                    $q->whereRaw($key3 . ' = "' . $value3 . '"');
+                                    if($value3 == 'block')
+                                        $q->whereRaw($key3);
+                                    else
+                                        $q->whereRaw($key3 . ' = "' . $value3 . '"');
                                 }
                             }
                             $q->whereRaw('`op_de_headers`.`type`="I"');
                         });
                     }
-                }elseif ($key == 'or'){
+                } elseif ($key == 'or') {
                     foreach ($value as $key2 => $value2) {
                             $this->valueOr = $value2;
                             $query->orWhere(function($q) {
@@ -248,7 +253,10 @@ class ReportController extends Controller {
                                     if (is_array($value3)) {
                                         $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
                                     } else {
-                                        $q->whereRaw($key3 . ' = "' . $value3 . '"');
+                                        if($value3 == 'block')
+                                            $q->whereRaw($key3);
+                                        else
+                                            $q->whereRaw($key3 . ' = "' . $value3 . '"');
                                     }
                                 }
                                 $q->whereRaw('`op_de_headers`.`type`="I"');
@@ -260,7 +268,7 @@ class ReportController extends Controller {
             
             # numero poliza
             if ($request->get('numero_poliza'))
-                $query->where('op_de_headers.issue_number', $request->get('numero_poliza'));
+                $query->where('op_de_headers.issue_number', 'LIKE', '%' . $request->get('numero_poliza'). '%');
 
             # usuario vendedor
             if ($request->get('usuario'))
@@ -276,11 +284,11 @@ class ReportController extends Controller {
 
             # fecha de emision inicial
             if ($request->get('fecha_ini'))
-                $query->where('op_de_headers.date_issue', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->get('fecha_ini')))));
+                $query->where('op_de_headers.created_at', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->get('fecha_ini')))));
 
             # fecha de emision final
             if ($request->get('fecha_fin'))
-                $query->where('op_de_headers.date_issue', '<=', date('Y-m-d', strtotime('+1 days', strtotime(str_replace('/', '-', $request->get('fecha_fin'))))));
+                $query->where('op_de_headers.created_at', '<=', date('Y-m-d', strtotime('+1 days', strtotime(str_replace('/', '-', $request->get('fecha_fin'))))));
             
             # anulados
             if ($request->get('anulados')){
@@ -302,8 +310,12 @@ class ReportController extends Controller {
                 $query->where('op_clients.extension', $request->get('extension'));
             # ci cliente
             if ($request->get('ci'))
-                $query->where('op_clients.dni', $request->get('ci'));
-
+                $query->where('op_clients.dni',  'LIKE', '%' . $request->get('ci'). '%');
+            
+            # complemento
+            if ($request->get('complement'))
+                $query->where('op_clients.complement', $request->get('complement'));
+            
             # nombre cliente
             if ($request->get('cliente'))
                 $query->where('op_clients.first_name', 'LIKE', '%' . $request->get('cliente') . '%');
@@ -318,21 +330,8 @@ class ReportController extends Controller {
         }else {
             $result = $query->get();
         }
-
-        # validacion filtra poliza enbase al cliente
-        /**if (count($details) > 0 || $flagClient == 1) {
-            $idHeaders = $this->returnIdHeades($details);
-            $var = array();
-            foreach ($result as $key => $value) {
-                if (in_array($value->id, $idHeaders))
-                    $var[] = $value;
-            }
-            $result = $var;
-        }
-        /**/
         
         $result = $this->observations($request, $result);
-        
 
         # validacion exporta xls
         if ($request->get('xls_download')){
@@ -377,183 +376,6 @@ class ReportController extends Controller {
         $res = array('result' => $result,'flag'=>$flag);
         
         return $res;
-    }
-    
-    /**
-     * regla de consulta para el filtro
-     * @param type $request
-     * @return array
-     */
-    public function role($request, $rp_state = array()) {
-        $consult = [];
-        /**
-        if ($request->get('freecover'))
-            $consult[] = array('`op_de_headers`.`issued`' => 1, '`op_de_headers`.`facultative`' => 0);
-
-        # no freecover
-        if ($request->get('no_freecover'))
-            $consult[] = array('`op_de_headers`.`facultative`' => 1, '`op_de_facultatives`.`state`' => 'PR', '`op_de_facultatives`.`approved`' => 1);
-
-        # emitido
-        if ($request->get('emitido'))
-            $consult[] = array('`op_de_headers`.`issued`' => 1);
-
-        # no emitido
-        if ($request->get('no_emitido'))
-            $consult[] = array('`op_de_headers`.`issued`' => 0);
-        
-        # extraprima
-        if ($request->get('extraprima'))
-            $consult[] = array('`op_de_facultatives`.`state`' => 'PR', '`op_de_headers`.`facultative`' => 1, '`op_de_facultatives`.`surcharge`' => 1);
-
-        # no extraprima
-        if ($request->get('no_extraprima'))
-            $consult[] = array('`op_de_facultatives`.`state`' => 'PR', '`op_de_headers`.`facultative`' => 1, '`op_de_facultatives`.`surcharge`' => 0);
-
-        # rechazados
-        if ($request->get('rechazado'))
-            $consult[] = array('`op_de_facultatives`.`approved`' => 0, '`op_de_facultatives`.`state`' => 'PR');
-
-        # polizas anuladas
-        if ($request->get('anulado'))
-            $consult[] = array('`op_de_headers`.`issued`' => 1, '`op_de_headers`.`canceled`' => 1);
-/**/
-        # pendiente
-        if ($request->get('pendiente'))
-            $consult[] = array(
-                '`op_de_headers`.`issued`' => 0,
-                '`op_de_headers`.`facultative`' => 1,
-                '`op_de_facultatives`.`state`' => 'PE',
-                '(SELECT COUNT(odo.id)
-                    FROM op_de_observations as odo
-                    WHERE odo.op_de_facultative_id = op_de_facultatives.id)' => 0,
-            );
-        
-        # subsanado
-        if ($request->get('subsanado'))
-            $consult[] = array(
-                '`op_de_headers`.`issued`' => 0,
-                '`op_de_headers`.`facultative`' => 1,
-                '`op_de_facultatives`.`state`' => 'PE',
-                '(SELECT COUNT(odo.id)
-                    FROM op_de_observations as odo
-                    WHERE odo.op_de_facultative_id = op_de_facultatives.id
-                        AND odo.response = true
-                    ORDER BY odo.id DESC)' => 1,
-            );
-
-        # observado
-        if ($request->get('observado'))
-            $consult[] = array(
-                '`op_de_headers`.`issued`' => 0,
-                '`op_de_headers`.`facultative`' => 1,
-                '`op_de_facultatives`.`state`' => 'PE',
-                '(SELECT COUNT(odo.id)
-                    FROM op_de_observations as odo
-                    WHERE odo.op_de_facultative_id = op_de_facultatives.id)' => [ '>', 0],
-            );
-        
-        $arr=[];
-        foreach ($consult as $key => $value) {
-            if($key == 0){
-                $arr['and'][]=$value;
-            }else{
-                $arr['or'][]=$value;
-            }
-        }
-        
-        $arr = $this->roleEstado($arr, $rp_state, $request);
-        $arr = $this->roleAprobado($arr, $request);
-        
-        return $arr;
-                
-    }
-    
-    public function roleEstado($arr, $rp_state, $request) {
-        
-        if ($request->get('pendiente') || $request->get('subsanado') || $request->get('observado')) {
-            # validacion con and
-            foreach ($rp_state as $key => $value) {
-                if ($request->get($value->states->slug))
-                    $arr['and'][] = array(
-                        '`op_de_headers`.`issued`' => 0,
-                        '`op_de_headers`.`facultative` =1 and `op_de_facultatives`.`state`="PE" and (SELECT MAX(odo.id)
-                    FROM op_de_observations as odo
-                    inner join op_de_facultatives as fcv on (fcv.id=odo.op_de_facultative_id)
-                    inner join ad_states as stat on (odo.ad_state_id = stat.id)
-                    WHERE stat.slug = "' . $value->states->slug . '" and fcv.id = op_de_facultatives.id)' => [ '>', 0],
-                    );
-            }
-        } else {
-            #validacion con or
-            foreach ($rp_state as $key => $value) {
-                if ($request->get($value->states->slug))
-                    $arr['or'][] = array(
-                        '`op_de_headers`.`issued`' => 0,
-                        '`op_de_headers`.`facultative` =1 and `op_de_facultatives`.`state`="PE" and (SELECT MAX(odo.id)
-                    FROM op_de_observations as odo
-                    inner join op_de_facultatives as fcv on (fcv.id=odo.op_de_facultative_id)
-                    inner join ad_states as stat on (odo.ad_state_id = stat.id)
-                    WHERE stat.slug = "' . $value->states->slug . '" and fcv.id = op_de_facultatives.id)' => [ '>', 0],
-                    );
-            }
-        }
-        return $arr = $arr;
-    }
-    public function roleAprobado($arr, $request){
-        
-        if($request->get('freecover') && $request->get('no_freecover'))
-            $fre = 'or';
-        else
-            $fre = 'and';
-
-        if ($request->get('freecover'))
-            $arr[$fre][] = array('`op_de_headers`.`issued`' => 1, '`op_de_headers`.`facultative`' => 0);
-
-        # no freecover
-        if ($request->get('no_freecover'))
-            $arr[$fre][] = array('`op_de_headers`.`facultative`' => 1, '`op_de_facultatives`.`state`' => 'PR', '`op_de_facultatives`.`approved`' => 1);
-
-        if($request->get('emitido') && $request->get('no_emitido'))
-            $emi = 'or';
-        else
-            $emi = 'and';
-        
-        # emitido
-        if ($request->get('emitido'))
-            $arr[$emi][] = array('`op_de_headers`.`issued`' => 1);
-
-        # no emitido
-        if ($request->get('no_emitido'))
-            $arr[$emi][] = array('`op_de_headers`.`issued`' => 0);
-        
-        if($request->get('extraprima') && $request->get('no_extraprima'))
-            $ext = 'or';
-        else
-            $ext = 'and';
-        
-        # extraprima
-        if ($request->get('extraprima'))
-            $arr[$ext][] = array('`op_de_facultatives`.`state`' => 'PR', '`op_de_headers`.`facultative`' => 1, '`op_de_facultatives`.`surcharge`' => 1);
-
-        # no extraprima
-        if ($request->get('no_extraprima'))
-            $arr[$ext][] = array('`op_de_facultatives`.`state`' => 'PR', '`op_de_headers`.`facultative`' => 1, '`op_de_facultatives`.`surcharge`' => 0);
-        
-        if($request->get('rechazado') && $request->get('anulado'))
-            $rec = 'or';
-        else
-            $rec = 'and';
-        
-        # rechazados
-        if ($request->get('rechazado'))
-            $arr[$rec][] = array('`op_de_facultatives`.`approved`' => 0, '`op_de_facultatives`.`state`' => 'PR');
-
-        # polizas anuladas
-        if ($request->get('anulado'))
-            $arr[$rec][] = array('`op_de_headers`.`issued`' => 1, '`op_de_headers`.`canceled`' => 1);
-        
-        return $arr;
     }
     
     /**
@@ -638,11 +460,7 @@ class ReportController extends Controller {
         $extencion = $this->extencion;
         
         $valueForm = $this->addValueForm($request);
-        /**
-        $opClients = DB::table('op_clients')
-                ->join('op_de_details', 'op_clients.id', '=', 'op_de_details.op_client_id')
-                ->select('op_de_details.op_de_header_id');
-        /**/
+      
         $query = DB::table('op_de_headers')
                 ->join('op_de_details', 'op_de_headers.id', '=', 'op_de_details.op_de_header_id')
                 ->join('op_clients', 'op_clients.id', '=', 'op_de_details.op_client_id')
@@ -676,11 +494,9 @@ class ReportController extends Controller {
         $flagClient = 0;
         if ($request->get('_token')) {
 
-            
-
             # nro cotizacion
             if ($request->get('nro_cotizacion'))
-                $query->where('op_de_headers.quote_number', $request->get('nro_cotizacion'));
+                $query->where('op_de_headers.quote_number', 'LIKE', '%' .$request->get('nro_cotizacion'). '%');
             
             # usuario vendedor
             if ($request->get('usuario'))
@@ -693,6 +509,10 @@ class ReportController extends Controller {
             # usuario vendedor sucursal
             if ($request->get('sucursal'))
                 $query->where('ad_users.ad_city_id', $request->get('sucursal'));
+            
+            # usuario vendedor agencia
+            if ($request->get('agencia'))
+                $query->where('ad_users.ad_agency_id', $request->get('agencia'));
 
             # fecha de emision inicial
             if ($request->get('fecha_ini'))
@@ -705,10 +525,15 @@ class ReportController extends Controller {
             # extencion cliente
             if ($request->get('extension'))
                 $query->where('op_clients.extension', $request->get('extension'));
+            
             # ci cliente
             if ($request->get('ci'))
-                $query->where('op_clients.dni', $request->get('ci'));
+                $query->where('op_clients.dni', 'LIKE', '%' . $request->get('ci'). '%');
 
+            # complemento cliente
+            if ($request->get('complement'))
+                $query->where('op_clients.complement', $request->get('complement'));
+            
             # nombre cliente
             if ($request->get('cliente'))
                 $query->where('op_clients.first_name', 'LIKE', '%' . $request->get('cliente') . '%');
@@ -717,24 +542,11 @@ class ReportController extends Controller {
             if ($request->get('extension') || $request->get('ci') || $request->get('cliente'))
                 $flagClient = 1;
 
-            //edw-->$details = $opClients->get();
-
             $result = $query->get();
         }else {
             $result = $query->get();
         }
 
-        # validacion filtra poliza enbase al cliente
-    /**    if (count($details) > 0 || $flagClient == 1) {
-            $idHeaders = $this->returnIdHeades($details);
-            $var = array();
-            foreach ($result as $key => $value) {
-                if (in_array($value->id, $idHeaders))
-                    $var[] = $value;
-            }
-            $result = $var;
-        }
-/**/
         # validacion exporta xls
         if ($request->get('xls_download')){
             $resArr = [];
@@ -807,9 +619,11 @@ class ReportController extends Controller {
             'cliente' => ($request->get('cliente')) ? $request->get('cliente') : '',
             'agencia' => ($request->get('agencia')) ? $request->get('agencia') : '',
             'ci' => ($request->get('ci')) ? $request->get('ci') : '',
+            'complement' => ($request->get('complement')) ? $request->get('complement') : '',
             'usuario' => ($request->get('usuario')) ? $request->get('usuario') : '',
             'extension' => ($request->get('extension')) ? $request->get('extension') : '',
             'sucursal' => ($request->get('sucursal')) ? $request->get('sucursal') : '',
+            'agencia' => ($request->get('agencia')) ? $request->get('agencia') : '',
             'fecha_ini' => ($request->get('fecha_ini')) ? $request->get('fecha_ini') : '',
             'fecha_fin' => ($request->get('fecha_fin')) ? $request->get('fecha_fin') : '',
             'anulado' => ($request->get('anulado')) ? $request->get('anulado') : '',
