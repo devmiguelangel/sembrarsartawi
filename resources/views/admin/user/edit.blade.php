@@ -26,11 +26,7 @@
 
             </div>
         </div>
-        @if (session('error'))
-            <div class="alert alert-danger alert-styled-left alert-bordered">
-                <span class="text-semibold">Error!</span> {{ session('error') }}
-            </div>
-        @endif
+        @include('admin.partials.message')
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'update_user', 'name' => 'userUpdateForm', 'id' => 'userUpdateForm', 'method'=>'post', 'class'=>'form-horizontal')) !!}
@@ -184,7 +180,7 @@
                                     <div class="form-group" id="content-product">
                                         <label class="control-label col-lg-2">Productos <span class="text-danger">*</span></label>
                                         <div class="col-lg-10">
-                                            <select multiple="multiple" class="form-control" name="product[]" id="product" data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones o deseleccionarlos">
+                                            <select multiple="multiple" class="form-control required" name="product[]" id="product" data-popup="tooltip" title="Presione la tecla [Ctrl] para seleccionar mas opciones o deseleccionarlos">
                                                 @foreach($query_product as $data_product)
                                                     @if(count($query_user_product)>0)
                                                         @foreach($query_user_product as $data_user_product)
