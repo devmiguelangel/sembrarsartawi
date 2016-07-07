@@ -185,8 +185,12 @@ use ReportTrait;
                                 if(op_td_headers.facultative=true and op_td_facultatives.state='PR' and op_td_facultatives.approved=TRUE,'Aprobado',
                                 if(op_td_headers.facultative=true and op_td_facultatives.state='PR' and op_td_facultatives.approved=FALSE,'Rechazado',
                                 if(op_td_headers.issued=false and op_td_headers.facultative=true and op_td_facultatives.state='PE' and op_td_observations.id is null,'Pendiente',
+                                if(op_td_headers.issued=false and op_td_headers.facultative=true and op_td_facultatives.state='PE' and 
+                                (SELECT COUNT(odo.id) FROM op_td_observations as odo
+                        WHERE odo.op_td_facultative_id = op_td_facultatives.id
+                        AND odo.response = true ORDER BY odo.id DESC)=1,'Subsanado Pendiente',
                                 if(op_td_headers.issued=false and op_td_headers.facultative=true and op_td_facultatives.state='PE' and op_td_observations.id is not null,'Observado',
-                                ''))))) as estado_compania"),
+                                '')))))) as estado_compania"),
                         
                         # observaciones
                         DB::raw("if(op_td_facultatives.state='PR',op_td_facultatives.observation,
@@ -214,7 +218,7 @@ use ReportTrait;
                         # porcentaje extra prima
                         DB::raw("if(op_td_headers.facultative=true and op_td_facultatives.state='PR' and op_td_facultatives.approved=TRUE and op_td_facultatives.surcharge=true,op_td_facultatives.percentage,'') as porcentaje_extraprima"),
                         # estado banco
-                        DB::raw("if(op_td_headers.issued=true ,'Emitido','No Emitido') as estado_banco"),
+                        DB::raw("if(op_td_headers.issued=true ,'Emitido', if(op_td_headers.issued=false ,'No Emitido','')) as estado_banco"),
                         # fecha respuesta final compañia
                         DB::raw("if(op_td_headers.issued=TRUE and op_td_headers.facultative=true and op_td_facultatives.state='PR' ,DATE_FORMAT(op_td_facultatives.updated_at,'%d/%m/%Y %h:%i'),
                                 if(op_td_headers.issued=false and op_td_headers.facultative=true and op_td_facultatives.state='PE'  and op_td_observations.id is not null ,DATE_FORMAT(op_td_observations.created_at,'%d/%m/%Y %h:%i'),'')) as fecha_respuesta_final_compania"),
@@ -264,10 +268,11 @@ use ReportTrait;
                                 if (is_array($value3)) {
                                     $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
                                 } else {
-                                    if ($value3 == 'block')
+                                    if ($value3 === 'block'){
                                         $q->whereRaw($key3);
-                                    else
+                                    }else{
                                         $q->whereRaw($key3 . ' = "' . $value3 . '"');
+                                    }
                                 }
                             }
                             $q->whereRaw('`op_td_headers`.`type`="I"');
@@ -281,7 +286,7 @@ use ReportTrait;
                                 if (is_array($value3)) {
                                     $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
                                 } else {
-                                    if ($value3 == 'block')
+                                    if ($value3 === 'block')
                                         $q->whereRaw($key3);
                                     else
                                         $q->whereRaw($key3 . ' = "' . $value3 . '"');

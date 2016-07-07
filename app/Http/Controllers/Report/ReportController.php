@@ -152,8 +152,12 @@ class ReportController extends Controller {
                                 if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=TRUE,'Aprobado',
                                 if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=FALSE,'Rechazado',
                                 if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is null,'Pendiente',
+                                if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and 
+                                (SELECT COUNT(odo.id) FROM op_de_observations as odo
+                        WHERE odo.op_de_facultative_id = op_de_facultatives.id
+                        AND odo.response = true ORDER BY odo.id DESC)=1,'Subsanado Pendiente',
                                 if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is not null,'Observado',
-                                ''))))) as estado_compania"),
+                                '')))))) as estado_compania"),
                         
                         # observaciones
                         DB::raw("if(op_de_facultatives.state='PR',op_de_facultatives.observation,
@@ -180,6 +184,8 @@ class ReportController extends Controller {
                                 ''))) as motivo_estado_compania"),
                         # porcentaje extra prima
                         DB::raw("if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=TRUE and op_de_facultatives.surcharge=true,op_de_facultatives.percentage,'') as porcentaje_extraprima"),
+                        # estado banco
+                        DB::raw("if(op_de_headers.issued=true ,'Emitido', if(op_de_headers.issued=false ,'No Emitido','')) as estado_banco"),
                         # fecha respuesta final compañia
                         DB::raw("if(op_de_headers.issued=TRUE and op_de_headers.facultative=true and op_de_facultatives.state='PR' ,DATE_FORMAT(op_de_facultatives.updated_at,'%d/%m/%Y %h:%i'),
                                 if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE'  and op_de_observations.id is not null ,DATE_FORMAT(op_de_observations.created_at,'%d/%m/%Y %h:%i'),'')) as fecha_respuesta_final_compania"),
@@ -236,7 +242,7 @@ class ReportController extends Controller {
                                 if (is_array($value3)) {
                                         $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
                                 } else {
-                                    if($value3 == 'block')
+                                    if($value3 === 'block')
                                         $q->whereRaw($key3);
                                     else
                                         $q->whereRaw($key3 . ' = "' . $value3 . '"');
@@ -253,7 +259,7 @@ class ReportController extends Controller {
                                     if (is_array($value3)) {
                                         $q->whereRaw($key3 . ' ' . $value3[0] . '"' . $value3[1] . '"');
                                     } else {
-                                        if($value3 == 'block')
+                                        if($value3 === 'block')
                                             $q->whereRaw($key3);
                                         else
                                             $q->whereRaw($key3 . ' = "' . $value3 . '"');
@@ -362,6 +368,7 @@ class ReportController extends Controller {
                 $resArr[$i]['Certificado Emitido'] = $value->certificado_emitido;
                 $resArr[$i]['Fecha Emisión'] = $value->fecha_emision;
                 $resArr[$i]['Estado Compañia'] = $value->estado_compania;
+                $resArr[$i]['Estado Banco'] = $value->estado_banco;
                 $resArr[$i]['Motivo Estado Compañia'] = $value->motivo_estado_compania;
                 $resArr[$i]['Facultativo Observación'] = $value->observation_facultative;
                 $resArr[$i]['Porcentaje Extraprima'] = $value->porcentaje_extraprima;

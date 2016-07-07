@@ -139,6 +139,7 @@
                                                 <th>Fecha Emisión</th>
                                                 <th>Estado Compañia</th>
                                                 <th>Motivo Estado Compañia</th>
+                                                <th>Estado Banco</th>
                                                 <th>Facultativo Observación</th>
                                                 <th>Porcentaje Extraprima</th>
                                                 <th>Fecha Respuesta Final Compañia</th>
@@ -176,6 +177,7 @@
                                                 <td>{{ $entities->fecha_emision }}</td>
                                                 <td>{{ $entities->estado_compania }}</td>
                                                 <td>{{ $entities->motivo_estado_compania }}</td>
+                                                <td>{{ $entities->estado_banco }}</td>
                                                 <td style="width: 100px;">{{ $entities->observation_facultative }}</td>                                                
                                                 <td>{{ $entities->porcentaje_extraprima }}</td>
                                                 <td>{{ $entities->fecha_respuesta_final_compania }}</td>

@@ -320,41 +320,52 @@ trait ReportTrait
         $con = '`op_'.$pref.'_headers`.`issued` = 0 AND `op_'.$pref.'_headers`.`facultative` = 1 AND `op_'.$pref.'_facultatives`.`state` = "PE" AND ';
         # pendiente
         if ($request->get('pendiente'))
-            $est1[] = '(' . $con . '(SELECT COUNT(odo.id) FROM op_'.$pref.'_observations as odo
+            $est1['pendiente'] = '(' . $con . '(SELECT COUNT(odo.id) FROM op_'.$pref.'_observations as odo
                     WHERE odo.op_'.$pref.'_facultative_id = op_'.$pref.'_facultatives.id) = 0)';
         # subsanado
         if ($request->get('subsanado'))
-            $est1[] = '(' . $con . '(SELECT COUNT(odo.id) FROM op_'.$pref.'_observations as odo
+            $est1['subsanado'] = '(' . $con . '(SELECT COUNT(odo.id) FROM op_'.$pref.'_observations as odo
                         WHERE odo.op_'.$pref.'_facultative_id = op_'.$pref.'_facultatives.id
                         AND odo.response = true ORDER BY odo.id DESC) = 1) ';
         # observado
         if ($request->get('observado'))
-            $est1[] = '(' . $con . '(SELECT COUNT(odo.id) FROM op_'.$pref.'_observations as odo
+            $est1['observado'] = '(' . $con . '(SELECT COUNT(odo.id) FROM op_'.$pref.'_observations as odo
                         WHERE odo.op_'.$pref.'_facultative_id = op_'.$pref.'_facultatives.id) > 0) ';
 
         $est2 = [];
         # validacion con and
         foreach ($rp_state as $key => $value) {
             if ($request->get($value->states->slug))
-                $est2[] = '(`op_'.$pref.'_headers`.`issued` = 0 AND `op_'.$pref.'_headers`.`facultative` =1 and `op_'.$pref.'_facultatives`.`state`="PE" and (SELECT MAX(odo.id)
+                $est2[] = '(`op_'.$pref.'_headers`.`issued` = 0 AND `op_'.$pref.'_headers`.`facultative` =1 and `op_'.$pref.'_facultatives`.`state`="PE" and (SELECT stat.slug
                     FROM op_'.$pref.'_observations as odo
-                    inner join op_'.$pref.'_facultatives as fcv on (fcv.id=odo.op_'.$pref.'_facultative_id)
+                    
                     inner join ad_states as stat on (odo.ad_state_id = stat.id)
-                    WHERE stat.slug = "' . $value->states->slug . '" and fcv.id = op_'.$pref.'_facultatives.id) > 0)';
+                    WHERE odo.op_'.$pref.'_facultative_id = op_'.$pref.'_facultatives.id order by odo.id DESC limit 0,1) = "'.$value->states->slug.'")';
         }
 
         $res = [];
         if (count($est1) > 0 && count($est2) > 0) {
             #ambos
-            $res['and'][] = array('((' . implode($est1, 'OR') . ') OR (' . implode($est2, 'OR') . '))' => 'block');
-        } elseif (count($est1) > 0 && count($est2) == 0) {
+            if($request->has('observado')){
+                $observado = $est1['observado'];
+                unset($est1['observado']);
+                if(count($est1) > 0)
+                $res['and'][] = array('((' . implode($est1, 'OR') . ') OR ('.$observado.' AND (' . implode($est2, 'OR') . ')) )' => 'block');
+                else
+                $res['and'][] = array('('.$observado.' AND (' . implode($est2, 'OR') . '))' => 'block');
+                
+            }else{
+                $res['and'][] = array('((' . implode($est1, 'OR') . ') OR (' . implode($est2, 'OR') . '))' => 'block');
+            }
+            
+        } elseif (count($est1) > 0 && count($est2) === 0) {
             #estados
             $res['and'][] = array('(' . implode($est1, 'OR') . ')' => 'block');
         } elseif (count($est1) == 0 && count($est2) > 0) {
             #subestados
             $res['and'][] = array('(' . implode($est2, 'OR') . ')' => 'block');
         }
-
+        
         return $res;
     }
     /**
