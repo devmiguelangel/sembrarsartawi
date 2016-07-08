@@ -883,4 +883,32 @@ class UserAdminController extends BaseController
             ->get();
         return response()->json($query_product);
     }
+
+    /**
+     * Delete register of data base
+     *
+     * @param  int  $id
+     * AJAX
+     **/
+    public function ajax_delete($id_user)
+    {
+        try{
+            $query_delete_retailer_user = \DB::table('ad_retailer_users')
+                ->where('ad_user_id',$id_user)
+                ->delete();
+
+            $query_delete_permissions = \DB::table('ad_user_permissions')
+                ->where('ad_user_id',$id_user)
+                ->delete();
+
+            $query_delete_user = \DB::table('ad_users')
+                ->where('id', $id_user)
+                ->delete();
+
+            return response()->json(['response'=>'ok', 'text' => 'Se elimino correctamente el registro']);
+
+        }catch (QueryException $e){
+            return response()->json(['response'=>'error', 'text' => $e->getMessage()]);
+        }
+    }
 }

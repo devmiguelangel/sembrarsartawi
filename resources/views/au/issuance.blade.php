@@ -128,6 +128,6 @@
     </div>
 
 <!-- modal -->
-@include('partials.modal_content')
+@include('partials.modal_content_report')
 <!-- /modal -->
 @endsection

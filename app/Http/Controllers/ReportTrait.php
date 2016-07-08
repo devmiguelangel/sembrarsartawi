@@ -287,5 +287,148 @@ trait ReportTrait
 
         return ( $permission instanceof Permission ) ? $permission->slug : 'RU';
     }
+    /**
+     * REPORTE regla consulta
+     * @param type $pref
+     * @param type $request
+     * @param type $rp_state
+     * @return type
+     */
+    public function role($pref, $request, $rp_state = array()) {
+        $consult = [];
+        $arr = [];
+        foreach ($consult as $key => $value) {
+            if ($key == 0) {
+                $arr['and'][] = $value;
+            } else {
+                $arr['or'][] = $value;
+            }
+        }
+        $arr = $this->roleEstado($pref, $rp_state, $request);
+        $arr = $this->roleAprobado($pref, $arr, $request);
+        
+        return $arr;
+    }
+    /**
+     * REPORTE validacion consulta estado
+     * @param type $rp_state
+     * @param type $request
+     * @return string
+     */
+    public function roleEstado($pref,$rp_state, $request) {
+        $est1 = [];
+        $con = '`op_'.$pref.'_headers`.`issued` = 0 AND `op_'.$pref.'_headers`.`facultative` = 1 AND `op_'.$pref.'_facultatives`.`state` = "PE" AND ';
+        # pendiente
+        if ($request->get('pendiente'))
+            $est1['pendiente'] = '(' . $con . '(SELECT COUNT(odo.id) FROM op_'.$pref.'_observations as odo
+                    WHERE odo.op_'.$pref.'_facultative_id = op_'.$pref.'_facultatives.id) = 0)';
+        # subsanado
+        if ($request->get('subsanado'))
+            $est1['subsanado'] = '(' . $con . '(SELECT COUNT(odo.id) FROM op_'.$pref.'_observations as odo
+                        WHERE odo.op_'.$pref.'_facultative_id = op_'.$pref.'_facultatives.id
+                        AND odo.response = true ORDER BY odo.id DESC) = 1) ';
+        # observado
+        if ($request->get('observado'))
+            $est1['observado'] = '(' . $con . '(SELECT COUNT(odo.id) FROM op_'.$pref.'_observations as odo
+                        WHERE odo.op_'.$pref.'_facultative_id = op_'.$pref.'_facultatives.id) > 0) ';
+
+        $est2 = [];
+        # validacion con and
+        foreach ($rp_state as $key => $value) {
+            if ($request->get($value->states->slug))
+                $est2[] = '(`op_'.$pref.'_headers`.`issued` = 0 AND `op_'.$pref.'_headers`.`facultative` =1 and `op_'.$pref.'_facultatives`.`state`="PE" and (SELECT stat.slug
+                    FROM op_'.$pref.'_observations as odo
+                    
+                    inner join ad_states as stat on (odo.ad_state_id = stat.id)
+                    WHERE odo.op_'.$pref.'_facultative_id = op_'.$pref.'_facultatives.id order by odo.id DESC limit 0,1) = "'.$value->states->slug.'")';
+        }
+
+        $res = [];
+        if (count($est1) > 0 && count($est2) > 0) {
+            #ambos
+            if($request->has('observado')){
+                $observado = $est1['observado'];
+                unset($est1['observado']);
+                if(count($est1) > 0)
+                $res['and'][] = array('((' . implode($est1, 'OR') . ') OR ('.$observado.' AND (' . implode($est2, 'OR') . ')) )' => 'block');
+                else
+                $res['and'][] = array('('.$observado.' AND (' . implode($est2, 'OR') . '))' => 'block');
+                
+            }else{
+                $res['and'][] = array('((' . implode($est1, 'OR') . ') OR (' . implode($est2, 'OR') . '))' => 'block');
+            }
+            
+        } elseif (count($est1) > 0 && count($est2) === 0) {
+            #estados
+            $res['and'][] = array('(' . implode($est1, 'OR') . ')' => 'block');
+        } elseif (count($est1) == 0 && count($est2) > 0) {
+            #subestados
+            $res['and'][] = array('(' . implode($est2, 'OR') . ')' => 'block');
+        }
+        
+        return $res;
+    }
+    /**
+     * REPORTE
+     * @param type $pref
+     * @param type $arr
+     * @param type $request
+     * @return int
+     */
+    public function roleAprobado($pref, $arr, $request){
+        
+        if($request->get('freecover') && $request->get('no_freecover'))
+            $fre = 'or';
+        else
+            $fre = 'and';
+
+        if ($request->get('freecover'))
+            $arr[$fre][] = array('`op_'.$pref.'_headers`.`issued`' => 1, '`op_'.$pref.'_headers`.`facultative`' => 0);
+
+        # no freecover
+        if ($request->get('no_freecover'))
+            $arr[$fre][] = array('`op_'.$pref.'_headers`.`facultative`' => 1, '`op_'.$pref.'_facultatives`.`state`' => 'PR', '`op_'.$pref.'_facultatives`.`approved`' => 1);
+
+        if($request->get('emitido') && $request->get('no_emitido'))
+            $emi = 'or';
+        else
+            $emi = 'and';
+        
+        # emitido
+        if ($request->get('emitido'))
+            $arr[$emi][] = array('`op_'.$pref.'_headers`.`issued`' => 1);
+
+        # no emitido
+        if ($request->get('no_emitido'))
+            $arr[$emi][] = array('`op_'.$pref.'_headers`.`issued`' => 0);
+        
+        if($request->get('extraprima') && $request->get('no_extraprima'))
+            $ext = 'or';
+        else
+            $ext = 'and';
+        
+        # extraprima
+        if ($request->get('extraprima'))
+            $arr[$ext][] = array('`op_'.$pref.'_facultatives`.`state`' => 'PR', '`op_'.$pref.'_headers`.`facultative`' => 1, '`op_'.$pref.'_facultatives`.`surcharge`' => 1);
+
+        # no extraprima
+        if ($request->get('no_extraprima'))
+            $arr[$ext][] = array('`op_'.$pref.'_facultatives`.`state`' => 'PR', '`op_'.$pref.'_headers`.`facultative`' => 1, '`op_'.$pref.'_facultatives`.`surcharge`' => 0);
+        
+        if($request->get('rechazado') && $request->get('anulado'))
+            $rec = 'or';
+        else
+            $rec = 'and';
+        
+        # rechazados
+        if ($request->get('rechazado'))
+            $arr[$rec][] = array('`op_'.$pref.'_facultatives`.`approved`' => 0, '`op_'.$pref.'_facultatives`.`state`' => 'PR');
+
+        # polizas anuladas
+        if ($request->get('anulado'))
+            $arr[$rec][] = array('`op_'.$pref.'_headers`.`issued`' => 1, '`op_'.$pref.'_headers`.`canceled`' => 1);
+        
+        return $arr;
+    }
 
 }
