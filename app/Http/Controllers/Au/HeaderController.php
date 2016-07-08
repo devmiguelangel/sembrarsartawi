@@ -448,11 +448,12 @@ class HeaderController extends Controller
     public function coverageStore(CoverageCreateFormRequest $request, $rp_id, $de_id)
     {
         if (request()->ajax()) {
-            if ($this->headerDeRepository->getHeaderById(decode($de_id)) && $this->clientRepository->getClientById(decode($request->get('client')))) {
-                $de     = $this->headerDeRepository->getModel();
-                $client = $this->clientRepository->getModel();
+            if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id)) && $this->headerDeRepository->getHeaderById(decode($de_id)) && $this->clientRepository->getClientById(decode($request->get('client')))) {
+                $retailerProduct = $this->retailerProductRepository->getModel();
+                $de              = $this->headerDeRepository->getModel();
+                $client          = $this->clientRepository->getModel();
 
-                if ($this->repository->storeCoverage($request)) {
+                if ($this->repository->storeCoverage($request, $retailerProduct)) {
                     $header = $this->repository->getModel();
 
                     Cache::put($header->id, $request->get('rp_de'), 180);

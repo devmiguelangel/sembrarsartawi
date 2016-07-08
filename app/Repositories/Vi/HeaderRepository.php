@@ -2,11 +2,13 @@
 
 namespace Sibas\Repositories\Vi;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\Client;
 use Sibas\Entities\De\Header as HeaderDe;
 use Sibas\Entities\Modality;
+use Sibas\Entities\RetailerProduct;
 use Sibas\Entities\User;
 use Sibas\Entities\Vi\Header;
 use Sibas\Repositories\BaseRepository;
@@ -30,7 +32,13 @@ class HeaderRepository extends BaseRepository
     public $error_value = false;
 
 
-    public function storeSubProduct(Request $request)
+    /**
+     * @param Request               $request
+     * @param Model|RetailerProduct $retailerProduct
+     *
+     * @return bool
+     */
+    public function storeSubProduct(Request $request, $retailerProduct)
     {
         $user       = $request->user();
         $this->data = $request->all();
@@ -49,24 +57,25 @@ class HeaderRepository extends BaseRepository
 
             $this->model = new Header();
 
-            $this->model->id                 = date('U');
-            $this->model->ad_user_id         = $user->id;
-            $this->model->type               = 'I';
-            $this->model->policy_number      = $this->getNumber('P', $policy->number);
-            $this->model->issue_number       = $this->getNumber('I');
-            $this->model->prefix             = 'VI';
-            $this->model->pre_printed        = false;
-            $this->model->pre_printed_number = 0;
-            $this->model->ad_plan_id         = $plan['id'];
-            $this->model->premium            = $plan['annual_premium'];
-            $this->model->payment_method     = $this->data['payment_method'];
-            $this->model->period             = $this->data['period'];
-            $this->model->issued             = true;
-            $this->model->date_issue         = $this->carbon->format('Y-m-d H:i:s');
-            $this->model->pledged            = false;
-            $this->model->case_number        = '';
-            $this->model->amount_pledged     = 0;
-            $this->model->file               = '';
+            $this->model->id                     = date('U');
+            $this->model->ad_user_id             = $user->id;
+            $this->model->ad_retailer_product_id = $retailerProduct->id;
+            $this->model->type                   = 'I';
+            $this->model->policy_number          = $this->getNumber('P', $policy->number);
+            $this->model->issue_number           = $this->getNumber('I');
+            $this->model->prefix                 = 'VI';
+            $this->model->pre_printed            = false;
+            $this->model->pre_printed_number     = 0;
+            $this->model->ad_plan_id             = $plan['id'];
+            $this->model->premium                = $plan['annual_premium'];
+            $this->model->payment_method         = $this->data['payment_method'];
+            $this->model->period                 = $this->data['period'];
+            $this->model->issued                 = true;
+            $this->model->date_issue             = $this->carbon->format('Y-m-d H:i:s');
+            $this->model->pledged                = false;
+            $this->model->case_number            = '';
+            $this->model->amount_pledged         = 0;
+            $this->model->file                   = '';
 
             if ($this->saveModel()) {
                 try {

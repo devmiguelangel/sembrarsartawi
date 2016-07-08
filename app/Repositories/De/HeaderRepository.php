@@ -106,8 +106,9 @@ class HeaderRepository extends BaseRepository
     {
         if ($retailerProduct->rates->count() === 1) {
             foreach ($retailerProduct->rates as $rate) {
-                $header->total_rate    = $rate->rate_final;
-                $header->total_premium = ( $header->amount_requested * $rate->rate_final ) / 100;
+                $header->ad_retailer_product_id = $retailerProduct->id;
+                $header->total_rate             = $rate->rate_final;
+                $header->total_premium          = ( $header->amount_requested * $rate->rate_final ) / 100;
 
                 return $this->saveModel();
             }
