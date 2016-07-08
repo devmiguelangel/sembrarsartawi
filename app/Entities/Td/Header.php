@@ -17,6 +17,7 @@ class Header extends Model
     protected $fillable = [
         'id',
         'ad_user_id',
+        'ad_retailer_product_id',
         'op_client_id',
         'warranty',
         'validity_start',

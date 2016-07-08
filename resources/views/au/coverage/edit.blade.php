@@ -254,9 +254,9 @@
                         <div class="panel panel-body border-top-success">
                             <div class="col-xs-12 col-md-6">
                                 <div class="form-group">
-                                    <div class="col-lg-4">
-                                        <strong>Inicio de Vigencia: </strong>
-                                    </div>
+                                    <label class="control-label col-lg-4 label_required">
+                                        <strong>Inicio de Vigencia:</strong>
+                                    </label>
                                     <div class="col-lg-8">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar22"></i></span>

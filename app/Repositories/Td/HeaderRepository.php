@@ -301,15 +301,17 @@ class HeaderRepository extends BaseRepository
     /**edw
      * funcion actualiza prima total en td_headers
      *
-     * @param type $header_id
-     * @param type $totalPremium
+     * @param Model|RetailerProduct $retailerProduct
+     * @param string                $header_id
+     * @param double                $totalPremium
      *
-     * @return boolean
+     * @return bool
      */
-    public function updateHeaderTotalPremium($header_id, $totalPremium)
+    public function updateHeaderTotalPremium($retailerProduct, $header_id, $totalPremium)
     {
         if ($this->getHeaderById($header_id)) {
-            $this->model->total_premium = $totalPremium;
+            $this->model->ad_retailer_product_id = $retailerProduct->id;
+            $this->model->total_premium          = $totalPremium;
 
             return $this->saveModel();
         }
@@ -394,25 +396,27 @@ class HeaderRepository extends BaseRepository
 
 
     /**
-     * @param Request $request
+     * @param Request               $request
+     * @param Model|RetailerProduct $retailerProduct
      *
      * @return bool
      */
-    public function storeCoverage(Request $request)
+    public function storeCoverage(Request $request, $retailerProduct)
     {
         $this->data = $request->all();
         $user       = $request->user();
 
         try {
             $this->model = Header::create([
-                'id'           => date('U'),
-                'ad_user_id'   => $user->id,
-                'op_client_id' => decode($this->data['client']),
-                'type'         => 'Q',
-                'warranty'     => true,
-                'currency'     => $this->data['currency']['id'],
-                'term'         => $this->data['term'],
-                'type_term'    => $this->data['type_term']['id'],
+                'id'                     => date('U'),
+                'ad_user_id'             => $user->id,
+                'ad_retailer_product_id' => $retailerProduct->id,
+                'op_client_id'           => decode($this->data['client']),
+                'type'                   => 'Q',
+                'warranty'               => true,
+                'currency'               => $this->data['currency']['id'],
+                'term'                   => $this->data['term'],
+                'type_term'              => $this->data['type_term']['id'],
             ]);
 
             return $this->saveModel();

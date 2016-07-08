@@ -157,8 +157,9 @@ class HeaderRepository extends BaseRepository
 
             try {
                 $header->update([
-                    'total_premium' => $premium_total,
-                    'share'         => json_encode($share),
+                    'ad_retailer_product_id' => $retailerProduct->id,
+                    'total_premium'          => $premium_total,
+                    'share'                  => json_encode($share),
                 ]);
 
                 return true;
@@ -342,26 +343,28 @@ class HeaderRepository extends BaseRepository
 
     /**
      *
-     * @param Request $request
+     * @param Request               $request
+     * @param Model|RetailerProduct $retailerProduct
      *
      * @return bool
      */
-    public function storeCoverage(Request $request)
+    public function storeCoverage(Request $request, $retailerProduct)
     {
         $this->data = $request->all();
         $user       = $request->user();
 
         try {
             $this->model = Header::create([
-                'id'             => date('U'),
-                'ad_user_id'     => $user->id,
-                'op_client_id'   => decode($this->data['client']),
-                'type'           => 'Q',
-                'warranty'       => true,
-                'payment_method' => $this->data['payment_method']['id'],
-                'currency'       => $this->data['currency']['id'],
-                'term'           => $this->data['term'],
-                'type_term'      => $this->data['type_term']['id'],
+                'id'                     => date('U'),
+                'ad_user_id'             => $user->id,
+                'ad_retailer_product_id' => $retailerProduct->id,
+                'op_client_id'           => decode($this->data['client']),
+                'type'                   => 'Q',
+                'warranty'               => true,
+                'payment_method'         => $this->data['payment_method']['id'],
+                'currency'               => $this->data['currency']['id'],
+                'term'                   => $this->data['term'],
+                'type_term'              => $this->data['type_term']['id'],
             ]);
 
             return $this->saveModel();
