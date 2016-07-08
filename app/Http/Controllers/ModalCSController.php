@@ -149,9 +149,11 @@ class ModalCSController extends Controller
             //dd($query_client);
 
             $query_riesgo = \DB::table('op_td_details as td')
+                ->leftJoin('op_td_facultatives as tf', 'tf.op_td_detail_id', '=', 'td.id')
                 ->select('td.matter_description', 'td.city', 'td.zone', 'td.locality', 'td.address',
                     'td.insured_value', 'td.rate', 'td.premium', 'td.matter_insured', 'td.use',
-                    'td.number')
+                    'td.number', 'tf.approved', 'tf.surcharge', 'tf.percentage', 'tf.current_rate',
+                    'tf.final_rate', 'tf.observation')
                 ->where('td.op_td_header_id', '=', decode($id_header))
                 ->get();
 

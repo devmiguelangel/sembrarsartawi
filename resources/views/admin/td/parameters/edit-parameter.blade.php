@@ -95,6 +95,25 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="control-label col-lg-2">Garantía</label>
+                    <label class="radio-inline">
+                        @if((boolean)$query->warranty==true)
+                            <input type="radio" name="warr" class="styled" checked="checked" value="1">SI
+                        @else
+                            <input type="radio" name="warr" class="styled" value="1">SI
+                        @endif
+                    </label>
+
+                    <label class="radio-inline">
+                        @if((boolean)$query->warranty==false)
+                            <input type="radio" name="warr" class="styled" checked="checked" value="0">NO
+                        @else
+                            <input type="radio" name="warr" class="styled" value="0">NO
+                        @endif
+                    </label>
+                </div>
+
+                <div class="form-group">
                     <label class="control-label col-lg-2">Facultativo</label>
                     <label class="radio-inline">
                         @if((boolean)$query->facultative==true)

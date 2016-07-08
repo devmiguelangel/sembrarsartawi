@@ -23,10 +23,13 @@ class AuAdminController extends BaseController
         $array_data = $this->array_data();
         $query = RetailerProduct::join('ad_company_products', 'ad_company_products.id', '=', 'ad_retailer_products.ad_company_product_id')
             ->join('ad_products', 'ad_products.id', '=', 'ad_company_products.ad_product_id')
-            ->select('ad_retailer_products.id as id_retailer_product', 'ad_retailer_products.type', 'ad_retailer_products.billing', 'ad_retailer_products.provisional_certificate', 'ad_retailer_products.modality', 'ad_retailer_products.facultative', 'ad_retailer_products.ws', 'ad_retailer_products.active', 'ad_products.name as producto')
+            ->select('ad_retailer_products.id as id_retailer_product', 'ad_retailer_products.type',
+                'ad_retailer_products.billing', 'ad_retailer_products.provisional_certificate',
+                'ad_retailer_products.modality', 'ad_retailer_products.facultative',
+                'ad_retailer_products.ws', 'ad_retailer_products.active', 'ad_products.name as producto',
+                'ad_retailer_products.warranty')
             ->where('ad_retailer_products.id', '=', $id_retailer_product)
             ->first();
-        //dd($query);
         return view('admin.au.parameters.list-parameter', compact('nav', 'action', 'id_retailer_product', 'main_menu', 'array_data', 'query'));
     }
 
@@ -112,7 +115,9 @@ class AuAdminController extends BaseController
         $query = \DB::table('ad_retailer_products as arp')
             ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
             ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
-            ->select('arp.type', 'arp.billing', 'arp.provisional_certificate', 'arp.modality', 'arp.facultative', 'arp.ws', 'ap.name as producto', 'arp.ad_retailer_id')
+            ->select('arp.type', 'arp.billing', 'arp.provisional_certificate', 'arp.modality',
+                'arp.facultative', 'arp.ws', 'ap.name as producto', 'arp.ad_retailer_id',
+                'arp.warranty')
             ->where('arp.id', '=', $id_retailer_product)
             ->first();
         //dd($query);
@@ -144,6 +149,7 @@ class AuAdminController extends BaseController
     {
         try{
             $retailer_update = RetailerProduct::find($request->input('id_retailer_product'));
+            $retailer_update->warranty=$request->get('warr');
             $retailer_update->billing=$request->input('fact');
             $retailer_update->provisional_certificate=$request->input('cert');
             $retailer_update->modality=$request->input('moda');

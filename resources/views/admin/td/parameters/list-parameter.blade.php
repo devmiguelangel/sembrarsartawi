@@ -35,6 +35,7 @@
                 <th style="text-align: center;">Facturación</th>
                 <th style="text-align: center;">Certificado Provisional</th>
                 <th style="text-align: center;">Modalidad</th>
+                <th style="text-align: center;">Garantía</th>
                 <th style="text-align: center;">Facultativo</th>
                 <th style="text-align: center;">Web Service</th>
                 <th style="text-align: center;">Parametros Adicionales</th>
@@ -61,6 +62,13 @@
                 </td>
                 <td style="text-align: center;">
                     @if((boolean)$query->modality == true)
+                        Si
+                    @else
+                        No
+                    @endif
+                </td>
+                <td style="text-align: center;">
+                    @if((boolean)$query->warranty == true)
                         Si
                     @else
                         No

@@ -316,7 +316,7 @@
         @if((boolean)$query_header->facultative === true)
             @if((boolean)$query_header->approved === true)
                     <!--renglon 2-->
-            <div style="font-size:6pt; text-align:center; margin-top:5px; margin-bottom:0px; border:1px solid #C68A8A; background:#FFEBEA; padding:8px; width:98%;" align="left">
+            <div style="font-size:6pt; text-align:left; margin-top:5px; margin-bottom:0px; border:1px solid #C68A8A; background:#FFEBEA; padding:5px; width:100%;">
                 APROBADO POR LA COMPAÑÍA ASEGURADORA DE ACUERDO A LAS SIGUIENTES CONDICIONES, MISMAS QUE PREVALECERÁN SOBRE
                 LAS ANTERIORES
             </div>
