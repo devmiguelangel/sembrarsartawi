@@ -65,7 +65,7 @@
         <div class="col-lg-12">
             <div class="input-group">
                 <span class="input-group-addon">{{ $header->currency }}</span>
-                {!! Form::text('construction_value', old('construction_value', $detail->construction_value), [
+                {!! Form::text('construction_value', old('construction_value', $detail->insured_value), [
                     'class'        => 'form-control ui-wizard-content',
                     'id'        => 'construction_value',
                     'operation_number'        => 'operation_number',
@@ -76,6 +76,7 @@
             <small class="construction_value_msg" style="color: red;"></small>
         </div>
     </div>
+    <!--
     <div class="form-group valor_de_terreno" style="display: none;">
         <label class="control-label col-lg-12 label_required">Valor de Terreno: </label>
         <div class="col-lg-12">
@@ -90,7 +91,7 @@
             </div>
             <small class="land_value_msg" style="color: red;"></small>
         </div>
-    </div>
+    </div>-->
     <div class="form-group valor_asegurado">
         <label class="control-label col-lg-12 label_required">Valor Asegurado: </label>
         <div class="col-lg-12">

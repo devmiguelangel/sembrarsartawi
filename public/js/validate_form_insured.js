@@ -11,7 +11,7 @@ var required = {
     'number': 'Número',
     'use': 'Uso',
     'construction_value': 'Valor Construcción',
-    'land_value': 'Valor de Terreno',
+    //'land_value': 'Valor de Terreno',
     'insured_value': 'Valor Asegurado',
     'locality': 'Ciudad o Localidad'
 }
@@ -20,7 +20,7 @@ var required = {
 var number = {
     'number': 'Número',
     'construction_value': 'Valor Construcción',
-    'land_value': 'Valor de Terreno',
+    //'land_value': 'Valor de Terreno',
     'insured_value': 'Valor Asegurado'
 }
 
@@ -43,7 +43,7 @@ $('#insured_form').on('submit', function(event) {
             number: $('#number').val(),
             use: $('#use').val(),
             construction_value: $('#construction_value').val(),
-            land_value: $('#land_value').val(),
+            //land_value: $('#land_value').val(),
             insured_value: $('#insured_value').val(),
             city: $('#city').val(),
             zone: $('#zone').val(),

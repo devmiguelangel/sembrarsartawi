@@ -170,13 +170,13 @@
                                         @var $route_report = '';
 
                                         @if($retailerProduct->companyProduct->product->code == 'de')
-                                            @var $route_report = 'report_cotizacion';
+                                            @var $route_report = 'report_general';
                                         @endif
                                         @if($retailerProduct->companyProduct->product->code == 'au')
-                                            @var $route_report = 'auto_report_cotizacion';
+                                            @var $route_report = 'auto_report_general';
                                         @endif
                                         @if($retailerProduct->companyProduct->product->code == 'td')
-                                            @var $route_report = 'td_report_cotizacion';
+                                            @var $route_report = 'td_report_general';
                                         @endif
                                         <a href="{{ route('report.' . $route_report, [
                                             'id_comp' => encode($retailerProduct->id)

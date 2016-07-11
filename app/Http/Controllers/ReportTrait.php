@@ -324,9 +324,10 @@ trait ReportTrait
                     WHERE odo.op_'.$pref.'_facultative_id = op_'.$pref.'_facultatives.id) = 0)';
         # subsanado
         if ($request->get('subsanado'))
-            $est1['subsanado'] = '(' . $con . '(SELECT COUNT(odo.id) FROM op_'.$pref.'_observations as odo
-                        WHERE odo.op_'.$pref.'_facultative_id = op_'.$pref.'_facultatives.id
-                        AND odo.response = true ORDER BY odo.id DESC) = 1) ';
+            $est1['subsanado'] = '(' . $con . '(SELECT odo.response
+                                    FROM op_'.$pref.'_observations AS odo
+                                    WHERE odo.op_'.$pref.'_facultative_id = op_'.$pref.'_facultatives.id 
+                                    ORDER BY odo.id DESC limit 0,1) = true) ';
         # observado
         if ($request->get('observado'))
             $est1['observado'] = '(' . $con . '(SELECT COUNT(odo.id) FROM op_'.$pref.'_observations as odo

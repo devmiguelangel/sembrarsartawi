@@ -39,14 +39,14 @@
                 <div class="tabbable">
                     <!--<ul class="nav nav-tabs nav-tabs-highlight nav-justified">-->
                     <ul class="nav nav-tabs nav-tabs-highlight">
+                        <li>
+                            <a href="{{ route('report.td_report_general',[ 'id_comp' => $id_comp ]) }}">General</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('report.td_report_general_emitido',[ 'id_comp' => $id_comp ]) }}">P&oacute;lizas Emitidas</a>
+                        </li>
                         <li class="active">
-                            <a href="{{ route('report.td_report_cotizacion',[ 'id_comp' => $id_comp ]) }}">Solicitudes Multiriesgo </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('report.td_report_general',[ 'id_comp' => $id_comp ]) }}">General Multiriesgo</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('report.td_report_general_emitido',[ 'id_comp' => $id_comp ]) }}">P&oacute;lizas Emitidas Multiriesgo</a>
+                            <a href="{{ route('report.td_report_cotizacion',[ 'id_comp' => $id_comp ]) }}">Solicitudes</a>
                         </li>
                     </ul>
                     <div class="tab-content">

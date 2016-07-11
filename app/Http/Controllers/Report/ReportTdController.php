@@ -186,9 +186,10 @@ use ReportTrait;
                                 if(op_td_headers.facultative=true and op_td_facultatives.state='PR' and op_td_facultatives.approved=FALSE,'Rechazado',
                                 if(op_td_headers.issued=false and op_td_headers.facultative=true and op_td_facultatives.state='PE' and op_td_observations.id is null,'Pendiente',
                                 if(op_td_headers.issued=false and op_td_headers.facultative=true and op_td_facultatives.state='PE' and 
-                                (SELECT COUNT(odo.id) FROM op_td_observations as odo
-                        WHERE odo.op_td_facultative_id = op_td_facultatives.id
-                        AND odo.response = true ORDER BY odo.id DESC)=1,'Subsanado Pendiente',
+                                (SELECT odo.response
+                                    FROM op_td_observations AS odo
+                                    WHERE odo.op_td_facultative_id = op_td_facultatives.id 
+                                    ORDER BY odo.id DESC limit 0,1)=true,'Subsanado Pendiente',
                                 if(op_td_headers.issued=false and op_td_headers.facultative=true and op_td_facultatives.state='PE' and op_td_observations.id is not null,'Observado',
                                 '')))))) as estado_compania"),
                         

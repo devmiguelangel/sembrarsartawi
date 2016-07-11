@@ -153,9 +153,10 @@ class ReportController extends Controller {
                                 if(op_de_headers.facultative=true and op_de_facultatives.state='PR' and op_de_facultatives.approved=FALSE,'Rechazado',
                                 if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is null,'Pendiente',
                                 if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and 
-                                (SELECT COUNT(odo.id) FROM op_de_observations as odo
-                        WHERE odo.op_de_facultative_id = op_de_facultatives.id
-                        AND odo.response = true ORDER BY odo.id DESC)=1,'Subsanado Pendiente',
+                                (SELECT odo.response
+                                    FROM op_de_observations AS odo
+                                    WHERE odo.op_de_facultative_id = op_de_facultatives.id 
+                                    ORDER BY odo.id DESC limit 0,1) = true,'Subsanado Pendiente',
                                 if(op_de_headers.issued=false and op_de_headers.facultative=true and op_de_facultatives.state='PE' and op_de_observations.id is not null,'Observado',
                                 '')))))) as estado_compania"),
                         
