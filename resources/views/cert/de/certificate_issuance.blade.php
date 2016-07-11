@@ -699,7 +699,7 @@
                         <td style="width:7%; text-align: center; font-weight: bold; border: 1px solid #dedede;
                                  background: #e57474;">Tasa Final</td>
                         <td style="width:69%; text-align: center; font-weight: bold; border: 1px solid #dedede;
-                                 background: #e57474;">Respuesta de la Compañía/Observaciones</td>
+                                 background: #e57474;">Respuesta de la Compañía</td>
                     </tr>
                     @foreach($query_details as $data_fac)
                         @if($data_fac->headline=='D')
@@ -716,8 +716,12 @@
                                          border: 1px solid #dedede;">{{$data_fac->final_rate}} %</td>
                                 <td style="width:69%; text-align: justify; background: #e78484; color: #FFFFFF;
                                              border: 1px solid #dedede;">
-                                    <span style="color:#000000;">Respuesta de la Compañía: {{$data_fac->reason}}</span><br/>
-                                    <span style="color:#000000">Observaciones: {{$data_fac->observation}}</span>
+                                    <span style="color:#ffffff;">{{$data_fac->observation}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" style="text-align: left; background: #e57474; color: #FFFFFF;">
+                                    <span style="color:#000000">Observaciones:</span> {{$data_fac->reason}}
                                 </td>
                             </tr>
                         @endif
