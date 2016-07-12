@@ -68,8 +68,12 @@
                 <td style="width:21%; border-top:1px solid #999; text-align:center;">Apellido de Casada</td>
             </tr>
         </table>
-        @var $parameter_avst = config('base.avenue_street')
-        @var $avenue_street = $parameter_avst[$query_client->avenue_street]
+        @if(is_null($query_client->avenue_street))
+            @var $avenue_street = ''
+        @else
+            @var $parameter_avst = config('base.avenue_street')
+            @var $avenue_street = $parameter_avst[$query_client->avenue_street]
+        @endif
         <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 65%; font-family: Arial; padding-bottom: 5px;">
             <tr>
                 <td style="width:14%;">Dirección Legal:</td>
