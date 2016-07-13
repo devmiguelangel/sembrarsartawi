@@ -125,10 +125,10 @@ class HeaderRepository extends BaseRepository
 
 
     /**
-     * @param User     $user
-     * @param string   $sp_id
-     * @param HeaderDe $headerDe
-     * @param Client   $client
+     * @param Model|User     $user
+     * @param string         $sp_id
+     * @param Model|HeaderDe $headerDe
+     * @param Model|Client   $client
      *
      * @return bool
      */

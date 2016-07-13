@@ -12,37 +12,33 @@ use Sibas\Repositories\Retailer\RetailerProductRepository;
 
 class QuestionController extends Controller
 {
+
     /**
      * @var QuestionRepository
      */
     protected $repository;
+
     /**
      * @var DetailRepository
      */
     protected $detailRepository;
+
     /**
      * @var RetailerProductRepository
      */
     protected $retailerProductRepository;
 
-    public function __construct(QuestionRepository $repository,
-                                DetailRepository $detailRepository,
-                                RetailerProductRepository $retailerProductRepository)
-    {
-        $this->repository       = $repository;
-        $this->detailRepository = $detailRepository;
+
+    public function __construct(
+        QuestionRepository $repository,
+        DetailRepository $detailRepository,
+        RetailerProductRepository $retailerProductRepository
+    ) {
+        $this->repository                = $repository;
+        $this->detailRepository          = $detailRepository;
         $this->retailerProductRepository = $retailerProductRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -50,6 +46,7 @@ class QuestionController extends Controller
      * @param String $rp_id
      * @param String $header_id
      * @param String $detail_id
+     *
      * @return \Illuminate\Http\Response
      */
     public function create($rp_id, $header_id, $detail_id)
@@ -69,13 +66,15 @@ class QuestionController extends Controller
         return redirect()->route('de.client.list', [
             'rp_id'     => $rp_id,
             'header_id' => $header_id
-        ])->with(['error_detail' => 'Ha ocurrido un error en el Cuestionario de Salud']);
+        ])->with([ 'error_detail' => 'Ha ocurrido un error en el Cuestionario de Salud' ]);
     }
+
 
     /**
      * Store a newly created resource in storage.
      *
      * @param QuestionFormRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function storeDe(QuestionFormRequest $request, $rp_id, $header_id, $detail_id)
@@ -85,27 +84,17 @@ class QuestionController extends Controller
 
             if ($this->repository->storeQuestionDe($request)) {
                 return redirect()->route('de.client.list', [
-                        'rp_id'     => $rp_id,
-                        'header_id' => $header_id,
-                    ])->with(['success_question' => 'La información y el '
-                        . 'cuestionario de salud del Cliente fueron registrados']);
+                    'rp_id'     => $rp_id,
+                    'header_id' => $header_id,
+                ])->with([
+                    'success_question' => 'La información y el ' . 'cuestionario de salud del Cliente fueron registrados'
+                ]);
             }
         }
 
-        return redirect()->back()->with(['error_question' => 'El Cuestionario de Salud no pudo ser registrado'])
-            ->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()->with([ 'error_question' => 'El Cuestionario de Salud no pudo ser registrado' ])->withInput()->withErrors($this->repository->getErrors());
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -113,6 +102,7 @@ class QuestionController extends Controller
      * @param $rp_id
      * @param $header_id
      * @param $detail_id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($rp_id, $header_id, $detail_id)
@@ -129,26 +119,15 @@ class QuestionController extends Controller
             return view('client.de.question-edit', compact('rp_id', 'header_id', 'detail_id', 'data'));
         }
 
-        return redirect()->back()
-            ->with(['error_question' => 'El Cuestionario de Salud no puede ser editado']);
+        return redirect()->back()->with([ 'error_question' => 'El Cuestionario de Salud no puede ser editado' ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-
-    }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  QuestionFormRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function updateDe(QuestionFormRequest $request, $rp_id, $header_id, $detail_id)
@@ -160,23 +139,11 @@ class QuestionController extends Controller
                 return redirect()->route('de.client.list', [
                     'rp_id'     => $rp_id,
                     'header_id' => $header_id,
-                ])->with(['success_question' => 'El Cuestionario de Salud se actualizó correctamente']);
+                ])->with([ 'success_question' => 'El Cuestionario de Salud se actualizó correctamente' ]);
             }
         }
 
-        return redirect()->back()
-            ->with(['error_question' => 'El Cuestionario de Salud no pudo ser actualizado'])
-            ->withInput()->withErrors($this->repository->getErrors());
+        return redirect()->back()->with([ 'error_question' => 'El Cuestionario de Salud no pudo ser actualizado' ])->withInput()->withErrors($this->repository->getErrors());
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    
 }

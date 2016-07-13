@@ -86,17 +86,17 @@
                         @if(request()->has('coverage'))
                             <input type="hidden" name="coverage" value="{{ request()->get('coverage') }}">
 
-                            <a href="{{ route('au.coverage.edit', [
-                            'rp_id'     => $rp_id,
-                            'de_id'     => request()->get('coverage'),
-                            'header_id' => $header_id,
-                        ]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+                            <a href="{{ route('td.coverage.edit', [
+                                'rp_id'     => $rp_id,
+                                'de_id'     => request()->get('coverage'),
+                                'header_id' => $header_id,
+                            ]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
                         @else
                             <a href="{{ route('au.edit', [
-                            'rp_id'     => $rp_id,
-                            'header_id' => $header_id,
-                            isset($_GET['idf']) ? 'idf=' . e($_GET['idf']) : null
-                        ]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
+                                'rp_id'     => $rp_id,
+                                'header_id' => $header_id,
+                                isset($_GET['idf']) ? 'idf=' . e($_GET['idf']) : null
+                            ]) }}" class="btn border-slate text-slate-800 btn-flat">Cancelar</a>
                         @endif
 
                         {!! Form::button('Actualizar Cliente <i class="icon-arrow-right14 position-right"></i>', [

@@ -12,37 +12,33 @@ use Sibas\Repositories\Retailer\CityRepository;
 
 class BeneficiaryController extends Controller
 {
+
     /**
      * @var BeneficiaryRepository
      */
     protected $repository;
+
     /**
      * @var DetailRepository
      */
     private $detailRepository;
+
     /**
      * @var CityRepository
      */
     private $cityRepository;
 
-    public function __construct(BeneficiaryRepository $repository,
-                                DetailRepository $detailRepository,
-                                CityRepository $cityRepository)
-    {
+
+    public function __construct(
+        BeneficiaryRepository $repository,
+        DetailRepository $detailRepository,
+        CityRepository $cityRepository
+    ) {
         $this->repository       = $repository;
         $this->detailRepository = $detailRepository;
         $this->cityRepository   = $cityRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -50,6 +46,7 @@ class BeneficiaryController extends Controller
      * @param $rp_id
      * @param $header_id
      * @param $detail_id
+     *
      * @return \Illuminate\Http\Response
      */
     public function create($rp_id, $header_id, $detail_id)
@@ -70,16 +67,18 @@ class BeneficiaryController extends Controller
                 ]);
             }
 
-            return response()->json(['err' => 'Unauthorized action.'], 401);
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
         }
 
         return redirect()->back();
     }
 
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  BeneficiaryDeFormRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(BeneficiaryDeFormRequest $request, $rp_id, $header_id, $detail_id)
@@ -98,22 +97,12 @@ class BeneficiaryController extends Controller
                 }
             }
 
-            return response()->json(['err'=>'Unauthorized action.'], 401);
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
         }
 
         return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -121,6 +110,7 @@ class BeneficiaryController extends Controller
      * @param $rp_id
      * @param $header_id
      * @param $detail_id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($rp_id, $header_id, $detail_id)
@@ -138,20 +128,22 @@ class BeneficiaryController extends Controller
 
                 return response()->json([
                     'payload'     => $payload->render(),
-                    'beneficiary' => [$beneficiary]
+                    'beneficiary' => [ $beneficiary ]
                 ]);
             }
 
-            return response()->json(['err' => 'Unauthorized action.'], 401);
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
         }
 
         return redirect()->back();
     }
 
+
     /**
      * Update the specified resource in storage.
      *
      * @param  BeneficiaryDeFormRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(BeneficiaryDeFormRequest $request, $rp_id, $header_id, $detail_id)
@@ -167,20 +159,10 @@ class BeneficiaryController extends Controller
                 }
             }
 
-            return response()->json(['err'=>'Unauthorized action.'], 401);
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
         }
 
         return redirect()->back();
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    
 }
