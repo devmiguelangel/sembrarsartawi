@@ -45,6 +45,8 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', '$http', function($roo
   $rootScope.data          = {};
 
   $rootScope.mcEnabled = false;
+  
+  $rootScope.submitted = false;
 
   $rootScope.getActionAttribute = function (event) {
     return event.target.attributes.action.value;
@@ -67,6 +69,16 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', '$http', function($roo
 
   $rootScope.compileData = function (payload) {
     return $compile(payload)($rootScope);
+  };
+
+  $rootScope.sendForm = function (event) {
+    if ($rootScope.submitted) {
+      event.preventDefault();
+    } else {
+      $rootScope.submitted = true;
+    }
+
+    console.log($rootScope.submitted);
   };
 
   $rootScope.submitForm = function (id_form) {
@@ -160,7 +172,7 @@ app.controller('CancellationController', ['$scope', '$http', CancellationControl
 
 app.controller('HeaderViController', ['$scope', '$http', '$compile', HeaderViController.header]);
 
-app.controller('ClientController', ['$scope', ClientController.client]);
+app.controller('ClientController', ['$rootScope', '$scope', ClientController.client]);
 
 app.controller('HeaderAuController', ['$scope', '$http', HeaderAuController.header]);
 

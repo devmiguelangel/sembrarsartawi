@@ -108,7 +108,12 @@ class Header extends Model
 
         $client = $this->client;
 
-        if (empty( $client->place_residence ) || empty( $client->locality ) || empty( $client->home_address ) || empty( $client->home_number ) || empty( $client->business_address )) {
+        if (empty( $client->place_residence )
+            || empty( $client->locality )
+            || empty( $client->home_address )
+            || empty( $client->home_number )
+            || empty( $client->business_address )
+            || empty( $client->avenue_street )) {
             $completed = false;
         }
 
@@ -128,7 +133,7 @@ class Header extends Model
             }
         }
 
-        if ( ! $this->client_completed) {
+        if ( ! $this->client_completed || $this->details->count() === 0) {
             $completed = false;
         }
 

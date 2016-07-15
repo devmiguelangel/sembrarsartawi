@@ -16,7 +16,6 @@ use Sibas\Repositories\De\DataRepository;
 use Sibas\Repositories\De\DetailRepository as DetailDeRepository;
 use Sibas\Repositories\De\HeaderRepository as HeaderDeRepository;
 use Sibas\Repositories\Retailer\CityRepository;
-use Sibas\Repositories\Retailer\ModalityRepository;
 use Sibas\Repositories\Retailer\PlanRepository;
 use Sibas\Repositories\Retailer\PolicyRepository;
 use Sibas\Repositories\Retailer\RetailerProductRepository;
@@ -145,7 +144,7 @@ class HeaderController extends Controller
     public function createSubProduct(Guard $auth, $rp_id, $header_id, $sp_id)
     {
         $key = 'clients_' . $header_id;
-
+        
         if (Cache::has($key)) {
             $clients = Cache::get($key);
 

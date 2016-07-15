@@ -351,9 +351,10 @@
                     </div>
                 </div>
                 {!! Form::open(['route' => ['de.vi.sp.store', 'rp_id' => $rp_id, 'header_id' => $header_id, 'sp_id' => $sp_id],
-                  'method' => 'post',
-                  'class' => '',
-                  'ng-controller' => 'HeaderViController' 
+                    'method'        => 'post',
+                    'class'         => '',
+                    'ng-controller' => 'HeaderViController',
+                    'ng-submit'     => 'sendForm($event)',
                 ]) !!}
 
                 {!! Form::hidden('detail_id', encode($detail->id)) !!}

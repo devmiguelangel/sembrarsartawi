@@ -119,6 +119,7 @@
                         'id'            => 'form-init',
                         'data-product'  => 'td',
                         'ng-init'       => 'getPolicies()',
+                        'ng-submit'     => 'sendForm($event)',
                     ]) !!}
 
                     <div class="panel-body ">

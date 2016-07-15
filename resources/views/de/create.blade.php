@@ -83,8 +83,10 @@
                 <div class="panel-body ">
                     <div class="col-xs-8">
                         {!! Form::open(['route' => ['de.store', 'rp_id' => $rp_id],
-                            'method' => 'post',
-                            'class'  => 'form-horizontal',
+                            'method'        => 'post',
+                            'class'         => 'form-horizontal',
+                            'ng-controller' => 'HeaderDeController',
+                            'ng-submit'     => 'sendForm($event)',
                         ]) !!}
                         <div class="form-group">
                             <label class="control-label col-lg-3 label_required">Tipo de cobertura: </label>
@@ -168,7 +170,10 @@
                         </div>
 
                         <div class="text-right">
-                            {!! Form::button('Cotiza tu mejor seguro <i class="icon-arrow-right14 position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+                            {!! Form::button('Cotiza tu mejor seguro <i class="icon-arrow-right14 position-right"></i>', [
+                                'type'  => 'submit',
+                                'class' => 'btn btn-primary',
+                            ]) !!}
                         </div>
                         {!! Form::close() !!}
                     </div>

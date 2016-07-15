@@ -128,7 +128,7 @@
                     <div class="col-md-10 col-md-offset-1">
                         <div class="modal-header bg-primary recuadro">
                             <div class="panel-heading">
-                                <h6 class="modal-title">Datos del Vehículo</h6>
+                                <h6 class="modal-title">Datos del Inmueble</h6>
                             </div>
                         </div>
                         <div class="panel panel-body border-top-success" ng-controller="DetailTdController">

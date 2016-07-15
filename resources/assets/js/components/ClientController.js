@@ -1,8 +1,10 @@
-var client = function ($scope) {
-  $scope.submitted = true;
+var client = function ($rootScope, $scope) {
+  $scope.verify = false;
 
   $scope.submitDe = function (event) {
-    if ($scope.submitted) {
+    $scope.sendForm(event);
+
+    if (! $scope.verify) {
       event.preventDefault();
 
       var form_id = event.target.attributes.id.value;
@@ -30,12 +32,16 @@ var client = function ($scope) {
         
         bootbox.confirm(message, function(result) {
           if (result) {
-            $scope.submitted = false;
+            $scope.verify        = true;
+            $rootScope.submitted = false;
+
             $scope.submitForm('#' + form_id);
           }
         });
       } else {
-        $scope.submitted = false;
+        $scope.verify        = true;
+        $rootScope.submitted = false;
+
         $scope.submitForm('#' + form_id);
       }
     }
