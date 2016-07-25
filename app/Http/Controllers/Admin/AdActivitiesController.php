@@ -157,7 +157,7 @@ class AdActivitiesController extends BaseController {
                 $results = $reader->get();
                 //dd($results);
                 foreach($results as $data){
-                    //var_dump($data->caedec);
+                    //var_dump($data->ocupacion);
                     try {
                         $query_insert = \DB::table('ad_activities')->insert(
                             [

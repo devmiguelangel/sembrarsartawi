@@ -56,7 +56,8 @@ $(document).ready(function() {
             var fsize = $('#FileInput')[0].files[0].size; //get file size
             var ftype = $('#FileInput')[0].files[0].type; // get file type
 
-
+            console.log(ftype);
+            //alert(ftype);
             //allow file types
             switch(ftype)
             {
