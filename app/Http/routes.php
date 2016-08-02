@@ -93,10 +93,6 @@ Route::get('{rp_id}/facultative/{id}/mc/show', [
     'as'   => 'de.fa.mc.show',
     'uses' => 'De\MedicalCertificateController@show'
 ]);
-Route::get('{rp_id}/prueba/{header_id}/ejemplo_de_ruta/ejemplo3', [
-    'as'   => 'prueba_ejemplo',
-    'uses' => 'Td\HeaderController@listInsured'
-]);
 
 /*RUTA UNICA PRODUCTOS MODAL*/
 Route::get('certificate/{id_retailer_product}/{id_header}/{text}/{type}', [

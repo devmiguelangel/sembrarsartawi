@@ -83,7 +83,9 @@ class FacultativeController extends Controller
     public function update(FacultativeFormRequest $request, $rp_id, $id)
     {
         if ($request->ajax()) {
-            if ($this->repository->getFacultativeById(decode($id))) {
+            if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id)) && $this->repository->getFacultativeById(decode($id))) {
+                $retailerProduct = $this->retailerProductRepository->getModel();
+
                 if ($this->repository->updateFacultative($request)) {
                     $fa     = $this->repository->getModel();
                     $header = $fa->detail->header;
@@ -95,7 +97,7 @@ class FacultativeController extends Controller
                         $this->headerRepository->setApproved($header);
 
                         if ($surcharge) {
-                            $this->headerRepository->setVehicleResult(null, $header);
+                            $this->headerRepository->setVehicleResult($retailerProduct, $header);
                         }
                     }
 
