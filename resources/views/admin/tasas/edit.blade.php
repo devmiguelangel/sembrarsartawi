@@ -33,7 +33,7 @@
         <div class="panel-body">
 
             {!! Form::open(array('route' => 'update_rates', 'name' => 'UpdateForm', 'id' => 'UpdateForm', 'method'=>'post', 'class'=>'form-horizontal', 'files' => true)) !!}
-            @if($code_product=='de' || $code_product=='vi')
+            @if($code_product=='de' || $code_product=='vi' || $code_product=='td')
                 <fieldset class="content-group">
                     <div class="form-group">
                         <label class="control-label col-lg-2">Retailer </label>
@@ -48,42 +48,38 @@
                             <strong>{{$query->product}}</strong>
                         </div>
                     </div>
-                    @if($query->code_product=='xx')
+
+                    @if($type=='coverage')
                         <div class="form-group">
                             <label class="control-label col-lg-2">Coberturas </label>
                             <div class="col-lg-10">
                                 <strong>{{$query->coverage}}</strong>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Tasa Compañía <span class="text-danger">*</span></label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control required decimal" name="rate_company" id="rate_company" value="{{$query->rate_company}}" autocomplete="off">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Tasa Banco <span class="text-danger">*</span></label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control required decimal" name="rate_bank" id="rate_bank" value="{{$query->rate_bank}}" autocomplete="off">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Tasa Final</label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" readonly value="{{$query->rate_final}}">
-                            </div>
-                        </div>
-                    @else
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Tasa Final</label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" value="{{$query->rate_final}}" autocomplete="off">
-                            </div>
-                        </div>
                     @endif
+                    <!--
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Tasa Compañía <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control required decimal" name="rate_company" id="rate_company" value="{{$query->rate_company}}" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Tasa Banco <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control required decimal" name="rate_bank" id="rate_bank" value="{{$query->rate_bank}}" autocomplete="off">
+                        </div>
+                    </div>
+                    -->
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Tasa Final</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control required decimal" name="rate_final" id="rate_final" value="{{$query->rate_final}}" autocomplete="off">
+                        </div>
+                    </div>
+
                 </fieldset>
             @elseif($code_product=='au')
                 <fieldset class="content-group">
@@ -123,12 +119,13 @@
                 <button type="submit" class="btn btn-primary">
                     Guardar <i class="icon-floppy-disk position-right"></i>
                 </button>
-                <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}" class="btn btn-primary">
+                <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type])}}" class="btn btn-primary">
                     Cancelar <i class="icon-arrow-right14 position-right"></i>
                 </a>
                 <input type="hidden" name="id_rates" value="{{$id_rates}}">
                 <input type="hidden" name="id_retailer_products" value="{{$id_retailer_products}}">
                 <input type="hidden" name="code_product" value="{{$code_product}}">
+                <input type="hidden" name="type" value="{{$type}}">
             </div>
             {!!Form::close()!!}
         </div>

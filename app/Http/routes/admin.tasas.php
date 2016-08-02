@@ -10,17 +10,17 @@ Route::get('admin/tasas/list-product-retailer/{nav}/{action}', [
     'uses' => 'Admin\TasasAdminController@index_product_retailer'
 ]);
 
-Route::get('admin/tasas/list/{nav}/{action}/{id_retailer_products}/{code_product}', [
+Route::get('admin/tasas/list/{nav}/{action}/{id_retailer_products}/{code_product}/{type}', [
     'as' => 'admin.tasas.list',
     'uses' => 'Admin\TasasAdminController@index'
 ]);
 
-Route::get('admin/tasas/new/{nav}/{action}/{id_retailer_products}/{code_product}', [
+Route::get('admin/tasas/new/{nav}/{action}/{id_retailer_products}/{code_product}/{type}', [
     'as' => 'admin.tasas.new',
     'uses' => 'Admin\TasasAdminController@index'
 ]);
 
-Route::get('admin/tasas/edit/{nav}/{action}/{id_rates}/{id_retailer_products}/{code_product}', [
+Route::get('admin/tasas/edit/{nav}/{action}/{id_rates}/{id_retailer_products}/{code_product}/{type}', [
     'as' => 'admin.tasas.edit',
     'uses' => 'Admin\TasasAdminController@edit'
 ]);

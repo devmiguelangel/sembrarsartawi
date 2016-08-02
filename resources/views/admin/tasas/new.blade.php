@@ -161,11 +161,12 @@
                             Guardar <i class="icon-floppy-disk position-right"></i>
                         </button>
                     @endif
-                    <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}" class="btn btn-primary">
+                    <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type])}}" class="btn btn-primary">
                         Cancelar <i class="icon-arrow-right14 position-right"></i>
                     </a>
                     <input type="hidden" id="id_retailer_products" name="id_retailer_products" value="{{$id_retailer_products}}">
                     <input type="hidden" name="code_product" value="{{$code_product}}">
+                    <input type="hidden" id="type" name="type" value="{{$type}}">
                 </div>
             {!!Form::close()!!}
         </div>
@@ -205,18 +206,26 @@
                 var arr = _id.split('|');
                 var id_retailer_product = arr[0];
                 var code = arr[1];
-                //alert(id_retailer_product);
+                var type = $('#type').prop('value'); //coverage product DE
+                var num_rates = 1;
+                //alert(type);
                 if(id_retailer_product!=0){
                     if(code=='de' || code=='td'){
-                        $('#content-coverage').fadeOut('fast');
-                        $('#id_coverage').removeClass('form-control required').addClass('form-control not-required');
+
+                        if(type!='coverage'){
+                            $('#content-coverage').fadeOut('fast');
+                            $('#id_coverage').removeClass('form-control required').addClass('form-control not-required');
+                        }else{
+                            num_rates = 2;
+                        }
+
                         $('#content-rate-company').fadeOut('fast');
                         $('#rate_company').removeClass('form-control required decimal').addClass('form-control not-required decimal');
                         $('#content-rate-bank').fadeOut('fast');
                         $('#rate_bank').removeClass('form-control required decimal').addClass('form-control not-required decimal');
                         $('#rate_final').removeClass('form-control required decimal').addClass('form-control not-required decimal').prop('readonly',false);
                         $.get( "{{url('/')}}/admin/tasas/quest_rate_ajax/"+id_retailer_product, function( data ) {
-                            if(data==1){
+                            if(data == num_rates){
                                 $('button[type="submit"]').prop('disabled', true);
                                 $('#rate_final').prop('disabled', true);
                                 $('#msg_error').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span>El producto ya tiene registrado la tasa</div>');
@@ -226,30 +235,33 @@
                                 $('#msg_error').html('');
                             }
                         });
-                        /*
-                        $.get( "{{url('/')}}/admin/tasas/cobertura_ajax/"+id_retailer_product, function( data ) {
-                            console.log(data);
 
-                            if(data.length>0) {
-                                $('button[type="submit"]').prop('disabled', false);
-                                $('#id_coverage').prop('disabled', false);
-                                $('#id_coverage option').remove();
-                                $('#id_coverage').append('<option value="0">Seleccione</option>');
-                                $('#msg_error').html('');
-                                $.each(data, function () {
-                                    console.log("ID: " + this.id_coverage);
-                                    console.log("First Name: " + this.coverage);
-                                    $('#id_coverage').append('<option value="'+this.id_coverage+'">'+this.coverage+'</option>');
-                                });
-                            }else{
-                                $('#id_coverage option').remove();
-                                $('#id_coverage').append('<option value="0">Seleccione</option>');
-                                $('button[type="submit"]').prop('disabled', true);
-                                $('#msg_error').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span>Las coberturas ya tienen registrados las tasas o no existen coberturas registradas a producto</div>');
-                            }
+                        if(type=='coverage'){
+                            $.get( "{{url('/')}}/admin/tasas/cobertura_ajax/"+id_retailer_product, function( data ) {
+                                console.log(data);
 
-                        });
-                        */
+                                if(data.length>0) {
+                                    $('button[type="submit"]').prop('disabled', false);
+                                    $('#id_coverage').prop('disabled', false);
+                                    $('#id_coverage option').remove();
+                                    $('#id_coverage').append('<option value="0">Seleccione</option>');
+                                    $('#msg_error').html('');
+                                    $.each(data, function () {
+                                        console.log("ID: " + this.id_coverage);
+                                        console.log("First Name: " + this.coverage);
+                                        $('#id_coverage').append('<option value="'+this.id_coverage+'">'+this.coverage+'</option>');
+                                    });
+                                }else{
+                                    $('#id_coverage option').remove();
+                                    $('#id_coverage').append('<option value="0">Seleccione</option>');
+                                    $('button[type="submit"]').prop('disabled', true);
+                                    $('#msg_error').html('<div class="alert alert-warning alert-styled-left"><span class="text-semibold"></span>Las coberturas ya tienen registrados las tasas o no existen coberturas registradas a producto</div>');
+                                }
+
+                            });
+                        }
+
+
                     }else if(code=='vi'){
                         $('button[type="submit"]').prop('disabled', false);
                         $('#content-coverage').fadeOut('fast');
