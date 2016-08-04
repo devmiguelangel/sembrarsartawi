@@ -99,3 +99,9 @@ Route::get('certificate/{id_retailer_product}/{id_header}/{text}/{type}', [
     'as'   => 'create_modal_slip',
     'uses' => 'ModalCSController@ajax_modal'
 ]);
+
+/*RUTA LISTA OCUPACIONES AGREGADAS A UN PRODUCTO*/
+Route::get('list_occupation/{id_retailer_product}/{text}', [
+    'as' => 'create_modal_list_occupation',
+    'uses' => 'ModalOccupationController@ajax_modal'
+]);

@@ -80,6 +80,8 @@
     {!! Html::script('assets/js/pages/components_notifications_other.js') !!}
     {!! Html::script('assets/js/plugins/notifications/sweet_alert.min.js') !!}
 
+    {!! Html::script('js/jquery.loading.min.js') !!}
+
 </head>
 
 <body>
