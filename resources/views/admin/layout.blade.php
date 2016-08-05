@@ -19,6 +19,7 @@
     {!! Html::style('css/style_inbox.css') !!}
     {!! Html::style('css/animate.min.css') !!}
     {!! Html::style('summernote/dist/summernote.css') !!}
+    {!! Html::style('css/jquery.loading.css') !!}
 
     <!-- /global stylesheets -->
     <!-- Core JS files -->
