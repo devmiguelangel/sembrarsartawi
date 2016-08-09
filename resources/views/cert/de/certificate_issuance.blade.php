@@ -1324,11 +1324,15 @@
                 </table>
                 <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                     <tr>
-                        <td style="width: 33%; text-align: center;"></td>
+                        <td style="width: 33%; text-align: center;">
+                            <img src="{{asset('images/firma_msg.jpg')}}" width="118">
+                        </td>
                         <td style="width: 34%; text-align: center;">
                             <img src="{{ asset($query->img_company) }}" width="95">
                         </td>
-                        <td style="width: 33%; text-align: center;"></td>
+                        <td style="width: 33%; text-align: center;">
+                            <img src="{{asset('images/firma_sb.jpg')}}" width="118">
+                        </td>
                     </tr>
                 </table>
             </div>
