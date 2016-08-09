@@ -50,41 +50,46 @@ var detail = function ($rootScope, $scope, $http) {
   $scope.store = function (event) {
     event.preventDefault();
 
-    $scope.easyLoading('#popup', 'dark', true);
+    if (! $rootScope.submitted) {
+      $rootScope.submitted = true;
 
-    var action = $scope.getActionAttribute(event);
+      $scope.easyLoading('#popup', 'dark', true);
 
-    CSRF_TOKEN = $scope.csrf_token();
+      var action = $scope.getActionAttribute(event);
 
-    $http({
-      method: 'POST',
-      url: action,
-      data: $.param($scope.formData),
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'X-CSRF-TOKEN': CSRF_TOKEN
-      }
-    }).success(function (data, status, headers, config) {
-        $scope.errors = {};
+      CSRF_TOKEN = $scope.csrf_token();
 
-        if (status == 200) {
-          $scope.success = { vehicle: true };
-
-          $scope.redirect(data.location);
+      $http({
+        method: 'POST',
+        url: action,
+        data: $.param($scope.formData),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRF-TOKEN': CSRF_TOKEN
         }
-      })
-      .error(function (err, status, headers, config) {
-        if (status == 422) {
-          $scope.errors = err;
-        } else if (status == 500) {
-          console.log('Unauthorized action.');
-        }
+      }).success(function (data, status, headers, config) {
+          $scope.errors = {};
 
-        // console.log(err);
-      }).finally(function () {
-        $scope.easyLoading('#popup', '', false);
-      });
+          if (status == 200) {
+            $scope.success = { vehicle: true };
 
+            $scope.redirect(data.location);
+          }
+        })
+        .error(function (err, status, headers, config) {
+          $rootScope.submitted = false;
+          
+          if (status == 422) {
+            $scope.errors = err;
+          } else if (status == 500) {
+            console.log('Unauthorized action.');
+          }
+
+          // console.log(err);
+        }).finally(function () {
+          $scope.easyLoading('#popup', '', false);
+        });
+    }
   };
 
   /**
@@ -224,37 +229,43 @@ var detail = function ($rootScope, $scope, $http) {
   $scope.update = function (event) {
     event.preventDefault();
 
-    $scope.easyLoading('#popup', 'dark', true);
+    if (! $rootScope.submitted) {
+      $rootScope.submitted = true;
 
-    var action = $scope.getActionAttribute(event);
+      $scope.easyLoading('#popup', 'dark', true);
 
-    CSRF_TOKEN = $scope.csrf_token();
+      var action = $scope.getActionAttribute(event);
 
-    var data = $.param($scope.formData);
-    
-    $http.put(action, data, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'X-CSRF-TOKEN': CSRF_TOKEN
-      }
-    })
-      .then(function (response) {
-        $scope.errors = {};
-        
-        if (response.status == 200) {
-          $scope.success = { vehicle: true };
+      CSRF_TOKEN = $scope.csrf_token();
 
-          $scope.redirect(response.data.location);
+      var data = $.param($scope.formData);
+      
+      $http.put(action, data, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRF-TOKEN': CSRF_TOKEN
         }
-      }, function (response) {
-        if (response.status == 422) {
-          $scope.errors = response.data;
-        } else if (response.status == 500) {
-          console.log('Unauthorized action.');
-        }
-      }).finally(function () {
-        $scope.easyLoading('#popup', '', false);
-      });
+      })
+        .then(function (response) {
+          $scope.errors = {};
+          
+          if (response.status == 200) {
+            $scope.success = { vehicle: true };
+
+            $scope.redirect(response.data.location);
+          }
+        }, function (response) {
+          $rootScope.submitted = false;
+
+          if (response.status == 422) {
+            $scope.errors = response.data;
+          } else if (response.status == 500) {
+            console.log('Unauthorized action.');
+          }
+        }).finally(function () {
+          $scope.easyLoading('#popup', '', false);
+        });
+    }
   };
 
   /**
@@ -326,42 +337,48 @@ var detail = function ($rootScope, $scope, $http) {
    */
   $scope.updateIssuance = function (event) {
     event.preventDefault();
+    
+    if (! $rootScope.submitted) {
+      $rootScope.submitted = true;
 
-    $scope.easyLoading('#popup', 'dark', true);
+      $scope.easyLoading('#popup', 'dark', true);
 
-    var action = $scope.getActionAttribute(event);
+      var action = $scope.getActionAttribute(event);
 
-    CSRF_TOKEN = $scope.csrf_token();
+      CSRF_TOKEN = $scope.csrf_token();
 
-    var data = $.param($scope.formData);
+      var data = $.param($scope.formData);
 
-    $http.put(action, data, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'X-CSRF-TOKEN': CSRF_TOKEN
-      }
-    })
-      .then(function (response) {
-        $scope.errors = {};
-        
-        if (response.status == 200) {
-          $scope.success = { vehicle: true };
-
-          $scope.redirect(response.data.location);
+      $http.put(action, data, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRF-TOKEN': CSRF_TOKEN
         }
-      }, function (response) {
-        if (response.status == 422) {
-          $scope.errors = response.data;
-        } else if (response.status == 500) {
-          console.log('Unauthorized action.');
-        } else if (response.status == 428){
+      })
+        .then(function (response) {
           $scope.errors = {};
           
-          messageAction('error', response.data.reason);
-        }
-      }).finally(function () {
-        $scope.easyLoading('#popup', '', false);
-      });
+          if (response.status == 200) {
+            $scope.success = { vehicle: true };
+
+            $scope.redirect(response.data.location);
+          }
+        }, function (response) {
+          $rootScope.submitted = false;
+
+          if (response.status == 422) {
+            $scope.errors = response.data;
+          } else if (response.status == 500) {
+            console.log('Unauthorized action.');
+          } else if (response.status == 428){
+            $scope.errors = {};
+            
+            messageAction('error', response.data.reason);
+          }
+        }).finally(function () {
+          $scope.easyLoading('#popup', '', false);
+        });
+    }
   };
 
 };

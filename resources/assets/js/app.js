@@ -78,7 +78,7 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', '$http', function($roo
       $rootScope.submitted = true;
     }
 
-    console.log($rootScope.submitted);
+    // console.log($rootScope.submitted);
   };
 
   $rootScope.submitForm = function (id_form) {
@@ -162,19 +162,19 @@ app.run(['$rootScope', '$compile', '$window', '$timeout', '$http', function($roo
 
 app.controller('HeaderDeController', ['$rootScope', '$scope', '$http', HeaderDeController.header]);
 
-app.controller('DetailDeController', ['$scope', '$http', DetailDeController.detailEdit]);
+app.controller('DetailDeController', ['$rootScope', '$scope', '$http', DetailDeController.detailEdit]);
 
-app.controller('BeneficiaryController', ['$scope', '$http', BeneficiaryController.beneficiary]);
+app.controller('BeneficiaryController', ['$rootScope', '$scope', '$http', BeneficiaryController.beneficiary]);
 
 app.controller('FacultativeController', ['$rootScope', '$scope', '$http', '$compile', '$filter', FacultativeController.facultative]);
 
-app.controller('CancellationController', ['$scope', '$http', CancellationController.cancellation]);
+app.controller('CancellationController', ['$rootScope', '$scope', '$http', CancellationController.cancellation]);
 
 app.controller('HeaderViController', ['$scope', '$http', '$compile', HeaderViController.header]);
 
 app.controller('ClientController', ['$rootScope', '$scope', ClientController.client]);
 
-app.controller('HeaderAuController', ['$scope', '$http', HeaderAuController.header]);
+app.controller('HeaderAuController', ['$rootScope', '$scope', '$http', HeaderAuController.header]);
 
 app.controller('DetailAuController', ['$rootScope', '$scope', '$http', DetailAuController.detail]);
 

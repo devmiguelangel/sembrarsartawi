@@ -172,7 +172,7 @@
                         <br>
                     </div>
 
-                    <table class="table datatable-basic2">
+                    <table class="table datatable-basic2" ng-controller="DetailDeController">
                         @if($header->details->count() > 0)
                             <thead>
                             <tr>
@@ -203,18 +203,29 @@
                                                     <i class="icon-menu9"></i>
                                                 </a>
                                                 <ul class="dropdown-menu dropdown-menu-right">
-                                                    <li><a href="{{ route('de.detail.edit', [
-                                                    'rp_id'     => $rp_id,
-                                                    'header_id' => $header_id,
-                                                    'detail_id' => encode($detail->id)
-                                                    ]) }}">
-                                                            <i class="icon-plus2"></i> Editar datos</a></li>
-                                                    <li><a href="{{ route('de.question.edit', [
-                                                    'rp_id'     => $rp_id,
-                                                    'header_id' => $header_id,
-                                                    'detail_id' => encode($detail->id)
-                                                    ]) }}">
+                                                    <li>
+                                                        <a href="{{ route('de.detail.edit', [
+                                                            'rp_id'     => $rp_id,
+                                                            'header_id' => $header_id,
+                                                            'detail_id' => encode($detail->id)
+                                                            ]) }}">
+                                                            <i class="icon-plus2"></i> Editar datos</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('de.question.edit', [
+                                                            'rp_id'     => $rp_id,
+                                                            'header_id' => $header_id,
+                                                            'detail_id' => encode($detail->id)
+                                                            ]) }}">
                                                             <i class="icon-plus2"></i>Editar Cuestionario de Salud</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('de.detail.destroy', [
+                                                            'rp_id'     => $rp_id,
+                                                            'header_id' => $header_id,
+                                                            'detail_id' => encode($detail->id)
+                                                            ]) }}" ng-click="delete($event)">
+                                                            <i class="icon-plus2"></i>Eliminar Titular</a>
                                                     </li>
                                                 </ul>
                                             </li>

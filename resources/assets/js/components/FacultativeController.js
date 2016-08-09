@@ -50,49 +50,55 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
   $scope.store = function (event) {
     event.preventDefault();
 
-    $scope.easyLoading('#popup', 'dark', true);
+    if (! $rootScope.submitted) {
+      $rootScope.submitted = true;
 
-    var action = $scope.getActionAttribute(event);
+      $scope.easyLoading('#popup', 'dark', true);
 
-    CSRF_TOKEN = $scope.csrf_token();
+      var action = $scope.getActionAttribute(event);
 
-    $scope.formData.emails = $scope.formData.emails.split(',');
+      CSRF_TOKEN = $scope.csrf_token();
 
-    var data = $.param($scope.formData);
+      $scope.formData.emails = $scope.formData.emails.split(',');
 
-    $http.put(action, data, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'X-CSRF-TOKEN': CSRF_TOKEN
-      }
-    })
-      .then(function (response) {
-        $scope.errors = {};
-        $scope.formData.emails = $scope.formData.emails.join(',');
-        
-        if (response.status == 200) {
-          $scope.success = { facultative: true };
-          $scope.redirect(response.data.location);
+      var data = $.param($scope.formData);
+
+      $http.put(action, data, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRF-TOKEN': CSRF_TOKEN
         }
-      }, function (response) {
-        if (response.status == 422) {
-          angular.forEach($scope.formData.emails, function(value, key){
-            if ('emails.' + key in response.data) {
-              response.data = [
-                'El email no es válido'
-              ];
-            }
-          });
-
+      })
+        .then(function (response) {
+          $scope.errors = {};
           $scope.formData.emails = $scope.formData.emails.join(',');
+          
+          if (response.status == 200) {
+            $scope.success = { facultative: true };
+            $scope.redirect(response.data.location);
+          }
+        }, function (response) {
+          $rootScope.submitted = false;
 
-          $scope.errors = response.data;
-        } else if (response.status == 500) {
-          console.log('Unauthorized action.');
-        }
-      }).finally(function () {
-        $scope.easyLoading('#popup', '', false);
-      });
+          if (response.status == 422) {
+            angular.forEach($scope.formData.emails, function(value, key){
+              if ('emails.' + key in response.data) {
+                response.data = [
+                  'El email no es válido'
+                ];
+              }
+            });
+
+            $scope.formData.emails = $scope.formData.emails.join(',');
+
+            $scope.errors = response.data;
+          } else if (response.status == 500) {
+            console.log('Unauthorized action.');
+          }
+        }).finally(function () {
+          $scope.easyLoading('#popup', '', false);
+        });
+    }
   };
 
   /**
@@ -126,40 +132,45 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
   $scope.storeAnswer = function (event) {
     event.preventDefault();
 
-    $scope.easyLoading('#popup', 'dark', true);
+    if (! $rootScope.submitted) {
+      $rootScope.submitted = true;
 
-    var action = $scope.getActionAttribute(event);
+      $scope.easyLoading('#popup', 'dark', true);
 
-    CSRF_TOKEN = $scope.csrf_token();
+      var action = $scope.getActionAttribute(event);
 
-    $http({
-      method: 'PUT',
-      url: action,
-      data: $.param($scope.formData),
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'X-CSRF-TOKEN': CSRF_TOKEN
-      }
-    }).success(function (data, status, headers, config) {
-        $scope.errors = {};
+      CSRF_TOKEN = $scope.csrf_token();
 
-        if (status == 200) {
-          $scope.success = { facultative: true };
-          $scope.redirect(data.location);
+      $http({
+        method: 'PUT',
+        url: action,
+        data: $.param($scope.formData),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRF-TOKEN': CSRF_TOKEN
         }
-      })
-      .error(function (err, status, headers, config) {
-        if (status == 422) {
-          $scope.errors = err;
-        } else if (status == 500) {
-          console.log('Unauthorized action.');
-        }
+      }).success(function (data, status, headers, config) {
+          $scope.errors = {};
 
-        console.log(err);
-      }).finally(function () {
-        $scope.easyLoading('#popup', '', false);
-      });
+          if (status == 200) {
+            $scope.success = { facultative: true };
+            $scope.redirect(data.location);
+          }
+        })
+        .error(function (err, status, headers, config) {
+          $rootScope.submitted = false;
 
+          if (status == 422) {
+            $scope.errors = err;
+          } else if (status == 500) {
+            console.log('Unauthorized action.');
+          }
+
+          console.log(err);
+        }).finally(function () {
+          $scope.easyLoading('#popup', '', false);
+        });
+    }
   };
 
   /**
@@ -188,7 +199,7 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
             mcForm.html($compile(data.payload)($scope));
           }
         }).error(function (err, status, headers, config) {
-          console.log(err);
+          // console.log(err);
         }).finally(function () {
           $scope.easyLoading('#popup', '', false);
         });
@@ -236,43 +247,48 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
   $scope.mcStore = function (event) {
     event.preventDefault();
 
-    $scope.easyLoading('#popup', 'dark', true);
+    if (! $rootScope.submitted) {
+      $rootScope.submitted = true;
 
-    var action = $scope.getActionAttribute(event);
+      $scope.easyLoading('#popup', 'dark', true);
 
-    CSRF_TOKEN = $scope.csrf_token();
+      var action = $scope.getActionAttribute(event);
 
-    $http({
-      method: 'POST',
-      url: action,
-      data: $.param($scope.mcData),
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'X-CSRF-TOKEN': CSRF_TOKEN
-      }
-    }).success(function (data, status, headers, config) {
-        $scope.errors = {};
+      CSRF_TOKEN = $scope.csrf_token();
 
-        if (status == 200) {
-          $scope.formData.mc_id = data.mc_id;
-          $scope.success        = { medical_certificate: true };
-          $scope.mcEnabled      = false;
-
-          $scope.submitForm('#form-fa');
+      $http({
+        method: 'POST',
+        url: action,
+        data: $.param($scope.mcData),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRF-TOKEN': CSRF_TOKEN
         }
-      })
-      .error(function (err, status, headers, config) {
-        if (status == 422) {
-          $scope.errors = err;
-        } else if (status == 500) {
-          console.log('Unauthorized action.');
-        }
+      }).success(function (data, status, headers, config) {
+          $scope.errors = {};
 
-        console.log(err);
-      }).finally(function () {
-        $scope.easyLoading('#popup', '', false);
-      });
+          if (status == 200) {
+            $scope.formData.mc_id = data.mc_id;
+            $scope.success        = { medical_certificate: true };
+            $scope.mcEnabled      = false;
 
+            $scope.submitForm('#form-fa');
+          }
+        })
+        .error(function (err, status, headers, config) {
+          $rootScope.submitted = false;
+
+          if (status == 422) {
+            $scope.errors = err;
+          } else if (status == 500) {
+            console.log('Unauthorized action.');
+          }
+
+          console.log(err);
+        }).finally(function () {
+          $scope.easyLoading('#popup', '', false);
+        });
+    }
   };
 
   $scope.finalRate = function () {

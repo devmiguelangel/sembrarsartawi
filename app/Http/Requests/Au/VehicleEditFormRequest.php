@@ -42,6 +42,7 @@ class VehicleEditFormRequest extends Request
             'chassis'           => 'required|alpha_dash',
             'tonnage_capacity'  => 'numeric|min:0',
             'seat_number'       => 'integer|min:0',
+            'insured_value'     => 'required|numeric|min:1',
         ];
 
         if ($this->request->get('year') === 'old') {

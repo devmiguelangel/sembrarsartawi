@@ -77,7 +77,6 @@ Route::group([ 'middleware' => 'auth' ], function () {
          * Header AU
          */
         require 'routes/au.issuance.php';
-        require 'routes/certificateAuto.php';
 
     });
 

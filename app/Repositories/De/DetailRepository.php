@@ -2,6 +2,7 @@
 
 namespace Sibas\Repositories\De;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Detail;
 use Sibas\Repositories\BaseRepository;
@@ -86,6 +87,24 @@ class DetailRepository extends BaseRepository
     }
 
 
+    /**
+     * @return bool
+     */
+    public function removeDetail()
+    {
+        try {
+            $this->model->response()->delete();
+            $this->model->delete();
+
+            return true;
+        } catch (QueryException $e) {
+            $this->errors = $e->getMessage();
+        }
+
+        return false;
+    }
+
+
     /** Returns Headline Type for Client
      *
      * @param $header
@@ -139,4 +158,5 @@ class DetailRepository extends BaseRepository
     {
         return $this->errors;
     }
+
 }
