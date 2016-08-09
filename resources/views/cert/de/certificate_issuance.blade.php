@@ -388,7 +388,7 @@
             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 56%; font-family: Arial; padding-bottom: 5px;">
                 <tr>
                     <td style="width: 10%;">TITULAR {{$ti}}: </td>
-                    <td style="width: 90%;" class="border-bottom">
+                    <td style="width: 90%; border-bottom: 1px solid #080808;">
                         @if($facul_q['fac'][$ti]==false)
                             {{$data_cl->observation}}
                         @endif
@@ -401,7 +401,7 @@
             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 56%; font-family: Arial; padding-bottom: 5px;">
                 <tr>
                     <td style="width: 10%;">TITULAR 2: </td>
-                    <td style="width: 90%;" class="border-bottom">
+                    <td style="width: 90%; border-bottom: 1px solid #080808;">
 
                     </td>
                 </tr>
@@ -802,7 +802,7 @@
                                     ASEGURADO:
                                 </td>
                                 <td style="width: 88%; border-bottom: 0px solid #080808; text-align: left;">
-
+                                    DATOS QUE FIGURAN EN TITULAR EN LA DECLARACIÓN DE SALUD (REVERSO).
                                 </td>
                             </tr>
                             <tr>
@@ -1324,11 +1324,15 @@
                 </table>
                 <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                     <tr>
-                        <td style="width: 33%; text-align: center;"></td>
+                        <td style="width: 33%; text-align: center;">
+                            <img src="{{asset('images/firma_msg.jpg')}}" width="118">
+                        </td>
                         <td style="width: 34%; text-align: center;">
                             <img src="{{ asset($query->img_company) }}" width="95">
                         </td>
-                        <td style="width: 33%; text-align: center;"></td>
+                        <td style="width: 33%; text-align: center;">
+                            <img src="{{asset('images/firma_sb.jpg')}}" width="118">
+                        </td>
                     </tr>
                 </table>
             </div>

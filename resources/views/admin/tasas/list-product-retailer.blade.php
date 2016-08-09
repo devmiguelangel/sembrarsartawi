@@ -41,6 +41,7 @@
                 </thead>
                 <tbody>
                 @foreach($query as $data)
+                    @var $type='null'
                     <tr>
                         <td>{{$data->retailer}}</td>
                         <td>{{$data->product}}</td>
@@ -61,8 +62,11 @@
 
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         @if((boolean)$data->active==true)
+                                            @if($data->code=='xx')
+                                                @var $type='coverage'
+                                            @endif
                                             <li>
-                                                <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$data->id_retailer_products, 'code_product'=>$data->code])}}">
+                                                <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$data->id_retailer_products, 'code_product'=>$data->code, 'type'=>$type])}}">
                                                     <i class="icon-pencil3"></i> Administrar tasas
                                                 </a>
                                             </li>

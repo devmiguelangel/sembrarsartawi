@@ -23,7 +23,7 @@
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li>
-                        <a href="{{route('admin.tasas.new', ['nav'=>'rate', 'action'=>'new', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}" class="btn btn-link btn-float has-text">
+                        <a href="{{route('admin.tasas.new', ['nav'=>'rate', 'action'=>'new', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type])}}" class="btn btn-link btn-float has-text">
                             <i class="icon-file-plus text-primary"></i>
                             <span>Agregar tasa</span>
                         </a>
@@ -40,8 +40,10 @@
                     <thead>
                     <tr>
                         <th>Producto</th>
+                        @if($type=='coverage')
+                            <th>Cobertura</th>
+                        @endif
                         <!--
-                        <th>Cobertura</th>
                         <th>Tasa Compañía</th>
                         <th>Tasa Banco</th>
                         -->
@@ -54,8 +56,10 @@
                     @foreach($query as $data)
                         <tr>
                             <td>{{$data->product}}</td>
+                            @if($type=='coverage')
+                                <td>{{$data->coverage}}</td>
+                            @endif
                             <!--
-                            <td>{{$data->coverage}}</td>
                             <td>{{$data->rate_company}}</td>
                             <td>{{$data->rate_bank}}</td>
                             -->
@@ -70,7 +74,7 @@
 
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <li>
-                                                <a href="{{route('admin.tasas.edit', ['nav'=>'rate', 'action'=>'edit', 'id_rates'=>$data->id_rates, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}">
+                                                <a href="{{route('admin.tasas.edit', ['nav'=>'rate', 'action'=>'edit', 'id_rates'=>$data->id_rates, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type])}}">
                                                     <i class="icon-pencil3"></i> Editar
                                                 </a>
                                             </li>
@@ -116,7 +120,7 @@
 
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <li>
-                                                <a href="{{route('admin.tasas.edit', ['nav'=>'rate', 'action'=>'edit', 'id_rates'=>$vec[0], 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product])}}">
+                                                <a href="{{route('admin.tasas.edit', ['nav'=>'rate', 'action'=>'edit', 'id_rates'=>$vec[0], 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type])}}">
                                                     <i class="icon-pencil3"></i> Editar
                                                 </a>
                                             </li>

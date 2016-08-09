@@ -19,6 +19,7 @@
     {!! Html::style('css/style_inbox.css') !!}
     {!! Html::style('css/animate.min.css') !!}
     {!! Html::style('summernote/dist/summernote.css') !!}
+    {!! Html::style('css/jquery.loading.css') !!}
 
     <!-- /global stylesheets -->
     <!-- Core JS files -->
@@ -79,6 +80,8 @@
     {!! Html::script('assets/js/plugins/notifications/jgrowl.min.js') !!}
     {!! Html::script('assets/js/pages/components_notifications_other.js') !!}
     {!! Html::script('assets/js/plugins/notifications/sweet_alert.min.js') !!}
+
+    {!! Html::script('js/jquery.loading.min.js') !!}
 
 </head>
 
@@ -165,8 +168,8 @@
 
                 <!-- Footer -->
                 <div class="footer text-muted">
-                    &copy; 2015. <a href="#">Limitless Web App Kit</a> by
-                    <a href="http://themeforest.net/user/Kopyov" target="_blank">Eugene Kopyov</a>
+
+                    &copy; 2016. <a href="#">Powered by Abrenet</a>
                 </div>
                 <!-- /footer -->
 
