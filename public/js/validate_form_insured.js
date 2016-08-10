@@ -34,6 +34,7 @@ $('#insured_form').on('submit', function(event) {
     var keyErr = requeridos();
     if (keyErr === 0) {
         event.preventDefault();
+        $('button[type="submit"]').prop('disabled', true);
         var formData = {
             _token: $('#_token').val(),
             id_header: $('#id_header').val(),
