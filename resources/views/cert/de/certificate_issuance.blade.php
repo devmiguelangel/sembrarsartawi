@@ -958,7 +958,7 @@
                         </td>
                     </tr>
                 </table>
-                <span style="font-weight: bold; font-size: 38%;">PAGO ANTICIPADO POR INVALIDEZ TOTAL Y PERMANENTE</span>
+                <div style="font-weight: bold; font-size: 38%;">PAGO ANTICIPADO POR INVALIDEZ TOTAL Y PERMANENTE</div>
                 <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
                         <td style="width: 2%; text-align: center; " valign="top">a)</td>
@@ -1080,7 +1080,7 @@
                         </td>
                     </tr>
                 </table>
-                <span style="font-weight: bold; font-size: 38%;">SEPELIO</span>
+                <div style="font-weight: bold; font-size: 38%;">SEPELIO</div>
                 <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
                         <td style="width: 2%; text-align: center; " valign="top">a)</td>
@@ -1146,7 +1146,7 @@
                 La obligación de pagar el Capital Asegurado deberá ser cumplida por la Compañía en un solo acto, por su valor total y en dinero.
                 Y quedará sujeta a los términos y condiciones establecidos en los artículos 1031, 1033 y 1034 del Código de Comercio.<br>
                 El Beneficiario deberá presentar a la Compañía la siguiente documentación, que podrá ser modificada en acuerdo de partes al
-                momento de celebrarse el contrato del Seguro, debiéndose detallar de manera expresa en la Condiciones Particulares:
+                momento de celebrarse el contrato del Seguro, debiéndose detallar de manera expresa en la Condiciones Particulares:<br>
                 <b>MUERTE POR CUALQUIER CAUSA</b><br>
                 <b>Para siniestros hasta Bs. 70.000 (Free Cover)</b>
                 </div>
@@ -1170,7 +1170,7 @@
                         </td>
                     </tr>
                 </table>
-                <span style="font-weight: bold; font-size: 38%;">Para siniestros mayores a Bs. 70.000</span>
+                <div style="font-weight: bold; font-size: 38%;">Para siniestros mayores a Bs. 70.000</div>
                 <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
                         <td style="width: 2%; text-align: center; " valign="top">a)</td>
@@ -1222,8 +1222,8 @@
                         </td>
                     </tr>
                 </table>
-                <span style="font-weight: bold; font-size: 38%;">PAGO ANTICIPADO POR INVALIDEZ Y PERMANENTE</span>
-                <span style="font-weight: bold; font-size: 38%;">Para siniestros hasta Bs. 70.000(Free Cover)</span>
+                <div style="font-weight: bold; font-size: 38%;">PAGO ANTICIPADO POR INVALIDEZ Y PERMANENTE</div>
+                <div style="font-weight: bold; font-size: 38%;">Para siniestros hasta Bs. 70.000(Free Cover)</div>
                 <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
                         <td style="width: 2%; text-align: center; " valign="top">a)</td>
@@ -1245,7 +1245,7 @@
                         </td>
                     </tr>
                 </table>
-                <span style="font-weight: bold; font-size: 38%;">Para siniestros mayores a Bs. 70.000</span>
+                <div style="font-weight: bold; font-size: 38%;">Para siniestros mayores a Bs. 70.000</div>
                 <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
                         <td style="width: 2%; text-align: center; " valign="top">a)</td>
@@ -1283,8 +1283,8 @@
                         </td>
                     </tr>
                 </table>
-                <span style="font-weight: bold; font-size: 38%;">SEPELIO</span>
-                <span style="font-weight: bold; font-size: 38%;">(Beneficiarios)</span>
+                <div style="font-weight: bold; font-size: 38%;">SEPELIO</div>
+                <div style="font-weight: bold; font-size: 38%;">(Beneficiarios)</div>
                 <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 38%;">
                     <tr>
                         <td style="width: 2%; text-align: center; " valign="top">a)</td>
