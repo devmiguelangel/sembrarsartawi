@@ -129,19 +129,6 @@ class DetailController extends Controller
 
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param $rp_id
@@ -325,13 +312,25 @@ class DetailController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param string $rp_id
+     * @param string $header_id
+     * @param string $detail_id
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($rp_id, $header_id, $detail_id)
     {
-        //
+        if (request()->ajax()) {
+            if ($this->repository->getDetailById(decode($detail_id)) && $this->repository->removeDetail()) {
+                return response()->json([
+                    'location' => route('de.client.list', [ 'rp_id' => $rp_id, 'header_id' => $header_id ])
+                ]);
+            }
+
+            return response()->json([ 'err' => 'Unauthorized action.' ], 401);
+        }
+
+        return redirect()->back();
     }
 
 }

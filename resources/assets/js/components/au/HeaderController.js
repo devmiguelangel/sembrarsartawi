@@ -1,4 +1,4 @@
-var header = function ($scope, $http) {
+var header = function ($rootScope, $scope, $http) {
 
   $scope.warranty();
 
@@ -36,37 +36,44 @@ var header = function ($scope, $http) {
   $scope.requestStore = function (event) {
     event.preventDefault();
 
-    $scope.easyLoading('#popup', 'dark', true);
+    if (! $rootScope.submitted) {
+      $rootScope.submitted = true;
 
-    var action = $scope.getActionAttribute(event);
+      $scope.easyLoading('#popup', 'dark', true);
 
-    CSRF_TOKEN = $scope.csrf_token();
+      var action = $scope.getActionAttribute(event);
 
-    var data = $.param($scope.formData);
+      CSRF_TOKEN = $scope.csrf_token();
 
-    $http.put(action, data, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'X-CSRF-TOKEN': CSRF_TOKEN
-      }
-    })
-      .then(function (response) {
-        $scope.errors = {};
-        
-        if (response.status == 200) {
-          $scope.success = { facultative: true };
+      var data = $.param($scope.formData);
 
-          $scope.redirect(response.data.location);
+      $http.put(action, data, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRF-TOKEN': CSRF_TOKEN
         }
-      }, function (response) {
-        if (response.status == 422) {
-          $scope.errors = response.data;
-        } else if (response.status == 500) {
-          console.log('Unauthorized action.');
-        }
-      }).finally(function () {
-        $scope.easyLoading('#popup', '', false);
-      });
+      })
+        .then(function (response) {
+          $scope.errors = {};
+          
+          if (response.status == 200) {
+            $scope.success = { facultative: true };
+
+            $scope.redirect(response.data.location);
+          }
+        }, function (response) {
+          $rootScope.submitted = false;
+
+          if (response.status == 422) {
+            $scope.errors = response.data;
+          } else if (response.status == 500) {
+            console.log('Unauthorized action.');
+          }
+        }).finally(function () {
+          $scope.easyLoading('#popup', '', false);
+        });
+    }
+
   };
 
 

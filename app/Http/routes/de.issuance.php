@@ -111,6 +111,14 @@ Route::group([ 'prefix' => 'de/{rp_id}' ], function () {
         'uses' => 'De\IssueController@lists'
     ]);
 
+    /*
+     * Detail destroy
+     */
+    Route::delete('create/{header_id}/detail/delete/{detail_id}', [
+        'as'   => 'de.detail.destroy',
+        'uses' => 'De\DetailController@destroy'
+    ]);
+
 });
 
 Route::group([ 'prefix' => 'fde/{rp_id}' ], function () {

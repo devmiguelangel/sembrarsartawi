@@ -79,9 +79,14 @@
     {!! Html::script('js/jquery.loading.min.js') !!}
     {!! Html::script('js/jquery.PrintArea.js') !!}
 
-
+    <script type="text/javascript">
+        window.history.forward();
+        function noBack() {
+            window.history.forward();
+        }
+    </script>
 </head>
-<body class="layout-boxed" ng-app="sibas">
+<body class="layout-boxed" ng-app="sibas" onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 <!-- Main navbar -->
 @yield('header')
         <!-- /main navbar -->
