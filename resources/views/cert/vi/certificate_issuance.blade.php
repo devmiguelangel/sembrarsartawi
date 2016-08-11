@@ -24,8 +24,9 @@
 
             </div>
             <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
-                <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0;
-                        font-weight: bold; font-size: 65%;">I.	DATOS PERSONALES DEL SOLICITANTE:</div>
+                <div style="width: auto;	height: auto; text-align: left; margin: 2px 0; padding: 0; font-weight: bold; font-size: 65%;">
+                    I.	DATOS PERSONALES DEL SOLICITANTE:
+                </div>
                 <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 65%; font-family: Arial; margin-bottom: 5px;">
                     <tr>
                         <td style="width: 14%; text-align: left;">Nombre del Tomador: </td>
@@ -450,14 +451,14 @@
             <page><div style="page-break-before: always;">&nbsp;</div></page>
 
             <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 65%; font-family: Arial; margin-bottom: 5px;">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-family: Arial; margin-bottom: 5px;">
                     <tr>
                         <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
-                            <div style="width: auto; height: auto; font-weight: bold; text-align: center;">
+                            <div style="width: auto; height: auto; font-weight: bold; text-align: center; font-size: 60%;">
                                 DECLARACIÓN JURADA DE SALUD <br>
                                 SOLICITUD DE SEGURO MASIVO VIDA INDIVIDUAL DE CORTO PLAZO
                             </div>
-                            <div style="width: auto; height: auto; margin-top: 3px; text-align: center;">
+                            <div style="width: auto; height: auto; margin-top: 3px; text-align: center; font-size: 60%;">
                                 Formato aprobado por la Autoridad de Fiscalización y Control de
                                 Pensiones y Seguros APS  mediante Resolución Administrativa
                                 <br>
@@ -465,17 +466,17 @@
                                 <br>
                                 POLIZA DE  SEGURO MASIVO VIDA DE CORTO PLAZO N° 123456
                             </div>
-                            <p style="text-align: justify;">
+                            <p style="text-align: justify; font-size: 60%;">
                                 NACIONAL VIDA Seguros de Personas S.A., (denominada en adelante "LA COMPAÑÍA "),
                                 por el presente CERTIFICADO INDIVIDUAL DE SEGURO hace constar que la persona
                                 nominada en la declaración jurada de salud / formulario de seguro, (denominado
                                 en adelante "EL ASEGURADO"), está protegido por la Póliza de Seguro de Vida
                                 Masiva arriba mencionada, de acuerdo a las  siguientes Condiciones Particulares:
                             </p>
-                            <div style="text-align: left; margin: 2px 0; font-weight: bold;">
+                            <div style="text-align: left; margin: 2px 0; font-weight: bold; font-size: 60%;">
                                 1. DATOS DEL ASEGURADO ASEGURADO
                             </div>
-                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                 <tr>
                                     <td style="width: 27%; text-align: left;">
                                         Nombre Completo:
@@ -509,26 +510,26 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div style="text-align: left; margin: 2px 0; font-weight: bold;">
+                            <div style="text-align: left; margin: 2px 0; font-weight: bold; font-size: 60%;">
                                 2. COBERTURAS Y CAPITALES ASEGURADOS:
                             </div>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
-                                    <td style="width: 5%;">
+                                    <td style="width: 5%; font-size: 60%;">
                                         a.
                                     </td>
-                                    <td style="width: 95%; text-align: justify;">
-                                        <label class="emphasis">Muerte por cualquier causa:</label> La compañía asume
+                                    <td style="width: 95%; text-align: justify; font-size: 60%;">
+                                        <label style="font-weight: bold;">Muerte por cualquier causa:</label> La compañía asume
                                         la muerte por cualquier causa de EL ASEGURADO, siempre y cuando la causa
                                         no se encuentre excluida en el punto  4 del presente certificado.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%;">
+                                    <td style="width: 5%; font-size: 60%;">
                                         b.
                                     </td>
-                                    <td style="width: 95%; text-align: justify;">
-                                        <label class="emphasis">Pago anticipado del Capital Asegurado en caso de
+                                    <td style="width: 95%; text-align: justify; font-size: 60%;">
+                                        <label style="font-weight: bold;">Pago anticipado del Capital Asegurado en caso de
                                             Invalidez Total y Permanente:</label>
                                         Cobertura aplicable cuando se presenta la Incapacidad Total y Permanente en
                                         forma irreversible y por lo menos en un 60% de incapacidad, por Accidente o
@@ -536,23 +537,23 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%;">
+                                    <td style="width: 5%; font-size: 60%;">
                                         c.
                                     </td>
-                                    <td style="width: 95%; text-align: justify;">
-                                        <label class="emphasis">Sepelio:</label> El beneficio de sepelio no considera
+                                    <td style="width: 95%; text-align: justify; font-size: 60%;">
+                                        <label style="font-weight: bold;">Sepelio:</label> El beneficio de sepelio no considera
                                         exclusiones para EL ASEGURADO y se paga al ocurrir la muerte por cualquier
                                         causa.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%;" valign="top">
+                                    <td style="width: 5%; font-size: 60%;" valign="top">
                                         d.
                                     </td>
                                     <td style="width: 95%; text-align: justify;">
-                                        <label class="emphasis">Capitales Asegurados:</label>
+                                        <label style="font-weight: bold; font-size: 60%;">Capitales Asegurados:</label>
                                         <br><br>
-                                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                             <tr>
                                                 <td style="width: 100%; background: #000; color: #fff;
                                                     text-align: center; border: 1px solid #000;" colspan="2">
@@ -599,7 +600,7 @@
                                             </tr>
                                         </table>
                                         <br>
-                                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                             <tr>
                                                 <td style="width: 20%;">
                                                     Límites de edad:
@@ -631,10 +632,10 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div style="text-align: left; margin: 2px 0; font-weight: bold;">
+                            <div style="text-align: left; margin: 2px 0; font-weight: bold; font-size: 60%;">
                                 3. PUNTO DE VENTA:
                             </div>
-                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                 <tr>
                                     <td style="width: 35%; text-align: left;">
                                         Nombre de la Razón Social:
@@ -652,7 +653,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div style="text-align: left; margin: 2px 0; font-weight: bold;">
+                            <div style="text-align: left; margin: 2px 0; font-weight: bold; font-size: 60%;">
                                 4. EXCLUSIONES:
                                     <span style="font-weight: normal;">
                                         Este seguro de  vida no será aplicable en ninguna de
@@ -660,7 +661,7 @@
                                     </span><br>
                                 Para Cobertura de Muerte por Cualquier Causa:
                             </div>
-                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                 <tr>
                                     <td style="width: 5%; text-align: center; font-weight: normal;" valign="top">*</td>
                                     <td style="width: 95%;">
@@ -731,13 +732,12 @@
                             </table>
                         <td>
                         <td style="width:50%; text-align: justify; padding:5px; border:0px solid #333;" valign="top">
-                            <div style="text-align: left; margin: 2px 0; font-weight: bold;">
+                            <div style="text-align: left; margin: 2px 0; font-weight: bold; font-size: 60%;">
                                 5. COSTO DE LA COBERTURA:
                             </div>
-                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                 <tr>
-                                    <td style="width: 27%; background: #000; color: #FFF; padding: 3px;
-                                        border: 1px solid #000;">
+                                    <td style="width: 27%; background: #000; color: #FFF; padding: 3px; border: 1px solid #000;">
                                         Prima Neta
                                     </td>
                                     <td style="width: 28%; border: 1px solid #000; padding: 2px;">
@@ -746,8 +746,7 @@
                                     <td style="width: 45%;"></td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 27%; background: #000; color: #FFF; padding: 2px;
-                                        border: 1px solid #000;">
+                                    <td style="width: 27%; background: #000; color: #FFF; padding: 2px; border: 1px solid #000;">
                                         Impuestos
                                     </td>
                                     <td style="width: 28%; border: 1px solid #000; padding: 2px;">
@@ -756,8 +755,7 @@
                                     <td style="width: 45%;"></td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 27%; background: #000; color: #FFF; padding: 2px;
-                                        border: 1px solid #000;">
+                                    <td style="width: 27%; background: #000; color: #FFF; padding: 2px; border: 1px solid #000;">
                                         Comision Corretaje
                                     </td>
                                     <td style="width: 28%; border: 1px solid #000; padding: 2px;">
@@ -766,8 +764,7 @@
                                     <td style="width: 45%;"></td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 27%; background: #000; color: #FFF; padding: 2px;
-                                        border: 1px solid #000;">
+                                    <td style="width: 27%; background: #000; color: #FFF; padding: 2px; border: 1px solid #000;">
                                         Prima Comercial
                                     </td>
                                     <td style="width: 28%; border: 1px solid #000; padding: 2px;">
@@ -776,10 +773,10 @@
                                     <td style="width: 45%;"></td>
                                 </tr>
                             </table>
-                            <div style="text-align: left; margin: 2px 0; font-weight: bold;">
+                            <div style="text-align: left; margin: 2px 0; font-weight: bold; font-size: 60%;">
                                 6. BENEFICIARIOS:
                             </div>
-                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                 <tr>
                                     <td style="width: 15%; text-align: center; background: #000;
                                         color: #FFF; height: 10px;">
@@ -844,10 +841,10 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div style="text-align: left; margin: 2px 0; font-weight: bold;">
+                            <div style="text-align: left; margin: 2px 0; font-weight: bold; font-size: 60%;">
                                 7. PROCEDIMIENTO A SEGUIR EN CASO DE SINIESTRO:
                             </div>
-                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                 <tr>
                                     <td style="width: 100%;" colspan="2">
                                         El Asegurado o Beneficiario, tan pronto y a más tardar dentro de los 30 días
@@ -862,10 +859,10 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div style="text-align: left; margin: 2px 0; font-weight: bold;">
+                            <div style="text-align: left; margin: 2px 0; font-weight: bold; font-size: 60%;">
                                 DOCUMENTOS  A PRESENTAR  EN CASO DE  MUERTE POR CUALQUIER CAUSA:
                             </div>
-                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                 <tr>
                                     <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
                                     <td style="width: 95%;">
@@ -900,10 +897,10 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div style="text-align: left; margin: 2px 0; font-weight: bold;">
+                            <div style="text-align: left; margin: 2px 0; font-weight: bold; font-size: 60%;">
                                 DOCUMENTOS  A PRESENTAR  EN CASO DE  INVALIDEZ TOTAL PERMANENTE
                             </div>
-                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                 <tr>
                                     <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
                                     <td style="width: 95%; text-align: justify;">
@@ -911,10 +908,10 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div style="text-align: left; margin: 2px 0; font-weight: bold;">
+                            <div style="text-align: left; margin: 2px 0; font-weight: bold; font-size: 60%;">
                                 DOCUMENTOS  A PRESENTAR  EN CASO DE  SEPELIO
                             </div>
-                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                 <tr>
                                     <td style="width: 5%; font-weight: bold; text-align: center;">*</td>
                                     <td style="width: 95%;">
@@ -945,13 +942,13 @@
                                 </tr>
                             </table>
                             <br>
-                            <div style="text-align: left; margin: 2px 0; font-weight: bold;">
+                            <div style="text-align: left; margin: 2px 0; font-weight: bold; font-size: 60%;">
                                 8. COMPAÑÍA ASEGURADORA
                             </div>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
                                     <td style="width: 100%;">
-                                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                             <tr>
                                                 <td style="width: 14%; text-align: left;">
                                                     Razón Social:
@@ -980,13 +977,13 @@
                                 </tr>
                             </table>
                             <br>
-                            <div style="text-align: left; margin: 2px 0; font-weight: bold;">
+                            <div style="text-align: left; margin: 2px 0; font-weight: bold; font-size: 60%;">
                                 9. CORREDOR DE SEGUROS
                             </div>
                             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                                 <tr>
                                     <td style="width: 100%;">
-                                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                             <tr>
                                                 <td style="width: 14%; text-align: left;">
                                                     Razón Social:
@@ -1015,7 +1012,7 @@
                                 </tr>
                             </table>
                             <br><br>
-                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                 <tr>
                                     <td style="width: 13%;"></td>
                                     <td style="width: 20%; border-bottom: 1px solid #000;
@@ -1041,7 +1038,7 @@
                                 </tr>
                             </table>
                             <br>
-                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 60%;">
                                 <tr>
                                     <td style="width: 5%;"></td>
                                     <td style="width: 90%; text-align: center; padding-bottom: 20px;"
