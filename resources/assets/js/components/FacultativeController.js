@@ -119,7 +119,7 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
           $scope.popup(data.payload);
         }
       }).error(function (err, status, headers, config) {
-        console.log(err);
+        // console.log(err);
       }).finally(function () {
         $scope.easyLoading('body', '', false);
       });
@@ -166,7 +166,7 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
             console.log('Unauthorized action.');
           }
 
-          console.log(err);
+          // console.log(err);
         }).finally(function () {
           $scope.easyLoading('#popup', '', false);
         });
@@ -271,11 +271,11 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
             $scope.formData.mc_id = data.mc_id;
             $scope.success        = { medical_certificate: true };
             $scope.mcEnabled      = false;
+            $rootScope.submitted  = false;
 
             $scope.submitForm('#form-fa');
           }
-        })
-        .error(function (err, status, headers, config) {
+        }).error(function (err, status, headers, config) {
           $rootScope.submitted = false;
 
           if (status == 422) {
@@ -284,7 +284,7 @@ var facultative = function ($rootScope, $scope, $http, $compile, $filter) {
             console.log('Unauthorized action.');
           }
 
-          console.log(err);
+          // console.log(err);
         }).finally(function () {
           $scope.easyLoading('#popup', '', false);
         });
