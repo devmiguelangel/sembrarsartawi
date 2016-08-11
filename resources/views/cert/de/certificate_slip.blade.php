@@ -166,32 +166,31 @@
                             Indice de Masa Corporal
                         </div>
 
-                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 70%;">
+                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
                             <tr>
-                                <td style="width: 30%;">
+                                <td style="width: 30%; font-size: 70%;">
                                     {{$imc_arr['status'][$i]}}
                                 </td>
                                 <td style="width: 30%;">
                                     <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; ">
                                         <tr>
-                                            <td style="width: 100%; color:#ffffff; background:#0075AA;
-                                                            height: 20px;" colspan="2">
+                                            <td style="width: 100%; color:#ffffff; background:#0075AA; height: 20px; font-size: 70%;" colspan="2">
                                                 Datos
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%; height: 20px;">
+                                            <td style="width: 70%; height: 20px; font-size: 70%;">
                                                 Estatura
                                             </td>
-                                            <td style="width: 30%;">
+                                            <td style="width: 30%; font-size: 70%;">
                                                 {{$data_detail->height}} cm
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%; height: 20px;">
+                                            <td style="width: 70%; height: 20px; font-size: 70%;">
                                                 Peso
                                             </td>
-                                            <td style="width: 30%;">
+                                            <td style="width: 30%; font-size: 70%;">
                                                 {{$data_detail->weight}} kg
                                             </td>
                                         </tr>
@@ -304,7 +303,7 @@
             <div style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0; font-weight: bold;">
                 Tasa Mensual
             </div>
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 70%;" align="center">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 70%; font-size: 70%;" align="center">
                 <tr style="font-weight:bold; text-align:center; color:#FFF; background:#0075AA;">
                     <td style="width: 30%; height: 20px;">NOMBRE</td>
                     <td style="width: 30%; height: 20px;">VALOR ASEGURADO</td>
