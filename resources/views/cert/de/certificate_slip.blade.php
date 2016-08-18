@@ -3,6 +3,10 @@
         <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
             @var $fecha_registro = $query_header->created_at
             @var $num_limit = $query_parameter->expiration
+            @var $font_size='font-size:100%;'
+            @if($type=='PDF')
+                @var $font_size='font-size:70%;'
+            @endif
             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 70%; font-family: Arial;">
                 <tr>
                     <td style="width:34%;" align="left">
@@ -166,31 +170,31 @@
                             Indice de Masa Corporal
                         </div>
 
-                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; {{$font_size}}">
                             <tr>
-                                <td style="width: 30%; font-size: 70%;">
+                                <td style="width: 30%;">
                                     {{$imc_arr['status'][$i]}}
                                 </td>
                                 <td style="width: 30%;">
-                                    <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; ">
+                                    <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; {{$font_size}}">
                                         <tr>
-                                            <td style="width: 100%; color:#ffffff; background:#0075AA; height: 20px; font-size: 70%;" colspan="2">
+                                            <td style="width: 100%; color:#ffffff; background:#0075AA; height: 20px;" colspan="2">
                                                 Datos
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%; height: 20px; font-size: 70%;">
+                                            <td style="width: 70%; height: 20px;">
                                                 Estatura
                                             </td>
-                                            <td style="width: 30%; font-size: 70%;">
+                                            <td style="width: 30%;">
                                                 {{$data_detail->height}} cm
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 70%; height: 20px; font-size: 70%;">
+                                            <td style="width: 70%; height: 20px;">
                                                 Peso
                                             </td>
-                                            <td style="width: 30%; font-size: 70%;">
+                                            <td style="width: 30%;">
                                                 {{$data_detail->weight}} kg
                                             </td>
                                         </tr>
@@ -303,7 +307,7 @@
             <div style="width: auto;	height: auto; text-align: left; margin: 7px 0; padding: 0; font-weight: bold;">
                 Tasa Mensual
             </div>
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 70%; font-size: 70%;" align="center">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 70%; {{$font_size}}" align="center">
                 <tr style="font-weight:bold; text-align:center; color:#FFF; background:#0075AA;">
                     <td style="width: 30%; height: 20px;">NOMBRE</td>
                     <td style="width: 30%; height: 20px;">VALOR ASEGURADO</td>
@@ -340,8 +344,7 @@
             para el pago de siniestros por las dem&aacute;s coberturas ser&aacute; dentro de los 10
             d&iacute;as de presentados todos los documentos.<br/><br/>
             <b>PARA SINIESTROS HASTA USD 5.000:</b>
-            <ol style="margin: 0 0 0 20px; padding: 0; list-style-type:lower-alpha;
-                            list-style-type:lower-alpha;">
+            <ol style="margin: 0 0 0 20px; padding: 0; list-style-type:lower-alpha; list-style-type:lower-alpha;">
                 <li> Original de la Declaraci&oacute;n Jurada de Salud.</li>
                 <li>
                     Certificado de Defunci&oacute;n, (para el &aacute;rea rural podr&aacute; presentar un
@@ -408,7 +411,7 @@
             Anexos a la presente P&oacute;liza de Seguro de Desgravamen Hipotecario en Grupo, el C&oacute;digo
             de Comercio, la Ley de Seguros y por las disposiciones legales vigentes en la materia.<br/><br><br>
             @var $cl=1;
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 70%; font-family: Arial;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size}}} font-family: Arial;">
                 <tr>
                     <td style="width:10%;"></td>
                     @foreach($query_details as $data_cl)

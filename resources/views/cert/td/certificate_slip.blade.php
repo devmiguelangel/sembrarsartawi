@@ -3,8 +3,11 @@
         <div style="width: 770px; border: 0px solid #FFFF00; text-align:center;">
             @var $fecha_registro = $query_header->created_at
             @var $num_limit = $query_parameter->expiration
-            <table cellpadding="0" cellspacing="0" border="0"
-                   style="width: 100%; height: auto; font-size: 70%; font-family: Arial;">
+            @var $font_size='font-size:100%;'
+            @if($type=='PDF')
+                @var $font_size='font-size:70%;'
+            @endif
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 70%; font-family: Arial;">
                 <tr style="padding-bottom: 5px;">
                     <td style="width:34%; text-align: left;">
                         <img src="{{ asset($query->img_retailer) }}" width="100">
@@ -26,11 +29,9 @@
             </table>
         </div>
         <div style="width: 770px; border: 0px solid #ffff00; text-align:center;">
-            <table cellpadding="0" cellspacing="0" border="0"
-                   style="width: 100%; height: auto; font-size: 70%; font-family: Arial;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 70%; font-family: Arial;">
                 <tr>
-                    <td colspan="3"
-                        style="width:100%; height: 20px; padding-bottom: 5px; text-align: left; font-weight: bold;">
+                    <td colspan="3" style="width:100%; height: 20px; padding-bottom: 5px; text-align: left; font-weight: bold;">
                         Datos del Titular
                     </td>
                 </tr>
@@ -95,8 +96,7 @@
             <h2 style="width: auto;	height: auto; text-align: left; margin: 5px 0; padding: 0; font-weight: bold; font-size: 70%;">
                 Interés Asegurado - Ubicación del Riesgo
             </h2>
-            <table cellpadding="0" cellspacing="0" border="0"
-                   style="width: 100%; height: auto; font-size: 67%; font-family: Arial; padding-bottom: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 67%; font-family: Arial; padding-bottom: 5px;">
                 <tr style="background:#E5E5E5;">
                     <td style="width:35%; text-align: left;"><b>Materia Asegurada</b></td>
                     <td style="width:10%; text-align: left;"><b>Departamento</b></td>
@@ -208,8 +208,9 @@
                 </tr>
                 <tr>
                     <td style="width:2%;" valign="top">&bull;</td>
-                    <td style="width:98%; border:0px solid #FFFF00;">EN CASO DE BIENES INMUEBLES:<br>
-                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                    <td style="width:98%; border:0px solid #FFFF00;">
+                        EN CASO DE BIENES INMUEBLES:
+                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; {{$font_size}}">
                             <tr>
                                 <td style="width:2%;" valign="top">-</td>
                                 <td style="width:98%;">
@@ -246,28 +247,29 @@
                         PREDIOS.
                     </td>
                 </tr>
-            </table>
-            <br>
 
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size:70%;">
+            </table>
+
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 70%;">
                 <tr>
                     <td style="width: 100%; text-align: justify;">
-                        <b>UBICACION DEL RIESGO:</b> A NIVEL NACIONAL<br><br>
+                        <b>UBICACION DEL RIESGO:</b> A NIVEL NACIONAL<br>
                         <b>COBERTURAS:</b><br><b>SECCION I TODO RIESGO DE DAÑOS A LA PROPIEDAD</b><br>
                         TODO RIESGO DE DAÑOS A LA PROPIEDAD, INCLUYENDO TERREMOTO, TEMBLOR Y/O MOVIMIENTOS SÍSMICOS AL
                         IGUAL QUE EL INCENDIO RESULTANTE DE ESTOS, DESLIZAMIENTOS, ASENTAMIENTOS NO GRADUALES,
                         HUNDIMIENTO, CORRIMIENTOS DE TIERRA, CAÍDA DE ROCAS Y OTROS RIESGOS DE LA NATURALEZA CUALQUIERA
                         SEA SU CAUSA; TERRORISMO Y RIESGOS POLÍTICOS Y SOCIALES INCLUYENDO HUELGAS, MOTINES, CONMOCIÓN
                         CIVIL, DAÑO MALICIOSO, VANDALISMO, SABOTAJE, ASONADA, DISTURBIOS DE ACUERDO TEXTO DE
-                        CLÁUSULA.<br><br>
+                        CLÁUSULA.<br>
                         <b>SECCIÓN II: TODO RIESGO DE EQUIPO ELECTRONICO</b>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width:100%;" align="left">TODO RIESGO DE EQUIPO ELECTRÓNICO, INCLUYENDO COMPONENTES
-                        ELECTROMECÁNICOS; EQUIPOS MÓVILES Y/O PORTÁTILES, SUS ACCESORIOS E INSTALACIONES, EQUIPOS
-                        PERIFERICOS, INCLUYENDO:
-                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                    <td style="width:100%;" align="left" >
+                            TODO RIESGO DE EQUIPO ELECTRÓNICO, INCLUYENDO COMPONENTES
+                            ELECTROMECÁNICOS; EQUIPOS MÓVILES Y/O PORTÁTILES, SUS ACCESORIOS E INSTALACIONES, EQUIPOS
+                            PERIFERICOS, INCLUYENDO:
+                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; {{$font_size}}">
                             <tr>
                                 <td style="width:2%;" valign="top">&raquo;</td>
                                 <td style="width:98%;">ROBO CON VIOLENCIA, ATRACO .</td>
@@ -400,7 +402,6 @@
                     </td>
                 </tr>
             </table>
-            <br>
             <div style="font-size: 70%;">
                 <b>SECCIÓN IV:TODO RIESGO DE EQUIPO MOVIL</b><br>
                 TODO RIESGO DE EQUIPO MÓVIL INCLUYENDO COMPONENTES ELECTRÓNICOS, RAYO Y EXPLOSIÓN, TERRORISMO,
@@ -459,7 +460,6 @@
                     </td>
                 </tr>
             </table>
-            <br>
 
             <div style="font-size: 70%;">
                 <b>VALORES ASEGURADOS:</b><br>
@@ -483,7 +483,7 @@
         <div style="font-size: 70%;">
             <b>PARA BIENES CON ANTIGÜEDAD DE MÁS DE 5 AÑOS O BIENES REACONDICIONADOS:</b><br>
             EL VALOR DE REPOSICIÓN A NUEVO O SU VALOR DE ADQUISICIÓN, SIEMPRE Y CUANDO ESTE VALOR DE ADQUISICIÓN SEA POR
-            LO MENOS EQUIVALENTE A UN 80% DEL VALOR DE REPOSICIÓN A NUEVO.<br><br>
+            LO MENOS EQUIVALENTE A UN 80% DEL VALOR DE REPOSICIÓN A NUEVO.<br>
 
             <b>CLÁUSULAS ADICIONALES:</b><br>
         </div>
@@ -641,12 +641,11 @@
                     <td style="width:98%;">CLÁUSULA DE HUNDIMIENTO, SIEMPRE Y CUANDO NO SEA GRADUAL</td>
                 </tr>
             </table>
-            <br>
 
             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size:70%;">
                 <tr>
                     <td colspan="2" style="text-align: left;">
-                        <b>APLICABLES A LA SECCIÓN IV (EQUIPO MÓVIL)</b><br>
+                        <b>APLICABLES A LA SECCIÓN IV (EQUIPO MÓVIL)</b>
                     </td>
                 </tr>
                 <tr>
@@ -707,17 +706,21 @@
             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size:70%;">
                 <tr>
                     <td style="width:2%;" valign="top">&bull;</td>
-                    <td style="width:98%;">EQUIPO MEDICO: DE ACUERDO A LA SIGUIENTE TABLA DE VALORES:
-                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                    <td style="width:98%;">
+                        EQUIPO MEDICO: DE ACUERDO A LA SIGUIENTE TABLA DE VALORES:
+                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; {{$font_size}}">
                             <tr>
                                 <td style="width:2%;">&rsaquo;</td>
-                                <td style="width:98%;">PARA EQUIPOS CON UN VALOR ASEGURADO MAYOR A US$ 50.000.- 2% DEL
+                                <td style="width:98%;">
+                                    PARA EQUIPOS CON UN VALOR ASEGURADO MAYOR A US$ 50.000.- 2% DEL
                                     VALOR DEL SINIESTRO.
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:2%;">&rsaquo;</td>
-                                <td style="width:98%;">DEMÁS EQUIPOS 2% DEL VALOR DEL SINIESTRO MÍNIMO US$ 250.-</td>
+                                <td style="width:98%;">
+                                    DEMÁS EQUIPOS 2% DEL VALOR DEL SINIESTRO MÍNIMO US$ 250.-
+                                </td>
                             </tr>
                         </table>
                     </td>
@@ -737,7 +740,7 @@
             </table>
             <br>
             <div style="font-size: 70%;">
-                <b>SECCIÓN IV: POR EVENTO Y/O RECLAMO</b><br>
+                <b>SECCIÓN IV: POR EVENTO Y/O RECLAMO</b>
             </div>
             <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size:70%;">
                 <tr>
@@ -746,8 +749,9 @@
                 </tr>
                 <tr>
                     <td style="width:2%;" valign="top">&bull;</td>
-                    <td style="width:98%;">DEMÁS COBERTURAS:
-                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                    <td style="width:98%;">
+                        DEMÁS COBERTURAS:
+                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; {{$font_size}}">
                             <tr>
                                 <td style="width:2%;" valign="top">-</td>
                                 <td style="width:98%;">PARA EQUIPOS CON VALORES ASEGURADOS HASTA US$ 50.000, 2% DEL
@@ -828,14 +832,14 @@
 
             SECCIÓN V:<br>
             -DE ACUERDO AL CONDICIONADO GENERAL DE LA PÓLIZA.<br><br>
-            <span style="font-weight: bold;">IMPORTANTE:</span><br>
+            <b>IMPORTANTE:</b><br>
             La responsabilidad indemnizatoria de la Compañía está limitada como máximo al Valor Total Asegurado o
             declarado, el cual no puede ser superior a USD. 4.000.000,00 ó sus equivalentes en Moneda Nacional
             (Bolivianos)<br><br>
             <b>REQUISITOS:</b><br>
             Avalúo técnico firmado por el perito designado por Banco Pyme Ecofuturo o documento equivalente, donde se
             especifique la materia del seguro.<br><br>
-            <span style="font-weight: bold;">NOTAS ESPECIALES:</span><br>
+            <b>NOTAS ESPECIALES:</b><br>
             El asegurado autoriza a la compañía de seguros a enviar el reporte a la central de riesgos del mercado
             de seguros acorde a las normativas reglamentarias de la autoridad de fiscalización y control de
             pensiones y seguros – APS.<br><br>
@@ -843,7 +847,7 @@
             <span style="font-weight: bold;">ACEPTACIONES ESPECIALES:</span><br>
 
             Los siguientes riesgos, deben ser consultados a la Compañía previo a la emisión de la Póliza:
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; {{$font_size}}">
                 <tr>
                     <td style="width:2%;" valign="top">1.</td>
                     <td style="width:98%;">Bienes inmuebles que estén ubicados en el lecho o cercanía de ríos</td>
@@ -882,8 +886,8 @@
             200.000.-
         </div>
         <br><br><br><br>
-        <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify; font-size: 70%;">
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-family: Arial;">
+        <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-family: Arial; font-size: 70%;">
                 <tr>
                     <td style="text-align:center; width:33%;">{{$query_client->first_name.' '.$query_client->last_name.' '.$query_client->mother_last_name}}</td>
                     <td style="text-align:center; width:34%;">{{$query_client->dni.' '.$query_client->complement.' '.$query_client->extension}}</td>
@@ -898,6 +902,4 @@
         </div>
     </div>
 </div>
-
-
 
