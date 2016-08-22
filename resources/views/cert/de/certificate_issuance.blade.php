@@ -702,7 +702,7 @@
                                  background: #e57474;">Respuesta de la Compañía</td>
                     </tr>
                     @foreach($query_details as $data_fac)
-                        @if($data_fac->headline=='D')
+                        @if(!is_null($data_fac->percentage))
                             <tr>
                                 <td style="width:5%; text-align: center; background: #e78484; color: #FFFFFF;
                                          border: 1px solid #dedede;">{{$data_fac->approved==1?'SI':'NO'}}</td>
@@ -719,13 +719,13 @@
                                     <span style="color:#ffffff;">{{$data_fac->observation}}</span>
                                 </td>
                             </tr>
-                            <tr>
-                                <td colspan="6" style="text-align: left; background: #e57474; color: #FFFFFF;">
-                                    <span style="color:#000000">Observaciones:</span> {{$data_fac->reason}}
-                                </td>
-                            </tr>
                         @endif
                     @endforeach
+                    <tr>
+                        <td colspan="6" style="text-align: left; background: #e57474; color: #FFFFFF;">
+                            <span style="color:#000000">Observaciones:</span> {{$query_header->facultative_observation}}
+                        </td>
+                    </tr>
             </table>
 
             @else
