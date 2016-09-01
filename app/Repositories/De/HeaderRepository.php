@@ -105,13 +105,29 @@ class HeaderRepository extends BaseRepository
     public function setHeaderResult($retailerProduct, $header)
     {
         if ($retailerProduct->rates->count() === 1) {
-            foreach ($retailerProduct->rates as $rate) {
-                $header->ad_retailer_product_id = $retailerProduct->id;
-                $header->total_rate             = $rate->rate_final;
-                $header->total_premium          = ( $header->amount_requested * $rate->rate_final ) / 100;
+            $rate       = $retailerProduct->rates->first();
+            $rate_final = $rate->rate_final;
 
-                return $this->saveModel();
+            if ($header->creditProduct->slug === 'PMO' && $header->coverage->slug === 'MC') {
+                $Fd = [
+                    1 => 0,
+                    2 => 0.10,
+                    3 => 0.12,
+                    4 => 0.17
+                ];
+
+                $TR = $rate_final;
+                $n  = $header->details->count();
+                $Fn = ( $n > 3 ) ? $Fd[4] : $Fd[$n];
+
+                $rate_final = ( $TR * $n ) * ( 1 - $Fn );
             }
+
+            $header->ad_retailer_product_id = $retailerProduct->id;
+            $header->total_rate             = $rate_final;
+            $header->total_premium          = ( $header->amount_requested * $rate_final ) / 100;
+
+            return $this->saveModel();
         }
 
         return false;
@@ -145,7 +161,8 @@ class HeaderRepository extends BaseRepository
             'details.beneficiary',
             'details.facultative',
             'user.city',
-            'coverageWarranty'
+            'coverageWarranty',
+            'creditProduct'
         ])->where('id', '=', $header_id)->get();
 
         if ($this->model->count() === 1) {

@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class RetailerProductQuestion extends Model
 {
+
     protected $table = 'ad_retailer_product_questions';
 
     protected $casts = [
-        'response' => 'boolean'
+        'response'      => 'boolean',
+        'response_text' => 'boolean',
     ];
+
 
     public function question()
     {

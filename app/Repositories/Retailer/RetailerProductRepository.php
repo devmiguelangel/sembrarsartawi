@@ -2,10 +2,13 @@
 
 namespace Sibas\Repositories\Retailer;
 
+use Illuminate\Database\Eloquent\Model;
 use Sibas\Entities\CreditProduct;
+use Sibas\Entities\De\Header;
 use Sibas\Entities\RetailerProduct;
 use Sibas\Entities\RetailerProductCoverage;
 use Sibas\Entities\RetailerProductPaymentMethod;
+use Sibas\Entities\RetailerProductQuestion;
 use Sibas\Entities\RetailerProductState;
 use Sibas\Entities\State;
 use Sibas\Repositories\BaseRepository;
@@ -16,11 +19,12 @@ class RetailerProductRepository extends BaseRepository
     /**
      * Find Questions for Product Retailer
      *
-     * @param $rp_id
+     * @param string            $rp_id
+     * @param Model|Header|null $header
      *
      * @return array
      */
-    public function getQuestionByProduct($rp_id)
+    public function getQuestionByProduct($rp_id, $header = null)
     {
         $this->model = RetailerProduct::with([
             'productQuestions' => function ($q) {
@@ -31,20 +35,39 @@ class RetailerProductRepository extends BaseRepository
 
         $questions = [ ];
 
-        foreach ($this->model as $retailer) {
-            foreach ($retailer->productQuestions as $productQuestion) {
-                $check_yes = $productQuestion->response ? true : false;
-                $check_no  = ! $productQuestion->response ? true : false;
+        if ($this->model->count() === 1) {
+            $creditProduct = is_null($header) ? null : $header->creditProduct;
+            $retailer      = $this->model->first();
+            $order         = 1;
 
-                $questions[] = [
-                    'id'        => $productQuestion->question->id,
-                    'order'     => $productQuestion->order,
-                    'question'  => $productQuestion->question->question,
-                    'response'  => $productQuestion->response,
-                    'expected'  => (int) $productQuestion->response,
-                    'check_yes' => $check_yes,
-                    'check_no'  => $check_no
-                ];
+            foreach ($retailer->productQuestions as $productQuestion) {
+                $pq = null;
+
+                if ($creditProduct->slug === 'PMO' && $productQuestion->type === 'PMO') {
+                    $pq = $productQuestion;
+                } elseif ($creditProduct->slug !== 'PMO' && is_null($productQuestion->type)) {
+                    $pq = $productQuestion;
+                }
+
+                if ($pq instanceof RetailerProductQuestion) {
+                    $check_yes = $pq->response ? true : false;
+                    $check_no  = ! $pq->response ? true : false;
+
+                    $questions[] = [
+                        'id'                     => $pq->question->id,
+                        'order'                  => $order,
+                        'question'               => $pq->question->question,
+                        'response'               => $pq->response,
+                        'expected'               => (int) $pq->response,
+                        'response_text'          => $pq->response_text,
+                        'type'                   => $pq->type,
+                        'check_yes'              => $check_yes,
+                        'check_no'               => $check_no,
+                        'response_specification' => '',
+                    ];
+
+                    $order += 1;
+                }
             }
         }
 
