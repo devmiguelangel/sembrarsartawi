@@ -211,10 +211,11 @@ class ModalCSController extends Controller
                 ->join('ad_coverages as cov', 'cov.id', '=', 'dh.ad_coverage_id')
                 ->join('ad_credit_products as acp', 'acp.id', '=', 'dh.ad_credit_product_id')
                 ->select('dh.quote_number', 'dh.issue_number', 'dh.prefix', 'dh.policy_number', 'dh.operation_number',
-                'dh.movement_type', 'cov.name as coverage', 'dh.amount_requested', 'dh.currency', 'dh.term',
-                'dh.type_term', 'dh.total_rate', 'dh.total_premium', 'dh.issued', 'dh.date_issue', 'dh.canceled',
-                'dh.facultative', 'dh.facultative_observation', 'dh.approved', 'dh.rejected', 'dh.created_at',
-                'acp.name as credit_product', 'ac.name as city', 'ag.name as agency', 'au.id as user_id')
+                'dh.movement_type', 'cov.name as coverage', 'cov.slug as slug_coverage', 'dh.amount_requested',
+                'dh.currency', 'dh.term', 'dh.type_term', 'dh.total_rate', 'dh.total_premium', 'dh.issued',
+                'dh.date_issue', 'dh.canceled', 'dh.facultative', 'dh.facultative_observation', 'dh.approved',
+                'dh.rejected', 'dh.created_at', 'acp.name as credit_product', 'ac.name as city', 'ag.name as agency',
+                'au.id as user_id', 'acp.slug as slug_credit_product', 'au.full_name')
                 ->where('dh.id', '=', decode($id_header))
                 ->first();
 
@@ -223,17 +224,22 @@ class ModalCSController extends Controller
                 ->join('op_clients as cl', 'cl.id', '=', 'dd.op_client_id')
                 ->join('ad_activities as ac', 'ac.id', '=', 'cl.ad_activity_id')
                 ->join('op_de_responses as dr', 'dr.op_de_detail_id', '=', 'dd.id')
+                ->join('op_de_beneficiaries as odb', 'odb.op_de_detail_id', '=', 'dd.id')
+                ->leftjoin('ad_cities as cit', 'cit.slug', '=', 'cl.place_residence')
                 ->leftjoin('op_de_facultatives as df', 'df.op_de_detail_id', '=', 'dd.id')
                 ->select('cl.first_name', 'cl.last_name', 'cl.mother_last_name', 'cl.married_name', 'cl.civil_status',
-                'cl.birth_place', 'cl.country', 'cl.birthdate', 'cl.place_residence', 'cl.dni', 'cl.age', 'cl.height',
-                'cl.weight', 'cl.home_address', 'cl.phone_number_office', 'cl.phone_number_home', 'ac.occupation',
+                'cl.birth_place', 'cl.country', 'cit.name as city', 'cl.birthdate', 'cl.place_residence', 'cl.dni', 'cl.age', 'cl.height',
+                'cl.weight', 'cl.home_address', 'cl.phone_number_office', 'cl.phone_number_home', 'cl.document_type', 'ac.occupation',
                 'cl.occupation_description', 'cl.complement', 'cl.extension', 'dr.response', 'dr.observation',
-                'cl.gender', 'dd.percentage_credit', 'dd.id', 'dd.headline', 'dd.amount', 'dd.cumulus', 'df.reason',
+                'cl.gender', 'dd.percentage_credit', 'dd.id', 'dd.headline', 'dd.amount', 'dd.cumulus', 'dd.balance', 'df.reason',
                 'df.approved', 'df.surcharge', 'df.percentage', 'df.current_rate', 'df.final_rate', 'df.observation',
-                'cl.id as id_client', 'cl.id as id_client', 'cl.email', 'cl.phone_number_mobile', 'cl.business_address')
+                'cl.id as id_client', 'cl.id as id_client', 'cl.email', 'cl.phone_number_mobile', 'cl.business_address',
+                'cl.home_address', 'cl.home_number', 'cl.hand', 'odb.first_name as be_first_name', 'odb.last_name as be_last_name',
+                'odb.mother_last_name as be_mother_last_name', 'odb.dni as be_dni', 'odb.extension as be_extension',
+                'odb.relationship as be_relationship')
                 ->where('dd.op_de_header_id', decode($id_header))
                 ->get();
-
+            //dd($query_details);
             /*PARAMETROS PRODUCTO*/
             $query_parameter = \DB::table('ad_product_parameters')
                 ->where('ad_retailer_product_id', decode($id_retailer_product))
