@@ -7,6 +7,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Facultative;
 use Sibas\Entities\De\Header;
+use Sibas\Entities\Rate;
 use Sibas\Entities\RetailerProduct;
 use Sibas\Repositories\BaseRepository;
 
@@ -104,23 +105,39 @@ class HeaderRepository extends BaseRepository
      */
     public function setHeaderResult($retailerProduct, $header)
     {
-        if ($retailerProduct->rates->count() === 1) {
-            $rate       = $retailerProduct->rates->first();
-            $rate_final = $rate->rate_final;
+        if ($retailerProduct->rates->count() > 0) {
+            $rate_final = 0;
 
             if ($header->creditProduct->slug === 'PMO' && $header->coverage->slug === 'MC') {
-                $Fd = [
-                    1 => 0,
-                    2 => 0.10,
-                    3 => 0.12,
-                    4 => 0.17
-                ];
+                $rate = $retailerProduct->rates()->whereHas('creditProduct', function ($q) {
+                    $q->where('slug', 'PMO');
+                })->first();
 
-                $TR = $rate_final;
-                $n  = $header->details->count();
-                $Fn = ( $n > 3 ) ? $Fd[4] : $Fd[$n];
+                if ($rate instanceof Rate) {
+                    $Fd = [
+                        1 => 0,
+                        2 => 0.10,
+                        3 => 0.12,
+                        4 => 0.17
+                    ];
 
-                $rate_final = ( $TR * $n ) * ( 1 - $Fn );
+                    $TR = $rate->rate_final;
+                    $n  = $header->details->count();
+                    $Fn = ( $n > 3 ) ? $Fd[4] : $Fd[$n];;
+
+                    $rate_final = ( $TR * $n ) * ( 1 - $Fn );
+                } else {
+                    return false;
+                }
+            } else {
+                $rates = $retailerProduct->rates()->doesntHave('creditProduct')->get();
+
+                if ($rates->count() === 1) {
+                    $rate       = $rates->first();
+                    $rate_final = $rate->rate_final;
+                } else {
+                    return false;
+                }
             }
 
             $header->ad_retailer_product_id = $retailerProduct->id;
