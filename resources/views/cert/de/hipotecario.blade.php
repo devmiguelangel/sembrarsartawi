@@ -8,7 +8,7 @@
                 @var $font_parent = 'font-size:57%;'
                 @var $font_child = 'font-size:57%;'
             @endif
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-family: Arial; margin-bottom: 10px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-family: Arial; margin-bottom: 20px; margin-top: 15px;">
                 <tr>
                     <td style="width:100%; font-weight:bold; text-align:center; line-height: 0.9em;">
                         <div style="{{$font_parent}}">
@@ -24,106 +24,101 @@
                         <td style="width: 19%;">
                             Nombre Completo
                         </td>
-                        <td style="width: 2%;">
+                        <td style="width: 1%;">
                             :
                         </td>
-                        <td style="width: 79%;">
+                        <td style="width: 20%;">
                             @if($data_cl->civil_status!='C')
                                 {{$data_cl->first_name.' '.$data_cl->last_name.' '.$data_cl->mother_last_name}}
                             @else
                                 {{$data_cl->first_name.' '.$data_cl->last_name.' de '.$data_cl->married_name}}
                             @endif
                         </td>
+                        <td style="width: 10%;"></td>
+                        <td style="width: 11%;">
+                           Fecha de Nacimiento
+                        </td>
+                        <td style="width: 1%;">
+                            :
+                        </td>
+                        <td style="width: 38%;">
+                            @var $fecha = date('d/m/Y', strtotime($data_cl->birthdate));
+                            @var $array = explode('/',$fecha);
+                            @var $day = $array[0];
+                            @var $month = $array[1];
+                            @var $year = $array[2];
+                            Dia:&nbsp; {{$day}}&nbsp; Mes:&nbsp; {{$month}}&nbsp; Año:&nbsp; {{$year}}
+                        </td>
                     </tr>
                     <tr>
                         <td style="width: 19%;">
                             Carnet de Identidad
                         </td>
-                        <td style="width: 2%;">
+                        <td style="width: 1%;">
                             :
                         </td>
-                        <td style="width: 79%;">
+                        <td style="width: 20%;">
                             {{$data_cl->dni.''.$data_cl->complement.''.$data_cl->extension}}
+                        </td>
+                        <td style="width: 10%;"></td>
+                        <td style="width: 11%;">
+                            Ocupacion Principal
+                        </td>
+                        <td style="width: 1%;">
+                            :
+                        </td>
+                        <td style="width: 38%;">
+                            {{$data_cl->occupation}}
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 19%;">
                             Entidad de Intermediación Financiera
                         </td>
-                        <td style="width: 2%;">
+                        <td style="width: 1%;">
                             :
                         </td>
-                        <td style="width: 79%;">
+                        <td style="width: 20%;">
                             {{$query->retailer}}
+                        </td>
+                        <td style="width: 10%;"></td>
+                        <td style="width: 11%;">
+                            Estatura
+                        </td>
+                        <td style="width: 1%;">
+                            :
+                        </td>
+                        <td style="width: 38%;">
+                            {{$data_cl->height}} (cm)
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 19%;">
                             Monto del Préstamo (Bs/US$)
                         </td>
-                        <td style="width: 2%;">
+                        <td style="width: 1%;">
                             :
                         </td>
-                        <td style="width: 79%;">
+                        <td style="width: 20%;">
                             {{number_format($query_header->amount_requested,2,'.',',').' '.$query_header->currency}}
                         </td>
-                    </tr>
-                    @var $fecha = date('d/m/Y', strtotime($data_cl->birthdate));
-                    @var $array = explode('/',$fecha);
-                    @var $day = $array[0];
-                    @var $month = $array[1];
-                    @var $year = $array[2];
-                    <tr>
-                        <td style="width: 19%;">
-                            Fecha de Nacimiento
-                        </td>
-                        <td style="width: 2%;">
-                            :
-                        </td>
-                        <td style="width: 79%;">
-                            Dia:&nbsp; {{$day}}&nbsp; Mes:&nbsp; {{$month}}&nbsp; Año:&nbsp; {{$year}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 19%;">
-                            Ocupación Principal
-                        </td>
-                        <td style="width: 2%;">
-                            :
-                        </td>
-                        <td style="width: 79%;">
-                            {{$data_cl->occupation}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 19%;">
-                            Estatura
-                        </td>
-                        <td style="width: 2%;">
-                            :
-                        </td>
-                        <td style="width: 79%;">
-                            {{$data_cl->height}} (cm)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 19%;">
+                        <td style="width: 10%;"></td>
+                        <td style="width: 11%;">
                             Peso
                         </td>
-                        <td style="width: 2%;">
+                        <td style="width: 1%;">
                             :
                         </td>
-                        <td style="width: 79%;">
+                        <td style="width: 38%;">
                             {{$data_cl->weight}} (kg)
                         </td>
                     </tr>
                 </table>
             </div>
 
-            <div style="{{$font_parent}} font-family: Arial; margin-bottom: 5px;">
+            <div style="{{$font_parent}} font-family: Arial; margin-bottom: 5px; padding-left: 185px;">
                 <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_child}}">
                     @foreach(json_decode($data_cl->response) as $key => $value)
-
                         <tr>
                             <td>
                                 <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_child}} margin-bottom: 5px;">
@@ -137,19 +132,19 @@
                                     <tr>
                                         <td style="width: 5%;"></td>
                                         <td style="width: 5%;">SI&nbsp;&nbsp;</td>
-                                        <td style="width: 13%;">
+                                        <td style="width: 28%;">
                                             <div style="width:55px; height:15px; border:1px solid #333; text-align:center; vertical-align: middle;">
                                                 {{$value->response == true ? 'x':''}}
                                             </div>
                                         </td>
                                         <td style="width: 2%;"></td>
                                         <td style="width: 5%;">NO&nbsp;&nbsp;</td>
-                                        <td style="width: 13%;">
+                                        <td style="width: 28%;">
                                             <div style="width:55px; height:15px; border:1px solid #333; text-align:center; vertical-align: middle;">
                                                 {{$value->response == false ? 'x':''}}
                                             </div>
                                         </td>
-                                        <td style="width: 57%;"></td>
+                                        <td style="width: 33%;"></td>
                                     </tr>
                                     <tr>
                                         <td colspan="7" style="padding-bottom: 10px;">
@@ -160,7 +155,7 @@
                                         <td colspan="6" style="border-bottom: 1px solid #000000;">
 
                                         </td>
-                                        <td style="width: 57%;"></td>
+                                        <td style="width: 27%;"></td>
                                     </tr>
                                 </table>
 
@@ -169,7 +164,7 @@
                     @endforeach
                 </table>
             </div>
-            <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify; {{$font_parent}} margin-bottom: 10px; font-family: Arial;">
+            <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify; {{$font_parent}} margin-bottom: 18px; font-family: Arial;">
                 Declaro que las respuestas que he consignado en este Formulario de solicitud de
                 Seguro de Desgravamen Hipotecario y Declaración de salud son verdaderas y
                 completas.<br>
@@ -180,7 +175,7 @@
                 toda responsabilidad en que pudiera incurrir al proporcionar tales informes.
             </div>
             <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify; {{$font_parent}} margin-bottom: 5px; font-family: Arial;">
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_child}} margin-bottom: 30px;">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_child}} margin-bottom: 35px;">
                     <tr>
                         <td style="width: 19%;">
                         </td>
@@ -192,7 +187,7 @@
                                 {{$data_cl->first_name.' '.$data_cl->last_name.' de '.$data_cl->married_name}}
                             @endif
                         </td>
-                        <td style="width: 8%;">Firma:</td>
+                        <td style="width: 8%; text-align:right;">Firma:</td>
                         <td style="width: 23%; border-bottom: 1px solid #000000;"></td>
                         <td style="width: 19%;">
                         </td>
@@ -225,7 +220,7 @@
                 </table>
             </div>
             <div style="width: 770px; border: 0px solid #FFFF00; text-align:justify; {{$font_parent}} margin-bottom: 15px;">
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-family: Arial; margin-bottom: 5px; {{$font_child}}">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-family: Arial; margin-bottom: 10px; {{$font_child}}">
                     <tr>
                         <td style="width:100%; font-weight:bold; text-align:center; padding-bottom: 10px;">
                             DECLARACION JURADA DE SALUD PARA SEGURO DE DESGRAVAMEN HIPOTECARIO
