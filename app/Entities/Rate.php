@@ -15,4 +15,11 @@ class Rate extends Model
     {
         return $this->hasMany(Increment::class, 'ad_rate_id', 'id');
     }
+
+
+    public function creditProduct()
+    {
+        return $this->belongsTo(CreditProduct::class, 'ad_credit_product_id', 'id');
+    }
+
 }

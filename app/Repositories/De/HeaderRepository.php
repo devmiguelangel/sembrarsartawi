@@ -7,6 +7,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sibas\Entities\De\Facultative;
 use Sibas\Entities\De\Header;
+use Sibas\Entities\Rate;
 use Sibas\Entities\RetailerProduct;
 use Sibas\Repositories\BaseRepository;
 
@@ -104,14 +105,46 @@ class HeaderRepository extends BaseRepository
      */
     public function setHeaderResult($retailerProduct, $header)
     {
-        if ($retailerProduct->rates->count() === 1) {
-            foreach ($retailerProduct->rates as $rate) {
-                $header->ad_retailer_product_id = $retailerProduct->id;
-                $header->total_rate             = $rate->rate_final;
-                $header->total_premium          = ( $header->amount_requested * $rate->rate_final ) / 100;
+        if ($retailerProduct->rates->count() > 0) {
+            $rate_final = 0;
 
-                return $this->saveModel();
+            if ($header->creditProduct->slug === 'PMO' && $header->coverage->slug === 'MC') {
+                $rate = $retailerProduct->rates()->whereHas('creditProduct', function ($q) {
+                    $q->where('slug', 'PMO');
+                })->first();
+
+                if ($rate instanceof Rate) {
+                    $Fd = [
+                        1 => 0,
+                        2 => 0.10,
+                        3 => 0.12,
+                        4 => 0.17
+                    ];
+
+                    $TR = $rate->rate_final;
+                    $n  = $header->details->count();
+                    $Fn = ( $n > 3 ) ? $Fd[4] : $Fd[$n];;
+
+                    $rate_final = ( $TR * $n ) * ( 1 - $Fn );
+                } else {
+                    return false;
+                }
+            } else {
+                $rates = $retailerProduct->rates()->doesntHave('creditProduct')->get();
+
+                if ($rates->count() === 1) {
+                    $rate       = $rates->first();
+                    $rate_final = $rate->rate_final;
+                } else {
+                    return false;
+                }
             }
+
+            $header->ad_retailer_product_id = $retailerProduct->id;
+            $header->total_rate             = $rate_final;
+            $header->total_premium          = ( $header->amount_requested * $rate_final ) / 100;
+
+            return $this->saveModel();
         }
 
         return false;
@@ -145,7 +178,8 @@ class HeaderRepository extends BaseRepository
             'details.beneficiary',
             'details.facultative',
             'user.city',
-            'coverageWarranty'
+            'coverageWarranty',
+            'creditProduct'
         ])->where('id', '=', $header_id)->get();
 
         if ($this->model->count() === 1) {

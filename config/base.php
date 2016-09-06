@@ -248,4 +248,8 @@ return [
         'LC' => 'Línea de Crédito',
     ],
 
+    'question_types' => [
+        'PMO' => 'Hipotecario',
+    ],
+
 ];

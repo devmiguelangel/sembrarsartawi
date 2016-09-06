@@ -181,12 +181,12 @@
                         </div>
                     @endif
 
-                    <div class="col-md-4">
-                        <div class="modal-header bg-info">
+                    <div class="col-md-4" ng-controller="HeaderDeController">
+                        <div class="modal-header bg-info warranty-box" style="cursor: pointer;">
                             <h6 class="modal-title">Garantías</h6>
                         </div>
-                        <div class="panel panel-body border-top-primary text-center">
-                            <div class="col-md-12" ng-controller="HeaderDeController">
+                        <div class="panel panel-body border-top-primary text-center" id="warranty-box" style="display: none;">
+                            <div class="col-md-12">
                                 @foreach($retailer->retailerProducts as $retailerProduct)
                                     @if($retailerProduct->type === 'MP' && $retailerProduct->warranty)
                                         @var $coverage  = false;

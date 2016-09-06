@@ -80,6 +80,19 @@ var header = function ($rootScope, $scope, $http) {
     '#credit_product option:not(:selected), ' + 
     '#movement_type option:not(:selected)').prop('disabled', true);
 
+  /*
+  Verify Product Mortgage
+   */
+  $('#_credit_product').change(function () {
+    var credit_product = $(this).find(':selected').data('credit-product');
+
+    if (credit_product == 'PMO') {
+      bootbox.alert("Esta seguro de continuar con la nueva norma de la APS!", function() {
+
+      });
+    }
+  });
+
   /**
    * Create Coverage
    * @param  {[type]} event [description]
@@ -163,6 +176,13 @@ var header = function ($rootScope, $scope, $http) {
         });
     }
   };
+
+  /*
+  Warranty Box Open-Close
+   */
+  $('.warranty-box').click(function (e) {
+    $('#warranty-box').slideToggle();
+  });
 
 };
 

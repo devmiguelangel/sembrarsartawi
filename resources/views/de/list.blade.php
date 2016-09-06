@@ -181,7 +181,7 @@
                                 <th>Nombres y Apellidos</th>
                                 <th>Fecha Nacimiento</th>
                                 <th>Departamento</th>
-                                <th>% Credito</th>
+                                {{--<th>% Credito</th>--}}
                                 <th>Status</th>
                                 <th class="text-center">Accion</th>
                             </tr>
@@ -194,7 +194,7 @@
                                     <td>{{ $detail->client->full_name }}</td>
                                     <td>{{ dateToFormat($detail->client->birthdate) }}</td>
                                     <td>{{ $detail->client->birth_place }}</td>
-                                    <td>{{ $detail->percentage_credit }} %</td>
+                                    {{--<td>{{ $detail->percentage_credit }} %</td>--}}
                                     <td><span class="label label-success">Completado</span></td>
                                     <td class="text-center">
                                         <ul class="icons-list">

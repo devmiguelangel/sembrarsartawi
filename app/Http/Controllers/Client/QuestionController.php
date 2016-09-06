@@ -56,7 +56,8 @@ class QuestionController extends Controller
 
             $data = [
                 'detail'      => $detail,
-                'questions'   => $this->retailerProductRepository->getQuestionByProduct(decode($rp_id)),
+                'questions'   => $this->retailerProductRepository->getQuestionByProduct(decode($rp_id),
+                    $detail->header),
                 'observation' => ''
             ];
 
@@ -145,5 +146,5 @@ class QuestionController extends Controller
 
         return redirect()->back()->with([ 'error_question' => 'El Cuestionario de Salud no pudo ser actualizado' ])->withInput()->withErrors($this->repository->getErrors());
     }
-    
+
 }
