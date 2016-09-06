@@ -1,5 +1,5 @@
 @if($type=='IMPR')
-    <a href="javascript:void(0)" class="link-cert" rel="print" id="send-print" title="Imprimir">
+    <a href="javascript:void(0)" class="link-cert" rel="print" id="send-print" title="Imprimir" target="_blank">
         <i class="fa fa-print fa-3x text-success"></i>
     </a>
     &nbsp;&nbsp;
@@ -36,8 +36,11 @@
         $('#send-print').click(function(){
             $('#finish').removeClass('current');
             $('#finish').addClass('first done');
+            var mode = 'iframe'; //popup
+            var close = mode == "popup";
+            var options = { mode : mode, popClose : close};
             var rel = $(this).prop('rel');
-            $("div."+rel).printArea();
+            $("div."+rel).printArea(options);
         });
     });
 </script>
