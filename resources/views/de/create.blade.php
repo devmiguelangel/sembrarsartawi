@@ -91,14 +91,15 @@
                         <div class="form-group">
                             <label class="control-label col-lg-3 label_required">Tipo de cobertura: </label>
                             <div class="col-lg-8">
-                                {!! SelectField::input('coverage', $data['coverages']->toArray(), ['class' => 'select-search'], old('coverage')) !!}
+                                {!! SelectField::input('coverage', $data['coverages']->toArray(), [
+                                    'class' => 'select-search'
+                                ], old('coverage')) !!}
                                 <label id="location-error" class="validation-error-label"
                                        for="location">{{ $errors->first('coverage') }}</label>
                             </div>
                             <div class="col-lg-1">
-                                <a onclick="$('#cobertura').show();
-                                                            $('#monto').hide();"><i class="icon-question7 "
-                                                                                    title="Mas detalle"></i></a>
+                                <a onclick="$('#cobertura').show(); $('#monto').hide();">
+                                    <i class="icon-question7" title="Mas detalle"></i></a>
                             </div>
                         </div>
 
@@ -106,9 +107,9 @@
                             <label class="col-lg-3 control-label label_required">Monto solicitado: </label>
                             <div class="col-lg-4">
                                 {!! Form::text('amount_requested', 0, [
-                                    'class' => 'touchspin-set-value',
-                                    'autocomplete' => 'off'])
-                                !!}
+                                    'class'        => 'touchspin-set-value',
+                                    'autocomplete' => 'off'
+                                ]) !!}
                                 <label id="location-error" class="validation-error-label"
                                        for="location">{{ $errors->first('amount_requested') }}</label>
                             </div>
@@ -117,15 +118,16 @@
                                     <div class="input-group-addon">
                                         <i class="icon-coins"></i>
                                     </div>
-                                    {!! SelectField::input('currency', $data['currencies']->toArray(), ['class' => 'bootstrap-select'], old('currency')) !!}
+                                    {!! SelectField::input('currency', $data['currencies']->toArray(), [
+                                        'class' => 'bootstrap-select'
+                                    ], old('currency')) !!}
                                 </div>
                                 <label id="location-error" class="validation-error-label"
                                        for="location">{{ $errors->first('currency') }}</label>
                             </div>
                             <div class="col-lg-1">
-                                <a onclick="$('#monto').show();
-                                                            $('#cobertura').hide();"><i class="icon-question7 "
-                                                                                        title="Mas detalle"></i></a>
+                                <a onclick="$('#monto').show(); $('#cobertura').hide();">
+                                    <i class="icon-question7" title="Mas detalle"></i></a>
                             </div>
                         </div>
 
@@ -133,16 +135,18 @@
                             <label class="col-lg-3 control-label label_required">Plazo crédito: </label>
                             <div class="col-lg-4">
                                 {!! Form::text('term', 0, [
-                                    'class' => 'touchspin-set-value',
-                                    'autocomplete' => 'off'])
-                                !!}
+                                    'class'        => 'touchspin-set-value',
+                                    'autocomplete' => 'off'
+                                ]) !!}
                                 <label id="location-error" class="validation-error-label"
                                        for="location">{{ $errors->first('term') }}</label>
                             </div>
                             <div class="col-lg-4">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="icon-sort-time-asc"></i></span>
-                                    {!! SelectField::input('type_term', $data['term_types']->toArray(), ['class' => 'bootstrap-select'], old('type_term')) !!}
+                                    {!! SelectField::input('type_term', $data['term_types']->toArray(), [
+                                        'class' => 'bootstrap-select'
+                                    ], old('type_term')) !!}
                                 </div>
                                 <label id="location-error" class="validation-error-label"
                                        for="location">{{ $errors->first('type_term') }}</label>
@@ -154,7 +158,10 @@
                         <div class="form-group">
                             <label class="control-label col-lg-3 label_required">Producto: </label>
                             <div class="col-lg-8">
-                                {!! SelectField::input('credit_product', $data['credit_products']->toArray(), ['class' => 'select-search'], old('credit_product')) !!}
+                                {!! SelectField::input('credit_product', $data['credit_products']->toArray(), [
+                                    'class' => 'select-search',
+                                    'id'    => '_credit_product'
+                                ], old('credit_product')) !!}
                                 <label id="location-error" class="validation-error-label"
                                        for="location">{{ $errors->first('credit_product') }}</label>
                             </div>
@@ -163,7 +170,9 @@
                         <div class="form-group">
                             <label class="control-label col-lg-3 label_required">Tipo de Movimiento: </label>
                             <div class="col-lg-8">
-                                {!! SelectField::input('movement_type', $data['movement_types']->toArray(), ['class' => 'select-search'], old('movement_type')) !!}
+                                {!! SelectField::input('movement_type', $data['movement_types']->toArray(), [
+                                    'class' => 'select-search'
+                                ], old('movement_type')) !!}
                                 <label id="location-error" class="validation-error-label"
                                        for="location">{{ $errors->first('movement_type') }}</label>
                             </div>
