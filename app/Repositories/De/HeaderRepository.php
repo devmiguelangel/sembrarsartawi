@@ -108,26 +108,28 @@ class HeaderRepository extends BaseRepository
         if ($retailerProduct->rates->count() > 0) {
             $rate_final = 0;
 
-            if ($header->creditProduct->slug === 'PMO' && $header->coverage->slug === 'MC') {
+            if ($header->creditProduct->slug === 'PMO') {
                 $rate = $retailerProduct->rates()->whereHas('creditProduct', function ($q) {
                     $q->where('slug', 'PMO');
                 })->first();
 
                 if ($rate instanceof Rate) {
-                    $Fd = [
-                        1 => 0,
-                        2 => 0.10,
-                        3 => 0.12,
-                        4 => 0.17
-                    ];
+                    $rate_final = $rate->rate_final;
 
-                    $TR = $rate->rate_final;
-                    $n  = $header->details->count();
-                    $Fn = ( $n > 3 ) ? $Fd[4] : $Fd[$n];;
+                    if ($header->coverage->slug === 'MC') {
+                        $Fd = [
+                            1 => 0,
+                            2 => 0.10,
+                            3 => 0.12,
+                            4 => 0.17,
+                        ];
 
-                    $rate_final = ( $TR * $n ) * ( 1 - $Fn );
-                } else {
-                    return false;
+                        $TR = $rate->rate_final;
+                        $n  = $header->details->count();
+                        $Fn = ( $n > 3 ) ? $Fd[4] : $Fd[$n];;
+
+                        $rate_final = ( $TR * $n ) * ( 1 - $Fn );
+                    }
                 }
             } else {
                 $rates = $retailerProduct->rates()->doesntHave('creditProduct')->get();
@@ -135,16 +137,16 @@ class HeaderRepository extends BaseRepository
                 if ($rates->count() === 1) {
                     $rate       = $rates->first();
                     $rate_final = $rate->rate_final;
-                } else {
-                    return false;
                 }
             }
 
-            $header->ad_retailer_product_id = $retailerProduct->id;
-            $header->total_rate             = $rate_final;
-            $header->total_premium          = ( $header->amount_requested * $rate_final ) / 100;
+            if ($rate_final > 0) {
+                $header->ad_retailer_product_id = $retailerProduct->id;
+                $header->total_rate             = $rate_final;
+                $header->total_premium          = ( $header->amount_requested * $rate_final ) / 100;
 
-            return $this->saveModel();
+                return $this->saveModel();
+            }
         }
 
         return false;
