@@ -23,13 +23,7 @@
                 <small class="display-block">Editar registro </small>
             </h5>
             <div class="heading-elements">
-                <!--
-                <ul class="icons-list">
-                    <li><a data-action="collapse"></a></li>
-                    <li><a data-action="reload"></a></li>
-                    <li><a data-action="close"></a></li>
-                </ul>
-                -->
+
             </div>
         </div>
         @if (session('error'))
@@ -82,6 +76,57 @@
                     </div>
                 </div>
 
+                @if($query->type!=null)
+                    @var $style=''
+                @else
+                    @var $style='display:none'
+                @endif
+                @var $parameter_qt = config('base.question_types')
+                <div class="form-group">
+                    <label class="control-label col-lg-2">Tipo</label>
+                    <div class="col-lg-10">
+                        <select name="type" id="type" class="form-control">
+                            <option value="">Ninguno</option>
+                            @foreach($parameter_qt as $key=>$data)
+                                @if($query->type==$key)
+                                    <option value="{{$key}}" selected>{{$data}}</option>
+                                @else
+                                    <option value="{{$key}}">{{$data}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                @if($query->type!=null)
+                    <div class="form-group" style="{{$style}}" id="content-radio-edit">
+                        <label class="control-label col-lg-2">Habilitar especificar respuesta <span class="text-danger">*</span></label>
+                        <label class="radio-inline">
+                            @if((boolean)$query->response_text==true)
+                                <input type="radio" name="rdq_edit" class="styled" checked="checked" value="1">SI
+                            @else
+                                <input type="radio" name="rdq_edit" class="styled" value="1">SI
+                            @endif
+                        </label>
+
+                        <label class="radio-inline">
+                            @if((boolean)$query->response_text==false)
+                                <input type="radio" name="rdq_edit" class="styled" checked="checked" value="0">NO
+                            @else
+                                <input type="radio" name="rdq_edit" class="styled" value="0">NO
+                            @endif
+                        </label>
+                    </div>
+                @endif
+                    <div class="form-group" id="content-radio-new">
+                        <label class="control-label col-lg-2">Habilitar especificar respuesta <span class="text-danger">*</span></label>
+                        <label class="radio-inline">
+                            <input type="radio" name="rdq_new" class="styled" value="1" id="rdq_new">SI
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="rdq_new" class="styled" value="0" id="rdq_new">NO
+                        </label>
+                    </div>
+
             </fieldset>
 
             <div class="text-right">
@@ -93,12 +138,40 @@
                 </a>
                 <input type="hidden" name="id_retailer_product" id="id_retailer_product" value="{{$id_retailer_product}}">
                 <input type="hidden" name="id_retailer_product_question" value="{{$id_retailer_product_question}}">
+                <input type="hidden" name="type_db" id="type_db" value="{{$query->type}}">
+                <input type="hidden" name="option_rd" id="option_rd" value="e">
             </div>
             {!!Form::close()!!}
         </div>
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
+            //OCULTAMOS LOS RADIO BUTTON
+            $('#content-radio-new').fadeOut('fast');
+
+            //SELECCIONAMOS TIPO CREDITO
+            $('#type').change(function(){
+                var type = $(this).prop('value');
+                //alert(type);
+                var _type_db = $('#type_db').prop('value');
+                //alert(_type_db);
+                if(type=='PMO'){
+                    $('#content-radio-new').fadeIn('fast');
+                    $('input[name="rdq_new"]').removeClass('styled').addClass('styled required');
+                    $('#option_rd').prop('value','n');
+                }else{
+                    if(_type_db=='PMO'){
+                        $('#content-radio-edit').fadeOut('fast');
+                        $('input[name="rdq_edit"]').removeClass('styled required').addClass('styled');
+                        $('#content-radio-new').fadeOut('fast');
+                        $('input[name="rdq_new"]').removeClass('styled required').addClass('styled');
+                    }else{
+                        $('#content-radio-new').fadeOut('fast');
+                        $('input[name="rdq_new"]').removeClass('styled required').addClass('styled');
+                    }
+                }
+            });
+
             //VERIFICAMOS EL FORMULARIO
             $('#UpdateForm').submit(function(e){
                 var sw = true;
@@ -129,6 +202,8 @@
             function validateElement(element,err){
                 var _value = $(element).prop('value');
                 var _type = $(element).prop('type');
+                var _name = $(element).prop('name');
+
                 if(_type=='select-one'){
                     if(_value==0){
                         addClassE(element,err);
@@ -137,6 +212,16 @@
                         removeClassE(element,err);
                         return true;
                     }
+                }else if(_type == 'radio'){
+
+                    if($("input[name='"+_name+"']:radio").is(':checked')){
+                        removeClassE(element,err);
+                        return true;
+                    }else{
+                        addClassE(element,err);
+                        return false;
+                    }
+
                 }else{
                     if(_value==''){
                         addClassE(element,err);

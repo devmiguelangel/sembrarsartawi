@@ -34,7 +34,8 @@ class AddQuestionAdminController extends BaseController
             */
             $query_list_q = \DB::table('ad_retailer_product_questions as arpq')
                                 ->join('ad_questions as aq', 'aq.id', '=', 'arpq.ad_question_id')
-                                ->select('aq.question', 'arpq.id', 'arpq.ad_question_id', 'arpq.order', 'arpq.response', 'arpq.active')
+                                ->select('aq.question', 'arpq.id', 'arpq.ad_question_id', 'arpq.order',
+                                    'arpq.response', 'arpq.active', 'arpq.type')
                                 ->where('arpq.ad_retailer_product_id', '=', $id_retailer_product)
                                 ->get();
             //dd($query_list_q);
@@ -58,7 +59,7 @@ class AddQuestionAdminController extends BaseController
                                             ->from('ad_retailer_product_questions as arpq')
                                             ->whereRaw('arpq.ad_question_id = aq.id');
                             })->get();
-            //dd($question);
+            //dd($question);1
             return view('admin.de.addquestion.new', compact('nav', 'action', 'id_retailer_product', 'query', 'main_menu', 'question', 'array_data'));
         }
 
@@ -135,13 +136,27 @@ class AddQuestionAdminController extends BaseController
             }else{
                 $num = 0;
             }
+            if($request->get('type')!=''){
+                $type = $request->get('type');
+            }else{
+                $type = null;
+            }
+            if(!is_null($request->get('response_question'))){
+                $response_text = $request->get('response_question');
+            }else{
+                $response_text = 0;
+            }
+
+
             foreach ($request->get('addquestion') as $key => $value) {
                 $num = $num+1;
+                /*
                 if ($request->input('response') == 1) {
                     $response = true;
                 } elseif ($request->input('response') == 2) {
                     $response = false;
                 }
+                */
 
                 $query_insert = \DB::table('ad_retailer_product_questions')
                     ->insert(
@@ -149,7 +164,9 @@ class AddQuestionAdminController extends BaseController
                             'ad_retailer_product_id' => $request->input('id_retailer_product'),
                             'ad_question_id' => $value,
                             'order' => $num,
-                            'response' => $response,
+                            'response' => false,
+                            'response_text' => $response_text,
+                            'type' => $type,
                             'active' => true
                         ]
                     );
@@ -230,7 +247,7 @@ class AddQuestionAdminController extends BaseController
 
         $query = \DB::table('ad_retailer_product_questions as arpq')
                     ->join('ad_questions as aq', 'aq.id', '=', 'arpq.ad_question_id')
-                    ->select('aq.question', 'arpq.response')
+                    ->select('aq.question', 'arpq.response', 'arpq.type', 'arpq.response_text')
                     ->where('arpq.ad_retailer_product_id',$id_retailer_product)
                     ->where('arpq.id',$id_retailer_product_question)
                     ->first();
@@ -276,11 +293,40 @@ class AddQuestionAdminController extends BaseController
         } elseif ($request->get('response') == 2) {
             $response = false;
         }
+
+        if(!is_null($request->get('type_db'))){
+            if($request->get('type')!=''){
+                if($request->get('option_rd')=='e'){
+                    $response_text = $request->get('rdq_edit');
+                }elseif($request->get('option_rd')=='n'){
+                    $response_text = $request->get('rdq_new');
+                }
+                $type = $request->get('type');
+            }else{
+                $response_text = 0;
+                $type = null;
+            }
+        }else{
+            if($request->get('type')==''){
+                $response_text = 0;
+                $type = null;
+            }else{
+                $response_text = $request->get('rdq_new');
+                $type = $request->get('type');
+            }
+        }
+
         try {
             $query_update = \DB::table('ad_retailer_product_questions')
                 ->where('id', $request->get('id_retailer_product_question'))
                 ->where('ad_retailer_product_id', $request->get('id_retailer_product'))
-                ->update(['response' => $response]);
+                ->update(
+                    [
+                        'response' => $response,
+                        'response_text' => $response_text,
+                        'type' => $type
+                    ]
+                );
             return redirect()->route('admin.de.addquestion.list', ['nav' => 'addquestion', 'action' => 'list', 'id_retailer_product' => $request->input('id_retailer_product')])->with(array('ok'=>'Se actualizo correctamente los datos del formulario'));
         }catch(QueryException $e){
             return redirect()->back()->with(array('error'=>$e->getMessage()));
