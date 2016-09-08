@@ -13,9 +13,8 @@ use Sibas\Http\Controllers\Controller;
 class TasasAdminController extends BaseController
 {
     /**
-     * Display a listing of the resource.
+     * Funcion index que lista las tasas para los productos
      *
-     * @return \Illuminate\Http\Response
      */
     public function index($nav, $action, $id_retailer_products, $code_product, $type)
     {
@@ -24,16 +23,34 @@ class TasasAdminController extends BaseController
         if($action=='list'){
             if($code_product=='de' || $code_product=='vi' || $code_product=='td'){
                 $product_query = Product::where('code',$code_product)->first();
+
                 $query = \DB::table('ad_rates as ar')
                     ->leftjoin('ad_coverages as ac', 'ac.id', '=', 'ar.ad_coverage_id')
                     ->join('ad_retailer_products as arp', 'arp.id', '=', 'ar.ad_retailer_product_id')
                     ->join('ad_retailers as aret', 'aret.id', '=', 'arp.ad_retailer_id')
                     ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
                     ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
-                    ->select('ar.id as id_rates', 'ar.rate_company', 'ar.rate_bank', 'ar.rate_final', 'ap.name as product', 'ac.name as coverage', 'aret.name as retailer')
+                    ->leftjoin('ad_credit_products as prdc', 'prdc.id', '=', 'ar.ad_credit_product_id')
+                    ->select('ar.id as id_rates', 'ar.rate_company', 'ar.rate_bank', 'ar.rate_final',
+                        'ap.name as product', 'ac.name as coverage', 'aret.name as retailer', 'ar.ad_credit_product_id')
                     ->where('arp.id','=',$id_retailer_products)
+                    ->where('ar.ad_credit_product_id',null)
                     ->get();
-                return view('admin.tasas.list', compact('nav', 'action', 'query', 'main_menu', 'array_data', 'id_retailer_products', 'code_product', 'product_query', 'type'));
+                //dd($query);
+                $query_hipotecario = \DB::table('ad_rates as ar')
+                    ->leftjoin('ad_coverages as ac', 'ac.id', '=', 'ar.ad_coverage_id')
+                    ->join('ad_retailer_products as arp', 'arp.id', '=', 'ar.ad_retailer_product_id')
+                    ->join('ad_retailers as aret', 'aret.id', '=', 'arp.ad_retailer_id')
+                    ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
+                    ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
+                    ->leftjoin('ad_credit_products as prdc', 'prdc.id', '=', 'ar.ad_credit_product_id')
+                    ->select('ar.id as id_rates', 'ar.rate_company', 'ar.rate_bank', 'ar.rate_final',
+                        'ap.name as product', 'ac.name as coverage', 'aret.name as retailer', 'prdc.name as product_credit')
+                    ->where('arp.id','=',$id_retailer_products)
+                    ->where('ar.ad_credit_product_id','<>','null')
+                    ->get();
+
+                return view('admin.tasas.list', compact('nav', 'action', 'query', 'main_menu', 'array_data', 'id_retailer_products', 'code_product', 'product_query', 'type', 'query_hipotecario'));
             }elseif($code_product=='au'){
                 $query = array();
                 $product_query = Product::where('code',$code_product)->first();
@@ -68,6 +85,21 @@ class TasasAdminController extends BaseController
 
             return view('admin.tasas.new', compact('nav', 'action', 'main_menu', 'retailer', 'array_data', 'id_retailer_products', 'code_product', 'product_query', 'category_query', 'type'));
         }
+    }
+
+    public function new_mortgage($nav, $action, $id_retailer_products, $code_product, $type)
+    {
+        $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
+
+        $query_retailer = \DB::table('ad_retailers')->first();
+        $query_product = Product::where('code',$code_product)->first();
+        $query_product_credit = \DB::table('ad_credit_products as cprd')
+                                ->where('ad_retailer_product_id',$id_retailer_products)
+                                ->where('slug','PMO')
+                                ->first();
+        //dd($query_product_credit);
+        return view('admin.tasas.new-mortgage', compact('nav','action','id_retailer_products','code_product','type','main_menu','array_data','query_retailer','query_product','query_product_credit'));
     }
 
     public function index_product_retailer($nav, $action)
@@ -172,6 +204,31 @@ class TasasAdminController extends BaseController
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store_mortgage(Request $request)
+    {
+
+        try{
+            $query_insert = \DB::table('ad_rates')->insert(
+                [
+                    'ad_retailer_product_id' => $request->get('id_retailer_products'),
+                    'rate_final' => $request->get('rate_final'),
+                    'ad_credit_product_id' => $request->get('product_credit'),
+                    'created_at'=>date("Y-m-d H:i:s"),
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]
+            );
+            return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list', 'id_retailer_products'=>$request->get('id_retailer_products'), 'code_product'=>$request->get('code_product'), 'type'=>$request->get('type')])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
+        }catch(QueryException $e) {
+            return redirect()->back()->with(array('error'=>$e->getMessage()));
+        }
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -220,6 +277,33 @@ class TasasAdminController extends BaseController
         return view('admin.tasas.edit', compact('nav', 'action', 'query', 'main_menu', 'id_rates', 'array_data', 'id_retailer_products', 'code_product', 'query_rate', 'category_query', 'retailer_product', 'type'));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit_mortgage($nav, $action, $id_rates, $id_retailer_products, $code_product, $type)
+    {
+        $main_menu = $this->menu_principal();
+        $array_data = $this->array_data();
+        if($code_product=='de'){
+            $query = \DB::table('ad_rates as ar')
+                ->leftjoin('ad_coverages as ac', 'ac.id', '=', 'ar.ad_coverage_id')
+                ->join('ad_retailer_products as arp', 'arp.id', '=', 'ar.ad_retailer_product_id')
+                ->join('ad_retailers as aret', 'aret.id', '=', 'arp.ad_retailer_id')
+                ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
+                ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
+                ->join('ad_credit_products as cprd', 'cprd.id', '=', 'ar.ad_credit_product_id')
+                ->select('ar.id as id_rates', 'ar.rate_company', 'ar.rate_bank', 'ar.rate_final',
+                    'ap.name as product', 'ac.name as coverage', 'aret.name as retailer',
+                    'ap.code as code_product', 'cprd.name as product_credit')
+                ->where('ar.id', '=', $id_rates)
+                ->first();
+        }
+
+        return view('admin.tasas.edit-mortgage', compact('nav', 'action', 'id_rates', 'id_retailer_products', 'code_product', 'type', 'query', 'main_menu', 'array_data'));
+    }
     /**
      * Update the specified resource in storage.
      *
