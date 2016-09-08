@@ -345,7 +345,7 @@
             <page><div style="page-break-before: always;">&nbsp;</div></page>
 
             @if($query_header->issued == 1 && $query_header->canceled == 0)
-                @var $font_size_parent = 'font-size:60%;'
+                @var $font_size_parent = 'font-size:53%;'
                 @var $font_size_child = 'font-size:100%;'
                 @if($type=='PDF')
                     @var $font_size_parent = 'font-size:47%;'
