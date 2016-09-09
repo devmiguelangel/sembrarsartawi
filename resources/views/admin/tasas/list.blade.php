@@ -38,21 +38,22 @@
             @if($code_product=='de' || $code_product=='vi' || $code_product=='td')
                 <table class="table table-bordered table-striped table-hover dataTable no-footer">
                     <thead>
-                    <tr>
-                        <th>Producto</th>
-                        @if($type=='coverage')
-                            <th>Cobertura</th>
-                        @endif
-                        <!--
-                        <th>Tasa Compañía</th>
-                        <th>Tasa Banco</th>
-                        -->
-                        <th>Tasa final</th>
-                        <th>Retailer</th>
-                        <th class="text-center">Acciones</th>
-                    </tr>
+                        <tr>
+                            <th>Producto</th>
+                            @if($type=='coverage')
+                                <th>Cobertura</th>
+                            @endif
+                            <!--
+                            <th>Tasa Compañía</th>
+                            <th>Tasa Banco</th>
+                            -->
+                            <th>Tasa final</th>
+                            <th>Retailer</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
                     </thead>
                     <tbody>
+
                     @foreach($query as $data)
                         <tr>
                             <td>{{$data->product}}</td>
@@ -144,6 +145,72 @@
             </div>
         @endif
     </div>
+
+    <!-- hipotecario -->
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">Desgravamen Hipotecario</h5>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li>
+                        @if(count($query_hipotecario)==0)
+                            <a href="{{route('admin.tasas.new-mortgage', ['nav'=>'rate', 'action'=>'new', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type])}}" class="btn btn-link btn-float has-text">
+                                <i class="icon-file-plus text-primary"></i>
+                                <span>Agregar tasa <br>desgravamen hipotecario</span>
+                            </a>
+                        @endif
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body"></div>
+        <table class="table table-bordered table-striped table-hover dataTable no-footer">
+            <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Tasa</th>
+                <th>Producto Crediticio</th>
+                <th>Retailer</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if(count($query_hipotecario)>0)
+                @foreach($query_hipotecario as $data_hipot)
+                <tr>
+                    <td>{{$data_hipot->product}}</td>
+                    <td>{{$data_hipot->rate_final}}</td>
+                    <td>{{$data_hipot->product_credit}}</td>
+                    <td>{{$data_hipot->retailer}}</td>
+                    <td class="text-center">
+                        <ul class="icons-list">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="icon-menu9"></i>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li>
+                                        <a href="{{route('admin.tasas.edit-mortgage', ['nav'=>'rate', 'action'=>'edit', 'id_rates'=>$data_hipot->id_rates, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type])}}">
+                                            <i class="icon-pencil3"></i> Editar
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                @endforeach
+            @else
+                <div class="alert alert-danger no-border">
+                    <span class="text-semibold"></span> Ingrese la tasa hipotecaria
+                </div>
+            @endif
+            </tbody>
+        </table>
+    </div>
+    <!-- /hipotecario -->
+
     <script type="text/javascript">
         $(document).ready(function(){
             setTimeout(function() {
