@@ -163,51 +163,53 @@
                 </ul>
             </div>
         </div>
-        <div class="panel-body"></div>
-        <table class="table table-bordered table-striped table-hover dataTable no-footer">
-            <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Tasa</th>
-                <th>Producto Crediticio</th>
-                <th>Retailer</th>
-                <th class="text-center">Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            @if(count($query_hipotecario)>0)
-                @foreach($query_hipotecario as $data_hipot)
+        <div class="panel-body">
+            @include('admin.partials.message')
+        </div>
+        @if(count($query_hipotecario)>0)
+            <table class="table table-bordered table-striped table-hover dataTable no-footer">
+                <thead>
                 <tr>
-                    <td>{{$data_hipot->product}}</td>
-                    <td>{{$data_hipot->rate_final}}</td>
-                    <td>{{$data_hipot->product_credit}}</td>
-                    <td>{{$data_hipot->retailer}}</td>
-                    <td class="text-center">
-                        <ul class="icons-list">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="icon-menu9"></i>
-                                </a>
-
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li>
-                                        <a href="{{route('admin.tasas.edit-mortgage', ['nav'=>'rate', 'action'=>'edit', 'id_rates'=>$data_hipot->id_rates, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type])}}">
-                                            <i class="icon-pencil3"></i> Editar
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </td>
+                    <th>Producto</th>
+                    <th>Tasa</th>
+                    <th>Producto Crediticio</th>
+                    <th>Retailer</th>
+                    <th class="text-center">Acciones</th>
                 </tr>
-                @endforeach
-            @else
-                <div class="alert alert-danger no-border">
-                    <span class="text-semibold"></span> Ingrese la tasa hipotecaria
-                </div>
-            @endif
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach($query_hipotecario as $data_hipot)
+                    <tr>
+                        <td>{{$data_hipot->product}}</td>
+                        <td>{{$data_hipot->rate_final}}</td>
+                        <td>{{$data_hipot->product_credit}}</td>
+                        <td>{{$data_hipot->retailer}}</td>
+                        <td class="text-center">
+                            <ul class="icons-list">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="icon-menu9"></i>
+                                    </a>
+
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li>
+                                            <a href="{{route('admin.tasas.edit-mortgage', ['nav'=>'rate', 'action'=>'edit', 'id_rates'=>$data_hipot->id_rates, 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type])}}">
+                                                <i class="icon-pencil3"></i> Editar
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <div class="alert alert-danger alert-styled-left alert-bordered">
+                <span class="text-semibold"></span> Ingrese la tasa hipotecaria
+            </div>
+        @endif
     </div>
     <!-- /hipotecario -->
 

@@ -51,7 +51,18 @@
                 <div class="form-group">
                     <label class="control-label col-lg-2">Producto Crediticio </label>
                     <div class="col-lg-10">
-                        <strong>{{$query_product_credit->name}}</strong>
+                        <strong>
+                            @if(count($query_product_credit)>0)
+                                {{$query_product_credit->name}}
+                            @else
+                                <div class="alert alert-info alert-styled-left alert-bordered" style="font-weight: normal;">
+                                    <span class="text-semibold"></span> No existen productos crediticios,
+                                    ingrese
+                                    <a href="{{route('admin.de.creditproduct.list', ['nav'=>'credit_product', 'action'=>'list', 'id_retailer_product'=>$id_retailer_products])}}" class="alert-link">aqui</a>
+                                    para crear nuevos producto crediticios
+                                </div>
+                            @endif
+                        </strong>
                     </div>
                 </div>
 
@@ -64,16 +75,24 @@
             </fieldset>
 
             <div class="text-right">
-                <button type="submit" class="btn btn-primary">
-                    Guardar <i class="icon-floppy-disk position-right"></i>
-                </button>
+                @if(count($query_product_credit)>0)
+                    <button type="submit" class="btn btn-primary">
+                        Guardar <i class="icon-floppy-disk position-right"></i>
+                    </button>
+                @else
+                    <button type="submit" class="btn btn-primary" disabled>
+                        Guardar <i class="icon-floppy-disk position-right"></i>
+                    </button>
+                @endif
                 <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type])}}" class="btn btn-primary">
                     Cancelar <i class="icon-arrow-right14 position-right"></i>
                 </a>
                 <input type="hidden" name="id_retailer_products" value="{{$id_retailer_products}}">
                 <input type="hidden" name="code_product" value="{{$code_product}}">
                 <input type="hidden" name="type" value="{{$type}}">
-                <input type="hidden" name="product_credit" value="{{$query_product_credit->id}}">
+                @if(count($query_product_credit)>0)
+                    <input type="hidden" name="product_credit" value="{{$query_product_credit->id}}">
+                @endif
             </div>
             {!!Form::close()!!}
         </div>
