@@ -25,9 +25,24 @@ Route::get('admin/tasas/edit/{nav}/{action}/{id_rates}/{id_retailer_products}/{c
     'uses' => 'Admin\TasasAdminController@edit'
 ]);
 
+Route::get('admin/tasas/edit-mortgage/{nav}/{action}/{id_rates}/{id_retailer_products}/{code_product}/{type}', [
+    'as' => 'admin.tasas.edit-mortgage',
+    'uses' => 'Admin\TasasAdminController@edit_mortgage'
+]);
+
+Route::get('admin/tasas/new-mortgage/{nav}/{action}/{id_retailer_products}/{code_product}/{type}', [
+    'as' => 'admin.tasas.new-mortgage',
+    'uses' => 'Admin\TasasAdminController@new_mortgage'
+]);
+
 Route::post('admin/tasas/new', [
     'as' => 'new_rates',
     'uses' => 'Admin\TasasAdminController@store'
+]);
+
+Route::post('admin/tasas/new-mortgage', [
+    'as' => 'create_rates_mortgage',
+    'uses' => 'Admin\TasasAdminController@store_mortgage'
 ]);
 
 Route::post('admin/tasas/edit', [

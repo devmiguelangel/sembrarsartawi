@@ -50,20 +50,24 @@
                 <th>Pregunta</th>
                 <th style="text-align: center;">Respuesta esperada</th>
                 <th style="text-align: center;">Estado</th>
+                <th style="text-align: center;">Tipo</th>
                 <th class="text-center">Accion</th>
             </tr>
             </thead>
             <tbody>
             @foreach($query_list_q as $data)
+                @var $parameter_term = config('base.question_types')
+                @if(!is_null($data->type))
+                    @var $type_term_credit = $parameter_term[$data->type]
+                @else
+                    @var $type_term_credit = 'Ninguno'
+                @endif
+
                 <tr>
                 <td style="text-align: left;">{{$data->order}}</td>
                 <td style="text-align: left;">{{$data->question}}</td>
                 <td style="text-align: center;">
-                    @if((boolean)$data->response==true)
-                        SI
-                    @else
-                        NO
-                    @endif
+                    {{(boolean)$data->response==true?'SI':'NO'}}
                 </td>
                 <td>
                     @if((boolean)$data->active==true)
@@ -71,6 +75,9 @@
                     @else
                         <span class="label label-default">Inactivo</span>
                     @endif
+                </td>
+                <td>
+                    {{$type_term_credit}}
                 </td>
                 <td class="text-center">
                     <ul class="icons-list">

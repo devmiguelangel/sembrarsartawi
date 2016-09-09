@@ -72,16 +72,27 @@
                             @endif
                         </div>
                     </div>
-
-                    <div class="form-group" style="display: none;">
-                        <label class="control-label col-lg-2">Respuesta esperada <span class="text-danger">*</span></label>
+                    @var $parameter_qt = config('base.question_types')
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Tipo</label>
                         <div class="col-lg-10">
-                            <select name="response" id="response" class="form-control">
-                                <option value="0">Seleccione</option>
-                                <option value="1">SI</option>
-                                <option value="2" selected>NO</option>
+                            <select name="type" id="type" class="form-control">
+                                <option value="">Ninguno</option>
+                                @foreach($parameter_qt as $key=>$data)
+                                    <option value="{{$key}}">{{$data}}</option>
+                                @endforeach
                             </select>
                         </div>
+                    </div>
+
+                    <div class="form-group" id="content-radio">
+                        <label class="control-label col-lg-2">Habilitar especificar respuesta <span class="text-danger">*</span></label>
+                        <label class="radio-inline">
+                            <input type="radio" name="response_question" class="styled" value="1" id="response_question">SI
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="response_question" class="styled" value="0" id="response_question">NO
+                        </label>
                     </div>
 
                 </fieldset>
@@ -111,6 +122,20 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
+            $('#content-radio').fadeOut('fast');
+
+            //SELECCIONAMOS TIPO CREDITO
+            $('#type').change(function(){
+                var type = $(this).prop('value');
+                if(type=='PMO'){
+                    $('#content-radio').fadeIn('fast');
+                    $('input[name="response_question"]').removeClass('styled').addClass('styled required');
+                }else{
+                    $('#content-radio').fadeOut('fast');
+                    $('input[name="response_question"]').removeClass('styled required').addClass('styled');
+                }
+            });
+
             //VERIFICAMOS EL FORMULARIO
             $('#CreateForm').submit(function(e){
                 var sw = true;
@@ -138,17 +163,29 @@
             });
 
             //VALIDAMOS ELEMENTO
-            function validateElement(element,err){
+            function validateElement(element,err) {
                 var _value = $(element).prop('value');
                 var _type = $(element).prop('type');
-                if(_type=='select-one'){
-                    if(_value==0){
-                        addClassE(element,err);
+                var _name = $(element).prop('name');
+                //alert(_type + ' ' + _value + ' ' + _name);
+                if (_type == 'select-one') {
+                    if (_value == 0) {
+                        addClassE(element, err);
                         return false;
-                    }else{
-                        removeClassE(element,err);
+                    } else {
+                        removeClassE(element, err);
                         return true;
                     }
+                }else if(_type == 'radio'){
+
+                    if($("input[name='"+_name+"']:radio").is(':checked')){
+                        removeClassE(element,err);
+                        return true;
+                    }else{
+                        addClassE(element,err);
+                        return false;
+                    }
+
                 }else{
                     if(_value==''){
                         addClassE(element,err);
@@ -162,10 +199,12 @@
             //ADICIONAMOS CLASE
             function addClassE(element,err){
                 var _id = $(element).prop('id');
+                var _type = $(element).prop('type');
                 //$(element).addClass('error-text');
                 if(!$("#"+_id+" + .validation-error-label").length) {
                     $("#"+_id+":last").after('<label class="validation-error-label">'+err+'</label>');
                 }
+
             }
             //REMOVEMOS CLASE
             function removeClassE(element){
