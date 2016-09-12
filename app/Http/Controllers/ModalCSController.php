@@ -108,6 +108,8 @@ class ModalCSController extends Controller
     public function ajax_modal($id_retailer_product, $id_header, $text, $type)
     {
         //Query Builder
+        $query_exchange = \DB::table('ad_exchange_rates')->first();
+
         $query = \DB::table('ad_retailer_products as arp')
             ->join('ad_retailers as ar', 'ar.id', '=', 'arp.ad_retailer_id')
             ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
@@ -118,7 +120,6 @@ class ModalCSController extends Controller
             ->where('arp.id', decode($id_retailer_product))
             ->first();
         $code_product = $query->code_product;
-
         if($code_product=='td'){
 
             $query_header = \DB::table('op_td_headers as th')
@@ -412,7 +413,7 @@ class ModalCSController extends Controller
                 $view =  \View::make('cert.base',
                     compact('query', 'query_header', 'query_parameter', 'query_details', 'id_retailer_product', 'id_header',
                         'facul_q', 'imc_arr', 'question', 'beneficiary', 'active_subprod', 'arr_id_client', 'sub_product_code',
-                        'sub_product_code', 'query_quest_cl', 'arr_benefi_subp', 'text', 'type', 'code_product'))->render();
+                        'sub_product_code', 'query_quest_cl', 'arr_benefi_subp', 'text', 'type', 'code_product', 'query_exchange'))->render();
             }elseif($code_product=='vi'){
                 $view =  \View::make('cert.base',
                     compact('query', 'query_quest_cl', 'arr_benefi_subp', 'id_retailer_product', 'id_header',
@@ -437,7 +438,7 @@ class ModalCSController extends Controller
                 $response = view('cert.base',
                     compact('query', 'query_header', 'query_parameter', 'query_details', 'id_retailer_product', 'id_header',
                         'facul_q', 'imc_arr', 'question', 'beneficiary', 'active_subprod', 'arr_id_client', 'sub_product_code',
-                        'sub_product_code', 'query_quest_cl', 'arr_benefi_subp', 'text', 'type', 'code_product'));
+                        'sub_product_code', 'query_quest_cl', 'arr_benefi_subp', 'text', 'type', 'code_product', 'query_exchange'));
             }elseif($code_product=='vi'){
                 $response = view('cert.base',
                     compact('query', 'query_quest_cl', 'arr_benefi_subp', 'id_retailer_product', 'id_header',
