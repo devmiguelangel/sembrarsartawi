@@ -45,7 +45,7 @@ class MedicalCertificateRepository extends BaseRepository
     {
         $this->model = Certificate::with([
             'certificateQuestionnaires.questionnaire',
-            'certificateQuestionnaires.questions'
+            'certificateQuestionnaires.questions',
         ])->where('id', $id)->first();
 
         if ($this->model instanceof Certificate) {
