@@ -224,7 +224,7 @@ class ModalCSController extends Controller
                 ->join('op_clients as cl', 'cl.id', '=', 'dd.op_client_id')
                 ->join('ad_activities as ac', 'ac.id', '=', 'cl.ad_activity_id')
                 ->join('op_de_responses as dr', 'dr.op_de_detail_id', '=', 'dd.id')
-                ->join('op_de_beneficiaries as odb', 'odb.op_de_detail_id', '=', 'dd.id')
+                ->leftjoin('op_de_beneficiaries as odb', 'odb.op_de_detail_id', '=', 'dd.id')
                 ->leftjoin('ad_cities as cit', 'cit.slug', '=', 'cl.place_residence')
                 ->leftjoin('op_de_facultatives as df', 'df.op_de_detail_id', '=', 'dd.id')
                 ->select('cl.first_name', 'cl.last_name', 'cl.mother_last_name', 'cl.married_name', 'cl.civil_status',

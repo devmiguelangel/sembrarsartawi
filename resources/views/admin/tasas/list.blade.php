@@ -147,7 +147,8 @@
     </div>
 
     <!-- hipotecario -->
-    <div class="panel panel-flat">
+    @if($code_product=='de')
+        <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">Desgravamen Hipotecario</h5>
             <div class="heading-elements">
@@ -211,6 +212,7 @@
             </div>
         @endif
     </div>
+    @endif
     <!-- /hipotecario -->
 
     <script type="text/javascript">
