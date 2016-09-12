@@ -23,7 +23,8 @@
             <div class="alert alert-info alert-styled-left alert-arrow-left alert-component">
                 <!--<button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>-->
                 <h6 class="alert-heading text-semibold">Importante</h6>
-                Comprobar y validar saldos para deuda directa titular en créditos paralelos y refinanciados.
+                Comprobar y validar saldos de sembrar.net para deuda directa titular en créditos paralelos y
+                refinanciados.
             </div>
 
             {!! Form::open(['route' => ['de.detail.balance.update', 'rp_id' => $rp_id, 'header_id' => encode($header->id), 'detail_id' => encode($detail->id)],
@@ -71,7 +72,7 @@
                     Llenar solo en caso que el cliente tenga créditos adicionales, FUERA de línea.
                 </div>
 
-                <label class="control-label col-lg-3 label_required">Saldo deudor actual del asegurado (Bs.): </label>
+                <label class="control-label col-lg-3 label_required">Saldo deudor actual del asegurado (USD.): </label>
                 <div class="col-lg-9">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="icon-cash2"></i></span>
@@ -90,10 +91,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-lg-3 label_required">Monto Actual Acumulado (Bs.): </label>
+                <label class="control-label col-lg-3 label_required">Monto Actual Acumulado (USD.): </label>
                 <div class="col-lg-9">
                     <h6 class="text-muted content-group-sm"
-                        ng-if="formData.movement_type != 'LC'">@{{ formData.cumulus | currency : 'Bs. ' }} </h6>
+                        ng-if="formData.movement_type != 'LC'">@{{ formData.cumulus | currency : 'USD. ' }} </h6>
                     <div class="input-group" ng-if="formData.movement_type == 'LC'">
                         <span class="input-group-addon"><i class="icon-cash2"></i></span>
                         {!! Form::text('cumulus', null, [

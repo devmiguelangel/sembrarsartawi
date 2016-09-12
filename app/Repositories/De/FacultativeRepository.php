@@ -183,14 +183,14 @@ class FacultativeRepository extends BaseRepository
     {
         $facultative = false;
         $response    = $this->getEvaluationResponse($detail->response);
-        $imc         = $detail->client->imc;
-        $reason      = '';
+        // $imc         = $detail->client->imc;
+        $reason = '';
 
-        if ($imc) {
+        /*if ($imc) {
             $reason .= str_replace([ ':name' ], [ $detail->client->full_name ], $this->reasonImc) . '<br>';
 
             $facultative = true;
-        }
+        }*/
 
         if ($response) {
             $reason .= str_replace([ ':name' ], [ $detail->client->full_name ], $this->reasonResponse) . '<br>';
@@ -219,8 +219,10 @@ class FacultativeRepository extends BaseRepository
 
     private function getParameter($retailerProduct, $amount, $cumulus)
     {
+        $cumulus_bs = $cumulus * $retailerProduct->retailer->exchangeRate->bs_value;
+
         foreach ($retailerProduct->parameters as $parameter) {
-            if (( $cumulus >= $parameter->amount_min && $cumulus <= $parameter->amount_max ) || ( $parameter->slug === 'FA' && $cumulus > $parameter->amount_max )) {
+            if (( $cumulus_bs >= $parameter->amount_min && $cumulus_bs <= $parameter->amount_max ) || ( $parameter->slug === 'FA' && $cumulus_bs > $parameter->amount_max )) {
                 $this->parameter = $parameter;
             }
         }

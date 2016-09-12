@@ -37,7 +37,7 @@ class ClientCreateFormRequest extends Request
             'civil_status'           => 'required|in:' . $civil_status,
             'document_type'          => 'required|in:' . $document_types,
             'dni'                    => 'required|alpha_dash',
-            'complement'             => 'alpha',
+            'complement'             => 'alpha_num',
             'extension'              => 'required|exists:ad_cities,abbreviation',
             'country'                => 'required|alpha_space',
             'birthdate'              => 'required|date_format:d/m/Y',
