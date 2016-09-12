@@ -36,7 +36,7 @@ class RetailerProductRepository extends BaseRepository
         $questions = [ ];
 
         if ($this->model->count() === 1) {
-            $creditProduct = is_null($header) ? null : $header->creditProduct;
+            $creditProduct = is_null($header) ? new CreditProduct() : $header->creditProduct;
             $retailer      = $this->model->first();
             $order         = 1;
 

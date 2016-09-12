@@ -167,17 +167,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-lg-3 label_required">Tipo de Movimiento: </label>
-                            <div class="col-lg-8">
-                                {!! SelectField::input('movement_type', $data['movement_types']->toArray(), [
-                                    'class' => 'select-search'
-                                ], old('movement_type')) !!}
-                                <label id="location-error" class="validation-error-label"
-                                       for="location">{{ $errors->first('movement_type') }}</label>
-                            </div>
-                        </div>
-
                         <div class="text-right">
                             {!! Form::button('Cotiza tu mejor seguro <i class="icon-arrow-right14 position-right"></i>', [
                                 'type'  => 'submit',
