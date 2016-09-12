@@ -27,7 +27,6 @@ class HeaderEditFormRequest extends Request
     {
         $currencies     = join(',', array_keys(config('base.currencies')));
         $term_types     = join(',', array_keys(config('base.term_types')));
-        $movement_types = join(',', array_keys(config('base.movement_types')));
 
         return [
             'coverage'         => 'required|exists:ad_coverages,id',
@@ -36,7 +35,6 @@ class HeaderEditFormRequest extends Request
             'term'             => 'required|integer|min:1',
             'type_term'        => 'required|in:' . $term_types,
             'credit_product'   => 'required|exists:ad_credit_products,id',
-            'movement_type'    => 'required|in:' . $movement_types,
             'operation_number' => 'numeric',
             'policy_number'    => 'required|exists:ad_policies,number',
         ];

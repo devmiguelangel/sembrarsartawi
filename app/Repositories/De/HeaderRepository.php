@@ -38,7 +38,7 @@ class HeaderRepository extends BaseRepository
         $this->model->term                 = $this->data['term'];
         $this->model->type_term            = $this->data['type_term'];
         $this->model->ad_credit_product_id = $this->data['credit_product'];
-        $this->model->movement_type        = $this->data['movement_type'];
+        $this->model->movement_type        = 'AD';
         $this->model->issued               = false;
 
         if ( ! $this->checkNumber('Q', $quote_number)) {
@@ -134,9 +134,12 @@ class HeaderRepository extends BaseRepository
             } else {
                 $rates = $retailerProduct->rates()->doesntHave('creditProduct')->get();
 
-                if ($rates->count() === 1) {
-                    $rate       = $rates->first();
-                    $rate_final = $rate->rate_final;
+                foreach ($rates as $rate) {
+                    if ($rate->ad_coverage_id === $header->ad_coverage_id) {
+                        $rate_final = $rate->rate_final;
+
+                        break;
+                    }
                 }
             }
 
