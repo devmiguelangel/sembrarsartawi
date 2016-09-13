@@ -212,7 +212,7 @@
                         @if($query_header->currency=='USD')
                             {{$monto_actual_acumulado.' USD'}}
                         @elseif($query_header->currency=='BS')
-                            {{number_format($monto_actual_acumulado*$query_exchange->bs_value,2,'.',',').' USD'}}
+                            {{number_format($monto_actual_acumulado/$query_exchange->bs_value,2,'.',',').' USD'}}
                         @endif
                     </td>
                 </tr>
