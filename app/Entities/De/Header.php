@@ -5,6 +5,7 @@ namespace Sibas\Entities\De;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Sibas\Entities\CreditProduct;
+use Sibas\Entities\RetailerProduct;
 use Sibas\Entities\User;
 
 class Header extends Model
@@ -74,6 +75,12 @@ class Header extends Model
     public function creditProduct()
     {
         return $this->belongsTo(CreditProduct::class, 'ad_credit_product_id', 'id');
+    }
+
+
+    public function retailerProduct()
+    {
+        return $this->belongsTo(RetailerProduct::class, 'ad_retailer_product_id', 'id');
     }
 
 
