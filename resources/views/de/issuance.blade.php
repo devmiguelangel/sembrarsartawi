@@ -133,7 +133,7 @@
                         </div>
                     </div>
 
-                    @if(! is_null($retailerProduct->subProducts))
+                    @if(! is_null($retailerProduct->subProducts) && $header->creditProduct->slug === 'PMO')
                         <div class="col-md-4">
                             <div class="modal-header bg-success">
                                 <h6 class="modal-title">Sub-Productos</h6>
