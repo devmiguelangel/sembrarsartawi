@@ -129,10 +129,13 @@
                                       'ng-submit'     => 'sendForm($event)',
                                     ]) !!}
 
-                                    @include('client.de.partials.questions')
+                                    @include('client.de.partials.questions', ['action' => 'CREATE'])
 
                                     <div class="text-right">
-                                        {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+                                        {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', [
+                                            'type'  => 'submit',
+                                            'class' => 'btn btn-primary'
+                                        ]) !!}
                                     </div>
                                     {!! Form::close() !!}
                                 </div>

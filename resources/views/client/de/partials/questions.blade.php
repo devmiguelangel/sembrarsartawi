@@ -16,11 +16,11 @@
                     {!! Form::hidden('qs[' . $question['order'] . '][response_text]', (int) $question['response_text']) !!}
 
                     <label class="radio-inline radio-right">
-                        {!! Form::radio('qs[' . $question['order'] . '][response]', '1', $question['check_yes'], ['class' => 'styled']) !!}
+                        {!! Form::radio('qs[' . $question['order'] . '][response]', '1', ($action === 'CREATE' ? '' : $question['check_yes']), ['class' => 'styled']) !!}
                         Si
                     </label>
                     <label class="radio-inline radio-right">
-                        {!! Form::radio('qs[' . $question['order'] . '][response]', '0', $question['check_no'], ['class' => 'styled']) !!}
+                        {!! Form::radio('qs[' . $question['order'] . '][response]', '0', ($action === 'CREATE' ? '' : $question['check_no']), ['class' => 'styled']) !!}
                         No
                     </label>
                 </div>
@@ -42,6 +42,10 @@
         @endforeach
     </div>
 </div>
+
+<label id="location-error" class="validation-error-label"
+       for="location">{{ $errors->first('responses') }}</label>
+
 <hr>
 <div class="form-group">
     @if($data['detail']->header->creditProduct->slug !== 'PMO')
