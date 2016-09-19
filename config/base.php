@@ -156,6 +156,14 @@ return [
         'C' => 'Subsanado/Pendiente',
     ],
 
+    'company_state_icon' => [
+        'A' => 'glyphicon-ok',
+        'R' => 'glyphicon-remove',
+        'P' => 'glyphicon-time',
+        'O' => 'glyphicon-repeat',
+        'C' => 'glyphicon-refresh',
+    ],
+
     'medical_certificate_types' => [
         'E' => 'Editor',
         'C' => 'Cuestionario',

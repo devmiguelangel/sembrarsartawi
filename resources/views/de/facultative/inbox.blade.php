@@ -171,7 +171,9 @@
                                             @endif
                                         @endif
                                         <br>
-                                        <span class="label label-primary pull-right">{{ config('base.company_state.' . $record->company_state) }}</span>
+                                        <span class="label label-primary glyphicon {{ config('base.company_state_icon.' . $record->company_state) }}">
+                                            {{ config('base.company_state.' . $record->company_state) }}
+                                        </span>
                                     </td>
                                     <td class="view-message ">
                                         @if($product->code === 'de')
