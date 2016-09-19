@@ -83,9 +83,6 @@ class BeneficiaryController extends Controller
      */
     public function store(BeneficiaryDeFormRequest $request, $rp_id, $header_id, $detail_id)
     {
-        /*$token  = $request->session()->token();
-        $header = $request->header('X-CSRF-TOKEN');*/
-
         if ($request->ajax()) {
             if ($this->detailRepository->getDetailById(decode($detail_id))) {
                 $request['detail'] = $this->detailRepository->getModel();
@@ -164,5 +161,5 @@ class BeneficiaryController extends Controller
 
         return redirect()->back();
     }
-    
+
 }
