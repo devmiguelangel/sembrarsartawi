@@ -124,7 +124,8 @@
                                         'id_header'           => encode($header->id),
                                         'text'                => 'print_all',
                                         'type'                => 'IMPR'
-                                    ]) }}" id="print_all" class="btn btn-primary btn-labeled btn-xlg col-lg-12 open_modal">
+                                    ]) }}" id="print_all"
+                                       class="btn btn-primary btn-labeled btn-xlg col-lg-12 open_modal">
                                         <b><i class="icon-printer4"></i></b> Imprimir Todo
                                     </a>
                                 </p>
@@ -168,7 +169,8 @@
                                                         'id_header'           => encode($header->id),
                                                         'text'                => 'issuance',
                                                         'type'                => 'IMPR'
-                                                    ]) }}" id="vi" class="btn btn-success btn-labeled btn-xlg col-lg-12 open_modal">
+                                                    ]) }}" id="vi"
+                                                       class="btn btn-success btn-labeled btn-xlg col-lg-12 open_modal">
                                                         <b><i class="icon-printer4"></i></b> Ver Certificado Vida Grupo
                                                     </a>
                                                 </p>
@@ -182,10 +184,17 @@
                     @endif
 
                     <div class="col-md-4" ng-controller="HeaderDeController">
-                        <div class="modal-header bg-info warranty-box" style="cursor: pointer;">
-                            <h6 class="modal-title">Garantías</h6>
+                        <div class="modal-header bg-info warranty-box" data-toggle="tooltip" data-placement="top"
+                             title="Seleccione una garantía en caso que el cliente haya solicitado expresamente tomar
+                             un seguro con la aseguradora ofertada." style="cursor: pointer;">
+                            <h6 class="modal-title">
+                                <span id="warranty-icon" class="glyphicon glyphicon-plus"
+                                      style="margin-right: 10px;"></span>
+                                Garantías
+                            </h6>
                         </div>
-                        <div class="panel panel-body border-top-primary text-center" id="warranty-box" style="display: none;">
+                        <div class="panel panel-body border-top-primary text-center" id="warranty-box"
+                             style="display: none;">
                             <div class="col-md-12">
                                 @foreach($retailer->retailerProducts as $retailerProduct)
                                     @if($retailerProduct->type === 'MP' && $retailerProduct->warranty)

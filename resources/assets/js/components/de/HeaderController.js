@@ -69,15 +69,13 @@ var header = function ($rootScope, $scope, $http) {
         }).finally(function () {
           $scope.easyLoading('#popup', '', false);
         });
-      
     }
-
   };
 
   $('#coverage option:not(:selected), ' +
     '#currency option:not(:selected), ' +
     '#type_term option:not(:selected), ' +
-    '#credit_product option:not(:selected), ' + 
+    '#credit_product option:not(:selected), ' +
     '#movement_type option:not(:selected)').prop('disabled', true);
 
   /*
@@ -87,7 +85,7 @@ var header = function ($rootScope, $scope, $http) {
     var credit_product = $(this).find(':selected').data('credit-product');
 
     if (credit_product == 'PMO') {
-      bootbox.alert("Esta seguro de continuar con la nueva norma de la APS!", function() {
+      bootbox.alert("Esta seguro de continuar con la nueva norma de la APS?", function() {
 
       });
     }
@@ -158,7 +156,7 @@ var header = function ($rootScope, $scope, $http) {
       })
         .then(function (response) {
           $scope.errors = {};
-          
+
           if (response.status == 200) {
             $scope.success = { coverage: true };
             $scope.redirect(response.data.location);
@@ -181,8 +179,22 @@ var header = function ($rootScope, $scope, $http) {
   Warranty Box Open-Close
    */
   $('.warranty-box').click(function (e) {
-    $('#warranty-box').slideToggle();
+    var warranty_box  = $('#warranty-box');
+    var warranty_icon = $('#warranty-icon');
+
+    if (warranty_box.is(':hidden')) {
+      warranty_icon.removeClass('glyphicon-plus').addClass('glyphicon-minus');
+    } else {
+      warranty_icon.removeClass('glyphicon-minus').addClass('glyphicon-plus');
+    }
+
+    warranty_box.slideToggle();
   });
+
+  /*
+  Warranty tooltip
+  */
+  $('.warranty-box').tooltip();
 
 };
 
