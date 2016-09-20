@@ -227,6 +227,22 @@ class HeaderController extends Controller
         if ($this->repository->getHeaderById(decode($header_id)) && $this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
             $header          = $this->repository->getModel();
             $retailerProduct = $this->retailerProductRepository->getModel();
+            $rp              = $retailerProduct->retailer->retailerProducts()->whereHas('companyProduct.product',
+                function ($q) {
+                    $q->where('code', 'de');
+                });
+
+            if ($header->creditProduct->slug === 'PMO') {
+                $rp->whereHas('rates', function ($q) use ($header) {
+                    $q->where('ad_credit_product_id', $header->creditProduct->id);
+                })->whereIn('type', [ 'RP', 'MP' ]);
+            } else {
+                $rp->whereHas('creditProducts', function ($q) use ($header) {
+                    $q->where('slug', '!=', $header->creditProduct->slug);
+                })->where([ 'type' => 'MP' ]);
+            }
+
+            $retailerProduct = $rp->first();
 
             if ($this->repository->setHeaderResult($retailerProduct, $header)) {
                 return view('de.result', compact('rp_id', 'header_id', 'header', 'retailerProduct'));

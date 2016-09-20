@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateAdCreditProductsTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -16,12 +17,13 @@ class CreateAdCreditProductsTable extends Migration
             $table->increments('id');
             $table->integer('ad_retailer_product_id')->unsigned();
             $table->string('name', 140);
-            $table->string('slug', 5)->unique();
+            $table->string('slug', 5);
             $table->timestamps();
 
             $table->foreign('ad_retailer_product_id')->references('id')->on('ad_retailer_products');
         });
     }
+
 
     /**
      * Reverse the migrations.

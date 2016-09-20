@@ -60,6 +60,7 @@ return [
     'retailer_product_types' => [
         'MP' => 'Producto Principal',
         'SP' => 'Sub Producto',
+        'RP' => 'Producto Alternativo',
     ],
 
     'currencies' => [
