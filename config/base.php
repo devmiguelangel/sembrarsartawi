@@ -93,9 +93,9 @@ return [
 
     'beneficiary_coverages' => [
         'AP' => 'Accidentes Personales',
-        'VI' => 'Vida',
+        'VI' => 'Vida en Grupo',
         'SP' => 'Sepelio',
-        'CO' => 'Contingente',
+        'CO' => 'Vida en Grupo Contingente',
     ],
 
     'facultative_states' => [
@@ -258,6 +258,11 @@ return [
 
     'question_types' => [
         'PMO' => 'Hipotecario',
+    ],
+
+    'policy_types' => [
+        'DE' => 'Desgravamen',
+        'VI' => 'Vida Grupo',
     ],
 
 ];

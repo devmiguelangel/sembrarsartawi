@@ -6,6 +6,7 @@ use Sibas\Http\Requests\Request;
 
 class BeneficiaryDeFormRequest extends Request
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,6 +17,7 @@ class BeneficiaryDeFormRequest extends Request
         return true;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,7 +25,10 @@ class BeneficiaryDeFormRequest extends Request
      */
     public function rules()
     {
+        $type = join(',', array_keys(config('base.beneficiary_coverages')));
+
         return [
+            'type'             => 'required|in:' . $type,
             'first_name'       => 'required|alpha_space',
             'last_name'        => 'required|alpha_space',
             'mother_last_name' => 'alpha_space',

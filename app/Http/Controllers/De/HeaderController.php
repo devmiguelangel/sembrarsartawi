@@ -168,9 +168,18 @@ class HeaderController extends Controller
         $header = null;
         $data   = null;
 
-        if ($this->repository->getHeaderById(decode($header_id))) {
-            $header = $this->repository->getModel();
-            $data   = $this->getData(decode($rp_id));
+        if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id)) && $this->repository->getHeaderById(decode($header_id))) {
+            $retailerProduct = $this->retailerProductRepository->getModel();
+            $header          = $this->repository->getModel();
+            $data            = $this->getData(decode($rp_id));
+            $data['vg']      = $this->repository->getStatusVg($retailerProduct, $header);
+            $type            = ( $data['vg'] && $header->creditProduct->slug !== 'PMO' ) ? 'VI' : 'DE';
+
+            $policies = $data['policies']->filter(function ($value) use ($type) {
+                return $value->type === $type;
+            });
+
+            $data['policies'] = $policies;
 
             $cumulus = $header->details->sum(function ($detail) {
                 return $detail->cumulus;

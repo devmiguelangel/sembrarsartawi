@@ -17,6 +17,7 @@ class Header extends Model
 
     protected $appends = [
         'completed',
+        'completed_de',
         'certificate_number',
         'created_date',
         'days_from_creation',
@@ -93,6 +94,24 @@ class Header extends Model
                 $completed = false;
 
                 break;
+            }
+        }
+
+        return $completed;
+    }
+
+
+    public function getCompletedDeAttribute()
+    {
+        $completed = true;
+
+        foreach ($this->details as $detail) {
+            foreach ($detail->list_beneficiaries as $key => $beneficiary) {
+                if ($key === 'SP' && is_null($beneficiary)) {
+                    $completed = false;
+
+                    break 2;
+                }
             }
         }
 

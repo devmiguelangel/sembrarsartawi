@@ -1,5 +1,5 @@
 var beneficiary = function($rootScope, $scope, $http){
-  
+
   /**
    * Beneficiary store
    * @param  {[type]} event [description]
@@ -57,7 +57,7 @@ var beneficiary = function($rootScope, $scope, $http){
 
     if (! $rootScope.submitted) {
       $rootScope.submitted = true;
-      
+
       $scope.easyLoading('#popup', 'dark', true);
 
       var action = $scope.getActionAttribute(event);

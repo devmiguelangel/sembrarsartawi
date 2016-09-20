@@ -6,7 +6,7 @@
                 <h6 class="form-wizard-title2 text-semibold">
                     <span class="col-md-11">
                         <span class="form-wizard-count">4</span>
-                        Datos del Beneficiario de Sepelio
+                        Datos del Beneficiario de {{ config('base.beneficiary_coverages.' . request()->get('type')) }}
                         <small class="display-block">Titular {{ $detail->client->full_name }}</small>
                     </span>
                 </h6>

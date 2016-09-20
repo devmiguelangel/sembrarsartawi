@@ -9,10 +9,12 @@ use Sibas\Repositories\BaseRepository;
 
 class BeneficiaryRepository extends BaseRepository
 {
+
     /**
      * Store Beneficiary
      *
      * @param Request $request
+     *
      * @return bool
      */
     public function storeBeneficiary($request)
@@ -23,16 +25,18 @@ class BeneficiaryRepository extends BaseRepository
         $this->data['beneficiary_id'] = date('U');
 
         try {
-            $this->model->beneficiary()->create($this->setData());
-        } catch(QueryException $e) {
+            $this->model->beneficiaries()->create($this->setData());
+        } catch (QueryException $e) {
             $this->errors = $e->getMessage();
         }
 
         return $this->saveModel();
     }
 
+
     /**
      * @param Request $request
+     *
      * @return bool
      */
     public function updateBeneficiary($request)
@@ -41,30 +45,32 @@ class BeneficiaryRepository extends BaseRepository
         $this->model = $this->data['detail'];
 
         try {
-            $this->model->beneficiary()->update($this->setData());
-        } catch(QueryException $e) {
+            $this->model->beneficiaries()->where('id', $this->data['beneficiary_id'])->update($this->setData());
+        } catch (QueryException $e) {
             $this->errors = $e->getMessage();
         }
 
         return $this->saveModel();
     }
 
+
     public function getBeneficiaryById($beneficiary_id)
     {
         $this->model = Beneficiary::where('id', $beneficiary_id)->first();
 
-        if (! is_null($this->model)) {
+        if ( ! is_null($this->model)) {
             return true;
         }
 
         return false;
     }
 
+
     private function setData()
     {
         return [
             'id'               => $this->data['beneficiary_id'],
-            'coverage'         => 'VI',
+            'coverage'         => $this->data['type'],
             'first_name'       => mb_strtoupper($this->data['first_name']),
             'last_name'        => mb_strtoupper($this->data['last_name']),
             'mother_last_name' => mb_strtoupper($this->data['mother_last_name']),

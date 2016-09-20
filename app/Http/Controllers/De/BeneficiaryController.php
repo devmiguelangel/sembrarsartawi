@@ -115,7 +115,7 @@ class BeneficiaryController extends Controller
         if (request()->ajax()) {
             if ($this->detailRepository->getDetailById(decode($detail_id))) {
                 $detail      = $this->detailRepository->getModel();
-                $beneficiary = $detail->beneficiary;
+                $beneficiary = $detail->beneficiaries()->where('coverage', request()->get('type'))->first();
 
                 $data = [
                     'cities' => $this->cityRepository->getCitiesByType(),

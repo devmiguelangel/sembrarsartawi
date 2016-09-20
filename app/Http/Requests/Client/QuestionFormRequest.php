@@ -41,6 +41,14 @@ class QuestionFormRequest extends Request
                         if (key_exists('response_specification', $items)) {
                             $rules['qs.' . $key . '.response_specification'] = 'required';
                         }
+                    } elseif ($this->request->has('vg')) {
+                        foreach ($items['observations'] as $key1 => $observation) {
+                            if (empty( $observation )) {
+                                $rules['qs.' . $key . '.response_observation'] = 'required';
+
+                                break;
+                            }
+                        }
                     } else {
                         $rules['qs_observation'] = 'required';
                     }

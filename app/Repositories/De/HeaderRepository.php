@@ -180,7 +180,7 @@ class HeaderRepository extends BaseRepository
     {
         $this->model = Header::with([
             'details.client.detailsVi',
-            'details.beneficiary',
+            'details.beneficiaries',
             'details.facultative',
             'user.city',
             'coverageWarranty',
