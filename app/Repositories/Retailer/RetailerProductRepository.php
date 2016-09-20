@@ -64,6 +64,13 @@ class RetailerProductRepository extends BaseRepository
                         'check_yes'              => $check_yes,
                         'check_no'               => $check_no,
                         'response_specification' => '',
+                        'observations'           => [
+                            'treatment' => '',
+                            'date'      => '',
+                            'duration'  => '',
+                            'clinic'    => '',
+                            'state'     => '',
+                        ],
                     ];
 
                     $order += 1;

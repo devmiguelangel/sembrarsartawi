@@ -5,6 +5,7 @@ namespace Sibas\Entities\De;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Sibas\Entities\CreditProduct;
+use Sibas\Entities\RetailerProduct;
 use Sibas\Entities\User;
 
 class Header extends Model
@@ -16,6 +17,7 @@ class Header extends Model
 
     protected $appends = [
         'completed',
+        'completed_de',
         'certificate_number',
         'created_date',
         'days_from_creation',
@@ -77,6 +79,12 @@ class Header extends Model
     }
 
 
+    public function retailerProduct()
+    {
+        return $this->belongsTo(RetailerProduct::class, 'ad_retailer_product_id', 'id');
+    }
+
+
     public function getCompletedAttribute()
     {
         $completed = true;
@@ -86,6 +94,24 @@ class Header extends Model
                 $completed = false;
 
                 break;
+            }
+        }
+
+        return $completed;
+    }
+
+
+    public function getCompletedDeAttribute()
+    {
+        $completed = true;
+
+        foreach ($this->details as $detail) {
+            foreach ($detail->list_beneficiaries as $key => $beneficiary) {
+                if ($key === 'SP' && is_null($beneficiary)) {
+                    $completed = false;
+
+                    break 2;
+                }
             }
         }
 

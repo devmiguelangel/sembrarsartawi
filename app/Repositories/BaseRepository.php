@@ -9,6 +9,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Sibas\Collections\BaseCollection;
 use Sibas\Entities\Client;
+use Sibas\Entities\De\Detail;
+use Sibas\Entities\De\Header;
+use Sibas\Entities\ExchangeRate;
+use Sibas\Entities\ProductParameter;
+use Sibas\Entities\RetailerProduct;
 use Sibas\Http\Controllers\MailController;
 
 abstract class BaseRepository
@@ -356,6 +361,31 @@ abstract class BaseRepository
 
         if ($mail->send(decode($rp_id), compact('fa', 'client'), $profiles)) {
             return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param Model|RetailerProduct $retailerProduct
+     * @param Model|Header          $header
+     *
+     * @return bool
+     */
+    public function getStatusVg($retailerProduct, $header)
+    {
+        if ($header->creditProduct->slug !== 'PMO') {
+            $parameter    = $retailerProduct->parameters()->where('slug', 'FC')->first();
+            $exchangeRate = $retailerProduct->retailer->exchangeRate;
+
+            if (( $parameter instanceof ProductParameter ) && ( $exchangeRate instanceof ExchangeRate )) {
+                $amount_requested = ( $header->currency === 'USD' ) ? $header->amount_requested * $exchangeRate->bs_value : $header->amount_requested;
+
+                if ($amount_requested <= $parameter->amount_max) {
+                    return true;
+                }
+            }
         }
 
         return false;

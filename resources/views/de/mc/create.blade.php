@@ -1,5 +1,5 @@
 <div class="">
-    <h4>{{ $mc->name }}</h4>
+    <h4>{!! $mc->name !!}</h4>
     {!! Form::open(['route' => ['de.fa.mc.store', 'rp_id' => $rp_id, 'id' => $id],
         'method'    => 'post',
         'class'     => 'form-inline',
@@ -30,7 +30,7 @@
             <td>
                 <strong>Regional</strong>
             </td>
-            <td></td>
+            <td>{{ $fa->detail->header->user->city->name }}</td>
         </tr>
         <tr>
             <td>

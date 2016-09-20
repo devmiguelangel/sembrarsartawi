@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateAdRatesTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -14,9 +15,9 @@ class CreateAdRatesTable extends Migration
     {
         Schema::create('ad_rates', function (Blueprint $table) {
             $table->increments('id');
-            $table->double('rate_company', 10, 2);
-            $table->double('rate_bank', 10, 2);
-            $table->double('rate_final', 10, 2);
+            $table->double('rate_company', 10, 4);
+            $table->double('rate_bank', 10, 4);
+            $table->double('rate_final', 10, 4);
             $table->integer('year')->unsigned();
             $table->integer('ad_retailer_product_id')->unsigned();
             $table->integer('ad_credit_product_id')->unsigned()->nullable();
@@ -28,6 +29,7 @@ class CreateAdRatesTable extends Migration
             $table->foreign('ad_coverage_id')->references('id')->on('ad_coverages');
         });
     }
+
 
     /**
      * Reverse the migrations.
