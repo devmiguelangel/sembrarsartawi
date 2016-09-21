@@ -59,7 +59,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="icon-menu9"></i>
                                     </a>
-                                    <!--PARA HABILITAR COVERTURAS CAMBIAR xx POR EL CODIGO DEL PRODUCTO de-->
+                                    <!--PARA HABILITAR COVERTURAS CAMBIAR [xx] POR EL CODIGO DEL PRODUCTO [de]-->
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         @if((boolean)$data->active==true)
                                             @if($data->code=='de')

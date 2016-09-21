@@ -116,7 +116,8 @@ class ModalCSController extends Controller
             ->join('ad_companies as ac', 'ac.id', '=', 'acp.ad_company_id')
             ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
             ->select('ac.name as company', 'ac.image as img_company', 'ap.name as name_product',
-                'ar.name as retailer', 'ar.image as img_retailer', 'ap.code as code_product', 'arp.type as type_product')
+                'ar.name as retailer', 'ar.image as img_retailer', 'ap.code as code_product',
+                'arp.type as type_product')
             ->where('arp.id', decode($id_retailer_product))
             ->first();
         $code_product = $query->code_product;
@@ -244,8 +245,7 @@ class ModalCSController extends Controller
             /*PARAMETROS PRODUCTO*/
             $query_parameter = \DB::table('ad_product_parameters')
                 ->where('ad_retailer_product_id', decode($id_retailer_product))
-                ->where('slug', '=', 'GE')
-                ->first();
+                ->get();
 
 
             /*PREGUNTAS/RESPUESTAS CLIENTES*/
