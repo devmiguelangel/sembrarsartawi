@@ -161,6 +161,7 @@ return [
         'answers'                => 'Cuestionario Médico',
         'observation_response'   => 'Respuesta',
         'qs'                     => 'Cuestionario de Salud',
+        'responses'              => 'Respuestas al Cuestionario de Salud',
         'numberBN'               => 'Número de Beneficiarios',
         'beneficiaries'          => 'Beneficiarios',
         'insured_value'          => 'Valor Asegurado',

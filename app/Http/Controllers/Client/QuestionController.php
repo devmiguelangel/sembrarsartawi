@@ -2,7 +2,12 @@
 
 namespace Sibas\Http\Controllers\Client;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Sibas\Entities\De\Detail;
+use Sibas\Entities\ExchangeRate;
+use Sibas\Entities\ProductParameter;
+use Sibas\Entities\RetailerProduct;
 use Sibas\Http\Requests;
 use Sibas\Http\Controllers\Controller;
 use Sibas\Http\Requests\Client\QuestionFormRequest;
@@ -51,15 +56,21 @@ class QuestionController extends Controller
      */
     public function create($rp_id, $header_id, $detail_id)
     {
-        if ($this->detailRepository->getDetailById(decode($detail_id))) {
-            $detail = $this->detailRepository->getModel();
+        if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id)) && $this->detailRepository->getDetailById(decode($detail_id))) {
+            $retailerProduct = $this->retailerProductRepository->getModel();
+            $detail          = $this->detailRepository->getModel();
 
             $data = [
                 'detail'      => $detail,
                 'questions'   => $this->retailerProductRepository->getQuestionByProduct(decode($rp_id),
                     $detail->header),
-                'observation' => ''
+                'observation' => '',
+                'vg'          => $this->repository->getStatusVg($retailerProduct, $detail->header),
             ];
+
+            if ( ! $data['vg'] && $detail->header->creditProduct->slug !== 'PMO') {
+                array_pop($data['questions']);
+            }
 
             return view('client.de.question-create', compact('rp_id', 'header_id', 'detail_id', 'data'));
         }
@@ -108,13 +119,15 @@ class QuestionController extends Controller
      */
     public function edit($rp_id, $header_id, $detail_id)
     {
-        if ($this->detailRepository->getDetailById(decode($detail_id))) {
-            $detail = $this->detailRepository->getModel();
+        if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id)) && $this->detailRepository->getDetailById(decode($detail_id))) {
+            $retailerProduct = $this->retailerProductRepository->getModel();
+            $detail          = $this->detailRepository->getModel();
 
             $data = [
                 'detail'      => $detail,
                 'questions'   => $this->repository->getQuestionsByResponse($detail->response->response),
-                'observation' => $detail->response->observation
+                'observation' => $detail->response->observation,
+                'vg'          => $this->repository->getStatusVg($retailerProduct, $detail->header),
             ];
 
             return view('client.de.question-edit', compact('rp_id', 'header_id', 'detail_id', 'data'));

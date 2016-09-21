@@ -7,10 +7,12 @@
                 'class'        => 'form-control',
                 'placeholder'  => 'Nombres',
                 'autocomplete' => 'off',
-                'ng-model'     => 'formData.first_name'])
-            !!}
+                'ng-model'     => 'formData.first_name',
+                'ng-init'      => 'formData.type="' . request()->get('type') . '"',
+            ]) !!}
         </div>
-        <label id="location-error" class="validation-error-label" for="location" ng-show="errors.first_name">@{{ errors.first_name[0] }}</label>
+        <label id="location-error" class="validation-error-label" for="location"
+               ng-show="errors.first_name">@{{ errors.first_name[0] }}</label>
     </div>
 </div>
 <div class="form-group">
@@ -25,7 +27,8 @@
                 'ng-model'     => 'formData.last_name'])
             !!}
         </div>
-        <label id="location-error" class="validation-error-label" for="location" ng-show="errors.last_name">@{{ errors.last_name[0] }}</label>
+        <label id="location-error" class="validation-error-label" for="location"
+               ng-show="errors.last_name">@{{ errors.last_name[0] }}</label>
     </div>
 </div>
 <div class="form-group">
@@ -40,7 +43,8 @@
                 'ng-model'     => 'formData.mother_last_name'])
             !!}
         </div>
-        <label id="location-error" class="validation-error-label" for="location" ng-show="errors.mother_last_name">@{{ errors.mother_last_name[0] }}</label>
+        <label id="location-error" class="validation-error-label" for="location"
+               ng-show="errors.mother_last_name">@{{ errors.mother_last_name[0] }}</label>
     </div>
 </div>
 <div class="form-group">
@@ -52,7 +56,8 @@
             'autocomplete' => 'off',
             'ng-model'     => 'formData.relationship'])
         !!}
-        <label id="location-error" class="validation-error-label" for="location" ng-show="errors.relationship">@{{ errors.relationship[0] }}</label>
+        <label id="location-error" class="validation-error-label" for="location"
+               ng-show="errors.relationship">@{{ errors.relationship[0] }}</label>
     </div>
 </div>
 <div class="form-group">
@@ -67,7 +72,8 @@
                 'ng-model'     => 'formData.dni'])
             !!}
         </div>
-        <label id="location-error" class="validation-error-label" for="location" ng-show="errors.dni">@{{ errors.dni[0] }}</label>
+        <label id="location-error" class="validation-error-label" for="location"
+               ng-show="errors.dni">@{{ errors.dni[0] }}</label>
     </div>
 </div>
 <div class="form-group">
@@ -77,6 +83,7 @@
             'class'    => 'form-control',
             'ng-model' => 'formData.extension'],
             old('extension')) !!}
-        <label id="location-error" class="validation-error-label" for="location" ng-show="errors.extension">@{{ errors.extension[0] }}</label>
+        <label id="location-error" class="validation-error-label" for="location"
+               ng-show="errors.extension">@{{ errors.extension[0] }}</label>
     </div>
 </div>

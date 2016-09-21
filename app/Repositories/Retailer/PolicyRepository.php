@@ -30,7 +30,7 @@ class PolicyRepository extends BaseRepository
      */
     public function gerPolicyForIssuance($rp_id)
     {
-        return Policy::select('number as id', 'number as name')->where('ad_retailer_product_id', $rp_id)->get();
+        return Policy::select('number as id', 'number as name', 'type')->where('ad_retailer_product_id', $rp_id)->get();
     }
 
 

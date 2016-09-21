@@ -184,24 +184,56 @@
                                 <td>{{ $detail->client->birth_place }}</td>
                                 <td>{{ $detail->percentage_credit }} %</td>
                                 <td>
-                                    @if($detail->completed)
-                                        <a href="{{ route('de.beneficiary.edit', [
-                                            'rp_id'     => $rp_id,
-                                            'header_id' => $header_id,
-                                            'detail_id' => encode($detail->id)]) }}"
-                                           title="Completado" class="label label-success"
-                                           ng-click="detailDe.editBeneficiary($event)">
-                                            Completado
-                                        </a>
+                                    @if($data['vg'] && $header->creditProduct->slug !== 'PMO')
+                                        @foreach($detail->list_beneficiaries as $key1 => $beneficiary)
+                                            @if(is_null($beneficiary))
+                                                <a href="{{ route('de.beneficiary.create', [
+                                                    'rp_id'     => $rp_id,
+                                                    'header_id' => $header_id,
+                                                    'detail_id' => encode($detail->id),
+                                                    'type'      => $key1
+                                                ]) }}"
+                                                   title="Pendiente" class="label label-danger"
+                                                   ng-click="detailDe.createBeneficiary($event)">
+                                                    {{ config('base.beneficiary_coverages.' . $key1) }}
+                                                </a><br>
+                                            @else
+                                                <a href="{{ route('de.beneficiary.edit', [
+                                                    'rp_id'     => $rp_id,
+                                                    'header_id' => $header_id,
+                                                    'detail_id' => encode($detail->id),
+                                                    'type'      => $key1
+                                                ]) }}"
+                                                   title="Completado" class="label label-success"
+                                                   ng-click="detailDe.editBeneficiary($event)">
+                                                    {{ config('base.beneficiary_coverages.' . $key1) }}
+                                                </a><br>
+                                            @endif
+                                        @endforeach
                                     @else
-                                        <a href="{{ route('de.beneficiary.create', [
-                                            'rp_id'     => $rp_id,
-                                            'header_id' => $header_id,
-                                            'detail_id' => encode($detail->id)]) }}"
-                                           title="Pendiente" class="label label-danger"
-                                           ng-click="detailDe.createBeneficiary($event)">
-                                            Pendiente
-                                        </a>
+                                        @if(is_null($detail->list_beneficiaries['SP']))
+                                            <a href="{{ route('de.beneficiary.create', [
+                                                'rp_id'     => $rp_id,
+                                                'header_id' => $header_id,
+                                                'detail_id' => encode($detail->id),
+                                                'type'      => 'SP'
+                                            ]) }}"
+                                               title="Pendiente" class="label label-danger"
+                                               ng-click="detailDe.createBeneficiary($event)">
+                                                {{ config('base.beneficiary_coverages.SP') }}
+                                            </a>
+                                        @else
+                                            <a href="{{ route('de.beneficiary.edit', [
+                                                'rp_id'     => $rp_id,
+                                                'header_id' => $header_id,
+                                                'detail_id' => encode($detail->id),
+                                                'type'      => 'SP'
+                                            ]) }}"
+                                               title="Completado" class="label label-success"
+                                               ng-click="detailDe.editBeneficiary($event)">
+                                                {{ config('base.beneficiary_coverages.SP') }}
+                                            </a>
+                                        @endif
                                     @endif
                                 </td>
                                 <td>
@@ -245,7 +277,7 @@
                                                         <i class="icon-pencil3"></i> Editar datos del cliente
                                                     </a>
                                                 </li>
-                                                <li>
+                                                {{--<li>
                                                     @if(is_null($detail->beneficiary))
                                                         <a href="{{ route('de.beneficiary.create', [
                                                             'rp_id'     => $rp_id,
@@ -263,7 +295,7 @@
                                                             <i class="icon-plus2"></i> Editar Beneficiarios
                                                         </a>
                                                     @endif
-                                                </li>
+                                                </li>--}}
                                                 <li>
                                                     @if(! isset($_GET['idf']))
                                                         <a href="{{ route('de.detail.balance.edit', ['rp_id' => $rp_id,
@@ -422,7 +454,7 @@
                         </div>
                         <div class="text-right">
                             @if($header->type === 'Q')
-                                @if($header->completed && $header->cumulus > 0)
+                                @if(($header->completed && $header->cumulus > 0) || ($header->completed_de && ! $data['vg'] && $header->cumulus > 0))
                                     {!! Form::button('Guardar <i class="icon-floppy-disk position-right"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                                 @endif
                             @elseif($header->type === 'I')

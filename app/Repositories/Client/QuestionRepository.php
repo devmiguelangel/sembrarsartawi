@@ -32,7 +32,7 @@ class QuestionRepository extends BaseRepository
 
             $observation = '';
 
-            if ($detail->header->creditProduct->slug !== 'PMO' && ! $request->has('credit_product')) {
+            if ($detail->header->creditProduct->slug !== 'PMO' && ! $request->has('credit_product') && ! $request->has('vg')) {
                 $observation = $this->data['qs_observation'];
             }
 
@@ -73,10 +73,10 @@ class QuestionRepository extends BaseRepository
                 $qs['response']      = (boolean) $qs['response'];
                 $qs['response_text'] = (boolean) $qs['response_text'];
             }
-            
+
             $observation = '';
 
-            if ($detail->header->creditProduct->slug !== 'PMO' && ! $request->has('credit_product')) {
+            if ($detail->header->creditProduct->slug !== 'PMO' && ! $request->has('credit_product') && ! $request->has('vg')) {
                 $observation = $this->data['qs_observation'];
             }
 

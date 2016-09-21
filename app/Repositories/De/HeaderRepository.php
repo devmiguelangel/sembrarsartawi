@@ -105,10 +105,10 @@ class HeaderRepository extends BaseRepository
      */
     public function setHeaderResult($retailerProduct, $header)
     {
-        if ($retailerProduct->rates->count() > 0) {
+        if (( $retailerProduct instanceof RetailerProduct ) && $retailerProduct->rates->count() > 0) {
             $rate_final = 0;
 
-            if ($header->creditProduct->slug === 'PMO') {
+            if ($header->creditProduct->slug === 'PMO' && ( $retailerProduct->type === 'RP' || $retailerProduct->type === 'MP' )) {
                 $rate = $retailerProduct->rates()->whereHas('creditProduct', function ($q) {
                     $q->where('slug', 'PMO');
                 })->first();
@@ -131,7 +131,7 @@ class HeaderRepository extends BaseRepository
                         $rate_final = ( $TR * $n ) * ( 1 - $Fn );
                     }
                 }
-            } else {
+            } elseif ($retailerProduct->type === 'MP') {
                 $rates = $retailerProduct->rates()->doesntHave('creditProduct')->get();
 
                 foreach ($rates as $rate) {
@@ -180,7 +180,7 @@ class HeaderRepository extends BaseRepository
     {
         $this->model = Header::with([
             'details.client.detailsVi',
-            'details.beneficiary',
+            'details.beneficiaries',
             'details.facultative',
             'user.city',
             'coverageWarranty',

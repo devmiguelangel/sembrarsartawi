@@ -35,14 +35,27 @@ class QuestionFormRequest extends Request
         foreach ($data['qs'] as $key => $items) {
             $rules['qs.' . $key . '.response'] = 'required|in:1,0';
 
-            if ($items['expected'] != $items['response']) {
-                if ($this->request->has('credit_product')) {
-                    if (key_exists('response_specification', $items)) {
-                        $rules['qs.' . $key . '.response_specification'] = 'required';
+            if (key_exists('response', $items)) {
+                if ($items['expected'] != $items['response']) {
+                    if ($this->request->has('credit_product')) {
+                        if (key_exists('response_specification', $items)) {
+                            $rules['qs.' . $key . '.response_specification'] = 'required';
+                        }
+                    } elseif ($this->request->has('vg')) {
+                        foreach ($items['observations'] as $key1 => $observation) {
+                            if (empty( $observation )) {
+                                $rules['qs.' . $key . '.response_observation'] = 'required';
+
+                                break;
+                            }
+                        }
+                    } else {
+                        $rules['qs_observation'] = 'required';
                     }
-                } else {
-                    $rules['qs_observation'] = 'required';
                 }
+            } else {
+                $rules['responses'] = 'required';
+                break;
             }
         }
 

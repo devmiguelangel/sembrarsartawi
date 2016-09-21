@@ -75,7 +75,8 @@ class DetailRepository extends BaseRepository
 
     public function getDetailById($detail_id)
     {
-        $this->model = Detail::with('client', 'response', 'beneficiary', 'facultative')->where('id', $detail_id)->get();
+        $this->model = Detail::with('client', 'response', 'beneficiaries', 'facultative')->where('id',
+            $detail_id)->get();
 
         if ($this->model->count() === 1) {
             $this->model = $this->model->first();

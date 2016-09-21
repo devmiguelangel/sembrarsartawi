@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateAdRetailerProductsTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -32,6 +33,7 @@ class CreateAdRetailerProductsTable extends Migration
             $table->foreign('ad_company_product_id')->references('id')->on('ad_company_products');
         });
     }
+
 
     /**
      * Reverse the migrations.

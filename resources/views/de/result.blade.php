@@ -82,7 +82,7 @@
 
                 <div class="panel-body ">
                     <div class="col-xs-12 col-md-12">
-                        @if($retailerProduct->companyProduct->product->code == 'de' && $retailerProduct->type == 'MP')
+                        @if($retailerProduct->companyProduct->product->code == 'de' && ($retailerProduct->type == 'MP' || $retailerProduct->type == 'RP'))
                             <div class="col-md-4">
                                 <div class="panel panel-body border-top-primary text-center">
                                     <div class="form-group">
@@ -112,6 +112,6 @@
 
     <!-- modal -->
     @include('partials.modal_content_report')
-    <!-- /modal -->
+            <!-- /modal -->
 
 @endsection

@@ -60,6 +60,7 @@ return [
     'retailer_product_types' => [
         'MP' => 'Producto Principal',
         'SP' => 'Sub Producto',
+        'RP' => 'Producto Alternativo',
     ],
 
     'currencies' => [
@@ -93,9 +94,9 @@ return [
 
     'beneficiary_coverages' => [
         'AP' => 'Accidentes Personales',
-        'VI' => 'Vida',
+        'VI' => 'Vida en Grupo',
         'SP' => 'Sepelio',
-        'CO' => 'Contingente',
+        'CO' => 'Vida en Grupo Contingente',
     ],
 
     'facultative_states' => [
@@ -154,6 +155,14 @@ return [
         'P' => 'Pendiente',
         'O' => 'Observado',
         'C' => 'Subsanado/Pendiente',
+    ],
+
+    'company_state_icon' => [
+        'A' => 'glyphicon-ok',
+        'R' => 'glyphicon-remove',
+        'P' => 'glyphicon-time',
+        'O' => 'glyphicon-repeat',
+        'C' => 'glyphicon-refresh',
     ],
 
     'medical_certificate_types' => [
@@ -250,6 +259,11 @@ return [
 
     'question_types' => [
         'PMO' => 'Hipotecario',
+    ],
+
+    'policy_types' => [
+        'DE' => 'Desgravamen',
+        'VI' => 'Vida Grupo',
     ],
 
 ];
