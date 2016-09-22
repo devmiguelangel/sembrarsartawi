@@ -19,6 +19,7 @@ class Beneficiary extends Model
         'mother_last_name',
         'dni',
         'extension',
+        'age',
         'relationship',
     ];
 

@@ -68,15 +68,22 @@ class BeneficiaryRepository extends BaseRepository
 
     private function setData()
     {
-        return [
+        $data = [
             'id'               => $this->data['beneficiary_id'],
             'coverage'         => $this->data['type'],
             'first_name'       => mb_strtoupper($this->data['first_name']),
             'last_name'        => mb_strtoupper($this->data['last_name']),
             'mother_last_name' => mb_strtoupper($this->data['mother_last_name']),
-            'dni'              => mb_strtoupper($this->data['dni']),
-            'extension'        => mb_strtoupper($this->data['extension']),
             'relationship'     => mb_strtoupper($this->data['relationship']),
         ];
+
+        if ($this->data['type'] === 'SP') {
+            $data['dni']       = mb_strtoupper($this->data['dni']);
+            $data['extension'] = mb_strtoupper($this->data['extension']);
+        } elseif ($this->data['type'] === 'VI' || $this->data['type'] === 'CO') {
+            $data['age'] = $this->data['age'];
+        }
+
+        return $data;
     }
 }

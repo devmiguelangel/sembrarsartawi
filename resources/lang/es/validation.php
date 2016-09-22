@@ -144,6 +144,7 @@ return [
         'business_address'       => 'Dirección Laboral',
         'qs_observation'         => 'Observación',
         'relationship'           => 'Parentesco',
+        'age'                    => 'Edad',
         'balance'                => 'Saldo deudor',
         'cumulus'                => 'Monto Acumulado',
         'operation_number'       => 'Número de Operación',
