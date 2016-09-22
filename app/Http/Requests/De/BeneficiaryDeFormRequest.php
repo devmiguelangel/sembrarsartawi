@@ -27,15 +27,25 @@ class BeneficiaryDeFormRequest extends Request
     {
         $type = join(',', array_keys(config('base.beneficiary_coverages')));
 
-        return [
+        $rules = [
             'type'             => 'required|in:' . $type,
             'first_name'       => 'required|alpha_space',
             'last_name'        => 'required|alpha_space',
             'mother_last_name' => 'alpha_space',
-            'dni'              => 'required|alpha_dash',
-            'extension'        => 'required|exists:ad_cities,abbreviation',
-            'age'              => 'numeric',
             'relationship'     => 'required|alpha_space',
         ];
+
+        if ($this->request->has('type')) {
+            $type = $this->request->get('type');
+
+            if ($type === 'SP') {
+                $rules['dni']       = 'required|alpha_dash';
+                $rules['extension'] = 'required|exists:ad_cities,abbreviation';
+            } elseif ($type === 'VI' || $type === 'CO') {
+                $rules['age'] = 'required|numeric';
+            }
+        }
+
+        return $rules;
     }
 }
