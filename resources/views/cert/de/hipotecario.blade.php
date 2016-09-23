@@ -293,7 +293,7 @@
                         @if(!is_null($data_cl->percentage))
                             <table border="0" cellpadding="1" cellspacing="0" style="width: 100%; font-size: 8px; font-weight: normal; font-family: Arial; margin: 5px 0 0 0; padding: 0; border-collapse: collapse; vertical-align: bottom;">
                                 <tr>
-                                    <td colspan="6" style="width:100%; text-align: center; font-weight: bold; background: #e57474; color: #FFFFFF;">
+                                    <td colspan="7" style="width:100%; text-align: center; font-weight: bold; background: #e57474; color: #FFFFFF;">
                                         Caso Facultativo
                                     </td>
                                 </tr>
@@ -308,8 +308,10 @@
                                              background: #e57474;">Tasa Actual</td>
                                     <td style="width:7%; text-align: center; font-weight: bold; border: 1px solid #dedede;
                                              background: #e57474;">Tasa Final</td>
-                                    <td style="width:69%; text-align: center; font-weight: bold; border: 1px solid #dedede;
-                                                 background: #e57474;">Respuesta de la Compañía</td>
+                                    <td style="width:34.5%; text-align: center; font-weight: bold; border: 1px solid #dedede;
+                                    background: #e57474;">Respuestas en el Cetificado de Desgravamen</td>
+                                    <td style="width:34.5%; text-align: center; font-weight: bold; border: 1px solid #dedede;
+                                    background: #e57474;">Observaciones</td>
                                 </tr>
                                 <tr>
                                     <td style="width:5%; text-align: center; background: #e78484; color: #FFFFFF;
@@ -322,14 +324,13 @@
                                              border: 1px solid #dedede;">{{$data_cl->current_rate}} %</td>
                                     <td style="width:7%; text-align: center; background: #e78484; color: #FFFFFF;
                                              border: 1px solid #dedede;">{{$data_cl->final_rate}} %</td>
-                                    <td style="width:69%; text-align: justify; background: #e78484; color: #FFFFFF;
-                                                 border: 1px solid #dedede;">
-                                        <span style="color:#000000;">Respuesta de la Compañía:</span> {{$data_cl->observation}}
+                                    <td style="width:34.5%; text-align: justify; background: #e78484; color: #FFFFFF;
+                                                     border: 1px solid #dedede;">
+                                        <span style="color:#ffffff;">{{$data_cl->observation}}</span>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: justify; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;" colspan="6">
-                                        <span style="color:#000000;">Observaciones:</span> {{$query_header->facultative_observation}}
+                                    <td style="width:34.5%; text-align: justify; background: #e78484; color: #FFFFFF;
+                                                     border: 1px solid #dedede;">
+                                        <span style="color:#ffffff;">{{$query_header->facultative_observation}}</span>
                                     </td>
                                 </tr>
                             </table>
