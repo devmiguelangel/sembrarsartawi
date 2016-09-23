@@ -65,13 +65,28 @@
                     </div>
                 </div>
                 @if($code_product=='au' || $code_product=='td')
+                    @var $parameter_cu = config('base.currencies')
                     <div class="form-group">
                         <label class="control-label col-lg-2">Moneda <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <select name="moneda" id="moneda" class="form-control required">
                                 <option value="0">Seleccione</option>
-                                <option value="BS">Bolivianos</option>
-                                <option value="USD">Dolares</option>
+                                @foreach($parameter_cu as $key=>$data)
+                                    <option value="{{$key}}">{{$data}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @elseif($code_product=='de')
+                    @var $parameter_tp = config('base.policy_types');
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Tipo Poliza<span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <select name="tipo" id="tipo" class="form-control required">
+                                <option value="0">Seleccione</option>
+                                @foreach($parameter_tp as $key=>$data)
+                                    <option value="{{$key}}">{{$data}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

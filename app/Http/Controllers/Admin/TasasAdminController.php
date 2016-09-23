@@ -16,12 +16,14 @@ class TasasAdminController extends BaseController
      * Funcion index que lista las tasas para los productos
      *
      */
-    public function index($nav, $action, $id_retailer_products, $code_product, $type)
+    public function index($nav, $action, $id_retailer_products, $code_product, $type, $type_product)
     {
         $main_menu = $this->menu_principal();
         $array_data = $this->array_data();
+
         if($action=='list'){
-            if($code_product=='de' || $code_product=='vi' || $code_product=='td'){
+
+            if(in_array($code_product, array('de','vi','td'))){
                 $product_query = Product::where('code',$code_product)->first();
 
                 $query = \DB::table('ad_rates as ar')
@@ -36,7 +38,7 @@ class TasasAdminController extends BaseController
                     ->where('arp.id','=',$id_retailer_products)
                     ->where('ar.ad_credit_product_id',null)
                     ->get();
-                //dd($query);
+
                 $query_hipotecario = \DB::table('ad_rates as ar')
                     ->leftjoin('ad_coverages as ac', 'ac.id', '=', 'ar.ad_coverage_id')
                     ->join('ad_retailer_products as arp', 'arp.id', '=', 'ar.ad_retailer_product_id')
@@ -50,8 +52,12 @@ class TasasAdminController extends BaseController
                     ->where('ar.ad_credit_product_id','<>','null')
                     ->get();
 
-                return view('admin.tasas.list', compact('nav', 'action', 'query', 'main_menu', 'array_data', 'id_retailer_products', 'code_product', 'product_query', 'type', 'query_hipotecario'));
-            }elseif($code_product=='au'){
+                $query_quest_pa = RetailerProduct::with('retailer')
+                    ->where('type','RP')
+                    ->get();
+
+                return view('admin.tasas.list', compact('nav', 'action', 'query', 'main_menu', 'array_data', 'id_retailer_products', 'code_product', 'product_query', 'type', 'query_hipotecario', 'query_quest_pa', 'type_product'));
+            }elseif(in_array($code_product, array('au'))){
                 $query = array();
                 $product_query = Product::where('code',$code_product)->first();
                 $query_one = \DB::table('ad_rates')
@@ -73,7 +79,7 @@ class TasasAdminController extends BaseController
 
                 //dd($array_category);
                 //$query=null;
-                return view('admin.tasas.list', compact('nav', 'action', 'id_retailer_products', 'code_product', 'product_query', 'query', 'main_menu', 'array_data', 'type'));
+                return view('admin.tasas.list', compact('nav', 'action', 'id_retailer_products', 'code_product', 'product_query', 'query', 'main_menu', 'array_data', 'type', 'type_product'));
             }
         }elseif($action=='new'){
             $retailer = \DB::table('ad_retailers')
@@ -83,11 +89,11 @@ class TasasAdminController extends BaseController
                                  ->where('ad_retailer_product_id',$id_retailer_products)
                                  ->get();
 
-            return view('admin.tasas.new', compact('nav', 'action', 'main_menu', 'retailer', 'array_data', 'id_retailer_products', 'code_product', 'product_query', 'category_query', 'type'));
+            return view('admin.tasas.new', compact('nav', 'action', 'main_menu', 'retailer', 'array_data', 'id_retailer_products', 'code_product', 'product_query', 'category_query', 'type', 'type_product'));
         }
     }
 
-    public function new_mortgage($nav, $action, $id_retailer_products, $code_product, $type)
+    public function new_mortgage($nav, $action, $id_retailer_products, $code_product, $type, $type_product)
     {
         $main_menu = $this->menu_principal();
         $array_data = $this->array_data();
@@ -99,7 +105,7 @@ class TasasAdminController extends BaseController
                                 ->where('slug','PMO')
                                 ->first();
         //dd($query_product_credit);
-        return view('admin.tasas.new-mortgage', compact('nav','action','id_retailer_products','code_product','type','main_menu','array_data','query_retailer','query_product','query_product_credit'));
+        return view('admin.tasas.new-mortgage', compact('nav','action','id_retailer_products','code_product','type','main_menu','array_data','query_retailer','query_product','query_product_credit', 'type_product'));
     }
 
     public function index_product_retailer($nav, $action)
@@ -109,8 +115,10 @@ class TasasAdminController extends BaseController
         $query = \DB::table('ad_retailer_products as arp')
             ->join('ad_retailers as ar', 'ar.id', '=', 'arp.ad_retailer_id')
             ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
+            ->join('ad_companies as com', 'com.id', '=', 'acp.ad_company_id')
             ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
-            ->select('arp.id as id_retailer_products', 'ar.name as retailer', 'ap.name as product', 'arp.type', 'arp.active', 'ap.code')
+            ->select('arp.id as id_retailer_products', 'ar.name as retailer', 'ap.name as product',
+                'arp.type', 'arp.active', 'ap.code', 'com.name as company')
             ->orderBy('arp.type')
             ->get();
         $parameter = config('base.retailer_product_types');
@@ -197,7 +205,7 @@ class TasasAdminController extends BaseController
                     );
                 }
             }
-            return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list', 'id_retailer_products'=>$request->get('id_retailer_products'), 'code_product'=>$request->get('code_product'), 'type'=>$request->get('type')])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
+            return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list', 'id_retailer_products'=>$request->get('id_retailer_products'), 'code_product'=>$request->get('code_product'), 'type'=>$request->get('type'), 'type_product'=>$request->get('type_product')])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
         }catch(QueryException $e) {
             return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
@@ -222,7 +230,7 @@ class TasasAdminController extends BaseController
                     'updated_at'=>date("Y-m-d H:i:s")
                 ]
             );
-            return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list', 'id_retailer_products'=>$request->get('id_retailer_products'), 'code_product'=>$request->get('code_product'), 'type'=>$request->get('type')])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
+            return redirect()->route('admin.tasas.list', ['nav' => 'rate', 'action' => 'list', 'id_retailer_products'=>$request->get('id_retailer_products'), 'code_product'=>$request->get('code_product'), 'type'=>$request->get('type'), 'type_product'=>$request->get('type_product')])->with(array('ok' => 'Se registro correctamente los datos del formulario'));
         }catch(QueryException $e) {
             return redirect()->back()->with(array('error'=>$e->getMessage()));
         }
@@ -274,7 +282,7 @@ class TasasAdminController extends BaseController
             //dd($category_query);
         }
 
-        return view('admin.tasas.edit', compact('nav', 'action', 'query', 'main_menu', 'id_rates', 'array_data', 'id_retailer_products', 'code_product', 'query_rate', 'category_query', 'retailer_product', 'type'));
+        return view('admin.tasas.edit', compact('nav', 'action', 'query', 'main_menu', 'id_rates', 'array_data', 'id_retailer_products', 'code_product', 'query_rate', 'category_query', 'retailer_product', 'type', 'type_product'));
     }
 
     /**

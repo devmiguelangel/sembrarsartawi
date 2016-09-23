@@ -10,17 +10,17 @@ Route::get('admin/tasas/list-product-retailer/{nav}/{action}', [
     'uses' => 'Admin\TasasAdminController@index_product_retailer'
 ]);
 
-Route::get('admin/tasas/list/{nav}/{action}/{id_retailer_products}/{code_product}/{type}', [
+Route::get('admin/tasas/list/{nav}/{action}/{id_retailer_products}/{code_product}/{type}/{type_product}', [
     'as' => 'admin.tasas.list',
     'uses' => 'Admin\TasasAdminController@index'
 ]);
 
-Route::get('admin/tasas/new/{nav}/{action}/{id_retailer_products}/{code_product}/{type}', [
+Route::get('admin/tasas/new/{nav}/{action}/{id_retailer_products}/{code_product}/{type}/{type_product}', [
     'as' => 'admin.tasas.new',
     'uses' => 'Admin\TasasAdminController@index'
 ]);
 
-Route::get('admin/tasas/edit/{nav}/{action}/{id_rates}/{id_retailer_products}/{code_product}/{type}', [
+Route::get('admin/tasas/edit/{nav}/{action}/{id_rates}/{id_retailer_products}/{code_product}/{type}/{type_product}', [
     'as' => 'admin.tasas.edit',
     'uses' => 'Admin\TasasAdminController@edit'
 ]);
@@ -30,7 +30,7 @@ Route::get('admin/tasas/edit-mortgage/{nav}/{action}/{id_rates}/{id_retailer_pro
     'uses' => 'Admin\TasasAdminController@edit_mortgage'
 ]);
 
-Route::get('admin/tasas/new-mortgage/{nav}/{action}/{id_retailer_products}/{code_product}/{type}', [
+Route::get('admin/tasas/new-mortgage/{nav}/{action}/{id_retailer_products}/{code_product}/{type}/{type_product}', [
     'as' => 'admin.tasas.new-mortgage',
     'uses' => 'Admin\TasasAdminController@new_mortgage'
 ]);

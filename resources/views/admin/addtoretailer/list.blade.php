@@ -42,6 +42,7 @@
                 <th>Retailer</th>
                 <th>Producto</th>
                 <th>Tipo Producto</th>
+                <th>Compañía Aseguradora</th>
                 <th>Estado</th>
                 <th class="text-center">Acciones</th>
             </tr>
@@ -52,6 +53,7 @@
                 <td>{{$data->retailer}}</td>
                 <td>{{$data->product}}</td>
                 <td>{{$parameter[$data->type]}}</td>
+                <td>{{$data->company}}</td>
                 <td>
                     @if((boolean)$data->active==true)
                         <span class="label label-success">Activo</span>

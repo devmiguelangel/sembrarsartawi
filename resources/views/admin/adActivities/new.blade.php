@@ -25,26 +25,26 @@
         {!! Form::open(array('route' => 'create_ad_activities', 'name' => 'Form', 'id' => 'ad_activities', 'method'=>'post', 'class'=>'form-horizontal form-validate-jquery')) !!}
         <fieldset class="content-group">
             <div class="form-group">
-                <label class="control-label col-lg-2 label_required">Categor&iacute;a</label>
+                <label class="control-label col-lg-2">Categor&iacute;a</label>
                 <div class="col-lg-5">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="icon-list"></i></span>
-                        <input type="text" placeholder="Categor&iacute;a" class="form-control" name="category" id="category" required="required">
+                        <span class="input-group-addon"></span>
+                        <input type="text" placeholder="Categor&iacute;a" class="form-control" name="category" id="category">
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-lg-2">Ocupación</label>
+                <label class="control-label col-lg-2 label_required">Ocupación</label>
                 <div class="col-lg-5">
-                    <textarea placeholder="Ocupación" class="form-control" cols="5" rows="5" name="occupation" id="occupation"></textarea>
+                    <textarea placeholder="Ocupación" class="form-control" cols="5" rows="5" name="occupation" id="occupation" required="required"></textarea>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-lg-2 label_required">C&oacute;digo</label>
+                <label class="control-label col-lg-2">C&oacute;digo</label>
                 <div class="col-lg-5">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="icon-cog"></i></span>
-                        <input type="text" placeholder="C&oacute;digo" class="form-control" name="code" id="code" required="required">
+                        <span class="input-group-addon"></span>
+                        <input type="text" placeholder="C&oacute;digo" class="form-control" name="code" id="code">
                     </div>
                 </div>
             </div>

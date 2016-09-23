@@ -217,7 +217,7 @@ class ModalCSController extends Controller
                 'dh.currency', 'dh.term', 'dh.type_term', 'dh.total_rate', 'dh.total_premium', 'dh.issued',
                 'dh.date_issue', 'dh.canceled', 'dh.facultative', 'dh.facultative_observation', 'dh.approved',
                 'dh.rejected', 'dh.created_at', 'acp.name as credit_product', 'ac.name as city', 'ag.name as agency',
-                'au.id as user_id', 'acp.slug as slug_credit_product', 'au.full_name')
+                'au.id as user_id', 'acp.slug as slug_credit_product', 'au.full_name', 'dh.copy')
                 ->where('dh.id', '=', decode($id_header))
                 ->first();
 
@@ -226,7 +226,6 @@ class ModalCSController extends Controller
                 ->join('op_clients as cl', 'cl.id', '=', 'dd.op_client_id')
                 ->join('ad_activities as ac', 'ac.id', '=', 'cl.ad_activity_id')
                 ->join('op_de_responses as dr', 'dr.op_de_detail_id', '=', 'dd.id')
-                ->leftjoin('op_de_beneficiaries as odb', 'odb.op_de_detail_id', '=', 'dd.id')
                 ->leftjoin('ad_cities as cit', 'cit.slug', '=', 'cl.place_residence')
                 ->leftjoin('op_de_facultatives as df', 'df.op_de_detail_id', '=', 'dd.id')
                 ->select('cl.first_name', 'cl.last_name', 'cl.mother_last_name', 'cl.married_name', 'cl.civil_status',
@@ -236,9 +235,7 @@ class ModalCSController extends Controller
                 'cl.gender', 'dd.percentage_credit', 'dd.id', 'dd.headline', 'dd.amount', 'dd.cumulus', 'dd.balance', 'df.reason',
                 'df.approved', 'df.surcharge', 'df.percentage', 'df.current_rate', 'df.final_rate', 'df.observation',
                 'cl.id as id_client', 'cl.id as id_client', 'cl.email', 'cl.phone_number_mobile', 'cl.business_address',
-                'cl.home_address', 'cl.home_number', 'cl.hand', 'odb.first_name as be_first_name', 'odb.last_name as be_last_name',
-                'odb.mother_last_name as be_mother_last_name', 'odb.dni as be_dni', 'odb.extension as be_extension',
-                'odb.relationship as be_relationship')
+                'cl.home_address', 'cl.home_number', 'cl.hand', 'dd.id as id_details')
                 ->where('dd.op_de_header_id', decode($id_header))
                 ->get();
             //dd($query_details);
@@ -269,19 +266,23 @@ class ModalCSController extends Controller
             }
             //dd($question);
             /*BENEFICIARIOS*/
-            $beneficiary=array();
+            $beneficiary = array();
+
             $client = 1;
             foreach($query_details as $data_detail){
                 $query_beneficiary = \DB::table('op_de_beneficiaries')
-                    ->where('op_de_detail_id', $data_detail->id)
+                    ->where('op_de_detail_id', $data_detail->id_details)
                     ->get();
+                $key = 1;
                 foreach($query_beneficiary as $data_benef){
-                    $beneficiary[$client]=array('coverage'=>$data_benef->coverage, 'first_name'=>$data_benef->first_name, 'last_name'=>$data_benef->last_name,
+                    $beneficiary[$data_detail->id_details][$data_benef->coverage]=array('first_name'=>$data_benef->first_name, 'last_name'=>$data_benef->last_name,
                         'mother_last_name'=>$data_benef->mother_last_name, 'dni'=>$data_benef->dni, 'extension'=>$data_benef->extension,
                         'age'=>$data_benef->age, 'relationship'=>$data_benef->relationship);
+                    $key = $key + 1;
                 }
                 $client = $client + 1;
             }
+            $beneficiary = json_encode($beneficiary);
 
             /*SUB-PRODUCTOS*/
             $arr_benefi_subp = array();
@@ -335,6 +336,39 @@ class ModalCSController extends Controller
                 ->where('rsp.ad_retailer_product_id', decode($id_retailer_product))
                 ->first();
             $sub_product_code = $query_subproduct->code_product;
+
+            //NUMERO DE COPIAS
+            $arr_copy = array();
+            if($text=='issuance' || $text=='print_all'){
+                if($query_header->issued == 1){
+                    $copy = $query_header->copy;
+                    if($type!='PDF'){
+                        $d = 0;
+                        if($copy!=0){
+                            $copy = $copy + 1;
+                        }
+                        while($d<3){
+                            $arr_copy[$d] = $copy;
+                            $copy = $copy + 1;
+                            $d++;
+                        }
+                        //ACTUALIZAMOS EL COPY
+                        $query_update_copy = \DB::table('op_de_headers')
+                            ->where('id', decode($id_header))
+                            ->update(
+                                [
+                                    'copy' => ($copy-1)
+                                ]
+                            );
+                    }else{
+                        $arr_copy[0]=0;
+                    }
+                }else{
+                    $arr_copy[0]=0;
+                }
+            }else{
+                $arr_copy[0]=0;
+            }
 
         }elseif($code_product=='vi'){
             /*DETALLES */
@@ -413,7 +447,8 @@ class ModalCSController extends Controller
                 $view =  \View::make('cert.base',
                     compact('query', 'query_header', 'query_parameter', 'query_details', 'id_retailer_product', 'id_header',
                         'facul_q', 'imc_arr', 'question', 'beneficiary', 'active_subprod', 'arr_id_client', 'sub_product_code',
-                        'sub_product_code', 'query_quest_cl', 'arr_benefi_subp', 'text', 'type', 'code_product', 'query_exchange'))->render();
+                        'sub_product_code', 'query_quest_cl', 'arr_benefi_subp', 'text', 'type', 'code_product', 'query_exchange',
+                        'arr_copy'))->render();
             }elseif($code_product=='vi'){
                 $view =  \View::make('cert.base',
                     compact('query', 'query_quest_cl', 'arr_benefi_subp', 'id_retailer_product', 'id_header',
@@ -438,7 +473,8 @@ class ModalCSController extends Controller
                 $response = view('cert.base',
                     compact('query', 'query_header', 'query_parameter', 'query_details', 'id_retailer_product', 'id_header',
                         'facul_q', 'imc_arr', 'question', 'beneficiary', 'active_subprod', 'arr_id_client', 'sub_product_code',
-                        'sub_product_code', 'query_quest_cl', 'arr_benefi_subp', 'text', 'type', 'code_product', 'query_exchange'));
+                        'sub_product_code', 'query_quest_cl', 'arr_benefi_subp', 'text', 'type', 'code_product', 'query_exchange',
+                        'arr_copy'));
             }elseif($code_product=='vi'){
                 $response = view('cert.base',
                     compact('query', 'query_quest_cl', 'arr_benefi_subp', 'id_retailer_product', 'id_header',

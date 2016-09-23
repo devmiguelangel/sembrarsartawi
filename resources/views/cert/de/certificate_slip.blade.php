@@ -47,8 +47,17 @@
                 </tr>
                 <tr>
                     <td colspan="3" style="width:100%;" align="center">
-                        DECLARACION JURADA DE SALUD<br/>
-                        SOLICITUD DE SEGURO DE DESGRAVAMEN HIPOTECARIO
+                        @if($monto_solicitado>$amount_max)
+                            <div style="text-decoration: underline;">
+                                DECLARACION JURADA DE SALUD<br/>
+                                SOLICITUD DE SEGURO DE DESGRAVAMEN HIPOTECARIO
+                            </div>
+                        @else
+                            <div style="text-decoration: underline;">
+                                DECLARACION JURADA DE SALUD<br/>
+                                SOLICITUD DE SEGURO DE VIDA EN GRUPO PARA OPERACIONES CREDITICIAS
+                            </div>
+                        @endif
                     </td>
                 </tr>
             </table>
@@ -185,7 +194,8 @@
 
                     @endforeach
                 </table><br>
-                @if($monto_solicitado<=$amount_max)
+                @if($monto_solicitado<=$amount_max && $query_header->slug_credit_product!='PMO')
+
                     <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; {{$font_size_parent}} border:1px solid #000000; height: auto; font-family: Arial; margin-bottom: 8px;">
                         <tr style="background:#D3DCE3;">
                             <td style="padding:0 5px; width:5%;">Pregunta</td>
@@ -195,92 +205,109 @@
                             <td style="text-align:center; width:34%;">Nombre de la clinica o del m&eacute;dico tratante</td>
                             <td style="text-align:center; width:12%;">Estado actual</td>
                         </tr>';
-                        @for($y=1;$y<=2;$y++)
-                            <tr style="background:#E5E5E5;">
-                                <td style="padding:0 5px; width:3%;">ff</td>
-                                <td style="text-align:center; width:35%">ff</td>
-                                <td style="text-align:center; width:6%;">
-                                    ff
-                                </td>
-                                <td style="text-align:center; width:6%;">ff</td>
-                                <td style="text-align:center; width:35%;">ff</td>
-                                <td style="text-align:center; width:12%;">ff</td>
-                            </tr>
-                        @endfor
+                        @foreach(json_decode($data_detail->response) as $my_data)
+                            @if($my_data->observations->treatment!='')
+                                <tr style="background:#E5E5E5;">
+                                    <td style="padding:0 5px; width:3%;">
+                                        {{$my_data->id}}
+                                    </td>
+                                    <td style="text-align:center; width:35%">
+                                        {{$my_data->observations->treatment}}
+                                    </td>
+                                    <td style="text-align:center; width:6%;">
+                                        {{$my_data->observations->date}}
+                                    </td>
+                                    <td style="text-align:center; width:6%;">
+                                        {{$my_data->observations->duration}}
+                                    </td>
+                                    <td style="text-align:center; width:35%;">
+                                        {{$my_data->observations->clinic}}
+                                    </td>
+                                    <td style="text-align:center; width:12%;">
+                                        {{$my_data->observations->state}}
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
                     </table>
-                @endif
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial;">
-                <tr>
-                    <td style="width: 100%;">
-                        @if($facul_q['fac'][$i] == true)
-                            <div style="text-align:justify; border:1px solid #3B6E22; background:#6AA74F; padding:8px; color:#ffffff;">
-                                Cumple con las preguntas del cuestionario
-                            </div>
-                        @else
-                            <div style="text-align:justify; border:1px solid #C68A8A; background:#FFEBEA; padding:8px;">
-                                <b>Nota:</b>&nbsp;Al no cumplir con una o mas preguntas del cuestionario del presente slip,
-                                la compa&ntilde;&iacute;a de seguros solicitar&aacute; ex&aacute;menes m&eacute;dicos para la autorizaci&oacute;n
-                                de aprobaci&oacute;n del seguro o en su defecto podr&aacute; declinar la misma.
-                            </div>
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 100%;">
-                        <div style="width: auto; height: auto; text-align: left; margin: 7px 0; padding: 0; font-weight: bold;">
-                            Indice de Masa Corporal
-                        </div>
 
-                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; {{$font_size_child}}">
-                            <tr>
-                                <td style="width: 30%;">
-                                    {{$imc_arr['status'][$i]}}
-                                </td>
-                                <td style="width: 30%;">
-                                    <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; {{$font_size_child}}">
-                                        <tr>
-                                            <td style="width: 100%; color:#ffffff; background:#0075AA; height: 20px;" colspan="2">
-                                                Datos
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 70%; height: 20px;">
-                                                Estatura
-                                            </td>
-                                            <td style="width: 30%;">
-                                                {{$data_detail->height}} cm
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 70%; height: 20px;">
-                                                Peso
-                                            </td>
-                                            <td style="width: 30%;">
-                                                {{$data_detail->weight}} kg
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td style="width: 40%;"></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 100%;">
-                        @if($imc_arr['imc'][$i] == true)
-                            <div style="text-align:justify; border:1px solid #C68A8A; background:#FFEBEA; padding:8px;">
-                                <strong>Nota: </strong> Al no cumplir con el peso y la estatura adecuados, la compañ&iacute;a de seguros solicitar&aacute;
-                                ex&aacute;menes m&eacute;dicos para la autorizaci&oacute;n de aprobaci&oacute;n del seguro o en su defecto podra declinar la misma.
+                @endif
+
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial;">
+                    <tr>
+                        <td style="width: 100%;">
+                            @if($facul_q['fac'][$i] == true)
+                                <div style="text-align:justify; border:1px solid #3B6E22; background:#6AA74F; padding:8px; color:#ffffff;">
+                                    Cumple con las preguntas del cuestionario
+                                </div>
+                            @else
+                                <div style="text-align:justify; border:1px solid #C68A8A; background:#FFEBEA; padding:8px;">
+                                    <b>Nota:</b>&nbsp;Al no cumplir con una o mas preguntas del cuestionario del presente slip,
+                                    la compa&ntilde;&iacute;a de seguros solicitar&aacute; ex&aacute;menes m&eacute;dicos para la autorizaci&oacute;n
+                                    de aprobaci&oacute;n del seguro o en su defecto podr&aacute; declinar la misma.
+                                </div>
+                            @endif
+                        </td>
+                    </tr>
+                </table>
+
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial;">
+                    <tr>
+                        <td style="width: 100%;">
+                            <div style="width: auto; height: auto; text-align: left; margin: 7px 0; padding: 0; font-weight: bold;">
+                                Indice de Masa Corporal
                             </div>
-                        @else
-                            <div style="text-align:justify; border:1px solid #3B6E22; background:#6AA74F; padding:8px; color:#ffffff;">
-                                Cumple con la estatura y peso adecuado.
-                            </div>
-                        @endif
-                    </td>
-                </tr>
-            </table>
+
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; {{$font_size_child}}">
+                                <tr>
+                                    <td style="width: 30%;">
+                                        {{$imc_arr['status'][$i]}}
+                                    </td>
+                                    <td style="width: 30%;">
+                                        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; {{$font_size_child}}">
+                                            <tr>
+                                                <td style="width: 100%; color:#ffffff; background:#0075AA; height: 20px;" colspan="2">
+                                                    Datos
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 70%; height: 20px;">
+                                                    Estatura
+                                                </td>
+                                                <td style="width: 30%;">
+                                                    {{$data_detail->height}} cm
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 70%; height: 20px;">
+                                                    Peso
+                                                </td>
+                                                <td style="width: 30%;">
+                                                    {{$data_detail->weight}} kg
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td style="width: 40%;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%;">
+                            @if($imc_arr['imc'][$i] == true)
+                                <div style="text-align:justify; border:1px solid #C68A8A; background:#FFEBEA; padding:8px;">
+                                    <strong>Nota: </strong> Al no cumplir con el peso y la estatura adecuados, la compañ&iacute;a de seguros solicitar&aacute;
+                                    ex&aacute;menes m&eacute;dicos para la autorizaci&oacute;n de aprobaci&oacute;n del seguro o en su defecto podra declinar la misma.
+                                </div>
+                            @else
+                                <div style="text-align:justify; border:1px solid #3B6E22; background:#6AA74F; padding:8px; color:#ffffff;">
+                                    Cumple con la estatura y peso adecuado.
+                                </div>
+                            @endif
+                        </td>
+                    </tr>
+                </table>
                 @var $i=$i+1;
             @endforeach
         </div><br>
@@ -290,7 +317,7 @@
                 del presente cuestionario y no haber omitido u ocultado hechos y/o circunstancias que hubieran
                 podido influir en la celebracion del Contrato de Seguro. Relevo expresamente del secreto
                 profesional y legal, a cualquier m&eacute;dico que me hubiese asistido y/o tratado de
-                dolencias y le autorizo a revelar a <?=$regi1['nombre'];?> Todos los datos y antecedentes
+                dolencias y le autorizo a revelar a {{$query->company}} Todos los datos y antecedentes
                 patol&oacute;gicos que pudiera tener o de los que hubiera adquirido conocimiento al prestarme
                 servicios. Entiendo que de presentarse alguna eventualidad contemplada bajo la P&oacute;liza
                 de Seguro como conscuencia de alguna enfermedad existente a la fecha de la firma de este
@@ -535,7 +562,7 @@
             </div>
             <div style="{{$clear}}"></div>
 
-            <div style="text-align:justify; border:1px solid #3B6E22; background:#6AA74F; padding:8px; color:#ffffff;">
+            <div style="text-align:justify; border:1px solid #3B6E22; background:#6AA74F; padding:8px; color:#ffffff; margin-top: 15px;">
                 Si el cúmulo de créditos que usted tiene actualmente supera el Valor permitido para este producto, la
                 aprobación de la presente cotización estará sujeta a revisión de la Compañía de Seguros que seleccione
             </div>

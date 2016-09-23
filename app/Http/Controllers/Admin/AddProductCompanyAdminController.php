@@ -23,10 +23,10 @@ class AddProductCompanyAdminController extends BaseController
            $query = \DB::table('ad_company_products as acp')
                         ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
                         ->join('ad_companies as ac', 'ac.id', '=', 'acp.ad_company_id')
-                        ->select('acp.id as id_company_product', 'ap.name as product', 'ac.name as company', 'acp.active', 'acp.ad_product_id')
+                        ->select('acp.id as id_company_product', 'ap.name as product', 'ac.name as company',
+                            'acp.active', 'acp.ad_product_id')
                         ->where('acp.ad_company_id', '=', $id_company)
                         ->get();
-
            return view('admin.addproductcompany.list', compact('nav', 'action', 'main_menu', 'query', 'id_company', 'array_data'));
         }elseif($action=='new'){
             $query_cia = Company::where('id', $id_company)->first();

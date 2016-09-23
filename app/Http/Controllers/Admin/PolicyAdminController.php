@@ -79,13 +79,16 @@ class PolicyAdminController extends BaseController
         $end_policy = 0;
         $auto_increment = 0;
         $currency = null;
+        $type_product = null;
         if($request->input('code_product')=='vi'){
             $end_policy = $request->input('txtEndPoliza');
             $auto_increment = $request->input('auto_inc');
         }
 
         if($request->input('code_product')=='au' || $request->get('code_product')=='td'){
-           $currency = $request->get('moneda');
+            $currency = $request->get('moneda');
+        }elseif($request->get('code_product')=='de'){
+            $type_product = $request->get('tipo');
         }
 
         try {
@@ -97,6 +100,7 @@ class PolicyAdminController extends BaseController
                     'date_begin' => new Carbon(str_replace('/', '-', $request->input('fechaini'))),
                     'date_end' => new Carbon(str_replace('/', '-', $request->input('fechafin'))),
                     'currency' => $currency,
+                    'type' => $type_product,
                     'created_at' => date("Y-m-d H:i:s"),
                     'updated_at' => date("Y-m-d H:i:s"),
                     'auto_increment' => $auto_increment,
@@ -158,13 +162,14 @@ class PolicyAdminController extends BaseController
         $end_policy = 0;
         $auto_increment = 0;
         $currency = null;
+        $type_policy = null;
         if($request->input('code_product')=='vi'){
             $end_policy = $request->input('txtEndPoliza');
             $auto_increment = $request->input('auto_inc');
-        }
-
-        if($request->input('code_product')=='au'){
+        }elseif($request->input('code_product')=='au' || $request->get('code_product')=='td'){
             $currency = $request->get('moneda');
+        }elseif($request->get('code_product')=='de'){
+            $type_policy = $request->get('tipo');
         }
 
         try {
@@ -176,7 +181,8 @@ class PolicyAdminController extends BaseController
                     'auto_increment' => $auto_increment,
                     'date_begin' => new Carbon(str_replace('/', '-', $request->input('fechaini'))),
                     'date_end' => new Carbon(str_replace('/', '-', $request->input('fechafin'))),
-                    'currency' => $currency
+                    'currency' => $currency,
+                    'type' => $type_policy
                 ]);
             //dd($query_update);
 

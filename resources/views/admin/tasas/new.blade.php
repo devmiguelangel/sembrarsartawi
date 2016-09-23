@@ -161,12 +161,13 @@
                             Guardar <i class="icon-floppy-disk position-right"></i>
                         </button>
                     @endif
-                    <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type])}}" class="btn btn-primary">
+                    <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type, 'type_product'=>$type_product])}}" class="btn btn-primary">
                         Cancelar <i class="icon-arrow-right14 position-right"></i>
                     </a>
                     <input type="hidden" id="id_retailer_products" name="id_retailer_products" value="{{$id_retailer_products}}">
                     <input type="hidden" name="code_product" value="{{$code_product}}">
                     <input type="hidden" id="type" name="type" value="{{$type}}">
+                    <input type="hidden" name="type_product" value="{{$type_product}}">
                 </div>
             {!!Form::close()!!}
         </div>

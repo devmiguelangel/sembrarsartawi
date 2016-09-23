@@ -2,7 +2,7 @@
     <div style="width: 770px; font-weight: normal; font-size: 12px; font-family: Arial, Helvetica, sans-serif; color: #000000; border: 0px solid #FFFF00;">
         @var $font_parent = 'font-size:67%;'
         @var $font_child = 'font-size:100%;'
-        @var $font_size_parent = 'font-size:67%;'
+        @var $font_size_parent = 'font-size:70%;'
         @var $font_size_child = 'font-size:100%;'
         @var $font_size_content_parent = 'font-size:57%;'
         @var $font_size_content_child = 'font-size:100%;'
@@ -34,10 +34,10 @@
         <!--DATOS DEL TITULAR 1-->
         @var $i=1;
         @foreach($query_details as $data_cl)
-            <div style="font-weight:bold; {{$font_size_parent}} font-family: Arial; line-height: 1em; margin-bottom: 5px;">
+            <div style="font-weight:bold; {{$font_size_parent}} font-family: Arial; line-height: 1em; margin: 6px 0 3px 0;">
                 DATOS PERSONALES: (TITULAR {{$i}})
             </div>
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                 <tr>
                     <td style="width: 10%;">Nombre Completo: </td>
                     <td style="width: 90%; border-bottom: 1px solid #080808; text-align: left;">
@@ -45,15 +45,15 @@
                     </td>
                 </tr>
             </table>
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                 <tr>
-                    <td style="width: 14%;">Lugar y fecha de Nacimiento: </td>
-                    <td style="width: 86%; border-bottom: 1px solid #080808; text-align: left;">
+                    <td style="width: 16%;">Lugar y fecha de Nacimiento: </td>
+                    <td style="width: 84%; border-bottom: 1px solid #080808; text-align: left;">
                         {{$data_cl->city.' '.$data_cl->birthdate}}
                     </td>
                 </tr>
             </table>
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                 <tr>
                     <td style="width: 12%;">Carnet de Identidad:</td>
                     <td style="width: 27%; border-bottom: 1px solid #080808; text-align: left;">
@@ -73,7 +73,7 @@
                     </td>
                 </tr>
             </table>
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                 <tr>
                     <td style="width: 7%;">Dirección:</td>
                     <td style="width: 41%; border-bottom: 1px solid #080808; text-align: left;">
@@ -89,7 +89,7 @@
                     </td>
                 </tr>
             </table>
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                 <tr>
                     <td style="width: 7%;">Ocupación: </td>
                     <td style="width: 93%; border-bottom: 1px solid #080808; text-align: left;">
@@ -101,10 +101,10 @@
             @endforeach
                     <!--DATOS DEL TITULAR 2-->
             @if(count($query_details)<2)
-                <div style="font-weight:bold; {{$font_size_parent}} font-family: Arial; line-height: 1em; margin-bottom: 5px;">
+                <div style="font-weight:bold; {{$font_size_parent}} font-family: Arial; line-height: 1em; margin:6px 0 3px 0;">
                     DATOS PERSONALES: (TITULAR 2)
                 </div>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                     <tr>
                         <td style="width: 10%;">Nombre Completo: </td>
                         <td style="width: 90%; border-bottom: 1px solid #080808; text-align: left;">
@@ -112,15 +112,15 @@
                         </td>
                     </tr>
                 </table>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                     <tr>
-                        <td style="width: 14%;">Lugar y fecha de Nacimiento: </td>
-                        <td style="width: 86%; border-bottom: 1px solid #080808; text-align: left;">
+                        <td style="width: 16%;">Lugar y fecha de Nacimiento: </td>
+                        <td style="width: 84%; border-bottom: 1px solid #080808; text-align: left;">
 
                         </td>
                     </tr>
                 </table>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                     <tr>
                         <td style="width: 12%;">Carnet de Identidad:</td>
                         <td style="width: 27%; border-bottom: 1px solid #080808; text-align: left;">
@@ -140,7 +140,7 @@
                         </td>
                     </tr>
                 </table>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                     <tr>
                         <td style="width: 7%;">Dirección:</td>
                         <td style="width: 41%; border-bottom: 1px solid #080808; text-align: left;">
@@ -156,7 +156,7 @@
                         </td>
                     </tr>
                 </table>
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                     <tr>
                         <td style="width: 7%;">Ocupación: </td>
                         <td style="width: 93%; border-bottom: 1px solid #080808; text-align: left;">
@@ -165,11 +165,11 @@
                     </tr>
                 </table>
             @endif
-            <div style="font-weight:bold; {{$font_size_parent}} font-family: Arial; line-height: 1em; margin-bottom: 5px;">
+            <div style="font-weight:bold; {{$font_size_parent}} font-family: Arial; line-height: 1em; margin: 5px 0 6px 0;">
                 DATOS DEL CREDITO SOLICITADO:<br>
                 Usted(es) solicita(n) el Seguro de tipo:
             </div>
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                 <tr>
                     <td style="width: 20%;">Individual </td>
                     <td style="width: 10%;">
@@ -182,7 +182,7 @@
                     <td style="width: 70%;">si marca esta opción, sólo debe completar la información requerida por el Titular 1</td>
                 </tr>
             </table>
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                 <tr>
                     <td style="width: 20%;">Mancomunada </td>
                     <td style="width: 10%;">
@@ -201,7 +201,7 @@
                     @var $monto_actual_acumulado = $data_cl->cumulus
                 @endif
             @endforeach
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                 <tr>
                     <td style="width: 16%;">Monto Actual Solicitado: </td>
                     <td style="width: 34%; border-bottom: 1px solid #080808; text-align: left;">
@@ -219,7 +219,7 @@
             </table>
             @var $parameter_term = config('base.term_types')
             @var $type_term = $parameter_term[$query_header->type_term]
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                 <tr>
                     <td style="width: 17%;">Plazo del presente crédito: </td>
                     <td style="width: 83%; border-bottom: 1px solid #080808; text-align: left;">
@@ -329,10 +329,10 @@
             </table>
             @var $ti = 1;
             @foreach($query_details as $data_cl)
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin: 5px 0 5px 0">
                     <tr>
                         <td style="width: 10%;">TITULAR {{$ti}}: </td>
-                        <td style="width: 90%;" class="border-bottom">
+                        <td style="width: 90%; border-bottom: 1px solid #080808;">
                             @if($facul_q['fac'][$ti]==false)
                                 {{$data_cl->observation}}
                             @endif
@@ -342,10 +342,10 @@
                 @var $ti = $ti + 1
             @endforeach
             @if(count($query_details)<2)
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                     <tr>
                         <td style="width: 10%;">TITULAR 2: </td>
-                        <td style="width: 90%;" class="border-bottom">
+                        <td style="width: 90%; border-bottom: 1px solid #080808;">
 
                         </td>
                     </tr>
@@ -366,7 +366,7 @@
                 que a su fallecimiento recibirá el Capital que la Compañía otorga en esta cobertura.
             </div>
 
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 24px;">
                 <tr>
                     <td style="width: 5%;">Fecha:</td>
                     <td style="width: 29%; border-bottom: 1px solid #080808; text-align: center;">
@@ -388,7 +388,7 @@
                 </tr>
             </table>
 
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; padding-bottom: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; {{$font_size_parent}} font-family: Arial; margin-bottom: 5px;">
                 <tr>
                     <td style="width: 22%;">Monto aprobado por el banco</td>
                     <td style="width: 23%; border-bottom: 1px solid #080808; text-align: center;">
@@ -410,52 +410,52 @@
             <!--renglon 1-->
             @if((boolean)$query_header->facultative === true)
                 @if((boolean)$query_header->approved === true)
-                    <!--renglon 2-->
-                    <table border="0" cellpadding="1" cellspacing="0" style="width: 100%; font-size: 8px; font-weight: normal; font-family: Arial; margin: 5px 0 0 0; padding: 0; border-collapse: collapse; vertical-align: bottom;">
+                    <table border="0" cellpadding="1" cellspacing="0" style="width: 100%; font-size: 7px; font-weight: normal; font-family: Arial; margin: 5px 0 0 0; padding: 0; border-collapse: collapse; vertical-align: bottom;">
                         <tr>
-                            <td colspan="6" style="width:100%; text-align: center; font-weight: bold; background: #e57474; color: #FFFFFF;">
+                            <td colspan="7" style="width:100%; text-align: center; font-weight: bold; background: #e57474; color: #FFFFFF;">
                                 Caso Facultativo
                             </td>
                         </tr>
                         <tr>
                             <td style="width:5%; text-align: center; font-weight: bold; border: 1px solid #dedede;
-                     background: #e57474;">Aprobado</td>
+                                background: #e57474;">Aprobado</td>
                             <td style="width:5%; text-align: center; font-weight: bold; border: 1px solid #dedede;
-                     background: #e57474;">Tasa de Recargo</td>
+                                background: #e57474;">Tasa de Recargo</td>
                             <td style="width:7%; text-align: center; font-weight: bold; border: 1px solid #dedede;
-                     background: #e57474;">Porcentaje de Recargo</td>
+                                background: #e57474;">Porcentaje de Recargo</td>
                             <td style="width:7%; text-align: center; font-weight: bold; border: 1px solid #dedede;
-                     background: #e57474;">Tasa Actual</td>
+                                background: #e57474;">Tasa Actual</td>
                             <td style="width:7%; text-align: center; font-weight: bold; border: 1px solid #dedede;
-                     background: #e57474;">Tasa Final</td>
-                            <td style="width:69%; text-align: center; font-weight: bold; border: 1px solid #dedede;
-                         background: #e57474;">Respuesta de la Compañía</td>
+                                background: #e57474;">Tasa Final</td>
+                            <td style="width:34.5%; text-align: center; font-weight: bold; border: 1px solid #dedede;
+                                background: #e57474;">Respuestas en el Cetificado de Desgravamen</td>
+                            <td style="width:34.5%; text-align: center; font-weight: bold; border: 1px solid #dedede;
+                                background: #e57474;">Observaciones</td>
                         </tr>
                         @foreach($query_details as $data_fac)
                             @if(!is_null($data_fac->percentage))
                                 <tr>
                                     <td style="width:5%; text-align: center; background: #e78484; color: #FFFFFF;
-                                     border: 1px solid #dedede;">{{$data_fac->approved==1?'SI':'NO'}}</td>
+                                             border: 1px solid #dedede;">{{$data_fac->approved==1?'SI':'NO'}}</td>
                                     <td style="width:5%; text-align: center; background: #e78484; color: #FFFFFF;
-                                     border: 1px solid #dedede;">{{$data_fac->surcharge==1?'SI':'NO'}}</td>
+                                             border: 1px solid #dedede;">{{$data_fac->surcharge==1?'SI':'NO'}}</td>
                                     <td style="width:7%; text-align: center; background: #e78484; color: #FFFFFF;
-                                     border: 1px solid #dedede;">{{$data_fac->percentage}}</td>
+                                             border: 1px solid #dedede;">{{$data_fac->percentage}}</td>
                                     <td style="width:7%; text-align: center; background: #e78484; color: #FFFFFF;
-                                     border: 1px solid #dedede;">{{$data_fac->current_rate}} %</td>
+                                             border: 1px solid #dedede;">{{$data_fac->current_rate}} %</td>
                                     <td style="width:7%; text-align: center; background: #e78484; color: #FFFFFF;
-                                     border: 1px solid #dedede;">{{$data_fac->final_rate}} %</td>
-                                    <td style="width:69%; text-align: justify; background: #e78484; color: #FFFFFF;
-                                         border: 1px solid #dedede;">
+                                             border: 1px solid #dedede;">{{$data_fac->final_rate}} %</td>
+                                    <td style="width:34.5%; text-align: justify; background: #e78484; color: #FFFFFF;
+                                                 border: 1px solid #dedede;">
                                         <span style="color:#ffffff;">{{$data_fac->observation}}</span>
+                                    </td>
+                                    <td style="width:34.5%; text-align: justify; background: #e78484; color: #FFFFFF;
+                                                 border: 1px solid #dedede;">
+                                        <span style="color:#ffffff;">{{$query_header->facultative_observation}}</span>
                                     </td>
                                 </tr>
                             @endif
                         @endforeach
-                        <tr>
-                            <td style="text-align: justify; background: #e78484; color: #FFFFFF; border: 1px solid #dedede;" colspan="6">
-                                <span style="color:#000000;">Observaciones:</span> {{$query_header->facultative_observation}}
-                            </td>
-                        </tr>
                     </table>
                 @else
                     <table border="0" cellpadding="1" cellspacing="0" style="width: 80%; font-size: 9px; border-collapse: collapse; font-weight: normal; font-family: Arial; margin: 2px 0 0 0; padding: 0; border-collapse: collapse; vertical-align: bottom;">
@@ -477,7 +477,7 @@
                     </table>
                 @endif
             @endif
-            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 56%; font-family: Arial; padding-top: 125px; line-height: 0.9em;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: auto; font-size: 56%; font-family: Arial; line-height: 0.9em; margin-top: 100px;">
                 <tr>
                     <td style="width: 100%; font-weight: bold;">
                         ALIANZA VIDA, SEGUROS Y REASEGUROS S.A., LA PAZ: calle Juana Parada Nª 683 Esq. Calle 6 (Zona Achumani) - Telf: (591 - 2)2793232, Fax: (591 - 2)2799191 <br />

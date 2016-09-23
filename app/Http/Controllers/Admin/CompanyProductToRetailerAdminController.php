@@ -24,13 +24,15 @@ class CompanyProductToRetailerAdminController extends BaseController
             $query = \DB::table('ad_retailer_products as arp')
                 ->join('ad_retailers as ar', 'ar.id', '=', 'arp.ad_retailer_id')
                 ->join('ad_company_products as acp', 'acp.id', '=', 'arp.ad_company_product_id')
+                ->join('ad_companies as com', 'com.id', '=', 'acp.ad_company_id')
                 ->join('ad_products as ap', 'ap.id', '=', 'acp.ad_product_id')
-                ->select('arp.id as id_retailer_products', 'ar.name as retailer', 'ap.name as product', 'arp.type', 'arp.active', 'ap.code')
+                ->select('arp.id as id_retailer_products', 'ar.name as retailer', 'ap.name as product',
+                    'arp.type', 'arp.active', 'ap.code', 'com.name as company')
                 ->where('ar.active',true)
                 ->where('acp.active',true)
                 ->get();
             $parameter = config('base.retailer_product_types');
-            //dd($parameter);
+            //dd($query);
             return view('admin.addtoretailer.list', compact('nav', 'action', 'id_company', 'main_menu', 'query', 'parameter', 'array_data'));
         }elseif($action=='new'){
             $query_ret = Retailer::where('active', true)->get();

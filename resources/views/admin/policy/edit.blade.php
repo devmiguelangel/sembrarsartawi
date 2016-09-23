@@ -58,22 +58,39 @@
                         </div>
                     </div>
 
-                    @if($code_product=='au')
+                    @if($code_product=='au' || $code_product=='td')
                         <div class="form-group">
                             <label class="control-label col-lg-2">Moneda <span class="text-danger">*</span></label>
                             <div class="col-lg-10">
                                 <select name="moneda" id="moneda" class="form-control required">
                                     <option value="0">Seleccione</option>
                                     <option value="BS"
-                                        @if($query_policy->currency=='BS')
+                                    @if($query_policy->currency=='BS')
                                             selected
-                                        @endif
+                                            @endif
                                             >Bolivianos</option>
                                     <option value="USD"
-                                        @if($query_policy->currency=='USD')
+                                    @if($query_policy->currency=='USD')
                                             selected
-                                        @endif
+                                            @endif
                                             >Dolares</option>
+                                </select>
+                            </div>
+                        </div>
+                    @elseif($code_product=='de')
+                        @var $parameter_tp = config('base.policy_types');
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Tipo Poliza<span class="text-danger">*</span></label>
+                            <div class="col-lg-10">
+                                <select name="tipo" id="tipo" class="form-control required">
+                                    <option value="0">Seleccione</option>
+                                    @foreach($parameter_tp as $key=>$data)
+                                        @if($query_policy->type==$key)
+                                            <option value="{{$key}}" selected>{{$data}}</option>
+                                        @else
+                                            <option value="{{$key}}">{{$data}}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

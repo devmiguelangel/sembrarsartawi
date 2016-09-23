@@ -50,6 +50,8 @@
                     <th>Auto incremento</th>
                 @elseif($code_product=='au' || $code_product=='td')
                     <th>Moneda</th>
+                @elseif($code_product=='de')
+                    <th>Tipo</th>
                 @endif
                 <th>Fecha inicial</th>
                 <th>Fecha final</th>
@@ -72,6 +74,8 @@
                     </td>
                 @elseif($code_product=='au' || $code_product=='td')
                     <td>{{$data->currency}}</td>
+                @elseif($code_product=='de')
+                    <td>{{$data->type}}</td>
                 @endif
                 <td>{{$data->date_begin}}</td>
                 <td>{{$data->date_end}}</td>

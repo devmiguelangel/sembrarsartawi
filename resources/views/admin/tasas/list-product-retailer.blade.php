@@ -35,6 +35,7 @@
                     <th>Retailer</th>
                     <th>Producto</th>
                     <th>Tipo Producto</th>
+                    <th>Compañía Aseguradora</th>
                     <th>Estado</th>
                     <th class="text-center">Acciones</th>
                 </tr>
@@ -46,6 +47,7 @@
                         <td>{{$data->retailer}}</td>
                         <td>{{$data->product}}</td>
                         <td>{{$parameter[$data->type]}}</td>
+                        <td>{{$data->company}}</td>
                         <td>
                             @if((boolean)$data->active==true)
                                 <span class="label label-success">Activo</span>
@@ -59,14 +61,14 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="icon-menu9"></i>
                                     </a>
-                                    <!--PARA HABILITAR COVERTURAS CAMBIAR [xx] POR EL CODIGO DEL PRODUCTO [de]-->
+
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         @if((boolean)$data->active==true)
                                             @if($data->code=='de')
                                                 @var $type='coverage'
                                             @endif
                                             <li>
-                                                <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$data->id_retailer_products, 'code_product'=>$data->code, 'type'=>$type])}}">
+                                                <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$data->id_retailer_products, 'code_product'=>$data->code, 'type'=>$type, 'type_product'=>$data->type])}}">
                                                     <i class="icon-pencil3"></i> Administrar tasas
                                                 </a>
                                             </li>

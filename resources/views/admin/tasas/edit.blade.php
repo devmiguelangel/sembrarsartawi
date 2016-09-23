@@ -119,7 +119,7 @@
                 <button type="submit" class="btn btn-primary">
                     Guardar <i class="icon-floppy-disk position-right"></i>
                 </button>
-                <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type])}}" class="btn btn-primary">
+                <a href="{{route('admin.tasas.list', ['nav'=>'rate', 'action'=>'list', 'id_retailer_products'=>$id_retailer_products, 'code_product'=>$code_product, 'type'=>$type, 'type_product'=>$type_product])}}" class="btn btn-primary">
                     Cancelar <i class="icon-arrow-right14 position-right"></i>
                 </a>
                 <input type="hidden" name="id_rates" value="{{$id_rates}}">
