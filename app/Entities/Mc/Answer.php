@@ -32,7 +32,7 @@ class Answer extends Model
     {
         $time = Carbon::createFromTimestamp(strtotime($this->created_at));
 
-        return $time->day . ' de ' . monthES($time->month) . ' de ' . $time->year;
+        return $time->day . ' de ' . monthTranslated($time->month) . ' de ' . $time->year;
     }
 
 

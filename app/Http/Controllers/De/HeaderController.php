@@ -233,7 +233,9 @@ class HeaderController extends Controller
                 });
 
             if ($header->creditProduct->slug === 'PMO') {
-                $rp->whereHas('rates', function ($q) use ($header) {
+                $rp->whereHas('creditProducts', function ($q) use ($header) {
+                    $q->where('slug', $header->creditProduct->slug);
+                })->whereHas('rates', function ($q) use ($header) {
                     $q->where('ad_credit_product_id', $header->creditProduct->id);
                 })->whereIn('type', [ 'RP', 'MP' ]);
             } else {

@@ -98,6 +98,15 @@ var detailEdit = function ($rootScope, $scope, $http) {
 
     }).success(function (data, status, headers, config) {
         if (status == 200) {
+          $scope.formData.beneficiary_id   = '';
+          $scope.formData.first_name       = '';
+          $scope.formData.last_name        = '';
+          $scope.formData.mother_last_name = '';
+          $scope.formData.relationship     = '';
+          $scope.formData.age              = '';
+          $scope.formData.dni              = '';
+          $scope.formData.extension        = '';
+
           $scope.popup(data.payload);
         }
       }).error(function (err, status, headers, config) {
@@ -127,6 +136,7 @@ var detailEdit = function ($rootScope, $scope, $http) {
           $scope.formData.last_name        = data.beneficiary[0].last_name;
           $scope.formData.mother_last_name = data.beneficiary[0].mother_last_name;
           $scope.formData.relationship     = data.beneficiary[0].relationship;
+          $scope.formData.age              = data.beneficiary[0].age;
           $scope.formData.dni              = data.beneficiary[0].dni;
           $scope.formData.extension        = data.beneficiary[0].extension;
 
@@ -174,7 +184,7 @@ var detailEdit = function ($rootScope, $scope, $http) {
     var url     = event.target.attributes.href.value;
     var message = 'Desea eliminar el registro de este titular?';
     CSRF_TOKEN  = $scope.csrf_token();
-    
+
     bootbox.confirm(message, function(result) {
       if (result) {
         $http.delete(url, {
