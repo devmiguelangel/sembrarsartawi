@@ -39,6 +39,7 @@ class Header extends Model
         'facultative_sent',
         'share',
         'approved',
+        'ad_certificate_id',
     ];
 
     protected $appends = [
@@ -108,12 +109,7 @@ class Header extends Model
 
         $client = $this->client;
 
-        if (empty( $client->place_residence )
-            || empty( $client->locality )
-            || empty( $client->home_address )
-            || empty( $client->home_number )
-            || empty( $client->business_address )
-            || empty( $client->avenue_street )) {
+        if (empty( $client->place_residence ) || empty( $client->locality ) || empty( $client->home_address ) || empty( $client->home_number ) || empty( $client->business_address ) || empty( $client->avenue_street )) {
             $completed = false;
         }
 

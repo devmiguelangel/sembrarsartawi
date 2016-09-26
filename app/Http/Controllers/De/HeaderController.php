@@ -199,15 +199,19 @@ class HeaderController extends Controller
      * @param string                $rp_id
      * @param string                $header_id
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(HeaderEditFormRequest $request, $rp_id, $header_id)
     {
-        if ($this->repository->updateHeader($request, decode($header_id))) {
-            return redirect()->route('de.edit', [
-                'rp_id'     => $rp_id,
-                'header_id' => $header_id,
-            ])->with([ 'success_header' => 'La Póliza fue actualizada con éxito.' ]);
+        if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
+            $retailerProduct = $this->retailerProductRepository->getModel();
+
+            if ($this->repository->updateHeader($request, $retailerProduct, decode($header_id))) {
+                return redirect()->route('de.edit', [
+                    'rp_id'     => $rp_id,
+                    'header_id' => $header_id,
+                ])->with([ 'success_header' => 'La Póliza fue actualizada con éxito.' ]);
+            }
         }
 
         return redirect()->back()->with([ 'error_header' => 'La Póliza no pudo ser actualizada.' ])->withInput()->withErrors($this->repository->getErrors());

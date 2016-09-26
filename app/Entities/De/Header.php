@@ -32,7 +32,8 @@ class Header extends Model
     ];
 
     protected $fillable = [
-        'facultative'
+        'facultative',
+        'ad_certificate_id',
     ];
 
     protected $visible = [

@@ -135,7 +135,7 @@ class HeaderRepository extends BaseRepository
         }
 
         if ($premium_total > 0) {
-            $share = [ ];
+            $share = [];
 
             $full_year = $header->full_year;
 
@@ -205,30 +205,34 @@ class HeaderRepository extends BaseRepository
     /**
      * Update Header AU
      *
-     * @param Request $request
+     * @param Request               $request
+     * @param Model|RetailerProduct $retailerProduct
      *
      * @return bool
      */
-    public function updateHeader(Request $request)
+    public function updateHeader(Request $request, $retailerProduct)
     {
-        $this->data = $request->all();
+        if ($this->getCertificate($retailerProduct)) {
+            $this->data = $request->all();
 
-        try {
-            $issue_number = $this->getNumber('I');
+            try {
+                $issue_number = $this->getNumber('I');
 
-            if ( ! $this->checkNumber('I', $issue_number)) {
-                $this->model->update([
-                    'type'             => 'I',
-                    'issue_number'     => $issue_number,
-                    'prefix'           => 'AU',
-                    'policy_number'    => $this->data['policy_number'],
-                    'operation_number' => $this->data['operation_number'],
-                ]);
+                if ( ! $this->checkNumber('I', $issue_number)) {
+                    $this->model->update([
+                        'type'              => 'I',
+                        'issue_number'      => $issue_number,
+                        'prefix'            => 'AU',
+                        'policy_number'     => $this->data['policy_number'],
+                        'operation_number'  => $this->data['operation_number'],
+                        'ad_certificate_id' => $this->certificate->id,
+                    ]);
 
-                return true;
+                    return true;
+                }
+            } catch (QueryException $e) {
+                $this->errors = $e->getMessage();
             }
-        } catch (QueryException $e) {
-            $this->errors = $e->getMessage();
         }
 
         return false;

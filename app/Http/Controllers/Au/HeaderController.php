@@ -193,11 +193,15 @@ class HeaderController extends Controller
      * @param HeaderEditFormRequest $request
      * @param string                $rp_id
      * @param string                $header_id
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(HeaderEditFormRequest $request, $rp_id, $header_id)
     {
-        if ($this->repository->getHeaderById(decode($header_id))) {
-            if ($this->repository->updateHeader($request)) {
+        if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id)) && $this->repository->getHeaderById(decode($header_id))) {
+            $retailerProduct = $this->retailerProductRepository->getModel();
+
+            if ($this->repository->updateHeader($request, $retailerProduct)) {
                 return redirect()->route('au.edit', [
                     'rp_id'     => $rp_id,
                     'header_id' => $header_id,
@@ -409,7 +413,7 @@ class HeaderController extends Controller
         if (request()->ajax()) {
             if (request()->has('rp_de') && $this->headerDeRepository->getHeaderById(decode($de_id))) {
                 $de   = $this->headerDeRepository->getModel();
-                $data = [ ];
+                $data = [];
 
                 $data            = $this->getData($rp_id);
                 $payment_methods = $this->retailerProductRepository->getPaymentMethodsByProductById(decode($rp_id));
