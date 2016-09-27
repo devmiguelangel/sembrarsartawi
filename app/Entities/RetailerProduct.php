@@ -122,4 +122,10 @@ class RetailerProduct extends Model
         return $this->hasMany(CreditProduct::class, 'ad_retailer_product_id', 'id');
     }
 
+
+    public function certificates()
+    {
+        return $this->hasMany(Certificate::class, 'ad_retailer_product_id', 'id');
+    }
+
 }

@@ -33,7 +33,7 @@ class RetailerProductRepository extends BaseRepository
             }
         ])->where('id', $rp_id)->get();
 
-        $questions = [ ];
+        $questions = [];
 
         if ($this->model->count() === 1) {
             $creditProduct = is_null($header) ? new CreditProduct() : $header->creditProduct;
@@ -92,7 +92,8 @@ class RetailerProductRepository extends BaseRepository
             'parameters',
             'subProducts.productCompany',
             'subProducts.companyProduct.product',
-            'coverages'
+            'coverages',
+            'certificates',
         ])->where('id', $rp_id)->get();
 
         if ($this->model->count() === 1) {
@@ -109,7 +110,7 @@ class RetailerProductRepository extends BaseRepository
     {
         $selectOption     = $this->getSelectOption();
         $productCoverages = RetailerProductCoverage::with('coverage')->where('ad_retailer_product_id', $rp_id)->get();
-        $coverages        = [ ];
+        $coverages        = [];
 
         foreach ($productCoverages as $productCoverage) {
             $coverages[] = [
@@ -129,7 +130,7 @@ class RetailerProductRepository extends BaseRepository
     {
         $selectOption          = $this->getSelectOption();
         $productPaymentMethods = RetailerProductPaymentMethod::where('ad_retailer_product_id', $rp_id)->get();
-        $paymentMethods        = [ ];
+        $paymentMethods        = [];
 
         foreach ($productPaymentMethods as $productPaymentMethod) {
             $paymentMethods[] = [
@@ -160,7 +161,7 @@ class RetailerProductRepository extends BaseRepository
     {
         $selectOption   = $this->getSelectOption();
         $creditProducts = CreditProduct::where('ad_retailer_product_id', $rp_id)->where('active', true)->get();
-        $data           = [ ];
+        $data           = [];
 
         foreach ($creditProducts as $creditProduct) {
             $data[] = [

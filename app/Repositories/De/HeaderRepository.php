@@ -50,26 +50,31 @@ class HeaderRepository extends BaseRepository
 
 
     /**
-     * @param Request $request
+     * @param Request               $request
+     * @param Model|RetailerProduct $retailerProduct
+     * @param string                $header_id
      *
      * @return bool
      */
-    public function updateHeader($request, $header_id)
+    public function updateHeader($request, $retailerProduct, $header_id)
     {
-        $this->data = $request->all();
-
         if ($this->getHeaderById($header_id)) {
-            $issue_number = $this->getNumber('I');
+            if ($this->getCertificate($retailerProduct, $this->model->creditProduct->slug)) {
+                $this->data = $request->all();
 
-            $this->model->type             = 'I';
-            $this->model->issue_number     = $issue_number;
-            $this->model->prefix           = 'DE';
-            $this->model->policy_number    = $this->data['policy_number'];
-            $this->model->operation_number = $this->data['operation_number'];
-            $this->model->facultative      = $this->setFacultative();
+                $issue_number = $this->getNumber('I');
 
-            if ( ! $this->checkNumber('I', $issue_number)) {
-                return $this->saveModel();
+                $this->model->type              = 'I';
+                $this->model->issue_number      = $issue_number;
+                $this->model->prefix            = 'DE';
+                $this->model->policy_number     = $this->data['policy_number'];
+                $this->model->operation_number  = $this->data['operation_number'];
+                $this->model->facultative       = $this->setFacultative();
+                $this->model->ad_certificate_id = $this->certificate->id;
+
+                if ( ! $this->checkNumber('I', $issue_number)) {
+                    return $this->saveModel();
+                }
             }
         }
 

@@ -39,6 +39,7 @@ class Header extends Model
         'facultative_sent',
         'share',
         'approved',
+        'ad_certificate_id',
     ];
 
     protected $appends = [

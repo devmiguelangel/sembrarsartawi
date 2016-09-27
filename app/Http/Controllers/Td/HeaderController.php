@@ -391,7 +391,7 @@ class HeaderController extends Controller
      */
     public function returnArray($array)
     {
-        $arr            = [ ];
+        $arr            = [];
         $arr[0]['id']   = 0;
         $arr[0]['name'] = 'Seleccione';
         $i              = 1;
@@ -439,13 +439,16 @@ class HeaderController extends Controller
      * @param HeaderEditFormRequest $request
      * @param string                $rp_id
      * @param string                $header_id
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(HeaderEditFormRequest $request, $rp_id, $header_id)
     {
-        if ($this->repository->getHeaderById(decode($header_id))) {
-            $header = $this->repository->getModel();
-            $keyFac = false;
-            $obs    = false;
+        if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id)) && $this->repository->getHeaderById(decode($header_id))) {
+            $retailerProduct = $this->retailerProductRepository->getModel();
+            $header          = $this->repository->getModel();
+            $keyFac          = false;
+            $obs             = false;
 
             # validacion facultativo
             $facultative = $this->facultativeRepository->roleFacultative(decode($rp_id), decode($header_id), $header);
@@ -461,7 +464,7 @@ class HeaderController extends Controller
                 }
             }
 
-            if ($this->repository->updateHeader($request, $keyFac, $obs)) {
+            if ($this->repository->updateHeader($request, $retailerProduct, $keyFac, $obs)) {
                 return redirect()->route('td.edit', [
                     'rp_id'     => $rp_id,
                     'header_id' => $header_id,
@@ -589,7 +592,7 @@ class HeaderController extends Controller
         if (request()->ajax()) {
             if (request()->has('rp_de') && $this->headerDeRepository->getHeaderById(decode($de_id))) {
                 $de   = $this->headerDeRepository->getModel();
-                $data = [ ];
+                $data = [];
 
                 $data            = $this->getData($rp_id);
                 $payment_methods = $this->retailerProductRepository->getPaymentMethodsByProductById(decode($rp_id));

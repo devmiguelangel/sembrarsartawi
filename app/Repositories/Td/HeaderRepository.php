@@ -103,32 +103,38 @@ class HeaderRepository extends BaseRepository
     /**
      * Update Header AU
      *
-     * @param Request $request
+     * @param Request               $request
+     * @param Model|RetailerProduct $retailerProduct
+     * @param                       $keyFac
+     * @param                       $obsFac
      *
      * @return bool
      */
-    public function updateHeader(Request $request, $keyFac, $obsFac)
+    public function updateHeader(Request $request, $retailerProduct, $keyFac, $obsFac)
     {
-        $this->data = $request->all();
+        if ($this->getCertificate($retailerProduct)) {
+            $this->data = $request->all();
 
-        try {
-            $issue_number = $this->getNumber('I');
+            try {
+                $issue_number = $this->getNumber('I');
 
-            if ( ! $this->checkNumber('I', $issue_number)) {
-                $this->model->update([
-                    'type'                    => 'I',
-                    'issue_number'            => $issue_number,
-                    'prefix'                  => 'MR',
-                    'policy_number'           => $this->data['policy_number'],
-                    'operation_number'        => $this->data['operation_number'],
-                    'facultative'             => $keyFac,
-                    'facultative_observation' => $obsFac,
-                ]);
+                if ( ! $this->checkNumber('I', $issue_number)) {
+                    $this->model->update([
+                        'type'                    => 'I',
+                        'issue_number'            => $issue_number,
+                        'prefix'                  => 'MR',
+                        'policy_number'           => $this->data['policy_number'],
+                        'operation_number'        => $this->data['operation_number'],
+                        'facultative'             => $keyFac,
+                        'facultative_observation' => $obsFac,
+                        'ad_certificate_id'       => $this->certificate->id,
+                    ]);
 
-                return true;
+                    return true;
+                }
+            } catch (QueryException $e) {
+                $this->errors = $e->getMessage();
             }
-        } catch (QueryException $e) {
-            $this->errors = $e->getMessage();
         }
 
         return false;
@@ -359,7 +365,7 @@ class HeaderRepository extends BaseRepository
         }
 
         if ($premium_total > 0) {
-            $share = [ ];
+            $share = [];
 
             /*$full_year = $header->full_year;
 

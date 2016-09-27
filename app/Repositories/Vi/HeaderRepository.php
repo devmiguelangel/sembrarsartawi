@@ -52,7 +52,7 @@ class HeaderRepository extends BaseRepository
 
         $plan = $plan->first();
 
-        if ($policies->count() === 1) {
+        if ($policies->count() === 1 && $this->getCertificate($retailerProduct)) {
             $policy = $policies->first();
 
             $this->model = new Header();
@@ -76,6 +76,7 @@ class HeaderRepository extends BaseRepository
             $this->model->case_number            = '';
             $this->model->amount_pledged         = 0;
             $this->model->file                   = '';
+            $this->model->ad_certificate_id      = $this->certificate->id;
 
             if ($this->saveModel()) {
                 try {
@@ -95,7 +96,7 @@ class HeaderRepository extends BaseRepository
                         'observation' => '',
                     ]);
 
-                    $beneficiaries  = [ ];
+                    $beneficiaries  = [];
                     $beneficiary_id = date('U');
 
                     foreach ($this->data['beneficiaries'] as $key => $beneficiary) {

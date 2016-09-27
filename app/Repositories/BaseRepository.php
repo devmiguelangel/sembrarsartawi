@@ -8,6 +8,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Sibas\Collections\BaseCollection;
+use Sibas\Entities\Certificate;
 use Sibas\Entities\Client;
 use Sibas\Entities\De\Detail;
 use Sibas\Entities\De\Header;
@@ -107,6 +108,11 @@ abstract class BaseRepository
      * @var int
      */
     public $approved = null;
+
+    /**
+     * @var Certificate|null
+     */
+    public $certificate = null;
 
 
     public function __construct()
@@ -222,7 +228,7 @@ abstract class BaseRepository
      */
     protected function getData($data)
     {
-        $d = [ ];
+        $d = [];
 
         foreach ($data as $key => $value) {
             $d[] = [
@@ -386,6 +392,34 @@ abstract class BaseRepository
                     return true;
                 }
             }
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param Model|RetailerProduct $retailerProduct
+     * @param string                $credit_product
+     *
+     * @return bool
+     */
+    public function getCertificate($retailerProduct, $credit_product = null)
+    {
+        $c = $retailerProduct->certificates();
+
+        if ($credit_product === 'PMO') {
+            $c->whereHas('creditProduct', function ($q) {
+                $q->where('slug', 'PMO');
+            });
+        } else {
+            $c->whereNull('ad_credit_product_id');
+        }
+
+        $this->certificate = $c->where('active', true)->take(1)->first();
+
+        if ($this->certificate instanceof Certificate) {
+            return true;
         }
 
         return false;
