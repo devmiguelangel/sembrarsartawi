@@ -51,26 +51,26 @@
                             </select>
                         </div>
                     </div>
-                    @var $j=18
+                    @var $j=0
                     <div class="form-group">
                         <label class="control-label col-lg-2">Edad Mínima <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <select name="edad_min" id="edad_min" class="form-control required">
-                                <option value="0">Seleccione</option>
-                                @while($j<=85)
+                                <option value="">Seleccione</option>
+                                @while($j<=100)
                                     <option value="{{$j}}">{{$j}}</option>
                                     @var $j=$j+1
                                 @endwhile
                             </select>
                         </div>
                     </div>
-                    @var $i=18
+                    @var $i=0
                     <div class="form-group">
                         <label class="control-label col-lg-2">Edad Máxima <span class="text-danger">*</span></label>
                         <div class="col-lg-10">
                             <select name="edad_max" id="edad_max" class="form-control required">
-                                <option value="0">Seleccione</option>
-                                @while($i<=85)
+                                <option value="">Seleccione</option>
+                                @while($i<=100)
                                     <option value="{{$i}}">{{$i}}</option>
                                     @var $i=$i+1;
                                 @endwhile
@@ -154,7 +154,7 @@
                 var _value = $(element).prop('value');
                 var _type = $(element).prop('type');
                 if(_type=='select-one'){
-                    if(_value==0){
+                    if(_value==''){
                         addClassE(element,err);
                         return false;
                     }else{
