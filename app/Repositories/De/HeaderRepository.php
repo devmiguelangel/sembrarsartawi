@@ -50,15 +50,15 @@ class HeaderRepository extends BaseRepository
 
 
     /**
-     * @param Request               $request
-     * @param Model|RetailerProduct $retailerProduct
-     * @param string                $header_id
+     * @param Request $request
      *
      * @return bool
      */
-    public function updateHeader($request, $retailerProduct, $header_id)
+    public function updateHeader($request)
     {
-        if ($this->getHeaderById($header_id)) {
+        $retailerProduct = $this->model->retailerProduct;
+
+        if ($retailerProduct instanceof RetailerProduct) {
             if ($this->getCertificate($retailerProduct, $this->model->creditProduct->slug)) {
                 $this->data = $request->all();
 

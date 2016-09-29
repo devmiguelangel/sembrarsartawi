@@ -203,10 +203,8 @@ class HeaderController extends Controller
      */
     public function update(HeaderEditFormRequest $request, $rp_id, $header_id)
     {
-        if ($this->retailerProductRepository->getRetailerProductById(decode($rp_id))) {
-            $retailerProduct = $this->retailerProductRepository->getModel();
-
-            if ($this->repository->updateHeader($request, $retailerProduct, decode($header_id))) {
+        if ($this->repository->getHeaderById(decode($header_id))) {
+            if ($this->repository->updateHeader($request)) {
                 return redirect()->route('de.edit', [
                     'rp_id'     => $rp_id,
                     'header_id' => $header_id,
@@ -239,8 +237,8 @@ class HeaderController extends Controller
             if ($header->creditProduct->slug === 'PMO') {
                 $rp->whereHas('creditProducts', function ($q) use ($header) {
                     $q->where('slug', $header->creditProduct->slug);
-                })->whereHas('rates', function ($q) use ($header) {
-                    $q->where('ad_credit_product_id', $header->creditProduct->id);
+                })->whereHas('rates.creditProduct', function ($q) use ($header) {
+                    $q->where('slug', $header->creditProduct->slug);
                 })->whereIn('type', [ 'RP', 'MP' ]);
             } else {
                 $rp->whereHas('creditProducts', function ($q) use ($header) {
